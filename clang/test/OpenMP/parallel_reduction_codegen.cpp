@@ -1090,7 +1090,8 @@ int main() {
 // CHECK1-NEXT:    store i32 0, i32* [[A]], align 8
 // CHECK1-NEXT:    [[B:%.*]] = getelementptr inbounds [[STRUCT_SS]], %struct.SS* [[THIS1]], i32 0, i32 1
 // CHECK1-NEXT:    [[BF_LOAD:%.*]] = load i8, i8* [[B]], align 4
-// CHECK1-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], -16
+// CHECK1-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// CHECK1-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], -16
 // CHECK1-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 0
 // CHECK1-NEXT:    store i8 [[BF_SET]], i8* [[B]], align 4
 // CHECK1-NEXT:    [[C:%.*]] = getelementptr inbounds [[STRUCT_SS]], %struct.SS* [[THIS1]], i32 0, i32 2
@@ -1108,10 +1109,11 @@ int main() {
 // CHECK1-NEXT:    [[B7:%.*]] = getelementptr inbounds [[STRUCT_SS]], %struct.SS* [[THIS1]], i32 0, i32 1
 // CHECK1-NEXT:    [[TMP5:%.*]] = trunc i32 [[TMP4]] to i8
 // CHECK1-NEXT:    [[BF_LOAD8:%.*]] = load i8, i8* [[B7]], align 4
+// CHECK1-NEXT:    [[BF_FREEZE9:%.*]] = freeze i8 [[BF_LOAD8]]
 // CHECK1-NEXT:    [[BF_VALUE:%.*]] = and i8 [[TMP5]], 15
-// CHECK1-NEXT:    [[BF_CLEAR9:%.*]] = and i8 [[BF_LOAD8]], -16
-// CHECK1-NEXT:    [[BF_SET10:%.*]] = or i8 [[BF_CLEAR9]], [[BF_VALUE]]
-// CHECK1-NEXT:    store i8 [[BF_SET10]], i8* [[B7]], align 4
+// CHECK1-NEXT:    [[BF_CLEAR10:%.*]] = and i8 [[BF_FREEZE9]], -16
+// CHECK1-NEXT:    [[BF_SET11:%.*]] = or i8 [[BF_CLEAR10]], [[BF_VALUE]]
+// CHECK1-NEXT:    store i8 [[BF_SET11]], i8* [[B7]], align 4
 // CHECK1-NEXT:    ret void
 //
 //
@@ -2470,7 +2472,8 @@ int main() {
 // CHECK2-NEXT:    store i32 0, i32* [[A]], align 8
 // CHECK2-NEXT:    [[B:%.*]] = getelementptr inbounds [[STRUCT_SS]], %struct.SS* [[THIS1]], i32 0, i32 1
 // CHECK2-NEXT:    [[BF_LOAD:%.*]] = load i8, i8* [[B]], align 4
-// CHECK2-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], -16
+// CHECK2-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// CHECK2-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], -16
 // CHECK2-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 0
 // CHECK2-NEXT:    store i8 [[BF_SET]], i8* [[B]], align 4
 // CHECK2-NEXT:    [[C:%.*]] = getelementptr inbounds [[STRUCT_SS]], %struct.SS* [[THIS1]], i32 0, i32 2
@@ -2488,10 +2491,11 @@ int main() {
 // CHECK2-NEXT:    [[B7:%.*]] = getelementptr inbounds [[STRUCT_SS]], %struct.SS* [[THIS1]], i32 0, i32 1
 // CHECK2-NEXT:    [[TMP5:%.*]] = trunc i32 [[TMP4]] to i8
 // CHECK2-NEXT:    [[BF_LOAD8:%.*]] = load i8, i8* [[B7]], align 4
+// CHECK2-NEXT:    [[BF_FREEZE9:%.*]] = freeze i8 [[BF_LOAD8]]
 // CHECK2-NEXT:    [[BF_VALUE:%.*]] = and i8 [[TMP5]], 15
-// CHECK2-NEXT:    [[BF_CLEAR9:%.*]] = and i8 [[BF_LOAD8]], -16
-// CHECK2-NEXT:    [[BF_SET10:%.*]] = or i8 [[BF_CLEAR9]], [[BF_VALUE]]
-// CHECK2-NEXT:    store i8 [[BF_SET10]], i8* [[B7]], align 4
+// CHECK2-NEXT:    [[BF_CLEAR10:%.*]] = and i8 [[BF_FREEZE9]], -16
+// CHECK2-NEXT:    [[BF_SET11:%.*]] = or i8 [[BF_CLEAR10]], [[BF_VALUE]]
+// CHECK2-NEXT:    store i8 [[BF_SET11]], i8* [[B7]], align 4
 // CHECK2-NEXT:    ret void
 //
 //
@@ -3299,7 +3303,8 @@ int main() {
 // CHECK3-NEXT:    store i32 0, i32* [[A]], align 8
 // CHECK3-NEXT:    [[B:%.*]] = getelementptr inbounds [[STRUCT_SS]], %struct.SS* [[THIS1]], i32 0, i32 1
 // CHECK3-NEXT:    [[BF_LOAD:%.*]] = load i8, i8* [[B]], align 4
-// CHECK3-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], -16
+// CHECK3-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// CHECK3-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], -16
 // CHECK3-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 0
 // CHECK3-NEXT:    store i8 [[BF_SET]], i8* [[B]], align 4
 // CHECK3-NEXT:    [[C:%.*]] = getelementptr inbounds [[STRUCT_SS]], %struct.SS* [[THIS1]], i32 0, i32 2
@@ -3317,10 +3322,11 @@ int main() {
 // CHECK3-NEXT:    [[B7:%.*]] = getelementptr inbounds [[STRUCT_SS]], %struct.SS* [[THIS1]], i32 0, i32 1
 // CHECK3-NEXT:    [[TMP5:%.*]] = trunc i32 [[TMP4]] to i8
 // CHECK3-NEXT:    [[BF_LOAD8:%.*]] = load i8, i8* [[B7]], align 4
+// CHECK3-NEXT:    [[BF_FREEZE9:%.*]] = freeze i8 [[BF_LOAD8]]
 // CHECK3-NEXT:    [[BF_VALUE:%.*]] = and i8 [[TMP5]], 15
-// CHECK3-NEXT:    [[BF_CLEAR9:%.*]] = and i8 [[BF_LOAD8]], -16
-// CHECK3-NEXT:    [[BF_SET10:%.*]] = or i8 [[BF_CLEAR9]], [[BF_VALUE]]
-// CHECK3-NEXT:    store i8 [[BF_SET10]], i8* [[B7]], align 4
+// CHECK3-NEXT:    [[BF_CLEAR10:%.*]] = and i8 [[BF_FREEZE9]], -16
+// CHECK3-NEXT:    [[BF_SET11:%.*]] = or i8 [[BF_CLEAR10]], [[BF_VALUE]]
+// CHECK3-NEXT:    store i8 [[BF_SET11]], i8* [[B7]], align 4
 // CHECK3-NEXT:    ret void
 //
 //
@@ -4018,7 +4024,8 @@ int main() {
 // CHECK4-NEXT:    store i32 0, i32* [[A]], align 8
 // CHECK4-NEXT:    [[B:%.*]] = getelementptr inbounds [[STRUCT_SS]], %struct.SS* [[THIS1]], i32 0, i32 1
 // CHECK4-NEXT:    [[BF_LOAD:%.*]] = load i8, i8* [[B]], align 4
-// CHECK4-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], -16
+// CHECK4-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// CHECK4-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], -16
 // CHECK4-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 0
 // CHECK4-NEXT:    store i8 [[BF_SET]], i8* [[B]], align 4
 // CHECK4-NEXT:    [[C:%.*]] = getelementptr inbounds [[STRUCT_SS]], %struct.SS* [[THIS1]], i32 0, i32 2
@@ -4036,10 +4043,11 @@ int main() {
 // CHECK4-NEXT:    [[B7:%.*]] = getelementptr inbounds [[STRUCT_SS]], %struct.SS* [[THIS1]], i32 0, i32 1
 // CHECK4-NEXT:    [[TMP5:%.*]] = trunc i32 [[TMP4]] to i8
 // CHECK4-NEXT:    [[BF_LOAD8:%.*]] = load i8, i8* [[B7]], align 4
+// CHECK4-NEXT:    [[BF_FREEZE9:%.*]] = freeze i8 [[BF_LOAD8]]
 // CHECK4-NEXT:    [[BF_VALUE:%.*]] = and i8 [[TMP5]], 15
-// CHECK4-NEXT:    [[BF_CLEAR9:%.*]] = and i8 [[BF_LOAD8]], -16
-// CHECK4-NEXT:    [[BF_SET10:%.*]] = or i8 [[BF_CLEAR9]], [[BF_VALUE]]
-// CHECK4-NEXT:    store i8 [[BF_SET10]], i8* [[B7]], align 4
+// CHECK4-NEXT:    [[BF_CLEAR10:%.*]] = and i8 [[BF_FREEZE9]], -16
+// CHECK4-NEXT:    [[BF_SET11:%.*]] = or i8 [[BF_CLEAR10]], [[BF_VALUE]]
+// CHECK4-NEXT:    store i8 [[BF_SET11]], i8* [[B7]], align 4
 // CHECK4-NEXT:    ret void
 //
 //

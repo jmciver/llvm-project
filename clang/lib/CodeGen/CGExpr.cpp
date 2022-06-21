@@ -2263,6 +2263,10 @@ void CodeGenFunction::EmitStoreThroughBitfieldLValue(RValue Src, LValue Dst,
     llvm::Value *Val =
         Builder.CreateLoad(Ptr, Dst.isVolatileQualified(), "bf.load");
 
+    // In the event the store is acting as an initialization, add a freeze
+    // instruction to prevent infinite poison propagation.
+    Val = Builder.CreateFreeze(Val, "bf.freeze");
+
     // Mask the source value as needed.
     if (!hasBooleanRepresentation(Dst.getType()))
       SrcVal = Builder.CreateAnd(

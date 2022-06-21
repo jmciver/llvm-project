@@ -90,15 +90,18 @@ void BitfieldAssignment() {
   // CHECK: bitcast %struct.BitFieldsByte*
   // CHECK: %[[BFType:.+]] = bitcast %struct.BitFieldsByte*
   // CHECK: %[[LOADA:.+]] = load i8, i8* %[[BFType]]
-  // CHECK: %[[CLEARA:.+]] = and i8 %[[LOADA]], -8
+  // CHECK: %[[FREEZEA:.+]] = freeze i8 %[[LOADA]]
+  // CHECK: %[[CLEARA:.+]] = and i8 %[[FREEZEA]], -8
   // CHECK: %[[SETA:.+]] = or i8 %[[CLEARA]], 3
   // CHECK: %[[BFType:.+]] = bitcast %struct.BitFieldsByte*
   // CHECK: %[[LOADB:.+]] = load i8, i8* %[[BFType]]
-  // CHECK: %[[CLEARB:.+]] = and i8 %[[LOADB]], -57
+  // CHECK: %[[FREEZEB:.+]] = freeze i8 %[[LOADB]]
+  // CHECK: %[[CLEARB:.+]] = and i8 %[[FREEZEB]], -57
   // CHECK: %[[SETB:.+]] = or i8 %[[CLEARB]], 16
   // CHECK: %[[BFType:.+]] = bitcast %struct.BitFieldsByte*
   // CHECK: %[[LOADC:.+]] = load i8, i8* %[[BFType]]
-  // CHECK: %[[CLEARC:.+]] = and i8 %[[LOADC]], 63
+  // CHECK: %[[FREEZEC:.+]] = freeze i8 %[[LOADC]]
+  // CHECK: %[[CLEARC:.+]] = and i8 %[[FREEZEC]], 63
   // CHECK: %[[SETC:.+]] = or i8 %[[CLEARC]], 64
 }
 

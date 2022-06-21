@@ -295,6 +295,7 @@ namespace PR9565 {
     const int &y = x.a;
     // CHECK-NEXT: bitcast
     // CHECK-NEXT: load
+    // CHECK-NEXT: freeze
     // CHECK-NEXT: and
     // CHECK-NEXT: or i32 {{.*}}, 19456
     // CHECK-NEXT: store i32

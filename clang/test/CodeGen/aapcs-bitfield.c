@@ -99,7 +99,8 @@ int st0_check_load(struct st0 *m) {
 // LE-NEXT:  entry:
 // LE-NEXT:    [[TMP0:%.*]] = bitcast %struct.st0* [[M:%.*]] to i8*
 // LE-NEXT:    [[BF_LOAD:%.*]] = load i8, i8* [[TMP0]], align 2
-// LE-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], -128
+// LE-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// LE-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], -128
 // LE-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 1
 // LE-NEXT:    store i8 [[BF_SET]], i8* [[TMP0]], align 2
 // LE-NEXT:    ret void
@@ -108,7 +109,8 @@ int st0_check_load(struct st0 *m) {
 // BE-NEXT:  entry:
 // BE-NEXT:    [[TMP0:%.*]] = bitcast %struct.st0* [[M:%.*]] to i8*
 // BE-NEXT:    [[BF_LOAD:%.*]] = load i8, i8* [[TMP0]], align 2
-// BE-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], 1
+// BE-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// BE-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], 1
 // BE-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 2
 // BE-NEXT:    store i8 [[BF_SET]], i8* [[TMP0]], align 2
 // BE-NEXT:    ret void
@@ -117,7 +119,8 @@ int st0_check_load(struct st0 *m) {
 // LENUMLOADS-NEXT:  entry:
 // LENUMLOADS-NEXT:    [[TMP0:%.*]] = bitcast %struct.st0* [[M:%.*]] to i8*
 // LENUMLOADS-NEXT:    [[BF_LOAD:%.*]] = load i8, i8* [[TMP0]], align 2
-// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], -128
+// LENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], -128
 // LENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 1
 // LENUMLOADS-NEXT:    store i8 [[BF_SET]], i8* [[TMP0]], align 2
 // LENUMLOADS-NEXT:    ret void
@@ -126,7 +129,8 @@ int st0_check_load(struct st0 *m) {
 // BENUMLOADS-NEXT:  entry:
 // BENUMLOADS-NEXT:    [[TMP0:%.*]] = bitcast %struct.st0* [[M:%.*]] to i8*
 // BENUMLOADS-NEXT:    [[BF_LOAD:%.*]] = load i8, i8* [[TMP0]], align 2
-// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], 1
+// BENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], 1
 // BENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 2
 // BENUMLOADS-NEXT:    store i8 [[BF_SET]], i8* [[TMP0]], align 2
 // BENUMLOADS-NEXT:    ret void
@@ -135,7 +139,8 @@ int st0_check_load(struct st0 *m) {
 // LEWIDTH-NEXT:  entry:
 // LEWIDTH-NEXT:    [[TMP0:%.*]] = bitcast %struct.st0* [[M:%.*]] to i8*
 // LEWIDTH-NEXT:    [[BF_LOAD:%.*]] = load i8, i8* [[TMP0]], align 2
-// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], -128
+// LEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], -128
 // LEWIDTH-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 1
 // LEWIDTH-NEXT:    store i8 [[BF_SET]], i8* [[TMP0]], align 2
 // LEWIDTH-NEXT:    ret void
@@ -144,7 +149,8 @@ int st0_check_load(struct st0 *m) {
 // BEWIDTH-NEXT:  entry:
 // BEWIDTH-NEXT:    [[TMP0:%.*]] = bitcast %struct.st0* [[M:%.*]] to i8*
 // BEWIDTH-NEXT:    [[BF_LOAD:%.*]] = load i8, i8* [[TMP0]], align 2
-// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], 1
+// BEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], 1
 // BEWIDTH-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 2
 // BEWIDTH-NEXT:    store i8 [[BF_SET]], i8* [[TMP0]], align 2
 // BEWIDTH-NEXT:    ret void
@@ -153,7 +159,8 @@ int st0_check_load(struct st0 *m) {
 // LEWIDTHNUM-NEXT:  entry:
 // LEWIDTHNUM-NEXT:    [[TMP0:%.*]] = bitcast %struct.st0* [[M:%.*]] to i8*
 // LEWIDTHNUM-NEXT:    [[BF_LOAD:%.*]] = load i8, i8* [[TMP0]], align 2
-// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], -128
+// LEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], -128
 // LEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 1
 // LEWIDTHNUM-NEXT:    store i8 [[BF_SET]], i8* [[TMP0]], align 2
 // LEWIDTHNUM-NEXT:    ret void
@@ -162,7 +169,8 @@ int st0_check_load(struct st0 *m) {
 // BEWIDTHNUM-NEXT:  entry:
 // BEWIDTHNUM-NEXT:    [[TMP0:%.*]] = bitcast %struct.st0* [[M:%.*]] to i8*
 // BEWIDTHNUM-NEXT:    [[BF_LOAD:%.*]] = load i8, i8* [[TMP0]], align 2
-// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], 1
+// BEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], 1
 // BEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 2
 // BEWIDTHNUM-NEXT:    store i8 [[BF_SET]], i8* [[TMP0]], align 2
 // BEWIDTHNUM-NEXT:    ret void
@@ -252,7 +260,8 @@ int st1_check_load(struct st1 *m) {
 // LE-NEXT:  entry:
 // LE-NEXT:    [[TMP0:%.*]] = bitcast %struct.st1* [[M:%.*]] to i16*
 // LE-NEXT:    [[BF_LOAD:%.*]] = load i16, i16* [[TMP0]], align 4
-// LE-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD]], 1023
+// LE-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD]]
+// LE-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], 1023
 // LE-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], 1024
 // LE-NEXT:    store i16 [[BF_SET]], i16* [[TMP0]], align 4
 // LE-NEXT:    ret void
@@ -261,7 +270,8 @@ int st1_check_load(struct st1 *m) {
 // BE-NEXT:  entry:
 // BE-NEXT:    [[TMP0:%.*]] = bitcast %struct.st1* [[M:%.*]] to i16*
 // BE-NEXT:    [[BF_LOAD:%.*]] = load i16, i16* [[TMP0]], align 4
-// BE-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD]], -64
+// BE-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD]]
+// BE-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], -64
 // BE-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], 1
 // BE-NEXT:    store i16 [[BF_SET]], i16* [[TMP0]], align 4
 // BE-NEXT:    ret void
@@ -270,7 +280,8 @@ int st1_check_load(struct st1 *m) {
 // LENUMLOADS-NEXT:  entry:
 // LENUMLOADS-NEXT:    [[TMP0:%.*]] = bitcast %struct.st1* [[M:%.*]] to i16*
 // LENUMLOADS-NEXT:    [[BF_LOAD:%.*]] = load i16, i16* [[TMP0]], align 4
-// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD]], 1023
+// LENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD]]
+// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], 1023
 // LENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], 1024
 // LENUMLOADS-NEXT:    store i16 [[BF_SET]], i16* [[TMP0]], align 4
 // LENUMLOADS-NEXT:    ret void
@@ -279,7 +290,8 @@ int st1_check_load(struct st1 *m) {
 // BENUMLOADS-NEXT:  entry:
 // BENUMLOADS-NEXT:    [[TMP0:%.*]] = bitcast %struct.st1* [[M:%.*]] to i16*
 // BENUMLOADS-NEXT:    [[BF_LOAD:%.*]] = load i16, i16* [[TMP0]], align 4
-// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD]], -64
+// BENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD]]
+// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], -64
 // BENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], 1
 // BENUMLOADS-NEXT:    store i16 [[BF_SET]], i16* [[TMP0]], align 4
 // BENUMLOADS-NEXT:    ret void
@@ -288,7 +300,8 @@ int st1_check_load(struct st1 *m) {
 // LEWIDTH-NEXT:  entry:
 // LEWIDTH-NEXT:    [[TMP0:%.*]] = bitcast %struct.st1* [[M:%.*]] to i16*
 // LEWIDTH-NEXT:    [[BF_LOAD:%.*]] = load i16, i16* [[TMP0]], align 4
-// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD]], 1023
+// LEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD]]
+// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], 1023
 // LEWIDTH-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], 1024
 // LEWIDTH-NEXT:    store i16 [[BF_SET]], i16* [[TMP0]], align 4
 // LEWIDTH-NEXT:    ret void
@@ -297,7 +310,8 @@ int st1_check_load(struct st1 *m) {
 // BEWIDTH-NEXT:  entry:
 // BEWIDTH-NEXT:    [[TMP0:%.*]] = bitcast %struct.st1* [[M:%.*]] to i16*
 // BEWIDTH-NEXT:    [[BF_LOAD:%.*]] = load i16, i16* [[TMP0]], align 4
-// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD]], -64
+// BEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD]]
+// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], -64
 // BEWIDTH-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], 1
 // BEWIDTH-NEXT:    store i16 [[BF_SET]], i16* [[TMP0]], align 4
 // BEWIDTH-NEXT:    ret void
@@ -306,7 +320,8 @@ int st1_check_load(struct st1 *m) {
 // LEWIDTHNUM-NEXT:  entry:
 // LEWIDTHNUM-NEXT:    [[TMP0:%.*]] = bitcast %struct.st1* [[M:%.*]] to i16*
 // LEWIDTHNUM-NEXT:    [[BF_LOAD:%.*]] = load i16, i16* [[TMP0]], align 4
-// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD]], 1023
+// LEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD]]
+// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], 1023
 // LEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], 1024
 // LEWIDTHNUM-NEXT:    store i16 [[BF_SET]], i16* [[TMP0]], align 4
 // LEWIDTHNUM-NEXT:    ret void
@@ -315,7 +330,8 @@ int st1_check_load(struct st1 *m) {
 // BEWIDTHNUM-NEXT:  entry:
 // BEWIDTHNUM-NEXT:    [[TMP0:%.*]] = bitcast %struct.st1* [[M:%.*]] to i16*
 // BEWIDTHNUM-NEXT:    [[BF_LOAD:%.*]] = load i16, i16* [[TMP0]], align 4
-// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD]], -64
+// BEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD]]
+// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], -64
 // BEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], 1
 // BEWIDTHNUM-NEXT:    store i16 [[BF_SET]], i16* [[TMP0]], align 4
 // BEWIDTHNUM-NEXT:    ret void
@@ -413,7 +429,8 @@ int st2_check_load(struct st2 *m) {
 // LE-NEXT:  entry:
 // LE-NEXT:    [[C:%.*]] = getelementptr inbounds [[STRUCT_ST2:%.*]], %struct.st2* [[M:%.*]], i32 0, i32 1
 // LE-NEXT:    [[BF_LOAD:%.*]] = load i8, i8* [[C]], align 2
-// LE-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], -128
+// LE-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// LE-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], -128
 // LE-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 1
 // LE-NEXT:    store i8 [[BF_SET]], i8* [[C]], align 2
 // LE-NEXT:    ret void
@@ -422,7 +439,8 @@ int st2_check_load(struct st2 *m) {
 // BE-NEXT:  entry:
 // BE-NEXT:    [[C:%.*]] = getelementptr inbounds [[STRUCT_ST2:%.*]], %struct.st2* [[M:%.*]], i32 0, i32 1
 // BE-NEXT:    [[BF_LOAD:%.*]] = load i8, i8* [[C]], align 2
-// BE-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], 1
+// BE-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// BE-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], 1
 // BE-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 2
 // BE-NEXT:    store i8 [[BF_SET]], i8* [[C]], align 2
 // BE-NEXT:    ret void
@@ -431,7 +449,8 @@ int st2_check_load(struct st2 *m) {
 // LENUMLOADS-NEXT:  entry:
 // LENUMLOADS-NEXT:    [[C:%.*]] = getelementptr inbounds [[STRUCT_ST2:%.*]], %struct.st2* [[M:%.*]], i32 0, i32 1
 // LENUMLOADS-NEXT:    [[BF_LOAD:%.*]] = load i8, i8* [[C]], align 2
-// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], -128
+// LENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], -128
 // LENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 1
 // LENUMLOADS-NEXT:    store i8 [[BF_SET]], i8* [[C]], align 2
 // LENUMLOADS-NEXT:    ret void
@@ -440,7 +459,8 @@ int st2_check_load(struct st2 *m) {
 // BENUMLOADS-NEXT:  entry:
 // BENUMLOADS-NEXT:    [[C:%.*]] = getelementptr inbounds [[STRUCT_ST2:%.*]], %struct.st2* [[M:%.*]], i32 0, i32 1
 // BENUMLOADS-NEXT:    [[BF_LOAD:%.*]] = load i8, i8* [[C]], align 2
-// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], 1
+// BENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], 1
 // BENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 2
 // BENUMLOADS-NEXT:    store i8 [[BF_SET]], i8* [[C]], align 2
 // BENUMLOADS-NEXT:    ret void
@@ -449,7 +469,8 @@ int st2_check_load(struct st2 *m) {
 // LEWIDTH-NEXT:  entry:
 // LEWIDTH-NEXT:    [[C:%.*]] = getelementptr inbounds [[STRUCT_ST2:%.*]], %struct.st2* [[M:%.*]], i32 0, i32 1
 // LEWIDTH-NEXT:    [[BF_LOAD:%.*]] = load i8, i8* [[C]], align 2
-// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], -128
+// LEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], -128
 // LEWIDTH-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 1
 // LEWIDTH-NEXT:    store i8 [[BF_SET]], i8* [[C]], align 2
 // LEWIDTH-NEXT:    ret void
@@ -458,7 +479,8 @@ int st2_check_load(struct st2 *m) {
 // BEWIDTH-NEXT:  entry:
 // BEWIDTH-NEXT:    [[C:%.*]] = getelementptr inbounds [[STRUCT_ST2:%.*]], %struct.st2* [[M:%.*]], i32 0, i32 1
 // BEWIDTH-NEXT:    [[BF_LOAD:%.*]] = load i8, i8* [[C]], align 2
-// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], 1
+// BEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], 1
 // BEWIDTH-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 2
 // BEWIDTH-NEXT:    store i8 [[BF_SET]], i8* [[C]], align 2
 // BEWIDTH-NEXT:    ret void
@@ -467,7 +489,8 @@ int st2_check_load(struct st2 *m) {
 // LEWIDTHNUM-NEXT:  entry:
 // LEWIDTHNUM-NEXT:    [[C:%.*]] = getelementptr inbounds [[STRUCT_ST2:%.*]], %struct.st2* [[M:%.*]], i32 0, i32 1
 // LEWIDTHNUM-NEXT:    [[BF_LOAD:%.*]] = load i8, i8* [[C]], align 2
-// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], -128
+// LEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], -128
 // LEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 1
 // LEWIDTHNUM-NEXT:    store i8 [[BF_SET]], i8* [[C]], align 2
 // LEWIDTHNUM-NEXT:    ret void
@@ -476,7 +499,8 @@ int st2_check_load(struct st2 *m) {
 // BEWIDTHNUM-NEXT:  entry:
 // BEWIDTHNUM-NEXT:    [[C:%.*]] = getelementptr inbounds [[STRUCT_ST2:%.*]], %struct.st2* [[M:%.*]], i32 0, i32 1
 // BEWIDTHNUM-NEXT:    [[BF_LOAD:%.*]] = load i8, i8* [[C]], align 2
-// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], 1
+// BEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], 1
 // BEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 2
 // BEWIDTHNUM-NEXT:    store i8 [[BF_SET]], i8* [[C]], align 2
 // BEWIDTHNUM-NEXT:    ret void
@@ -569,7 +593,8 @@ int st3_check_load(struct st3 *m) {
 // LE-NEXT:  entry:
 // LE-NEXT:    [[TMP0:%.*]] = bitcast %struct.st3* [[M:%.*]] to i8*
 // LE-NEXT:    [[BF_LOAD:%.*]] = load volatile i8, i8* [[TMP0]], align 2
-// LE-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], -128
+// LE-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// LE-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], -128
 // LE-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 1
 // LE-NEXT:    store volatile i8 [[BF_SET]], i8* [[TMP0]], align 2
 // LE-NEXT:    ret void
@@ -578,7 +603,8 @@ int st3_check_load(struct st3 *m) {
 // BE-NEXT:  entry:
 // BE-NEXT:    [[TMP0:%.*]] = bitcast %struct.st3* [[M:%.*]] to i8*
 // BE-NEXT:    [[BF_LOAD:%.*]] = load volatile i8, i8* [[TMP0]], align 2
-// BE-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], 1
+// BE-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// BE-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], 1
 // BE-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 2
 // BE-NEXT:    store volatile i8 [[BF_SET]], i8* [[TMP0]], align 2
 // BE-NEXT:    ret void
@@ -587,7 +613,8 @@ int st3_check_load(struct st3 *m) {
 // LENUMLOADS-NEXT:  entry:
 // LENUMLOADS-NEXT:    [[TMP0:%.*]] = bitcast %struct.st3* [[M:%.*]] to i8*
 // LENUMLOADS-NEXT:    [[BF_LOAD:%.*]] = load volatile i8, i8* [[TMP0]], align 2
-// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], -128
+// LENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], -128
 // LENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 1
 // LENUMLOADS-NEXT:    store volatile i8 [[BF_SET]], i8* [[TMP0]], align 2
 // LENUMLOADS-NEXT:    ret void
@@ -596,7 +623,8 @@ int st3_check_load(struct st3 *m) {
 // BENUMLOADS-NEXT:  entry:
 // BENUMLOADS-NEXT:    [[TMP0:%.*]] = bitcast %struct.st3* [[M:%.*]] to i8*
 // BENUMLOADS-NEXT:    [[BF_LOAD:%.*]] = load volatile i8, i8* [[TMP0]], align 2
-// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], 1
+// BENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], 1
 // BENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 2
 // BENUMLOADS-NEXT:    store volatile i8 [[BF_SET]], i8* [[TMP0]], align 2
 // BENUMLOADS-NEXT:    ret void
@@ -605,7 +633,8 @@ int st3_check_load(struct st3 *m) {
 // LEWIDTH-NEXT:  entry:
 // LEWIDTH-NEXT:    [[TMP0:%.*]] = bitcast %struct.st3* [[M:%.*]] to i16*
 // LEWIDTH-NEXT:    [[BF_LOAD:%.*]] = load volatile i16, i16* [[TMP0]], align 2
-// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD]], -128
+// LEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD]]
+// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], -128
 // LEWIDTH-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], 1
 // LEWIDTH-NEXT:    store volatile i16 [[BF_SET]], i16* [[TMP0]], align 2
 // LEWIDTH-NEXT:    ret void
@@ -614,7 +643,8 @@ int st3_check_load(struct st3 *m) {
 // BEWIDTH-NEXT:  entry:
 // BEWIDTH-NEXT:    [[TMP0:%.*]] = bitcast %struct.st3* [[M:%.*]] to i16*
 // BEWIDTH-NEXT:    [[BF_LOAD:%.*]] = load volatile i16, i16* [[TMP0]], align 2
-// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD]], 511
+// BEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD]]
+// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], 511
 // BEWIDTH-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], 512
 // BEWIDTH-NEXT:    store volatile i16 [[BF_SET]], i16* [[TMP0]], align 2
 // BEWIDTH-NEXT:    ret void
@@ -623,7 +653,8 @@ int st3_check_load(struct st3 *m) {
 // LEWIDTHNUM-NEXT:  entry:
 // LEWIDTHNUM-NEXT:    [[TMP0:%.*]] = bitcast %struct.st3* [[M:%.*]] to i16*
 // LEWIDTHNUM-NEXT:    [[BF_LOAD:%.*]] = load volatile i16, i16* [[TMP0]], align 2
-// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD]], -128
+// LEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD]]
+// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], -128
 // LEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], 1
 // LEWIDTHNUM-NEXT:    store volatile i16 [[BF_SET]], i16* [[TMP0]], align 2
 // LEWIDTHNUM-NEXT:    ret void
@@ -632,7 +663,8 @@ int st3_check_load(struct st3 *m) {
 // BEWIDTHNUM-NEXT:  entry:
 // BEWIDTHNUM-NEXT:    [[TMP0:%.*]] = bitcast %struct.st3* [[M:%.*]] to i16*
 // BEWIDTHNUM-NEXT:    [[BF_LOAD:%.*]] = load volatile i16, i16* [[TMP0]], align 2
-// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD]], 511
+// BEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD]]
+// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], 511
 // BEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], 512
 // BEWIDTHNUM-NEXT:    store volatile i16 [[BF_SET]], i16* [[TMP0]], align 2
 // BEWIDTHNUM-NEXT:    ret void
@@ -734,7 +766,8 @@ int st4_check_load(struct st4 *m) {
 // LE-NEXT:  entry:
 // LE-NEXT:    [[TMP0:%.*]] = bitcast %struct.st4* [[M:%.*]] to i16*
 // LE-NEXT:    [[BF_LOAD:%.*]] = load volatile i16, i16* [[TMP0]], align 4
-// LE-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD]], -15873
+// LE-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD]]
+// LE-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], -15873
 // LE-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], 512
 // LE-NEXT:    store volatile i16 [[BF_SET]], i16* [[TMP0]], align 4
 // LE-NEXT:    ret void
@@ -743,7 +776,8 @@ int st4_check_load(struct st4 *m) {
 // BE-NEXT:  entry:
 // BE-NEXT:    [[TMP0:%.*]] = bitcast %struct.st4* [[M:%.*]] to i16*
 // BE-NEXT:    [[BF_LOAD:%.*]] = load volatile i16, i16* [[TMP0]], align 4
-// BE-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD]], -125
+// BE-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD]]
+// BE-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], -125
 // BE-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], 4
 // BE-NEXT:    store volatile i16 [[BF_SET]], i16* [[TMP0]], align 4
 // BE-NEXT:    ret void
@@ -752,7 +786,8 @@ int st4_check_load(struct st4 *m) {
 // LENUMLOADS-NEXT:  entry:
 // LENUMLOADS-NEXT:    [[TMP0:%.*]] = bitcast %struct.st4* [[M:%.*]] to i16*
 // LENUMLOADS-NEXT:    [[BF_LOAD:%.*]] = load volatile i16, i16* [[TMP0]], align 4
-// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD]], -15873
+// LENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD]]
+// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], -15873
 // LENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], 512
 // LENUMLOADS-NEXT:    store volatile i16 [[BF_SET]], i16* [[TMP0]], align 4
 // LENUMLOADS-NEXT:    ret void
@@ -761,7 +796,8 @@ int st4_check_load(struct st4 *m) {
 // BENUMLOADS-NEXT:  entry:
 // BENUMLOADS-NEXT:    [[TMP0:%.*]] = bitcast %struct.st4* [[M:%.*]] to i16*
 // BENUMLOADS-NEXT:    [[BF_LOAD:%.*]] = load volatile i16, i16* [[TMP0]], align 4
-// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD]], -125
+// BENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD]]
+// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], -125
 // BENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], 4
 // BENUMLOADS-NEXT:    store volatile i16 [[BF_SET]], i16* [[TMP0]], align 4
 // BENUMLOADS-NEXT:    ret void
@@ -771,7 +807,8 @@ int st4_check_load(struct st4 *m) {
 // LEWIDTH-NEXT:    [[TMP0:%.*]] = bitcast %struct.st4* [[M:%.*]] to i8*
 // LEWIDTH-NEXT:    [[TMP1:%.*]] = getelementptr inbounds i8, i8* [[TMP0]], i32 1
 // LEWIDTH-NEXT:    [[BF_LOAD:%.*]] = load volatile i8, i8* [[TMP1]], align 1
-// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], -63
+// LEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], -63
 // LEWIDTH-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 2
 // LEWIDTH-NEXT:    store volatile i8 [[BF_SET]], i8* [[TMP1]], align 1
 // LEWIDTH-NEXT:    ret void
@@ -781,7 +818,8 @@ int st4_check_load(struct st4 *m) {
 // BEWIDTH-NEXT:    [[TMP0:%.*]] = bitcast %struct.st4* [[M:%.*]] to i8*
 // BEWIDTH-NEXT:    [[TMP1:%.*]] = getelementptr inbounds i8, i8* [[TMP0]], i32 1
 // BEWIDTH-NEXT:    [[BF_LOAD:%.*]] = load volatile i8, i8* [[TMP1]], align 1
-// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], -125
+// BEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], -125
 // BEWIDTH-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 4
 // BEWIDTH-NEXT:    store volatile i8 [[BF_SET]], i8* [[TMP1]], align 1
 // BEWIDTH-NEXT:    ret void
@@ -791,7 +829,8 @@ int st4_check_load(struct st4 *m) {
 // LEWIDTHNUM-NEXT:    [[TMP0:%.*]] = bitcast %struct.st4* [[M:%.*]] to i8*
 // LEWIDTHNUM-NEXT:    [[TMP1:%.*]] = getelementptr inbounds i8, i8* [[TMP0]], i32 1
 // LEWIDTHNUM-NEXT:    [[BF_LOAD:%.*]] = load volatile i8, i8* [[TMP1]], align 1
-// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], -63
+// LEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], -63
 // LEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 2
 // LEWIDTHNUM-NEXT:    store volatile i8 [[BF_SET]], i8* [[TMP1]], align 1
 // LEWIDTHNUM-NEXT:    ret void
@@ -801,7 +840,8 @@ int st4_check_load(struct st4 *m) {
 // BEWIDTHNUM-NEXT:    [[TMP0:%.*]] = bitcast %struct.st4* [[M:%.*]] to i8*
 // BEWIDTHNUM-NEXT:    [[TMP1:%.*]] = getelementptr inbounds i8, i8* [[TMP0]], i32 1
 // BEWIDTHNUM-NEXT:    [[BF_LOAD:%.*]] = load volatile i8, i8* [[TMP1]], align 1
-// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], -125
+// BEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], -125
 // BEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 4
 // BEWIDTHNUM-NEXT:    store volatile i8 [[BF_SET]], i8* [[TMP1]], align 1
 // BEWIDTHNUM-NEXT:    ret void
@@ -814,7 +854,8 @@ void st4_check_store(struct st4 *m) {
 // LE-NEXT:  entry:
 // LE-NEXT:    [[TMP0:%.*]] = bitcast %struct.st4* [[M:%.*]] to i16*
 // LE-NEXT:    [[BF_LOAD:%.*]] = load i16, i16* [[TMP0]], align 4
-// LE-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD]], -512
+// LE-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD]]
+// LE-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], -512
 // LE-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], 1
 // LE-NEXT:    store i16 [[BF_SET]], i16* [[TMP0]], align 4
 // LE-NEXT:    ret void
@@ -823,7 +864,8 @@ void st4_check_store(struct st4 *m) {
 // BE-NEXT:  entry:
 // BE-NEXT:    [[TMP0:%.*]] = bitcast %struct.st4* [[M:%.*]] to i16*
 // BE-NEXT:    [[BF_LOAD:%.*]] = load i16, i16* [[TMP0]], align 4
-// BE-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD]], 127
+// BE-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD]]
+// BE-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], 127
 // BE-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], 128
 // BE-NEXT:    store i16 [[BF_SET]], i16* [[TMP0]], align 4
 // BE-NEXT:    ret void
@@ -832,7 +874,8 @@ void st4_check_store(struct st4 *m) {
 // LENUMLOADS-NEXT:  entry:
 // LENUMLOADS-NEXT:    [[TMP0:%.*]] = bitcast %struct.st4* [[M:%.*]] to i16*
 // LENUMLOADS-NEXT:    [[BF_LOAD:%.*]] = load i16, i16* [[TMP0]], align 4
-// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD]], -512
+// LENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD]]
+// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], -512
 // LENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], 1
 // LENUMLOADS-NEXT:    store i16 [[BF_SET]], i16* [[TMP0]], align 4
 // LENUMLOADS-NEXT:    ret void
@@ -841,7 +884,8 @@ void st4_check_store(struct st4 *m) {
 // BENUMLOADS-NEXT:  entry:
 // BENUMLOADS-NEXT:    [[TMP0:%.*]] = bitcast %struct.st4* [[M:%.*]] to i16*
 // BENUMLOADS-NEXT:    [[BF_LOAD:%.*]] = load i16, i16* [[TMP0]], align 4
-// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD]], 127
+// BENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD]]
+// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], 127
 // BENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], 128
 // BENUMLOADS-NEXT:    store i16 [[BF_SET]], i16* [[TMP0]], align 4
 // BENUMLOADS-NEXT:    ret void
@@ -850,7 +894,8 @@ void st4_check_store(struct st4 *m) {
 // LEWIDTH-NEXT:  entry:
 // LEWIDTH-NEXT:    [[TMP0:%.*]] = bitcast %struct.st4* [[M:%.*]] to i16*
 // LEWIDTH-NEXT:    [[BF_LOAD:%.*]] = load i16, i16* [[TMP0]], align 4
-// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD]], -512
+// LEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD]]
+// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], -512
 // LEWIDTH-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], 1
 // LEWIDTH-NEXT:    store i16 [[BF_SET]], i16* [[TMP0]], align 4
 // LEWIDTH-NEXT:    ret void
@@ -859,7 +904,8 @@ void st4_check_store(struct st4 *m) {
 // BEWIDTH-NEXT:  entry:
 // BEWIDTH-NEXT:    [[TMP0:%.*]] = bitcast %struct.st4* [[M:%.*]] to i16*
 // BEWIDTH-NEXT:    [[BF_LOAD:%.*]] = load i16, i16* [[TMP0]], align 4
-// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD]], 127
+// BEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD]]
+// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], 127
 // BEWIDTH-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], 128
 // BEWIDTH-NEXT:    store i16 [[BF_SET]], i16* [[TMP0]], align 4
 // BEWIDTH-NEXT:    ret void
@@ -868,7 +914,8 @@ void st4_check_store(struct st4 *m) {
 // LEWIDTHNUM-NEXT:  entry:
 // LEWIDTHNUM-NEXT:    [[TMP0:%.*]] = bitcast %struct.st4* [[M:%.*]] to i16*
 // LEWIDTHNUM-NEXT:    [[BF_LOAD:%.*]] = load i16, i16* [[TMP0]], align 4
-// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD]], -512
+// LEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD]]
+// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], -512
 // LEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], 1
 // LEWIDTHNUM-NEXT:    store i16 [[BF_SET]], i16* [[TMP0]], align 4
 // LEWIDTHNUM-NEXT:    ret void
@@ -877,7 +924,8 @@ void st4_check_store(struct st4 *m) {
 // BEWIDTHNUM-NEXT:  entry:
 // BEWIDTHNUM-NEXT:    [[TMP0:%.*]] = bitcast %struct.st4* [[M:%.*]] to i16*
 // BEWIDTHNUM-NEXT:    [[BF_LOAD:%.*]] = load i16, i16* [[TMP0]], align 4
-// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD]], 127
+// BEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD]]
+// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], 127
 // BEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], 128
 // BEWIDTHNUM-NEXT:    store i16 [[BF_SET]], i16* [[TMP0]], align 4
 // BEWIDTHNUM-NEXT:    ret void
@@ -967,7 +1015,8 @@ int st5_check_load(struct st5 *m) {
 // LE-NEXT:  entry:
 // LE-NEXT:    [[C:%.*]] = getelementptr inbounds [[STRUCT_ST5:%.*]], %struct.st5* [[M:%.*]], i32 0, i32 1
 // LE-NEXT:    [[BF_LOAD:%.*]] = load volatile i8, i8* [[C]], align 2
-// LE-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], -32
+// LE-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// LE-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], -32
 // LE-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 1
 // LE-NEXT:    store volatile i8 [[BF_SET]], i8* [[C]], align 2
 // LE-NEXT:    ret void
@@ -976,7 +1025,8 @@ int st5_check_load(struct st5 *m) {
 // BE-NEXT:  entry:
 // BE-NEXT:    [[C:%.*]] = getelementptr inbounds [[STRUCT_ST5:%.*]], %struct.st5* [[M:%.*]], i32 0, i32 1
 // BE-NEXT:    [[BF_LOAD:%.*]] = load volatile i8, i8* [[C]], align 2
-// BE-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], 7
+// BE-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// BE-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], 7
 // BE-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 8
 // BE-NEXT:    store volatile i8 [[BF_SET]], i8* [[C]], align 2
 // BE-NEXT:    ret void
@@ -985,7 +1035,8 @@ int st5_check_load(struct st5 *m) {
 // LENUMLOADS-NEXT:  entry:
 // LENUMLOADS-NEXT:    [[C:%.*]] = getelementptr inbounds [[STRUCT_ST5:%.*]], %struct.st5* [[M:%.*]], i32 0, i32 1
 // LENUMLOADS-NEXT:    [[BF_LOAD:%.*]] = load volatile i8, i8* [[C]], align 2
-// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], -32
+// LENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], -32
 // LENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 1
 // LENUMLOADS-NEXT:    store volatile i8 [[BF_SET]], i8* [[C]], align 2
 // LENUMLOADS-NEXT:    ret void
@@ -994,7 +1045,8 @@ int st5_check_load(struct st5 *m) {
 // BENUMLOADS-NEXT:  entry:
 // BENUMLOADS-NEXT:    [[C:%.*]] = getelementptr inbounds [[STRUCT_ST5:%.*]], %struct.st5* [[M:%.*]], i32 0, i32 1
 // BENUMLOADS-NEXT:    [[BF_LOAD:%.*]] = load volatile i8, i8* [[C]], align 2
-// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], 7
+// BENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], 7
 // BENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 8
 // BENUMLOADS-NEXT:    store volatile i8 [[BF_SET]], i8* [[C]], align 2
 // BENUMLOADS-NEXT:    ret void
@@ -1003,7 +1055,8 @@ int st5_check_load(struct st5 *m) {
 // LEWIDTH-NEXT:  entry:
 // LEWIDTH-NEXT:    [[C:%.*]] = getelementptr inbounds [[STRUCT_ST5:%.*]], %struct.st5* [[M:%.*]], i32 0, i32 1
 // LEWIDTH-NEXT:    [[BF_LOAD:%.*]] = load volatile i8, i8* [[C]], align 2
-// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], -32
+// LEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], -32
 // LEWIDTH-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 1
 // LEWIDTH-NEXT:    store volatile i8 [[BF_SET]], i8* [[C]], align 2
 // LEWIDTH-NEXT:    ret void
@@ -1012,7 +1065,8 @@ int st5_check_load(struct st5 *m) {
 // BEWIDTH-NEXT:  entry:
 // BEWIDTH-NEXT:    [[C:%.*]] = getelementptr inbounds [[STRUCT_ST5:%.*]], %struct.st5* [[M:%.*]], i32 0, i32 1
 // BEWIDTH-NEXT:    [[BF_LOAD:%.*]] = load volatile i8, i8* [[C]], align 2
-// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], 7
+// BEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], 7
 // BEWIDTH-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 8
 // BEWIDTH-NEXT:    store volatile i8 [[BF_SET]], i8* [[C]], align 2
 // BEWIDTH-NEXT:    ret void
@@ -1021,7 +1075,8 @@ int st5_check_load(struct st5 *m) {
 // LEWIDTHNUM-NEXT:  entry:
 // LEWIDTHNUM-NEXT:    [[C:%.*]] = getelementptr inbounds [[STRUCT_ST5:%.*]], %struct.st5* [[M:%.*]], i32 0, i32 1
 // LEWIDTHNUM-NEXT:    [[BF_LOAD:%.*]] = load volatile i8, i8* [[C]], align 2
-// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], -32
+// LEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], -32
 // LEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 1
 // LEWIDTHNUM-NEXT:    store volatile i8 [[BF_SET]], i8* [[C]], align 2
 // LEWIDTHNUM-NEXT:    ret void
@@ -1030,7 +1085,8 @@ int st5_check_load(struct st5 *m) {
 // BEWIDTHNUM-NEXT:  entry:
 // BEWIDTHNUM-NEXT:    [[C:%.*]] = getelementptr inbounds [[STRUCT_ST5:%.*]], %struct.st5* [[M:%.*]], i32 0, i32 1
 // BEWIDTHNUM-NEXT:    [[BF_LOAD:%.*]] = load volatile i8, i8* [[C]], align 2
-// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], 7
+// BEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], 7
 // BEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 8
 // BEWIDTHNUM-NEXT:    store volatile i8 [[BF_SET]], i8* [[C]], align 2
 // BEWIDTHNUM-NEXT:    ret void
@@ -1200,128 +1256,144 @@ int st6_check_load(volatile struct st6 *m) {
 // LE-NEXT:  entry:
 // LE-NEXT:    [[TMP0:%.*]] = bitcast %struct.st6* [[M:%.*]] to i16*
 // LE-NEXT:    [[BF_LOAD:%.*]] = load i16, i16* [[TMP0]], align 4
-// LE-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD]], -4096
+// LE-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD]]
+// LE-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], -4096
 // LE-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], 1
 // LE-NEXT:    store i16 [[BF_SET]], i16* [[TMP0]], align 4
 // LE-NEXT:    [[B:%.*]] = getelementptr inbounds [[STRUCT_ST6:%.*]], %struct.st6* [[M]], i32 0, i32 1
 // LE-NEXT:    store i8 2, i8* [[B]], align 2
 // LE-NEXT:    [[C:%.*]] = getelementptr inbounds [[STRUCT_ST6]], %struct.st6* [[M]], i32 0, i32 2
 // LE-NEXT:    [[BF_LOAD1:%.*]] = load i8, i8* [[C]], align 1
-// LE-NEXT:    [[BF_CLEAR2:%.*]] = and i8 [[BF_LOAD1]], -32
-// LE-NEXT:    [[BF_SET3:%.*]] = or i8 [[BF_CLEAR2]], 3
-// LE-NEXT:    store i8 [[BF_SET3]], i8* [[C]], align 1
+// LE-NEXT:    [[BF_FREEZE2:%.*]] = freeze i8 [[BF_LOAD1]]
+// LE-NEXT:    [[BF_CLEAR3:%.*]] = and i8 [[BF_FREEZE2]], -32
+// LE-NEXT:    [[BF_SET4:%.*]] = or i8 [[BF_CLEAR3]], 3
+// LE-NEXT:    store i8 [[BF_SET4]], i8* [[C]], align 1
 // LE-NEXT:    ret void
 //
 // BE-LABEL: @st6_check_store(
 // BE-NEXT:  entry:
 // BE-NEXT:    [[TMP0:%.*]] = bitcast %struct.st6* [[M:%.*]] to i16*
 // BE-NEXT:    [[BF_LOAD:%.*]] = load i16, i16* [[TMP0]], align 4
-// BE-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD]], 15
+// BE-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD]]
+// BE-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], 15
 // BE-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], 16
 // BE-NEXT:    store i16 [[BF_SET]], i16* [[TMP0]], align 4
 // BE-NEXT:    [[B:%.*]] = getelementptr inbounds [[STRUCT_ST6:%.*]], %struct.st6* [[M]], i32 0, i32 1
 // BE-NEXT:    store i8 2, i8* [[B]], align 2
 // BE-NEXT:    [[C:%.*]] = getelementptr inbounds [[STRUCT_ST6]], %struct.st6* [[M]], i32 0, i32 2
 // BE-NEXT:    [[BF_LOAD1:%.*]] = load i8, i8* [[C]], align 1
-// BE-NEXT:    [[BF_CLEAR2:%.*]] = and i8 [[BF_LOAD1]], 7
-// BE-NEXT:    [[BF_SET3:%.*]] = or i8 [[BF_CLEAR2]], 24
-// BE-NEXT:    store i8 [[BF_SET3]], i8* [[C]], align 1
+// BE-NEXT:    [[BF_FREEZE2:%.*]] = freeze i8 [[BF_LOAD1]]
+// BE-NEXT:    [[BF_CLEAR3:%.*]] = and i8 [[BF_FREEZE2]], 7
+// BE-NEXT:    [[BF_SET4:%.*]] = or i8 [[BF_CLEAR3]], 24
+// BE-NEXT:    store i8 [[BF_SET4]], i8* [[C]], align 1
 // BE-NEXT:    ret void
 //
 // LENUMLOADS-LABEL: @st6_check_store(
 // LENUMLOADS-NEXT:  entry:
 // LENUMLOADS-NEXT:    [[TMP0:%.*]] = bitcast %struct.st6* [[M:%.*]] to i16*
 // LENUMLOADS-NEXT:    [[BF_LOAD:%.*]] = load i16, i16* [[TMP0]], align 4
-// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD]], -4096
+// LENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD]]
+// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], -4096
 // LENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], 1
 // LENUMLOADS-NEXT:    store i16 [[BF_SET]], i16* [[TMP0]], align 4
 // LENUMLOADS-NEXT:    [[B:%.*]] = getelementptr inbounds [[STRUCT_ST6:%.*]], %struct.st6* [[M]], i32 0, i32 1
 // LENUMLOADS-NEXT:    store i8 2, i8* [[B]], align 2
 // LENUMLOADS-NEXT:    [[C:%.*]] = getelementptr inbounds [[STRUCT_ST6]], %struct.st6* [[M]], i32 0, i32 2
 // LENUMLOADS-NEXT:    [[BF_LOAD1:%.*]] = load i8, i8* [[C]], align 1
-// LENUMLOADS-NEXT:    [[BF_CLEAR2:%.*]] = and i8 [[BF_LOAD1]], -32
-// LENUMLOADS-NEXT:    [[BF_SET3:%.*]] = or i8 [[BF_CLEAR2]], 3
-// LENUMLOADS-NEXT:    store i8 [[BF_SET3]], i8* [[C]], align 1
+// LENUMLOADS-NEXT:    [[BF_FREEZE2:%.*]] = freeze i8 [[BF_LOAD1]]
+// LENUMLOADS-NEXT:    [[BF_CLEAR3:%.*]] = and i8 [[BF_FREEZE2]], -32
+// LENUMLOADS-NEXT:    [[BF_SET4:%.*]] = or i8 [[BF_CLEAR3]], 3
+// LENUMLOADS-NEXT:    store i8 [[BF_SET4]], i8* [[C]], align 1
 // LENUMLOADS-NEXT:    ret void
 //
 // BENUMLOADS-LABEL: @st6_check_store(
 // BENUMLOADS-NEXT:  entry:
 // BENUMLOADS-NEXT:    [[TMP0:%.*]] = bitcast %struct.st6* [[M:%.*]] to i16*
 // BENUMLOADS-NEXT:    [[BF_LOAD:%.*]] = load i16, i16* [[TMP0]], align 4
-// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD]], 15
+// BENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD]]
+// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], 15
 // BENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], 16
 // BENUMLOADS-NEXT:    store i16 [[BF_SET]], i16* [[TMP0]], align 4
 // BENUMLOADS-NEXT:    [[B:%.*]] = getelementptr inbounds [[STRUCT_ST6:%.*]], %struct.st6* [[M]], i32 0, i32 1
 // BENUMLOADS-NEXT:    store i8 2, i8* [[B]], align 2
 // BENUMLOADS-NEXT:    [[C:%.*]] = getelementptr inbounds [[STRUCT_ST6]], %struct.st6* [[M]], i32 0, i32 2
 // BENUMLOADS-NEXT:    [[BF_LOAD1:%.*]] = load i8, i8* [[C]], align 1
-// BENUMLOADS-NEXT:    [[BF_CLEAR2:%.*]] = and i8 [[BF_LOAD1]], 7
-// BENUMLOADS-NEXT:    [[BF_SET3:%.*]] = or i8 [[BF_CLEAR2]], 24
-// BENUMLOADS-NEXT:    store i8 [[BF_SET3]], i8* [[C]], align 1
+// BENUMLOADS-NEXT:    [[BF_FREEZE2:%.*]] = freeze i8 [[BF_LOAD1]]
+// BENUMLOADS-NEXT:    [[BF_CLEAR3:%.*]] = and i8 [[BF_FREEZE2]], 7
+// BENUMLOADS-NEXT:    [[BF_SET4:%.*]] = or i8 [[BF_CLEAR3]], 24
+// BENUMLOADS-NEXT:    store i8 [[BF_SET4]], i8* [[C]], align 1
 // BENUMLOADS-NEXT:    ret void
 //
 // LEWIDTH-LABEL: @st6_check_store(
 // LEWIDTH-NEXT:  entry:
 // LEWIDTH-NEXT:    [[TMP0:%.*]] = bitcast %struct.st6* [[M:%.*]] to i16*
 // LEWIDTH-NEXT:    [[BF_LOAD:%.*]] = load i16, i16* [[TMP0]], align 4
-// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD]], -4096
+// LEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD]]
+// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], -4096
 // LEWIDTH-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], 1
 // LEWIDTH-NEXT:    store i16 [[BF_SET]], i16* [[TMP0]], align 4
 // LEWIDTH-NEXT:    [[B:%.*]] = getelementptr inbounds [[STRUCT_ST6:%.*]], %struct.st6* [[M]], i32 0, i32 1
 // LEWIDTH-NEXT:    store i8 2, i8* [[B]], align 2
 // LEWIDTH-NEXT:    [[C:%.*]] = getelementptr inbounds [[STRUCT_ST6]], %struct.st6* [[M]], i32 0, i32 2
 // LEWIDTH-NEXT:    [[BF_LOAD1:%.*]] = load i8, i8* [[C]], align 1
-// LEWIDTH-NEXT:    [[BF_CLEAR2:%.*]] = and i8 [[BF_LOAD1]], -32
-// LEWIDTH-NEXT:    [[BF_SET3:%.*]] = or i8 [[BF_CLEAR2]], 3
-// LEWIDTH-NEXT:    store i8 [[BF_SET3]], i8* [[C]], align 1
+// LEWIDTH-NEXT:    [[BF_FREEZE2:%.*]] = freeze i8 [[BF_LOAD1]]
+// LEWIDTH-NEXT:    [[BF_CLEAR3:%.*]] = and i8 [[BF_FREEZE2]], -32
+// LEWIDTH-NEXT:    [[BF_SET4:%.*]] = or i8 [[BF_CLEAR3]], 3
+// LEWIDTH-NEXT:    store i8 [[BF_SET4]], i8* [[C]], align 1
 // LEWIDTH-NEXT:    ret void
 //
 // BEWIDTH-LABEL: @st6_check_store(
 // BEWIDTH-NEXT:  entry:
 // BEWIDTH-NEXT:    [[TMP0:%.*]] = bitcast %struct.st6* [[M:%.*]] to i16*
 // BEWIDTH-NEXT:    [[BF_LOAD:%.*]] = load i16, i16* [[TMP0]], align 4
-// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD]], 15
+// BEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD]]
+// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], 15
 // BEWIDTH-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], 16
 // BEWIDTH-NEXT:    store i16 [[BF_SET]], i16* [[TMP0]], align 4
 // BEWIDTH-NEXT:    [[B:%.*]] = getelementptr inbounds [[STRUCT_ST6:%.*]], %struct.st6* [[M]], i32 0, i32 1
 // BEWIDTH-NEXT:    store i8 2, i8* [[B]], align 2
 // BEWIDTH-NEXT:    [[C:%.*]] = getelementptr inbounds [[STRUCT_ST6]], %struct.st6* [[M]], i32 0, i32 2
 // BEWIDTH-NEXT:    [[BF_LOAD1:%.*]] = load i8, i8* [[C]], align 1
-// BEWIDTH-NEXT:    [[BF_CLEAR2:%.*]] = and i8 [[BF_LOAD1]], 7
-// BEWIDTH-NEXT:    [[BF_SET3:%.*]] = or i8 [[BF_CLEAR2]], 24
-// BEWIDTH-NEXT:    store i8 [[BF_SET3]], i8* [[C]], align 1
+// BEWIDTH-NEXT:    [[BF_FREEZE2:%.*]] = freeze i8 [[BF_LOAD1]]
+// BEWIDTH-NEXT:    [[BF_CLEAR3:%.*]] = and i8 [[BF_FREEZE2]], 7
+// BEWIDTH-NEXT:    [[BF_SET4:%.*]] = or i8 [[BF_CLEAR3]], 24
+// BEWIDTH-NEXT:    store i8 [[BF_SET4]], i8* [[C]], align 1
 // BEWIDTH-NEXT:    ret void
 //
 // LEWIDTHNUM-LABEL: @st6_check_store(
 // LEWIDTHNUM-NEXT:  entry:
 // LEWIDTHNUM-NEXT:    [[TMP0:%.*]] = bitcast %struct.st6* [[M:%.*]] to i16*
 // LEWIDTHNUM-NEXT:    [[BF_LOAD:%.*]] = load i16, i16* [[TMP0]], align 4
-// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD]], -4096
+// LEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD]]
+// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], -4096
 // LEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], 1
 // LEWIDTHNUM-NEXT:    store i16 [[BF_SET]], i16* [[TMP0]], align 4
 // LEWIDTHNUM-NEXT:    [[B:%.*]] = getelementptr inbounds [[STRUCT_ST6:%.*]], %struct.st6* [[M]], i32 0, i32 1
 // LEWIDTHNUM-NEXT:    store i8 2, i8* [[B]], align 2
 // LEWIDTHNUM-NEXT:    [[C:%.*]] = getelementptr inbounds [[STRUCT_ST6]], %struct.st6* [[M]], i32 0, i32 2
 // LEWIDTHNUM-NEXT:    [[BF_LOAD1:%.*]] = load i8, i8* [[C]], align 1
-// LEWIDTHNUM-NEXT:    [[BF_CLEAR2:%.*]] = and i8 [[BF_LOAD1]], -32
-// LEWIDTHNUM-NEXT:    [[BF_SET3:%.*]] = or i8 [[BF_CLEAR2]], 3
-// LEWIDTHNUM-NEXT:    store i8 [[BF_SET3]], i8* [[C]], align 1
+// LEWIDTHNUM-NEXT:    [[BF_FREEZE2:%.*]] = freeze i8 [[BF_LOAD1]]
+// LEWIDTHNUM-NEXT:    [[BF_CLEAR3:%.*]] = and i8 [[BF_FREEZE2]], -32
+// LEWIDTHNUM-NEXT:    [[BF_SET4:%.*]] = or i8 [[BF_CLEAR3]], 3
+// LEWIDTHNUM-NEXT:    store i8 [[BF_SET4]], i8* [[C]], align 1
 // LEWIDTHNUM-NEXT:    ret void
 //
 // BEWIDTHNUM-LABEL: @st6_check_store(
 // BEWIDTHNUM-NEXT:  entry:
 // BEWIDTHNUM-NEXT:    [[TMP0:%.*]] = bitcast %struct.st6* [[M:%.*]] to i16*
 // BEWIDTHNUM-NEXT:    [[BF_LOAD:%.*]] = load i16, i16* [[TMP0]], align 4
-// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD]], 15
+// BEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD]]
+// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], 15
 // BEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], 16
 // BEWIDTHNUM-NEXT:    store i16 [[BF_SET]], i16* [[TMP0]], align 4
 // BEWIDTHNUM-NEXT:    [[B:%.*]] = getelementptr inbounds [[STRUCT_ST6:%.*]], %struct.st6* [[M]], i32 0, i32 1
 // BEWIDTHNUM-NEXT:    store i8 2, i8* [[B]], align 2
 // BEWIDTHNUM-NEXT:    [[C:%.*]] = getelementptr inbounds [[STRUCT_ST6]], %struct.st6* [[M]], i32 0, i32 2
 // BEWIDTHNUM-NEXT:    [[BF_LOAD1:%.*]] = load i8, i8* [[C]], align 1
-// BEWIDTHNUM-NEXT:    [[BF_CLEAR2:%.*]] = and i8 [[BF_LOAD1]], 7
-// BEWIDTHNUM-NEXT:    [[BF_SET3:%.*]] = or i8 [[BF_CLEAR2]], 24
-// BEWIDTHNUM-NEXT:    store i8 [[BF_SET3]], i8* [[C]], align 1
+// BEWIDTHNUM-NEXT:    [[BF_FREEZE2:%.*]] = freeze i8 [[BF_LOAD1]]
+// BEWIDTHNUM-NEXT:    [[BF_CLEAR3:%.*]] = and i8 [[BF_FREEZE2]], 7
+// BEWIDTHNUM-NEXT:    [[BF_SET4:%.*]] = or i8 [[BF_CLEAR3]], 24
+// BEWIDTHNUM-NEXT:    store i8 [[BF_SET4]], i8* [[C]], align 1
 // BEWIDTHNUM-NEXT:    ret void
 //
 void st6_check_store(struct st6 *m) {
@@ -1506,7 +1578,8 @@ int st7_check_load(struct st7b *m) {
 // LE-NEXT:    [[Y1:%.*]] = getelementptr inbounds [[STRUCT_ST7B]], %struct.st7b* [[M]], i32 0, i32 2
 // LE-NEXT:    [[B:%.*]] = getelementptr inbounds [[STRUCT_ST7A]], %struct.st7a* [[Y1]], i32 0, i32 1
 // LE-NEXT:    [[BF_LOAD:%.*]] = load volatile i8, i8* [[B]], align 1
-// LE-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], -32
+// LE-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// LE-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], -32
 // LE-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 3
 // LE-NEXT:    store volatile i8 [[BF_SET]], i8* [[B]], align 1
 // LE-NEXT:    ret void
@@ -1521,7 +1594,8 @@ int st7_check_load(struct st7b *m) {
 // BE-NEXT:    [[Y1:%.*]] = getelementptr inbounds [[STRUCT_ST7B]], %struct.st7b* [[M]], i32 0, i32 2
 // BE-NEXT:    [[B:%.*]] = getelementptr inbounds [[STRUCT_ST7A]], %struct.st7a* [[Y1]], i32 0, i32 1
 // BE-NEXT:    [[BF_LOAD:%.*]] = load volatile i8, i8* [[B]], align 1
-// BE-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], 7
+// BE-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// BE-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], 7
 // BE-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 24
 // BE-NEXT:    store volatile i8 [[BF_SET]], i8* [[B]], align 1
 // BE-NEXT:    ret void
@@ -1536,7 +1610,8 @@ int st7_check_load(struct st7b *m) {
 // LENUMLOADS-NEXT:    [[Y1:%.*]] = getelementptr inbounds [[STRUCT_ST7B]], %struct.st7b* [[M]], i32 0, i32 2
 // LENUMLOADS-NEXT:    [[B:%.*]] = getelementptr inbounds [[STRUCT_ST7A]], %struct.st7a* [[Y1]], i32 0, i32 1
 // LENUMLOADS-NEXT:    [[BF_LOAD:%.*]] = load volatile i8, i8* [[B]], align 1
-// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], -32
+// LENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], -32
 // LENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 3
 // LENUMLOADS-NEXT:    store volatile i8 [[BF_SET]], i8* [[B]], align 1
 // LENUMLOADS-NEXT:    ret void
@@ -1551,7 +1626,8 @@ int st7_check_load(struct st7b *m) {
 // BENUMLOADS-NEXT:    [[Y1:%.*]] = getelementptr inbounds [[STRUCT_ST7B]], %struct.st7b* [[M]], i32 0, i32 2
 // BENUMLOADS-NEXT:    [[B:%.*]] = getelementptr inbounds [[STRUCT_ST7A]], %struct.st7a* [[Y1]], i32 0, i32 1
 // BENUMLOADS-NEXT:    [[BF_LOAD:%.*]] = load volatile i8, i8* [[B]], align 1
-// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], 7
+// BENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], 7
 // BENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 24
 // BENUMLOADS-NEXT:    store volatile i8 [[BF_SET]], i8* [[B]], align 1
 // BENUMLOADS-NEXT:    ret void
@@ -1566,7 +1642,8 @@ int st7_check_load(struct st7b *m) {
 // LEWIDTH-NEXT:    [[Y1:%.*]] = getelementptr inbounds [[STRUCT_ST7B]], %struct.st7b* [[M]], i32 0, i32 2
 // LEWIDTH-NEXT:    [[B:%.*]] = getelementptr inbounds [[STRUCT_ST7A]], %struct.st7a* [[Y1]], i32 0, i32 1
 // LEWIDTH-NEXT:    [[BF_LOAD:%.*]] = load volatile i8, i8* [[B]], align 1
-// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], -32
+// LEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], -32
 // LEWIDTH-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 3
 // LEWIDTH-NEXT:    store volatile i8 [[BF_SET]], i8* [[B]], align 1
 // LEWIDTH-NEXT:    ret void
@@ -1581,7 +1658,8 @@ int st7_check_load(struct st7b *m) {
 // BEWIDTH-NEXT:    [[Y1:%.*]] = getelementptr inbounds [[STRUCT_ST7B]], %struct.st7b* [[M]], i32 0, i32 2
 // BEWIDTH-NEXT:    [[B:%.*]] = getelementptr inbounds [[STRUCT_ST7A]], %struct.st7a* [[Y1]], i32 0, i32 1
 // BEWIDTH-NEXT:    [[BF_LOAD:%.*]] = load volatile i8, i8* [[B]], align 1
-// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], 7
+// BEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], 7
 // BEWIDTH-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 24
 // BEWIDTH-NEXT:    store volatile i8 [[BF_SET]], i8* [[B]], align 1
 // BEWIDTH-NEXT:    ret void
@@ -1596,7 +1674,8 @@ int st7_check_load(struct st7b *m) {
 // LEWIDTHNUM-NEXT:    [[Y1:%.*]] = getelementptr inbounds [[STRUCT_ST7B]], %struct.st7b* [[M]], i32 0, i32 2
 // LEWIDTHNUM-NEXT:    [[B:%.*]] = getelementptr inbounds [[STRUCT_ST7A]], %struct.st7a* [[Y1]], i32 0, i32 1
 // LEWIDTHNUM-NEXT:    [[BF_LOAD:%.*]] = load volatile i8, i8* [[B]], align 1
-// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], -32
+// LEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], -32
 // LEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 3
 // LEWIDTHNUM-NEXT:    store volatile i8 [[BF_SET]], i8* [[B]], align 1
 // LEWIDTHNUM-NEXT:    ret void
@@ -1611,7 +1690,8 @@ int st7_check_load(struct st7b *m) {
 // BEWIDTHNUM-NEXT:    [[Y1:%.*]] = getelementptr inbounds [[STRUCT_ST7B]], %struct.st7b* [[M]], i32 0, i32 2
 // BEWIDTHNUM-NEXT:    [[B:%.*]] = getelementptr inbounds [[STRUCT_ST7A]], %struct.st7a* [[Y1]], i32 0, i32 1
 // BEWIDTHNUM-NEXT:    [[BF_LOAD:%.*]] = load volatile i8, i8* [[B]], align 1
-// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_LOAD]], 7
+// BEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i8 [[BF_LOAD]]
+// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i8 [[BF_FREEZE]], 7
 // BEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i8 [[BF_CLEAR]], 24
 // BEWIDTHNUM-NEXT:    store volatile i8 [[BF_SET]], i8* [[B]], align 1
 // BEWIDTHNUM-NEXT:    ret void
@@ -1775,7 +1855,8 @@ int read_st9(volatile struct st9 *m) {
 // LEWIDTH-NEXT:  entry:
 // LEWIDTH-NEXT:    [[TMP0:%.*]] = bitcast %struct.st9* [[M:%.*]] to i32*
 // LEWIDTH-NEXT:    [[BF_LOAD:%.*]] = load volatile i32, i32* [[TMP0]], align 4
-// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD]], -256
+// LEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD]]
+// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], -256
 // LEWIDTH-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], 1
 // LEWIDTH-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // LEWIDTH-NEXT:    ret void
@@ -1784,7 +1865,8 @@ int read_st9(volatile struct st9 *m) {
 // BEWIDTH-NEXT:  entry:
 // BEWIDTH-NEXT:    [[TMP0:%.*]] = bitcast %struct.st9* [[M:%.*]] to i32*
 // BEWIDTH-NEXT:    [[BF_LOAD:%.*]] = load volatile i32, i32* [[TMP0]], align 4
-// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD]], 16777215
+// BEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD]]
+// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], 16777215
 // BEWIDTH-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], 16777216
 // BEWIDTH-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // BEWIDTH-NEXT:    ret void
@@ -1793,7 +1875,8 @@ int read_st9(volatile struct st9 *m) {
 // LEWIDTHNUM-NEXT:  entry:
 // LEWIDTHNUM-NEXT:    [[TMP0:%.*]] = bitcast %struct.st9* [[M:%.*]] to i32*
 // LEWIDTHNUM-NEXT:    [[BF_LOAD:%.*]] = load volatile i32, i32* [[TMP0]], align 4
-// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD]], -256
+// LEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD]]
+// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], -256
 // LEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], 1
 // LEWIDTHNUM-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // LEWIDTHNUM-NEXT:    ret void
@@ -1802,7 +1885,8 @@ int read_st9(volatile struct st9 *m) {
 // BEWIDTHNUM-NEXT:  entry:
 // BEWIDTHNUM-NEXT:    [[TMP0:%.*]] = bitcast %struct.st9* [[M:%.*]] to i32*
 // BEWIDTHNUM-NEXT:    [[BF_LOAD:%.*]] = load volatile i32, i32* [[TMP0]], align 4
-// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD]], 16777215
+// BEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD]]
+// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], 16777215
 // BEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], 16777216
 // BEWIDTHNUM-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // BEWIDTHNUM-NEXT:    ret void
@@ -1865,8 +1949,9 @@ void store_st9(volatile struct st9 *m) {
 // LEWIDTH-NEXT:    [[BF_ASHR:%.*]] = ashr i32 [[BF_SHL]], 24
 // LEWIDTH-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_ASHR]], 1
 // LEWIDTH-NEXT:    [[BF_LOAD1:%.*]] = load volatile i32, i32* [[TMP0]], align 4
+// LEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD1]]
 // LEWIDTH-NEXT:    [[BF_VALUE:%.*]] = and i32 [[INC]], 255
-// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD1]], -256
+// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], -256
 // LEWIDTH-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], [[BF_VALUE]]
 // LEWIDTH-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // LEWIDTH-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i32 [[BF_VALUE]], 24
@@ -1880,9 +1965,10 @@ void store_st9(volatile struct st9 *m) {
 // BEWIDTH-NEXT:    [[BF_ASHR:%.*]] = ashr i32 [[BF_LOAD]], 24
 // BEWIDTH-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_ASHR]], 1
 // BEWIDTH-NEXT:    [[BF_LOAD1:%.*]] = load volatile i32, i32* [[TMP0]], align 4
+// BEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD1]]
 // BEWIDTH-NEXT:    [[BF_VALUE:%.*]] = and i32 [[INC]], 255
 // BEWIDTH-NEXT:    [[BF_SHL:%.*]] = shl i32 [[BF_VALUE]], 24
-// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD1]], 16777215
+// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], 16777215
 // BEWIDTH-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], [[BF_SHL]]
 // BEWIDTH-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // BEWIDTH-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i32 [[BF_VALUE]], 24
@@ -1897,8 +1983,9 @@ void store_st9(volatile struct st9 *m) {
 // LEWIDTHNUM-NEXT:    [[BF_ASHR:%.*]] = ashr i32 [[BF_SHL]], 24
 // LEWIDTHNUM-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_ASHR]], 1
 // LEWIDTHNUM-NEXT:    [[BF_LOAD1:%.*]] = load volatile i32, i32* [[TMP0]], align 4
+// LEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD1]]
 // LEWIDTHNUM-NEXT:    [[BF_VALUE:%.*]] = and i32 [[INC]], 255
-// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD1]], -256
+// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], -256
 // LEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], [[BF_VALUE]]
 // LEWIDTHNUM-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // LEWIDTHNUM-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i32 [[BF_VALUE]], 24
@@ -1912,9 +1999,10 @@ void store_st9(volatile struct st9 *m) {
 // BEWIDTHNUM-NEXT:    [[BF_ASHR:%.*]] = ashr i32 [[BF_LOAD]], 24
 // BEWIDTHNUM-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_ASHR]], 1
 // BEWIDTHNUM-NEXT:    [[BF_LOAD1:%.*]] = load volatile i32, i32* [[TMP0]], align 4
+// BEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD1]]
 // BEWIDTHNUM-NEXT:    [[BF_VALUE:%.*]] = and i32 [[INC]], 255
 // BEWIDTHNUM-NEXT:    [[BF_SHL:%.*]] = shl i32 [[BF_VALUE]], 24
-// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD1]], 16777215
+// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], 16777215
 // BEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], [[BF_SHL]]
 // BEWIDTHNUM-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // BEWIDTHNUM-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i32 [[BF_VALUE]], 24
@@ -2006,7 +2094,8 @@ int read_st10(volatile struct st10 *m) {
 // LE-NEXT:  entry:
 // LE-NEXT:    [[TMP0:%.*]] = bitcast %struct.st10* [[M:%.*]] to i16*
 // LE-NEXT:    [[BF_LOAD:%.*]] = load volatile i16, i16* [[TMP0]], align 4
-// LE-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD]], -511
+// LE-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD]]
+// LE-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], -511
 // LE-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], 2
 // LE-NEXT:    store volatile i16 [[BF_SET]], i16* [[TMP0]], align 4
 // LE-NEXT:    ret void
@@ -2015,7 +2104,8 @@ int read_st10(volatile struct st10 *m) {
 // BE-NEXT:  entry:
 // BE-NEXT:    [[TMP0:%.*]] = bitcast %struct.st10* [[M:%.*]] to i16*
 // BE-NEXT:    [[BF_LOAD:%.*]] = load volatile i16, i16* [[TMP0]], align 4
-// BE-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD]], -32641
+// BE-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD]]
+// BE-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], -32641
 // BE-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], 128
 // BE-NEXT:    store volatile i16 [[BF_SET]], i16* [[TMP0]], align 4
 // BE-NEXT:    ret void
@@ -2024,7 +2114,8 @@ int read_st10(volatile struct st10 *m) {
 // LENUMLOADS-NEXT:  entry:
 // LENUMLOADS-NEXT:    [[TMP0:%.*]] = bitcast %struct.st10* [[M:%.*]] to i16*
 // LENUMLOADS-NEXT:    [[BF_LOAD:%.*]] = load volatile i16, i16* [[TMP0]], align 4
-// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD]], -511
+// LENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD]]
+// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], -511
 // LENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], 2
 // LENUMLOADS-NEXT:    store volatile i16 [[BF_SET]], i16* [[TMP0]], align 4
 // LENUMLOADS-NEXT:    ret void
@@ -2033,7 +2124,8 @@ int read_st10(volatile struct st10 *m) {
 // BENUMLOADS-NEXT:  entry:
 // BENUMLOADS-NEXT:    [[TMP0:%.*]] = bitcast %struct.st10* [[M:%.*]] to i16*
 // BENUMLOADS-NEXT:    [[BF_LOAD:%.*]] = load volatile i16, i16* [[TMP0]], align 4
-// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD]], -32641
+// BENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD]]
+// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], -32641
 // BENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], 128
 // BENUMLOADS-NEXT:    store volatile i16 [[BF_SET]], i16* [[TMP0]], align 4
 // BENUMLOADS-NEXT:    ret void
@@ -2042,7 +2134,8 @@ int read_st10(volatile struct st10 *m) {
 // LEWIDTH-NEXT:  entry:
 // LEWIDTH-NEXT:    [[TMP0:%.*]] = bitcast %struct.st10* [[M:%.*]] to i32*
 // LEWIDTH-NEXT:    [[BF_LOAD:%.*]] = load volatile i32, i32* [[TMP0]], align 4
-// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD]], -511
+// LEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD]]
+// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], -511
 // LEWIDTH-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], 2
 // LEWIDTH-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // LEWIDTH-NEXT:    ret void
@@ -2051,7 +2144,8 @@ int read_st10(volatile struct st10 *m) {
 // BEWIDTH-NEXT:  entry:
 // BEWIDTH-NEXT:    [[TMP0:%.*]] = bitcast %struct.st10* [[M:%.*]] to i32*
 // BEWIDTH-NEXT:    [[BF_LOAD:%.*]] = load volatile i32, i32* [[TMP0]], align 4
-// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD]], -2139095041
+// BEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD]]
+// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], -2139095041
 // BEWIDTH-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], 8388608
 // BEWIDTH-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // BEWIDTH-NEXT:    ret void
@@ -2060,7 +2154,8 @@ int read_st10(volatile struct st10 *m) {
 // LEWIDTHNUM-NEXT:  entry:
 // LEWIDTHNUM-NEXT:    [[TMP0:%.*]] = bitcast %struct.st10* [[M:%.*]] to i32*
 // LEWIDTHNUM-NEXT:    [[BF_LOAD:%.*]] = load volatile i32, i32* [[TMP0]], align 4
-// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD]], -511
+// LEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD]]
+// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], -511
 // LEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], 2
 // LEWIDTHNUM-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // LEWIDTHNUM-NEXT:    ret void
@@ -2069,7 +2164,8 @@ int read_st10(volatile struct st10 *m) {
 // BEWIDTHNUM-NEXT:  entry:
 // BEWIDTHNUM-NEXT:    [[TMP0:%.*]] = bitcast %struct.st10* [[M:%.*]] to i32*
 // BEWIDTHNUM-NEXT:    [[BF_LOAD:%.*]] = load volatile i32, i32* [[TMP0]], align 4
-// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD]], -2139095041
+// BEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD]]
+// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], -2139095041
 // BEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], 8388608
 // BEWIDTHNUM-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // BEWIDTHNUM-NEXT:    ret void
@@ -2088,9 +2184,10 @@ void store_st10(volatile struct st10 *m) {
 // LE-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // LE-NEXT:    [[TMP1:%.*]] = trunc i32 [[INC]] to i16
 // LE-NEXT:    [[BF_LOAD1:%.*]] = load volatile i16, i16* [[TMP0]], align 4
+// LE-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD1]]
 // LE-NEXT:    [[BF_VALUE:%.*]] = and i16 [[TMP1]], 255
 // LE-NEXT:    [[BF_SHL2:%.*]] = shl i16 [[BF_VALUE]], 1
-// LE-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD1]], -511
+// LE-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], -511
 // LE-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], [[BF_SHL2]]
 // LE-NEXT:    store volatile i16 [[BF_SET]], i16* [[TMP0]], align 4
 // LE-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i16 [[BF_VALUE]], 8
@@ -2108,9 +2205,10 @@ void store_st10(volatile struct st10 *m) {
 // BE-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // BE-NEXT:    [[TMP1:%.*]] = trunc i32 [[INC]] to i16
 // BE-NEXT:    [[BF_LOAD1:%.*]] = load volatile i16, i16* [[TMP0]], align 4
+// BE-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD1]]
 // BE-NEXT:    [[BF_VALUE:%.*]] = and i16 [[TMP1]], 255
 // BE-NEXT:    [[BF_SHL2:%.*]] = shl i16 [[BF_VALUE]], 7
-// BE-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD1]], -32641
+// BE-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], -32641
 // BE-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], [[BF_SHL2]]
 // BE-NEXT:    store volatile i16 [[BF_SET]], i16* [[TMP0]], align 4
 // BE-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i16 [[BF_VALUE]], 8
@@ -2128,9 +2226,10 @@ void store_st10(volatile struct st10 *m) {
 // LENUMLOADS-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // LENUMLOADS-NEXT:    [[TMP1:%.*]] = trunc i32 [[INC]] to i16
 // LENUMLOADS-NEXT:    [[BF_LOAD1:%.*]] = load volatile i16, i16* [[TMP0]], align 4
+// LENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD1]]
 // LENUMLOADS-NEXT:    [[BF_VALUE:%.*]] = and i16 [[TMP1]], 255
 // LENUMLOADS-NEXT:    [[BF_SHL2:%.*]] = shl i16 [[BF_VALUE]], 1
-// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD1]], -511
+// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], -511
 // LENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], [[BF_SHL2]]
 // LENUMLOADS-NEXT:    store volatile i16 [[BF_SET]], i16* [[TMP0]], align 4
 // LENUMLOADS-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i16 [[BF_VALUE]], 8
@@ -2148,9 +2247,10 @@ void store_st10(volatile struct st10 *m) {
 // BENUMLOADS-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // BENUMLOADS-NEXT:    [[TMP1:%.*]] = trunc i32 [[INC]] to i16
 // BENUMLOADS-NEXT:    [[BF_LOAD1:%.*]] = load volatile i16, i16* [[TMP0]], align 4
+// BENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD1]]
 // BENUMLOADS-NEXT:    [[BF_VALUE:%.*]] = and i16 [[TMP1]], 255
 // BENUMLOADS-NEXT:    [[BF_SHL2:%.*]] = shl i16 [[BF_VALUE]], 7
-// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD1]], -32641
+// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], -32641
 // BENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], [[BF_SHL2]]
 // BENUMLOADS-NEXT:    store volatile i16 [[BF_SET]], i16* [[TMP0]], align 4
 // BENUMLOADS-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i16 [[BF_VALUE]], 8
@@ -2166,9 +2266,10 @@ void store_st10(volatile struct st10 *m) {
 // LEWIDTH-NEXT:    [[BF_ASHR:%.*]] = ashr i32 [[BF_SHL]], 24
 // LEWIDTH-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_ASHR]], 1
 // LEWIDTH-NEXT:    [[BF_LOAD1:%.*]] = load volatile i32, i32* [[TMP0]], align 4
+// LEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD1]]
 // LEWIDTH-NEXT:    [[BF_VALUE:%.*]] = and i32 [[INC]], 255
 // LEWIDTH-NEXT:    [[BF_SHL2:%.*]] = shl i32 [[BF_VALUE]], 1
-// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD1]], -511
+// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], -511
 // LEWIDTH-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], [[BF_SHL2]]
 // LEWIDTH-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // LEWIDTH-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i32 [[BF_VALUE]], 24
@@ -2183,9 +2284,10 @@ void store_st10(volatile struct st10 *m) {
 // BEWIDTH-NEXT:    [[BF_ASHR:%.*]] = ashr i32 [[BF_SHL]], 24
 // BEWIDTH-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_ASHR]], 1
 // BEWIDTH-NEXT:    [[BF_LOAD1:%.*]] = load volatile i32, i32* [[TMP0]], align 4
+// BEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD1]]
 // BEWIDTH-NEXT:    [[BF_VALUE:%.*]] = and i32 [[INC]], 255
 // BEWIDTH-NEXT:    [[BF_SHL2:%.*]] = shl i32 [[BF_VALUE]], 23
-// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD1]], -2139095041
+// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], -2139095041
 // BEWIDTH-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], [[BF_SHL2]]
 // BEWIDTH-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // BEWIDTH-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i32 [[BF_VALUE]], 24
@@ -2200,9 +2302,10 @@ void store_st10(volatile struct st10 *m) {
 // LEWIDTHNUM-NEXT:    [[BF_ASHR:%.*]] = ashr i32 [[BF_SHL]], 24
 // LEWIDTHNUM-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_ASHR]], 1
 // LEWIDTHNUM-NEXT:    [[BF_LOAD1:%.*]] = load volatile i32, i32* [[TMP0]], align 4
+// LEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD1]]
 // LEWIDTHNUM-NEXT:    [[BF_VALUE:%.*]] = and i32 [[INC]], 255
 // LEWIDTHNUM-NEXT:    [[BF_SHL2:%.*]] = shl i32 [[BF_VALUE]], 1
-// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD1]], -511
+// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], -511
 // LEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], [[BF_SHL2]]
 // LEWIDTHNUM-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // LEWIDTHNUM-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i32 [[BF_VALUE]], 24
@@ -2217,9 +2320,10 @@ void store_st10(volatile struct st10 *m) {
 // BEWIDTHNUM-NEXT:    [[BF_ASHR:%.*]] = ashr i32 [[BF_SHL]], 24
 // BEWIDTHNUM-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_ASHR]], 1
 // BEWIDTHNUM-NEXT:    [[BF_LOAD1:%.*]] = load volatile i32, i32* [[TMP0]], align 4
+// BEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD1]]
 // BEWIDTHNUM-NEXT:    [[BF_VALUE:%.*]] = and i32 [[INC]], 255
 // BEWIDTHNUM-NEXT:    [[BF_SHL2:%.*]] = shl i32 [[BF_VALUE]], 23
-// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD1]], -2139095041
+// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], -2139095041
 // BEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], [[BF_SHL2]]
 // BEWIDTHNUM-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // BEWIDTHNUM-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i32 [[BF_VALUE]], 24
@@ -2592,7 +2696,8 @@ int read_st12(volatile struct st12 *m) {
 // LE-NEXT:  entry:
 // LE-NEXT:    [[TMP0:%.*]] = bitcast %struct.st12* [[M:%.*]] to i32*
 // LE-NEXT:    [[BF_LOAD:%.*]] = load volatile i32, i32* [[TMP0]], align 4
-// LE-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD]], -16776961
+// LE-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD]]
+// LE-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], -16776961
 // LE-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], 256
 // LE-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // LE-NEXT:    ret void
@@ -2601,7 +2706,8 @@ int read_st12(volatile struct st12 *m) {
 // BE-NEXT:  entry:
 // BE-NEXT:    [[TMP0:%.*]] = bitcast %struct.st12* [[M:%.*]] to i32*
 // BE-NEXT:    [[BF_LOAD:%.*]] = load volatile i32, i32* [[TMP0]], align 4
-// BE-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD]], -16776961
+// BE-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD]]
+// BE-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], -16776961
 // BE-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], 256
 // BE-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // BE-NEXT:    ret void
@@ -2610,7 +2716,8 @@ int read_st12(volatile struct st12 *m) {
 // LENUMLOADS-NEXT:  entry:
 // LENUMLOADS-NEXT:    [[TMP0:%.*]] = bitcast %struct.st12* [[M:%.*]] to i32*
 // LENUMLOADS-NEXT:    [[BF_LOAD:%.*]] = load volatile i32, i32* [[TMP0]], align 4
-// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD]], -16776961
+// LENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD]]
+// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], -16776961
 // LENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], 256
 // LENUMLOADS-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // LENUMLOADS-NEXT:    ret void
@@ -2619,7 +2726,8 @@ int read_st12(volatile struct st12 *m) {
 // BENUMLOADS-NEXT:  entry:
 // BENUMLOADS-NEXT:    [[TMP0:%.*]] = bitcast %struct.st12* [[M:%.*]] to i32*
 // BENUMLOADS-NEXT:    [[BF_LOAD:%.*]] = load volatile i32, i32* [[TMP0]], align 4
-// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD]], -16776961
+// BENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD]]
+// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], -16776961
 // BENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], 256
 // BENUMLOADS-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // BENUMLOADS-NEXT:    ret void
@@ -2628,7 +2736,8 @@ int read_st12(volatile struct st12 *m) {
 // LEWIDTH-NEXT:  entry:
 // LEWIDTH-NEXT:    [[TMP0:%.*]] = bitcast %struct.st12* [[M:%.*]] to i32*
 // LEWIDTH-NEXT:    [[BF_LOAD:%.*]] = load volatile i32, i32* [[TMP0]], align 4
-// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD]], -16776961
+// LEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD]]
+// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], -16776961
 // LEWIDTH-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], 256
 // LEWIDTH-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // LEWIDTH-NEXT:    ret void
@@ -2637,7 +2746,8 @@ int read_st12(volatile struct st12 *m) {
 // BEWIDTH-NEXT:  entry:
 // BEWIDTH-NEXT:    [[TMP0:%.*]] = bitcast %struct.st12* [[M:%.*]] to i32*
 // BEWIDTH-NEXT:    [[BF_LOAD:%.*]] = load volatile i32, i32* [[TMP0]], align 4
-// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD]], -16776961
+// BEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD]]
+// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], -16776961
 // BEWIDTH-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], 256
 // BEWIDTH-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // BEWIDTH-NEXT:    ret void
@@ -2646,7 +2756,8 @@ int read_st12(volatile struct st12 *m) {
 // LEWIDTHNUM-NEXT:  entry:
 // LEWIDTHNUM-NEXT:    [[TMP0:%.*]] = bitcast %struct.st12* [[M:%.*]] to i32*
 // LEWIDTHNUM-NEXT:    [[BF_LOAD:%.*]] = load volatile i32, i32* [[TMP0]], align 4
-// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD]], -16776961
+// LEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD]]
+// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], -16776961
 // LEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], 256
 // LEWIDTHNUM-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // LEWIDTHNUM-NEXT:    ret void
@@ -2655,7 +2766,8 @@ int read_st12(volatile struct st12 *m) {
 // BEWIDTHNUM-NEXT:  entry:
 // BEWIDTHNUM-NEXT:    [[TMP0:%.*]] = bitcast %struct.st12* [[M:%.*]] to i32*
 // BEWIDTHNUM-NEXT:    [[BF_LOAD:%.*]] = load volatile i32, i32* [[TMP0]], align 4
-// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD]], -16776961
+// BEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD]]
+// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], -16776961
 // BEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], 256
 // BEWIDTHNUM-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // BEWIDTHNUM-NEXT:    ret void
@@ -2672,9 +2784,10 @@ void store_st12(volatile struct st12 *m) {
 // LE-NEXT:    [[BF_ASHR:%.*]] = ashr i32 [[BF_SHL]], 16
 // LE-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_ASHR]], 1
 // LE-NEXT:    [[BF_LOAD1:%.*]] = load volatile i32, i32* [[TMP0]], align 4
+// LE-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD1]]
 // LE-NEXT:    [[BF_VALUE:%.*]] = and i32 [[INC]], 65535
 // LE-NEXT:    [[BF_SHL2:%.*]] = shl i32 [[BF_VALUE]], 8
-// LE-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD1]], -16776961
+// LE-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], -16776961
 // LE-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], [[BF_SHL2]]
 // LE-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // LE-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i32 [[BF_VALUE]], 16
@@ -2689,9 +2802,10 @@ void store_st12(volatile struct st12 *m) {
 // BE-NEXT:    [[BF_ASHR:%.*]] = ashr i32 [[BF_SHL]], 16
 // BE-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_ASHR]], 1
 // BE-NEXT:    [[BF_LOAD1:%.*]] = load volatile i32, i32* [[TMP0]], align 4
+// BE-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD1]]
 // BE-NEXT:    [[BF_VALUE:%.*]] = and i32 [[INC]], 65535
 // BE-NEXT:    [[BF_SHL2:%.*]] = shl i32 [[BF_VALUE]], 8
-// BE-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD1]], -16776961
+// BE-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], -16776961
 // BE-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], [[BF_SHL2]]
 // BE-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // BE-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i32 [[BF_VALUE]], 16
@@ -2706,9 +2820,10 @@ void store_st12(volatile struct st12 *m) {
 // LENUMLOADS-NEXT:    [[BF_ASHR:%.*]] = ashr i32 [[BF_SHL]], 16
 // LENUMLOADS-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_ASHR]], 1
 // LENUMLOADS-NEXT:    [[BF_LOAD1:%.*]] = load volatile i32, i32* [[TMP0]], align 4
+// LENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD1]]
 // LENUMLOADS-NEXT:    [[BF_VALUE:%.*]] = and i32 [[INC]], 65535
 // LENUMLOADS-NEXT:    [[BF_SHL2:%.*]] = shl i32 [[BF_VALUE]], 8
-// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD1]], -16776961
+// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], -16776961
 // LENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], [[BF_SHL2]]
 // LENUMLOADS-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // LENUMLOADS-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i32 [[BF_VALUE]], 16
@@ -2723,9 +2838,10 @@ void store_st12(volatile struct st12 *m) {
 // BENUMLOADS-NEXT:    [[BF_ASHR:%.*]] = ashr i32 [[BF_SHL]], 16
 // BENUMLOADS-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_ASHR]], 1
 // BENUMLOADS-NEXT:    [[BF_LOAD1:%.*]] = load volatile i32, i32* [[TMP0]], align 4
+// BENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD1]]
 // BENUMLOADS-NEXT:    [[BF_VALUE:%.*]] = and i32 [[INC]], 65535
 // BENUMLOADS-NEXT:    [[BF_SHL2:%.*]] = shl i32 [[BF_VALUE]], 8
-// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD1]], -16776961
+// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], -16776961
 // BENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], [[BF_SHL2]]
 // BENUMLOADS-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // BENUMLOADS-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i32 [[BF_VALUE]], 16
@@ -2740,9 +2856,10 @@ void store_st12(volatile struct st12 *m) {
 // LEWIDTH-NEXT:    [[BF_ASHR:%.*]] = ashr i32 [[BF_SHL]], 16
 // LEWIDTH-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_ASHR]], 1
 // LEWIDTH-NEXT:    [[BF_LOAD1:%.*]] = load volatile i32, i32* [[TMP0]], align 4
+// LEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD1]]
 // LEWIDTH-NEXT:    [[BF_VALUE:%.*]] = and i32 [[INC]], 65535
 // LEWIDTH-NEXT:    [[BF_SHL2:%.*]] = shl i32 [[BF_VALUE]], 8
-// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD1]], -16776961
+// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], -16776961
 // LEWIDTH-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], [[BF_SHL2]]
 // LEWIDTH-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // LEWIDTH-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i32 [[BF_VALUE]], 16
@@ -2757,9 +2874,10 @@ void store_st12(volatile struct st12 *m) {
 // BEWIDTH-NEXT:    [[BF_ASHR:%.*]] = ashr i32 [[BF_SHL]], 16
 // BEWIDTH-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_ASHR]], 1
 // BEWIDTH-NEXT:    [[BF_LOAD1:%.*]] = load volatile i32, i32* [[TMP0]], align 4
+// BEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD1]]
 // BEWIDTH-NEXT:    [[BF_VALUE:%.*]] = and i32 [[INC]], 65535
 // BEWIDTH-NEXT:    [[BF_SHL2:%.*]] = shl i32 [[BF_VALUE]], 8
-// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD1]], -16776961
+// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], -16776961
 // BEWIDTH-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], [[BF_SHL2]]
 // BEWIDTH-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // BEWIDTH-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i32 [[BF_VALUE]], 16
@@ -2774,9 +2892,10 @@ void store_st12(volatile struct st12 *m) {
 // LEWIDTHNUM-NEXT:    [[BF_ASHR:%.*]] = ashr i32 [[BF_SHL]], 16
 // LEWIDTHNUM-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_ASHR]], 1
 // LEWIDTHNUM-NEXT:    [[BF_LOAD1:%.*]] = load volatile i32, i32* [[TMP0]], align 4
+// LEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD1]]
 // LEWIDTHNUM-NEXT:    [[BF_VALUE:%.*]] = and i32 [[INC]], 65535
 // LEWIDTHNUM-NEXT:    [[BF_SHL2:%.*]] = shl i32 [[BF_VALUE]], 8
-// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD1]], -16776961
+// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], -16776961
 // LEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], [[BF_SHL2]]
 // LEWIDTHNUM-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // LEWIDTHNUM-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i32 [[BF_VALUE]], 16
@@ -2791,9 +2910,10 @@ void store_st12(volatile struct st12 *m) {
 // BEWIDTHNUM-NEXT:    [[BF_ASHR:%.*]] = ashr i32 [[BF_SHL]], 16
 // BEWIDTHNUM-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_ASHR]], 1
 // BEWIDTHNUM-NEXT:    [[BF_LOAD1:%.*]] = load volatile i32, i32* [[TMP0]], align 4
+// BEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD1]]
 // BEWIDTHNUM-NEXT:    [[BF_VALUE:%.*]] = and i32 [[INC]], 65535
 // BEWIDTHNUM-NEXT:    [[BF_SHL2:%.*]] = shl i32 [[BF_VALUE]], 8
-// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD1]], -16776961
+// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], -16776961
 // BEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], [[BF_SHL2]]
 // BEWIDTHNUM-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // BEWIDTHNUM-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i32 [[BF_VALUE]], 16
@@ -2812,8 +2932,9 @@ void increment_st12(volatile struct st12 *m) {
 // LE-NEXT:    [[BF_ASHR:%.*]] = ashr i32 [[BF_SHL]], 24
 // LE-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_ASHR]], 1
 // LE-NEXT:    [[BF_LOAD1:%.*]] = load volatile i32, i32* [[TMP0]], align 4
+// LE-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD1]]
 // LE-NEXT:    [[BF_VALUE:%.*]] = and i32 [[INC]], 255
-// LE-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD1]], -256
+// LE-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], -256
 // LE-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], [[BF_VALUE]]
 // LE-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // LE-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i32 [[BF_VALUE]], 24
@@ -2827,9 +2948,10 @@ void increment_st12(volatile struct st12 *m) {
 // BE-NEXT:    [[BF_ASHR:%.*]] = ashr i32 [[BF_LOAD]], 24
 // BE-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_ASHR]], 1
 // BE-NEXT:    [[BF_LOAD1:%.*]] = load volatile i32, i32* [[TMP0]], align 4
+// BE-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD1]]
 // BE-NEXT:    [[BF_VALUE:%.*]] = and i32 [[INC]], 255
 // BE-NEXT:    [[BF_SHL:%.*]] = shl i32 [[BF_VALUE]], 24
-// BE-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD1]], 16777215
+// BE-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], 16777215
 // BE-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], [[BF_SHL]]
 // BE-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // BE-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i32 [[BF_VALUE]], 24
@@ -2844,8 +2966,9 @@ void increment_st12(volatile struct st12 *m) {
 // LENUMLOADS-NEXT:    [[BF_ASHR:%.*]] = ashr i32 [[BF_SHL]], 24
 // LENUMLOADS-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_ASHR]], 1
 // LENUMLOADS-NEXT:    [[BF_LOAD1:%.*]] = load volatile i32, i32* [[TMP0]], align 4
+// LENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD1]]
 // LENUMLOADS-NEXT:    [[BF_VALUE:%.*]] = and i32 [[INC]], 255
-// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD1]], -256
+// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], -256
 // LENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], [[BF_VALUE]]
 // LENUMLOADS-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // LENUMLOADS-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i32 [[BF_VALUE]], 24
@@ -2859,9 +2982,10 @@ void increment_st12(volatile struct st12 *m) {
 // BENUMLOADS-NEXT:    [[BF_ASHR:%.*]] = ashr i32 [[BF_LOAD]], 24
 // BENUMLOADS-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_ASHR]], 1
 // BENUMLOADS-NEXT:    [[BF_LOAD1:%.*]] = load volatile i32, i32* [[TMP0]], align 4
+// BENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD1]]
 // BENUMLOADS-NEXT:    [[BF_VALUE:%.*]] = and i32 [[INC]], 255
 // BENUMLOADS-NEXT:    [[BF_SHL:%.*]] = shl i32 [[BF_VALUE]], 24
-// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD1]], 16777215
+// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], 16777215
 // BENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], [[BF_SHL]]
 // BENUMLOADS-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // BENUMLOADS-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i32 [[BF_VALUE]], 24
@@ -2876,8 +3000,9 @@ void increment_st12(volatile struct st12 *m) {
 // LEWIDTH-NEXT:    [[BF_ASHR:%.*]] = ashr i32 [[BF_SHL]], 24
 // LEWIDTH-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_ASHR]], 1
 // LEWIDTH-NEXT:    [[BF_LOAD1:%.*]] = load volatile i32, i32* [[TMP0]], align 4
+// LEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD1]]
 // LEWIDTH-NEXT:    [[BF_VALUE:%.*]] = and i32 [[INC]], 255
-// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD1]], -256
+// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], -256
 // LEWIDTH-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], [[BF_VALUE]]
 // LEWIDTH-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // LEWIDTH-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i32 [[BF_VALUE]], 24
@@ -2891,9 +3016,10 @@ void increment_st12(volatile struct st12 *m) {
 // BEWIDTH-NEXT:    [[BF_ASHR:%.*]] = ashr i32 [[BF_LOAD]], 24
 // BEWIDTH-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_ASHR]], 1
 // BEWIDTH-NEXT:    [[BF_LOAD1:%.*]] = load volatile i32, i32* [[TMP0]], align 4
+// BEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD1]]
 // BEWIDTH-NEXT:    [[BF_VALUE:%.*]] = and i32 [[INC]], 255
 // BEWIDTH-NEXT:    [[BF_SHL:%.*]] = shl i32 [[BF_VALUE]], 24
-// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD1]], 16777215
+// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], 16777215
 // BEWIDTH-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], [[BF_SHL]]
 // BEWIDTH-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // BEWIDTH-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i32 [[BF_VALUE]], 24
@@ -2908,8 +3034,9 @@ void increment_st12(volatile struct st12 *m) {
 // LEWIDTHNUM-NEXT:    [[BF_ASHR:%.*]] = ashr i32 [[BF_SHL]], 24
 // LEWIDTHNUM-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_ASHR]], 1
 // LEWIDTHNUM-NEXT:    [[BF_LOAD1:%.*]] = load volatile i32, i32* [[TMP0]], align 4
+// LEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD1]]
 // LEWIDTHNUM-NEXT:    [[BF_VALUE:%.*]] = and i32 [[INC]], 255
-// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD1]], -256
+// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], -256
 // LEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], [[BF_VALUE]]
 // LEWIDTHNUM-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // LEWIDTHNUM-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i32 [[BF_VALUE]], 24
@@ -2923,9 +3050,10 @@ void increment_st12(volatile struct st12 *m) {
 // BEWIDTHNUM-NEXT:    [[BF_ASHR:%.*]] = ashr i32 [[BF_LOAD]], 24
 // BEWIDTHNUM-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_ASHR]], 1
 // BEWIDTHNUM-NEXT:    [[BF_LOAD1:%.*]] = load volatile i32, i32* [[TMP0]], align 4
+// BEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD1]]
 // BEWIDTHNUM-NEXT:    [[BF_VALUE:%.*]] = and i32 [[INC]], 255
 // BEWIDTHNUM-NEXT:    [[BF_SHL:%.*]] = shl i32 [[BF_VALUE]], 24
-// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD1]], 16777215
+// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], 16777215
 // BEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], [[BF_SHL]]
 // BEWIDTHNUM-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // BEWIDTHNUM-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i32 [[BF_VALUE]], 24
@@ -2950,9 +3078,10 @@ struct st13 {
 // LE-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // LE-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i40
 // LE-NEXT:    [[BF_LOAD1:%.*]] = load volatile i40, i40* [[TMP0]], align 1
+// LE-NEXT:    [[BF_FREEZE:%.*]] = freeze i40 [[BF_LOAD1]]
 // LE-NEXT:    [[BF_VALUE:%.*]] = and i40 [[TMP1]], 4294967295
 // LE-NEXT:    [[BF_SHL:%.*]] = shl i40 [[BF_VALUE]], 8
-// LE-NEXT:    [[BF_CLEAR:%.*]] = and i40 [[BF_LOAD1]], 255
+// LE-NEXT:    [[BF_CLEAR:%.*]] = and i40 [[BF_FREEZE]], 255
 // LE-NEXT:    [[BF_SET:%.*]] = or i40 [[BF_CLEAR]], [[BF_SHL]]
 // LE-NEXT:    store volatile i40 [[BF_SET]], i40* [[TMP0]], align 1
 // LE-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i40 [[BF_VALUE]], 8
@@ -2970,8 +3099,9 @@ struct st13 {
 // BE-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // BE-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i40
 // BE-NEXT:    [[BF_LOAD1:%.*]] = load volatile i40, i40* [[TMP0]], align 1
+// BE-NEXT:    [[BF_FREEZE:%.*]] = freeze i40 [[BF_LOAD1]]
 // BE-NEXT:    [[BF_VALUE:%.*]] = and i40 [[TMP1]], 4294967295
-// BE-NEXT:    [[BF_CLEAR:%.*]] = and i40 [[BF_LOAD1]], -4294967296
+// BE-NEXT:    [[BF_CLEAR:%.*]] = and i40 [[BF_FREEZE]], -4294967296
 // BE-NEXT:    [[BF_SET:%.*]] = or i40 [[BF_CLEAR]], [[BF_VALUE]]
 // BE-NEXT:    store volatile i40 [[BF_SET]], i40* [[TMP0]], align 1
 // BE-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i40 [[BF_VALUE]], 8
@@ -2988,9 +3118,10 @@ struct st13 {
 // LENUMLOADS-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // LENUMLOADS-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i40
 // LENUMLOADS-NEXT:    [[BF_LOAD1:%.*]] = load volatile i40, i40* [[TMP0]], align 1
+// LENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i40 [[BF_LOAD1]]
 // LENUMLOADS-NEXT:    [[BF_VALUE:%.*]] = and i40 [[TMP1]], 4294967295
 // LENUMLOADS-NEXT:    [[BF_SHL:%.*]] = shl i40 [[BF_VALUE]], 8
-// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i40 [[BF_LOAD1]], 255
+// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i40 [[BF_FREEZE]], 255
 // LENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i40 [[BF_CLEAR]], [[BF_SHL]]
 // LENUMLOADS-NEXT:    store volatile i40 [[BF_SET]], i40* [[TMP0]], align 1
 // LENUMLOADS-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i40 [[BF_VALUE]], 8
@@ -3008,8 +3139,9 @@ struct st13 {
 // BENUMLOADS-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // BENUMLOADS-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i40
 // BENUMLOADS-NEXT:    [[BF_LOAD1:%.*]] = load volatile i40, i40* [[TMP0]], align 1
+// BENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i40 [[BF_LOAD1]]
 // BENUMLOADS-NEXT:    [[BF_VALUE:%.*]] = and i40 [[TMP1]], 4294967295
-// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i40 [[BF_LOAD1]], -4294967296
+// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i40 [[BF_FREEZE]], -4294967296
 // BENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i40 [[BF_CLEAR]], [[BF_VALUE]]
 // BENUMLOADS-NEXT:    store volatile i40 [[BF_SET]], i40* [[TMP0]], align 1
 // BENUMLOADS-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i40 [[BF_VALUE]], 8
@@ -3026,9 +3158,10 @@ struct st13 {
 // LEWIDTH-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // LEWIDTH-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i40
 // LEWIDTH-NEXT:    [[BF_LOAD1:%.*]] = load volatile i40, i40* [[TMP0]], align 1
+// LEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i40 [[BF_LOAD1]]
 // LEWIDTH-NEXT:    [[BF_VALUE:%.*]] = and i40 [[TMP1]], 4294967295
 // LEWIDTH-NEXT:    [[BF_SHL:%.*]] = shl i40 [[BF_VALUE]], 8
-// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i40 [[BF_LOAD1]], 255
+// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i40 [[BF_FREEZE]], 255
 // LEWIDTH-NEXT:    [[BF_SET:%.*]] = or i40 [[BF_CLEAR]], [[BF_SHL]]
 // LEWIDTH-NEXT:    store volatile i40 [[BF_SET]], i40* [[TMP0]], align 1
 // LEWIDTH-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i40 [[BF_VALUE]], 8
@@ -3046,8 +3179,9 @@ struct st13 {
 // BEWIDTH-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // BEWIDTH-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i40
 // BEWIDTH-NEXT:    [[BF_LOAD1:%.*]] = load volatile i40, i40* [[TMP0]], align 1
+// BEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i40 [[BF_LOAD1]]
 // BEWIDTH-NEXT:    [[BF_VALUE:%.*]] = and i40 [[TMP1]], 4294967295
-// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i40 [[BF_LOAD1]], -4294967296
+// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i40 [[BF_FREEZE]], -4294967296
 // BEWIDTH-NEXT:    [[BF_SET:%.*]] = or i40 [[BF_CLEAR]], [[BF_VALUE]]
 // BEWIDTH-NEXT:    store volatile i40 [[BF_SET]], i40* [[TMP0]], align 1
 // BEWIDTH-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i40 [[BF_VALUE]], 8
@@ -3064,9 +3198,10 @@ struct st13 {
 // LEWIDTHNUM-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // LEWIDTHNUM-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i40
 // LEWIDTHNUM-NEXT:    [[BF_LOAD1:%.*]] = load volatile i40, i40* [[TMP0]], align 1
+// LEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i40 [[BF_LOAD1]]
 // LEWIDTHNUM-NEXT:    [[BF_VALUE:%.*]] = and i40 [[TMP1]], 4294967295
 // LEWIDTHNUM-NEXT:    [[BF_SHL:%.*]] = shl i40 [[BF_VALUE]], 8
-// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i40 [[BF_LOAD1]], 255
+// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i40 [[BF_FREEZE]], 255
 // LEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i40 [[BF_CLEAR]], [[BF_SHL]]
 // LEWIDTHNUM-NEXT:    store volatile i40 [[BF_SET]], i40* [[TMP0]], align 1
 // LEWIDTHNUM-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i40 [[BF_VALUE]], 8
@@ -3084,8 +3219,9 @@ struct st13 {
 // BEWIDTHNUM-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // BEWIDTHNUM-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i40
 // BEWIDTHNUM-NEXT:    [[BF_LOAD1:%.*]] = load volatile i40, i40* [[TMP0]], align 1
+// BEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i40 [[BF_LOAD1]]
 // BEWIDTHNUM-NEXT:    [[BF_VALUE:%.*]] = and i40 [[TMP1]], 4294967295
-// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i40 [[BF_LOAD1]], -4294967296
+// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i40 [[BF_FREEZE]], -4294967296
 // BEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i40 [[BF_CLEAR]], [[BF_VALUE]]
 // BEWIDTHNUM-NEXT:    store volatile i40 [[BF_SET]], i40* [[TMP0]], align 1
 // BEWIDTHNUM-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i40 [[BF_VALUE]], 8
@@ -3290,8 +3426,9 @@ struct st16 {
 // LE-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // LE-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // LE-NEXT:    [[BF_LOAD1:%.*]] = load i64, i64* [[TMP0]], align 4
+// LE-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // LE-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 4294967295
-// LE-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], -4294967296
+// LE-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], -4294967296
 // LE-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_VALUE]]
 // LE-NEXT:    store i64 [[BF_SET]], i64* [[TMP0]], align 4
 // LE-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 32
@@ -3308,9 +3445,10 @@ struct st16 {
 // BE-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // BE-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // BE-NEXT:    [[BF_LOAD1:%.*]] = load i64, i64* [[TMP0]], align 4
+// BE-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // BE-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 4294967295
 // BE-NEXT:    [[BF_SHL:%.*]] = shl i64 [[BF_VALUE]], 32
-// BE-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], 4294967295
+// BE-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], 4294967295
 // BE-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_SHL]]
 // BE-NEXT:    store i64 [[BF_SET]], i64* [[TMP0]], align 4
 // BE-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 32
@@ -3328,8 +3466,9 @@ struct st16 {
 // LENUMLOADS-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // LENUMLOADS-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // LENUMLOADS-NEXT:    [[BF_LOAD1:%.*]] = load i64, i64* [[TMP0]], align 4
+// LENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // LENUMLOADS-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 4294967295
-// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], -4294967296
+// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], -4294967296
 // LENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_VALUE]]
 // LENUMLOADS-NEXT:    store i64 [[BF_SET]], i64* [[TMP0]], align 4
 // LENUMLOADS-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 32
@@ -3346,9 +3485,10 @@ struct st16 {
 // BENUMLOADS-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // BENUMLOADS-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // BENUMLOADS-NEXT:    [[BF_LOAD1:%.*]] = load i64, i64* [[TMP0]], align 4
+// BENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // BENUMLOADS-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 4294967295
 // BENUMLOADS-NEXT:    [[BF_SHL:%.*]] = shl i64 [[BF_VALUE]], 32
-// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], 4294967295
+// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], 4294967295
 // BENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_SHL]]
 // BENUMLOADS-NEXT:    store i64 [[BF_SET]], i64* [[TMP0]], align 4
 // BENUMLOADS-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 32
@@ -3366,8 +3506,9 @@ struct st16 {
 // LEWIDTH-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // LEWIDTH-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // LEWIDTH-NEXT:    [[BF_LOAD1:%.*]] = load i64, i64* [[TMP0]], align 4
+// LEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // LEWIDTH-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 4294967295
-// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], -4294967296
+// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], -4294967296
 // LEWIDTH-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_VALUE]]
 // LEWIDTH-NEXT:    store i64 [[BF_SET]], i64* [[TMP0]], align 4
 // LEWIDTH-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 32
@@ -3384,9 +3525,10 @@ struct st16 {
 // BEWIDTH-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // BEWIDTH-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // BEWIDTH-NEXT:    [[BF_LOAD1:%.*]] = load i64, i64* [[TMP0]], align 4
+// BEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // BEWIDTH-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 4294967295
 // BEWIDTH-NEXT:    [[BF_SHL:%.*]] = shl i64 [[BF_VALUE]], 32
-// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], 4294967295
+// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], 4294967295
 // BEWIDTH-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_SHL]]
 // BEWIDTH-NEXT:    store i64 [[BF_SET]], i64* [[TMP0]], align 4
 // BEWIDTH-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 32
@@ -3404,8 +3546,9 @@ struct st16 {
 // LEWIDTHNUM-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // LEWIDTHNUM-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // LEWIDTHNUM-NEXT:    [[BF_LOAD1:%.*]] = load i64, i64* [[TMP0]], align 4
+// LEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // LEWIDTHNUM-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 4294967295
-// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], -4294967296
+// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], -4294967296
 // LEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_VALUE]]
 // LEWIDTHNUM-NEXT:    store i64 [[BF_SET]], i64* [[TMP0]], align 4
 // LEWIDTHNUM-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 32
@@ -3422,9 +3565,10 @@ struct st16 {
 // BEWIDTHNUM-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // BEWIDTHNUM-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // BEWIDTHNUM-NEXT:    [[BF_LOAD1:%.*]] = load i64, i64* [[TMP0]], align 4
+// BEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // BEWIDTHNUM-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 4294967295
 // BEWIDTHNUM-NEXT:    [[BF_SHL:%.*]] = shl i64 [[BF_VALUE]], 32
-// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], 4294967295
+// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], 4294967295
 // BEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_SHL]]
 // BEWIDTHNUM-NEXT:    store i64 [[BF_SET]], i64* [[TMP0]], align 4
 // BEWIDTHNUM-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 32
@@ -3446,9 +3590,10 @@ void increment_a_st16(struct st16 *s) {
 // LE-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // LE-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // LE-NEXT:    [[BF_LOAD1:%.*]] = load i64, i64* [[TMP0]], align 4
+// LE-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // LE-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 65535
 // LE-NEXT:    [[BF_SHL2:%.*]] = shl i64 [[BF_VALUE]], 32
-// LE-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], -281470681743361
+// LE-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], -281470681743361
 // LE-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_SHL2]]
 // LE-NEXT:    store i64 [[BF_SET]], i64* [[TMP0]], align 4
 // LE-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 48
@@ -3466,9 +3611,10 @@ void increment_a_st16(struct st16 *s) {
 // BE-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // BE-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // BE-NEXT:    [[BF_LOAD1:%.*]] = load i64, i64* [[TMP0]], align 4
+// BE-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // BE-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 65535
 // BE-NEXT:    [[BF_SHL2:%.*]] = shl i64 [[BF_VALUE]], 16
-// BE-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], -4294901761
+// BE-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], -4294901761
 // BE-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_SHL2]]
 // BE-NEXT:    store i64 [[BF_SET]], i64* [[TMP0]], align 4
 // BE-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 48
@@ -3486,9 +3632,10 @@ void increment_a_st16(struct st16 *s) {
 // LENUMLOADS-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // LENUMLOADS-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // LENUMLOADS-NEXT:    [[BF_LOAD1:%.*]] = load i64, i64* [[TMP0]], align 4
+// LENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // LENUMLOADS-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 65535
 // LENUMLOADS-NEXT:    [[BF_SHL2:%.*]] = shl i64 [[BF_VALUE]], 32
-// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], -281470681743361
+// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], -281470681743361
 // LENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_SHL2]]
 // LENUMLOADS-NEXT:    store i64 [[BF_SET]], i64* [[TMP0]], align 4
 // LENUMLOADS-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 48
@@ -3506,9 +3653,10 @@ void increment_a_st16(struct st16 *s) {
 // BENUMLOADS-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // BENUMLOADS-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // BENUMLOADS-NEXT:    [[BF_LOAD1:%.*]] = load i64, i64* [[TMP0]], align 4
+// BENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // BENUMLOADS-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 65535
 // BENUMLOADS-NEXT:    [[BF_SHL2:%.*]] = shl i64 [[BF_VALUE]], 16
-// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], -4294901761
+// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], -4294901761
 // BENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_SHL2]]
 // BENUMLOADS-NEXT:    store i64 [[BF_SET]], i64* [[TMP0]], align 4
 // BENUMLOADS-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 48
@@ -3526,9 +3674,10 @@ void increment_a_st16(struct st16 *s) {
 // LEWIDTH-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // LEWIDTH-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // LEWIDTH-NEXT:    [[BF_LOAD1:%.*]] = load i64, i64* [[TMP0]], align 4
+// LEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // LEWIDTH-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 65535
 // LEWIDTH-NEXT:    [[BF_SHL2:%.*]] = shl i64 [[BF_VALUE]], 32
-// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], -281470681743361
+// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], -281470681743361
 // LEWIDTH-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_SHL2]]
 // LEWIDTH-NEXT:    store i64 [[BF_SET]], i64* [[TMP0]], align 4
 // LEWIDTH-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 48
@@ -3546,9 +3695,10 @@ void increment_a_st16(struct st16 *s) {
 // BEWIDTH-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // BEWIDTH-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // BEWIDTH-NEXT:    [[BF_LOAD1:%.*]] = load i64, i64* [[TMP0]], align 4
+// BEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // BEWIDTH-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 65535
 // BEWIDTH-NEXT:    [[BF_SHL2:%.*]] = shl i64 [[BF_VALUE]], 16
-// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], -4294901761
+// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], -4294901761
 // BEWIDTH-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_SHL2]]
 // BEWIDTH-NEXT:    store i64 [[BF_SET]], i64* [[TMP0]], align 4
 // BEWIDTH-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 48
@@ -3566,9 +3716,10 @@ void increment_a_st16(struct st16 *s) {
 // LEWIDTHNUM-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // LEWIDTHNUM-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // LEWIDTHNUM-NEXT:    [[BF_LOAD1:%.*]] = load i64, i64* [[TMP0]], align 4
+// LEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // LEWIDTHNUM-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 65535
 // LEWIDTHNUM-NEXT:    [[BF_SHL2:%.*]] = shl i64 [[BF_VALUE]], 32
-// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], -281470681743361
+// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], -281470681743361
 // LEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_SHL2]]
 // LEWIDTHNUM-NEXT:    store i64 [[BF_SET]], i64* [[TMP0]], align 4
 // LEWIDTHNUM-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 48
@@ -3586,9 +3737,10 @@ void increment_a_st16(struct st16 *s) {
 // BEWIDTHNUM-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // BEWIDTHNUM-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // BEWIDTHNUM-NEXT:    [[BF_LOAD1:%.*]] = load i64, i64* [[TMP0]], align 4
+// BEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // BEWIDTHNUM-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 65535
 // BEWIDTHNUM-NEXT:    [[BF_SHL2:%.*]] = shl i64 [[BF_VALUE]], 16
-// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], -4294901761
+// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], -4294901761
 // BEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_SHL2]]
 // BEWIDTHNUM-NEXT:    store i64 [[BF_SET]], i64* [[TMP0]], align 4
 // BEWIDTHNUM-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 48
@@ -3611,8 +3763,9 @@ void increment_b_st16(struct st16 *s) {
 // LE-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // LE-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // LE-NEXT:    [[BF_LOAD1:%.*]] = load i64, i64* [[TMP0]], align 4
+// LE-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // LE-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 4294967295
-// LE-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], -4294967296
+// LE-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], -4294967296
 // LE-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_VALUE]]
 // LE-NEXT:    store i64 [[BF_SET]], i64* [[TMP0]], align 4
 // LE-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 32
@@ -3630,9 +3783,10 @@ void increment_b_st16(struct st16 *s) {
 // BE-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // BE-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // BE-NEXT:    [[BF_LOAD1:%.*]] = load i64, i64* [[TMP0]], align 4
+// BE-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // BE-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 4294967295
 // BE-NEXT:    [[BF_SHL:%.*]] = shl i64 [[BF_VALUE]], 32
-// BE-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], 4294967295
+// BE-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], 4294967295
 // BE-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_SHL]]
 // BE-NEXT:    store i64 [[BF_SET]], i64* [[TMP0]], align 4
 // BE-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 32
@@ -3651,8 +3805,9 @@ void increment_b_st16(struct st16 *s) {
 // LENUMLOADS-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // LENUMLOADS-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // LENUMLOADS-NEXT:    [[BF_LOAD1:%.*]] = load i64, i64* [[TMP0]], align 4
+// LENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // LENUMLOADS-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 4294967295
-// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], -4294967296
+// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], -4294967296
 // LENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_VALUE]]
 // LENUMLOADS-NEXT:    store i64 [[BF_SET]], i64* [[TMP0]], align 4
 // LENUMLOADS-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 32
@@ -3670,9 +3825,10 @@ void increment_b_st16(struct st16 *s) {
 // BENUMLOADS-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // BENUMLOADS-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // BENUMLOADS-NEXT:    [[BF_LOAD1:%.*]] = load i64, i64* [[TMP0]], align 4
+// BENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // BENUMLOADS-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 4294967295
 // BENUMLOADS-NEXT:    [[BF_SHL:%.*]] = shl i64 [[BF_VALUE]], 32
-// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], 4294967295
+// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], 4294967295
 // BENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_SHL]]
 // BENUMLOADS-NEXT:    store i64 [[BF_SET]], i64* [[TMP0]], align 4
 // BENUMLOADS-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 32
@@ -3691,8 +3847,9 @@ void increment_b_st16(struct st16 *s) {
 // LEWIDTH-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // LEWIDTH-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // LEWIDTH-NEXT:    [[BF_LOAD1:%.*]] = load i64, i64* [[TMP0]], align 4
+// LEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // LEWIDTH-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 4294967295
-// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], -4294967296
+// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], -4294967296
 // LEWIDTH-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_VALUE]]
 // LEWIDTH-NEXT:    store i64 [[BF_SET]], i64* [[TMP0]], align 4
 // LEWIDTH-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 32
@@ -3710,9 +3867,10 @@ void increment_b_st16(struct st16 *s) {
 // BEWIDTH-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // BEWIDTH-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // BEWIDTH-NEXT:    [[BF_LOAD1:%.*]] = load i64, i64* [[TMP0]], align 4
+// BEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // BEWIDTH-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 4294967295
 // BEWIDTH-NEXT:    [[BF_SHL:%.*]] = shl i64 [[BF_VALUE]], 32
-// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], 4294967295
+// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], 4294967295
 // BEWIDTH-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_SHL]]
 // BEWIDTH-NEXT:    store i64 [[BF_SET]], i64* [[TMP0]], align 4
 // BEWIDTH-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 32
@@ -3731,8 +3889,9 @@ void increment_b_st16(struct st16 *s) {
 // LEWIDTHNUM-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // LEWIDTHNUM-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // LEWIDTHNUM-NEXT:    [[BF_LOAD1:%.*]] = load i64, i64* [[TMP0]], align 4
+// LEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // LEWIDTHNUM-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 4294967295
-// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], -4294967296
+// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], -4294967296
 // LEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_VALUE]]
 // LEWIDTHNUM-NEXT:    store i64 [[BF_SET]], i64* [[TMP0]], align 4
 // LEWIDTHNUM-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 32
@@ -3750,9 +3909,10 @@ void increment_b_st16(struct st16 *s) {
 // BEWIDTHNUM-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // BEWIDTHNUM-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // BEWIDTHNUM-NEXT:    [[BF_LOAD1:%.*]] = load i64, i64* [[TMP0]], align 4
+// BEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // BEWIDTHNUM-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 4294967295
 // BEWIDTHNUM-NEXT:    [[BF_SHL:%.*]] = shl i64 [[BF_VALUE]], 32
-// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], 4294967295
+// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], 4294967295
 // BEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_SHL]]
 // BEWIDTHNUM-NEXT:    store i64 [[BF_SET]], i64* [[TMP0]], align 4
 // BEWIDTHNUM-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 32
@@ -3775,9 +3935,10 @@ void increment_c_st16(struct st16 *s) {
 // LE-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // LE-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // LE-NEXT:    [[BF_LOAD1:%.*]] = load i64, i64* [[TMP0]], align 4
+// LE-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // LE-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 65535
 // LE-NEXT:    [[BF_SHL2:%.*]] = shl i64 [[BF_VALUE]], 32
-// LE-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], -281470681743361
+// LE-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], -281470681743361
 // LE-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_SHL2]]
 // LE-NEXT:    store i64 [[BF_SET]], i64* [[TMP0]], align 4
 // LE-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 48
@@ -3796,9 +3957,10 @@ void increment_c_st16(struct st16 *s) {
 // BE-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // BE-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // BE-NEXT:    [[BF_LOAD1:%.*]] = load i64, i64* [[TMP0]], align 4
+// BE-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // BE-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 65535
 // BE-NEXT:    [[BF_SHL2:%.*]] = shl i64 [[BF_VALUE]], 16
-// BE-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], -4294901761
+// BE-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], -4294901761
 // BE-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_SHL2]]
 // BE-NEXT:    store i64 [[BF_SET]], i64* [[TMP0]], align 4
 // BE-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 48
@@ -3817,9 +3979,10 @@ void increment_c_st16(struct st16 *s) {
 // LENUMLOADS-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // LENUMLOADS-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // LENUMLOADS-NEXT:    [[BF_LOAD1:%.*]] = load i64, i64* [[TMP0]], align 4
+// LENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // LENUMLOADS-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 65535
 // LENUMLOADS-NEXT:    [[BF_SHL2:%.*]] = shl i64 [[BF_VALUE]], 32
-// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], -281470681743361
+// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], -281470681743361
 // LENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_SHL2]]
 // LENUMLOADS-NEXT:    store i64 [[BF_SET]], i64* [[TMP0]], align 4
 // LENUMLOADS-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 48
@@ -3838,9 +4001,10 @@ void increment_c_st16(struct st16 *s) {
 // BENUMLOADS-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // BENUMLOADS-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // BENUMLOADS-NEXT:    [[BF_LOAD1:%.*]] = load i64, i64* [[TMP0]], align 4
+// BENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // BENUMLOADS-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 65535
 // BENUMLOADS-NEXT:    [[BF_SHL2:%.*]] = shl i64 [[BF_VALUE]], 16
-// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], -4294901761
+// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], -4294901761
 // BENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_SHL2]]
 // BENUMLOADS-NEXT:    store i64 [[BF_SET]], i64* [[TMP0]], align 4
 // BENUMLOADS-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 48
@@ -3859,9 +4023,10 @@ void increment_c_st16(struct st16 *s) {
 // LEWIDTH-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // LEWIDTH-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // LEWIDTH-NEXT:    [[BF_LOAD1:%.*]] = load i64, i64* [[TMP0]], align 4
+// LEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // LEWIDTH-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 65535
 // LEWIDTH-NEXT:    [[BF_SHL2:%.*]] = shl i64 [[BF_VALUE]], 32
-// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], -281470681743361
+// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], -281470681743361
 // LEWIDTH-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_SHL2]]
 // LEWIDTH-NEXT:    store i64 [[BF_SET]], i64* [[TMP0]], align 4
 // LEWIDTH-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 48
@@ -3880,9 +4045,10 @@ void increment_c_st16(struct st16 *s) {
 // BEWIDTH-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // BEWIDTH-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // BEWIDTH-NEXT:    [[BF_LOAD1:%.*]] = load i64, i64* [[TMP0]], align 4
+// BEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // BEWIDTH-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 65535
 // BEWIDTH-NEXT:    [[BF_SHL2:%.*]] = shl i64 [[BF_VALUE]], 16
-// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], -4294901761
+// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], -4294901761
 // BEWIDTH-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_SHL2]]
 // BEWIDTH-NEXT:    store i64 [[BF_SET]], i64* [[TMP0]], align 4
 // BEWIDTH-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 48
@@ -3901,9 +4067,10 @@ void increment_c_st16(struct st16 *s) {
 // LEWIDTHNUM-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // LEWIDTHNUM-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // LEWIDTHNUM-NEXT:    [[BF_LOAD1:%.*]] = load i64, i64* [[TMP0]], align 4
+// LEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // LEWIDTHNUM-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 65535
 // LEWIDTHNUM-NEXT:    [[BF_SHL2:%.*]] = shl i64 [[BF_VALUE]], 32
-// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], -281470681743361
+// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], -281470681743361
 // LEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_SHL2]]
 // LEWIDTHNUM-NEXT:    store i64 [[BF_SET]], i64* [[TMP0]], align 4
 // LEWIDTHNUM-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 48
@@ -3922,9 +4089,10 @@ void increment_c_st16(struct st16 *s) {
 // BEWIDTHNUM-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // BEWIDTHNUM-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // BEWIDTHNUM-NEXT:    [[BF_LOAD1:%.*]] = load i64, i64* [[TMP0]], align 4
+// BEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // BEWIDTHNUM-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 65535
 // BEWIDTHNUM-NEXT:    [[BF_SHL2:%.*]] = shl i64 [[BF_VALUE]], 16
-// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], -4294901761
+// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], -4294901761
 // BEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_SHL2]]
 // BEWIDTHNUM-NEXT:    store i64 [[BF_SET]], i64* [[TMP0]], align 4
 // BEWIDTHNUM-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 48
@@ -3946,8 +4114,9 @@ void increment_d_st16(struct st16 *s) {
 // LE-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // LE-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // LE-NEXT:    [[BF_LOAD1:%.*]] = load volatile i64, i64* [[TMP0]], align 4
+// LE-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // LE-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 4294967295
-// LE-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], -4294967296
+// LE-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], -4294967296
 // LE-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_VALUE]]
 // LE-NEXT:    store volatile i64 [[BF_SET]], i64* [[TMP0]], align 4
 // LE-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 32
@@ -3964,9 +4133,10 @@ void increment_d_st16(struct st16 *s) {
 // BE-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // BE-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // BE-NEXT:    [[BF_LOAD1:%.*]] = load volatile i64, i64* [[TMP0]], align 4
+// BE-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // BE-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 4294967295
 // BE-NEXT:    [[BF_SHL:%.*]] = shl i64 [[BF_VALUE]], 32
-// BE-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], 4294967295
+// BE-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], 4294967295
 // BE-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_SHL]]
 // BE-NEXT:    store volatile i64 [[BF_SET]], i64* [[TMP0]], align 4
 // BE-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 32
@@ -3984,8 +4154,9 @@ void increment_d_st16(struct st16 *s) {
 // LENUMLOADS-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // LENUMLOADS-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // LENUMLOADS-NEXT:    [[BF_LOAD1:%.*]] = load volatile i64, i64* [[TMP0]], align 4
+// LENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // LENUMLOADS-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 4294967295
-// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], -4294967296
+// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], -4294967296
 // LENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_VALUE]]
 // LENUMLOADS-NEXT:    store volatile i64 [[BF_SET]], i64* [[TMP0]], align 4
 // LENUMLOADS-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 32
@@ -4002,9 +4173,10 @@ void increment_d_st16(struct st16 *s) {
 // BENUMLOADS-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // BENUMLOADS-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // BENUMLOADS-NEXT:    [[BF_LOAD1:%.*]] = load volatile i64, i64* [[TMP0]], align 4
+// BENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // BENUMLOADS-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 4294967295
 // BENUMLOADS-NEXT:    [[BF_SHL:%.*]] = shl i64 [[BF_VALUE]], 32
-// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], 4294967295
+// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], 4294967295
 // BENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_SHL]]
 // BENUMLOADS-NEXT:    store volatile i64 [[BF_SET]], i64* [[TMP0]], align 4
 // BENUMLOADS-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 32
@@ -4060,9 +4232,10 @@ void increment_v_a_st16(volatile struct st16 *s) {
 // LE-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // LE-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // LE-NEXT:    [[BF_LOAD1:%.*]] = load volatile i64, i64* [[TMP0]], align 4
+// LE-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // LE-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 65535
 // LE-NEXT:    [[BF_SHL2:%.*]] = shl i64 [[BF_VALUE]], 32
-// LE-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], -281470681743361
+// LE-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], -281470681743361
 // LE-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_SHL2]]
 // LE-NEXT:    store volatile i64 [[BF_SET]], i64* [[TMP0]], align 4
 // LE-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 48
@@ -4080,9 +4253,10 @@ void increment_v_a_st16(volatile struct st16 *s) {
 // BE-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // BE-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // BE-NEXT:    [[BF_LOAD1:%.*]] = load volatile i64, i64* [[TMP0]], align 4
+// BE-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // BE-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 65535
 // BE-NEXT:    [[BF_SHL2:%.*]] = shl i64 [[BF_VALUE]], 16
-// BE-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], -4294901761
+// BE-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], -4294901761
 // BE-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_SHL2]]
 // BE-NEXT:    store volatile i64 [[BF_SET]], i64* [[TMP0]], align 4
 // BE-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 48
@@ -4100,9 +4274,10 @@ void increment_v_a_st16(volatile struct st16 *s) {
 // LENUMLOADS-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // LENUMLOADS-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // LENUMLOADS-NEXT:    [[BF_LOAD1:%.*]] = load volatile i64, i64* [[TMP0]], align 4
+// LENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // LENUMLOADS-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 65535
 // LENUMLOADS-NEXT:    [[BF_SHL2:%.*]] = shl i64 [[BF_VALUE]], 32
-// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], -281470681743361
+// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], -281470681743361
 // LENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_SHL2]]
 // LENUMLOADS-NEXT:    store volatile i64 [[BF_SET]], i64* [[TMP0]], align 4
 // LENUMLOADS-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 48
@@ -4120,9 +4295,10 @@ void increment_v_a_st16(volatile struct st16 *s) {
 // BENUMLOADS-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // BENUMLOADS-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // BENUMLOADS-NEXT:    [[BF_LOAD1:%.*]] = load volatile i64, i64* [[TMP0]], align 4
+// BENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // BENUMLOADS-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 65535
 // BENUMLOADS-NEXT:    [[BF_SHL2:%.*]] = shl i64 [[BF_VALUE]], 16
-// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], -4294901761
+// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], -4294901761
 // BENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_SHL2]]
 // BENUMLOADS-NEXT:    store volatile i64 [[BF_SET]], i64* [[TMP0]], align 4
 // BENUMLOADS-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 48
@@ -4139,8 +4315,9 @@ void increment_v_a_st16(volatile struct st16 *s) {
 // LEWIDTH-NEXT:    [[BF_ASHR:%.*]] = ashr i32 [[BF_SHL]], 16
 // LEWIDTH-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_ASHR]], 1
 // LEWIDTH-NEXT:    [[BF_LOAD1:%.*]] = load volatile i32, i32* [[TMP1]], align 4
+// LEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD1]]
 // LEWIDTH-NEXT:    [[BF_VALUE:%.*]] = and i32 [[INC]], 65535
-// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD1]], -65536
+// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], -65536
 // LEWIDTH-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], [[BF_VALUE]]
 // LEWIDTH-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP1]], align 4
 // LEWIDTH-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i32 [[BF_VALUE]], 16
@@ -4155,9 +4332,10 @@ void increment_v_a_st16(volatile struct st16 *s) {
 // BEWIDTH-NEXT:    [[BF_ASHR:%.*]] = ashr i32 [[BF_LOAD]], 16
 // BEWIDTH-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_ASHR]], 1
 // BEWIDTH-NEXT:    [[BF_LOAD1:%.*]] = load volatile i32, i32* [[TMP1]], align 4
+// BEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD1]]
 // BEWIDTH-NEXT:    [[BF_VALUE:%.*]] = and i32 [[INC]], 65535
 // BEWIDTH-NEXT:    [[BF_SHL:%.*]] = shl i32 [[BF_VALUE]], 16
-// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD1]], 65535
+// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], 65535
 // BEWIDTH-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], [[BF_SHL]]
 // BEWIDTH-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP1]], align 4
 // BEWIDTH-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i32 [[BF_VALUE]], 16
@@ -4173,8 +4351,9 @@ void increment_v_a_st16(volatile struct st16 *s) {
 // LEWIDTHNUM-NEXT:    [[BF_ASHR:%.*]] = ashr i32 [[BF_SHL]], 16
 // LEWIDTHNUM-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_ASHR]], 1
 // LEWIDTHNUM-NEXT:    [[BF_LOAD1:%.*]] = load volatile i32, i32* [[TMP1]], align 4
+// LEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD1]]
 // LEWIDTHNUM-NEXT:    [[BF_VALUE:%.*]] = and i32 [[INC]], 65535
-// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD1]], -65536
+// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], -65536
 // LEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], [[BF_VALUE]]
 // LEWIDTHNUM-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP1]], align 4
 // LEWIDTHNUM-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i32 [[BF_VALUE]], 16
@@ -4189,9 +4368,10 @@ void increment_v_a_st16(volatile struct st16 *s) {
 // BEWIDTHNUM-NEXT:    [[BF_ASHR:%.*]] = ashr i32 [[BF_LOAD]], 16
 // BEWIDTHNUM-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_ASHR]], 1
 // BEWIDTHNUM-NEXT:    [[BF_LOAD1:%.*]] = load volatile i32, i32* [[TMP1]], align 4
+// BEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD1]]
 // BEWIDTHNUM-NEXT:    [[BF_VALUE:%.*]] = and i32 [[INC]], 65535
 // BEWIDTHNUM-NEXT:    [[BF_SHL:%.*]] = shl i32 [[BF_VALUE]], 16
-// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD1]], 65535
+// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], 65535
 // BEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], [[BF_SHL]]
 // BEWIDTHNUM-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP1]], align 4
 // BEWIDTHNUM-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i32 [[BF_VALUE]], 16
@@ -4213,8 +4393,9 @@ void increment_v_b_st16(volatile struct st16 *s) {
 // LE-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // LE-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // LE-NEXT:    [[BF_LOAD1:%.*]] = load volatile i64, i64* [[TMP0]], align 4
+// LE-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // LE-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 4294967295
-// LE-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], -4294967296
+// LE-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], -4294967296
 // LE-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_VALUE]]
 // LE-NEXT:    store volatile i64 [[BF_SET]], i64* [[TMP0]], align 4
 // LE-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 32
@@ -4232,9 +4413,10 @@ void increment_v_b_st16(volatile struct st16 *s) {
 // BE-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // BE-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // BE-NEXT:    [[BF_LOAD1:%.*]] = load volatile i64, i64* [[TMP0]], align 4
+// BE-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // BE-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 4294967295
 // BE-NEXT:    [[BF_SHL:%.*]] = shl i64 [[BF_VALUE]], 32
-// BE-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], 4294967295
+// BE-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], 4294967295
 // BE-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_SHL]]
 // BE-NEXT:    store volatile i64 [[BF_SET]], i64* [[TMP0]], align 4
 // BE-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 32
@@ -4253,8 +4435,9 @@ void increment_v_b_st16(volatile struct st16 *s) {
 // LENUMLOADS-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // LENUMLOADS-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // LENUMLOADS-NEXT:    [[BF_LOAD1:%.*]] = load volatile i64, i64* [[TMP0]], align 4
+// LENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // LENUMLOADS-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 4294967295
-// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], -4294967296
+// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], -4294967296
 // LENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_VALUE]]
 // LENUMLOADS-NEXT:    store volatile i64 [[BF_SET]], i64* [[TMP0]], align 4
 // LENUMLOADS-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 32
@@ -4272,9 +4455,10 @@ void increment_v_b_st16(volatile struct st16 *s) {
 // BENUMLOADS-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // BENUMLOADS-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // BENUMLOADS-NEXT:    [[BF_LOAD1:%.*]] = load volatile i64, i64* [[TMP0]], align 4
+// BENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // BENUMLOADS-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 4294967295
 // BENUMLOADS-NEXT:    [[BF_SHL:%.*]] = shl i64 [[BF_VALUE]], 32
-// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], 4294967295
+// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], 4294967295
 // BENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_SHL]]
 // BENUMLOADS-NEXT:    store volatile i64 [[BF_SET]], i64* [[TMP0]], align 4
 // BENUMLOADS-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 32
@@ -4335,9 +4519,10 @@ void increment_v_c_st16(volatile struct st16 *s) {
 // LE-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // LE-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // LE-NEXT:    [[BF_LOAD1:%.*]] = load volatile i64, i64* [[TMP0]], align 4
+// LE-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // LE-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 65535
 // LE-NEXT:    [[BF_SHL2:%.*]] = shl i64 [[BF_VALUE]], 32
-// LE-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], -281470681743361
+// LE-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], -281470681743361
 // LE-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_SHL2]]
 // LE-NEXT:    store volatile i64 [[BF_SET]], i64* [[TMP0]], align 4
 // LE-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 48
@@ -4356,9 +4541,10 @@ void increment_v_c_st16(volatile struct st16 *s) {
 // BE-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // BE-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // BE-NEXT:    [[BF_LOAD1:%.*]] = load volatile i64, i64* [[TMP0]], align 4
+// BE-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // BE-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 65535
 // BE-NEXT:    [[BF_SHL2:%.*]] = shl i64 [[BF_VALUE]], 16
-// BE-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], -4294901761
+// BE-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], -4294901761
 // BE-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_SHL2]]
 // BE-NEXT:    store volatile i64 [[BF_SET]], i64* [[TMP0]], align 4
 // BE-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 48
@@ -4377,9 +4563,10 @@ void increment_v_c_st16(volatile struct st16 *s) {
 // LENUMLOADS-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // LENUMLOADS-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // LENUMLOADS-NEXT:    [[BF_LOAD1:%.*]] = load volatile i64, i64* [[TMP0]], align 4
+// LENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // LENUMLOADS-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 65535
 // LENUMLOADS-NEXT:    [[BF_SHL2:%.*]] = shl i64 [[BF_VALUE]], 32
-// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], -281470681743361
+// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], -281470681743361
 // LENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_SHL2]]
 // LENUMLOADS-NEXT:    store volatile i64 [[BF_SET]], i64* [[TMP0]], align 4
 // LENUMLOADS-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 48
@@ -4398,9 +4585,10 @@ void increment_v_c_st16(volatile struct st16 *s) {
 // BENUMLOADS-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // BENUMLOADS-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i64
 // BENUMLOADS-NEXT:    [[BF_LOAD1:%.*]] = load volatile i64, i64* [[TMP0]], align 4
+// BENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i64 [[BF_LOAD1]]
 // BENUMLOADS-NEXT:    [[BF_VALUE:%.*]] = and i64 [[TMP1]], 65535
 // BENUMLOADS-NEXT:    [[BF_SHL2:%.*]] = shl i64 [[BF_VALUE]], 16
-// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_LOAD1]], -4294901761
+// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i64 [[BF_FREEZE]], -4294901761
 // BENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i64 [[BF_CLEAR]], [[BF_SHL2]]
 // BENUMLOADS-NEXT:    store volatile i64 [[BF_SET]], i64* [[TMP0]], align 4
 // BENUMLOADS-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i64 [[BF_VALUE]], 48
@@ -4417,8 +4605,9 @@ void increment_v_c_st16(volatile struct st16 *s) {
 // LEWIDTH-NEXT:    [[BF_ASHR:%.*]] = ashr i32 [[BF_SHL]], 16
 // LEWIDTH-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_ASHR]], 1
 // LEWIDTH-NEXT:    [[BF_LOAD1:%.*]] = load volatile i32, i32* [[TMP1]], align 4
+// LEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD1]]
 // LEWIDTH-NEXT:    [[BF_VALUE:%.*]] = and i32 [[INC]], 65535
-// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD1]], -65536
+// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], -65536
 // LEWIDTH-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], [[BF_VALUE]]
 // LEWIDTH-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP1]], align 4
 // LEWIDTH-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i32 [[BF_VALUE]], 16
@@ -4433,9 +4622,10 @@ void increment_v_c_st16(volatile struct st16 *s) {
 // BEWIDTH-NEXT:    [[BF_ASHR:%.*]] = ashr i32 [[BF_LOAD]], 16
 // BEWIDTH-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_ASHR]], 1
 // BEWIDTH-NEXT:    [[BF_LOAD1:%.*]] = load volatile i32, i32* [[TMP1]], align 4
+// BEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD1]]
 // BEWIDTH-NEXT:    [[BF_VALUE:%.*]] = and i32 [[INC]], 65535
 // BEWIDTH-NEXT:    [[BF_SHL:%.*]] = shl i32 [[BF_VALUE]], 16
-// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD1]], 65535
+// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], 65535
 // BEWIDTH-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], [[BF_SHL]]
 // BEWIDTH-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP1]], align 4
 // BEWIDTH-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i32 [[BF_VALUE]], 16
@@ -4451,8 +4641,9 @@ void increment_v_c_st16(volatile struct st16 *s) {
 // LEWIDTHNUM-NEXT:    [[BF_ASHR:%.*]] = ashr i32 [[BF_SHL]], 16
 // LEWIDTHNUM-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_ASHR]], 1
 // LEWIDTHNUM-NEXT:    [[BF_LOAD1:%.*]] = load volatile i32, i32* [[TMP1]], align 4
+// LEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD1]]
 // LEWIDTHNUM-NEXT:    [[BF_VALUE:%.*]] = and i32 [[INC]], 65535
-// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD1]], -65536
+// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], -65536
 // LEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], [[BF_VALUE]]
 // LEWIDTHNUM-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP1]], align 4
 // LEWIDTHNUM-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i32 [[BF_VALUE]], 16
@@ -4467,9 +4658,10 @@ void increment_v_c_st16(volatile struct st16 *s) {
 // BEWIDTHNUM-NEXT:    [[BF_ASHR:%.*]] = ashr i32 [[BF_LOAD]], 16
 // BEWIDTHNUM-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_ASHR]], 1
 // BEWIDTHNUM-NEXT:    [[BF_LOAD1:%.*]] = load volatile i32, i32* [[TMP1]], align 4
+// BEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD1]]
 // BEWIDTHNUM-NEXT:    [[BF_VALUE:%.*]] = and i32 [[INC]], 65535
 // BEWIDTHNUM-NEXT:    [[BF_SHL:%.*]] = shl i32 [[BF_VALUE]], 16
-// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD1]], 65535
+// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], 65535
 // BEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], [[BF_SHL]]
 // BEWIDTHNUM-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP1]], align 4
 // BEWIDTHNUM-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i32 [[BF_VALUE]], 16
@@ -4496,8 +4688,9 @@ char c : 8;
 // LE-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // LE-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i40
 // LE-NEXT:    [[BF_LOAD1:%.*]] = load volatile i40, i40* [[TMP0]], align 1
+// LE-NEXT:    [[BF_FREEZE:%.*]] = freeze i40 [[BF_LOAD1]]
 // LE-NEXT:    [[BF_VALUE:%.*]] = and i40 [[TMP1]], 4294967295
-// LE-NEXT:    [[BF_CLEAR:%.*]] = and i40 [[BF_LOAD1]], -4294967296
+// LE-NEXT:    [[BF_CLEAR:%.*]] = and i40 [[BF_FREEZE]], -4294967296
 // LE-NEXT:    [[BF_SET:%.*]] = or i40 [[BF_CLEAR]], [[BF_VALUE]]
 // LE-NEXT:    store volatile i40 [[BF_SET]], i40* [[TMP0]], align 1
 // LE-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i40 [[BF_VALUE]], 8
@@ -4514,9 +4707,10 @@ char c : 8;
 // BE-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // BE-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i40
 // BE-NEXT:    [[BF_LOAD1:%.*]] = load volatile i40, i40* [[TMP0]], align 1
+// BE-NEXT:    [[BF_FREEZE:%.*]] = freeze i40 [[BF_LOAD1]]
 // BE-NEXT:    [[BF_VALUE:%.*]] = and i40 [[TMP1]], 4294967295
 // BE-NEXT:    [[BF_SHL:%.*]] = shl i40 [[BF_VALUE]], 8
-// BE-NEXT:    [[BF_CLEAR:%.*]] = and i40 [[BF_LOAD1]], 255
+// BE-NEXT:    [[BF_CLEAR:%.*]] = and i40 [[BF_FREEZE]], 255
 // BE-NEXT:    [[BF_SET:%.*]] = or i40 [[BF_CLEAR]], [[BF_SHL]]
 // BE-NEXT:    store volatile i40 [[BF_SET]], i40* [[TMP0]], align 1
 // BE-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i40 [[BF_VALUE]], 8
@@ -4534,8 +4728,9 @@ char c : 8;
 // LENUMLOADS-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // LENUMLOADS-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i40
 // LENUMLOADS-NEXT:    [[BF_LOAD1:%.*]] = load volatile i40, i40* [[TMP0]], align 1
+// LENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i40 [[BF_LOAD1]]
 // LENUMLOADS-NEXT:    [[BF_VALUE:%.*]] = and i40 [[TMP1]], 4294967295
-// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i40 [[BF_LOAD1]], -4294967296
+// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i40 [[BF_FREEZE]], -4294967296
 // LENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i40 [[BF_CLEAR]], [[BF_VALUE]]
 // LENUMLOADS-NEXT:    store volatile i40 [[BF_SET]], i40* [[TMP0]], align 1
 // LENUMLOADS-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i40 [[BF_VALUE]], 8
@@ -4552,9 +4747,10 @@ char c : 8;
 // BENUMLOADS-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // BENUMLOADS-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i40
 // BENUMLOADS-NEXT:    [[BF_LOAD1:%.*]] = load volatile i40, i40* [[TMP0]], align 1
+// BENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i40 [[BF_LOAD1]]
 // BENUMLOADS-NEXT:    [[BF_VALUE:%.*]] = and i40 [[TMP1]], 4294967295
 // BENUMLOADS-NEXT:    [[BF_SHL:%.*]] = shl i40 [[BF_VALUE]], 8
-// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i40 [[BF_LOAD1]], 255
+// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i40 [[BF_FREEZE]], 255
 // BENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i40 [[BF_CLEAR]], [[BF_SHL]]
 // BENUMLOADS-NEXT:    store volatile i40 [[BF_SET]], i40* [[TMP0]], align 1
 // BENUMLOADS-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i40 [[BF_VALUE]], 8
@@ -4572,8 +4768,9 @@ char c : 8;
 // LEWIDTH-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // LEWIDTH-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i40
 // LEWIDTH-NEXT:    [[BF_LOAD1:%.*]] = load volatile i40, i40* [[TMP0]], align 1
+// LEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i40 [[BF_LOAD1]]
 // LEWIDTH-NEXT:    [[BF_VALUE:%.*]] = and i40 [[TMP1]], 4294967295
-// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i40 [[BF_LOAD1]], -4294967296
+// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i40 [[BF_FREEZE]], -4294967296
 // LEWIDTH-NEXT:    [[BF_SET:%.*]] = or i40 [[BF_CLEAR]], [[BF_VALUE]]
 // LEWIDTH-NEXT:    store volatile i40 [[BF_SET]], i40* [[TMP0]], align 1
 // LEWIDTH-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i40 [[BF_VALUE]], 8
@@ -4590,9 +4787,10 @@ char c : 8;
 // BEWIDTH-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // BEWIDTH-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i40
 // BEWIDTH-NEXT:    [[BF_LOAD1:%.*]] = load volatile i40, i40* [[TMP0]], align 1
+// BEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i40 [[BF_LOAD1]]
 // BEWIDTH-NEXT:    [[BF_VALUE:%.*]] = and i40 [[TMP1]], 4294967295
 // BEWIDTH-NEXT:    [[BF_SHL:%.*]] = shl i40 [[BF_VALUE]], 8
-// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i40 [[BF_LOAD1]], 255
+// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i40 [[BF_FREEZE]], 255
 // BEWIDTH-NEXT:    [[BF_SET:%.*]] = or i40 [[BF_CLEAR]], [[BF_SHL]]
 // BEWIDTH-NEXT:    store volatile i40 [[BF_SET]], i40* [[TMP0]], align 1
 // BEWIDTH-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i40 [[BF_VALUE]], 8
@@ -4610,8 +4808,9 @@ char c : 8;
 // LEWIDTHNUM-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // LEWIDTHNUM-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i40
 // LEWIDTHNUM-NEXT:    [[BF_LOAD1:%.*]] = load volatile i40, i40* [[TMP0]], align 1
+// LEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i40 [[BF_LOAD1]]
 // LEWIDTHNUM-NEXT:    [[BF_VALUE:%.*]] = and i40 [[TMP1]], 4294967295
-// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i40 [[BF_LOAD1]], -4294967296
+// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i40 [[BF_FREEZE]], -4294967296
 // LEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i40 [[BF_CLEAR]], [[BF_VALUE]]
 // LEWIDTHNUM-NEXT:    store volatile i40 [[BF_SET]], i40* [[TMP0]], align 1
 // LEWIDTHNUM-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i40 [[BF_VALUE]], 8
@@ -4628,9 +4827,10 @@ char c : 8;
 // BEWIDTHNUM-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_CAST]], 1
 // BEWIDTHNUM-NEXT:    [[TMP1:%.*]] = zext i32 [[INC]] to i40
 // BEWIDTHNUM-NEXT:    [[BF_LOAD1:%.*]] = load volatile i40, i40* [[TMP0]], align 1
+// BEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i40 [[BF_LOAD1]]
 // BEWIDTHNUM-NEXT:    [[BF_VALUE:%.*]] = and i40 [[TMP1]], 4294967295
 // BEWIDTHNUM-NEXT:    [[BF_SHL:%.*]] = shl i40 [[BF_VALUE]], 8
-// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i40 [[BF_LOAD1]], 255
+// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i40 [[BF_FREEZE]], 255
 // BEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i40 [[BF_CLEAR]], [[BF_SHL]]
 // BEWIDTHNUM-NEXT:    store volatile i40 [[BF_SET]], i40* [[TMP0]], align 1
 // BEWIDTHNUM-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i40 [[BF_VALUE]], 8
@@ -4651,9 +4851,10 @@ void increment_v_b_st17(volatile struct st17 *s) {
 // LE-NEXT:    [[INC:%.*]] = add i8 [[BF_CAST]], 1
 // LE-NEXT:    [[TMP1:%.*]] = zext i8 [[INC]] to i40
 // LE-NEXT:    [[BF_LOAD1:%.*]] = load volatile i40, i40* [[TMP0]], align 1
+// LE-NEXT:    [[BF_FREEZE:%.*]] = freeze i40 [[BF_LOAD1]]
 // LE-NEXT:    [[BF_VALUE:%.*]] = and i40 [[TMP1]], 255
 // LE-NEXT:    [[BF_SHL:%.*]] = shl i40 [[BF_VALUE]], 32
-// LE-NEXT:    [[BF_CLEAR:%.*]] = and i40 [[BF_LOAD1]], 4294967295
+// LE-NEXT:    [[BF_CLEAR:%.*]] = and i40 [[BF_FREEZE]], 4294967295
 // LE-NEXT:    [[BF_SET:%.*]] = or i40 [[BF_CLEAR]], [[BF_SHL]]
 // LE-NEXT:    store volatile i40 [[BF_SET]], i40* [[TMP0]], align 1
 // LE-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i40 [[BF_VALUE]], 32
@@ -4671,8 +4872,9 @@ void increment_v_b_st17(volatile struct st17 *s) {
 // BE-NEXT:    [[INC:%.*]] = add i8 [[BF_CAST]], 1
 // BE-NEXT:    [[TMP1:%.*]] = zext i8 [[INC]] to i40
 // BE-NEXT:    [[BF_LOAD1:%.*]] = load volatile i40, i40* [[TMP0]], align 1
+// BE-NEXT:    [[BF_FREEZE:%.*]] = freeze i40 [[BF_LOAD1]]
 // BE-NEXT:    [[BF_VALUE:%.*]] = and i40 [[TMP1]], 255
-// BE-NEXT:    [[BF_CLEAR:%.*]] = and i40 [[BF_LOAD1]], -256
+// BE-NEXT:    [[BF_CLEAR:%.*]] = and i40 [[BF_FREEZE]], -256
 // BE-NEXT:    [[BF_SET:%.*]] = or i40 [[BF_CLEAR]], [[BF_VALUE]]
 // BE-NEXT:    store volatile i40 [[BF_SET]], i40* [[TMP0]], align 1
 // BE-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i40 [[BF_VALUE]], 32
@@ -4689,9 +4891,10 @@ void increment_v_b_st17(volatile struct st17 *s) {
 // LENUMLOADS-NEXT:    [[INC:%.*]] = add i8 [[BF_CAST]], 1
 // LENUMLOADS-NEXT:    [[TMP1:%.*]] = zext i8 [[INC]] to i40
 // LENUMLOADS-NEXT:    [[BF_LOAD1:%.*]] = load volatile i40, i40* [[TMP0]], align 1
+// LENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i40 [[BF_LOAD1]]
 // LENUMLOADS-NEXT:    [[BF_VALUE:%.*]] = and i40 [[TMP1]], 255
 // LENUMLOADS-NEXT:    [[BF_SHL:%.*]] = shl i40 [[BF_VALUE]], 32
-// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i40 [[BF_LOAD1]], 4294967295
+// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i40 [[BF_FREEZE]], 4294967295
 // LENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i40 [[BF_CLEAR]], [[BF_SHL]]
 // LENUMLOADS-NEXT:    store volatile i40 [[BF_SET]], i40* [[TMP0]], align 1
 // LENUMLOADS-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i40 [[BF_VALUE]], 32
@@ -4709,8 +4912,9 @@ void increment_v_b_st17(volatile struct st17 *s) {
 // BENUMLOADS-NEXT:    [[INC:%.*]] = add i8 [[BF_CAST]], 1
 // BENUMLOADS-NEXT:    [[TMP1:%.*]] = zext i8 [[INC]] to i40
 // BENUMLOADS-NEXT:    [[BF_LOAD1:%.*]] = load volatile i40, i40* [[TMP0]], align 1
+// BENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i40 [[BF_LOAD1]]
 // BENUMLOADS-NEXT:    [[BF_VALUE:%.*]] = and i40 [[TMP1]], 255
-// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i40 [[BF_LOAD1]], -256
+// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i40 [[BF_FREEZE]], -256
 // BENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i40 [[BF_CLEAR]], [[BF_VALUE]]
 // BENUMLOADS-NEXT:    store volatile i40 [[BF_SET]], i40* [[TMP0]], align 1
 // BENUMLOADS-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i40 [[BF_VALUE]], 32
@@ -4984,9 +5188,10 @@ struct zero_bitfield_ok {
 // LE-NEXT:    [[CONV4:%.*]] = trunc i32 [[ADD]] to i8
 // LE-NEXT:    [[TMP2:%.*]] = zext i8 [[CONV4]] to i16
 // LE-NEXT:    [[BF_LOAD5:%.*]] = load volatile i16, i16* [[TMP1]], align 4
+// LE-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD5]]
 // LE-NEXT:    [[BF_VALUE:%.*]] = and i16 [[TMP2]], 255
 // LE-NEXT:    [[BF_SHL6:%.*]] = shl i16 [[BF_VALUE]], 8
-// LE-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD5]], 255
+// LE-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], 255
 // LE-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], [[BF_SHL6]]
 // LE-NEXT:    store volatile i16 [[BF_SET]], i16* [[TMP1]], align 4
 // LE-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i16 [[BF_VALUE]], 8
@@ -5010,8 +5215,9 @@ struct zero_bitfield_ok {
 // BE-NEXT:    [[CONV4:%.*]] = trunc i32 [[ADD]] to i8
 // BE-NEXT:    [[TMP2:%.*]] = zext i8 [[CONV4]] to i16
 // BE-NEXT:    [[BF_LOAD5:%.*]] = load volatile i16, i16* [[TMP1]], align 4
+// BE-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD5]]
 // BE-NEXT:    [[BF_VALUE:%.*]] = and i16 [[TMP2]], 255
-// BE-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD5]], -256
+// BE-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], -256
 // BE-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], [[BF_VALUE]]
 // BE-NEXT:    store volatile i16 [[BF_SET]], i16* [[TMP1]], align 4
 // BE-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i16 [[BF_VALUE]], 8
@@ -5035,9 +5241,10 @@ struct zero_bitfield_ok {
 // LENUMLOADS-NEXT:    [[CONV4:%.*]] = trunc i32 [[ADD]] to i8
 // LENUMLOADS-NEXT:    [[TMP2:%.*]] = zext i8 [[CONV4]] to i16
 // LENUMLOADS-NEXT:    [[BF_LOAD5:%.*]] = load volatile i16, i16* [[TMP1]], align 4
+// LENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD5]]
 // LENUMLOADS-NEXT:    [[BF_VALUE:%.*]] = and i16 [[TMP2]], 255
 // LENUMLOADS-NEXT:    [[BF_SHL6:%.*]] = shl i16 [[BF_VALUE]], 8
-// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD5]], 255
+// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], 255
 // LENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], [[BF_SHL6]]
 // LENUMLOADS-NEXT:    store volatile i16 [[BF_SET]], i16* [[TMP1]], align 4
 // LENUMLOADS-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i16 [[BF_VALUE]], 8
@@ -5061,8 +5268,9 @@ struct zero_bitfield_ok {
 // BENUMLOADS-NEXT:    [[CONV4:%.*]] = trunc i32 [[ADD]] to i8
 // BENUMLOADS-NEXT:    [[TMP2:%.*]] = zext i8 [[CONV4]] to i16
 // BENUMLOADS-NEXT:    [[BF_LOAD5:%.*]] = load volatile i16, i16* [[TMP1]], align 4
+// BENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i16 [[BF_LOAD5]]
 // BENUMLOADS-NEXT:    [[BF_VALUE:%.*]] = and i16 [[TMP2]], 255
-// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_LOAD5]], -256
+// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i16 [[BF_FREEZE]], -256
 // BENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i16 [[BF_CLEAR]], [[BF_VALUE]]
 // BENUMLOADS-NEXT:    store volatile i16 [[BF_SET]], i16* [[TMP1]], align 4
 // BENUMLOADS-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i16 [[BF_VALUE]], 8
@@ -5147,8 +5355,9 @@ void increment_a_zero_bitfield_ok(volatile struct zero_bitfield_ok *s) {
 // LE-NEXT:    [[BF_ASHR:%.*]] = ashr i32 [[BF_SHL]], 8
 // LE-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_ASHR]], 1
 // LE-NEXT:    [[BF_LOAD1:%.*]] = load volatile i32, i32* [[TMP0]], align 4
+// LE-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD1]]
 // LE-NEXT:    [[BF_VALUE:%.*]] = and i32 [[INC]], 16777215
-// LE-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD1]], -16777216
+// LE-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], -16777216
 // LE-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], [[BF_VALUE]]
 // LE-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // LE-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i32 [[BF_VALUE]], 8
@@ -5163,9 +5372,10 @@ void increment_a_zero_bitfield_ok(volatile struct zero_bitfield_ok *s) {
 // BE-NEXT:    [[BF_ASHR:%.*]] = ashr i32 [[BF_LOAD]], 8
 // BE-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_ASHR]], 1
 // BE-NEXT:    [[BF_LOAD1:%.*]] = load volatile i32, i32* [[TMP0]], align 4
+// BE-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD1]]
 // BE-NEXT:    [[BF_VALUE:%.*]] = and i32 [[INC]], 16777215
 // BE-NEXT:    [[BF_SHL:%.*]] = shl i32 [[BF_VALUE]], 8
-// BE-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD1]], 255
+// BE-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], 255
 // BE-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], [[BF_SHL]]
 // BE-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // BE-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i32 [[BF_VALUE]], 8
@@ -5181,8 +5391,9 @@ void increment_a_zero_bitfield_ok(volatile struct zero_bitfield_ok *s) {
 // LENUMLOADS-NEXT:    [[BF_ASHR:%.*]] = ashr i32 [[BF_SHL]], 8
 // LENUMLOADS-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_ASHR]], 1
 // LENUMLOADS-NEXT:    [[BF_LOAD1:%.*]] = load volatile i32, i32* [[TMP0]], align 4
+// LENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD1]]
 // LENUMLOADS-NEXT:    [[BF_VALUE:%.*]] = and i32 [[INC]], 16777215
-// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD1]], -16777216
+// LENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], -16777216
 // LENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], [[BF_VALUE]]
 // LENUMLOADS-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // LENUMLOADS-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i32 [[BF_VALUE]], 8
@@ -5197,9 +5408,10 @@ void increment_a_zero_bitfield_ok(volatile struct zero_bitfield_ok *s) {
 // BENUMLOADS-NEXT:    [[BF_ASHR:%.*]] = ashr i32 [[BF_LOAD]], 8
 // BENUMLOADS-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_ASHR]], 1
 // BENUMLOADS-NEXT:    [[BF_LOAD1:%.*]] = load volatile i32, i32* [[TMP0]], align 4
+// BENUMLOADS-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD1]]
 // BENUMLOADS-NEXT:    [[BF_VALUE:%.*]] = and i32 [[INC]], 16777215
 // BENUMLOADS-NEXT:    [[BF_SHL:%.*]] = shl i32 [[BF_VALUE]], 8
-// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD1]], 255
+// BENUMLOADS-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], 255
 // BENUMLOADS-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], [[BF_SHL]]
 // BENUMLOADS-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // BENUMLOADS-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i32 [[BF_VALUE]], 8
@@ -5215,8 +5427,9 @@ void increment_a_zero_bitfield_ok(volatile struct zero_bitfield_ok *s) {
 // LEWIDTH-NEXT:    [[BF_ASHR:%.*]] = ashr i32 [[BF_SHL]], 8
 // LEWIDTH-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_ASHR]], 1
 // LEWIDTH-NEXT:    [[BF_LOAD1:%.*]] = load volatile i32, i32* [[TMP0]], align 4
+// LEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD1]]
 // LEWIDTH-NEXT:    [[BF_VALUE:%.*]] = and i32 [[INC]], 16777215
-// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD1]], -16777216
+// LEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], -16777216
 // LEWIDTH-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], [[BF_VALUE]]
 // LEWIDTH-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // LEWIDTH-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i32 [[BF_VALUE]], 8
@@ -5231,9 +5444,10 @@ void increment_a_zero_bitfield_ok(volatile struct zero_bitfield_ok *s) {
 // BEWIDTH-NEXT:    [[BF_ASHR:%.*]] = ashr i32 [[BF_LOAD]], 8
 // BEWIDTH-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_ASHR]], 1
 // BEWIDTH-NEXT:    [[BF_LOAD1:%.*]] = load volatile i32, i32* [[TMP0]], align 4
+// BEWIDTH-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD1]]
 // BEWIDTH-NEXT:    [[BF_VALUE:%.*]] = and i32 [[INC]], 16777215
 // BEWIDTH-NEXT:    [[BF_SHL:%.*]] = shl i32 [[BF_VALUE]], 8
-// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD1]], 255
+// BEWIDTH-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], 255
 // BEWIDTH-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], [[BF_SHL]]
 // BEWIDTH-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // BEWIDTH-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i32 [[BF_VALUE]], 8
@@ -5249,8 +5463,9 @@ void increment_a_zero_bitfield_ok(volatile struct zero_bitfield_ok *s) {
 // LEWIDTHNUM-NEXT:    [[BF_ASHR:%.*]] = ashr i32 [[BF_SHL]], 8
 // LEWIDTHNUM-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_ASHR]], 1
 // LEWIDTHNUM-NEXT:    [[BF_LOAD1:%.*]] = load volatile i32, i32* [[TMP0]], align 4
+// LEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD1]]
 // LEWIDTHNUM-NEXT:    [[BF_VALUE:%.*]] = and i32 [[INC]], 16777215
-// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD1]], -16777216
+// LEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], -16777216
 // LEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], [[BF_VALUE]]
 // LEWIDTHNUM-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // LEWIDTHNUM-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i32 [[BF_VALUE]], 8
@@ -5265,9 +5480,10 @@ void increment_a_zero_bitfield_ok(volatile struct zero_bitfield_ok *s) {
 // BEWIDTHNUM-NEXT:    [[BF_ASHR:%.*]] = ashr i32 [[BF_LOAD]], 8
 // BEWIDTHNUM-NEXT:    [[INC:%.*]] = add nsw i32 [[BF_ASHR]], 1
 // BEWIDTHNUM-NEXT:    [[BF_LOAD1:%.*]] = load volatile i32, i32* [[TMP0]], align 4
+// BEWIDTHNUM-NEXT:    [[BF_FREEZE:%.*]] = freeze i32 [[BF_LOAD1]]
 // BEWIDTHNUM-NEXT:    [[BF_VALUE:%.*]] = and i32 [[INC]], 16777215
 // BEWIDTHNUM-NEXT:    [[BF_SHL:%.*]] = shl i32 [[BF_VALUE]], 8
-// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_LOAD1]], 255
+// BEWIDTHNUM-NEXT:    [[BF_CLEAR:%.*]] = and i32 [[BF_FREEZE]], 255
 // BEWIDTHNUM-NEXT:    [[BF_SET:%.*]] = or i32 [[BF_CLEAR]], [[BF_SHL]]
 // BEWIDTHNUM-NEXT:    store volatile i32 [[BF_SET]], i32* [[TMP0]], align 4
 // BEWIDTHNUM-NEXT:    [[BF_RESULT_SHL:%.*]] = shl i32 [[BF_VALUE]], 8

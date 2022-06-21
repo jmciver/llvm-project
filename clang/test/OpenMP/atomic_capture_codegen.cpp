@@ -653,8 +653,9 @@ int main(void) {
 // CHECK: [[SUB:%.+]] = fsub x86_fp80 [[X_RVAL]], [[EXPR]]
 // CHECK: [[CONV:%.+]] = fptosi x86_fp80 [[SUB]] to i32
 // CHECK: [[NEW_VAL:%.+]] = load i32, i32* [[TEMP1]],
+// CHECK: [[BF_FREEZE:%.+]] = freeze i32 [[NEW_VAL]]
 // CHECK: [[BF_VALUE:%.+]] = and i32 [[CONV]], 2147483647
-// CHECK: [[BF_CLEAR:%.+]] = and i32 [[NEW_VAL]], -2147483648
+// CHECK: [[BF_CLEAR:%.+]] = and i32 [[BF_FREEZE]], -2147483648
 // CHECK: [[BF_SET:%.+]] = or i32 [[BF_CLEAR]], [[BF_VALUE]]
 // CHECK: store i32 [[BF_SET]], i32* [[TEMP1]],
 // CHECK: [[NEW_BF_VALUE:%.+]] = load i32, i32* [[TEMP1]],
@@ -682,8 +683,9 @@ int main(void) {
 // CHECK: [[MUL:%.+]] = fmul x86_fp80 [[X_RVAL]], [[EXPR]]
 // CHECK: [[CONV:%.+]] = fptosi x86_fp80 [[MUL]] to i32
 // CHECK: [[NEW_VAL:%.+]] = load i32, i32* [[TEMP1]],
+// CHECK: [[BF_FREEZE:%.+]] = freeze i32 [[NEW_VAL]]
 // CHECK: [[BF_VALUE:%.+]] = and i32 [[CONV]], 2147483647
-// CHECK: [[BF_CLEAR:%.+]] = and i32 [[NEW_VAL]], -2147483648
+// CHECK: [[BF_CLEAR:%.+]] = and i32 [[BF_FREEZE]], -2147483648
 // CHECK: or i32 [[BF_CLEAR]], [[BF_VALUE]]
 // CHECK: store i32 %{{.+}}, i32* [[TEMP1]]
 // CHECK: [[BITCAST_TEMP_OLD_BF_ADDR:%.+]] = bitcast i32* [[LDTEMP]] to i8*
@@ -707,9 +709,10 @@ int main(void) {
 // CHECK: [[SUB:%.+]] = fsub x86_fp80 [[X_RVAL]], [[EXPR]]
 // CHECK: [[CONV:%.+]] = fptosi x86_fp80 [[SUB]] to i32
 // CHECK: [[NEW_VAL:%.+]] = load i32, i32* [[TEMP1]],
+// CHECK: [[BF_FREEZE:%.+]] = freeze i32 [[NEW_VAL]]
 // CHECK: [[BF_AND:%.+]] = and i32 [[CONV]], 1
 // CHECK: [[BF_VALUE:%.+]] = shl i32 [[BF_AND]], 31
-// CHECK: [[BF_CLEAR:%.+]] = and i32 [[NEW_VAL]], 2147483647
+// CHECK: [[BF_CLEAR:%.+]] = and i32 [[BF_FREEZE]], 2147483647
 // CHECK: or i32 [[BF_CLEAR]], [[BF_VALUE]]
 // CHECK: store i32 %{{.+}}, i32* [[TEMP1]]
 // CHECK: [[NEW_BF_VALUE:%.+]] = load i32, i32* [[TEMP1]]
@@ -799,9 +802,10 @@ int main(void) {
 // CHECK: [[NEW_VAL:%.+]] = fptosi x86_fp80 [[ADD]] to i32
 // CHECK: [[TRUNC:%.+]] = trunc i32 [[NEW_VAL]] to i24
 // CHECK: [[BF_LD:%.+]] = load i24, i24* [[BITCAST2]],
+// CHECK: [[BF_FREEZE:%.+]] = freeze i24 [[BF_LD]]
 // CHECK: [[BF_AND:%.+]] = and i24 [[TRUNC]], 16383
 // CHECK: [[BF_VALUE:%.+]] = shl i24 [[BF_AND]], 3
-// CHECK: [[BF_CLEAR:%.+]] = and i24 [[BF_LD]], -131065
+// CHECK: [[BF_CLEAR:%.+]] = and i24 [[BF_FREEZE]], -131065
 // CHECK: or i24 [[BF_CLEAR]], [[BF_VALUE]]
 // CHECK: store i24 %{{.+}}, i24* [[BITCAST2]]
 // CHECK: [[BITCAST_TEMP_OLD_BF_ADDR:%.+]] = bitcast i24* [[LDTEMP]] to i8*
@@ -828,9 +832,10 @@ int main(void) {
 // CHECK: [[NEW_VAL:%.+]] = fptosi x86_fp80 [[MUL]] to i32
 // CHECK: [[ZEXT:%.+]] = zext i32 [[NEW_VAL]] to i64
 // CHECK: [[BF_LD:%.+]] = load i64, i64* [[TEMP1]],
+// CHECK: [[BF_FREEZE:%.+]] = freeze i64 [[BF_LD]]
 // CHECK: [[BF_AND:%.+]] = and i64 [[ZEXT]], 1
 // CHECK: [[BF_VALUE:%.+]] = shl i64 [[BF_AND]], 16
-// CHECK: [[BF_CLEAR:%.+]] = and i64 [[BF_LD]], -65537
+// CHECK: [[BF_CLEAR:%.+]] = and i64 [[BF_FREEZE]], -65537
 // CHECK: or i64 [[BF_CLEAR]], [[BF_VALUE]]
 // CHECK: store i64 %{{.+}}, i64* [[TEMP1]]
 // CHECK: [[NEW_BF_VALUE:%.+]] = load i64, i64* [[TEMP1]]
@@ -860,8 +865,9 @@ int main(void) {
 // CHECK: [[CONV:%.+]] = fptosi x86_fp80 [[SUB:%.+]] to i32
 // CHECK: [[NEW_VAL:%.+]] = trunc i32 [[CONV]] to i8
 // CHECK: [[BF_LD:%.+]] = load i8, i8* [[BITCAST1]],
+// CHECK: [[BF_FREEZE:%.+]] = freeze i8 [[BF_LD]]
 // CHECK: [[BF_VALUE:%.+]] = and i8 [[NEW_VAL]], 1
-// CHECK: [[BF_CLEAR:%.+]] = and i8 [[BF_LD]], -2
+// CHECK: [[BF_CLEAR:%.+]] = and i8 [[BF_FREEZE]], -2
 // CHECK: or i8 [[BF_CLEAR]], [[BF_VALUE]]
 // CHECK: store i8 %{{.+}}, i8* [[BITCAST1]]
 // CHECK: [[NEW_BF_VALUE:%.+]] = load i8, i8* [[BITCAST1]]
@@ -887,9 +893,10 @@ int main(void) {
 // CHECK: [[DIV:%.+]] = fdiv x86_fp80 [[CONV]], [[EXPR]]
 // CHECK: [[CONV:%.+]] = fptosi x86_fp80 [[DIV]] to i64
 // CHECK: [[BF_LD:%.+]] = load i64, i64* [[TEMP1]],
+// CHECK: [[BF_FREEZE:%.+]] = freeze i64 [[BF_LD]]
 // CHECK: [[BF_AND:%.+]] = and i64 [[CONV]], 127
 // CHECK: [[BF_VALUE:%.+]] = shl i64 [[BF_AND:%.+]], 17
-// CHECK: [[BF_CLEAR:%.+]] = and i64 [[BF_LD]], -16646145
+// CHECK: [[BF_CLEAR:%.+]] = and i64 [[BF_FREEZE]], -16646145
 // CHECK: [[VAL:%.+]] = or i64 [[BF_CLEAR]], [[BF_VALUE]]
 // CHECK: store i64 [[VAL]], i64* [[TEMP1]]
 // CHECK: [[NEW_BF_VALUE:%.+]] = load i64, i64* [[TEMP1]]
@@ -920,9 +927,10 @@ int main(void) {
 // CHECK: [[NEW_VAL:%.+]] = fptosi x86_fp80 [[ADD]] to i64
 // CHECK: [[TRUNC:%.+]] = trunc i64 [[NEW_VAL]] to i8
 // CHECK: [[BF_LD:%.+]] = load i8, i8* [[BITCAST1]],
+// CHECK: [[BF_FREEZE:%.+]] = freeze i8 [[BF_LD]]
 // CHECK: [[BF_AND:%.+]] = and i8 [[TRUNC]], 127
 // CHECK: [[BF_VALUE:%.+]] = shl i8 [[BF_AND]], 1
-// CHECK: [[BF_CLEAR:%.+]] = and i8 [[BF_LD]], 1
+// CHECK: [[BF_CLEAR:%.+]] = and i8 [[BF_FREEZE]], 1
 // CHECK: or i8 [[BF_CLEAR]], [[BF_VALUE]]
 // CHECK: store i8 %{{.+}}, i8* [[BITCAST1]]
 // CHECK: [[NEW_BF_VALUE:%.+]] = load i8, i8* [[BITCAST1]]

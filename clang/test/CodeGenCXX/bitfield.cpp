@@ -185,17 +185,19 @@ namespace N1 {
     // CHECK-X86-64:   %[[ptr:.*]]     = getelementptr inbounds %{{.*}}, %{{.*}}* %{{.*}}, i32 0, i32 1
     // CHECK-X86-64:   %[[x_trunc:.*]] = trunc i32 %{{.*}} to i8
     // CHECK-X86-64:   %[[old:.*]]     = load i8, i8* %[[ptr]]
+    // CHECK-X86-64:   %[[old_freeze:.*]]  = freeze i8 %[[old]]
     // CHECK-X86-64:   %[[x_and:.*]]   = and i8 %[[x_trunc]], 1
-    // CHECK-X86-64:   %[[old_and:.*]] = and i8 %[[old]], -2
+    // CHECK-X86-64:   %[[old_and:.*]] = and i8 %[[old_freeze]], -2
     // CHECK-X86-64:   %[[new:.*]]     = or i8 %[[old_and]], %[[x_and]]
     // CHECK-X86-64:                     store i8 %[[new]], i8* %[[ptr]]
     // CHECK-PPC64-LABEL: define{{.*}} void @_ZN2N15write
     // CHECK-PPC64:   %[[ptr:.*]]     = getelementptr inbounds %{{.*}}, %{{.*}}* %{{.*}}, i32 0, i32 1
     // CHECK-PPC64:   %[[x_trunc:.*]] = trunc i32 %{{.*}} to i8
     // CHECK-PPC64:   %[[old:.*]]     = load i8, i8* %[[ptr]]
+    // CHECK-PPC64:   %[[old_freeze:.*]] = freeze i8 %[[old]]
     // CHECK-PPC64:   %[[x_and:.*]]   = and i8 %[[x_trunc]], 1
     // CHECK-PPC64:   %[[x_shl:.*]]   = shl i8 %[[x_and]], 7
-    // CHECK-PPC64:   %[[old_and:.*]] = and i8 %[[old]], 127
+    // CHECK-PPC64:   %[[old_and:.*]] = and i8 %[[old_freeze]], 127
     // CHECK-PPC64:   %[[new:.*]]     = or i8 %[[old_and]], %[[x_shl]]
     // CHECK-PPC64:                     store i8 %[[new]], i8* %[[ptr]]
     s->b = x;
@@ -226,16 +228,18 @@ namespace N2 {
     // CHECK-X86-64-LABEL: define{{.*}} void @_ZN2N25write
     // CHECK-X86-64:   %[[ptr:.*]]     = bitcast %{{.*}}* %{{.*}} to i32*
     // CHECK-X86-64:   %[[old:.*]]     = load i32, i32* %[[ptr]]
+    // CHECK-X86-64:   %[[old_freeze:.*]] = freeze i32 %[[old]]
     // CHECK-X86-64:   %[[x_and:.*]]   = and i32 %{{.*}}, 16777215
-    // CHECK-X86-64:   %[[old_and:.*]] = and i32 %[[old]], -16777216
+    // CHECK-X86-64:   %[[old_and:.*]] = and i32 %[[old_freeze]], -16777216
     // CHECK-X86-64:   %[[new:.*]]     = or i32 %[[old_and]], %[[x_and]]
     // CHECK-X86-64:                     store i32 %[[new]], i32* %[[ptr]]
     // CHECK-PPC64-LABEL: define{{.*}} void @_ZN2N25write
     // CHECK-PPC64:   %[[ptr:.*]]     = bitcast %{{.*}}* %{{.*}} to i32*
     // CHECK-PPC64:   %[[old:.*]]     = load i32, i32* %[[ptr]]
+    // CHECK-PPC64    %[[old_freeze:.*]] = freeze i32 %[[old]]
     // CHECK-PPC64:   %[[x_and:.*]]   = and i32 %{{.*}}, 16777215
     // CHECK-PPC64:   %[[x_shl:.*]]   = shl i32 %[[x_and]], 8
-    // CHECK-PPC64:   %[[old_and:.*]] = and i32 %[[old]], 255
+    // CHECK-PPC64:   %[[old_and:.*]] = and i32 %[[old_freeze]], 255
     // CHECK-PPC64:   %[[new:.*]]     = or i32 %[[old_and]], %[[x_shl]]
     // CHECK-PPC64:                     store i32 %[[new]], i32* %[[ptr]]
     s->b = x;
@@ -265,16 +269,18 @@ namespace N3 {
     // CHECK-X86-64-LABEL: define{{.*}} void @_ZN2N35write
     // CHECK-X86-64:   %[[ptr:.*]]     = bitcast %{{.*}}* %{{.*}} to i32*
     // CHECK-X86-64:   %[[old:.*]]     = load i32, i32* %[[ptr]]
+    // CHECK-X86_64:   %[[old_freeze:.*]] = freeze i32 %[[old]]
     // CHECK-X86-64:   %[[x_and:.*]]   = and i32 %{{.*}}, 16777215
-    // CHECK-X86-64:   %[[old_and:.*]] = and i32 %[[old]], -16777216
+    // CHECK-X86-64:   %[[old_and:.*]] = and i32 %[[old_freeze]], -16777216
     // CHECK-X86-64:   %[[new:.*]]     = or i32 %[[old_and]], %[[x_and]]
     // CHECK-X86-64:                     store i32 %[[new]], i32* %[[ptr]]
     // CHECK-PPC64-LABEL: define{{.*}} void @_ZN2N35write
     // CHECK-PPC64:   %[[ptr:.*]]     = bitcast %{{.*}}* %{{.*}} to i32*
     // CHECK-PPC64:   %[[old:.*]]     = load i32, i32* %[[ptr]]
+    // CHECK-PPC64    %[[old_freeze:.*]] = freeze i32 %[[old]]
     // CHECK-PPC64:   %[[x_and:.*]]   = and i32 %{{.*}}, 16777215
     // CHECK-PPC64:   %[[x_shl:.*]]   = shl i32 %[[x_and]], 8
-    // CHECK-PPC64:   %[[old_and:.*]] = and i32 %[[old]], 255
+    // CHECK-PPC64:   %[[old_and:.*]] = and i32 %[[old_freeze]], 255
     // CHECK-PPC64:   %[[new:.*]]     = or i32 %[[old_and]], %[[x_shl]]
     // CHECK-PPC64:                     store i32 %[[new]], i32* %[[ptr]]
     s->b = x;
@@ -358,16 +364,18 @@ namespace N5 {
     // CHECK-X86-64-LABEL: define{{.*}} void @_ZN2N55write
     // CHECK-X86-64:   %[[ptr:.*]]     = bitcast %{{.*}}* %{{.*}} to i32*
     // CHECK-X86-64:   %[[old:.*]]     = load i32, i32* %[[ptr]]
+    // CHECK-X86-64:   %[[old_freeze:.*]] = freeze i32 %[[old]]
     // CHECK-X86-64:   %[[x_and:.*]]   = and i32 %{{.*}}, 16777215
-    // CHECK-X86-64:   %[[old_and:.*]] = and i32 %[[old]], -16777216
+    // CHECK-X86-64:   %[[old_and:.*]] = and i32 %[[old_freeze]], -16777216
     // CHECK-X86-64:   %[[new:.*]]     = or i32 %[[old_and]], %[[x_and]]
     // CHECK-X86-64:                     store i32 %[[new]], i32* %[[ptr]]
     // CHECK-PPC64-LABEL: define{{.*}} void @_ZN2N55write
     // CHECK-PPC64:   %[[ptr:.*]]     = bitcast %{{.*}}* %{{.*}} to i32*
     // CHECK-PPC64:   %[[old:.*]]     = load i32, i32* %[[ptr]]
+    // CHECK-PPC64    %[[old_freeze:.*]] = freeze i32 %[[old]]
     // CHECK-PPC64:   %[[x_and:.*]]   = and i32 %{{.*}}, 16777215
     // CHECK-PPC64:   %[[x_shl:.*]]   = shl i32 %[[x_and]], 8
-    // CHECK-PPC64:   %[[old_and:.*]] = and i32 %[[old]], 255
+    // CHECK-PPC64:   %[[old_and:.*]] = and i32 %[[old_freeze]], 255
     // CHECK-PPC64:   %[[new:.*]]     = or i32 %[[old_and]], %[[x_shl]]
     // CHECK-PPC64:                     store i32 %[[new]], i32* %[[ptr]]
     u->y.b = x;

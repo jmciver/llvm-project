@@ -25,8 +25,9 @@ void use(bool cond, struct S s1, struct S s2, int val1, int val2) {
   // CHECK: %[[VAL1LD:.+]] = load i32, ptr %[[VAL1]]
   // CHECK: %[[VAL1TRUNC:.+]] = trunc i32 %[[VAL1LD]] to i16
   // CHECK: %[[BF_LOAD:.+]] = load i16, ptr %[[S1]]
+  // CHECK: %[[BF_FREEZE:.+]] = freeze i16 %[[BF_LOAD]]
   // CHECK: %[[BF_VAL:.+]] = and i16 %[[VAL1TRUNC]], 31
-  // CHECK: %[[BF_CLEAR:.+]] = and i16 %[[BF_LOAD]], -32
+  // CHECK: %[[BF_CLEAR:.+]] = and i16 %[[BF_FREEZE]], -32
   // CHECK: %[[BF_SET:.+]] = or i16 %[[BF_CLEAR]], %[[BF_VAL]]
   // CHECK: store i16 %[[BF_SET]], ptr %[[S1]]
   // CHECK: br label %[[END:.+]]
@@ -36,9 +37,10 @@ void use(bool cond, struct S s1, struct S s2, int val1, int val2) {
   // CHECK: %[[VAL2LD:.+]] = load i32, ptr %[[VAL2]]
   // CHECK: %[[VAL2TRUNC:.+]] = trunc i32 %[[VAL2LD]] to i16
   // CHECK: %[[BF_LOAD:.+]] = load i16, ptr %[[S1]]
+  // CHECK: %[[BF_FREEZE:.+]] = freeze i16 %[[BF_LOAD]]
   // CHECK: %[[BF_VAL:.+]] = and i16 %[[VAL2TRUNC]], 63 
   // CHECK: %[[BF_SHIFT:.+]] = shl i16 %[[BF_VAL]], 5
-  // CHECK: %[[BF_CLEAR:.+]] = and i16 %[[BF_LOAD]], -2017
+  // CHECK: %[[BF_CLEAR:.+]] = and i16 %[[BF_FREEZE]], -2017
   // CHECK: %[[BF_SET:.+]] = or i16 %[[BF_CLEAR]], %[[BF_SHIFT]]
   // CHECK: store i16 %[[BF_SET]], ptr %[[S1]]
   // CHECK: br label %[[END:.+]]
@@ -59,8 +61,9 @@ void use(bool cond, struct S s1, struct S s2, int val1, int val2) {
   // CHECK: %[[VAL1LD:.+]] = load i32, ptr %[[VAL1]]
   // CHECK: %[[VAL1TRUNC:.+]] = trunc i32 %[[VAL1LD]] to i16
   // CHECK: %[[BF_LOAD:.+]] = load i16, ptr %[[S2]]
+  // CHECK: %[[BF_FREEZE:.+]] = freeze i16 %[[BF_LOAD]]
   // CHECK: %[[BF_VAL:.+]] = and i16 %[[VAL1TRUNC]], 31
-  // CHECK: %[[BF_CLEAR:.+]] = and i16 %[[BF_LOAD]], -32
+  // CHECK: %[[BF_CLEAR:.+]] = and i16 %[[BF_FREEZE]], -32
   // CHECK: %[[BF_SET:.+]] = or i16 %[[BF_CLEAR]], %[[BF_VAL]]
   // CHECK: store i16 %[[BF_SET]], ptr %[[S2]]
   // CHECK: br label %[[END:.+]]
@@ -70,9 +73,10 @@ void use(bool cond, struct S s1, struct S s2, int val1, int val2) {
   // CHECK: %[[VAL2LD:.+]] = load i32, ptr %[[VAL2]]
   // CHECK: %[[VAL2TRUNC:.+]] = trunc i32 %[[VAL2LD]] to i16
   // CHECK: %[[BF_LOAD:.+]] = load i16, ptr %[[S2]]
+  // CHECK: %[[BF_FREEZE:.+]] = freeze i16 %[[BF_LOAD]]
   // CHECK: %[[BF_VAL:.+]] = and i16 %[[VAL2TRUNC]], 63 
   // CHECK: %[[BF_SHIFT:.+]] = shl i16 %[[BF_VAL]], 5
-  // CHECK: %[[BF_CLEAR:.+]] = and i16 %[[BF_LOAD]], -2017
+  // CHECK: %[[BF_CLEAR:.+]] = and i16 %[[BF_FREEZE]], -2017
   // CHECK: %[[BF_SET:.+]] = or i16 %[[BF_CLEAR]], %[[BF_SHIFT]]
   // CHECK: store i16 %[[BF_SET]], ptr %[[S2]]
   // CHECK: br label %[[END:.+]]
@@ -105,8 +109,9 @@ void use2(bool cond1, bool cond2, struct S s1, int val1, int val2, int val3) {
   // CHECK: %[[VAL1LD:.+]] = load i32, ptr %[[VAL1]]
   // CHECK: %[[VAL1TRUNC:.+]] = trunc i32 %[[VAL1LD]] to i16
   // CHECK: %[[BF_LOAD:.+]] = load i16, ptr %[[S1]]
+  // CHECK: %[[BF_FREEZE:.+]] = freeze i16 %[[BF_LOAD]]
   // CHECK: %[[BF_VAL:.+]] = and i16 %[[VAL1TRUNC]], 31
-  // CHECK: %[[BF_CLEAR:.+]] = and i16 %[[BF_LOAD]], -32
+  // CHECK: %[[BF_CLEAR:.+]] = and i16 %[[BF_FREEZE]], -32
   // CHECK: %[[BF_SET:.+]] = or i16 %[[BF_CLEAR]], %[[BF_VAL]]
   // CHECK: store i16 %[[BF_SET]], ptr %[[S1]]
   // CHECK: br label %[[END:.+]]
@@ -122,9 +127,10 @@ void use2(bool cond1, bool cond2, struct S s1, int val1, int val2, int val3) {
   // CHECK: %[[VAL2LD:.+]] = load i32, ptr %[[VAL2]]
   // CHECK: %[[VAL2TRUNC:.+]] = trunc i32 %[[VAL2LD]] to i16
   // CHECK: %[[BF_LOAD:.+]] = load i16, ptr %[[S1]]
+  // CHECK: %[[BF_FREEZE:.+]] = freeze i16 %[[BF_LOAD]]
   // CHECK: %[[BF_VAL:.+]] = and i16 %[[VAL2TRUNC]], 63 
   // CHECK: %[[BF_SHIFT:.+]] = shl i16 %[[BF_VAL]], 5
-  // CHECK: %[[BF_CLEAR:.+]] = and i16 %[[BF_LOAD]], -2017
+  // CHECK: %[[BF_CLEAR:.+]] = and i16 %[[BF_FREEZE]], -2017
   // CHECK: %[[BF_SET:.+]] = or i16 %[[BF_CLEAR]], %[[BF_SHIFT]]
   // CHECK: store i16 %[[BF_SET]], ptr %[[S1]]
   // CHECK: br label %[[END:.+]]
@@ -134,9 +140,10 @@ void use2(bool cond1, bool cond2, struct S s1, int val1, int val2, int val3) {
   // CHECK: %[[VAL3LD:.+]] = load i32, ptr %[[VAL3]]
   // CHECK: %[[VAL3TRUNC:.+]] = trunc i32 %[[VAL3LD]] to i16
   // CHECK: %[[BF_LOAD:.+]] = load i16, ptr %[[S1]]
+  // CHECK: %[[BF_FREEZE:.+]] = freeze i16 %[[BF_LOAD]]
   // CHECK: %[[BF_VAL:.+]] = and i16 %[[VAL3TRUNC]], 7
   // CHECK: %[[BF_SHIFT:.+]] = shl i16 %[[BF_VAL]], 11
-  // CHECK: %[[BF_CLEAR:.+]] = and i16 %[[BF_LOAD]], -14337
+  // CHECK: %[[BF_CLEAR:.+]] = and i16 %[[BF_FREEZE]], -14337
   // CHECK: %[[BF_SET:.+]] = or i16 %[[BF_CLEAR]], %[[BF_SHIFT]]
   // CHECK: store i16 %[[BF_SET]], ptr %[[S1]]
   // CHECK: br label %[[END:.+]]

@@ -18,8 +18,9 @@ struct S {
 // CHECK: %[[CONV1:.*]] = trunc i32 %[[ADD]] to i16
 // CHECK: %[[V2:.*]] = zext i16 %[[CONV1]] to i32
 // CHECK: %[[BF_LOAD2:.*]] = load i32, i32* %[[V1]], align 1
+// CHECK: %[[BF_FREEZE:.*]] = freeze i32 %[[BF_LOAD2]]
 // CHECK: %[[BF_VALUE:.*]] = and i32 %[[V2]], 32767
-// CHECK: %[[BF_CLEAR3:.*]] = and i32 %[[BF_LOAD2]], -32768
+// CHECK: %[[BF_CLEAR3:.*]] = and i32 %[[BF_FREEZE]], -32768
 // CHECK: %[[BF_SET:.*]] = or i32 %[[BF_CLEAR3]], %[[BF_VALUE]]
 // CHECK: store i32 %[[BF_SET]], i32* %[[V1]], align 1
 
@@ -32,9 +33,10 @@ struct S {
 // CHECK: %[[CONV9:.*]] = trunc i32 %[[ADD8]] to i16
 // CHECK: %[[V5:.*]] = zext i16 %[[CONV9]] to i32
 // CHECK: %[[BF_LOAD10:.*]] = load i32, i32* %[[V4]], align 1
+// CHECK: %[[BF_FREEZE11:.*]] = freeze i32 %[[BF_LOAD10]]
 // CHECK: %[[BF_VALUE11:.*]] = and i32 %[[V5]], 32767
 // CHECK: %[[BF_SHL:.*]] = shl i32 %[[BF_VALUE11]], 15
-// CHECK: %[[BF_CLEAR12:.*]] = and i32 %[[BF_LOAD10]], -1073709057
+// CHECK: %[[BF_CLEAR12:.*]] = and i32 %[[BF_FREEZE11]], -1073709057
 // CHECK: %[[BF_SET13:.*]] = or i32 %[[BF_CLEAR12]], %[[BF_SHL]]
 // CHECK: store i32 %[[BF_SET13]], i32* %[[V4]], align 1
 

@@ -30,8 +30,9 @@ namespace test0 {
     // CHECK: [[FIELD_P:%.*]] = bitcast [[B]]* [[B_P]] to i8*
     // CHECK: [[TRUNC:%.*]] = trunc i32 [[CALL]] to i8
     // CHECK: [[OLD_VALUE:%.*]] = load i8, i8* [[FIELD_P]], align 4
+    // CHECK: [[FREEZE:%.*]] = freeze i8 [[OLD_VALUE]]
     // CHECK: [[T0:%.*]] = and i8 [[TRUNC]], 3
-    // CHECK: [[T1:%.*]] = and i8 [[OLD_VALUE]], -4
+    // CHECK: [[T1:%.*]] = and i8 [[FREEZE]], -4
     // CHECK: [[T2:%.*]] = or i8 [[T1]], [[T0]]
     // CHECK: store i8 [[T2]], i8* [[FIELD_P]], align 4
     b.onebit = int_source();
@@ -59,8 +60,9 @@ namespace test0 {
     // CHECK: [[TRUNC:%.*]] = trunc i32 [[CALL]] to i8
     // CHECK-V6COMPAT: [[OLD_VALUE:%.*]] = load i8, i8* [[FIELD_P]], align 2
     // CHECK-NOCOMPAT: [[OLD_VALUE:%.*]] = load i8, i8* [[FIELD_P]], align 4
+    // CHECK: [[FREEZE:%.*]] = freeze i8 [[OLD_VALUE]]
     // CHECK: [[T0:%.*]] = and i8 [[TRUNC]], 3
-    // CHECK: [[T1:%.*]] = and i8 [[OLD_VALUE]], -4
+    // CHECK: [[T1:%.*]] = and i8 [[FREEZE]], -4
     // CHECK: [[T2:%.*]] = or i8 [[T1]], [[T0]]
     // CHECK-V6COMPAT: store i8 [[T2]], i8* [[FIELD_P]], align 2
     // CHECK-NOCOMPAT: store i8 [[T2]], i8* [[FIELD_P]], align 4
@@ -91,8 +93,9 @@ namespace test0 {
     // CHECK: [[TRUNC:%.*]] = trunc i32 [[CALL]] to i8
     // CHECK-V6COMPAT: [[OLD_VALUE:%.*]] = load i8, i8* [[FIELD_P]], align 2
     // CHECK-NOCOMPAT: [[OLD_VALUE:%.*]] = load i8, i8* [[FIELD_P]], align 4
+    // CHECK: [[FREEZE:%.*]] = freeze i8 [[OLD_VALUE]]
     // CHECK: [[T0:%.*]] = and i8 [[TRUNC]], 3
-    // CHECK: [[T1:%.*]] = and i8 [[OLD_VALUE]], -4
+    // CHECK: [[T1:%.*]] = and i8 [[FREEZE]], -4
     // CHECK: [[T2:%.*]] = or i8 [[T1]], [[T0]]
     // CHECK-V6COMPAT: store i8 [[T2]], i8* [[FIELD_P]], align 2
     // CHECK-NOCOMPAT: store i8 [[T2]], i8* [[FIELD_P]], align 4
@@ -128,8 +131,9 @@ namespace test0 {
     // CHECK: [[TRUNC:%.*]] = trunc i32 [[CALL]] to i8
     // CHECK-V6COMPAT: [[OLD_VALUE:%.*]] = load i8, i8* [[FIELD_P]], align 2
     // CHECK-NOCOMPAT: [[OLD_VALUE:%.*]] = load i8, i8* [[FIELD_P]], align 4
+    // CHECK: [[FREEZE:%.*]] = freeze i8 [[OLD_VALUE]]
     // CHECK: [[T0:%.*]] = and i8 [[TRUNC]], 3
-    // CHECK: [[T1:%.*]] = and i8 [[OLD_VALUE]], -4
+    // CHECK: [[T1:%.*]] = and i8 [[FREEZE]], -4
     // CHECK: [[T2:%.*]] = or i8 [[T1]], [[T0]]
     // CHECK-V6COMPAT: store i8 [[T2]], i8* [[FIELD_P]], align 2
     // CHECK-NOCOMPAT: store i8 [[T2]], i8* [[FIELD_P]], align 4
@@ -162,8 +166,9 @@ namespace test0 {
     // CHECK: [[FIELD_P:%.*]] = bitcast [[B]]* [[B_P]] to i8*
     // CHECK: [[TRUNC:%.*]] = trunc i32 [[CALL]] to i8
     // CHECK: [[OLD_VALUE:%.*]] = load i8, i8* [[FIELD_P]], align 8
+    // CHECK: [[FREEZE:%.*]] = freeze i8 [[OLD_VALUE]]
     // CHECK: [[T0:%.*]] = and i8 [[TRUNC]], 3
-    // CHECK: [[T1:%.*]] = and i8 [[OLD_VALUE]], -4
+    // CHECK: [[T1:%.*]] = and i8 [[FREEZE]], -4
     // CHECK: [[T2:%.*]] = or i8 [[T1]], [[T0]]
     // CHECK: store i8 [[T2]], i8* [[FIELD_P]], align 8
     c.onebit = int_source();
