@@ -724,9 +724,10 @@ void test_copy_constructor_Bitfield0(Bitfield0 *a) {
 // CHECK: %[[BF_CAST:.*]] = sext i8 %[[BF_ASHR]] to i32
 // CHECK: %[[V56:.*]] = trunc i32 %[[BF_CAST]] to i8
 // CHECK: %[[BF_LOAD2:.*]] = load volatile i8, i8* %[[I5]], align 8
+// CHECK: %[[BF_FREEZE:.*]] = freeze i8 %[[BF_LOAD]]
 // CHECK: %[[BF_VALUE:.*]] = and i8 %[[V56]], 3
 // CHECK: %[[BF_SHL3:.*]] = shl i8 %[[BF_VALUE]], 1
-// CHECK: %[[BF_CLEAR:.*]] = and i8 %[[BF_LOAD2]], -7
+// CHECK: %[[BF_CLEAR:.*]] = and i8 %[[BF_FREEZE]], -7
 // CHECK: %[[BF_SET:.*]] = or i8 %[[BF_CLEAR]], %[[BF_SHL3]]
 // CHECK: store volatile i8 %[[BF_SET]], i8* %[[I5]], align 8
 // CHECK: %[[V57:.*]] = bitcast i8** %[[V0]] to %[[STRUCT_BITFIELD1]]*

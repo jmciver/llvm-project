@@ -31,7 +31,8 @@ void write8_1() {
   // CHECK-NEXT: ret void
   // SANITIZE-LABEL: @_Z8write8_1v
   // SANITIZE: %bf.load = load i32, i32* getelementptr inbounds {{.*}}, align 4
-  // SANITIZE-NEXT: %bf.clear = and i32 %bf.load, -65281
+  // SANITIZE: %bf.freeze = freeze i32 %bf.load
+  // SANITIZE-NEXT: %bf.clear = and i32 %bf.freeze, -65281
   // SANITIZE-NEXT: %bf.set = or i32 %bf.clear, 768
   // SANITIZE-NEXT: store i32 %bf.set, i32* getelementptr inbounds {{.*}}, align 4
   // SANITIZE-NEXT: ret void
@@ -55,13 +56,15 @@ unsigned read8_2() {
 void write8_2() {
   // CHECK-LABEL: @_Z8write8_2v
   // CHECK: %bf.load = load i16, i16* getelementptr inbounds (%struct.S1, %struct.S1* @a1, i32 0, i32 2), align 2
-  // CHECK-NEXT: %bf.clear = and i16 %bf.load, -4081
+  // CHECK-NEXT: %bf.freeze = freeze i16 %bf.load
+  // CHECK-NEXT: %bf.clear = and i16 %bf.freeze, -4081
   // CHECK-NEXT: %bf.set = or i16 %bf.clear, 48
   // CHECK-NEXT: store i16 %bf.set, i16* getelementptr inbounds (%struct.S1, %struct.S1* @a1, i32 0, i32 2), align 2
   // CHECK-NEXT: ret void
   // SANITIZE-LABEL: @_Z8write8_2v
   // SANITIZE: %bf.load = load i32, i32* getelementptr inbounds {{.*}}, align 4
-  // SANITIZE-NEXT: %bf.clear = and i32 %bf.load, -267386881
+  // SANITIZE-NEXT: %bf.freeze = freeze i32 %bf.load
+  // SANITIZE-NEXT: %bf.clear = and i32 %bf.freeze, -267386881
   // SANITIZE-NEXT: %bf.set = or i32 %bf.clear, 3145728
   // SANITIZE-NEXT: store i32 %bf.set, i32* getelementptr inbounds {{.*}}, align 4
   // SANITIZE-NEXT: ret void
@@ -109,7 +112,8 @@ void write16_1() {
   // CHECK-NEXT: ret void
   // SANITIZE-LABEL: @_Z9write16_1v
   // SANITIZE: %bf.load = load i64, i64* bitcast {{.*}}, align 8
-  // SANITIZE-NEXT: %bf.clear = and i64 %bf.load, -65536
+  // SANITIZE-NEXT: %bf.freeze = freeze i64 %bf.load
+  // SANITIZE-NEXT: %bf.clear = and i64 %bf.freeze, -65536
   // SANITIZE-NEXT: %bf.set = or i64 %bf.clear, 5
   // SANITIZE-NEXT: store i64 %bf.set, i64* bitcast {{.*}}, align 8
   // SANITIZE-NEXT: ret void
@@ -121,7 +125,8 @@ void write16_2() {
   // CHECK-NEXT: ret void
   // SANITIZE-LABEL: @_Z9write16_2v
   // SANITIZE: %bf.load = load i64, i64* bitcast {{.*}}, align 8
-  // SANITIZE-NEXT: %bf.clear = and i64 %bf.load, -4294901761
+  // SANITIZE-NEXT: %bf.freeze = freeze i64 %bf.load
+  // SANITIZE-NEXT: %bf.clear = and i64 %bf.freeze, -4294901761
   // SANITIZE-NEXT: %bf.set = or i64 %bf.clear, 327680
   // SANITIZE-NEXT: store i64 %bf.set, i64* bitcast {{.*}}, align 8
   // SANITIZE-NEXT: ret void
@@ -154,7 +159,8 @@ void write32_1() {
   // CHECK-NEXT: ret void
   // SANITIZE-LABEL: @_Z9write32_1v
   // SANITIZE: %bf.load = load i64, i64* getelementptr inbounds {{.*}}, align 8
-  // SANITIZE-NEXT: %bf.clear = and i64 %bf.load, 4294967295
+  // SANITIZE-NEXT: %bf.freeze = freeze i64 %bf.load
+  // SANITIZE-NEXT: %bf.clear = and i64 %bf.freeze, 4294967295
   // SANITIZE-NEXT: %bf.set = or i64 %bf.clear, 21474836480
   // SANITIZE-NEXT: store i64 %bf.set, i64* getelementptr inbounds {{.*}}, align 8
   // SANITIZE-NEXT: ret void

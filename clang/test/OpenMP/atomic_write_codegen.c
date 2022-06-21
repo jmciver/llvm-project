@@ -319,8 +319,9 @@ int main(void) {
 // CHECK: [[OLD_BF_VALUE:%.+]] = load i32, i32* [[LDTEMP]],
 // CHECK: store i32 [[OLD_BF_VALUE]], i32* [[LDTEMP1:%.+]],
 // CHECK: [[OLD_BF_VALUE:%.+]] = load i32, i32* [[LDTEMP1]],
+// CHECK: [[BF_FREEZE:%.+]] = freeze i32 [[OLD_BF_VALUE]]
 // CHECK: [[BF_VALUE:%.+]] = and i32 [[NEW_VAL]], 2147483647
-// CHECK: [[BF_CLEAR:%.+]] = and i32 [[OLD_BF_VALUE]], -2147483648
+// CHECK: [[BF_CLEAR:%.+]] = and i32 [[BF_FREEZE]], -2147483648
 // CHECK: or i32 [[BF_CLEAR]], [[BF_VALUE]]
 // CHECK: store i32 %{{.+}}, i32* [[LDTEMP1]]
 // CHECK: [[BITCAST_TEMP_OLD_BF_ADDR:%.+]] = bitcast i32* [[LDTEMP]] to i8*
