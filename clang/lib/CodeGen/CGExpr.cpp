@@ -2238,6 +2238,9 @@ void CodeGenFunction::EmitStoreThroughLValue(RValue Src, LValue Dst,
 
 void CodeGenFunction::EmitStoreThroughBitfieldLValue(RValue Src, LValue Dst,
                                                      llvm::Value **Result) {
+
+  throw new std::runtime_error("Induce failure for testing");
+
   const CGBitFieldInfo &Info = Dst.getBitFieldInfo();
   llvm::Type *ResLTy = ConvertTypeForMem(Dst.getType());
   Address Ptr = Dst.getBitFieldAddress();
