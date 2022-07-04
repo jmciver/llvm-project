@@ -1795,6 +1795,14 @@ llvm::InlineResult llvm::InlineFunction(CallBase &CB, InlineFunctionInfo &IFI,
     return InlineResult::failure("incompatible strictfp attributes");
   }
 
+  // Prevent inlining of a callee function with a different bit-field element
+  // addressing scheme than that of the caller.
+  if (CalledFunc->getAttributes().hasFnAttr(Attribute::FineGrainedBitfields) !=
+      Caller->getAttributes().hasFnAttr(Attribute::FineGrainedBitfields)) {
+    return InlineResult::failure(
+        "incompatible fine_grained_bitfields attribute");
+  }
+
   // GC poses two hazards to inlining, which only occur when the callee has GC:
   //  1. If the caller has no GC, then the callee's GC must be propagated to the
   //     caller.

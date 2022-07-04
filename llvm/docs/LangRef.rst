@@ -1688,6 +1688,52 @@ example:
      * ``"non-leaf"`` - the frame pointer should be kept if the function calls
        other functions.
      * ``"all"`` - the frame pointer should be kept.
+``fine_grained_bitfields``
+    This attribute indicates that the function was called from a scope that
+    enabled fine grained bit-fields. This flag is used to prevent IPO inlining
+    of callee functions with different bit-field element addressing schemes than
+    that of the caller. This prevents data corruption during bit-field
+    initialization.
+
+    For example:
+
+    .. code-block:: c
+
+        // File A: compiled with -ffine-grained-bitfield-accesses
+        struct X {
+          int a : 8;
+          int b : 24;
+        };
+
+        void callee(struct X*);
+
+        int caller() {
+          struct X x;
+          x.a = 10;   // Variable a is directly stored to.
+          callee(&x);
+          return x.a;
+        }
+
+    .. code-block:: c
+
+        // File B: compiled with -fno-fine-grained-bitfield-accesses
+        struct X {
+          int a : 8;
+          int b : 24;
+        };
+
+        void callee(struct X* x) {
+          x->b = 10;  // Load occurs on struct object, followed by freeze,
+                      // clear, set, and store sequence to assign b.
+        }
+
+    Because the caller uses ``fine-grained-bitfield-accesses``, only the byte
+    associated with ``a`` is assigned and the value of ``b`` remains
+    ``poison``. The callee does not have individual member variable addressing
+    and thus loads the full 32-bits (8-bits of value and 24-bits ``poison``)
+    resulting in a load of ``poison``. The proceeding ``freeze`` in the freeze,
+    clear, set, and store sequence will corrupt the already assigned value of
+    ``a``.
 ``hot``
     This attribute indicates that this function is a hot spot of the program
     execution. The function will be optimized more aggressively and will be

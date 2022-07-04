@@ -1636,6 +1636,8 @@ static Attribute::AttrKind getAttrFromCode(uint64_t Code) {
     return Attribute::Hot;
   case bitc::ATTR_KIND_PRESPLIT_COROUTINE:
     return Attribute::PresplitCoroutine;
+  case bitc::ATTR_KIND_FINE_GRAINED_BITFIELDS:
+    return Attribute::FineGrainedBitfields;
   }
 }
 

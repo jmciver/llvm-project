@@ -88,6 +88,7 @@ syn keyword llvmKeyword
       \ externally_initialized
       \ fastcc
       \ filter
+      \ fine_grained_bitfields
       \ from
       \ gc
       \ global

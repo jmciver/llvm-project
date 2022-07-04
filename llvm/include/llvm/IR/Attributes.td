@@ -102,6 +102,9 @@ def DisableSanitizerInstrumentation: EnumAttr<"disable_sanitizer_instrumentation
 /// Provide pointer element type to intrinsic.
 def ElementType : TypeAttr<"elementtype", [ParamAttr]>;
 
+/// Function was called in a scope requiring fine grained bit-field accesses.
+def FineGrainedBitfields : EnumAttr<"fine_grained_bitfields", [FnAttr]>;
+
 /// Function may only access memory that is inaccessible from IR.
 def InaccessibleMemOnly : EnumAttr<"inaccessiblememonly", [FnAttr]>;
 

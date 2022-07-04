@@ -1079,6 +1079,11 @@ The integer codes are mapped to well-known attributes as follows.
 * code 77: ``elementtype``
 * code 78: ``disable_sanitizer_instrumentation``
 * code 79: ``nosanitize_bounds``
+* code 80: ``allocalign``
+* code 81: ``allocptr``
+* code 82: ``allockind``
+* code 83: ``presplitcoroutine``
+* code 84: ``fine_grained_bitfields``
 
 .. note::
   The ``allocsize`` attribute has a special encoding for its arguments. Its two

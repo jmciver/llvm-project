@@ -188,6 +188,7 @@ patterns:
             \\bexternally_initialized\\b|\
             \\bfastcc\\b|\
             \\bfilter\\b|\
+            \\bfine_grained_bitfields\\b|\
             \\bfrom\\b|\
             \\bgc\\b|\
             \\bglobal\\b|\
