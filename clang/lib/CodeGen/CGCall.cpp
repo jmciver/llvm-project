@@ -1890,6 +1890,9 @@ void CodeGenModule::getDefaultFunctionAttributes(StringRef Name,
     if (CodeGenOpts.SpeculativeLoadHardening)
       FuncAttrs.addAttribute(llvm::Attribute::SpeculativeLoadHardening);
 
+    if (getTypes().getCodeGenOpts().FineGrainedBitfieldAccesses)
+      FuncAttrs.addAttribute(llvm::Attribute::FineGrainedBitfields);
+
     // Add zero-call-used-regs attribute.
     switch (CodeGenOpts.getZeroCallUsedRegs()) {
     case llvm::ZeroCallUsedRegs::ZeroCallUsedRegsKind::Skip:

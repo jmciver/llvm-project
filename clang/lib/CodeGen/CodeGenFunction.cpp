@@ -984,6 +984,11 @@ void CodeGenFunction::StartFunction(GlobalDecl GD, QualType RetTy,
     Fn->addFnAttr(llvm::Attribute::StrictFP);
   }
 
+  // The fine grained bit-fields attribute is used to determine IPO inlining
+  // compatibility.
+  if (getTypes().getCodeGenOpts().FineGrainedBitfieldAccesses)
+    Fn->addFnAttr(llvm::Attribute::FineGrainedBitfields);
+
   // If a custom alignment is used, force realigning to this alignment on
   // any main function which certainly will need it.
   if (FD && ((FD->isMain() || FD->isMSVCRTEntryPoint()) &&
