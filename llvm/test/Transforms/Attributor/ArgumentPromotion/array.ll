@@ -32,7 +32,7 @@ define void @caller() {
 ;
 ; IS__CGSCC_NPM-LABEL: define {{[^@]+}}@caller() {
 ; IS__CGSCC_NPM-NEXT:  entry:
-; IS__CGSCC_NPM-NEXT:    call void @callee(i32 undef, i32 undef, i32 undef)
+; IS__CGSCC_NPM-NEXT:    call void @callee(i32 poison, i32 poison, i32 poison)
 ; IS__CGSCC_NPM-NEXT:    ret void
 ;
 entry:

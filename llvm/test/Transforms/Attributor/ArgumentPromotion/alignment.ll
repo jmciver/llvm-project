@@ -18,7 +18,7 @@ define void @f() {
 ;
 ; IS__CGSCC_NPM-LABEL: define {{[^@]+}}@f() {
 ; IS__CGSCC_NPM-NEXT:  entry:
-; IS__CGSCC_NPM-NEXT:    call void @g(i32 undef)
+; IS__CGSCC_NPM-NEXT:    call void @g(i32 poison)
 ; IS__CGSCC_NPM-NEXT:    ret void
 ;
 entry:
@@ -29,7 +29,7 @@ entry:
 
 define internal void @g(i32* %a) {
 ; IS__TUNIT____-LABEL: define {{[^@]+}}@g() {
-; IS__TUNIT____-NEXT:    call void @z(i32 undef)
+; IS__TUNIT____-NEXT:    call void @z(i32 poison)
 ; IS__TUNIT____-NEXT:    ret void
 ;
 ; IS__CGSCC_OPM-LABEL: define {{[^@]+}}@g

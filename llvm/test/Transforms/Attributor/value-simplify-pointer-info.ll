@@ -836,12 +836,12 @@ define i32 @local_alloca_simplifiable_4() {
 ; IS__TUNIT____: Function Attrs: nofree norecurse nosync nounwind readnone willreturn
 ; IS__TUNIT____-LABEL: define {{[^@]+}}@local_alloca_simplifiable_4
 ; IS__TUNIT____-SAME: () #[[ATTR4]] {
-; IS__TUNIT____-NEXT:    ret i32 undef
+; IS__TUNIT____-NEXT:    ret i32 poison
 ;
 ; IS__CGSCC____: Function Attrs: nofree norecurse nosync nounwind readnone willreturn
 ; IS__CGSCC____-LABEL: define {{[^@]+}}@local_alloca_simplifiable_4
 ; IS__CGSCC____-SAME: () #[[ATTR3]] {
-; IS__CGSCC____-NEXT:    ret i32 undef
+; IS__CGSCC____-NEXT:    ret i32 poison
 ;
   %A = alloca i32, align 4
   %l = load i32, i32* %A, align 4
@@ -4021,7 +4021,7 @@ define dso_local void @test_nested_memory(float* %dst, double* %src) {
 ; IS__CGSCC_NPM-NEXT:    [[TMP1:%.*]] = bitcast i8* [[SRC2]] to double**
 ; IS__CGSCC_NPM-NEXT:    store double* [[SRC]], double** [[TMP1]], align 8
 ; IS__CGSCC_NPM-NEXT:    store i8* [[CALL]], i8** bitcast (%struct.STy** getelementptr inbounds ([[STRUCT_STY]], %struct.STy* @global, i64 0, i32 2) to i8**), align 8
-; IS__CGSCC_NPM-NEXT:    call fastcc void @nested_memory_callee(float* nofree nonnull align 4294967296 undef, double* nofree nonnull align 4294967296 undef, %struct.STy* nofree noundef nonnull align 8 dereferenceable(24) @global) #[[ATTR16]]
+; IS__CGSCC_NPM-NEXT:    call fastcc void @nested_memory_callee(float* nofree nonnull align 4294967296 poison, double* nofree nonnull align 4294967296 poison, %struct.STy* nofree noundef nonnull align 8 dereferenceable(24) @global) #[[ATTR16]]
 ; IS__CGSCC_NPM-NEXT:    ret void
 ;
 entry:
