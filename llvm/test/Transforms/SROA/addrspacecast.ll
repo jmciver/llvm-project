@@ -253,6 +253,7 @@ entry:
 
 define void @select_addrspacecast(i1 %a, i1 %b) {
 ; CHECK-LABEL: @select_addrspacecast(
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i64 poison
 ; CHECK-NEXT:    ret void
 ;
   %c = alloca i64, align 8
@@ -287,8 +288,9 @@ define void @select_addrspacecast_const_op(i1 %a, i1 %b) {
 
 define void @select_addrspacecast_gv(i1 %a, i1 %b) {
 ; CHECK-LABEL: @select_addrspacecast_gv(
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i64 poison
 ; CHECK-NEXT:    [[COND_SROA_SPECULATE_LOAD_FALSE:%.*]] = load i64, i64 addrspace(1)* @gv, align 8
-; CHECK-NEXT:    [[COND_SROA_SPECULATED:%.*]] = select i1 [[B:%.*]], i64 undef, i64 [[COND_SROA_SPECULATE_LOAD_FALSE]]
+; CHECK-NEXT:    [[COND_SROA_SPECULATED:%.*]] = select i1 [[B:%.*]], i64 [[FREEZE]], i64 [[COND_SROA_SPECULATE_LOAD_FALSE]]
 ; CHECK-NEXT:    ret void
 ;
   %c = alloca i64, align 8
@@ -302,8 +304,9 @@ define void @select_addrspacecast_gv(i1 %a, i1 %b) {
 
 define void @select_addrspacecast_gv_constexpr(i1 %a, i1 %b) {
 ; CHECK-LABEL: @select_addrspacecast_gv_constexpr(
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i64 poison
 ; CHECK-NEXT:    [[COND_SROA_SPECULATE_LOAD_FALSE:%.*]] = load i64, i64 addrspace(2)* addrspacecast (i64 addrspace(1)* @gv to i64 addrspace(2)*), align 8
-; CHECK-NEXT:    [[COND_SROA_SPECULATED:%.*]] = select i1 [[B:%.*]], i64 undef, i64 [[COND_SROA_SPECULATE_LOAD_FALSE]]
+; CHECK-NEXT:    [[COND_SROA_SPECULATED:%.*]] = select i1 [[B:%.*]], i64 [[FREEZE]], i64 [[COND_SROA_SPECULATE_LOAD_FALSE]]
 ; CHECK-NEXT:    ret void
 ;
   %c = alloca i64, align 8
@@ -317,7 +320,9 @@ define void @select_addrspacecast_gv_constexpr(i1 %a, i1 %b) {
 
 define i8 @select_addrspacecast_i8(i1 %c) {
 ; CHECK-LABEL: @select_addrspacecast_i8(
-; CHECK-NEXT:    [[RET_SROA_SPECULATED:%.*]] = select i1 [[C:%.*]], i8 undef, i8 undef
+; CHECK-NEXT:    [[FREEZE1:%.*]] = freeze i8 poison
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i8 poison
+; CHECK-NEXT:    [[RET_SROA_SPECULATED:%.*]] = select i1 [[C:%.*]], i8 [[FREEZE1]], i8 [[FREEZE]]
 ; CHECK-NEXT:    ret i8 [[RET_SROA_SPECULATED]]
 ;
   %a = alloca i8

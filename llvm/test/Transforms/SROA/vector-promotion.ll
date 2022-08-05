@@ -411,7 +411,8 @@ define i32 @PR14212(<3 x i8> %val) {
 ; CHECK-LABEL: @PR14212(
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    [[TMP0:%.*]] = bitcast <3 x i8> [[VAL:%.*]] to i24
-; CHECK-NEXT:    [[RETVAL_SROA_2_0_INSERT_EXT:%.*]] = zext i8 undef to i32
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i8 poison
+; CHECK-NEXT:    [[RETVAL_SROA_2_0_INSERT_EXT:%.*]] = zext i8 [[FREEZE]] to i32
 ; CHECK-NEXT:    [[RETVAL_SROA_2_0_INSERT_SHIFT:%.*]] = shl i32 [[RETVAL_SROA_2_0_INSERT_EXT]], 24
 ; CHECK-NEXT:    [[RETVAL_SROA_2_0_INSERT_MASK:%.*]] = and i32 undef, 16777215
 ; CHECK-NEXT:    [[RETVAL_SROA_2_0_INSERT_INSERT:%.*]] = or i32 [[RETVAL_SROA_2_0_INSERT_MASK]], [[RETVAL_SROA_2_0_INSERT_SHIFT]]
@@ -458,7 +459,8 @@ define i32 @PR14349.2(<2 x i8> %x) {
 ; CHECK-LABEL: @PR14349.2(
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    [[TMP0:%.*]] = bitcast <2 x i8> [[X:%.*]] to i16
-; CHECK-NEXT:    [[A_SROA_2_0_INSERT_EXT:%.*]] = zext i16 undef to i32
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i16 poison
+; CHECK-NEXT:    [[A_SROA_2_0_INSERT_EXT:%.*]] = zext i16 [[FREEZE]] to i32
 ; CHECK-NEXT:    [[A_SROA_2_0_INSERT_SHIFT:%.*]] = shl i32 [[A_SROA_2_0_INSERT_EXT]], 16
 ; CHECK-NEXT:    [[A_SROA_2_0_INSERT_MASK:%.*]] = and i32 undef, 65535
 ; CHECK-NEXT:    [[A_SROA_2_0_INSERT_INSERT:%.*]] = or i32 [[A_SROA_2_0_INSERT_MASK]], [[A_SROA_2_0_INSERT_SHIFT]]
