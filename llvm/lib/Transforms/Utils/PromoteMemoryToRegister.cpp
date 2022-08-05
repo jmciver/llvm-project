@@ -38,6 +38,7 @@
 #include "llvm/IR/Instructions.h"
 #include "llvm/IR/IntrinsicInst.h"
 #include "llvm/IR/Intrinsics.h"
+#include "llvm/IR/IRBuilder.h"
 #include "llvm/IR/LLVMContext.h"
 #include "llvm/IR/Module.h"
 #include "llvm/IR/Type.h"
@@ -489,13 +490,17 @@ static bool promoteSingleBlockAlloca(AllocaInst *AI, const AllocaInfo &Info,
         std::make_pair(LoadIdx, static_cast<StoreInst *>(nullptr)),
         less_first());
     if (I == StoresByIndex.begin()) {
-      if (StoresByIndex.empty())
-        // If there are no stores, the load takes the undef value.
-        LI->replaceAllUsesWith(UndefValue::get(LI->getType()));
-      else
+      if (StoresByIndex.empty()) {
+        // If there are no stores, the load is replaced by freeze poison.
+        IRBuilder<> Builder(LI);
+        Value *freezeInst =
+            Builder.CreateFreeze(PoisonValue::get(LI->getType()), "freeze");
+        LI->replaceAllUsesWith(freezeInst);
+      } else {
         // There is no store before this load, bail out (load may be affected
         // by the following stores - see main comment).
         return false;
+      }
     } else {
       // Otherwise, there was a store before this load, the load takes its value.
       // Note, if the load was marked as nonnull we don't want to lose that
