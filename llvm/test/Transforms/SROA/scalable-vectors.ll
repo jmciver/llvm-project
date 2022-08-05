@@ -72,7 +72,8 @@ define <vscale x 4 x i32> @cast_alloca_from_svint32_t() {
 ; CHECK-LABEL: @cast_alloca_from_svint32_t(
 ; CHECK-NEXT:    [[RETVAL_COERCE:%.*]] = alloca <vscale x 4 x i32>, align 16
 ; CHECK-NEXT:    [[RETVAL_0__SROA_CAST:%.*]] = bitcast <vscale x 4 x i32>* [[RETVAL_COERCE]] to <16 x i32>*
-; CHECK-NEXT:    store <16 x i32> undef, <16 x i32>* [[RETVAL_0__SROA_CAST]], align 16
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze <16 x i32> poison
+; CHECK-NEXT:    store <16 x i32> [[FREEZE]], <16 x i32>* [[RETVAL_0__SROA_CAST]], align 16
 ; CHECK-NEXT:    [[TMP1:%.*]] = load <vscale x 4 x i32>, <vscale x 4 x i32>* [[RETVAL_COERCE]], align 16
 ; CHECK-NEXT:    ret <vscale x 4 x i32> [[TMP1]]
 ;

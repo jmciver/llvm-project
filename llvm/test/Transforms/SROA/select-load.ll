@@ -42,11 +42,15 @@ entry:
 define void @test_multiple_loads_select(i1 %cmp){
 ; CHECK-LABEL: @test_multiple_loads_select(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[TMP0:%.*]] = bitcast i32* undef to i8*
-; CHECK-NEXT:    [[TMP1:%.*]] = bitcast i32* undef to i8*
+; CHECK-NEXT:    [[FREEZE1:%.*]] = freeze i32* poison
+; CHECK-NEXT:    [[TMP0:%.*]] = bitcast i32* [[FREEZE1]] to i8*
+; CHECK-NEXT:    [[FREEZE3:%.*]] = freeze i32* poison
+; CHECK-NEXT:    [[TMP1:%.*]] = bitcast i32* [[FREEZE3]] to i8*
 ; CHECK-NEXT:    [[ADDR_I8_SROA_SPECULATED:%.*]] = select i1 [[CMP:%.*]], i8* [[TMP0]], i8* [[TMP1]]
 ; CHECK-NEXT:    call void @foo_i8(i8* [[ADDR_I8_SROA_SPECULATED]])
-; CHECK-NEXT:    [[ADDR_I32_SROA_SPECULATED:%.*]] = select i1 [[CMP]], i32* undef, i32* undef
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i32* poison
+; CHECK-NEXT:    [[FREEZE2:%.*]] = freeze i32* poison
+; CHECK-NEXT:    [[ADDR_I32_SROA_SPECULATED:%.*]] = select i1 [[CMP]], i32* [[FREEZE]], i32* [[FREEZE2]]
 ; CHECK-NEXT:    call void @foo_i32(i32* [[ADDR_I32_SROA_SPECULATED]])
 ; CHECK-NEXT:    ret void
 ;

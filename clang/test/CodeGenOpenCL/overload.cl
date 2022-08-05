@@ -21,18 +21,18 @@ void kernel test1() {
   generic int *generic *gengen;
   generic int *local *genloc;
   generic int *global *genglob;
-  // CHECK-DAG: call spir_func void @_Z3fooPU3AS1iS0_(i32 addrspace(1)* noundef undef, i32 addrspace(1)* noundef undef)
+  // CHECK-DAG: call spir_func void @_Z3fooPU3AS1iS0_(i32 addrspace(1)* noundef null, i32 addrspace(1)* noundef null)
   foo(a, b);
-  // CHECK-DAG: call spir_func void @_Z3fooPU3AS4iS0_(i32 addrspace(4)* noundef undef, i32 addrspace(4)* noundef undef)
+  // CHECK-DAG: call spir_func void @_Z3fooPU3AS4iS0_(i32 addrspace(4)* noundef addrspacecast (i32 addrspace(1)* null to i32 addrspace(4)*), i32 addrspace(4)* noundef null)
   foo(b, c);
-  // CHECK-DAG: call spir_func void @_Z3fooPU3AS4iS0_(i32 addrspace(4)* noundef undef, i32 addrspace(4)* noundef undef)
+  // CHECK-DAG: call spir_func void @_Z3fooPU3AS4iS0_(i32 addrspace(4)* noundef addrspacecast (i32 addrspace(1)* null to i32 addrspace(4)*), i32 addrspace(4)* noundef addrspacecast (i32 addrspace(3)* null to i32 addrspace(4)*))
   foo(a, d);
 
-  // CHECK-DAG: call spir_func void @_Z3barPU3AS4PU3AS4iS2_(i32 addrspace(4)* addrspace(4)* noundef undef, i32 addrspace(4)* addrspace(4)* noundef undef)
+  // CHECK-DAG: call spir_func void @_Z3barPU3AS4PU3AS4iS2_(i32 addrspace(4)* addrspace(4)* noundef null, i32 addrspace(4)* addrspace(4)* noundef addrspacecast (i32 addrspace(4)* addrspace(3)* null to i32 addrspace(4)* addrspace(4)*))
   bar(gengen, genloc);
-  // CHECK-DAG: call spir_func void @_Z3barPU3AS4PU3AS4iS2_(i32 addrspace(4)* addrspace(4)* noundef undef, i32 addrspace(4)* addrspace(4)* noundef undef)
+  // CHECK-DAG: call spir_func void @_Z3barPU3AS4PU3AS4iS2_(i32 addrspace(4)* addrspace(4)* noundef null, i32 addrspace(4)* addrspace(4)* noundef addrspacecast (i32 addrspace(4)* addrspace(1)* null to i32 addrspace(4)* addrspace(4)*))
   bar(gengen, genglob);
-  // CHECK-DAG: call spir_func void @_Z3barPU3AS1PU3AS4iS2_(i32 addrspace(4)* addrspace(1)* noundef undef, i32 addrspace(4)* addrspace(1)* noundef undef)
+  // CHECK-DAG: call spir_func void @_Z3barPU3AS1PU3AS4iS2_(i32 addrspace(4)* addrspace(1)* noundef null, i32 addrspace(4)* addrspace(1)* noundef null)
   bar(genglob, genglob);
 }
 

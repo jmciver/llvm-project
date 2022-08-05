@@ -41,7 +41,8 @@ define void @test2() {
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    br label [[LOOP:%.*]]
 ; CHECK:       loop:
-; CHECK-NEXT:    [[C:%.*]] = call i1 @use(i32 undef)
+; CHECK-NEXT:    [[F:%.*]] = freeze i32 poison
+; CHECK-NEXT:    [[C:%.*]] = call i1 @use(i32 [[F]])
 ; CHECK-NEXT:    br i1 [[C]], label [[LOOP]], label [[EXIT:%.*]]
 ; CHECK:       exit:
 ; CHECK-NEXT:    ret void

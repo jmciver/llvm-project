@@ -709,6 +709,9 @@ define void @test14(...) nounwind uwtable {
 ; do bad things to these dead allocas, they should just be removed.
 ; CHECK-LABEL: @test14(
 ; CHECK-NEXT:  entry:
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i32 poison
+; CHECK-NEXT:    [[FREEZE2:%.*]] = freeze i32 poison
+; CHECK-NEXT:    [[FREEZE1:%.*]] = freeze i32 poison
 ; CHECK-NEXT:    ret void
 ;
 
@@ -973,6 +976,7 @@ define void @PR13916.1() {
 ; the case where there is a directly identical value for both source and dest.
 ; CHECK-LABEL: @PR13916.1(
 ; CHECK-NEXT:  entry:
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i8 poison
 ; CHECK-NEXT:    ret void
 ;
 
@@ -993,6 +997,7 @@ define void @PR13916.2(i1 %c) {
 ; CHECK:       if.then:
 ; CHECK-NEXT:    br label [[IF_END]]
 ; CHECK:       if.end:
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i8 poison
 ; CHECK-NEXT:    ret void
 ;
 
@@ -1401,7 +1406,8 @@ define i32 @PR14572.2(<3 x i8> %x) {
 ; CHECK-LABEL: @PR14572.2(
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    [[TMP0:%.*]] = bitcast <3 x i8> [[X:%.*]] to i24
-; CHECK-NEXT:    [[A_SROA_2_0_INSERT_EXT:%.*]] = zext i8 undef to i32
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i8 poison
+; CHECK-NEXT:    [[A_SROA_2_0_INSERT_EXT:%.*]] = zext i8 [[FREEZE]] to i32
 ; CHECK-NEXT:    [[A_SROA_2_0_INSERT_SHIFT:%.*]] = shl i32 [[A_SROA_2_0_INSERT_EXT]], 24
 ; CHECK-NEXT:    [[A_SROA_2_0_INSERT_MASK:%.*]] = and i32 undef, 16777215
 ; CHECK-NEXT:    [[A_SROA_2_0_INSERT_INSERT:%.*]] = or i32 [[A_SROA_2_0_INSERT_MASK]], [[A_SROA_2_0_INSERT_SHIFT]]
@@ -1533,7 +1539,9 @@ end:
 
 define i64 @PR15805(i1 %a, i1 %b) {
 ; CHECK-LABEL: @PR15805(
-; CHECK-NEXT:    [[COND_SROA_SPECULATED:%.*]] = select i1 [[B:%.*]], i64 undef, i64 undef
+; CHECK-NEXT:    [[FREEZE2:%.*]] = freeze i64 poison
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i64 poison
+; CHECK-NEXT:    [[COND_SROA_SPECULATED:%.*]] = select i1 [[B:%.*]], i64 [[FREEZE2]], i64 [[FREEZE]]
 ; CHECK-NEXT:    ret i64 [[COND_SROA_SPECULATED]]
 ;
 
@@ -1552,7 +1560,9 @@ define void @PR15805.1(i1 %a, i1 %b, i1 %c1) {
 ; CHECK-LABEL: @PR15805.1(
 ; CHECK-NEXT:    br label [[EXIT:%.*]]
 ; CHECK:       loop:
-; CHECK-NEXT:    [[COND_SROA_SPECULATED:%.*]] = select i1 [[A:%.*]], i64 undef, i64 undef
+; CHECK-NEXT:    [[FREEZE2:%.*]] = freeze i64 poison
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i64 poison
+; CHECK-NEXT:    [[COND_SROA_SPECULATED:%.*]] = select i1 [[A:%.*]], i64 [[FREEZE2]], i64 [[FREEZE]]
 ; CHECK-NEXT:    br i1 [[C1:%.*]], label [[LOOP:%.*]], label [[EXIT]]
 ; CHECK:       exit:
 ; CHECK-NEXT:    ret void
@@ -1960,6 +1970,7 @@ entry-block:
 define void @PR29139() {
 ; CHECK-LABEL: @PR29139(
 ; CHECK-NEXT:  bb1:
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i32 poison
 ; CHECK-NEXT:    ret void
 ;
 bb1:
@@ -2035,6 +2046,7 @@ define void @test29(i32 %num, i32 %tid) {
 ; CHECK:       bb1:
 ; CHECK-NEXT:    [[TOBOOL:%.*]] = icmp eq i32 [[TID:%.*]], 0
 ; CHECK-NEXT:    [[CONV_I:%.*]] = zext i32 [[TID]] to i64
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i32 poison
 ; CHECK-NEXT:    [[ARRAYIDX5:%.*]] = getelementptr inbounds [10 x float], ptr @array, i64 0, i64 [[CONV_I]]
 ; CHECK-NEXT:    [[TMP0:%.*]] = bitcast ptr [[ARRAYIDX5]] to ptr
 ; CHECK-NEXT:    br label [[BB2:%.*]]
@@ -2044,7 +2056,7 @@ define void @test29(i32 %num, i32 %tid) {
 ; CHECK:       bb3:
 ; CHECK-NEXT:    br label [[BB5]]
 ; CHECK:       bb4:
-; CHECK-NEXT:    store i32 undef, ptr [[TMP0]], align 4
+; CHECK-NEXT:    store i32 [[FREEZE]], ptr [[TMP0]], align 4
 ; CHECK-NEXT:    br label [[BB5]]
 ; CHECK:       bb5:
 ; CHECK-NEXT:    [[SUB]] = add i32 [[I_02]], -1
