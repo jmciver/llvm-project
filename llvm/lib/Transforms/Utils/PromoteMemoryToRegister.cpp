@@ -649,8 +649,19 @@ void PromoteMem2Reg::run() {
   // the alloca's.  We do this in case there is a load of a value that has not
   // been stored yet.  In this case, it will get this null value.
   RenamePassData::ValVector Values(Allocas.size());
-  for (unsigned i = 0, e = Allocas.size(); i != e; ++i)
-    Values[i] = UndefValue::get(Allocas[i]->getAllocatedType());
+  // We want to insert freeze poison after alloca instructions in the entry
+  // block.
+  auto insertLocation = std::find_if_not(
+      F.getEntryBlock().begin(), F.getEntryBlock().end(),
+      [](llvm::Instruction &instr) { return isa<AllocaInst>(instr); });
+  IRBuilder<> Builder(&*insertLocation);
+
+  for (unsigned i = 0, e = Allocas.size(); i != e; ++i) {
+    // TODO POISON: This is a first pass and not efficient. We are adding freeze
+    // poison instructions that may not be useful.
+    Values[i] = Builder.CreateFreeze(
+        PoisonValue::get(Allocas[i]->getAllocatedType()), "freeze");
+  }
 
   // When handling debug info, treat all incoming values as if they have unknown
   // locations until proven otherwise.
