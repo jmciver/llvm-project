@@ -1256,7 +1256,8 @@ define void @PR14059.1(double* %d) {
 ; via integers can be promoted away.
 ; CHECK-LABEL: @PR14059.1(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[TMP0:%.*]] = bitcast double undef to i64
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze double poison
+; CHECK-NEXT:    [[TMP0:%.*]] = bitcast double [[FREEZE]] to i64
 ; CHECK-NEXT:    [[X_SROA_0_I_0_INSERT_MASK:%.*]] = and i64 [[TMP0]], -4294967296
 ; CHECK-NEXT:    [[X_SROA_0_I_0_INSERT_INSERT:%.*]] = or i64 [[X_SROA_0_I_0_INSERT_MASK]], 0
 ; CHECK-NEXT:    [[TMP1:%.*]] = bitcast i64 [[X_SROA_0_I_0_INSERT_INSERT]] to double
@@ -1466,6 +1467,7 @@ define <3 x i8> @PR14572.1(i32 %x) {
 ; alloca (relying on the alloc size padding) doesn't trigger an assert.
 ; CHECK-LABEL: @PR14572.1(
 ; CHECK-NEXT:  entry:
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze <3 x i8> poison
 ; CHECK-NEXT:    [[A_0_EXTRACT_TRUNC:%.*]] = trunc i32 [[X:%.*]] to i24
 ; CHECK-NEXT:    [[TMP0:%.*]] = bitcast i24 [[A_0_EXTRACT_TRUNC]] to <3 x i8>
 ; CHECK-NEXT:    [[A_SROA_2_0_EXTRACT_SHIFT:%.*]] = lshr i32 [[X]], 24
@@ -1892,9 +1894,10 @@ define i32 @PR22093() {
 ; CHECK-LABEL: @PR22093(
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    [[A_SROA_0:%.*]] = alloca i16, align 4
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i16 poison
 ; CHECK-NEXT:    store volatile i16 42, i16* [[A_SROA_0]], align 4
 ; CHECK-NEXT:    [[A_SROA_0_0_A_SROA_0_0_LOAD:%.*]] = load i16, i16* [[A_SROA_0]], align 4
-; CHECK-NEXT:    [[A_SROA_3_0_INSERT_EXT:%.*]] = zext i16 undef to i32
+; CHECK-NEXT:    [[A_SROA_3_0_INSERT_EXT:%.*]] = zext i16 [[FREEZE]] to i32
 ; CHECK-NEXT:    [[A_SROA_3_0_INSERT_SHIFT:%.*]] = shl i32 [[A_SROA_3_0_INSERT_EXT]], 16
 ; CHECK-NEXT:    [[A_SROA_3_0_INSERT_MASK:%.*]] = and i32 undef, 65535
 ; CHECK-NEXT:    [[A_SROA_3_0_INSERT_INSERT:%.*]] = or i32 [[A_SROA_3_0_INSERT_MASK]], [[A_SROA_3_0_INSERT_SHIFT]]
@@ -1930,9 +1933,10 @@ define void @PR22093.2() {
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    [[A_SROA_0:%.*]] = alloca i16, align 8
 ; CHECK-NEXT:    [[A_SROA_31:%.*]] = alloca i8, align 4
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i16 poison
 ; CHECK-NEXT:    store volatile i16 42, i16* [[A_SROA_0]], align 8
 ; CHECK-NEXT:    [[A_SROA_0_0_A_SROA_0_0_LOAD:%.*]] = load i16, i16* [[A_SROA_0]], align 8
-; CHECK-NEXT:    [[A_SROA_3_0_INSERT_EXT:%.*]] = zext i16 undef to i32
+; CHECK-NEXT:    [[A_SROA_3_0_INSERT_EXT:%.*]] = zext i16 [[FREEZE]] to i32
 ; CHECK-NEXT:    [[A_SROA_3_0_INSERT_SHIFT:%.*]] = shl i32 [[A_SROA_3_0_INSERT_EXT]], 16
 ; CHECK-NEXT:    [[A_SROA_3_0_INSERT_MASK:%.*]] = and i32 undef, 65535
 ; CHECK-NEXT:    [[A_SROA_3_0_INSERT_INSERT:%.*]] = or i32 [[A_SROA_3_0_INSERT_MASK]], [[A_SROA_3_0_INSERT_SHIFT]]

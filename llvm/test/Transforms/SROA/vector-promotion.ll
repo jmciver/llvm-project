@@ -262,7 +262,8 @@ define i64 @test6(<4 x i64> %x, <4 x i64> %y, i64 %n) {
 define <4 x i32> @test_subvec_store() {
 ; CHECK-LABEL: @test_subvec_store(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[A_0_VECBLEND:%.*]] = select <4 x i1> <i1 true, i1 true, i1 false, i1 false>, <4 x i32> <i32 0, i32 0, i32 undef, i32 undef>, <4 x i32> undef
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze <4 x i32> poison
+; CHECK-NEXT:    [[A_0_VECBLEND:%.*]] = select <4 x i1> <i1 true, i1 true, i1 false, i1 false>, <4 x i32> <i32 0, i32 0, i32 undef, i32 undef>, <4 x i32> [[FREEZE]]
 ; CHECK-NEXT:    [[A_4_VECBLEND:%.*]] = select <4 x i1> <i1 false, i1 true, i1 true, i1 false>, <4 x i32> <i32 undef, i32 1, i32 1, i32 undef>, <4 x i32> [[A_0_VECBLEND]]
 ; CHECK-NEXT:    [[A_8_VECBLEND:%.*]] = select <4 x i1> <i1 false, i1 false, i1 true, i1 true>, <4 x i32> <i32 undef, i32 undef, i32 2, i32 2>, <4 x i32> [[A_4_VECBLEND]]
 ; CHECK-NEXT:    [[A_12_VEC_INSERT:%.*]] = insertelement <4 x i32> [[A_8_VECBLEND]], i32 3, i32 3
@@ -328,7 +329,8 @@ declare void @llvm.memset.p0i32.i32(i32* nocapture, i32, i32, i1) nounwind
 define <4 x float> @test_subvec_memset() {
 ; CHECK-LABEL: @test_subvec_memset(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[A_0_VECBLEND:%.*]] = select <4 x i1> <i1 true, i1 true, i1 false, i1 false>, <4 x float> <float 0.000000e+00, float 0.000000e+00, float undef, float undef>, <4 x float> undef
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze <4 x float> poison
+; CHECK-NEXT:    [[A_0_VECBLEND:%.*]] = select <4 x i1> <i1 true, i1 true, i1 false, i1 false>, <4 x float> <float 0.000000e+00, float 0.000000e+00, float undef, float undef>, <4 x float> [[FREEZE]]
 ; CHECK-NEXT:    [[A_4_VECBLEND:%.*]] = select <4 x i1> <i1 false, i1 true, i1 true, i1 false>, <4 x float> <float undef, float 0x3820202020000000, float 0x3820202020000000, float undef>, <4 x float> [[A_0_VECBLEND]]
 ; CHECK-NEXT:    [[A_8_VECBLEND:%.*]] = select <4 x i1> <i1 false, i1 false, i1 true, i1 true>, <4 x float> <float undef, float undef, float 0x3860606060000000, float 0x3860606060000000>, <4 x float> [[A_4_VECBLEND]]
 ; CHECK-NEXT:    [[A_12_VEC_INSERT:%.*]] = insertelement <4 x float> [[A_8_VECBLEND]], float 0x38E0E0E0E0000000, i32 3
@@ -361,10 +363,11 @@ entry:
 define <4 x float> @test_subvec_memcpy(i8* %x, i8* %y, i8* %z, i8* %f, i8* %out) {
 ; CHECK-LABEL: @test_subvec_memcpy(
 ; CHECK-NEXT:  entry:
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze <4 x float> poison
 ; CHECK-NEXT:    [[A_0_X_SROA_CAST:%.*]] = bitcast i8* [[X:%.*]] to <2 x float>*
 ; CHECK-NEXT:    [[A_0_COPYLOAD:%.*]] = load <2 x float>, <2 x float>* [[A_0_X_SROA_CAST]], align 1
 ; CHECK-NEXT:    [[A_0_VEC_EXPAND:%.*]] = shufflevector <2 x float> [[A_0_COPYLOAD]], <2 x float> poison, <4 x i32> <i32 0, i32 1, i32 undef, i32 undef>
-; CHECK-NEXT:    [[A_0_VECBLEND:%.*]] = select <4 x i1> <i1 true, i1 true, i1 false, i1 false>, <4 x float> [[A_0_VEC_EXPAND]], <4 x float> undef
+; CHECK-NEXT:    [[A_0_VECBLEND:%.*]] = select <4 x i1> <i1 true, i1 true, i1 false, i1 false>, <4 x float> [[A_0_VEC_EXPAND]], <4 x float> [[FREEZE]]
 ; CHECK-NEXT:    [[A_4_Y_SROA_CAST:%.*]] = bitcast i8* [[Y:%.*]] to <2 x float>*
 ; CHECK-NEXT:    [[A_4_COPYLOAD:%.*]] = load <2 x float>, <2 x float>* [[A_4_Y_SROA_CAST]], align 1
 ; CHECK-NEXT:    [[A_4_VEC_EXPAND:%.*]] = shufflevector <2 x float> [[A_4_COPYLOAD]], <2 x float> poison, <4 x i32> <i32 undef, i32 0, i32 1, i32 undef>
@@ -435,6 +438,7 @@ entry:
 define <2 x i8> @PR14349.1(i32 %x) {
 ; CHECK-LABEL: @PR14349.1(
 ; CHECK-NEXT:  entry:
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze <2 x i8> poison
 ; CHECK-NEXT:    [[A_SROA_0_0_EXTRACT_TRUNC:%.*]] = trunc i32 [[X:%.*]] to i16
 ; CHECK-NEXT:    [[TMP0:%.*]] = bitcast i16 [[A_SROA_0_0_EXTRACT_TRUNC]] to <2 x i8>
 ; CHECK-NEXT:    [[A_SROA_2_0_EXTRACT_SHIFT:%.*]] = lshr i32 [[X]], 16
@@ -545,7 +549,8 @@ define <2 x i32> @test9(i32 %x, i32 %y) {
 ; on a single load with a vector type.
 ; CHECK-LABEL: @test9(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[A_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x i32> undef, i32 [[X:%.*]], i32 0
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze <2 x i32> poison
+; CHECK-NEXT:    [[A_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x i32> [[FREEZE]], i32 [[X:%.*]], i32 0
 ; CHECK-NEXT:    [[A_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x i32> [[A_SROA_0_0_VEC_INSERT]], i32 [[Y:%.*]], i32 1
 ; CHECK-NEXT:    ret <2 x i32> [[A_SROA_0_4_VEC_INSERT]]
 ;
@@ -568,6 +573,7 @@ define <2 x i32> @test10(<4 x i16> %x, i32 %y) {
 ; with the widest elements.
 ; CHECK-LABEL: @test10(
 ; CHECK-NEXT:  entry:
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze <2 x i32> poison
 ; CHECK-NEXT:    [[TMP0:%.*]] = bitcast <4 x i16> [[X:%.*]] to <2 x i32>
 ; CHECK-NEXT:    [[A_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x i32> [[TMP0]], i32 [[Y:%.*]], i32 1
 ; CHECK-NEXT:    ret <2 x i32> [[A_SROA_0_4_VEC_INSERT]]
