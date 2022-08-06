@@ -10,9 +10,10 @@ declare i1 @use(i32)
 define void @test1() {
 ; CHECK-LABEL: @test1(
 ; CHECK-NEXT:  entry:
+; CHECK-NEXT:    [[F:%.*]] = freeze i32 poison
 ; CHECK-NEXT:    br label [[LOOP:%.*]]
 ; CHECK:       loop:
-; CHECK-NEXT:    [[T_0:%.*]] = phi i32 [ undef, [[ENTRY:%.*]] ], [ [[N:%.*]], [[LOOP]] ]
+; CHECK-NEXT:    [[T_0:%.*]] = phi i32 [ [[F:%.*]], [[ENTRY:%.*]] ], [ [[N:%.*]], [[LOOP]] ]
 ; CHECK-NEXT:    [[C:%.*]] = call i1 @use(i32 [[T_0]])
 ; CHECK-NEXT:    [[N]] = call i32 @def(i32 7)
 ; CHECK-NEXT:    br i1 [[C]], label [[LOOP]], label [[EXIT:%.*]]

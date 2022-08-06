@@ -20,9 +20,10 @@ target triple = "x86_64-apple-macosx10.12.0"
 define void @scan(i32 %n) #0 !dbg !4 {
 ; CHECK-LABEL: @scan(
 ; CHECK-NEXT:  entry:
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i32 poison
 ; CHECK-NEXT:    br label [[FOR_COND:%.*]], !dbg [[DBG10:![0-9]+]]
 ; CHECK:       for.cond:
-; CHECK-NEXT:    [[VLA1_0:%.*]] = phi i32 [ undef, [[ENTRY:%.*]] ], [ [[T0:%.*]], [[FOR_COND]] ]
+; CHECK-NEXT:    [[VLA1_0:%.*]] = phi i32 [ [[FREEZE]], [[ENTRY:%.*]] ], [ [[T0:%.*]], [[FOR_COND]] ]
 ; CHECK-NEXT:    [[T0]] = add i32 [[VLA1_0]], 1
 ; CHECK-NEXT:    call void @llvm.dbg.value(metadata i32 undef, metadata [[META11:![0-9]+]], metadata !DIExpression()), !dbg [[DBG19:![0-9]+]]
 ; CHECK-NEXT:    br label [[FOR_COND]], !dbg [[DBG10]]

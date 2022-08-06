@@ -100,10 +100,11 @@ declare i32 @memcpy_vec3float_helper(%S.vec3float*)
 define i32 @memcpy_vec3float_widening(%S.vec3float* %x) {
 ; CHECK-LABEL: @memcpy_vec3float_widening(
 ; CHECK-NEXT:  entry:
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze <4 x float> poison
 ; CHECK-NEXT:    [[TMP1_SROA_0_0_TMP1_SROA_0_0__SROA_CAST_SROA_CAST:%.*]] = bitcast %S.vec3float* [[X:%.*]] to <3 x float>*
 ; CHECK-NEXT:    [[TMP1_SROA_0_0_COPYLOAD:%.*]] = load <3 x float>, <3 x float>* [[TMP1_SROA_0_0_TMP1_SROA_0_0__SROA_CAST_SROA_CAST]], align 4
 ; CHECK-NEXT:    [[TMP1_SROA_0_0_VEC_EXPAND:%.*]] = shufflevector <3 x float> [[TMP1_SROA_0_0_COPYLOAD]], <3 x float> poison, <4 x i32> <i32 0, i32 1, i32 2, i32 undef>
-; CHECK-NEXT:    [[TMP1_SROA_0_0_VECBLEND:%.*]] = select <4 x i1> <i1 true, i1 true, i1 true, i1 false>, <4 x float> [[TMP1_SROA_0_0_VEC_EXPAND]], <4 x float> undef
+; CHECK-NEXT:    [[TMP1_SROA_0_0_VECBLEND:%.*]] = select <4 x i1> <i1 true, i1 true, i1 true, i1 false>, <4 x float> [[TMP1_SROA_0_0_VEC_EXPAND]], <4 x float> [[FREEZE]]
 ; CHECK-NEXT:    [[TMP2:%.*]] = alloca [[S_VEC3FLOAT:%.*]], align 4
 ; CHECK-NEXT:    [[TMP1_SROA_0_0_TMP1_SROA_0_0__SROA_CAST2_SROA_CAST:%.*]] = bitcast %S.vec3float* [[TMP2]] to <3 x float>*
 ; CHECK-NEXT:    [[TMP1_SROA_0_0_VEC_EXTRACT:%.*]] = shufflevector <4 x float> [[TMP1_SROA_0_0_VECBLEND]], <4 x float> poison, <3 x i32> <i32 0, i32 1, i32 2>
