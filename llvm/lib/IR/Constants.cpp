@@ -305,6 +305,10 @@ bool Constant::isElementWiseEqual(Value *Y) const {
   return isa<UndefValue>(CmpEq) || match(CmpEq, m_One());
 }
 
+bool Constant::isPoison() const {
+  return isa<PoisonValue>(this);
+}
+
 static bool
 containsUndefinedElement(const Constant *C,
                          function_ref<bool(const Constant *)> HasFn) {

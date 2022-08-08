@@ -101,6 +101,9 @@ public:
   /// lane, the constants still match.
   bool isElementWiseEqual(Value *Y) const;
 
+  /// Return true if this contant is poison.
+  bool isPoison() const;
+
   /// Return true if this is a vector constant that includes any undef or
   /// poison elements. Since it is impossible to inspect a scalable vector
   /// element- wise at compile time, this function returns true only if the
