@@ -16,8 +16,8 @@ target datalayout = "e-p:64:64:64"
 
 define i32 @signbit(double %x) nounwind {
 ; FIXME: This would be ret i32 %tmp5.lobit if CFLSteensAA could prove PartialAlias
-; CFLSteensAA: ret i32 0
-; CHECK: ret i32 0
+; CFLSteensAA: ret i32 %tmp5.lobit
+; CHECK: ret i32 %tmp5.lobit
 entry:
   %u = alloca %union.anon, align 8
   %tmp9 = getelementptr inbounds %union.anon, %union.anon* %u, i64 0, i32 0

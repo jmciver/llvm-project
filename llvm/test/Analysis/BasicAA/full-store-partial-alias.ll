@@ -15,7 +15,7 @@ target datalayout = "e-p:64:64:64"
 
 define i32 @signbit(double %x) nounwind {
 ; BASICAA: ret i32 %tmp5.lobit
-; CHECK:   ret i32 0
+; CHECK:   ret i32 %tmp5.lobit
 entry:
   %u = alloca %union.anon, align 8
   %tmp9 = getelementptr inbounds %union.anon, %union.anon* %u, i64 0, i32 0

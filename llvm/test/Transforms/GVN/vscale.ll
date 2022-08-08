@@ -164,7 +164,7 @@ define <vscale x 4 x i32> @store_forward_to_load_sideeffect(<vscale x 4 x i32>* 
 
 define i32 @store_clobber_load() {
 ; CHECK-LABEL: @store_clobber_load(
-; CHECK-NEXT:    [[ALLOC:%.*]] = alloca <vscale x 4 x i32>
+; CHECK-NEXT:    [[ALLOC:%.*]] = alloca <vscale x 4 x i32>, align 16
 ; CHECK-NEXT:    store <vscale x 4 x i32> undef, <vscale x 4 x i32>* [[ALLOC]], align 16
 ; CHECK-NEXT:    [[PTR:%.*]] = getelementptr <vscale x 4 x i32>, <vscale x 4 x i32>* [[ALLOC]], i32 0, i32 1
 ; CHECK-NEXT:    [[LOAD:%.*]] = load i32, i32* [[PTR]], align 4
@@ -227,11 +227,13 @@ define i32 @memset_clobber_load_nonconst_index(<vscale x 4 x i32> *%p, i64 %idx1
 
 ; Load elimination across BBs
 
-define <vscale x 4 x i32>* @load_from_alloc_replaced_with_undef() {
-; CHECK-LABEL: @load_from_alloc_replaced_with_undef(
+define <vscale x 4 x i32>* @load_from_alloc_replaced_with_freeze_poison() {
+; CHECK-LABEL: @load_from_alloc_replaced_with_freeze_poison(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[A:%.*]] = alloca <vscale x 4 x i32>
-; CHECK-NEXT:    br i1 undef, label [[IF_END:%.*]], label [[IF_THEN:%.*]]
+; CHECK-NEXT:    [[A:%.*]] = alloca <vscale x 4 x i32>, align 16
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i32 poison
+; CHECK-NEXT:    [[TOBOOL:%.*]] = icmp eq i32 [[FREEZE]], 0
+; CHECK-NEXT:    br i1 [[TOBOOL]], label [[IF_END:%.*]], label [[IF_THEN:%.*]]
 ; CHECK:       if.then:
 ; CHECK-NEXT:    store <vscale x 4 x i32> zeroinitializer, <vscale x 4 x i32>* [[A]], align 16
 ; CHECK-NEXT:    br label [[IF_END]]

@@ -22,8 +22,9 @@ if.end:                                           ; preds = %if.then, %entry
   ret i8* %call
 
 ; CHECK-LABEL: @test1(
+; CHECK: freeze
 ; CHECK-NOT: load
-; CHECK-NOT: icmp
+; CHECK: icmp
 
 ; CHECK_NO_LIBCALLS-LABEL: @test1(
 ; CHECK_NO_LIBCALLS: load
@@ -47,8 +48,9 @@ if.end:                                           ; preds = %if.then, %entry
   ret i8* %call
 
 ; CHECK-LABEL: @test2(
+; CHECK: freeze
 ; CHECK-NOT: load
-; CHECK-NOT: icmp
+; CHECK: icmp
 
 ; CHECK_NO_LIBCALLS-LABEL: @test2(
 ; CHECK_NO_LIBCALLS: load
@@ -72,8 +74,9 @@ if.end:                                           ; preds = %if.then, %entry
   ret i8* %call
 
 ; CHECK-LABEL: @test3(
+; CHECK: freeze
 ; CHECK-NOT: load
-; CHECK-NOT: icmp
+; CHECK: icmp
 
 ; CHECK_NO_LIBCALLS-LABEL: @test3(
 ; CHECK_NO_LIBCALLS: load
