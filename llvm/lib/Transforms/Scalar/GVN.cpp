@@ -1227,17 +1227,21 @@ bool GVNPass::AnalyzeLoadAvailability(LoadInst *Load, MemDepResult DepInfo,
   }
   assert(DepInfo.isDef() && "follows from above");
 
-  // Loading the alloca -> undef.
-  // Loading immediately after lifetime begin -> undef.
+  // Loading the alloca -> freeze poison.
+  // Loading immediately after lifetime begin -> freeze poison.
   if (isa<AllocaInst>(DepInst) || isLifetimeStart(DepInst)) {
-    Res = AvailableValue::get(UndefValue::get(Load->getType()));
+    Res = insertFreezePoison(Load, DepInst, DepInst);
     return true;
   }
 
   if (isAllocationFn(DepInst, TLI))
     if (auto *InitVal = getInitialValueOfAllocation(cast<CallBase>(DepInst),
                                                     TLI, Load->getType())) {
-      Res = AvailableValue::get(InitVal);
+      if (InitVal->isPoison()) {
+        Res = insertFreezePoison(Load, Load, DepInst);
+      } else {
+        Res = AvailableValue::get(InitVal);
+      }
       return true;
     }
 
@@ -3183,6 +3187,22 @@ void GVNPass::assignValNumForDeadCode() {
       addToLeaderTable(ValNum, &Inst, BB);
     }
   }
+}
+
+AvailableValue GVNPass::insertFreezePoison(const LoadInst *Load,
+                                           Instruction *InsertAt,
+                                           const Instruction *DepInst) {
+  auto insertLocation = std::find_if_not(
+      InsertAt->getParent()->begin(), InsertAt->getParent()->end(),
+      [](Instruction &inst) { return isa<AllocaInst>(inst); });
+  IRBuilder<> Builder(&*insertLocation);
+  Value *freezeInst =
+      Builder.CreateFreeze(PoisonValue::get(Load->getType()), "freeze");
+  LLVM_DEBUG(dbgs() << "GVN: load "; Load->printAsOperand(dbgs());
+             dbgs() << " is being converted to freeze poison" << *DepInst
+                    << '\n';);
+  VN.lookupOrAdd(freezeInst);
+  return AvailableValue::get(freezeInst);
 }
 
 class llvm::gvn::GVNLegacyPass : public FunctionPass {

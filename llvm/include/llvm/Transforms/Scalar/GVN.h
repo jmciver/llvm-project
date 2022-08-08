@@ -365,6 +365,10 @@ private:
   void addDeadBlock(BasicBlock *BB);
   void assignValNumForDeadCode();
   void assignBlockRPONumber(Function &F);
+
+  gvn::AvailableValue insertFreezePoison(const LoadInst *Load,
+                                         Instruction *InsertAt,
+                                         const Instruction *DepInst);
 };
 
 /// Create a legacy GVN pass. This also allows parameterizing whether or not
