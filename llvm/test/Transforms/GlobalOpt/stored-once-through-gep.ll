@@ -6,7 +6,7 @@
 
 %s = type { i32 }
 
-@g = internal unnamed_addr global i32 undef
+@g = internal unnamed_addr global i32 poison
 
 ; CHECK-NOT: @g =
 
