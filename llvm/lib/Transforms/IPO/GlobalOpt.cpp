@@ -317,7 +317,6 @@ static bool CleanupConstantGlobalUsers(GlobalVariable *GV,
           DL, Offset, /* AllowNonInbounds */ true);
       if (PtrOp == GV) {
         if (auto *Value = ConstantFoldLoadFromConst(Init, Ty, Offset, DL)) {
-          dbgs() << "DEBUG: is constant\n";
           LI->replaceAllUsesWith(Value);
           EraseFromParent(LI);
         }
