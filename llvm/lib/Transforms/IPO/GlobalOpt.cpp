@@ -866,10 +866,10 @@ OptimizeGlobalAddressOfAllocation(GlobalVariable *GV, CallInst *CI,
                                     AllocSize);
 
   // Create the new global variable.  The contents of the allocated memory is
-  // undefined initially, so initialize with an poison value.
+  // undefined initially, so initialize with an undef value.
   GlobalVariable *NewGV = new GlobalVariable(
       *GV->getParent(), GlobalType, false, GlobalValue::InternalLinkage,
-      PoisonValue::get(GlobalType), GV->getName() + ".body", nullptr,
+      UndefValue::get(GlobalType), GV->getName() + ".body", nullptr,
       GV->getThreadLocalMode());
 
   // Initialize the global at the point of the original call.  Note that this
@@ -877,7 +877,7 @@ OptimizeGlobalAddressOfAllocation(GlobalVariable *GV, CallInst *CI,
   // nullability handling.  Sublety: We have not proven the original global was
   // only initialized once.  As such, we can not fold this into the initializer
   // of the new global as may need to re-init the storage multiple times.
-  if (!isa<PoisonValue>(InitVal)) {
+  if (!isa<UndefValue>(InitVal)) {
     IRBuilder<> Builder(CI->getNextNode());
     // TODO: Use alignment above if align!=1
     Builder.CreateMemSet(NewGV, InitVal, AllocSize, None);
@@ -1473,7 +1473,7 @@ processInternalGlobal(GlobalVariable *GV, const GlobalStatus &GS,
     // FIXME: Pass Global's alignment when globals have alignment
     AllocaInst *Alloca = new AllocaInst(ElemTy, DL.getAllocaAddrSpace(), nullptr,
                                         GV->getName(), &FirstI);
-    if (!isa<PoisonValue>(GV->getInitializer()))
+    if (!isa<UndefValue>(GV->getInitializer()))
       new StoreInst(GV->getInitializer(), Alloca, &FirstI);
 
     makeAllConstantUsesInstructions(GV);
@@ -1553,14 +1553,14 @@ processInternalGlobal(GlobalVariable *GV, const GlobalStatus &GS,
     bool CanHaveNonUndefGlobalInitializer =
         GetTTI(StoreFn).canHaveNonUndefGlobalInitializerInAddressSpace(
             GV->getType()->getAddressSpace());
-    // If the initial value for the global was a poison value, and if only
+    // If the initial value for the global was an undef value, and if only
     // one other value was stored into it, we can just change the
     // initializer to be the stored value, then delete all stores to the
     // global.  This allows us to mark it constant.
     // This is restricted to address spaces that allow globals to have
     // initializers. NVPTX, for example, does not support initializers for
     // shared memory (AS 3).
-    if (SOVConstant && isa<PoisonValue>(GV->getInitializer()) &&
+    if (SOVConstant && isa<UndefValue>(GV->getInitializer()) &&
         DL.getTypeAllocSize(SOVConstant->getType()) ==
             DL.getTypeAllocSize(GV->getValueType()) &&
         CanHaveNonUndefGlobalInitializer) {
@@ -1601,7 +1601,7 @@ processInternalGlobal(GlobalVariable *GV, const GlobalStatus &GS,
     // Otherwise, if the global was not a boolean, we can shrink it to be a
     // boolean. Skip this optimization for AS that doesn't allow an initializer.
     if (SOVConstant && GS.Ordering == AtomicOrdering::NotAtomic &&
-        (!isa<PoisonValue>(GV->getInitializer()) ||
+        (!isa<UndefValue>(GV->getInitializer()) ||
          CanHaveNonUndefGlobalInitializer)) {
       if (TryToShrinkGlobalToBoolean(GV, SOVConstant)) {
         ++NumShrunkToBool;
