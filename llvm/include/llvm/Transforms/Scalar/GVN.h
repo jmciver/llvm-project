@@ -376,7 +376,6 @@ private:
                                          const Instruction *DepInst);
   void clearInstertedFreezePoisons();
   void removeInsertedFreezePoisons();
-  bool hasBackedgeCriticalEdge(const LoadInst *Load) const;
 };
 
 /// Create a legacy GVN pass. This also allows parameterizing whether or not

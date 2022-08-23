@@ -1230,12 +1230,8 @@ bool GVNPass::AnalyzeLoadAvailability(LoadInst *Load, MemDepResult DepInfo,
   // Loading the alloca -> freeze poison.
   // Loading immediately after lifetime begin -> freeze poison.
   if (isa<AllocaInst>(DepInst) || isLifetimeStart(DepInst)) {
-    if (!hasBackedgeCriticalEdge(Load)) {
-      Res = insertFreezePoison(Load, DepInst, DepInst);
-      return true;
-    } else {
-      return false;
-    }
+    Res = insertFreezePoison(Load, DepInst, DepInst);
+    return true;
   }
 
   if (isAllocationFn(DepInst, TLI))
@@ -3226,13 +3222,6 @@ void GVNPass::removeInsertedFreezePoisons() {
     asInst->eraseFromParent();
   }
   clearInstertedFreezePoisons();
-}
-
-bool GVNPass::hasBackedgeCriticalEdge(const LoadInst *Load) const {
-  const auto LoadBB = Load->getParent();
-  return std::any_of(
-      pred_begin(LoadBB), pred_end(LoadBB),
-      [&](const BasicBlock *pred) { return DT->dominates(LoadBB, pred); });
 }
 
 class llvm::gvn::GVNLegacyPass : public FunctionPass {
