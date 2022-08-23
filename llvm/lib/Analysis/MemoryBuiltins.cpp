@@ -425,7 +425,7 @@ Constant *llvm::getInitialValueOfAllocation(const CallBase *Alloc,
                                             Type *Ty) {
   assert(isAllocationFn(Alloc, TLI));
 
-  // malloc and aligned_alloc are uninitialized (undef)
+  // malloc and aligned_alloc are uninitialized (poison)
   if (isMallocLikeFn(Alloc, TLI) || isAlignedAllocLikeFn(Alloc, TLI))
     return PoisonValue::get(Ty);
 
