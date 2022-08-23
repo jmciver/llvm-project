@@ -1230,15 +1230,19 @@ bool GVNPass::AnalyzeLoadAvailability(LoadInst *Load, MemDepResult DepInfo,
   // Loading the alloca -> freeze poison.
   // Loading immediately after lifetime begin -> freeze poison.
   if (isa<AllocaInst>(DepInst) || isLifetimeStart(DepInst)) {
-    Res = insertFreezePoison(Load, DepInst, DepInst);
-    return true;
+    if (!hasBackedgeCriticalEdge(Load)) {
+      Res = insertFreezePoison(Load, DepInst, DepInst);
+      return true;
+    } else {
+      return false;
+    }
   }
 
   if (isAllocationFn(DepInst, TLI))
     if (auto *InitVal = getInitialValueOfAllocation(cast<CallBase>(DepInst),
                                                     TLI, Load->getType())) {
       if (InitVal->isPoison()) {
-        Res = insertFreezePoison(Load, Load, DepInst);
+        Res = insertFreezePoison(Load, DepInst, DepInst);
       } else {
         Res = AvailableValue::get(InitVal);
       }
@@ -2484,9 +2488,12 @@ bool GVNPass::processInstruction(Instruction *I) {
     return processAssumeIntrinsic(Assume);
 
   if (LoadInst *Load = dyn_cast<LoadInst>(I)) {
-    if (processLoad(Load))
+    clearInstertedFreezePoisons();
+    if (processLoad(Load)) {
+      clearInstertedFreezePoisons();
       return true;
-
+    }
+    removeInsertedFreezePoisons();
     unsigned Num = VN.lookupOrAdd(Load);
     addToLeaderTable(Num, Load, Load->getParent());
     return false;
@@ -3192,17 +3199,40 @@ void GVNPass::assignValNumForDeadCode() {
 AvailableValue GVNPass::insertFreezePoison(const LoadInst *Load,
                                            Instruction *InsertAt,
                                            const Instruction *DepInst) {
+  LLVM_DEBUG(dbgs() << "GVN: attempting to convert ";
+             Load->printAsOperand(dbgs());
+             dbgs() << " in block " << Load->getParent()->getName()
+                    << " to freeze poison in block "
+                    << InsertAt->getParent()->getName() << "\n");
   auto insertLocation = std::find_if_not(
       InsertAt->getParent()->begin(), InsertAt->getParent()->end(),
       [](Instruction &inst) { return isa<AllocaInst>(inst); });
   IRBuilder<> Builder(&*insertLocation);
-  Value *freezeInst =
-      Builder.CreateFreeze(PoisonValue::get(Load->getType()), "freeze");
+  InsertedFreezePoisons.push_back(
+      Builder.CreateFreeze(PoisonValue::get(Load->getType()), "freeze"));
   LLVM_DEBUG(dbgs() << "GVN: load "; Load->printAsOperand(dbgs());
              dbgs() << " is being converted to freeze poison" << *DepInst
                     << '\n';);
-  VN.lookupOrAdd(freezeInst);
-  return AvailableValue::get(freezeInst);
+  VN.lookupOrAdd(InsertedFreezePoisons.back());
+  return AvailableValue::get(InsertedFreezePoisons.back());
+}
+
+void GVNPass::clearInstertedFreezePoisons() { InsertedFreezePoisons.clear(); }
+
+void GVNPass::removeInsertedFreezePoisons() {
+  for (auto inst : InsertedFreezePoisons) {
+    auto asInst = dyn_cast<Instruction>(inst);
+    VN.erase(asInst);
+    asInst->eraseFromParent();
+  }
+  clearInstertedFreezePoisons();
+}
+
+bool GVNPass::hasBackedgeCriticalEdge(const LoadInst *Load) const {
+  const auto LoadBB = Load->getParent();
+  return std::any_of(
+      pred_begin(LoadBB), pred_end(LoadBB),
+      [&](const BasicBlock *pred) { return DT->dominates(LoadBB, pred); });
 }
 
 class llvm::gvn::GVNLegacyPass : public FunctionPass {

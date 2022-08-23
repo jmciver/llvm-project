@@ -254,6 +254,11 @@ private:
   // of BlockRPONumber prior to accessing the contents of BlockRPONumber.
   bool InvalidBlockRPONumbers = true;
 
+  // Removal of inserted freeze poison instructions maybe required in the event
+  // that PRE (partial redundancy elimination) of an uninitialized load cannot
+  // be applied.
+  SmallVector<Value *, 4> InsertedFreezePoisons;
+
   using LoadDepVect = SmallVector<NonLocalDepResult, 64>;
   using AvailValInBlkVect = SmallVector<gvn::AvailableValueInBlock, 64>;
   using UnavailBlkVect = SmallVector<BasicBlock *, 64>;
@@ -369,6 +374,9 @@ private:
   gvn::AvailableValue insertFreezePoison(const LoadInst *Load,
                                          Instruction *InsertAt,
                                          const Instruction *DepInst);
+  void clearInstertedFreezePoisons();
+  void removeInsertedFreezePoisons();
+  bool hasBackedgeCriticalEdge(const LoadInst *Load) const;
 };
 
 /// Create a legacy GVN pass. This also allows parameterizing whether or not
