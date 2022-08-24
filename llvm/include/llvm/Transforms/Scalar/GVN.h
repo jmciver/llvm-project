@@ -372,8 +372,7 @@ private:
   void assignBlockRPONumber(Function &F);
 
   gvn::AvailableValue insertFreezePoison(const LoadInst *Load,
-                                         Instruction *InsertAt,
-                                         const Instruction *DepInst);
+                                         Instruction *InsertAt);
   void clearInstertedFreezePoisons();
   void removeInsertedFreezePoisons();
 };

@@ -1230,7 +1230,7 @@ bool GVNPass::AnalyzeLoadAvailability(LoadInst *Load, MemDepResult DepInfo,
   // Loading the alloca -> freeze poison.
   // Loading immediately after lifetime begin -> freeze poison.
   if (isa<AllocaInst>(DepInst) || isLifetimeStart(DepInst)) {
-    Res = insertFreezePoison(Load, DepInst, DepInst);
+    Res = insertFreezePoison(Load, DepInst);
     return true;
   }
 
@@ -1238,7 +1238,7 @@ bool GVNPass::AnalyzeLoadAvailability(LoadInst *Load, MemDepResult DepInfo,
     if (auto *InitVal = getInitialValueOfAllocation(cast<CallBase>(DepInst),
                                                     TLI, Load->getType())) {
       if (InitVal->isPoison()) {
-        Res = insertFreezePoison(Load, DepInst, DepInst);
+        Res = insertFreezePoison(Load, DepInst);
       } else {
         Res = AvailableValue::get(InitVal);
       }
@@ -3193,22 +3193,20 @@ void GVNPass::assignValNumForDeadCode() {
 }
 
 AvailableValue GVNPass::insertFreezePoison(const LoadInst *Load,
-                                           Instruction *InsertAt,
-                                           const Instruction *DepInst) {
-  LLVM_DEBUG(dbgs() << "GVN: attempting to convert ";
+                                           Instruction *InsertAt) {
+  LLVM_DEBUG(dbgs() << "GVN: attempting to convert load ";
              Load->printAsOperand(dbgs());
              dbgs() << " in block " << Load->getParent()->getName()
                     << " to freeze poison in block "
-                    << InsertAt->getParent()->getName() << "\n");
+                    << InsertAt->getParent()->getName() << "\n";
+             dbgs() << "GVN: the load's dependent instruction is " << *InsertAt
+                    << "\n");
   auto insertLocation = std::find_if_not(
       InsertAt->getParent()->begin(), InsertAt->getParent()->end(),
       [](Instruction &inst) { return isa<AllocaInst>(inst); });
   IRBuilder<> Builder(&*insertLocation);
   InsertedFreezePoisons.push_back(
       Builder.CreateFreeze(PoisonValue::get(Load->getType()), "freeze"));
-  LLVM_DEBUG(dbgs() << "GVN: load "; Load->printAsOperand(dbgs());
-             dbgs() << " is being converted to freeze poison" << *DepInst
-                    << '\n';);
   VN.lookupOrAdd(InsertedFreezePoisons.back());
   return AvailableValue::get(InsertedFreezePoisons.back());
 }
