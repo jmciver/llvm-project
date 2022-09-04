@@ -253,7 +253,6 @@ entry:
 
 define void @select_addrspacecast(i1 %a, i1 %b) {
 ; CHECK-LABEL: @select_addrspacecast(
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i64 poison
 ; CHECK-NEXT:    ret void
 ;
   %c = alloca i64, align 8

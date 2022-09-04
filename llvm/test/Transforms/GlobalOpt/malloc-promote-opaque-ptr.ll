@@ -8,11 +8,11 @@
 declare noalias i8* @malloc(i64)
 
 ;.
-; CHECK: @[[G1_BODY_0:[a-zA-Z0-9_$"\\.-]+]] = internal unnamed_addr global i64 poison
-; CHECK: @[[G2_BODY_0:[a-zA-Z0-9_$"\\.-]+]] = internal unnamed_addr global i32 poison
-; CHECK: @[[G2_BODY_1:[a-zA-Z0-9_$"\\.-]+]] = internal unnamed_addr global i32 poison
-; CHECK: @[[G2_BODY_2:[a-zA-Z0-9_$"\\.-]+]] = internal unnamed_addr global i32 poison
-; CHECK: @[[G3_BODY:[a-zA-Z0-9_$"\\.-]+]] = internal unnamed_addr global [8 x i8] poison
+; CHECK: @[[G1_BODY_0:[a-zA-Z0-9_$"\\.-]+]] = internal unnamed_addr global i64 undef
+; CHECK: @[[G2_BODY_0:[a-zA-Z0-9_$"\\.-]+]] = internal unnamed_addr global i32 undef
+; CHECK: @[[G2_BODY_1:[a-zA-Z0-9_$"\\.-]+]] = internal unnamed_addr global i32 undef
+; CHECK: @[[G2_BODY_2:[a-zA-Z0-9_$"\\.-]+]] = internal unnamed_addr global i32 undef
+; CHECK: @[[G3_BODY:[a-zA-Z0-9_$"\\.-]+]] = internal unnamed_addr global [8 x i8] undef
 ;.
 define void @test_store(i64 %a, i32 %b) {
 ; CHECK-LABEL: @test_store(

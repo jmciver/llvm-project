@@ -461,8 +461,6 @@ define void @constant_value_phi(i1 %c1) {
 ; CHECK-NEXT:    br i1 [[C1:%.*]], label [[COND_END_I:%.*]], label [[COND_END_I]]
 ; CHECK:       cond.end.i:
 ; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i16 poison
-; CHECK-NEXT:    [[FREEZE2:%.*]] = freeze i8 poison
-; CHECK-NEXT:    [[FREEZE1:%.*]] = freeze i16 poison
 ; CHECK-NEXT:    unreachable
 ;
 entry:

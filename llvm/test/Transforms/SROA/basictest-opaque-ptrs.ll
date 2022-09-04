@@ -709,9 +709,6 @@ define void @test14(...) nounwind uwtable {
 ; do bad things to these dead allocas, they should just be removed.
 ; CHECK-LABEL: @test14(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i32 poison
-; CHECK-NEXT:    [[FREEZE2:%.*]] = freeze i32 poison
-; CHECK-NEXT:    [[FREEZE1:%.*]] = freeze i32 poison
 ; CHECK-NEXT:    ret void
 ;
 
@@ -976,7 +973,6 @@ define void @PR13916.1() {
 ; the case where there is a directly identical value for both source and dest.
 ; CHECK-LABEL: @PR13916.1(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i8 poison
 ; CHECK-NEXT:    ret void
 ;
 
@@ -997,7 +993,6 @@ define void @PR13916.2(i1 %c) {
 ; CHECK:       if.then:
 ; CHECK-NEXT:    br label [[IF_END]]
 ; CHECK:       if.end:
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i8 poison
 ; CHECK-NEXT:    ret void
 ;
 
@@ -1973,7 +1968,6 @@ entry-block:
 define void @PR29139() {
 ; CHECK-LABEL: @PR29139(
 ; CHECK-NEXT:  bb1:
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i32 poison
 ; CHECK-NEXT:    ret void
 ;
 bb1:

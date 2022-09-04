@@ -240,7 +240,6 @@ define i32 @test6(i32* %b) {
 ; CHECK-NEXT:    [[SELECT2:%.*]] = select i1 false, i32* poison, i32* [[B:%.*]]
 ; CHECK-NEXT:    [[SELECT3:%.*]] = select i1 false, i32* poison, i32* [[B]]
 ; CHECK-NEXT:    call void @f(i32* [[SELECT2]], i32* [[SELECT3]])
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i32 poison
 ; CHECK-NEXT:    ret i32 1
 ;
 entry:
