@@ -7,7 +7,6 @@
 define void @test(i64 addrspace(1)* %base_obj) gc "statepoint-example" {
 ; CHECK-LABEL: @test(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i64 addrspace(1)* poison
 ; CHECK-NEXT:    [[OBJ:%.*]] = getelementptr i64, i64 addrspace(1)* [[BASE_OBJ:%.*]], i32 1
 ; CHECK-NEXT:    br label [[LOOP:%.*]]
 ; CHECK:       loop:

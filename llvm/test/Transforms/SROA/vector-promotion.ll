@@ -438,7 +438,6 @@ entry:
 define <2 x i8> @PR14349.1(i32 %x) {
 ; CHECK-LABEL: @PR14349.1(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze <2 x i8> poison
 ; CHECK-NEXT:    [[A_SROA_0_0_EXTRACT_TRUNC:%.*]] = trunc i32 [[X:%.*]] to i16
 ; CHECK-NEXT:    [[TMP0:%.*]] = bitcast i16 [[A_SROA_0_0_EXTRACT_TRUNC]] to <2 x i8>
 ; CHECK-NEXT:    [[A_SROA_2_0_EXTRACT_SHIFT:%.*]] = lshr i32 [[X]], 16
@@ -573,7 +572,6 @@ define <2 x i32> @test10(<4 x i16> %x, i32 %y) {
 ; with the widest elements.
 ; CHECK-LABEL: @test10(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze <2 x i32> poison
 ; CHECK-NEXT:    [[TMP0:%.*]] = bitcast <4 x i16> [[X:%.*]] to <2 x i32>
 ; CHECK-NEXT:    [[A_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x i32> [[TMP0]], i32 [[Y:%.*]], i32 1
 ; CHECK-NEXT:    ret <2 x i32> [[A_SROA_0_4_VEC_INSERT]]

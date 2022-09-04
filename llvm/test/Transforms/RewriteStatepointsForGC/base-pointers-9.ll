@@ -8,7 +8,6 @@ declare i1 @runtime_value() "gc-leaf-function"
 define void @maybe_GEP(i64 addrspace(1)* %base_obj) gc "statepoint-example" {
 ; CHECK-LABEL: @maybe_GEP(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i64 addrspace(1)* poison
 ; CHECK-NEXT:    br label [[LOOP:%.*]]
 ; CHECK:       loop:
 ; CHECK-NEXT:    [[DOT0:%.*]] = phi i64 addrspace(1)* [ [[BASE_OBJ:%.*]], [[ENTRY:%.*]] ], [ [[BASE_OBJ_RELOCATED_CASTED:%.*]], [[LOOP]] ]

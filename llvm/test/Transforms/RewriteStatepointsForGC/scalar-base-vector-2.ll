@@ -10,8 +10,6 @@
 define void @widget() gc "statepoint-example" {
 ; CHECK-LABEL: @widget(
 ; CHECK-NEXT:  bb6:
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i8 addrspace(1)* poison
-; CHECK-NEXT:    [[FREEZE6:%.*]] = freeze i8 addrspace(1)* poison
 ; CHECK-NEXT:    [[BASE_EE:%.*]] = extractelement <2 x i8 addrspace(1)*> zeroinitializer, i32 1, !is_base_value !0
 ; CHECK-NEXT:    [[TMP:%.*]] = extractelement <2 x i8 addrspace(1)*> undef, i32 1
 ; CHECK-NEXT:    br i1 undef, label [[BB7:%.*]], label [[BB9:%.*]]

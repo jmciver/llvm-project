@@ -27,7 +27,6 @@
 
 ; CHECK: define dso_local void @fun()
 ; CHECK-NEXT: entry:
-; CHECK-NEXT: freeze = freeze i64 poison
 ; CHECK-NEXT: call void @llvm.dbg.value(metadata i64 0, metadata ![[LOCAL:[0-9]+]], metadata !DIExpression())
 ; CHECK-NOT: call void @llvm.dbg.value({{.*}}, metadata ![[LOCAL]]
 ; CHECK: ![[LOCAL]] = !DILocalVariable(name: "local",

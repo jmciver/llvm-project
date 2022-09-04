@@ -4,7 +4,6 @@
 define i32 @test(i32 %x) {
 ; CHECK-LABEL: @test(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i32 poison
 ; CHECK-NEXT:    [[TOBOOL:%.*]] = icmp ne i32 [[X:%.*]], 0
 ; CHECK-NEXT:    br i1 [[TOBOOL]], label [[IF_THEN:%.*]], label [[IF_ELSE:%.*]]
 ; CHECK:       if.then:

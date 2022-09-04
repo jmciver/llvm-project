@@ -184,8 +184,6 @@ entry:
 define i64 addrspace(1)* @test7(i1 %cnd, i64 addrspace(1)* %obj, i64 addrspace(1)* %obj2) gc "statepoint-example" {
 ; CHECK-LABEL: @test7(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[FREEZE1:%.*]] = freeze i64 addrspace(1)* poison
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i64 addrspace(1)* poison
 ; CHECK-NEXT:    [[VEC_BASE:%.*]] = insertelement <2 x i64 addrspace(1)*> zeroinitializer, i64 addrspace(1)* [[OBJ2:%.*]], i32 0, !is_base_value !0
 ; CHECK-NEXT:    [[VEC:%.*]] = insertelement <2 x i64 addrspace(1)*> undef, i64 addrspace(1)* [[OBJ2]], i32 0
 ; CHECK-NEXT:    br label [[MERGE1:%.*]]
@@ -295,8 +293,6 @@ entry:
 define i64 addrspace(1)* @test10(i1 %cnd, i64 addrspace(1)* %obj, i64 addrspace(1)* %obj2) gc "statepoint-example" {
 ; CHECK-LABEL: @test10(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[FREEZE1:%.*]] = freeze i64 addrspace(1)* poison
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i64 addrspace(1)* poison
 ; CHECK-NEXT:    [[VEC1_BASE:%.*]] = insertelement <4 x i64 addrspace(1)*> zeroinitializer, i64 addrspace(1)* [[OBJ:%.*]], i32 0, !is_base_value !0
 ; CHECK-NEXT:    [[VEC1:%.*]] = insertelement <4 x i64 addrspace(1)*> undef, i64 addrspace(1)* [[OBJ]], i32 0
 ; CHECK-NEXT:    br i1 [[CND:%.*]], label [[HERE:%.*]], label [[MERGE:%.*]]

@@ -6,7 +6,6 @@ declare i1 @cond()
 define i32 @foo() {
 ; CHECK-LABEL: @foo(
 ; CHECK-NEXT:  Entry:
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i32 poison
 ; CHECK-NEXT:    [[C1:%.*]] = call i1 @cond()
 ; CHECK-NEXT:    br i1 [[C1]], label [[STORE1:%.*]], label [[STORE2:%.*]]
 ; CHECK:       Block1:

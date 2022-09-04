@@ -10,7 +10,6 @@ declare i1 @runtime_value() "gc-leaf-function"
 define i8 addrspace(1)* @test1(i8 addrspace(1)* %b1, i8 addrspace(1)* %b2) gc "statepoint-example" {
 ; CHECK-LABEL: @test1(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i8 addrspace(1)* poison
 ; CHECK-NEXT:    br label [[LOOP:%.*]]
 ; CHECK:       loop:
 ; CHECK-NEXT:    [[B5:%.*]] = phi i8 addrspace(1)* [ [[B1:%.*]], [[ENTRY:%.*]] ], [ [[B6:%.*]], [[INNER_LOOP_LATCH:%.*]] ]
@@ -56,8 +55,6 @@ exit:
 define i8 addrspace(1)* @swap(i8 addrspace(1)* %b1, i8 addrspace(1)* %b2) gc "statepoint-example" {
 ; CHECK-LABEL: @swap(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[FREEZE1:%.*]] = freeze i8 addrspace(1)* poison
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i8 addrspace(1)* poison
 ; CHECK-NEXT:    br label [[LOOP:%.*]]
 ; CHECK:       loop:
 ; CHECK-NEXT:    [[B5:%.*]] = phi i8 addrspace(1)* [ [[B1:%.*]], [[ENTRY:%.*]] ], [ [[B6:%.*]], [[LOOP]] ]

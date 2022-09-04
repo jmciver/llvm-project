@@ -11,7 +11,6 @@ declare void @use_obj(i64 addrspace(1)*) "gc-leaf-function"
 define void @test() gc "statepoint-example" {
 ; CHECK-LABEL: @test(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i64 addrspace(1)* poison
 ; CHECK-NEXT:    [[OBJ:%.*]] = call i64 addrspace(1)* @generate_obj()
 ; CHECK-NEXT:    br label [[LOOP:%.*]]
 ; CHECK:       loop:
@@ -92,7 +91,6 @@ merge:
 define void @test2(i1 %cnd, i64 addrspace(1)* %base_obj, i64 addrspace(1)* %base_arg2) gc "statepoint-example" {
 ; CHECK-LABEL: @test2(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i64 addrspace(1)* poison
 ; CHECK-NEXT:    [[OBJ:%.*]] = getelementptr i64, i64 addrspace(1)* [[BASE_OBJ:%.*]], i32 1
 ; CHECK-NEXT:    br label [[LOOP:%.*]]
 ; CHECK:       loop:
@@ -189,7 +187,6 @@ merge:
 define i64 addrspace(1)* @test5(i1 %cnd, i64 addrspace(1)* %obj, i64 addrspace(1)* %obj2) gc "statepoint-example" {
 ; CHECK-LABEL: @test5(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i64 addrspace(1)* poison
 ; CHECK-NEXT:    br label [[MERGE:%.*]]
 ; CHECK:       merge:
 ; CHECK-NEXT:    [[BDV:%.*]] = phi i64 addrspace(1)* [ [[OBJ:%.*]], [[ENTRY:%.*]] ], [ [[OBJ2:%.*]], [[MERGE]] ]
@@ -218,7 +215,6 @@ next:
 define i64 addrspace(1)* @test6(i1 %cnd, i64 addrspace(1)* %obj, i64 addrspace(1)* %obj2) gc "statepoint-example" {
 ; CHECK-LABEL: @test6(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i64 addrspace(1)* poison
 ; CHECK-NEXT:    br label [[MERGE:%.*]]
 ; CHECK:       merge:
 ; CHECK-NEXT:    [[BDV:%.*]] = phi i64 addrspace(1)* [ [[OBJ:%.*]], [[ENTRY:%.*]] ], [ [[OBJ2:%.*]], [[MERGE]] ]

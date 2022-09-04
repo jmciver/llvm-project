@@ -9,10 +9,6 @@ declare void @do_safepoint()
 define void @select_of_phi(i64 addrspace(1)* %base_obj_x, i64 addrspace(1)* %base_obj_y) gc "statepoint-example" {
 ; CHECK-LABEL: @select_of_phi(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[FREEZE3:%.*]] = freeze i64 addrspace(1)* poison
-; CHECK-NEXT:    [[FREEZE4:%.*]] = freeze i64 addrspace(1)* poison
-; CHECK-NEXT:    [[FREEZE2:%.*]] = freeze i64 addrspace(1)* poison
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i64 addrspace(1)* poison
 ; CHECK-NEXT:    br label [[LOOP:%.*]]
 ; CHECK:       loop:
 ; CHECK-NEXT:    [[DOT01:%.*]] = phi i64 addrspace(1)* [ [[BASE_OBJ_X:%.*]], [[ENTRY:%.*]] ], [ [[BASE_OBJ_X_RELOCATED_CASTED:%.*]], [[MERGE:%.*]] ]

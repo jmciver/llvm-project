@@ -6,7 +6,6 @@
 define i64 addrspace(1)* @test(i64 addrspace(1)* %base_obj, i1 %runtime_condition) gc "statepoint-example" {
 ; CHECK-LABEL: @test(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i64 addrspace(1)* poison
 ; CHECK-NEXT:    br i1 [[RUNTIME_CONDITION:%.*]], label [[MERGE:%.*]], label [[THERE:%.*]]
 ; CHECK:       there:
 ; CHECK-NEXT:    [[DERIVED_OBJ:%.*]] = getelementptr i64, i64 addrspace(1)* [[BASE_OBJ:%.*]], i32 1

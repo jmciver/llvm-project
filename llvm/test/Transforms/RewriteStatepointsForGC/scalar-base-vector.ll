@@ -144,7 +144,6 @@ entry:
 define void @test6() gc "statepoint-example" {
 ; CHECK-LABEL: @test6(
 ; CHECK-NEXT:  bb:
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i8 addrspace(1)* poison
 ; CHECK-NEXT:    br label [[HEADER:%.*]]
 ; CHECK:       header:
 ; CHECK-NEXT:    [[TMP:%.*]] = phi i8 addrspace(1)* [ [[TMP6:%.*]], [[LATCH:%.*]] ], [ undef, [[BB:%.*]] ]

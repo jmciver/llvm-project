@@ -579,7 +579,6 @@ if.then:
 define i64 @PR14132(i1 %flag) {
 ; CHECK-LABEL: @PR14132(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i64* poison
 ; CHECK-NEXT:    br i1 [[FLAG:%.*]], label [[IF_THEN:%.*]], label [[IF_END:%.*]]
 ; CHECK:       if.then:
 ; CHECK-NEXT:    [[B_0_LOAD_EXT:%.*]] = zext i8 1 to i64
@@ -668,7 +667,6 @@ end:
 define float @simplify_phi_nodes_that_equal_slice(i1 %cond, float* %temp) {
 ; CHECK-LABEL: @simplify_phi_nodes_that_equal_slice(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze float poison
 ; CHECK-NEXT:    br i1 [[COND:%.*]], label [[THEN:%.*]], label [[ELSE:%.*]]
 ; CHECK:       then:
 ; CHECK-NEXT:    br label [[MERGE:%.*]]
@@ -709,7 +707,6 @@ merge:
 define float @simplify_phi_nodes_that_equal_slice_2(i1 %cond, float* %temp) {
 ; CHECK-LABEL: @simplify_phi_nodes_that_equal_slice_2(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze float poison
 ; CHECK-NEXT:    br i1 [[COND:%.*]], label [[THEN:%.*]], label [[ELSE:%.*]]
 ; CHECK:       then:
 ; CHECK-NEXT:    br label [[THEN2:%.*]]

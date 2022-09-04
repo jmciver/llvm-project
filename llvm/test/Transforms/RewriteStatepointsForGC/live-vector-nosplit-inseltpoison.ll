@@ -53,7 +53,6 @@ declare i32 @fake_personality_function()
 define <2 x i64 addrspace(1)*> @test4(<2 x i64 addrspace(1)*>* %ptr) gc "statepoint-example" personality i32 ()* @fake_personality_function {
 ; CHECK-LABEL: @test4(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze <2 x i64 addrspace(1)*> poison
 ; CHECK-NEXT:    [[OBJ:%.*]] = load <2 x i64 addrspace(1)*>, <2 x i64 addrspace(1)*>* [[PTR:%.*]], align 16
 ; CHECK-NEXT:    [[STATEPOINT_TOKEN:%.*]] = invoke token (i64, i32, void ()*, i32, i32, ...) @llvm.experimental.gc.statepoint.p0f_isVoidf(i64 2882400000, i32 0, void ()* elementtype(void ()) @do_safepoint, i32 0, i32 0, i32 0, i32 0) [ "deopt"(), "gc-live"(<2 x i64 addrspace(1)*> [[OBJ]]) ]
 ; CHECK-NEXT:    to label [[NORMAL_RETURN:%.*]] unwind label [[EXCEPTIONAL_RETURN:%.*]]

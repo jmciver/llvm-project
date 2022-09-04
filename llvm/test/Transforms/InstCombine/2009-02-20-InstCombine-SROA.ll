@@ -182,7 +182,6 @@ define i32* @_Z3fooRSt6vectorIiSaIiEE(%"struct.std::vector<int,std::allocator<in
 ;
 ; IC_SROA-LABEL: @_Z3fooRSt6vectorIiSaIiEE(
 ; IC_SROA-NEXT:  entry:
-; IC_SROA-NEXT:    [[FREEZE:%.*]] = freeze i32* poison
 ; IC_SROA-NEXT:    [[TMP0:%.*]] = getelementptr %"struct.std::vector<int,std::allocator<int> >", %"struct.std::vector<int,std::allocator<int> >"* [[X:%.*]], i32 0, i32 0, i32 0, i32 1
 ; IC_SROA-NEXT:    [[TMP1:%.*]] = load i32*, i32** [[TMP0]], align 4
 ; IC_SROA-NEXT:    [[TMP2:%.*]] = getelementptr %"struct.std::vector<int,std::allocator<int> >", %"struct.std::vector<int,std::allocator<int> >"* [[X]], i32 0, i32 0, i32 0, i32 0

@@ -76,7 +76,6 @@ merge2:
 define i8 addrspace(1)* @test3(i1 %c, i8 addrspace(1)* %b1, i8 addrspace(1)* %b2) gc "statepoint-example" {
 ; CHECK-LABEL: @test3(
 ; CHECK-NEXT:  left:
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i8 addrspace(1)* poison
 ; CHECK-NEXT:    br i1 [[C:%.*]], label [[LOOP:%.*]], label [[MERGE2:%.*]]
 ; CHECK:       loop:
 ; CHECK-NEXT:    [[B5_BASE:%.*]] = phi i8 addrspace(1)* [ [[B2:%.*]], [[LEFT:%.*]] ], [ [[B5_BASE]], [[LOOP]] ], [ [[B6_BASE_RELOCATED:%.*]], [[MERGE2]] ], !is_base_value !0
@@ -210,7 +209,6 @@ declare i8 addrspace(1)* @returned_arg(i8 addrspace(1)* returned %p)
 define i8 addrspace(1)* @test7(i1 %c1, i1 %c2, i8 addrspace(1)* %b1, i8 addrspace(1)* %b2) gc "statepoint-example" {
 ; CHECK-LABEL: @test7(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i8 addrspace(1)* poison
 ; CHECK-NEXT:    br i1 [[C1:%.*]], label [[LOOP:%.*]], label [[MERGE2:%.*]]
 ; CHECK:       loop:
 ; CHECK-NEXT:    [[B3:%.*]] = phi i8 addrspace(1)* [ [[B2:%.*]], [[ENTRY:%.*]] ], [ [[B41:%.*]], [[LEFT:%.*]] ]

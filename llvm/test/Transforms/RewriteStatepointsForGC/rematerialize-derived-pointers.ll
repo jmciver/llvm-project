@@ -245,9 +245,6 @@ declare i32 @fake_personality_function()
 define void @test_invoke(i32 addrspace(1)* %base) gc "statepoint-example" personality i32 ()* @fake_personality_function {
 ; CHECK-LABEL: @test_invoke(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i32 addrspace(1)* poison
-; CHECK-NEXT:    [[FREEZE7:%.*]] = freeze i16 addrspace(1)* poison
-; CHECK-NEXT:    [[FREEZE8:%.*]] = freeze i64 addrspace(1)* poison
 ; CHECK-NEXT:    [[PTR_GEP:%.*]] = getelementptr i32, i32 addrspace(1)* [[BASE:%.*]], i32 15
 ; CHECK-NEXT:    [[PTR_CAST:%.*]] = bitcast i32 addrspace(1)* [[PTR_GEP]] to i64 addrspace(1)*
 ; CHECK-NEXT:    [[PTR_CAST2:%.*]] = bitcast i32 addrspace(1)* [[PTR_GEP]] to i16 addrspace(1)*
@@ -299,8 +296,6 @@ exception:
 define void @test_loop(i32 addrspace(1)* %base) gc "statepoint-example" {
 ; CHECK-LABEL: @test_loop(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i32 addrspace(1)* poison
-; CHECK-NEXT:    [[FREEZE2:%.*]] = freeze i32 addrspace(1)* poison
 ; CHECK-NEXT:    [[PTR_GEP:%.*]] = getelementptr i32, i32 addrspace(1)* [[BASE:%.*]], i32 15
 ; CHECK-NEXT:    br label [[LOOP:%.*]]
 ; CHECK:       loop:

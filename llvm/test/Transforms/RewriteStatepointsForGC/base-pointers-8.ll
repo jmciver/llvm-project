@@ -6,7 +6,6 @@
 define i32 @null_in_array(i64 addrspace(1)* %array_obj) gc "statepoint-example" {
 ; CHECK-LABEL: @null_in_array(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i64 addrspace(1)* poison
 ; CHECK-NEXT:    [[ARRAY_LEN_POINTER_I64:%.*]] = getelementptr i64, i64 addrspace(1)* [[ARRAY_OBJ:%.*]], i32 1
 ; CHECK-NEXT:    [[ARRAY_LEN_POINTER_I32:%.*]] = bitcast i64 addrspace(1)* [[ARRAY_LEN_POINTER_I64]] to i32 addrspace(1)*
 ; CHECK-NEXT:    [[ARRAY_LEN:%.*]] = load i32, i32 addrspace(1)* [[ARRAY_LEN_POINTER_I32]], align 4

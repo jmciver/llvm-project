@@ -8,8 +8,6 @@
 define i64 addrspace(1)* @test_invoke_format(i64 addrspace(1)* %obj, i64 addrspace(1)* %obj1) gc "statepoint-example" personality i32 ()* @personality {
 ; CHECK-LABEL: @test_invoke_format(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[FREEZE4:%.*]] = freeze i64 addrspace(1)* poison
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i64 addrspace(1)* poison
 ; CHECK-NEXT:    [[STATEPOINT_TOKEN:%.*]] = invoke token (i64, i32, i64 addrspace(1)* (i64 addrspace(1)*)*, i32, i32, ...) @llvm.experimental.gc.statepoint.p0f_p1i64p1i64f(i64 2882400000, i32 0, i64 addrspace(1)* (i64 addrspace(1)*)* elementtype(i64 addrspace(1)* (i64 addrspace(1)*)) @callee, i32 1, i32 0, i64 addrspace(1)* [[OBJ:%.*]], i32 0, i32 0) [ "gc-live"(i64 addrspace(1)* [[OBJ1:%.*]], i64 addrspace(1)* [[OBJ]]) ]
 ; CHECK-NEXT:    to label [[NORMAL_RETURN:%.*]] unwind label [[EXCEPTIONAL_RETURN:%.*]]
 ; CHECK:       normal_return:

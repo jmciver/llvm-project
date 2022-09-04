@@ -1385,7 +1385,6 @@ define <3 x i8> @PR14572.1(i32 %x) {
 ; alloca (relying on the alloc size padding) doesn't trigger an assert.
 ; CHECK-LABEL: @PR14572.1(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze <3 x i8> poison
 ; CHECK-NEXT:    [[A_0_EXTRACT_TRUNC:%.*]] = trunc i32 [[X:%.*]] to i24
 ; CHECK-NEXT:    [[TMP0:%.*]] = bitcast i24 [[A_0_EXTRACT_TRUNC]] to <3 x i8>
 ; CHECK-NEXT:    [[A_SROA_2_0_EXTRACT_SHIFT:%.*]] = lshr i32 [[X]], 24

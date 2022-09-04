@@ -57,7 +57,6 @@ merge:
 define i8 addrspace(1)* @test_phi_lcssa(i1 %c, i8 addrspace(1)* %a1, i8 addrspace(1)* %a2) gc "statepoint-example" {
 ; CHECK-LABEL: @test_phi_lcssa(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i8 addrspace(1)* poison
 ; CHECK-NEXT:    br label [[MERGE:%.*]]
 ; CHECK:       merge:
 ; CHECK-NEXT:    [[STATEPOINT_TOKEN:%.*]] = call token (i64, i32, void ()*, i32, i32, ...) @llvm.experimental.gc.statepoint.p0f_isVoidf(i64 2882400000, i32 0, void ()* elementtype(void ()) @foo, i32 0, i32 0, i32 0, i32 0) [ "gc-live"(i8 addrspace(1)* [[A1:%.*]]) ]
@@ -76,7 +75,6 @@ merge:
 define i8 addrspace(1)* @test_loop1(i1 %c, i8 addrspace(1)* %a1, i8 addrspace(1)* %a2) gc "statepoint-example" {
 ; CHECK-LABEL: @test_loop1(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i8 addrspace(1)* poison
 ; CHECK-NEXT:    br label [[LOOP:%.*]]
 ; CHECK:       loop:
 ; CHECK-NEXT:    [[PHI:%.*]] = phi i8 addrspace(1)* [ [[A1:%.*]], [[ENTRY:%.*]] ], [ [[A2:%.*]], [[LOOP]] ]
@@ -100,7 +98,6 @@ exit:
 define i8 addrspace(1)* @test_loop2(i1 %c, i8 addrspace(1)* %a1) gc "statepoint-example" {
 ; CHECK-LABEL: @test_loop2(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i8 addrspace(1)* poison
 ; CHECK-NEXT:    br label [[LOOP:%.*]]
 ; CHECK:       loop:
 ; CHECK-NEXT:    [[PHI:%.*]] = phi i8 addrspace(1)* [ [[A1:%.*]], [[ENTRY:%.*]] ], [ [[O2:%.*]], [[LOOP]] ]
@@ -130,8 +127,6 @@ exit:
 define i8 addrspace(1)* @test_loop3(i1 %c, i8 addrspace(1)* %a1) gc "statepoint-example" {
 ; CHECK-LABEL: @test_loop3(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[FREEZE1:%.*]] = freeze i8 addrspace(1)* poison
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i8 addrspace(1)* poison
 ; CHECK-NEXT:    br label [[LOOP:%.*]]
 ; CHECK:       loop:
 ; CHECK-NEXT:    [[PHI:%.*]] = phi i8 addrspace(1)* [ [[A1:%.*]], [[ENTRY:%.*]] ], [ [[GEP:%.*]], [[LOOP]] ]
@@ -248,7 +243,6 @@ entry:
 define i8 @test_subgraph(i1 %c, i8 addrspace(1)* %a1, i8 addrspace(1)* %a2) gc "statepoint-example" {
 ; CHECK-LABEL: @test_subgraph(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i8 addrspace(1)* poison
 ; CHECK-NEXT:    [[SEL:%.*]] = select i1 [[C:%.*]], i8 addrspace(1)* [[A1:%.*]], i8 addrspace(1)* [[A2:%.*]]
 ; CHECK-NEXT:    br i1 [[C]], label [[TAKEN:%.*]], label [[MERGE:%.*]]
 ; CHECK:       taken:
