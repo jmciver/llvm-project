@@ -490,12 +490,20 @@ static bool promoteSingleBlockAlloca(AllocaInst *AI, const AllocaInfo &Info,
         std::make_pair(LoadIdx, static_cast<StoreInst *>(nullptr)),
         less_first());
     if (I == StoresByIndex.begin()) {
+      // If there are no stores, the load is replaced by either a poison value
+      // due to undefined behavior if !noundef is present or a freeze poison
+      // instruction.
       if (StoresByIndex.empty()) {
-        // If there are no stores, the load is replaced by freeze poison.
-        IRBuilder<> Builder(LI);
-        Value *freezeInst =
-            Builder.CreateFreeze(PoisonValue::get(LI->getType()), "freeze");
-        LI->replaceAllUsesWith(freezeInst);
+        if (LI->hasMetadata(LLVMContext::MD_noundef)) {
+          LI->replaceAllUsesWith(PoisonValue::get(LI->getType()));
+        } else {
+          if (!LI->use_empty()) {
+            IRBuilder<> Builder(LI);
+            Value *freezeInst =
+                Builder.CreateFreeze(PoisonValue::get(LI->getType()), "freeze");
+            LI->replaceAllUsesWith(freezeInst);
+          }
+        }
       } else {
         // There is no store before this load, bail out (load may be affected
         // by the following stores - see main comment).
@@ -663,6 +671,10 @@ void PromoteMem2Reg::run() {
         PoisonValue::get(Allocas[i]->getAllocatedType()), "freeze");
   }
 
+  // Not all freeze poison instructions will be utilized and thus can trivially
+  // be removed after analysis.
+  RenamePassData::ValVector FreezePoisonUses(Values);
+
   // When handling debug info, treat all incoming values as if they have unknown
   // locations until proven otherwise.
   RenamePassData::LocationVector Locations(Allocas.size());
@@ -678,6 +690,13 @@ void PromoteMem2Reg::run() {
     // RenamePass may add new worklist entries.
     RenamePass(RPD.BB, RPD.Pred, RPD.Values, RPD.Locations, RenamePassWorkList);
   } while (!RenamePassWorkList.empty());
+
+  for (auto FreezePoison : FreezePoisonUses) {
+    auto AsInst = dyn_cast<Instruction>(FreezePoison);
+    if (AsInst->use_empty()) {
+      AsInst->eraseFromParent();
+    }
+  }
 
   // The renamer uses the Visited set to avoid infinite loops.  Clear it now.
   Visited.clear();
