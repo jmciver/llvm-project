@@ -10024,6 +10024,14 @@ padding may be accessed but are ignored, because it is impossible to observe
 padding from the loaded aggregate value.
 If ``<pointer>`` is not a well-defined value, the behavior is undefined.
 
+Each byte being loaded has an initialization bit. If any contributing byte's bit
+is false, the load result is non-deterministic, but a fixed value via a
+:ref:`freeze <i_freeze>` :ref:`poison <poisonvalues>`. Thus the resulting value
+of the ``load`` of uninitialized memory cannot be duplicated. Hoisting a
+``load`` of an uninitialized memory address is allowed. Performing a ``load`` on
+any initialized address with the ``!noundef`` attribute results in undefined
+behavior.
+
 Examples:
 """""""""
 
@@ -10032,6 +10040,16 @@ Examples:
       %ptr = alloca i32                               ; yields i32*:ptr
       store i32 3, i32* %ptr                          ; yields void
       %val = load i32, i32* %ptr                      ; yields i32:val = i32 3
+
+      ; Uninitialized load memory semantics:
+      %ptr = alloca i32
+      %var = load i32, i32* %ptr                      ; %ptr has not been initialized and can be replaced with:
+                                                      ; %var = freeze poison
+
+      ; Uninitialized load with !noundef:
+      %ptr = alloca i32
+      %var = load i32, i32* %ptr, !noundef !{}        ; Undefined behavior
+
 
 .. _i_store:
 
