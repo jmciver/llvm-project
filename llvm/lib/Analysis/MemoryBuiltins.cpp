@@ -436,6 +436,18 @@ Constant *llvm::getInitialValueOfAllocation(const CallBase *Alloc,
   return nullptr;
 }
 
+bool llvm::isAllocationInitializedToZero(const CallBase *Alloc,
+                                         const TargetLibraryInfo *TLI) {
+  assert(isAllocationFn(Alloc, TLI));
+  return isCallocLikeFn(Alloc, TLI);
+}
+
+bool llvm::isAllocationUninitialized(const CallBase *Alloc,
+                                     const TargetLibraryInfo *TLI) {
+  assert(isAllocationFn(Alloc, TLI));
+  return isMallocLikeFn(Alloc, TLI) || isAlignedAllocLikeFn(Alloc, TLI);
+}
+
 struct FreeFnsTy {
   unsigned NumParams;
   // Name of default allocator function to group malloc/free calls by family

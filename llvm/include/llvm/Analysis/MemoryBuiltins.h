@@ -121,6 +121,16 @@ Constant *getInitialValueOfAllocation(const CallBase *Alloc,
                                       const TargetLibraryInfo *TLI,
                                       Type *Ty);
 
+/// If an allocation function initializes memory to a fixed value then
+/// return true.
+bool isAllocationInitializedToZero(const CallBase *Alloc,
+                                   const TargetLibraryInfo *TLI);
+
+/// If allocation function does not initializes memory using a malloc
+/// like function return true.
+bool isAllocationUninitialized(const CallBase *Alloc,
+                               const TargetLibraryInfo *TLI);
+
 /// If a function is part of an allocation family (e.g.
 /// malloc/realloc/calloc/free), return the identifier for its family
 /// of functions.
