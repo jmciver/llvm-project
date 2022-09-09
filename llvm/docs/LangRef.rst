@@ -10056,7 +10056,7 @@ Examples:
                                                       ; %val3 = or i16, %hi.16.shift, %lo.16
 
       ; Uninitialized load with !noundef:
-      %ptr4 = alloca i32
+      %ptr4 = alloca i32                              ; yields i32*:ptr4
       %var4 = load i32, ptr %ptr4, !noundef !{}       ; Undefined behavior
 
 .. _i_store:
