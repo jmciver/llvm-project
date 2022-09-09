@@ -10024,32 +10024,40 @@ padding may be accessed but are ignored, because it is impossible to observe
 padding from the loaded aggregate value.
 If ``<pointer>`` is not a well-defined value, the behavior is undefined.
 
-Each byte being loaded has an initialization bit. If any contributing byte's bit
-is false, the load result is non-deterministic, but a fixed value via a
-:ref:`freeze <i_freeze>` :ref:`poison <poisonvalues>`. Thus the resulting value
-of the ``load`` of uninitialized memory cannot be duplicated. Hoisting a
-``load`` of an uninitialized memory address is allowed. Performing a ``load`` on
-any initialized address with the ``!noundef`` attribute results in undefined
-behavior.
+Memory initialization is defined at the byte level. If a byte is uninitialized
+then it is equivalent to a :ref:`freeze <i_freeze>` :ref:`poison
+<poisonvalues>`. When a value is an aggregation of bytes, independent ``freeze``
+``poison`` instructions will be used to replace the value of bytes which have
+not been initialized.
 
 Examples:
 """""""""
 
 .. code-block:: llvm
 
-      %ptr = alloca i32                               ; yields i32*:ptr
-      store i32 3, i32* %ptr                          ; yields void
-      %val = load i32, i32* %ptr                      ; yields i32:val = i32 3
+      %ptr1 = alloca i32                              ; yields i32*:ptr1
+      store i32 3, ptr %ptr1                          ; yields void
+      %val1 = load i32, ptr %ptr1                     ; yields i32:val1 = i32 3
 
-      ; Uninitialized load memory semantics:
-      %ptr = alloca i32
-      %var = load i32, i32* %ptr                      ; %ptr has not been initialized and can be replaced with:
-                                                      ; %var = freeze poison
+      ; Uninitialized load:
+      %ptr2 = alloca i32                              ; yields i32*:ptr2
+      %val2 = load i32, ptr %ptr2                     ; %ptr2 has not been initialized and can be replaced with:
+                                                      ; %val2 = freeze i32 poison
+
+      ; Partially uninitialized load:
+      %ptr3 = alloca i16                              ; yields i32*:ptr3 (assuming little-endian)
+      store i8 1, ptr %ptr3                           ; Initialize least significant byte
+      %val3 = load i16, ptr %ptr3                     ; Low order byte is 1, high order byte is freeze poison:
+                                                      ; %lo.8  = load i8, ptr %ptr3
+                                                      ; %lo.16 = zext i8 %lo.8 to i16
+                                                      ; %hi.8 = freeze i8 poison
+                                                      ; %hi.16 = zext i8 %hi.8 to i16
+                                                      ; %hi.16.shift = shl i16 %hi.16, 8
+                                                      ; %val3 = or i16, %hi.16.shift, %lo.16
 
       ; Uninitialized load with !noundef:
-      %ptr = alloca i32
-      %var = load i32, i32* %ptr, !noundef !{}        ; Undefined behavior
-
+      %ptr4 = alloca i32
+      %var4 = load i32, ptr %ptr4, !noundef !{}       ; Undefined behavior
 
 .. _i_store:
 
