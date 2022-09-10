@@ -10024,7 +10024,7 @@ padding may be accessed but are ignored, because it is impossible to observe
 padding from the loaded aggregate value.
 If ``<pointer>`` is not a well-defined value, the behavior is undefined.
 
-Memory initialization is defined at the byte level. If a byte is uninitialized
+Memory initialization is defined at the byte level. If a byte is uninitialized,
 then it is equivalent to a :ref:`freeze <i_freeze>` :ref:`poison
 <poisonvalues>`. When a value is an aggregation of bytes, independent ``freeze``
 ``poison`` instructions will be used to replace the value of bytes which have
@@ -10041,7 +10041,7 @@ Examples:
 
       ; Uninitialized load:
       %ptr2 = alloca i32                              ; yields i32*:ptr2
-      %val2 = load i32, ptr %ptr2                     ; %ptr2 has not been initialized and can be replaced with:
+      %val2 = load i32, ptr %ptr2                     ; %ptr2 has not been initialized and is equivalent to:
                                                       ; %val2 = freeze i32 poison
 
       ; Partially uninitialized load:
