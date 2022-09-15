@@ -55,7 +55,7 @@ void implicit_maps_parameter (int a){
 // CK3-DAG: [[CP1:%.+]] = bitcast i8** [[P1]] to i[[sz]]*
 // CK3-DAG: store i[[sz]] [[VAL:%[^,]+]], i[[sz]]* [[CBP1]]
 // CK3-DAG: store i[[sz]] [[VAL]], i[[sz]]* [[CP1]]
-// CK3-DAG: [[VAL]] = load i[[sz]], i[[sz]]* [[ADDR:%.+]],
+// CK3-DAG: [[VAL]] = load i[[sz]], i[[sz]]* [[ADDR:%.+]], align [[ALIGN:[0-9]]], !noundef [[NOUNDEF:![0-9]+]]
 // CK3-64-DAG: [[CADDR:%.+]] = bitcast i[[sz]]* [[ADDR]] to i32*
 // CK3-64-DAG: store i32 {{.+}}, i32* [[CADDR]],
 

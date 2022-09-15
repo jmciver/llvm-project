@@ -56,7 +56,7 @@ void implicit_maps_float (int a){
 // CK8-DAG: [[CP1:%.+]] = bitcast i8** [[P1]] to i[[sz]]*
 // CK8-DAG: store i[[sz]] [[VAL:%[^,]+]], i[[sz]]* [[CBP1]]
 // CK8-DAG: store i[[sz]] [[VAL]], i[[sz]]* [[CP1]]
-// CK8-DAG: [[VAL]] = load i[[sz]], i[[sz]]* [[ADDR:%.+]],
+// CK8-DAG: [[VAL]] = load i[[sz]], i[[sz]]* [[ADDR:%.+]], align [[ALIGN:[0-9]]], !noundef [[NOUNDEF:![0-9]+]]
 // CK8-DAG: [[CADDR:%.+]] = bitcast i[[sz]]* [[ADDR]] to float*
 // CK8-DAG: store float {{.+}}, float* [[CADDR]],
 

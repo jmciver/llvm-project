@@ -223,7 +223,7 @@ void zero_size_section_and_private_maps (int ii){
 // CK27-DAG: [[CP1:%.+]] = bitcast i8** [[P1]] to i[[Z]]*
 // CK27-DAG: store i[[Z]] [[VAL:%.+]], i[[Z]]* [[CBP1]]
 // CK27-DAG: store i[[Z]] [[VAL]], i[[Z]]* [[CP1]]
-// CK27-DAG: [[VAL]] = load i[[Z]], i[[Z]]* [[ADDR:%.+]],
+// CK27-DAG: [[VAL]] = load i[[Z]], i[[Z]]* [[ADDR:%.+]], align [[ALIGN:[0-9]]], !noundef [[NOUNDEF:![0-9]+]]
 // CK27-64-DAG: [[CADDR:%.+]] = bitcast i[[Z]]* [[ADDR]] to i32*
 // CK27-64-DAG: store i32 {{.+}}, i32* [[CADDR]],
 

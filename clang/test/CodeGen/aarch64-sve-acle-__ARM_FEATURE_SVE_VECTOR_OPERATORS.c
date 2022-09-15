@@ -61,7 +61,7 @@ typedef int8_t vec_int8 __attribute__((vector_size(N / 8)));
 // CHECK-LABEL: define{{.*}} void @f2(
 // CHECK-SAME:   ptr noalias nocapture writeonly sret(<[[#div(VBITS,8)]] x i8>) align 16 %agg.result, ptr nocapture noundef readonly %0)
 // CHECK-NEXT: entry:
-// CHECK-NEXT:   [[X:%.*]] = load <[[#div(VBITS,8)]] x i8>, ptr [[TMP0:%.*]], align 16, [[TBAA6:!tbaa !.*]]
+// CHECK-NEXT:   [[X:%.*]] = load <[[#div(VBITS,8)]] x i8>, ptr [[TMP0:%.*]], align 16, [[TBAA6:!tbaa ![0-9]+]], [[NOUNDEF:!noundef ![0-9]]]
 // CHECK-NEXT:   [[TMP1:%.*]] = tail call <vscale x 16 x i1> @llvm.aarch64.sve.ptrue.nxv16i1(i32 31)
 // CHECK-NEXT:   [[CASTSCALABLESVE:%.*]] = tail call <vscale x 16 x i8> @llvm.vector.insert.nxv16i8.v[[#div(VBITS,8)]]i8(<vscale x 16 x i8> undef, <[[#div(VBITS,8)]] x i8> [[X]], i64 0)
 // CHECK-NEXT:   [[TMP2:%.*]] = tail call <vscale x 16 x i8> @llvm.aarch64.sve.asrd.nxv16i8(<vscale x 16 x i1> [[TMP1]], <vscale x 16 x i8> [[CASTSCALABLESVE]], i32 1)

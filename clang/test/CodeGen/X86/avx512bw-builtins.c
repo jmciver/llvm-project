@@ -2048,7 +2048,7 @@ __mmask32 test_mm512_kunpackw(__m512i __A, __m512i __B, __m512i __C, __m512i __D
 __m512i test_mm512_loadu_epi16 (void *__P)
 {
   // CHECK-LABEL: @test_mm512_loadu_epi16
-  // CHECK: load <8 x i64>, ptr %{{.*}}, align 1{{$}}
+  // CHECK: load <8 x i64>, ptr %{{.*}}, align 1, !noundef [[NOUNDEF:![0-9]+]]{{$}}
   return _mm512_loadu_epi16 (__P);
 }
 
@@ -2067,7 +2067,7 @@ __m512i test_mm512_maskz_loadu_epi16(__mmask32 __U, void const *__P) {
 __m512i test_mm512_loadu_epi8 (void *__P)
 {
   // CHECK-LABEL: @test_mm512_loadu_epi8
-  // CHECK: load <8 x i64>, ptr %{{.*}}, align 1{{$}}
+  // CHECK: load <8 x i64>, ptr %{{.*}}, align 1, !noundef [[NOUNDEF]]{{$}}
   return _mm512_loadu_epi8 (__P);
 }
 
@@ -2394,3 +2394,5 @@ void test_mm512_mask_cvtusepi16_storeu_epi8 (void * __P, __mmask32 __M, __m512i 
  // CHECK: @llvm.x86.avx512.mask.pmovus.wb.mem.512
  _mm512_mask_cvtusepi16_storeu_epi8 ( __P, __M, __A);
 }
+
+// CHECK: [[NOUNDEF]] = !{}

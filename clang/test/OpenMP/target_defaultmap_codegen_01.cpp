@@ -1441,10 +1441,10 @@ void foo(float *&lr, T *&tr) {
 // CK23-DAG: [[P1:%.+]] = getelementptr inbounds {{.+}}[[PS]], i32 0, i32 0
 // CK23-DAG: [[CBP1:%.+]] = bitcast i8** [[BP1]] to float**
 // CK23-DAG: [[CP1:%.+]] = bitcast i8** [[P1]] to float**
-// CK23-DAG: store float* [[VAL:%.+]], float** [[CBP1]]
-// CK23-DAG: store float* [[VAL]], float** [[CP1]]
-// CK23-DAG: [[VAL]] = load float*, float** [[ADDR:%.+]],
-// CK23-DAG: [[ADDR]] = load float**, float*** [[ADDR2:%.+]],
+// CK23-DAG: store float* [[VAL:%.+]], float** [[CBP1]], align [[ALIGN:[0-9]]]
+// CK23-DAG: store float* [[VAL]], float** [[CP1]], align [[ALIGN]]
+// CK23-DAG: [[VAL]] = load float*, float** [[ADDR:%.+]], align [[ALIGN]]
+// CK23-DAG: [[ADDR]] = load float**, float*** [[ADDR2:%.+]], align [[ALIGN]]
 
 // CK23: call void [[KERNEL:@.+]](float* [[VAL]])
 #pragma omp target is_device_ptr(lr) defaultmap(none \
@@ -1464,10 +1464,10 @@ void foo(float *&lr, T *&tr) {
 // CK23-DAG: [[P1:%.+]] = getelementptr inbounds {{.+}}[[PS]], i32 0, i32 0
 // CK23-DAG: [[CBP1:%.+]] = bitcast i8** [[BP1]] to i32**
 // CK23-DAG: [[CP1:%.+]] = bitcast i8** [[P1]] to i32**
-// CK23-DAG: store i32* [[VAL:%.+]], i32** [[CBP1]]
-// CK23-DAG: store i32* [[VAL]], i32** [[CP1]]
-// CK23-DAG: [[VAL]] = load i32*, i32** [[ADDR:%.+]],
-// CK23-DAG: [[ADDR]] = load i32**, i32*** [[ADDR2:%.+]],
+// CK23-DAG: store i32* [[VAL:%.+]], i32** [[CBP1]], align [[ALIGN]]
+// CK23-DAG: store i32* [[VAL]], i32** [[CP1]], align [[ALIGN]]
+// CK23-DAG: [[VAL]] = load i32*, i32** [[ADDR:%.+]], align [[ALIGN]]
+// CK23-DAG: [[ADDR]] = load i32**, i32*** [[ADDR2:%.+]], align [[ALIGN]]
 
 // CK23: call void [[KERNEL:@.+]](i32* [[VAL]])
 #pragma omp target is_device_ptr(tr) defaultmap(none \
@@ -1487,10 +1487,10 @@ void foo(float *&lr, T *&tr) {
 // CK23-DAG: [[P1:%.+]] = getelementptr inbounds {{.+}}[[PS]], i32 0, i32 0
 // CK23-DAG: [[CBP1:%.+]] = bitcast i8** [[BP1]] to i32**
 // CK23-DAG: [[CP1:%.+]] = bitcast i8** [[P1]] to i32**
-// CK23-DAG: store i32* [[VAL:%.+]], i32** [[CBP1]]
-// CK23-DAG: store i32* [[VAL]], i32** [[CP1]]
-// CK23-DAG: [[VAL]] = load i32*, i32** [[ADDR:%.+]],
-// CK23-DAG: [[ADDR]] = load i32**, i32*** [[ADDR2:%.+]],
+// CK23-DAG: store i32* [[VAL:%.+]], i32** [[CBP1]], align [[ALIGN]]
+// CK23-DAG: store i32* [[VAL]], i32** [[CP1]], align [[ALIGN]]
+// CK23-DAG: [[VAL]] = load i32*, i32** [[ADDR:%.+]], align [[ALIGN]]
+// CK23-DAG: [[ADDR]] = load i32**, i32*** [[ADDR2:%.+]], align [[ALIGN]]
 
 // CK23: call void [[KERNEL:@.+]](i32* [[VAL]])
 #pragma omp target is_device_ptr(tr, lr) defaultmap(none \
@@ -1510,19 +1510,19 @@ void foo(float *&lr, T *&tr) {
 // CK23-DAG: [[P1:%.+]] = getelementptr inbounds {{.+}}[[PS]], i32 0, i32 0
 // CK23-DAG: [[CBP1:%.+]] = bitcast i8** [[BP1]] to i32**
 // CK23-DAG: [[CP1:%.+]] = bitcast i8** [[P1]] to i32**
-// CK23-DAG: store i32* [[VAL:%.+]], i32** [[CBP1]]
-// CK23-DAG: store i32* [[VAL]], i32** [[CP1]]
-// CK23-DAG: [[VAL]] = load i32*, i32** [[ADDR:%.+]],
-// CK23-DAG: [[ADDR]] = load i32**, i32*** [[ADDR2:%.+]],
+// CK23-DAG: store i32* [[VAL:%.+]], i32** [[CBP1]], align [[ALIGN]]
+// CK23-DAG: store i32* [[VAL]], i32** [[CP1]], align [[ALIGN]]
+// CK23-DAG: [[VAL]] = load i32*, i32** [[ADDR:%.+]], align [[ALIGN]]
+// CK23-DAG: [[ADDR]] = load i32**, i32*** [[ADDR2:%.+]], align [[ALIGN]]
 
 // CK23-DAG: [[_BP1:%.+]] = getelementptr inbounds {{.+}}[[BPS]], i32 0, i32 1
 // CK23-DAG: [[_P1:%.+]] = getelementptr inbounds {{.+}}[[PS]], i32 0, i32 1
 // CK23-DAG: [[_CBP1:%.+]] = bitcast i8** [[_BP1]] to float**
 // CK23-DAG: [[_CP1:%.+]] = bitcast i8** [[_P1]] to float**
-// CK23-DAG: store float* [[_VAL:%.+]], float** [[_CBP1]]
-// CK23-DAG: store float* [[_VAL]], float** [[_CP1]]
-// CK23-DAG: [[_VAL]] = load float*, float** [[_ADDR:%.+]],
-// CK23-DAG: [[_ADDR]] = load float**, float*** [[_ADDR2:%.+]],
+// CK23-DAG: store float* [[_VAL:%.+]], float** [[_CBP1]], align [[ALIGN]]
+// CK23-DAG: store float* [[_VAL]], float** [[_CP1]], align [[ALIGN]]
+// CK23-DAG: [[_VAL]] = load float*, float** [[_ADDR:%.+]], align [[ALIGN]]
+// CK23-DAG: [[_ADDR]] = load float**, float*** [[_ADDR2:%.+]], align [[ALIGN]]
 
 // CK23: call void [[KERNEL:@.+]](i32* [[VAL]], float* [[_VAL]])
 #pragma omp target is_device_ptr(tr, lr) defaultmap(none \

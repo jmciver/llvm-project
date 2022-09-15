@@ -1455,7 +1455,7 @@ __mmask8 test_mm_mask_cmp_sh_mask(__mmask8 __M, __m128h __X, __m128h __Y) {
 
 __m128h test_mm_load_sh(void const *A) {
   // CHECK-LABEL: test_mm_load_sh
-  // CHECK: load half, half* %{{.*}}, align 1{{$}}
+  // CHECK: load half, half* %{{.*}}, align 1, !noundef [[NOUNDEF:![0-9]+]]{{$}}
   return _mm_load_sh(A);
 }
 
@@ -1473,37 +1473,37 @@ __m128h test_mm_maskz_load_sh(__mmask8 __U, const void *__W) {
 
 __m512h test_mm512_load_ph(void *p) {
   // CHECK-LABEL: @test_mm512_load_ph
-  // CHECK: load <32 x half>, <32 x half>* %{{.*}}, align 64{{$}}
+  // CHECK: load <32 x half>, <32 x half>* %{{.*}}, align 64, !noundef [[NOUNDEF]]{{$}}
   return _mm512_load_ph(p);
 }
 
 __m256h test_mm256_load_ph(void *p) {
   // CHECK-LABEL: @test_mm256_load_ph
-  // CHECK: load <16 x half>, <16 x half>* %{{.*}}, align 32{{$}}
+  // CHECK: load <16 x half>, <16 x half>* %{{.*}}, align 32, !noundef [[NOUNDEF]]{{$}}
   return _mm256_load_ph(p);
 }
 
 __m128h test_mm_load_ph(void *p) {
   // CHECK-LABEL: @test_mm_load_ph
-  // CHECK: load <8 x half>, <8 x half>* %{{.*}}, align 16{{$}}
+  // CHECK: load <8 x half>, <8 x half>* %{{.*}}, align 16, !noundef [[NOUNDEF]]{{$}}
   return _mm_load_ph(p);
 }
 
 __m512h test_mm512_loadu_ph(void *p) {
   // CHECK-LABEL: @test_mm512_loadu_ph
-  // CHECK: load <32 x half>, <32 x half>* {{.*}}, align 1{{$}}
+  // CHECK: load <32 x half>, <32 x half>* {{.*}}, align 1, !noundef [[NOUNDEF]]{{$}}
   return _mm512_loadu_ph(p);
 }
 
 __m256h test_mm256_loadu_ph(void *p) {
   // CHECK-LABEL: @test_mm256_loadu_ph
-  // CHECK: load <16 x half>, <16 x half>* {{.*}}, align 1{{$}}
+  // CHECK: load <16 x half>, <16 x half>* {{.*}}, align 1, !noundef [[NOUNDEF]]{{$}}
   return _mm256_loadu_ph(p);
 }
 
 __m128h test_mm_loadu_ph(void *p) {
   // CHECK-LABEL: @test_mm_loadu_ph
-  // CHECK: load <8 x half>, <8 x half>* {{.*}}, align 1{{$}}
+  // CHECK: load <8 x half>, <8 x half>* {{.*}}, align 1, !noundef [[NOUNDEF]]{{$}}
   return _mm_loadu_ph(p);
 }
 
@@ -4626,3 +4626,5 @@ __m128h test_mm_maskz_cmul_round_sch(__mmask8 __U, __m128h __A, __m128h __B) {
   // CHECK: @llvm.x86.avx512fp16.mask.vfcmul.csh
   return _mm_maskz_cmul_round_sch(__U, __A, __B, _MM_FROUND_TO_ZERO | _MM_FROUND_NO_EXC);
 }
+
+// CHECK: [[NOUNDEF]] = !{}

@@ -192,10 +192,10 @@ void simple(float *a, float *b, float *c, float *d) {
 // CHECK: call void @__kmpc_for_static_fini(%struct.ident_t* {{.+}}, i32 %{{.+}})
 //
 // Linear start and step are used to calculate final value of the linear variables.
-// CHECK: [[LIN:%.+]] = load i32, i32* [[LIN_PRIV]]
-// CHECK: store i32 [[LIN]], i32* [[LIN_VAR]],
-// CHECK: [[GLIN:%.+]] = load double*, double** [[G_PTR_CUR]]
-// CHECK: store double* [[GLIN]], double** [[GLIN_VAR]],
+// CHECK: [[LIN:%.+]] = load i32, i32* [[LIN_PRIV]], {{.*}}
+// CHECK: store i32 [[LIN]], i32* [[LIN_VAR]], {{.*}}
+// CHECK: [[GLIN:%.+]] = load double*, double** [[G_PTR_CUR]], {{.*}}
+// CHECK: store double* [[GLIN]], double** [[GLIN_VAR]]
 
   #pragma omp parallel for simd
 // CHECK: call void @__kmpc_for_static_init_4(%struct.ident_t* {{[^,]+}}, i32 %{{[^,]+}}, i32 34, i32* %{{[^,]+}}, i32* [[LB:%[^,]+]], i32* [[UB:%[^,]+]], i32* [[STRIDE:%[^,]+]], i32 1, i32 1)
@@ -796,7 +796,7 @@ for (int i = 0; i < 10; ++i);
 // OMP50-LABEL: define internal void @.omp_outlined..14
 // OMP50: call void @__kmpc_for_static_init_4
 // OMP50: omp.inner.for.body:
-// OMP50: %{{[0-9]+}} = atomicrmw add i32* %{{[0-9]+}}, i32 1 monotonic, align 4, !llvm.access.group !47
+// OMP50: %{{[0-9]+}} = atomicrmw add i32* %{{[0-9]+}}, i32 1 monotonic, align 4, !llvm.access.group !48
 
 // OMP45-NOT: !{!"llvm.loop.vectorize.enable", i1 false}
 // OMP45-DAG: ![[VECT]] = distinct !{![[VECT]], ![[PA:.+]], ![[VM:.+]]}

@@ -65,7 +65,7 @@ void implicit_maps_template_type_capture (int a){
   // CK18-DAG: [[CP1:%.+]] = bitcast i8** [[P1]] to i[[sz]]*
   // CK18-DAG: store i[[sz]] [[VAL:%.+]], i[[sz]]* [[CBP1]]
   // CK18-DAG: store i[[sz]] [[VAL]], i[[sz]]* [[CP1]]
-  // CK18-DAG: [[VAL]] = load i[[sz]], i[[sz]]* [[ADDR:%.+]],
+  // CK18-DAG: [[VAL]] = load i[[sz]], i[[sz]]* [[ADDR:%.+]], align [[ALIGN:[0-9]]], !noundef [[NOUNDEF:![0-9]+]]
   // CK18-64-DAG: [[CADDR:%.+]] = bitcast i[[sz]]* [[ADDR]] to i32*
   // CK18-64-DAG: store i32 {{.+}}, i32* [[CADDR]],
 

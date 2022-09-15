@@ -19,7 +19,7 @@ struct C {
 
 int f1(B *b) {
 // CHECK-LABEL: _Z2f1P1B
-// CHECK: load i32, {{.*}}, !tbaa [[TAG_A_y:!.*]]
+// CHECK: load i32, {{.*}}, !tbaa [[TAG_A_y:![0-9]+]], !noundef [[NOUNDEF:![0-9]+]]
   return b->y;
 }
 
@@ -52,7 +52,9 @@ int f4(E *e) {
 // OLD-PATH-DAG: [[TYPE_int:!.*]] = !{!"int", [[TYPE_char]], i64 0}
 // OLD-PATH-DAG: [[TYPE_A:!.*]] = !{!"_ZTS1A", [[TYPE_int]], i64 0, [[TYPE_int]], i64 4, [[TYPE_int]], i64 8}
 // OLD-PATH-DAG: [[TAG_A_y]] = !{[[TYPE_A]], [[TYPE_int]], i64 4}
+// OLD-PATH-DAG: [[NOUNDEF]] = !{}
 // NEW-PATH-DAG: [[TYPE_char:!.*]] = !{{{.*}}, i64 1, !"omnipotent char"}
 // NEW-PATH-DAG: [[TYPE_int:!.*]] = !{[[TYPE_char]], i64 4, !"int"}
 // NEW-PATH-DAG: [[TYPE_A:!.*]] = !{[[TYPE_char]], i64 12, !"_ZTS1A", [[TYPE_int]], i64 0, i64 4, [[TYPE_int]], i64 4, i64 4, [[TYPE_int]], i64 8, i64 4}
 // NEW-PATH-DAG: [[TAG_A_y]] = !{[[TYPE_A]], [[TYPE_int]], i64 4, i64 4}
+// NEW-PATH-DAG: [[NOUNDEF]] = !{}

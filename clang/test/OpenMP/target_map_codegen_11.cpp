@@ -62,7 +62,7 @@ void implicit_maps_float_complex (int a){
 // CK12-64-DAG: [[CP1:%.+]] = bitcast i8** [[P1]] to i[[sz]]*
 // CK12-64-DAG: store i[[sz]] [[VAL:%[^,]+]], i[[sz]]* [[CBP1]]
 // CK12-64-DAG: store i[[sz]] [[VAL]], i[[sz]]* [[CP1]]
-// CK12-64-DAG: [[VAL]] = load i[[sz]], i[[sz]]* [[ADDR:%.+]],
+// CK12-64-DAG: [[VAL]] = load i[[sz]], i[[sz]]* [[ADDR:%.+]], align [[ALIGN:[0-9]]], !noundef [[NOUNDEF:![0-9]+]]
 // CK12-64-DAG: [[CADDR:%.+]] = bitcast i[[sz]]* [[ADDR]] to { float, float }*
 // CK12-64-DAG: store { float, float } {{.+}}, { float, float }* [[CADDR]],
 

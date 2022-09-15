@@ -65,6 +65,7 @@ CODEGENOPT(DisableO0ImplyOptNone , 1, 0) ///< Don't annonate function with optno
 CODEGENOPT(ExperimentalStrictFloatingPoint, 1, 0) ///< Enables the new, experimental
                                                   ///< strict floating point.
 CODEGENOPT(EnableNoundefAttrs, 1, 0) ///< Enable emitting `noundef` attributes on IR call arguments and return values
+CODEGENOPT(EnableNoundefLoadAttr, 1, 0) ///< Enable emitting `noundef` attributes on IR loads.
 CODEGENOPT(DebugPassManager, 1, 0) ///< Prints debug information for the new
                                    ///< pass manager.
 CODEGENOPT(DisableRedZone    , 1, 0) ///< Set when -mno-red-zone is enabled.

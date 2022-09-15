@@ -8,7 +8,7 @@ extern bool B();
 
 bool f() {
   // CHECK-LABEL: define{{.*}} zeroext i1 @_Z1fv
-  // CHECK: br {{.*}} !prof !7
+  // CHECK: br {{.*}} !prof [[PROF7:![0-9]+]]
   if (b)
     [[likely]] {
       return A();
@@ -18,7 +18,7 @@ bool f() {
 
 bool g() {
   // CHECK-LABEL: define{{.*}} zeroext i1 @_Z1gv
-  // CHECK: br {{.*}} !prof !8
+  // CHECK: br {{.*}} !prof [[PROF8:![0-9]+]]
   if (b)
     [[unlikely]] {
       return A();
@@ -29,7 +29,7 @@ bool g() {
 
 bool h() {
   // CHECK-LABEL: define{{.*}} zeroext i1 @_Z1hv
-  // CHECK: br {{.*}} !prof !8
+  // CHECK: br {{.*}} !prof [[PROF8]]
   if (b)
     [[unlikely]] return A();
 
@@ -38,7 +38,7 @@ bool h() {
 
 void NullStmt() {
   // CHECK-LABEL: define{{.*}}NullStmt
-  // CHECK: br {{.*}} !prof !8
+  // CHECK: br {{.*}} !prof [[PROF8]]
   if (b)
     [[unlikely]];
   else {
@@ -49,7 +49,7 @@ void NullStmt() {
 
 void IfStmt() {
   // CHECK-LABEL: define{{.*}}IfStmt
-  // CHECK: br {{.*}} !prof !8
+  // CHECK: br {{.*}} !prof [[PROF8]]
   if (b)
     [[unlikely]] if (B()) {}
 
@@ -63,20 +63,20 @@ void IfStmt() {
 
 void WhileStmt() {
   // CHECK-LABEL: define{{.*}}WhileStmt
-  // CHECK: br {{.*}} !prof !8
+  // CHECK: br {{.*}} !prof [[PROF8]]
   if (b)
     [[unlikely]] while (B()) {}
 
   // CHECK-NOT: br {{.*}} %if.end{{.*}} !prof
   if (b)
-    // CHECK: br {{.*}} !prof !7
+    // CHECK: br {{.*}} !prof [[PROF7]]
     while (B())
       [[unlikely]] { b = false; }
 }
 
 void DoStmt() {
   // CHECK-LABEL: define{{.*}}DoStmt
-  // CHECK: br {{.*}} !prof !8
+  // CHECK: br {{.*}} !prof [[PROF8]]
   if (b)
     [[unlikely]] do {}
     while (B())
@@ -91,20 +91,20 @@ void DoStmt() {
 
 void ForStmt() {
   // CHECK-LABEL: define{{.*}}ForStmt
-  // CHECK: br {{.*}} !prof !8
+  // CHECK: br {{.*}} !prof [[PROF8]]
   if (b)
     [[unlikely]] for (; B();) {}
 
   // CHECK-NOT: br {{.*}} %if.end{{.*}} !prof
   if (b)
-    // CHECK: br {{.*}} !prof !7
+    // CHECK: br {{.*}} !prof [[PROF7]]
     for (; B();)
       [[unlikely]] {}
 }
 
 void GotoStmt() {
   // CHECK-LABEL: define{{.*}}GotoStmt
-  // CHECK: br {{.*}} !prof !8
+  // CHECK: br {{.*}} !prof [[PROF8]]
   if (b)
     [[unlikely]] goto end;
   else {
@@ -116,7 +116,7 @@ end:;
 
 void ReturnStmt() {
   // CHECK-LABEL: define{{.*}}ReturnStmt
-  // CHECK: br {{.*}} !prof !8
+  // CHECK: br {{.*}} !prof [[PROF8]]
   if (b)
     [[unlikely]] return;
   else {
@@ -127,7 +127,7 @@ void ReturnStmt() {
 
 void SwitchStmt() {
   // CHECK-LABEL: define{{.*}}SwitchStmt
-  // CHECK: br {{.*}} !prof !8
+  // CHECK: br {{.*}} !prof [[PROF8]]
   if (b)
     [[unlikely]] switch (i) {}
   else {
@@ -144,5 +144,5 @@ void SwitchStmt() {
   }
 }
 
-// CHECK: !7 = !{!"branch_weights", i32 [[UNLIKELY]], i32 [[LIKELY]]}
-// CHECK: !8 = !{!"branch_weights", i32 [[LIKELY]], i32 [[UNLIKELY]]}
+// CHECK: [[PROF7]] = !{!"branch_weights", i32 [[UNLIKELY]], i32 [[LIKELY]]}
+// CHECK: [[PROF8]] = !{!"branch_weights", i32 [[LIKELY]], i32 [[UNLIKELY]]}

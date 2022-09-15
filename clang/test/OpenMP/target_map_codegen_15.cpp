@@ -66,7 +66,7 @@ void implicit_maps_templated_function (int a){
   // CK16-DAG: [[CP1:%.+]] = bitcast i8** [[P1]] to i[[sz]]*
   // CK16-DAG: store i[[sz]] [[VAL:%.+]], i[[sz]]* [[CBP1]]
   // CK16-DAG: store i[[sz]] [[VAL]], i[[sz]]* [[CP1]]
-  // CK16-DAG: [[VAL]] = load i[[sz]], i[[sz]]* [[ADDR:%.+]],
+  // CK16-DAG: [[VAL]] = load i[[sz]], i[[sz]]* [[ADDR:%.+]], align [[ALIGN:[0-9]]], !noundef [[NOUNDEF:![0-9]+]]
   // CK16-64-DAG: [[CADDR:%.+]] = bitcast i[[sz]]* [[ADDR]] to i32*
   // CK16-64-DAG: store i32 {{.+}}, i32* [[CADDR]],
 

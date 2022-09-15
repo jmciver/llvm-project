@@ -12,7 +12,7 @@
 // CHECK-NEXT:    store i32* [[A_ADDR]], i32** [[_TMP0]], align 8
 // CHECK-NEXT:    store i32 1, i32* [[REF_TMP]], align 4
 // CHECK-NEXT:    store i32* [[REF_TMP]], i32** [[_TMP1]], align 8
-// CHECK-NEXT:    [[TMP0:%.*]] = load i32, i32* [[A_ADDR]], align 4
+// CHECK-NEXT:    [[TMP0:%.*]] = load i32, i32* [[A_ADDR]], align 4, !noundef [[NOUNDEF2:![0-9]+]]
 // CHECK-NEXT:    [[TMP1:%.*]] = load i32*, i32** [[_TMP1]], align 8
 // CHECK-NEXT:    store i32 [[TMP0]], i32* [[TMP1]], align 4
 // CHECK-NEXT:    ret void

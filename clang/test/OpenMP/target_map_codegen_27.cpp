@@ -83,7 +83,7 @@ void explicit_maps_pointer_references (int *p){
 // CK28-DAG: [[VAR0]] = load ptr, ptr [[VAR00:%.+]],
 // CK28-DAG: [[VAR00]] = load ptr, ptr [[VAR000:%.+]],
 // CK28-DAG: [[VAR1]] = getelementptr inbounds i32, ptr [[VAR11:%.+]], i{{64|32}} 2
-// CK28-DAG: [[VAR11]] = load ptr, ptr [[VAR111:%.+]],
+// CK28-DAG: [[VAR11]] = load ptr, ptr [[VAR111:%.+]], align [[ALIGN:[0-9]]], !noundef [[NOUNDEF:![0-9]+]]
 // CK28-DAG: [[VAR111]] = load ptr, ptr [[VAR1111:%.+]],
 
 // CK28: call void [[CALL01:@.+]](ptr {{[^,]+}})

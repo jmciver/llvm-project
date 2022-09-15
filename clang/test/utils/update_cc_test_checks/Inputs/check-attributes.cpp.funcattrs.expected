@@ -16,7 +16,7 @@ struct ST {
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[S_ADDR:%.*]] = alloca %struct.ST*, align 8
 // CHECK-NEXT:    store %struct.ST* [[S:%.*]], %struct.ST** [[S_ADDR]], align 8
-// CHECK-NEXT:    [[TMP0:%.*]] = load %struct.ST*, %struct.ST** [[S_ADDR]], align 8
+// CHECK-NEXT:    [[TMP0:%.*]] = load %struct.ST*, %struct.ST** [[S_ADDR]], align 8, !noundef [[NOUNDEF2:![0-9]+]]
 // CHECK-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [[STRUCT_ST:%.*]], %struct.ST* [[TMP0]], i64 1
 // CHECK-NEXT:    [[Z:%.*]] = getelementptr inbounds [[STRUCT_ST]], %struct.ST* [[ARRAYIDX]], i32 0, i32 2
 // CHECK-NEXT:    [[B:%.*]] = getelementptr inbounds [[STRUCT_RT:%.*]], %struct.RT* [[Z]], i32 0, i32 1

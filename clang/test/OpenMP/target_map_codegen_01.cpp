@@ -61,7 +61,7 @@ void implicit_maps_reference (int a, int *b){
 // CK2-DAG: [[CP1:%.+]] = bitcast i8** [[P1]] to i[[sz]]*
 // CK2-DAG: store i[[sz]] [[VAL:%[^,]+]], i[[sz]]* [[CBP1]]
 // CK2-DAG: store i[[sz]] [[VAL]], i[[sz]]* [[CP1]]
-// CK2-DAG: [[VAL]] = load i[[sz]], i[[sz]]* [[ADDR:%.+]],
+// CK2-DAG: [[VAL]] = load i[[sz]], i[[sz]]* [[ADDR:%.+]], align [[ALIGN:[0-9]]], !noundef [[NOUNDEF:![0-9]+]]
 // CK2-64-DAG: [[CADDR:%.+]] = bitcast i[[sz]]* [[ADDR]] to i32*
 // CK2-64-DAG: store i32 {{.+}}, i32* [[CADDR]],
 
@@ -85,8 +85,8 @@ void implicit_maps_reference (int a, int *b){
 // CK2-DAG: [[CP1:%.+]] = bitcast i8** [[P1]] to i32**
 // CK2-DAG: store i32* [[VAL:%[^,]+]], i32** [[CBP1]]
 // CK2-DAG: store i32* [[VAL]], i32** [[CP1]]
-// CK2-DAG: [[VAL]] = load i32*, i32** [[ADDR:%.+]],
-// CK2-DAG: [[ADDR]] = load i32**, i32*** [[ADDR2:%.+]],
+// CK2-DAG: [[VAL]] = load i32*, i32** [[ADDR:%.+]], align [[ALIGN2:[0-9]]], !noundef [[NOUNDEF]]
+// CK2-DAG: [[ADDR]] = load i32**, i32*** [[ADDR2:%.+]]
 
 // CK2: call void [[KERNEL2:@.+]](i32* [[VAL]])
 #pragma omp target

@@ -86,7 +86,7 @@ void f7() {
   int *src1();
   int src2();
 #line 800
-  int x = ( // CHECK: load {{.*}} !dbg [[DBG_F7:!.*]]
+  int x = ( // CHECK: load {{.*}} !dbg [[DBG_F7:!.*]], !noundef [[NOUNDEF:![0-9]+]]
       src1())[src2()];
 }
 
@@ -95,7 +95,7 @@ void f8() {
   int src1[1];
   int src2();
 #line 900
-  int x = ( // CHECK: load {{.*}} !dbg [[DBG_F8:!.*]]
+  int x = ( // CHECK: load {{.*}} !dbg [[DBG_F8:!.*]], !noundef [[NOUNDEF]]
       src1)[src2()];
 }
 
@@ -300,6 +300,7 @@ void f25() {
 #line 2700
   f25_a();
 }
+// CHECK: [[NOUNDEF]] = !{}
 // CHECK: [[DBG_F1]] = !DILocation(line: 100,
 // CHECK: [[DBG_FOO_VALUE]] = !DILocation(line: 200,
 // CHECK: [[DBG_FOO_REF]] = !DILocation(line: 202,

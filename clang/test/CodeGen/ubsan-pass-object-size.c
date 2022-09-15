@@ -6,7 +6,7 @@ int foo(int *const p __attribute__((pass_object_size(0))), int n) {
 
   // CHECK: [[SIZE_ALLOCA:%.*]] = alloca i64, align 8
   // CHECK: store i64 %{{.*}}, ptr [[SIZE_ALLOCA]], align 8
-  // CHECK: [[LOAD_SIZE:%.*]] = load i64, ptr [[SIZE_ALLOCA]], align 8, !nosanitize
+  // CHECK: [[LOAD_SIZE:%.*]] = load i64, ptr [[SIZE_ALLOCA]], align 8, !noundef ![[NOUNDEF:[0-9]+]], !nosanitize
   // CHECK-NEXT: [[SCALED_SIZE:%.*]] = udiv i64 [[LOAD_SIZE]], 4, !nosanitize
   // CHECK-NEXT: [[SEXT_N:%.*]] = sext i32 %{{.*}} to i64, !nosanitize
   // CHECK-NEXT: [[ICMP:%.*]] = icmp ult i64 [[SEXT_N]], [[SCALED_SIZE]], !nosanitize
@@ -66,3 +66,5 @@ int bat(int n, int p[n]) {
   // CHECK: ret i32
   return p[n];
 }
+
+// CHECK: [[NOUNDEF]] = !{}

@@ -61,7 +61,7 @@ void implicit_maps_nested_integer_and_enum (int a){
 // CK5-DAG: [[CP1:%.+]] = bitcast i8** [[P1]] to i[[sz]]*
 // CK5-DAG: store i[[sz]] [[VAL:%[^,]+]], i[[sz]]* [[CBP1]]
 // CK5-DAG: store i[[sz]] [[VAL]], i[[sz]]* [[CP1]]
-// CK5-DAG: [[VAL]] = load i[[sz]], i[[sz]]* [[ADDR:%.+]],
+// CK5-DAG: [[VAL]] = load i[[sz]], i[[sz]]* [[ADDR:%.+]], align [[ALIGN:[0-9]]], !noundef [[NOUNDEF:![0-9]+]]
 // CK5-64-DAG: [[CADDR:%.+]] = bitcast i[[sz]]* [[ADDR]] to i32*
 // CK5-64-DAG: store i32 {{.+}}, i32* [[CADDR]],
 

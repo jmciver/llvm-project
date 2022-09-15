@@ -13,34 +13,35 @@ struct C { int i; int x[3]; };
 
 int foo(B *b) {
 // CHECK-LABEL: _Z3fooP1B
-// CHECK: load i32, {{.*}}, !tbaa [[TAG_A_i:!.*]]
+// CHECK: load i32, {{.*}}, !tbaa [[TAG_A_i:![0-9]+]], !noundef [[NOUNDEF:![0-9]+]]
 // CHECK-NEW-LABEL: _Z3fooP1B
-// CHECK-NEW: load i32, {{.*}}, !tbaa [[TAG_A_i:!.*]]
+// CHECK-NEW: load i32, {{.*}}, !tbaa [[TAG_A_i:![0-9]+]], !noundef [[NOUNDEF:![0-9]+]]
   return b->a->i;
 }
 
 // Check that members of array types are represented correctly.
 int bar(C *c) {
 // CHECK-NEW-LABEL: _Z3barP1C
-// CHECK-NEW: load i32, {{.*}}, !tbaa [[TAG_C_i:!.*]]
+// CHECK-NEW: load i32, {{.*}}, !tbaa [[TAG_C_i:![0-9]+]], !noundef [[NOUNDEF:![0-9]+]]
   return c->i;
 }
 
 int bar2(C *c) {
 // CHECK-NEW-LABEL: _Z4bar2P1C
-// CHECK-NEW: load i32, {{.*}}, !tbaa [[TAG_int:!.*]]
+// CHECK-NEW: load i32, {{.*}}, !tbaa [[TAG_int:![0-9]+]], !noundef [[NOUNDEF:![0-9]+]]
   return c->x[2];
 }
 
 int bar3(C *c, int j) {
 // CHECK-NEW-LABEL: _Z4bar3P1Ci
-// CHECK-NEW: load i32, {{.*}}, !tbaa [[TAG_int:!.*]]
+// CHECK-NEW: load i32, {{.*}}, !tbaa [[TAG_int:![0-9]+]], !noundef [[NOUNDEF:![0-9]+]]
   return c->x[j];
 }
 
 // CHECK-DAG: [[TAG_A_i]] = !{[[TYPE_A:!.*]], [[TYPE_int:!.*]], i64 0}
 // CHECK-DAG: [[TYPE_A]] = !{!"_ZTS1A", !{{.*}}, i64 0}
 // CHECK-DAG: [[TYPE_int]] = !{!"int", !{{.*}}, i64 0}
+// CHECK-DAG: [[NOUNDEF]] = !{}
 
 // CHECK-NEW-DAG: [[TYPE_char:!.*]] = !{{{.*}}, i64 1, !"omnipotent char"}
 // CHECK-NEW-DAG: [[TYPE_int:!.*]] = !{[[TYPE_char]], i64 4, !"int"}
@@ -50,3 +51,4 @@ int bar3(C *c, int j) {
 // CHECK-NEW-DAG: [[TAG_A_i]] = !{[[TYPE_A]], [[TYPE_int]], i64 0, i64 4}
 // CHECK-NEW-DAG: [[TYPE_C:!.*]] = !{[[TYPE_char]], i64 16, !"_ZTS1C", [[TYPE_int]], i64 0, i64 4, [[TYPE_int]], i64 4, i64 12}
 // CHECK-NEW-DAG: [[TAG_C_i]] = !{[[TYPE_C:!.*]], [[TYPE_int:!.*]], i64 0, i64 4}
+// CHECK-NEW-DAG: [[NOUNDEF]] = !{}

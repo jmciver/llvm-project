@@ -117,8 +117,8 @@ void foo(float *&lr, T *&tr) {
 // CK1-DAG: [[P1:%.+]] = getelementptr inbounds {{.+}}[[PS]], i32 0, i32 0
 // CK1-DAG: store ptr [[VAL:%.+]], ptr [[BP1]]
 // CK1-DAG: store ptr [[VAL]], ptr [[P1]]
-// CK1-DAG: [[VAL]] = load ptr, ptr [[ADDR:%.+]],
-// CK1-DAG: [[ADDR]] = load ptr, ptr [[ADDR2:%.+]],
+// CK1-DAG: [[VAL]] = load ptr, ptr [[ADDR:%.+]], align [[ALIGN:[0-9]]]
+// CK1-DAG: [[ADDR]] = load ptr, ptr [[ADDR2:%.+]], align [[ALIGN]]
 
 // CK1: call void [[KERNEL:@.+]](ptr [[VAL]])
 #pragma omp target is_device_ptr(lr)
@@ -137,8 +137,8 @@ void foo(float *&lr, T *&tr) {
 // CK1-DAG: [[P1:%.+]] = getelementptr inbounds {{.+}}[[PS]], i32 0, i32 0
 // CK1-DAG: store ptr [[VAL:%.+]], ptr [[BP1]]
 // CK1-DAG: store ptr [[VAL]], ptr [[P1]]
-// CK1-DAG: [[VAL]] = load ptr, ptr [[ADDR:%.+]],
-// CK1-DAG: [[ADDR]] = load ptr, ptr [[ADDR2:%.+]],
+// CK1-DAG: [[VAL]] = load ptr, ptr [[ADDR:%.+]], align [[ALIGN2:[0-9]]]
+// CK1-DAG: [[ADDR]] = load ptr, ptr [[ADDR2:%.+]], align [[ALIGN2]]
 
 // CK1: call void [[KERNEL:@.+]](ptr [[VAL]])
 #pragma omp target is_device_ptr(tr)
@@ -157,8 +157,8 @@ void foo(float *&lr, T *&tr) {
 // CK1-DAG: [[P1:%.+]] = getelementptr inbounds {{.+}}[[PS]], i32 0, i32 0
 // CK1-DAG: store ptr [[VAL:%.+]], ptr [[BP1]]
 // CK1-DAG: store ptr [[VAL]], ptr [[P1]]
-// CK1-DAG: [[VAL]] = load ptr, ptr [[ADDR:%.+]],
-// CK1-DAG: [[ADDR]] = load ptr, ptr [[ADDR2:%.+]],
+// CK1-DAG: [[VAL]] = load ptr, ptr [[ADDR:%.+]], align [[ALIGN2]]
+// CK1-DAG: [[ADDR]] = load ptr, ptr [[ADDR2:%.+]], align [[ALIGN2]]
 
 // CK1: call void [[KERNEL:@.+]](ptr [[VAL]])
 #pragma omp target is_device_ptr(tr, lr)
@@ -177,15 +177,15 @@ void foo(float *&lr, T *&tr) {
 // CK1-DAG: [[P1:%.+]] = getelementptr inbounds {{.+}}[[PS]], i32 0, i32 0
 // CK1-DAG: store ptr [[VAL:%.+]], ptr [[BP1]]
 // CK1-DAG: store ptr [[VAL]], ptr [[P1]]
-// CK1-DAG: [[VAL]] = load ptr, ptr [[ADDR:%.+]],
-// CK1-DAG: [[ADDR]] = load ptr, ptr [[ADDR2:%.+]],
+// CK1-DAG: [[VAL]] = load ptr, ptr [[ADDR:%.+]], align [[ALIGN2]]
+// CK1-DAG: [[ADDR]] = load ptr, ptr [[ADDR2:%.+]], align [[ALIGN2]]
 
 // CK1-DAG: [[_BP1:%.+]] = getelementptr inbounds {{.+}}[[BPS]], i32 0, i32 1
 // CK1-DAG: [[_P1:%.+]] = getelementptr inbounds {{.+}}[[PS]], i32 0, i32 1
 // CK1-DAG: store ptr [[_VAL:%.+]], ptr [[_BP1]]
 // CK1-DAG: store ptr [[_VAL]], ptr [[_P1]]
-// CK1-DAG: [[_VAL]] = load ptr, ptr [[_ADDR:%.+]],
-// CK1-DAG: [[_ADDR]] = load ptr, ptr [[_ADDR2:%.+]],
+// CK1-DAG: [[_VAL]] = load ptr, ptr [[_ADDR:%.+]], align [[ALIGN]]
+// CK1-DAG: [[_ADDR]] = load ptr, ptr [[_ADDR2:%.+]], align [[ALIGN]]
 
 // CK1: call void [[KERNEL:@.+]](ptr [[VAL]], ptr [[_VAL]])
 #pragma omp target is_device_ptr(tr, lr)

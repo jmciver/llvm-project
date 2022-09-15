@@ -672,6 +672,20 @@ bool CodeGenFunction::sanitizePerformTypeCheck() const {
          SanOpts.has(SanitizerKind::Vptr);
 }
 
+static void applyNoundefToLoadInst(bool enable, const clang::QualType &Ty,
+                                   llvm::LoadInst *Load) {
+  if (enable) {
+    if (auto TyPtr = Ty.getTypePtrOrNull()) {
+      if (!(TyPtr->isSpecificBuiltinType(BuiltinType::UChar) ||
+            TyPtr->isSpecificBuiltinType(BuiltinType::Char_U) ||
+            TyPtr->isStdByteType())) {
+        Load->setMetadata(llvm::LLVMContext::MD_noundef,
+                          llvm::MDNode::get(Load->getContext(), None));
+      }
+    }
+  }
+}
+
 void CodeGenFunction::EmitTypeCheck(TypeCheckKind TCK, SourceLocation Loc,
                                     llvm::Value *Ptr, QualType Ty,
                                     CharUnits Alignment,
@@ -1724,7 +1738,6 @@ llvm::Value *CodeGenFunction::EmitLoadOfScalar(Address Addr, bool Volatile,
       Address Cast = Builder.CreateElementBitCast(Addr, vec4Ty, "castToVec4");
       // Now load value.
       llvm::Value *V = Builder.CreateLoad(Cast, Volatile, "loadVec4");
-
       // Shuffle vector to get vec3.
       V = Builder.CreateShuffleVector(V, ArrayRef<int>{0, 1, 2}, "extractVec");
       return EmitFromMemory(V, Ty);
@@ -1744,6 +1757,8 @@ llvm::Value *CodeGenFunction::EmitLoadOfScalar(Address Addr, bool Volatile,
         Load->getContext(), llvm::ConstantAsMetadata::get(Builder.getInt32(1)));
     Load->setMetadata(CGM.getModule().getMDKindID("nontemporal"), Node);
   }
+
+  applyNoundefToLoadInst(CGM.getCodeGenOpts().EnableNoundefLoadAttr, Ty, Load);
 
   CGM.DecorateInstructionWithTBAA(Load, TBAAInfo);
 

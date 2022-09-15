@@ -55,7 +55,7 @@ void implicit_maps_host_global (int a){
 // CK6-DAG: [[CP1:%.+]] = bitcast i8** [[P1]] to i[[sz]]*
 // CK6-DAG: store i[[sz]] [[VAL:%[^,]+]], i[[sz]]* [[CBP1]]
 // CK6-DAG: store i[[sz]] [[VAL]], i[[sz]]* [[CP1]]
-// CK6-64-DAG: [[VAL]] = load i[[sz]], i[[sz]]* [[ADDR:%.+]],
+// CK6-64-DAG: [[VAL]] = load i[[sz]], i[[sz]]* [[ADDR:%.+]], align [[ALIGN:[0-9]]], !noundef [[NOUNDEF:![0-9]+]]
 // CK6-64-DAG: [[CADDR:%.+]] = bitcast i[[sz]]* [[ADDR]] to i32*
 // CK6-64-DAG: store i32 [[GBLVAL:%.+]], i32* [[CADDR]],
 // CK6-64-DAG: [[GBLVAL]] = load i32, i32* [[GBL]],
