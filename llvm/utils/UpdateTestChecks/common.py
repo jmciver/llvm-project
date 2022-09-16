@@ -741,6 +741,7 @@ ir_nameless_values = [
     NamelessValue(r'GLOB'    , '@' , r'@'                   , None            , None                   , r'[0-9]+'    , None                 , False) ,
     NamelessValue(r'GLOB'    , '@' , None                   , r'@'            , r'[a-zA-Z0-9_$"\\.-]+' , None         , r'.+'                , True)  ,
     NamelessValue(r'DBG'     , '!' , r'!dbg '               , None            , None                   , r'![0-9]+'   , None                 , False) ,
+    NamelessValue(r'NOUNDEF' , '!' , r'!noundef '           , None            , None                   , r'![0-9]+'   , None                 , False) ,
     NamelessValue(r'PROF'    , '!' , r'!prof '              , None            , None                   , r'![0-9]+'   , None                 , False) ,
     NamelessValue(r'TBAA'    , '!' , r'!tbaa '              , None            , None                   , r'![0-9]+'   , None                 , False) ,
     NamelessValue(r'RNG'     , '!' , r'!range '             , None            , None                   , r'![0-9]+'   , None                 , False) ,
