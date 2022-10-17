@@ -1714,6 +1714,8 @@ llvm::Value *CodeGenFunction::EmitLoadOfScalar(Address Addr, bool Volatile,
           cast<llvm::FixedVectorType>(ValTy)->getNumElements();
       // Load the `iP` storage object (P is the padded vector size).
       auto *RawIntV = Builder.CreateLoad(Addr, Volatile, "load_bits");
+      applyNoundefToLoadInst(CGM.getCodeGenOpts().EnableNoundefLoadAttr,
+                             ClangVecTy->getElementType(), RawIntV);
       const auto *RawIntTy = RawIntV->getType();
       assert(RawIntTy->isIntegerTy() && "compressed iN storage for bitvectors");
       // Bitcast iP --> <P x i1>.
@@ -1738,6 +1740,9 @@ llvm::Value *CodeGenFunction::EmitLoadOfScalar(Address Addr, bool Volatile,
       Address Cast = Builder.CreateElementBitCast(Addr, vec4Ty, "castToVec4");
       // Now load value.
       llvm::Value *V = Builder.CreateLoad(Cast, Volatile, "loadVec4");
+      applyNoundefToLoadInst(CGM.getCodeGenOpts().EnableNoundefLoadAttr,
+                             ClangVecTy->getElementType(),
+                             dyn_cast<llvm::LoadInst>(V));
       // Shuffle vector to get vec3.
       V = Builder.CreateShuffleVector(V, ArrayRef<int>{0, 1, 2}, "extractVec");
       return EmitFromMemory(V, Ty);
