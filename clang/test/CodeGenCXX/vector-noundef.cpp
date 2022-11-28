@@ -6,6 +6,9 @@ using VecOfFourBools __attribute__((ext_vector_type(4))) = bool;
 using VecOfThreeChars __attribute__((ext_vector_type(3))) = char;
 using VecOfThreeUChars __attribute__((ext_vector_type(3))) = unsigned char;
 
+using VecOfFourFloats __attribute__((ext_vector_type(4))) = float;
+using VecOfTwoFloats __attribute__((ext_vector_type(2))) = float;
+
 // CHECK-LABEL: @_Z15getElement4BoolRDv4_b(
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca ptr, align 8
@@ -81,4 +84,34 @@ char getElement3Char(VecOfThreeChars& a)
 char getElement3UChar(VecOfThreeUChars& a)
 {
   return a[0];
+}
+
+// CHECK-LABEL: @_Z16vectorSubsectionRDv2_fRDv4_f(
+// CHECK-NEXT:  entry:
+// CHECK-NEXT:    [[VEC2_ADDR:%.*]] = alloca ptr, align 8
+// CHECK-NEXT:    [[VEC4_ADDR:%.*]] = alloca ptr, align 8
+// CHECK-NEXT:    store ptr [[VEC2:%.*]], ptr [[VEC2_ADDR]], align 8
+// CHECK-NEXT:    store ptr [[VEC4:%.*]], ptr [[VEC4_ADDR]], align 8
+// CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[VEC4_ADDR]], align 8
+// CHECK-NEXT:    [[TMP1:%.*]] = load <4 x float>, ptr [[TMP0]], align 16, !noundef [[NOUNDEF2]]
+// CHECK-NEXT:    [[TMP2:%.*]] = shufflevector <4 x float> [[TMP1]], <4 x float> poison, <2 x i32> <i32 0, i32 1>
+// CHECK-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[VEC2_ADDR]], align 8
+// CHECK-NEXT:    store <2 x float> [[TMP2]], ptr [[TMP3]], align 8
+// CHECK-NEXT:    ret void
+//
+// DISABLE-LABEL: @_Z16vectorSubsectionRDv2_fRDv4_f(
+// DISABLE-NEXT:  entry:
+// DISABLE-NEXT:    [[VEC2_ADDR:%.*]] = alloca ptr, align 8
+// DISABLE-NEXT:    [[VEC4_ADDR:%.*]] = alloca ptr, align 8
+// DISABLE-NEXT:    store ptr [[VEC2:%.*]], ptr [[VEC2_ADDR]], align 8
+// DISABLE-NEXT:    store ptr [[VEC4:%.*]], ptr [[VEC4_ADDR]], align 8
+// DISABLE-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[VEC4_ADDR]], align 8
+// DISABLE-NEXT:    [[TMP1:%.*]] = load <4 x float>, ptr [[TMP0]], align 16
+// DISABLE-NEXT:    [[TMP2:%.*]] = shufflevector <4 x float> [[TMP1]], <4 x float> poison, <2 x i32> <i32 0, i32 1>
+// DISABLE-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[VEC2_ADDR]], align 8
+// DISABLE-NEXT:    store <2 x float> [[TMP2]], ptr [[TMP3]], align 8
+// DISABLE-NEXT:    ret void
+//
+void vectorSubsection(VecOfTwoFloats& vec2, VecOfFourFloats& vec4) {
+    vec2 = vec4.xy;
 }

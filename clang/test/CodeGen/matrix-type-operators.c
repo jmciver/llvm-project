@@ -1217,7 +1217,7 @@ void insert_extract(dx5x5_t a, fx3x3_t b, unsigned long j, short k) {
 
 void insert_compound_stmt(dx5x5_t a) {
   // CHECK-LABEL: define{{.*}} void @insert_compound_stmt(<25 x double> noundef %a)
-  // CHECK:        [[A:%.*]] = load <25 x double>, <25 x double>* [[A_PTR:%.*]], align 8{{$}}
+  // CHECK:        [[A:%.*]] = load <25 x double>, <25 x double>* [[A_PTR:%.*]], align 8, !noundef [[NOUNDEF:![0-9]+]]{{$}}
   // CHECK-NEXT:   [[EXT:%.*]] = extractelement <25 x double> [[A]], i64 17
   // CHECK-NEXT:   [[SUB:%.*]] = fsub double [[EXT]], 1.000000e+00
   // CHECK-NEXT:   [[A2:%.*]] = load <25 x double>, <25 x double>* [[A_PTR]], align 8{{$}}
@@ -1245,7 +1245,7 @@ void insert_compound_stmt_field(struct Foo *a, float f, unsigned i, unsigned j) 
   // CHECK-NEXT:    [[MAT_PTR:%.*]] = bitcast [6 x float]* %mat to <6 x float>*
   // OPT-NEXT:      [[CMP:%.*]] = icmp ult i64 [[IDX2]], 6
   // OPT-NEXT:      call void @llvm.assume(i1 [[CMP]])
-  // CHECK-NEXT:    [[MAT:%.*]] = load <6 x float>, <6 x float>* [[MAT_PTR]], align 4{{$}}
+  // CHECK-NEXT:    [[MAT:%.*]] = load <6 x float>, <6 x float>* [[MAT_PTR]], align 4, !noundef [[NOUNDEF]]{{$}}
   // CHECK-NEXT:    [[EXT:%.*]] = extractelement <6 x float> [[MAT]], i64 [[IDX2]]
   // CHECK-NEXT:    [[SUM:%.*]] = fadd float [[EXT]], {{.*}}
   // OPT-NEXT:      [[CMP:%.*]] = icmp ult i64 [[IDX2]], 6

@@ -1963,6 +1963,8 @@ RValue CodeGenFunction::EmitLoadOfLValue(LValue LV, SourceLocation Loc) {
   if (LV.isVectorElt()) {
     llvm::LoadInst *Load = Builder.CreateLoad(LV.getVectorAddress(),
                                               LV.isVolatileQualified());
+    applyNoundefToLoadInst(CGM.getCodeGenOpts().EnableNoundefLoadAttr,
+                           LV.getType(), Load);
     return RValue::get(Builder.CreateExtractElement(Load, LV.getVectorIdx(),
                                                     "vecext"));
   }
@@ -1986,6 +1988,8 @@ RValue CodeGenFunction::EmitLoadOfLValue(LValue LV, SourceLocation Loc) {
     }
     llvm::LoadInst *Load =
         Builder.CreateLoad(LV.getMatrixAddress(), LV.isVolatileQualified());
+    applyNoundefToLoadInst(CGM.getCodeGenOpts().EnableNoundefLoadAttr,
+                           LV.getType(), Load);
     return RValue::get(Builder.CreateExtractElement(Load, Idx, "matrixext"));
   }
 
@@ -2033,6 +2037,8 @@ RValue CodeGenFunction::EmitLoadOfBitfieldLValue(LValue LV,
 RValue CodeGenFunction::EmitLoadOfExtVectorElementLValue(LValue LV) {
   llvm::Value *Vec = Builder.CreateLoad(LV.getExtVectorAddress(),
                                         LV.isVolatileQualified());
+  applyNoundefToLoadInst(CGM.getCodeGenOpts().EnableNoundefLoadAttr,
+                         LV.getType(), dyn_cast<llvm::LoadInst>(Vec));
 
   const llvm::Constant *Elts = LV.getExtVectorElts();
 
