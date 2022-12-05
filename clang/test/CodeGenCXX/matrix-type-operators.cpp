@@ -239,7 +239,7 @@ void test_insert_template1(MyMatrix<unsigned, 2, 2> &Mat, unsigned e, unsigned i
   // CHECK-NEXT:    [[IDX2:%.*]] = add i64 [[IDX1]], [[I_EXT]]
   // OPT-NEXT:      [[CMP:%.*]] = icmp ult i64 [[IDX2]], 4
   // OPT-NEXT:      call void @llvm.assume(i1 [[CMP]])
-  // CHECK-NEXT:    [[MAT:%.*]] = load <4 x i32>, ptr {{.*}}, align 4{{$}}
+  // CHECK-NEXT:    [[MAT:%.*]] = load <4 x i32>, ptr {{.*}}, align 4, !noundef [[NOUNDEF:![0-9]+]]{{$}}
   // CHECK-NEXT:    [[MATINS:%.*]] = insertelement <4 x i32> [[MAT]], i32 [[E]], i64 [[IDX2]]
   // CHECK-NEXT:    store <4 x i32> [[MATINS]], ptr {{.*}}, align 4
   // CHECK-NEXT:    ret void
@@ -269,7 +269,7 @@ void test_insert_template2(MyMatrix<float, 3, 8> &Mat, float e) {
   // CHECK-NEXT:    [[IDX2:%.*]] = add i64 [[IDX1]], [[I_EXT]]
   // OPT-NEXT:      [[CMP:%.*]] = icmp ult i64 [[IDX2]], 24
   // OPT-NEXT:      call void @llvm.assume(i1 [[CMP]])
-  // CHECK-NEXT:    [[MAT:%.*]] = load <24 x float>, ptr {{.*}}, align 4{{$}}
+  // CHECK-NEXT:    [[MAT:%.*]] = load <24 x float>, ptr {{.*}}, align 4, !noundef [[NOUNDEF]]{{$}}
   // CHECK-NEXT:    [[MATINS:%.*]] = insertelement <24 x float> [[MAT]], float [[E]], i64 [[IDX2]]
   // CHECK-NEXT:    store <24 x float> [[MATINS]], ptr {{.*}}, align 4
   // CHECK-NEXT:    ret void
@@ -394,7 +394,7 @@ void test_constexpr1(matrix_type<float, 4, 4> &m) {
   // CHECK-NEXT:   [[IDX2:%.*]] = add i64 [[IDX1]], [[I_EXT]]
   // OPT-NEXT:     [[CMP:%.*]] = icmp ult i64 [[IDX2]], 16
   // OPT-NEXT:     call void @llvm.assume(i1 [[CMP]])
-  // CHECK-NEXT:   [[MAT:%.*]] = load <16 x float>, ptr %result, align 4{{$}}
+  // CHECK-NEXT:   [[MAT:%.*]] = load <16 x float>, ptr %result, align 4, !noundef [[NOUNDEF]]{{$}}
   // CHECK-NEXT:   [[MATINS:%.*]] = insertelement <16 x float> [[MAT]], float 1.000000e+00, i64 [[IDX2]]
   // CHECK-NEXT:   store <16 x float> [[MATINS]], ptr %result, align 4
   // CHECK-NEXT:   br label %for.inc
@@ -426,7 +426,7 @@ void test_constexpr2(matrix_type<int, 5, 5> &m) {
   // CHECK-NEXT:   [[IDX2:%.*]] = add i64 [[IDX1]], [[I_EXT]]
   // OPT-NEXT:     [[CMP:%.*]] = icmp ult i64 [[IDX2]], 25
   // OPT-NEXT:     call void @llvm.assume(i1 [[CMP]])
-  // CHECK-NEXT:   [[MAT:%.*]] = load <25 x i32>, ptr %result, align 4{{$}}
+  // CHECK-NEXT:   [[MAT:%.*]] = load <25 x i32>, ptr %result, align 4, !noundef [[NOUNDEF]]{{$}}
   // CHECK-NEXT:   [[MATINS:%.*]] = insertelement <25 x i32> [[MAT]], i32 1, i64 [[IDX2]]
   // CHECK-NEXT:   store <25 x i32> [[MATINS]], ptr %result, align 4
   // CHECK-NEXT:   br label %for.inc

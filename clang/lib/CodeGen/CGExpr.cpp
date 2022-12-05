@@ -2114,6 +2114,8 @@ void CodeGenFunction::EmitStoreThroughLValue(RValue Src, LValue Dst,
       // Read/modify/write the vector, inserting the new element.
       llvm::Value *Vec = Builder.CreateLoad(Dst.getVectorAddress(),
                                             Dst.isVolatileQualified());
+      applyNoundefToLoadInst(CGM.getCodeGenOpts().EnableNoundefLoadAttr,
+                             Dst.getType(), dyn_cast<llvm::LoadInst>(Vec));
       auto *IRStoreTy = dyn_cast<llvm::IntegerType>(Vec->getType());
       if (IRStoreTy) {
         auto *IRVecTy = llvm::FixedVectorType::get(
@@ -2147,7 +2149,9 @@ void CodeGenFunction::EmitStoreThroughLValue(RValue Src, LValue Dst,
         llvm::MatrixBuilder MB(Builder);
         MB.CreateIndexAssumption(Idx, MatTy->getNumElementsFlattened());
       }
-      llvm::Instruction *Load = Builder.CreateLoad(Dst.getMatrixAddress());
+      llvm::LoadInst *Load = Builder.CreateLoad(Dst.getMatrixAddress());
+      applyNoundefToLoadInst(CGM.getCodeGenOpts().EnableNoundefLoadAttr,
+                             Dst.getType(), Load);
       llvm::Value *Vec =
           Builder.CreateInsertElement(Load, Src.getScalarVal(), Idx, "matins");
       Builder.CreateStore(Vec, Dst.getMatrixAddress(),
@@ -2315,6 +2319,8 @@ void CodeGenFunction::EmitStoreThroughExtVectorComponentLValue(RValue Src,
   // value now.
   llvm::Value *Vec = Builder.CreateLoad(Dst.getExtVectorAddress(),
                                         Dst.isVolatileQualified());
+  applyNoundefToLoadInst(CGM.getCodeGenOpts().EnableNoundefLoadAttr,
+                         Dst.getType(), dyn_cast<llvm::LoadInst>(Vec));
   const llvm::Constant *Elts = Dst.getExtVectorElts();
 
   llvm::Value *SrcVal = Src.getScalarVal();

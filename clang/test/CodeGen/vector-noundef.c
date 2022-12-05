@@ -37,7 +37,7 @@
 // CHECK-NEXT:    [[TMP7:%.*]] = load <4 x float>, <4 x float>* [[__A_ADDR_I]], align 16, !noundef [[NOUNDEF2]]
 // CHECK-NEXT:    [[VECEXT1_I:%.*]] = extractelement <4 x float> [[TMP7]], i32 0
 // CHECK-NEXT:    [[DIV_I:%.*]] = fdiv float [[VECEXT1_I]], [[VECEXT_I]]
-// CHECK-NEXT:    [[TMP8:%.*]] = load <4 x float>, <4 x float>* [[__A_ADDR_I]], align 16
+// CHECK-NEXT:    [[TMP8:%.*]] = load <4 x float>, <4 x float>* [[__A_ADDR_I]], align 16, !noundef [[NOUNDEF2]]
 // CHECK-NEXT:    [[VECINS_I:%.*]] = insertelement <4 x float> [[TMP8]], float [[DIV_I]], i32 0
 // CHECK-NEXT:    store <4 x float> [[VECINS_I]], <4 x float>* [[__A_ADDR_I]], align 16
 // CHECK-NEXT:    [[TMP9:%.*]] = load <4 x float>, <4 x float>* [[__A_ADDR_I]], align 16, !noundef [[NOUNDEF2]]

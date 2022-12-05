@@ -965,7 +965,7 @@ void insert_double_matrix_const_idx_ll_u_double(dx5x5_t a, double d, fx2x3_t b, 
   // CHECK-LABEL: @insert_double_matrix_const_idx_ll_u_double(
   // NOOPT:         [[D:%.*]] = load double, double* %d.addr, align 8, !noundef [[NOUNDEF]]{{$}}
   // OPT:           [[D:%.*]] = load double, double* %d.addr, align 8, !tbaa !{{[0-9]+}}, !noundef [[NOUNDEF]]{{$}}
-  // CHECK-NEXT:    [[MAT:%.*]] = load <25 x double>, <25 x double>* {{.*}}, align 8{{$}}
+  // CHECK-NEXT:    [[MAT:%.*]] = load <25 x double>, <25 x double>* {{.*}}, align 8, !noundef [[NOUNDEF:![0-9]+]]{{$}}
   // CHECK-NEXT:    [[MATINS:%.*]] = insertelement <25 x double> [[MAT]], double [[D]], i64 5
   // CHECK-NEXT:    store <25 x double> [[MATINS]], <25 x double>* {{.*}}, align 8
   // CHECK-NEXT:    ret void
@@ -977,7 +977,7 @@ void insert_double_matrix_const_idx_i_u_double(dx5x5_t a, double d) {
   // CHECK-LABEL: @insert_double_matrix_const_idx_i_u_double(
   // NOOPT:         [[D:%.*]] = load double, double* %d.addr, align 8, !noundef [[NOUNDEF]]{{$}}
   // OPT:           [[D:%.*]] = load double, double* %d.addr, align 8, !tbaa !{{[0-9]+}}, !noundef [[NOUNDEF]]{{$}}
-  // CHECK-NEXT:    [[MAT:%.*]] = load <25 x double>, <25 x double>* [[MAT_ADDR:%.*]], align 8{{$}}
+  // CHECK-NEXT:    [[MAT:%.*]] = load <25 x double>, <25 x double>* [[MAT_ADDR:%.*]], align 8, !noundef [[NOUNDEF]]{{$}}
   // CHECK-NEXT:    [[MATINS:%.*]] = insertelement <25 x double> [[MAT]], double [[D]], i64 21
   // CHECK-NEXT:    store <25 x double> [[MATINS]], <25 x double>* [[MAT_ADDR]], align 8
   // CHECK-NEXT:    ret void
@@ -989,7 +989,7 @@ void insert_float_matrix_const_idx_ull_i_float(fx2x3_t b, float e) {
   // CHECK-LABEL: @insert_float_matrix_const_idx_ull_i_float(
   // NOOPT:         [[E:%.*]] = load float, float* %e.addr, align 4, !noundef [[NOUNDEF]]{{$}}
   // OPT:           [[E:%.*]] = load float, float* %e.addr, align 4, !tbaa !{{[0-9]+}}, !noundef [[NOUNDEF]]{{$}}
-  // CHECK-NEXT:    [[MAT:%.*]] = load <6 x float>, <6 x float>* [[MAT_ADDR:%.*]], align 4{{$}}
+  // CHECK-NEXT:    [[MAT:%.*]] = load <6 x float>, <6 x float>* [[MAT_ADDR:%.*]], align 4, !noundef [[NOUNDEF]]{{$}}
   // CHECK-NEXT:    [[MATINS:%.*]] = insertelement <6 x float> [[MAT]], float [[E]], i64 3
   // CHECK-NEXT:    store <6 x float> [[MATINS]], <6 x float>* [[MAT_ADDR]], align 4
   // CHECK-NEXT:    ret void
@@ -1011,7 +1011,7 @@ void insert_float_matrix_idx_i_u_float(fx2x3_t b, float e, int j, unsigned k) {
   // CHECK-NEXT:    [[IDX2:%.*]] = add i64 [[IDX1]], [[J_EXT]]
   // OPT-NEXT:      [[CMP:%.*]] = icmp ult i64 [[IDX2]], 6
   // OPT-NEXT:      call void @llvm.assume(i1 [[CMP]])
-  // CHECK-NEXT:    [[MAT:%.*]] = load <6 x float>, <6 x float>* [[MAT_ADDR:%.*]], align 4{{$}}
+  // CHECK-NEXT:    [[MAT:%.*]] = load <6 x float>, <6 x float>* [[MAT_ADDR:%.*]], align 4, !noundef [[NOUNDEF]]{{$}}
   // CHECK-NEXT:    [[MATINS:%.*]] = insertelement <6 x float> [[MAT]], float [[E]], i64 [[IDX2]]
   // CHECK-NEXT:    store <6 x float> [[MATINS]], <6 x float>* [[MAT_ADDR]], align 4
   // CHECK-NEXT:    ret void
@@ -1032,7 +1032,7 @@ void insert_float_matrix_idx_s_ull_float(fx2x3_t b, float e, short j, unsigned l
   // CHECK-NEXT:    [[IDX2:%.*]] = add i64 [[IDX1]], [[J_EXT]]
   // OPT-NEXT:      [[CMP:%.*]] = icmp ult i64 [[IDX2]], 6
   // OPT-NEXT:      call void @llvm.assume(i1 [[CMP]])
-  // CHECK-NEXT:    [[MAT:%.*]] = load <6 x float>, <6 x float>* [[MAT_ADDR:%.*]], align 4{{$}}
+  // CHECK-NEXT:    [[MAT:%.*]] = load <6 x float>, <6 x float>* [[MAT_ADDR:%.*]], align 4, !noundef [[NOUNDEF]]{{$}}
   // CHECK-NEXT:    [[MATINS:%.*]] = insertelement <6 x float> [[MAT]], float [[E]], i64 [[IDX2]]
   // CHECK-NEXT:    store <6 x float> [[MATINS]], <6 x float>* [[MAT_ADDR]], align 4
   // CHECK-NEXT:    ret void
@@ -1053,7 +1053,7 @@ void insert_int_idx_expr(ix9x3_t a, int i) {
   // CHECK-NEXT:    [[IDX2:%.*]] = add i64 18, [[ADD_EXT]]
   // OPT-NEXT:      [[CMP:%.*]] = icmp ult i64 [[IDX2]], 27
   // OPT-NEXT:      call void @llvm.assume(i1 [[CMP]])
-  // CHECK-NEXT:    [[MAT:%.*]] = load <27 x i32>, <27 x i32>* [[MAT_ADDR:%.*]], align 4{{$}}
+  // CHECK-NEXT:    [[MAT:%.*]] = load <27 x i32>, <27 x i32>* [[MAT_ADDR:%.*]], align 4, !noundef [[NOUNDEF]]{{$}}
   // CHECK-NEXT:    [[MATINS:%.*]] = insertelement <27 x i32> [[MAT]], i32 [[I1]], i64 [[IDX2]]
   // CHECK-NEXT:    store <27 x i32> [[MATINS]], <27 x i32>* [[MAT_ADDR]], align 4
   // CHECK-NEXT:    ret void
@@ -1071,7 +1071,7 @@ void insert_float_into_int_matrix(ix9x3_t *a, int i) {
   // NOOPT-NEXT:    [[MAT_ADDR1:%.*]] = load [27 x i32]*, [27 x i32]** %a.addr, align 8, !noundef [[NOUNDEF]]{{$}}
   // OPT-NEXT:      [[MAT_ADDR1:%.*]] = load [27 x i32]*, [27 x i32]** %a.addr, align 8, !tbaa !{{[0-9]+}}, !noundef [[NOUNDEF]]{{$}}
   // CHECK-NEXT:    [[MAT_ADDR2:%.*]] = bitcast [27 x i32]* [[MAT_ADDR1]] to <27 x i32>*
-  // CHECK-NEXT:    [[MAT:%.*]] = load <27 x i32>, <27 x i32>* [[MAT_ADDR2]], align 4{{$}}
+  // CHECK-NEXT:    [[MAT:%.*]] = load <27 x i32>, <27 x i32>* [[MAT_ADDR2]], align 4, !noundef [[NOUNDEF]]{{$}}
   // CHECK-NEXT:    [[MATINS:%.*]] = insertelement <27 x i32> [[MAT]], i32 [[I]], i64 13
   // CHECK-NEXT:    store <27 x i32> [[MATINS]], <27 x i32>* [[MAT_ADDR2]], align 4
   // CHECK-NEXT:    ret void
@@ -1087,7 +1087,7 @@ void insert_matching_dimensions1(dx3x3_t a, double i) {
   // CHECK-LABEL: @insert_matching_dimensions1(
   // NOOPT:         [[I:%.*]] = load double, double* %i.addr, align 8, !noundef [[NOUNDEF]]{{$}}
   // OPT:           [[I:%.*]] = load double, double* %i.addr, align 8, !tbaa !{{[0-9]+}}, !noundef [[NOUNDEF]]{{$}}
-  // CHECK-NEXT:    [[MAT:%.*]] = load <9 x double>, <9 x double>* [[MAT_ADDR:%.*]], align 8{{$}}
+  // CHECK-NEXT:    [[MAT:%.*]] = load <9 x double>, <9 x double>* [[MAT_ADDR:%.*]], align 8, !noundef [[NOUNDEF]]{{$}}
   // CHECK-NEXT:    [[MATINS:%.*]] = insertelement <9 x double> [[MAT]], double [[I]], i64 5
   // CHECK-NEXT:    store <9 x double> [[MATINS]], <9 x double>* [[MAT_ADDR]], align 8
   // CHECK-NEXT:    ret void
@@ -1099,7 +1099,7 @@ void insert_matching_dimensions(fx3x3_t b, float e) {
   // CHECK-LABEL: @insert_matching_dimensions(
   // NOOPT:         [[E:%.*]] = load float, float* %e.addr, align 4, !noundef [[NOUNDEF]]{{$}}
   // OPT:           [[E:%.*]] = load float, float* %e.addr, align 4, !tbaa !{{[0-9]+}}, !noundef [[NOUNDEF]]{{$}}
-  // CHECK-NEXT:    [[MAT:%.*]] = load <9 x float>, <9 x float>* [[MAT_ADDR:%.*]], align 4{{$}}
+  // CHECK-NEXT:    [[MAT:%.*]] = load <9 x float>, <9 x float>* [[MAT_ADDR:%.*]], align 4, !noundef [[NOUNDEF]]{{$}}
   // CHECK-NEXT:    [[MATINS:%.*]] = insertelement <9 x float> [[MAT]], float [[E]], i64 7
   // CHECK-NEXT:    store <9 x float> [[MATINS]], <9 x float>* [[MAT_ADDR]], align 4
   // CHECK-NEXT:    ret void
@@ -1207,7 +1207,7 @@ void insert_extract(dx5x5_t a, fx3x3_t b, unsigned long j, short k) {
   // CHECK-NEXT:    [[IDX4:%.*]] = add i64 [[IDX3]], 2
   // OPT-NEXT:      [[CMP:%.*]] = icmp ult i64 [[IDX4]], 9
   // OPT-NEXT:      call void @llvm.assume(i1 [[CMP]])
-  // CHECK-NEXT:    [[MAT2:%.*]] = load <9 x float>, <9 x float>* [[MAT_ADDR]], align 4{{$}}
+  // CHECK-NEXT:    [[MAT2:%.*]] = load <9 x float>, <9 x float>* [[MAT_ADDR]], align 4, !noundef [[NOUNDEF]]{{$}}
   // CHECK-NEXT:    [[MATINS:%.*]] = insertelement <9 x float> [[MAT2]], float [[MATEXT]], i64 [[IDX4]]
   // CHECK-NEXT:    store <9 x float> [[MATINS]], <9 x float>* [[MAT_ADDR]], align 4
   // CHECK-NEXT:    ret void
@@ -1220,7 +1220,7 @@ void insert_compound_stmt(dx5x5_t a) {
   // CHECK:        [[A:%.*]] = load <25 x double>, <25 x double>* [[A_PTR:%.*]], align 8, !noundef [[NOUNDEF:![0-9]+]]{{$}}
   // CHECK-NEXT:   [[EXT:%.*]] = extractelement <25 x double> [[A]], i64 17
   // CHECK-NEXT:   [[SUB:%.*]] = fsub double [[EXT]], 1.000000e+00
-  // CHECK-NEXT:   [[A2:%.*]] = load <25 x double>, <25 x double>* [[A_PTR]], align 8{{$}}
+  // CHECK-NEXT:   [[A2:%.*]] = load <25 x double>, <25 x double>* [[A_PTR]], align 8, !noundef [[NOUNDEF]]{{$}}
   // CHECK-NEXT:   [[INS:%.*]] = insertelement <25 x double> [[A2]], double [[SUB]], i64 17
   // CHECK-NEXT:   store <25 x double> [[INS]], <25 x double>* [[A_PTR]], align 8
   // CHECK-NEXT:   ret void
@@ -1250,7 +1250,7 @@ void insert_compound_stmt_field(struct Foo *a, float f, unsigned i, unsigned j) 
   // CHECK-NEXT:    [[SUM:%.*]] = fadd float [[EXT]], {{.*}}
   // OPT-NEXT:      [[CMP:%.*]] = icmp ult i64 [[IDX2]], 6
   // OPT-NEXT:      call void @llvm.assume(i1 [[CMP]])
-  // CHECK-NEXT:    [[MAT2:%.*]] = load <6 x float>, <6 x float>* [[MAT_PTR]], align 4{{$}}
+  // CHECK-NEXT:    [[MAT2:%.*]] = load <6 x float>, <6 x float>* [[MAT_PTR]], align 4, !noundef [[NOUNDEF]]{{$}}
   // CHECK-NEXT:    [[INS:%.*]] = insertelement <6 x float> [[MAT2]], float [[SUM]], i64 [[IDX2]]
   // CHECK-NEXT:    store <6 x float> [[INS]], <6 x float>* [[MAT_PTR]], align 4
   // CHECK-NEXT:    ret void
@@ -1293,7 +1293,7 @@ void matrix_as_idx(ix9x3_t a, int i, int j, dx5x5_t b) {
   // CHECK-NEXT:  [[IDX3_2:%.*]] = add i64 [[IDX3_1]], [[MI1_EXT]]
   // OPT-NEXT:    [[CMP:%.*]] = icmp ult i64 [[IDX3_2]], 25
   // OPT-NEXT:    call void @llvm.assume(i1 [[CMP]])
-  // CHECK-NEXT:  [[B:%.*]] = load <25 x double>, <25 x double>* [[B_PTR:%.*]], align 8{{$}}
+  // CHECK-NEXT:  [[B:%.*]] = load <25 x double>, <25 x double>* [[B_PTR:%.*]], align 8, !noundef [[NOUNDEF]]{{$}}
   // CHECK-NEXT:  [[INS:%.*]] = insertelement <25 x double> [[B]], double 1.500000e+00, i64 [[IDX3_2]]
   // CHECK-NEXT:  store <25 x double> [[INS]], <25 x double>* [[B_PTR]], align 8
   b[a[i][j]][a[j][i] + 2] = 1.5;
