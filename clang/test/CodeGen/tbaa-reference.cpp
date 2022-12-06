@@ -26,7 +26,7 @@ B::B(S &s) : s(s) {
 S &B::get() {
 // CHECK-LABEL: _ZN1B3getEv
 // Check that we access the reference as a structure member.
-// CHECK: load ptr, ptr {{.*}}, !tbaa [[TAG_B_s:!.*]]
+// CHECK: load ptr, ptr {{.*}}, !tbaa [[TAG_B_s:![0-9]+]], !noundef !{{[0-9]+}}
   return s;
 }
 

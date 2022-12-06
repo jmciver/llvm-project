@@ -2551,6 +2551,8 @@ CodeGenFunction::EmitLoadOfReference(LValue RefLVal,
   llvm::LoadInst *Load =
       Builder.CreateLoad(RefLVal.getAddress(*this), RefLVal.isVolatile());
   CGM.DecorateInstructionWithTBAA(Load, RefLVal.getTBAAInfo());
+  applyNoundefToLoadInst(CGM.getCodeGenOpts().EnableNoundefLoadAttr,
+                         RefLVal.getType(), Load);
 
   QualType PointeeType = RefLVal.getType()->getPointeeType();
   CharUnits Align = CGM.getNaturalTypeAlignment(

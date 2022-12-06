@@ -13,8 +13,8 @@ using VecOfTwoFloats __attribute__((ext_vector_type(2))) = float;
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    store ptr [[A:%.*]], ptr [[A_ADDR]], align 8
-// CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[A_ADDR]], align 8
-// CHECK-NEXT:    [[LOAD_BITS:%.*]] = load i8, ptr [[TMP0]], align 1, !noundef [[NOUNDEF2:![0-9]+]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[A_ADDR]], align 8, !noundef [[NOUNDEF2:![0-9]+]]
+// CHECK-NEXT:    [[LOAD_BITS:%.*]] = load i8, ptr [[TMP0]], align 1, !noundef [[NOUNDEF2]]
 // CHECK-NEXT:    [[TMP1:%.*]] = bitcast i8 [[LOAD_BITS]] to <8 x i1>
 // CHECK-NEXT:    [[EXTRACTVEC:%.*]] = shufflevector <8 x i1> [[TMP1]], <8 x i1> poison, <4 x i32> <i32 0, i32 1, i32 2, i32 3>
 // CHECK-NEXT:    [[VECEXT:%.*]] = extractelement <4 x i1> [[EXTRACTVEC]], i32 0
@@ -40,7 +40,7 @@ bool getElement4Bool(VecOfFourBools& a)
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    store ptr [[A:%.*]], ptr [[A_ADDR]], align 8
-// CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[A_ADDR]], align 8
+// CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[A_ADDR]], align 8, !noundef [[NOUNDEF2]]
 // CHECK-NEXT:    [[LOADVEC4:%.*]] = load <4 x i8>, ptr [[TMP0]], align 4, !noundef [[NOUNDEF2]]
 // CHECK-NEXT:    [[EXTRACTVEC:%.*]] = shufflevector <4 x i8> [[LOADVEC4]], <4 x i8> poison, <3 x i32> <i32 0, i32 1, i32 2>
 // CHECK-NEXT:    [[VECEXT:%.*]] = extractelement <3 x i8> [[EXTRACTVEC]], i32 0
@@ -65,7 +65,7 @@ char getElement3Char(VecOfThreeChars& a)
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    store ptr [[A:%.*]], ptr [[A_ADDR]], align 8
-// CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[A_ADDR]], align 8
+// CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[A_ADDR]], align 8, !noundef [[NOUNDEF2]]
 // CHECK-NEXT:    [[LOADVEC4:%.*]] = load <4 x i8>, ptr [[TMP0]], align 4
 // CHECK-NEXT:    [[EXTRACTVEC:%.*]] = shufflevector <4 x i8> [[LOADVEC4]], <4 x i8> poison, <3 x i32> <i32 0, i32 1, i32 2>
 // CHECK-NEXT:    [[VECEXT:%.*]] = extractelement <3 x i8> [[EXTRACTVEC]], i32 0
@@ -92,10 +92,10 @@ char getElement3UChar(VecOfThreeUChars& a)
 // CHECK-NEXT:    [[VEC4_ADDR:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    store ptr [[VEC2:%.*]], ptr [[VEC2_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[VEC4:%.*]], ptr [[VEC4_ADDR]], align 8
-// CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[VEC4_ADDR]], align 8
+// CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[VEC4_ADDR]], align 8, !noundef [[NOUNDEF2]]
 // CHECK-NEXT:    [[TMP1:%.*]] = load <4 x float>, ptr [[TMP0]], align 16, !noundef [[NOUNDEF2]]
 // CHECK-NEXT:    [[TMP2:%.*]] = shufflevector <4 x float> [[TMP1]], <4 x float> poison, <2 x i32> <i32 0, i32 1>
-// CHECK-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[VEC2_ADDR]], align 8
+// CHECK-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[VEC2_ADDR]], align 8, !noundef [[NOUNDEF2]]
 // CHECK-NEXT:    store <2 x float> [[TMP2]], ptr [[TMP3]], align 8
 // CHECK-NEXT:    ret void
 //
@@ -123,7 +123,7 @@ void vectorSubsection(VecOfTwoFloats& vec2, VecOfFourFloats& vec4) {
 // CHECK-NEXT:    store ptr [[VEC2:%.*]], ptr [[VEC2_ADDR]], align 8
 // CHECK-NEXT:    store float [[F:%.*]], ptr [[F_ADDR]], align 4
 // CHECK-NEXT:    [[TMP0:%.*]] = load float, ptr [[F_ADDR]], align 4, !noundef [[NOUNDEF2]]
-// CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[VEC2_ADDR]], align 8
+// CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[VEC2_ADDR]], align 8, !noundef [[NOUNDEF2]]
 // CHECK-NEXT:    [[TMP2:%.*]] = load <2 x float>, ptr [[TMP1]], align 8, !noundef [[NOUNDEF2]]
 // CHECK-NEXT:    [[TMP3:%.*]] = insertelement <2 x float> [[TMP2]], float [[TMP0]], i64 0
 // CHECK-NEXT:    store <2 x float> [[TMP3]], ptr [[TMP1]], align 8
@@ -150,10 +150,10 @@ void vectorStoreElement(VecOfTwoFloats& vec2, float f) {
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[VEC4_ADDR:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    store ptr [[VEC4:%.*]], ptr [[VEC4_ADDR]], align 8
-// CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[VEC4_ADDR]], align 8
+// CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[VEC4_ADDR]], align 8, !noundef [[NOUNDEF2]]
 // CHECK-NEXT:    [[TMP1:%.*]] = load <4 x float>, ptr [[TMP0]], align 16, !noundef [[NOUNDEF2]]
 // CHECK-NEXT:    [[TMP2:%.*]] = shufflevector <4 x float> [[TMP1]], <4 x float> poison, <3 x i32> <i32 2, i32 1, i32 0>
-// CHECK-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[VEC4_ADDR]], align 8
+// CHECK-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[VEC4_ADDR]], align 8, !noundef [[NOUNDEF2]]
 // CHECK-NEXT:    [[TMP4:%.*]] = load <4 x float>, ptr [[TMP3]], align 16, !noundef [[NOUNDEF2]]
 // CHECK-NEXT:    [[TMP5:%.*]] = shufflevector <3 x float> [[TMP2]], <3 x float> poison, <4 x i32> <i32 0, i32 1, i32 2, i32 undef>
 // CHECK-NEXT:    [[TMP6:%.*]] = shufflevector <4 x float> [[TMP4]], <4 x float> [[TMP5]], <4 x i32> <i32 4, i32 5, i32 6, i32 3>
