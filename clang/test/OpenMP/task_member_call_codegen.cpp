@@ -45,9 +45,9 @@ void c() {
 // CHECK1-NEXT:    [[DOTADDR1:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
 // CHECK1-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
-// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3:![0-9]+]]
+// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK1-NEXT:    [[TMP3:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T:%.*]], ptr [[TMP2]], i32 0, i32 0
-// CHECK1-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK1-NEXT:    store ptr [[TMP3]], ptr [[TMP4]], align 8
 // CHECK1-NEXT:    ret void
 //
@@ -66,8 +66,8 @@ void c() {
 // CHECK1-NEXT:    [[DOTADDR1:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK1-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
-// CHECK1-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK1-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3:![0-9]+]]
+// CHECK1-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK1-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK1-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK1-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -114,9 +114,9 @@ void c() {
 // CHECK3-NEXT:    [[DOTADDR1:%.*]] = alloca ptr, align 8
 // CHECK3-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
 // CHECK3-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
-// CHECK3-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3:![0-9]+]]
+// CHECK3-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK3-NEXT:    [[TMP3:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T:%.*]], ptr [[TMP2]], i32 0, i32 0
-// CHECK3-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK3-NEXT:    store ptr [[TMP3]], ptr [[TMP4]], align 8
 // CHECK3-NEXT:    ret void
 //
@@ -135,8 +135,8 @@ void c() {
 // CHECK3-NEXT:    [[DOTADDR1:%.*]] = alloca ptr, align 8
 // CHECK3-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK3-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
-// CHECK3-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK3-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3:![0-9]+]]
+// CHECK3-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK3-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK3-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK3-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0

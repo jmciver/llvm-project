@@ -520,7 +520,7 @@ void test_omp_all_memory()
 // CHECK1-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK1-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK1-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK1-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK1-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK1-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK1-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -539,10 +539,10 @@ void test_omp_all_memory()
 // CHECK1-NEXT:    store i32 15, ptr @a, align 4, !noalias !13
 // CHECK1-NEXT:    [[TMP9:%.*]] = load i32, ptr @a, align 4, !noalias !13, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    [[CONV_I:%.*]] = trunc i32 [[TMP9]] to i8
-// CHECK1-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[TMP8]], align 8, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[TMP8]], align 8
 // CHECK1-NEXT:    store i8 [[CONV_I]], ptr [[TMP10]], align 1
 // CHECK1-NEXT:    [[TMP11:%.*]] = getelementptr inbounds [[STRUCT_ANON:%.*]], ptr [[TMP8]], i32 0, i32 1
-// CHECK1-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[TMP11]], align 8, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[TMP11]], align 8
 // CHECK1-NEXT:    store i32 10, ptr [[TMP12]], align 4
 // CHECK1-NEXT:    ret i32 0
 //
@@ -561,7 +561,7 @@ void test_omp_all_memory()
 // CHECK1-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK1-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK1-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK1-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK1-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_1:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK1-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK1-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -578,7 +578,7 @@ void test_omp_all_memory()
 // CHECK1-NEXT:    store ptr [[TMP7]], ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !23
 // CHECK1-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !23
 // CHECK1-NEXT:    store i32 15, ptr @a, align 4, !noalias !23
-// CHECK1-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 8, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 8
 // CHECK1-NEXT:    [[ARRAYIDX_I:%.*]] = getelementptr inbounds [2 x %struct.S], ptr [[TMP9]], i64 0, i64 1
 // CHECK1-NEXT:    store i32 10, ptr [[ARRAYIDX_I]], align 4
 // CHECK1-NEXT:    ret i32 0
@@ -599,7 +599,7 @@ void test_omp_all_memory()
 // CHECK1-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK1-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK1-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK1-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK1-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_3:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK1-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK1-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -615,7 +615,7 @@ void test_omp_all_memory()
 // CHECK1-NEXT:    store ptr [[TMP3]], ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !33
 // CHECK1-NEXT:    store ptr [[TMP7]], ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !33
 // CHECK1-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !33
-// CHECK1-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !33, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !33
 // CHECK1-NEXT:    [[TMP10:%.*]] = load i32, ptr [[TMP9]], align 4, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    switch i32 [[TMP10]], label [[DOTUNTIED_DONE__I:%.*]] [
 // CHECK1-NEXT:    i32 0, label [[DOTUNTIED_JMP__I:%.*]]
@@ -625,10 +625,10 @@ void test_omp_all_memory()
 // CHECK1-NEXT:    store i32 1, ptr [[CLEANUP_DEST_SLOT_I]], align 4, !noalias !33
 // CHECK1-NEXT:    br label [[CLEANUP_I:%.*]]
 // CHECK1:       .untied.jmp..i:
-// CHECK1-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !33, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !33
 // CHECK1-NEXT:    store i32 1, ptr [[TMP11]], align 4
 // CHECK1-NEXT:    [[TMP12:%.*]] = load i32, ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias !33, !noundef [[NOUNDEF3]]
-// CHECK1-NEXT:    [[TMP13:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !33, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP13:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !33
 // CHECK1-NEXT:    [[TMP14:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[TMP12]], ptr [[TMP13]])
 // CHECK1-NEXT:    br label [[DOTOMP_OUTLINED__3_EXIT:%.*]]
 // CHECK1:       .untied.jmp.1.i:
@@ -660,7 +660,7 @@ void test_omp_all_memory()
 // CHECK1-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK1-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK1-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK1-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK1-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_5:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK1-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK1-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -676,7 +676,7 @@ void test_omp_all_memory()
 // CHECK1-NEXT:    store ptr [[TMP3]], ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !43
 // CHECK1-NEXT:    store ptr [[TMP7]], ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !43
 // CHECK1-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !43
-// CHECK1-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !43, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !43
 // CHECK1-NEXT:    [[TMP10:%.*]] = load i32, ptr [[TMP9]], align 4, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    switch i32 [[TMP10]], label [[DOTUNTIED_DONE__I:%.*]] [
 // CHECK1-NEXT:    i32 0, label [[DOTUNTIED_JMP__I:%.*]]
@@ -686,10 +686,10 @@ void test_omp_all_memory()
 // CHECK1-NEXT:    store i32 1, ptr [[CLEANUP_DEST_SLOT_I]], align 4, !noalias !43
 // CHECK1-NEXT:    br label [[CLEANUP_I:%.*]]
 // CHECK1:       .untied.jmp..i:
-// CHECK1-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !43, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !43
 // CHECK1-NEXT:    store i32 1, ptr [[TMP11]], align 4
 // CHECK1-NEXT:    [[TMP12:%.*]] = load i32, ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias !43, !noundef [[NOUNDEF3]]
-// CHECK1-NEXT:    [[TMP13:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !43, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP13:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !43
 // CHECK1-NEXT:    [[TMP14:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[TMP12]], ptr [[TMP13]])
 // CHECK1-NEXT:    br label [[DOTOMP_OUTLINED__5_EXIT:%.*]]
 // CHECK1:       .untied.jmp.1.i:
@@ -718,7 +718,7 @@ void test_omp_all_memory()
 // CHECK1-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK1-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK1-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK1-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK1-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_7:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK1-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK1-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -734,7 +734,7 @@ void test_omp_all_memory()
 // CHECK1-NEXT:    store ptr [[TMP3]], ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !53
 // CHECK1-NEXT:    store ptr [[TMP7]], ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !53
 // CHECK1-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !53
-// CHECK1-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !53, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !53
 // CHECK1-NEXT:    [[TMP10:%.*]] = load i32, ptr [[TMP9]], align 4, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    switch i32 [[TMP10]], label [[DOTUNTIED_DONE__I:%.*]] [
 // CHECK1-NEXT:    i32 0, label [[DOTUNTIED_JMP__I:%.*]]
@@ -744,10 +744,10 @@ void test_omp_all_memory()
 // CHECK1-NEXT:    store i32 1, ptr [[CLEANUP_DEST_SLOT_I]], align 4, !noalias !53
 // CHECK1-NEXT:    br label [[CLEANUP_I:%.*]]
 // CHECK1:       .untied.jmp..i:
-// CHECK1-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !53, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !53
 // CHECK1-NEXT:    store i32 1, ptr [[TMP11]], align 4
 // CHECK1-NEXT:    [[TMP12:%.*]] = load i32, ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias !53, !noundef [[NOUNDEF3]]
-// CHECK1-NEXT:    [[TMP13:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !53, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP13:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !53
 // CHECK1-NEXT:    [[TMP14:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[TMP12]], ptr [[TMP13]])
 // CHECK1-NEXT:    br label [[DOTOMP_OUTLINED__7_EXIT:%.*]]
 // CHECK1:       .untied.jmp.1.i:
@@ -775,7 +775,7 @@ void test_omp_all_memory()
 // CHECK1-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK1-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK1-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK1-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK1-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_9:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK1-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK1-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -809,7 +809,7 @@ void test_omp_all_memory()
 // CHECK1-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK1-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK1-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK1-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK1-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_11:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK1-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK1-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -843,7 +843,7 @@ void test_omp_all_memory()
 // CHECK1-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK1-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK1-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK1-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK1-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_13:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK1-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK1-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -877,7 +877,7 @@ void test_omp_all_memory()
 // CHECK1-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK1-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK1-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK1-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK1-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_15:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK1-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK1-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -894,7 +894,7 @@ void test_omp_all_memory()
 // CHECK1-NEXT:    store ptr [[TMP7]], ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !93
 // CHECK1-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !93
 // CHECK1-NEXT:    store i32 4, ptr @a, align 4, !noalias !93
-// CHECK1-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 8, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 8
 // CHECK1-NEXT:    store i32 5, ptr [[TMP9]], align 128
 // CHECK1-NEXT:    ret i32 0
 //
@@ -906,9 +906,9 @@ void test_omp_all_memory()
 // CHECK1-NEXT:    [[DOTADDR1:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
 // CHECK1-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
-// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK1-NEXT:    [[TMP3:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T:%.*]], ptr [[TMP2]], i32 0, i32 0
-// CHECK1-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK1-NEXT:    store ptr [[TMP3]], ptr [[TMP4]], align 8
 // CHECK1-NEXT:    ret void
 //
@@ -928,7 +928,7 @@ void test_omp_all_memory()
 // CHECK1-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK1-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK1-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK1-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK1-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_18:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK1-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK1-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -975,15 +975,15 @@ void test_omp_all_memory()
 // CHECK1-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK1-NEXT:    store ptr [[TMP2]], ptr [[DOTADDR2]], align 8
 // CHECK1-NEXT:    store ptr [[TMP3]], ptr [[DOTADDR3]], align 8
-// CHECK1-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK1-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T_20:%.*]], ptr [[TMP4]], i32 0, i32 0
-// CHECK1-NEXT:    [[TMP6:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP6:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK1-NEXT:    store ptr [[TMP5]], ptr [[TMP6]], align 8
 // CHECK1-NEXT:    [[TMP7:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T_20]], ptr [[TMP4]], i32 0, i32 2
-// CHECK1-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[DOTADDR3]], align 8, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[DOTADDR3]], align 8
 // CHECK1-NEXT:    store ptr [[TMP7]], ptr [[TMP8]], align 8
 // CHECK1-NEXT:    [[TMP9:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T_20]], ptr [[TMP4]], i32 0, i32 3
-// CHECK1-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[DOTADDR2]], align 8, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[DOTADDR2]], align 8
 // CHECK1-NEXT:    store ptr [[TMP9]], ptr [[TMP10]], align 8
 // CHECK1-NEXT:    ret void
 //
@@ -1007,7 +1007,7 @@ void test_omp_all_memory()
 // CHECK1-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK1-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK1-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK1-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK1-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_19:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK1-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK1-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -1031,7 +1031,7 @@ void test_omp_all_memory()
 // CHECK1-NEXT:    [[TMP13:%.*]] = load ptr, ptr [[DOTLOCAL_PTR_ADDR_I]], align 8, !noalias !113
 // CHECK1-NEXT:    [[TMP14:%.*]] = load ptr, ptr [[DOTLOCAL_PTR_ADDR1_I]], align 8, !noalias !113
 // CHECK1-NEXT:    [[TMP15:%.*]] = load ptr, ptr [[TMP14]], align 8
-// CHECK1-NEXT:    [[TMP16:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP16:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113
 // CHECK1-NEXT:    [[TMP17:%.*]] = load i32, ptr [[TMP16]], align 4, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    switch i32 [[TMP17]], label [[DOTUNTIED_DONE__I:%.*]] [
 // CHECK1-NEXT:    i32 0, label [[DOTUNTIED_JMP__I:%.*]]
@@ -1045,10 +1045,10 @@ void test_omp_all_memory()
 // CHECK1-NEXT:    store i32 1, ptr [[CLEANUP_DEST_SLOT_I]], align 4, !noalias !113
 // CHECK1-NEXT:    br label [[CLEANUP_I:%.*]]
 // CHECK1:       .untied.jmp..i:
-// CHECK1-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113
 // CHECK1-NEXT:    store i32 1, ptr [[TMP18]], align 4
 // CHECK1-NEXT:    [[TMP19:%.*]] = load i32, ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias !113, !noundef [[NOUNDEF3]]
-// CHECK1-NEXT:    [[TMP20:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP20:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113
 // CHECK1-NEXT:    [[TMP21:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[TMP19]], ptr [[TMP20]])
 // CHECK1-NEXT:    br label [[DOTOMP_OUTLINED__17_EXIT:%.*]]
 // CHECK1:       .untied.jmp.2.i:
@@ -1056,10 +1056,10 @@ void test_omp_all_memory()
 // CHECK1-NEXT:    [[TMP22:%.*]] = load i32, ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias !113, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    [[DOTS2__VOID_ADDR_I:%.*]] = call ptr @__kmpc_alloc(i32 [[TMP22]], i64 4, ptr inttoptr (i64 7 to ptr))
 // CHECK1-NEXT:    store ptr [[DOTS2__VOID_ADDR_I]], ptr [[TMP14]], align 8
-// CHECK1-NEXT:    [[TMP23:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP23:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113
 // CHECK1-NEXT:    store i32 2, ptr [[TMP23]], align 4
 // CHECK1-NEXT:    [[TMP24:%.*]] = load i32, ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias !113, !noundef [[NOUNDEF3]]
-// CHECK1-NEXT:    [[TMP25:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP25:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113
 // CHECK1-NEXT:    [[TMP26:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[TMP24]], ptr [[TMP25]])
 // CHECK1-NEXT:    br label [[DOTOMP_OUTLINED__17_EXIT]]
 // CHECK1:       .untied.jmp.3.i:
@@ -1072,19 +1072,19 @@ void test_omp_all_memory()
 // CHECK1-NEXT:    store i32 [[TMP30]], ptr [[TMP29]], align 128
 // CHECK1-NEXT:    [[TMP31:%.*]] = load i32, ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias !113, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    [[TMP32:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[TMP31]], ptr [[TMP28]])
-// CHECK1-NEXT:    [[TMP33:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP33:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113
 // CHECK1-NEXT:    store i32 3, ptr [[TMP33]], align 4
 // CHECK1-NEXT:    [[TMP34:%.*]] = load i32, ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias !113, !noundef [[NOUNDEF3]]
-// CHECK1-NEXT:    [[TMP35:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP35:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113
 // CHECK1-NEXT:    [[TMP36:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[TMP34]], ptr [[TMP35]])
 // CHECK1-NEXT:    br label [[DOTOMP_OUTLINED__17_EXIT]]
 // CHECK1:       .untied.jmp.5.i:
 // CHECK1-NEXT:    [[TMP37:%.*]] = load i32, ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias !113, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    [[TMP38:%.*]] = call i32 @__kmpc_omp_taskyield(ptr @[[GLOB1]], i32 [[TMP37]], i32 0)
-// CHECK1-NEXT:    [[TMP39:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP39:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113
 // CHECK1-NEXT:    store i32 4, ptr [[TMP39]], align 4
 // CHECK1-NEXT:    [[TMP40:%.*]] = load i32, ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias !113, !noundef [[NOUNDEF3]]
-// CHECK1-NEXT:    [[TMP41:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP41:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113
 // CHECK1-NEXT:    [[TMP42:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[TMP40]], ptr [[TMP41]])
 // CHECK1-NEXT:    br label [[DOTOMP_OUTLINED__17_EXIT]]
 // CHECK1:       .untied.jmp.7.i:
@@ -1094,10 +1094,10 @@ void test_omp_all_memory()
 // CHECK1-NEXT:    store i32 10, ptr [[TMP15]], align 4
 // CHECK1-NEXT:    [[TMP43:%.*]] = load i32, ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias !113, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    [[TMP44:%.*]] = call i32 @__kmpc_omp_taskwait(ptr @[[GLOB1]], i32 [[TMP43]])
-// CHECK1-NEXT:    [[TMP45:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP45:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113
 // CHECK1-NEXT:    store i32 5, ptr [[TMP45]], align 4
 // CHECK1-NEXT:    [[TMP46:%.*]] = load i32, ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias !113, !noundef [[NOUNDEF3]]
-// CHECK1-NEXT:    [[TMP47:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP47:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113
 // CHECK1-NEXT:    [[TMP48:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[TMP46]], ptr [[TMP47]])
 // CHECK1-NEXT:    br label [[DOTOMP_OUTLINED__17_EXIT]]
 // CHECK1:       .untied.jmp.10.i:
@@ -1194,7 +1194,7 @@ void test_omp_all_memory()
 // CHECK1-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK1-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK1-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK1-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK1-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_22:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK1-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK1-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -1241,8 +1241,8 @@ void test_omp_all_memory()
 // CHECK1-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK1-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK1-NEXT:    store ptr [[A]], ptr [[A_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[A_ADDR]], align 8, !noundef [[NOUNDEF3]]
-// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[A_ADDR]], align 8
+// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK1-NEXT:    [[TMP2:%.*]] = load i32, ptr [[TMP1]], align 4, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    [[TMP3:%.*]] = call i32 @__kmpc_single(ptr @[[GLOB1]], i32 [[TMP2]])
 // CHECK1-NEXT:    [[TMP4:%.*]] = icmp ne i32 [[TMP3]], 0
@@ -1274,9 +1274,9 @@ void test_omp_all_memory()
 // CHECK1-NEXT:    [[DOTADDR1:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
 // CHECK1-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
-// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK1-NEXT:    [[TMP3:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T_25:%.*]], ptr [[TMP2]], i32 0, i32 0
-// CHECK1-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK1-NEXT:    store ptr [[TMP3]], ptr [[TMP4]], align 8
 // CHECK1-NEXT:    ret void
 //
@@ -1296,7 +1296,7 @@ void test_omp_all_memory()
 // CHECK1-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK1-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK1-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK1-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK1-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_24:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK1-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK1-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -1318,7 +1318,7 @@ void test_omp_all_memory()
 // CHECK1-NEXT:    call void [[TMP10]](ptr [[TMP11]], ptr [[DOTFIRSTPRIV_PTR_ADDR_I]]) #[[ATTR4]]
 // CHECK1-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTFIRSTPRIV_PTR_ADDR_I]], align 8, !noalias !133
 // CHECK1-NEXT:    [[TMP13:%.*]] = load double, ptr [[TMP12]], align 8, !noundef [[NOUNDEF3]]
-// CHECK1-NEXT:    [[TMP14:%.*]] = load ptr, ptr [[TMP9]], align 8, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP14:%.*]] = load ptr, ptr [[TMP9]], align 8
 // CHECK1-NEXT:    [[TMP15:%.*]] = load float, ptr [[TMP14]], align 4, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    [[CONV_I:%.*]] = fpext float [[TMP15]] to double
 // CHECK1-NEXT:    [[ADD_I:%.*]] = fadd double [[CONV_I]], [[TMP13]]
@@ -1640,7 +1640,7 @@ void test_omp_all_memory()
 // CHECK2-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK2-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK2-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK2-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK2-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK2-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK2-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -1659,10 +1659,10 @@ void test_omp_all_memory()
 // CHECK2-NEXT:    store i32 15, ptr @a, align 4, !noalias !13
 // CHECK2-NEXT:    [[TMP9:%.*]] = load i32, ptr @a, align 4, !noalias !13, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    [[CONV_I:%.*]] = trunc i32 [[TMP9]] to i8
-// CHECK2-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[TMP8]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[TMP8]], align 8
 // CHECK2-NEXT:    store i8 [[CONV_I]], ptr [[TMP10]], align 1
 // CHECK2-NEXT:    [[TMP11:%.*]] = getelementptr inbounds [[STRUCT_ANON:%.*]], ptr [[TMP8]], i32 0, i32 1
-// CHECK2-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[TMP11]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[TMP11]], align 8
 // CHECK2-NEXT:    store i32 10, ptr [[TMP12]], align 4
 // CHECK2-NEXT:    ret i32 0
 //
@@ -1681,7 +1681,7 @@ void test_omp_all_memory()
 // CHECK2-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK2-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK2-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK2-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK2-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_1:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK2-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK2-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -1698,7 +1698,7 @@ void test_omp_all_memory()
 // CHECK2-NEXT:    store ptr [[TMP7]], ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !23
 // CHECK2-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !23
 // CHECK2-NEXT:    store i32 15, ptr @a, align 4, !noalias !23
-// CHECK2-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 8
 // CHECK2-NEXT:    [[ARRAYIDX_I:%.*]] = getelementptr inbounds [2 x %struct.S], ptr [[TMP9]], i64 0, i64 1
 // CHECK2-NEXT:    store i32 10, ptr [[ARRAYIDX_I]], align 4
 // CHECK2-NEXT:    ret i32 0
@@ -1719,7 +1719,7 @@ void test_omp_all_memory()
 // CHECK2-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK2-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK2-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK2-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK2-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_3:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK2-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK2-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -1735,7 +1735,7 @@ void test_omp_all_memory()
 // CHECK2-NEXT:    store ptr [[TMP3]], ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !33
 // CHECK2-NEXT:    store ptr [[TMP7]], ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !33
 // CHECK2-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !33
-// CHECK2-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !33, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !33
 // CHECK2-NEXT:    [[TMP10:%.*]] = load i32, ptr [[TMP9]], align 4, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    switch i32 [[TMP10]], label [[DOTUNTIED_DONE__I:%.*]] [
 // CHECK2-NEXT:    i32 0, label [[DOTUNTIED_JMP__I:%.*]]
@@ -1745,10 +1745,10 @@ void test_omp_all_memory()
 // CHECK2-NEXT:    store i32 1, ptr [[CLEANUP_DEST_SLOT_I]], align 4, !noalias !33
 // CHECK2-NEXT:    br label [[CLEANUP_I:%.*]]
 // CHECK2:       .untied.jmp..i:
-// CHECK2-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !33, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !33
 // CHECK2-NEXT:    store i32 1, ptr [[TMP11]], align 4
 // CHECK2-NEXT:    [[TMP12:%.*]] = load i32, ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias !33, !noundef [[NOUNDEF3]]
-// CHECK2-NEXT:    [[TMP13:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !33, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP13:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !33
 // CHECK2-NEXT:    [[TMP14:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[TMP12]], ptr [[TMP13]])
 // CHECK2-NEXT:    br label [[DOTOMP_OUTLINED__3_EXIT:%.*]]
 // CHECK2:       .untied.jmp.1.i:
@@ -1780,7 +1780,7 @@ void test_omp_all_memory()
 // CHECK2-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK2-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK2-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK2-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK2-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_5:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK2-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK2-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -1796,7 +1796,7 @@ void test_omp_all_memory()
 // CHECK2-NEXT:    store ptr [[TMP3]], ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !43
 // CHECK2-NEXT:    store ptr [[TMP7]], ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !43
 // CHECK2-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !43
-// CHECK2-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !43, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !43
 // CHECK2-NEXT:    [[TMP10:%.*]] = load i32, ptr [[TMP9]], align 4, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    switch i32 [[TMP10]], label [[DOTUNTIED_DONE__I:%.*]] [
 // CHECK2-NEXT:    i32 0, label [[DOTUNTIED_JMP__I:%.*]]
@@ -1806,10 +1806,10 @@ void test_omp_all_memory()
 // CHECK2-NEXT:    store i32 1, ptr [[CLEANUP_DEST_SLOT_I]], align 4, !noalias !43
 // CHECK2-NEXT:    br label [[CLEANUP_I:%.*]]
 // CHECK2:       .untied.jmp..i:
-// CHECK2-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !43, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !43
 // CHECK2-NEXT:    store i32 1, ptr [[TMP11]], align 4
 // CHECK2-NEXT:    [[TMP12:%.*]] = load i32, ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias !43, !noundef [[NOUNDEF3]]
-// CHECK2-NEXT:    [[TMP13:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !43, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP13:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !43
 // CHECK2-NEXT:    [[TMP14:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[TMP12]], ptr [[TMP13]])
 // CHECK2-NEXT:    br label [[DOTOMP_OUTLINED__5_EXIT:%.*]]
 // CHECK2:       .untied.jmp.1.i:
@@ -1838,7 +1838,7 @@ void test_omp_all_memory()
 // CHECK2-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK2-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK2-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK2-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK2-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_7:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK2-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK2-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -1854,7 +1854,7 @@ void test_omp_all_memory()
 // CHECK2-NEXT:    store ptr [[TMP3]], ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !53
 // CHECK2-NEXT:    store ptr [[TMP7]], ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !53
 // CHECK2-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !53
-// CHECK2-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !53, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !53
 // CHECK2-NEXT:    [[TMP10:%.*]] = load i32, ptr [[TMP9]], align 4, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    switch i32 [[TMP10]], label [[DOTUNTIED_DONE__I:%.*]] [
 // CHECK2-NEXT:    i32 0, label [[DOTUNTIED_JMP__I:%.*]]
@@ -1864,10 +1864,10 @@ void test_omp_all_memory()
 // CHECK2-NEXT:    store i32 1, ptr [[CLEANUP_DEST_SLOT_I]], align 4, !noalias !53
 // CHECK2-NEXT:    br label [[CLEANUP_I:%.*]]
 // CHECK2:       .untied.jmp..i:
-// CHECK2-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !53, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !53
 // CHECK2-NEXT:    store i32 1, ptr [[TMP11]], align 4
 // CHECK2-NEXT:    [[TMP12:%.*]] = load i32, ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias !53, !noundef [[NOUNDEF3]]
-// CHECK2-NEXT:    [[TMP13:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !53, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP13:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !53
 // CHECK2-NEXT:    [[TMP14:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[TMP12]], ptr [[TMP13]])
 // CHECK2-NEXT:    br label [[DOTOMP_OUTLINED__7_EXIT:%.*]]
 // CHECK2:       .untied.jmp.1.i:
@@ -1895,7 +1895,7 @@ void test_omp_all_memory()
 // CHECK2-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK2-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK2-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK2-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK2-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_9:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK2-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK2-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -1929,7 +1929,7 @@ void test_omp_all_memory()
 // CHECK2-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK2-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK2-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK2-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK2-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_11:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK2-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK2-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -1963,7 +1963,7 @@ void test_omp_all_memory()
 // CHECK2-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK2-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK2-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK2-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK2-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_13:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK2-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK2-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -1997,7 +1997,7 @@ void test_omp_all_memory()
 // CHECK2-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK2-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK2-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK2-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK2-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_15:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK2-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK2-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -2014,7 +2014,7 @@ void test_omp_all_memory()
 // CHECK2-NEXT:    store ptr [[TMP7]], ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !93
 // CHECK2-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !93
 // CHECK2-NEXT:    store i32 4, ptr @a, align 4, !noalias !93
-// CHECK2-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 8
 // CHECK2-NEXT:    store i32 5, ptr [[TMP9]], align 128
 // CHECK2-NEXT:    ret i32 0
 //
@@ -2026,9 +2026,9 @@ void test_omp_all_memory()
 // CHECK2-NEXT:    [[DOTADDR1:%.*]] = alloca ptr, align 8
 // CHECK2-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
 // CHECK2-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
-// CHECK2-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK2-NEXT:    [[TMP3:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T:%.*]], ptr [[TMP2]], i32 0, i32 0
-// CHECK2-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK2-NEXT:    store ptr [[TMP3]], ptr [[TMP4]], align 8
 // CHECK2-NEXT:    ret void
 //
@@ -2048,7 +2048,7 @@ void test_omp_all_memory()
 // CHECK2-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK2-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK2-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK2-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK2-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_18:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK2-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK2-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -2095,15 +2095,15 @@ void test_omp_all_memory()
 // CHECK2-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK2-NEXT:    store ptr [[TMP2]], ptr [[DOTADDR2]], align 8
 // CHECK2-NEXT:    store ptr [[TMP3]], ptr [[DOTADDR3]], align 8
-// CHECK2-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK2-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T_20:%.*]], ptr [[TMP4]], i32 0, i32 0
-// CHECK2-NEXT:    [[TMP6:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP6:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK2-NEXT:    store ptr [[TMP5]], ptr [[TMP6]], align 8
 // CHECK2-NEXT:    [[TMP7:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T_20]], ptr [[TMP4]], i32 0, i32 2
-// CHECK2-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[DOTADDR3]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[DOTADDR3]], align 8
 // CHECK2-NEXT:    store ptr [[TMP7]], ptr [[TMP8]], align 8
 // CHECK2-NEXT:    [[TMP9:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T_20]], ptr [[TMP4]], i32 0, i32 3
-// CHECK2-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[DOTADDR2]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[DOTADDR2]], align 8
 // CHECK2-NEXT:    store ptr [[TMP9]], ptr [[TMP10]], align 8
 // CHECK2-NEXT:    ret void
 //
@@ -2127,7 +2127,7 @@ void test_omp_all_memory()
 // CHECK2-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK2-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK2-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK2-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK2-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_19:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK2-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK2-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -2151,7 +2151,7 @@ void test_omp_all_memory()
 // CHECK2-NEXT:    [[TMP13:%.*]] = load ptr, ptr [[DOTLOCAL_PTR_ADDR_I]], align 8, !noalias !113
 // CHECK2-NEXT:    [[TMP14:%.*]] = load ptr, ptr [[DOTLOCAL_PTR_ADDR1_I]], align 8, !noalias !113
 // CHECK2-NEXT:    [[TMP15:%.*]] = load ptr, ptr [[TMP14]], align 8
-// CHECK2-NEXT:    [[TMP16:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP16:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113
 // CHECK2-NEXT:    [[TMP17:%.*]] = load i32, ptr [[TMP16]], align 4, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    switch i32 [[TMP17]], label [[DOTUNTIED_DONE__I:%.*]] [
 // CHECK2-NEXT:    i32 0, label [[DOTUNTIED_JMP__I:%.*]]
@@ -2165,10 +2165,10 @@ void test_omp_all_memory()
 // CHECK2-NEXT:    store i32 1, ptr [[CLEANUP_DEST_SLOT_I]], align 4, !noalias !113
 // CHECK2-NEXT:    br label [[CLEANUP_I:%.*]]
 // CHECK2:       .untied.jmp..i:
-// CHECK2-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113
 // CHECK2-NEXT:    store i32 1, ptr [[TMP18]], align 4
 // CHECK2-NEXT:    [[TMP19:%.*]] = load i32, ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias !113, !noundef [[NOUNDEF3]]
-// CHECK2-NEXT:    [[TMP20:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP20:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113
 // CHECK2-NEXT:    [[TMP21:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[TMP19]], ptr [[TMP20]])
 // CHECK2-NEXT:    br label [[DOTOMP_OUTLINED__17_EXIT:%.*]]
 // CHECK2:       .untied.jmp.2.i:
@@ -2176,10 +2176,10 @@ void test_omp_all_memory()
 // CHECK2-NEXT:    [[TMP22:%.*]] = load i32, ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias !113, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    [[DOTS2__VOID_ADDR_I:%.*]] = call ptr @__kmpc_alloc(i32 [[TMP22]], i64 4, ptr inttoptr (i64 7 to ptr))
 // CHECK2-NEXT:    store ptr [[DOTS2__VOID_ADDR_I]], ptr [[TMP14]], align 8
-// CHECK2-NEXT:    [[TMP23:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP23:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113
 // CHECK2-NEXT:    store i32 2, ptr [[TMP23]], align 4
 // CHECK2-NEXT:    [[TMP24:%.*]] = load i32, ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias !113, !noundef [[NOUNDEF3]]
-// CHECK2-NEXT:    [[TMP25:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP25:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113
 // CHECK2-NEXT:    [[TMP26:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[TMP24]], ptr [[TMP25]])
 // CHECK2-NEXT:    br label [[DOTOMP_OUTLINED__17_EXIT]]
 // CHECK2:       .untied.jmp.3.i:
@@ -2192,19 +2192,19 @@ void test_omp_all_memory()
 // CHECK2-NEXT:    store i32 [[TMP30]], ptr [[TMP29]], align 128
 // CHECK2-NEXT:    [[TMP31:%.*]] = load i32, ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias !113, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    [[TMP32:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[TMP31]], ptr [[TMP28]])
-// CHECK2-NEXT:    [[TMP33:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP33:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113
 // CHECK2-NEXT:    store i32 3, ptr [[TMP33]], align 4
 // CHECK2-NEXT:    [[TMP34:%.*]] = load i32, ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias !113, !noundef [[NOUNDEF3]]
-// CHECK2-NEXT:    [[TMP35:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP35:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113
 // CHECK2-NEXT:    [[TMP36:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[TMP34]], ptr [[TMP35]])
 // CHECK2-NEXT:    br label [[DOTOMP_OUTLINED__17_EXIT]]
 // CHECK2:       .untied.jmp.5.i:
 // CHECK2-NEXT:    [[TMP37:%.*]] = load i32, ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias !113, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    [[TMP38:%.*]] = call i32 @__kmpc_omp_taskyield(ptr @[[GLOB1]], i32 [[TMP37]], i32 0)
-// CHECK2-NEXT:    [[TMP39:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP39:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113
 // CHECK2-NEXT:    store i32 4, ptr [[TMP39]], align 4
 // CHECK2-NEXT:    [[TMP40:%.*]] = load i32, ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias !113, !noundef [[NOUNDEF3]]
-// CHECK2-NEXT:    [[TMP41:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP41:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113
 // CHECK2-NEXT:    [[TMP42:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[TMP40]], ptr [[TMP41]])
 // CHECK2-NEXT:    br label [[DOTOMP_OUTLINED__17_EXIT]]
 // CHECK2:       .untied.jmp.7.i:
@@ -2214,10 +2214,10 @@ void test_omp_all_memory()
 // CHECK2-NEXT:    store i32 10, ptr [[TMP15]], align 4
 // CHECK2-NEXT:    [[TMP43:%.*]] = load i32, ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias !113, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    [[TMP44:%.*]] = call i32 @__kmpc_omp_taskwait(ptr @[[GLOB1]], i32 [[TMP43]])
-// CHECK2-NEXT:    [[TMP45:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP45:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113
 // CHECK2-NEXT:    store i32 5, ptr [[TMP45]], align 4
 // CHECK2-NEXT:    [[TMP46:%.*]] = load i32, ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias !113, !noundef [[NOUNDEF3]]
-// CHECK2-NEXT:    [[TMP47:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP47:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113
 // CHECK2-NEXT:    [[TMP48:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[TMP46]], ptr [[TMP47]])
 // CHECK2-NEXT:    br label [[DOTOMP_OUTLINED__17_EXIT]]
 // CHECK2:       .untied.jmp.10.i:
@@ -2314,7 +2314,7 @@ void test_omp_all_memory()
 // CHECK2-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK2-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK2-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK2-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK2-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_22:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK2-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK2-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -2361,8 +2361,8 @@ void test_omp_all_memory()
 // CHECK2-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK2-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK2-NEXT:    store ptr [[A]], ptr [[A_ADDR]], align 8
-// CHECK2-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[A_ADDR]], align 8, !noundef [[NOUNDEF3]]
-// CHECK2-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[A_ADDR]], align 8
+// CHECK2-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK2-NEXT:    [[TMP2:%.*]] = load i32, ptr [[TMP1]], align 4, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    [[TMP3:%.*]] = call i32 @__kmpc_single(ptr @[[GLOB1]], i32 [[TMP2]])
 // CHECK2-NEXT:    [[TMP4:%.*]] = icmp ne i32 [[TMP3]], 0
@@ -2394,9 +2394,9 @@ void test_omp_all_memory()
 // CHECK2-NEXT:    [[DOTADDR1:%.*]] = alloca ptr, align 8
 // CHECK2-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
 // CHECK2-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
-// CHECK2-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK2-NEXT:    [[TMP3:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T_25:%.*]], ptr [[TMP2]], i32 0, i32 0
-// CHECK2-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK2-NEXT:    store ptr [[TMP3]], ptr [[TMP4]], align 8
 // CHECK2-NEXT:    ret void
 //
@@ -2416,7 +2416,7 @@ void test_omp_all_memory()
 // CHECK2-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK2-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK2-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK2-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK2-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_24:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK2-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK2-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -2438,7 +2438,7 @@ void test_omp_all_memory()
 // CHECK2-NEXT:    call void [[TMP10]](ptr [[TMP11]], ptr [[DOTFIRSTPRIV_PTR_ADDR_I]]) #[[ATTR4]]
 // CHECK2-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTFIRSTPRIV_PTR_ADDR_I]], align 8, !noalias !133
 // CHECK2-NEXT:    [[TMP13:%.*]] = load double, ptr [[TMP12]], align 8, !noundef [[NOUNDEF3]]
-// CHECK2-NEXT:    [[TMP14:%.*]] = load ptr, ptr [[TMP9]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP14:%.*]] = load ptr, ptr [[TMP9]], align 8
 // CHECK2-NEXT:    [[TMP15:%.*]] = load float, ptr [[TMP14]], align 4, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    [[CONV_I:%.*]] = fpext float [[TMP15]] to double
 // CHECK2-NEXT:    [[ADD_I:%.*]] = fadd double [[CONV_I]], [[TMP13]]
@@ -2808,7 +2808,7 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK2-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK2-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK2-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK2-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -2827,10 +2827,10 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    store i32 15, ptr @a, align 4, !noalias !13
 // CHECK2-51-NEXT:    [[TMP9:%.*]] = load i32, ptr @a, align 4, !noalias !13, !noundef [[NOUNDEF3]]
 // CHECK2-51-NEXT:    [[CONV_I:%.*]] = trunc i32 [[TMP9]] to i8
-// CHECK2-51-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[TMP8]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[TMP8]], align 8
 // CHECK2-51-NEXT:    store i8 [[CONV_I]], ptr [[TMP10]], align 1
 // CHECK2-51-NEXT:    [[TMP11:%.*]] = getelementptr inbounds [[STRUCT_ANON:%.*]], ptr [[TMP8]], i32 0, i32 1
-// CHECK2-51-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[TMP11]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[TMP11]], align 8
 // CHECK2-51-NEXT:    store i32 10, ptr [[TMP12]], align 4
 // CHECK2-51-NEXT:    ret i32 0
 //
@@ -2849,7 +2849,7 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK2-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK2-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_1:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK2-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK2-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -2866,7 +2866,7 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    store ptr [[TMP7]], ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !23
 // CHECK2-51-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !23
 // CHECK2-51-NEXT:    store i32 15, ptr @a, align 4, !noalias !23
-// CHECK2-51-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 8
 // CHECK2-51-NEXT:    [[ARRAYIDX_I:%.*]] = getelementptr inbounds [2 x %struct.S], ptr [[TMP9]], i64 0, i64 1
 // CHECK2-51-NEXT:    store i32 10, ptr [[ARRAYIDX_I]], align 4
 // CHECK2-51-NEXT:    ret i32 0
@@ -2887,7 +2887,7 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK2-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK2-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_3:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK2-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK2-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -2903,7 +2903,7 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    store ptr [[TMP3]], ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !33
 // CHECK2-51-NEXT:    store ptr [[TMP7]], ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !33
 // CHECK2-51-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !33
-// CHECK2-51-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !33, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !33
 // CHECK2-51-NEXT:    [[TMP10:%.*]] = load i32, ptr [[TMP9]], align 4, !noundef [[NOUNDEF3]]
 // CHECK2-51-NEXT:    switch i32 [[TMP10]], label [[DOTUNTIED_DONE__I:%.*]] [
 // CHECK2-51-NEXT:    i32 0, label [[DOTUNTIED_JMP__I:%.*]]
@@ -2913,10 +2913,10 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    store i32 1, ptr [[CLEANUP_DEST_SLOT_I]], align 4, !noalias !33
 // CHECK2-51-NEXT:    br label [[CLEANUP_I:%.*]]
 // CHECK2-51:       .untied.jmp..i:
-// CHECK2-51-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !33, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !33
 // CHECK2-51-NEXT:    store i32 1, ptr [[TMP11]], align 4
 // CHECK2-51-NEXT:    [[TMP12:%.*]] = load i32, ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias !33, !noundef [[NOUNDEF3]]
-// CHECK2-51-NEXT:    [[TMP13:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !33, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP13:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !33
 // CHECK2-51-NEXT:    [[TMP14:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[TMP12]], ptr [[TMP13]])
 // CHECK2-51-NEXT:    br label [[DOTOMP_OUTLINED__3_EXIT:%.*]]
 // CHECK2-51:       .untied.jmp.1.i:
@@ -2948,7 +2948,7 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK2-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK2-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_5:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK2-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK2-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -2964,7 +2964,7 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    store ptr [[TMP3]], ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !43
 // CHECK2-51-NEXT:    store ptr [[TMP7]], ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !43
 // CHECK2-51-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !43
-// CHECK2-51-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !43, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !43
 // CHECK2-51-NEXT:    [[TMP10:%.*]] = load i32, ptr [[TMP9]], align 4, !noundef [[NOUNDEF3]]
 // CHECK2-51-NEXT:    switch i32 [[TMP10]], label [[DOTUNTIED_DONE__I:%.*]] [
 // CHECK2-51-NEXT:    i32 0, label [[DOTUNTIED_JMP__I:%.*]]
@@ -2974,10 +2974,10 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    store i32 1, ptr [[CLEANUP_DEST_SLOT_I]], align 4, !noalias !43
 // CHECK2-51-NEXT:    br label [[CLEANUP_I:%.*]]
 // CHECK2-51:       .untied.jmp..i:
-// CHECK2-51-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !43, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !43
 // CHECK2-51-NEXT:    store i32 1, ptr [[TMP11]], align 4
 // CHECK2-51-NEXT:    [[TMP12:%.*]] = load i32, ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias !43, !noundef [[NOUNDEF3]]
-// CHECK2-51-NEXT:    [[TMP13:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !43, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP13:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !43
 // CHECK2-51-NEXT:    [[TMP14:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[TMP12]], ptr [[TMP13]])
 // CHECK2-51-NEXT:    br label [[DOTOMP_OUTLINED__5_EXIT:%.*]]
 // CHECK2-51:       .untied.jmp.1.i:
@@ -3006,7 +3006,7 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK2-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK2-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_7:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK2-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK2-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -3022,7 +3022,7 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    store ptr [[TMP3]], ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !53
 // CHECK2-51-NEXT:    store ptr [[TMP7]], ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !53
 // CHECK2-51-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !53
-// CHECK2-51-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !53, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !53
 // CHECK2-51-NEXT:    [[TMP10:%.*]] = load i32, ptr [[TMP9]], align 4, !noundef [[NOUNDEF3]]
 // CHECK2-51-NEXT:    switch i32 [[TMP10]], label [[DOTUNTIED_DONE__I:%.*]] [
 // CHECK2-51-NEXT:    i32 0, label [[DOTUNTIED_JMP__I:%.*]]
@@ -3032,10 +3032,10 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    store i32 1, ptr [[CLEANUP_DEST_SLOT_I]], align 4, !noalias !53
 // CHECK2-51-NEXT:    br label [[CLEANUP_I:%.*]]
 // CHECK2-51:       .untied.jmp..i:
-// CHECK2-51-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !53, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !53
 // CHECK2-51-NEXT:    store i32 1, ptr [[TMP11]], align 4
 // CHECK2-51-NEXT:    [[TMP12:%.*]] = load i32, ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias !53, !noundef [[NOUNDEF3]]
-// CHECK2-51-NEXT:    [[TMP13:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !53, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP13:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !53
 // CHECK2-51-NEXT:    [[TMP14:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[TMP12]], ptr [[TMP13]])
 // CHECK2-51-NEXT:    br label [[DOTOMP_OUTLINED__7_EXIT:%.*]]
 // CHECK2-51:       .untied.jmp.1.i:
@@ -3063,7 +3063,7 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK2-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK2-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_9:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK2-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK2-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -3097,7 +3097,7 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK2-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK2-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_11:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK2-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK2-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -3131,7 +3131,7 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK2-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK2-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_13:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK2-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK2-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -3165,7 +3165,7 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK2-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK2-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_15:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK2-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK2-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -3199,7 +3199,7 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK2-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK2-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_17:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK2-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK2-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -3216,7 +3216,7 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    store ptr [[TMP7]], ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !103
 // CHECK2-51-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !103
 // CHECK2-51-NEXT:    store i32 4, ptr @a, align 4, !noalias !103
-// CHECK2-51-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 8
 // CHECK2-51-NEXT:    store i32 5, ptr [[TMP9]], align 128
 // CHECK2-51-NEXT:    ret i32 0
 //
@@ -3228,9 +3228,9 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    [[DOTADDR1:%.*]] = alloca ptr, align 8
 // CHECK2-51-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
 // CHECK2-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
-// CHECK2-51-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK2-51-NEXT:    [[TMP3:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T:%.*]], ptr [[TMP2]], i32 0, i32 0
-// CHECK2-51-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    store ptr [[TMP3]], ptr [[TMP4]], align 8
 // CHECK2-51-NEXT:    ret void
 //
@@ -3250,7 +3250,7 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK2-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK2-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_20:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK2-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK2-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -3297,15 +3297,15 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    store ptr [[TMP2]], ptr [[DOTADDR2]], align 8
 // CHECK2-51-NEXT:    store ptr [[TMP3]], ptr [[DOTADDR3]], align 8
-// CHECK2-51-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK2-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T_22:%.*]], ptr [[TMP4]], i32 0, i32 0
-// CHECK2-51-NEXT:    [[TMP6:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP6:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    store ptr [[TMP5]], ptr [[TMP6]], align 8
 // CHECK2-51-NEXT:    [[TMP7:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T_22]], ptr [[TMP4]], i32 0, i32 2
-// CHECK2-51-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[DOTADDR3]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[DOTADDR3]], align 8
 // CHECK2-51-NEXT:    store ptr [[TMP7]], ptr [[TMP8]], align 8
 // CHECK2-51-NEXT:    [[TMP9:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T_22]], ptr [[TMP4]], i32 0, i32 3
-// CHECK2-51-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[DOTADDR2]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[DOTADDR2]], align 8
 // CHECK2-51-NEXT:    store ptr [[TMP9]], ptr [[TMP10]], align 8
 // CHECK2-51-NEXT:    ret void
 //
@@ -3329,7 +3329,7 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK2-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK2-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_21:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK2-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK2-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -3353,7 +3353,7 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    [[TMP13:%.*]] = load ptr, ptr [[DOTLOCAL_PTR_ADDR_I]], align 8, !noalias !123
 // CHECK2-51-NEXT:    [[TMP14:%.*]] = load ptr, ptr [[DOTLOCAL_PTR_ADDR1_I]], align 8, !noalias !123
 // CHECK2-51-NEXT:    [[TMP15:%.*]] = load ptr, ptr [[TMP14]], align 8
-// CHECK2-51-NEXT:    [[TMP16:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !123, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP16:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !123
 // CHECK2-51-NEXT:    [[TMP17:%.*]] = load i32, ptr [[TMP16]], align 4, !noundef [[NOUNDEF3]]
 // CHECK2-51-NEXT:    switch i32 [[TMP17]], label [[DOTUNTIED_DONE__I:%.*]] [
 // CHECK2-51-NEXT:    i32 0, label [[DOTUNTIED_JMP__I:%.*]]
@@ -3367,10 +3367,10 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    store i32 1, ptr [[CLEANUP_DEST_SLOT_I]], align 4, !noalias !123
 // CHECK2-51-NEXT:    br label [[CLEANUP_I:%.*]]
 // CHECK2-51:       .untied.jmp..i:
-// CHECK2-51-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !123, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !123
 // CHECK2-51-NEXT:    store i32 1, ptr [[TMP18]], align 4
 // CHECK2-51-NEXT:    [[TMP19:%.*]] = load i32, ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias !123, !noundef [[NOUNDEF3]]
-// CHECK2-51-NEXT:    [[TMP20:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !123, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP20:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !123
 // CHECK2-51-NEXT:    [[TMP21:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[TMP19]], ptr [[TMP20]])
 // CHECK2-51-NEXT:    br label [[DOTOMP_OUTLINED__19_EXIT:%.*]]
 // CHECK2-51:       .untied.jmp.2.i:
@@ -3378,10 +3378,10 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    [[TMP22:%.*]] = load i32, ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias !123, !noundef [[NOUNDEF3]]
 // CHECK2-51-NEXT:    [[DOTS2__VOID_ADDR_I:%.*]] = call ptr @__kmpc_alloc(i32 [[TMP22]], i64 4, ptr inttoptr (i64 7 to ptr))
 // CHECK2-51-NEXT:    store ptr [[DOTS2__VOID_ADDR_I]], ptr [[TMP14]], align 8
-// CHECK2-51-NEXT:    [[TMP23:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !123, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP23:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !123
 // CHECK2-51-NEXT:    store i32 2, ptr [[TMP23]], align 4
 // CHECK2-51-NEXT:    [[TMP24:%.*]] = load i32, ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias !123, !noundef [[NOUNDEF3]]
-// CHECK2-51-NEXT:    [[TMP25:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !123, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP25:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !123
 // CHECK2-51-NEXT:    [[TMP26:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[TMP24]], ptr [[TMP25]])
 // CHECK2-51-NEXT:    br label [[DOTOMP_OUTLINED__19_EXIT]]
 // CHECK2-51:       .untied.jmp.3.i:
@@ -3394,19 +3394,19 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    store i32 [[TMP30]], ptr [[TMP29]], align 128
 // CHECK2-51-NEXT:    [[TMP31:%.*]] = load i32, ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias !123, !noundef [[NOUNDEF3]]
 // CHECK2-51-NEXT:    [[TMP32:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[TMP31]], ptr [[TMP28]])
-// CHECK2-51-NEXT:    [[TMP33:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !123, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP33:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !123
 // CHECK2-51-NEXT:    store i32 3, ptr [[TMP33]], align 4
 // CHECK2-51-NEXT:    [[TMP34:%.*]] = load i32, ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias !123, !noundef [[NOUNDEF3]]
-// CHECK2-51-NEXT:    [[TMP35:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !123, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP35:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !123
 // CHECK2-51-NEXT:    [[TMP36:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[TMP34]], ptr [[TMP35]])
 // CHECK2-51-NEXT:    br label [[DOTOMP_OUTLINED__19_EXIT]]
 // CHECK2-51:       .untied.jmp.5.i:
 // CHECK2-51-NEXT:    [[TMP37:%.*]] = load i32, ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias !123, !noundef [[NOUNDEF3]]
 // CHECK2-51-NEXT:    [[TMP38:%.*]] = call i32 @__kmpc_omp_taskyield(ptr @[[GLOB1]], i32 [[TMP37]], i32 0)
-// CHECK2-51-NEXT:    [[TMP39:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !123, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP39:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !123
 // CHECK2-51-NEXT:    store i32 4, ptr [[TMP39]], align 4
 // CHECK2-51-NEXT:    [[TMP40:%.*]] = load i32, ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias !123, !noundef [[NOUNDEF3]]
-// CHECK2-51-NEXT:    [[TMP41:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !123, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP41:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !123
 // CHECK2-51-NEXT:    [[TMP42:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[TMP40]], ptr [[TMP41]])
 // CHECK2-51-NEXT:    br label [[DOTOMP_OUTLINED__19_EXIT]]
 // CHECK2-51:       .untied.jmp.7.i:
@@ -3416,10 +3416,10 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    store i32 10, ptr [[TMP15]], align 4
 // CHECK2-51-NEXT:    [[TMP43:%.*]] = load i32, ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias !123, !noundef [[NOUNDEF3]]
 // CHECK2-51-NEXT:    [[TMP44:%.*]] = call i32 @__kmpc_omp_taskwait(ptr @[[GLOB1]], i32 [[TMP43]])
-// CHECK2-51-NEXT:    [[TMP45:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !123, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP45:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !123
 // CHECK2-51-NEXT:    store i32 5, ptr [[TMP45]], align 4
 // CHECK2-51-NEXT:    [[TMP46:%.*]] = load i32, ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias !123, !noundef [[NOUNDEF3]]
-// CHECK2-51-NEXT:    [[TMP47:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !123, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP47:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !123
 // CHECK2-51-NEXT:    [[TMP48:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[TMP46]], ptr [[TMP47]])
 // CHECK2-51-NEXT:    br label [[DOTOMP_OUTLINED__19_EXIT]]
 // CHECK2-51:       .untied.jmp.10.i:
@@ -3516,7 +3516,7 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK2-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK2-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_24:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK2-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK2-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -3563,8 +3563,8 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK2-51-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK2-51-NEXT:    store ptr [[A]], ptr [[A_ADDR]], align 8
-// CHECK2-51-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[A_ADDR]], align 8, !noundef [[NOUNDEF3]]
-// CHECK2-51-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[A_ADDR]], align 8
+// CHECK2-51-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK2-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[TMP1]], align 4, !noundef [[NOUNDEF3]]
 // CHECK2-51-NEXT:    [[TMP3:%.*]] = call i32 @__kmpc_single(ptr @[[GLOB1]], i32 [[TMP2]])
 // CHECK2-51-NEXT:    [[TMP4:%.*]] = icmp ne i32 [[TMP3]], 0
@@ -3596,9 +3596,9 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    [[DOTADDR1:%.*]] = alloca ptr, align 8
 // CHECK2-51-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
 // CHECK2-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
-// CHECK2-51-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK2-51-NEXT:    [[TMP3:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T_27:%.*]], ptr [[TMP2]], i32 0, i32 0
-// CHECK2-51-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    store ptr [[TMP3]], ptr [[TMP4]], align 8
 // CHECK2-51-NEXT:    ret void
 //
@@ -3618,7 +3618,7 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK2-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK2-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_26:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK2-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK2-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -3640,7 +3640,7 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    call void [[TMP10]](ptr [[TMP11]], ptr [[DOTFIRSTPRIV_PTR_ADDR_I]]) #[[ATTR4]]
 // CHECK2-51-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTFIRSTPRIV_PTR_ADDR_I]], align 8, !noalias !143
 // CHECK2-51-NEXT:    [[TMP13:%.*]] = load double, ptr [[TMP12]], align 8, !noundef [[NOUNDEF3]]
-// CHECK2-51-NEXT:    [[TMP14:%.*]] = load ptr, ptr [[TMP9]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP14:%.*]] = load ptr, ptr [[TMP9]], align 8
 // CHECK2-51-NEXT:    [[TMP15:%.*]] = load float, ptr [[TMP14]], align 4, !noundef [[NOUNDEF3]]
 // CHECK2-51-NEXT:    [[CONV_I:%.*]] = fpext float [[TMP15]] to double
 // CHECK2-51-NEXT:    [[ADD_I:%.*]] = fadd double [[CONV_I]], [[TMP13]]
@@ -3795,9 +3795,9 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    [[DOTADDR1:%.*]] = alloca ptr, align 8
 // CHECK2-51-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
 // CHECK2-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
-// CHECK2-51-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK2-51-NEXT:    [[TMP3:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T_30:%.*]], ptr [[TMP2]], i32 0, i32 0
-// CHECK2-51-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    store ptr [[TMP3]], ptr [[TMP4]], align 8
 // CHECK2-51-NEXT:    ret void
 //
@@ -3817,7 +3817,7 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK2-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK2-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_29:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK2-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK2-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -3849,9 +3849,9 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    [[DOTADDR1:%.*]] = alloca ptr, align 8
 // CHECK2-51-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
 // CHECK2-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
-// CHECK2-51-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK2-51-NEXT:    [[TMP3:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T_33:%.*]], ptr [[TMP2]], i32 0, i32 0
-// CHECK2-51-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    store ptr [[TMP3]], ptr [[TMP4]], align 8
 // CHECK2-51-NEXT:    ret void
 //
@@ -3871,7 +3871,7 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK2-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK2-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_32:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK2-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK2-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -3903,9 +3903,9 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    [[DOTADDR1:%.*]] = alloca ptr, align 8
 // CHECK2-51-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
 // CHECK2-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
-// CHECK2-51-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK2-51-NEXT:    [[TMP3:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T_36:%.*]], ptr [[TMP2]], i32 0, i32 0
-// CHECK2-51-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    store ptr [[TMP3]], ptr [[TMP4]], align 8
 // CHECK2-51-NEXT:    ret void
 //
@@ -3925,7 +3925,7 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK2-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK2-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_35:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK2-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK2-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -3957,9 +3957,9 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    [[DOTADDR1:%.*]] = alloca ptr, align 8
 // CHECK2-51-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
 // CHECK2-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
-// CHECK2-51-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK2-51-NEXT:    [[TMP3:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T_39:%.*]], ptr [[TMP2]], i32 0, i32 0
-// CHECK2-51-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    store ptr [[TMP3]], ptr [[TMP4]], align 8
 // CHECK2-51-NEXT:    ret void
 //
@@ -3979,7 +3979,7 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK2-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK2-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_38:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK2-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK2-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -4011,9 +4011,9 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    [[DOTADDR1:%.*]] = alloca ptr, align 8
 // CHECK2-51-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
 // CHECK2-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
-// CHECK2-51-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK2-51-NEXT:    [[TMP3:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T_42:%.*]], ptr [[TMP2]], i32 0, i32 0
-// CHECK2-51-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    store ptr [[TMP3]], ptr [[TMP4]], align 8
 // CHECK2-51-NEXT:    ret void
 //
@@ -4033,7 +4033,7 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK2-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK2-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK2-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_41:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK2-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK2-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -4390,7 +4390,7 @@ void test_omp_all_memory()
 // CHECK3-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK3-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK3-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK3-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK3-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK3-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK3-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -4409,10 +4409,10 @@ void test_omp_all_memory()
 // CHECK3-NEXT:    store i32 15, ptr @a, align 4, !noalias !13
 // CHECK3-NEXT:    [[TMP9:%.*]] = load i32, ptr @a, align 4, !noalias !13, !noundef [[NOUNDEF3]]
 // CHECK3-NEXT:    [[CONV_I:%.*]] = trunc i32 [[TMP9]] to i8
-// CHECK3-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[TMP8]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[TMP8]], align 8
 // CHECK3-NEXT:    store i8 [[CONV_I]], ptr [[TMP10]], align 1
 // CHECK3-NEXT:    [[TMP11:%.*]] = getelementptr inbounds [[STRUCT_ANON:%.*]], ptr [[TMP8]], i32 0, i32 1
-// CHECK3-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[TMP11]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[TMP11]], align 8
 // CHECK3-NEXT:    store i32 10, ptr [[TMP12]], align 4
 // CHECK3-NEXT:    ret i32 0
 //
@@ -4431,7 +4431,7 @@ void test_omp_all_memory()
 // CHECK3-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK3-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK3-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK3-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK3-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_1:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK3-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK3-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -4448,7 +4448,7 @@ void test_omp_all_memory()
 // CHECK3-NEXT:    store ptr [[TMP7]], ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !23
 // CHECK3-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !23
 // CHECK3-NEXT:    store i32 15, ptr @a, align 4, !noalias !23
-// CHECK3-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 8
 // CHECK3-NEXT:    [[ARRAYIDX_I:%.*]] = getelementptr inbounds [2 x %struct.S], ptr [[TMP9]], i64 0, i64 1
 // CHECK3-NEXT:    store i32 10, ptr [[ARRAYIDX_I]], align 4
 // CHECK3-NEXT:    ret i32 0
@@ -4469,7 +4469,7 @@ void test_omp_all_memory()
 // CHECK3-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK3-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK3-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK3-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK3-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_3:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK3-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK3-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -4485,7 +4485,7 @@ void test_omp_all_memory()
 // CHECK3-NEXT:    store ptr [[TMP3]], ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !33
 // CHECK3-NEXT:    store ptr [[TMP7]], ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !33
 // CHECK3-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !33
-// CHECK3-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !33, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !33
 // CHECK3-NEXT:    [[TMP10:%.*]] = load i32, ptr [[TMP9]], align 4, !noundef [[NOUNDEF3]]
 // CHECK3-NEXT:    switch i32 [[TMP10]], label [[DOTUNTIED_DONE__I:%.*]] [
 // CHECK3-NEXT:    i32 0, label [[DOTUNTIED_JMP__I:%.*]]
@@ -4495,10 +4495,10 @@ void test_omp_all_memory()
 // CHECK3-NEXT:    store i32 1, ptr [[CLEANUP_DEST_SLOT_I]], align 4, !noalias !33
 // CHECK3-NEXT:    br label [[CLEANUP_I:%.*]]
 // CHECK3:       .untied.jmp..i:
-// CHECK3-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !33, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !33
 // CHECK3-NEXT:    store i32 1, ptr [[TMP11]], align 4
 // CHECK3-NEXT:    [[OMP_GLOBAL_THREAD_NUM_I:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB7]])
-// CHECK3-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !33, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !33
 // CHECK3-NEXT:    [[TMP13:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM_I]], ptr [[TMP12]])
 // CHECK3-NEXT:    br label [[DOTOMP_OUTLINED__3_EXIT:%.*]]
 // CHECK3:       .untied.jmp.1.i:
@@ -4530,7 +4530,7 @@ void test_omp_all_memory()
 // CHECK3-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK3-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK3-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK3-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK3-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_5:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK3-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK3-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -4546,7 +4546,7 @@ void test_omp_all_memory()
 // CHECK3-NEXT:    store ptr [[TMP3]], ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !43
 // CHECK3-NEXT:    store ptr [[TMP7]], ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !43
 // CHECK3-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !43
-// CHECK3-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !43, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !43
 // CHECK3-NEXT:    [[TMP10:%.*]] = load i32, ptr [[TMP9]], align 4, !noundef [[NOUNDEF3]]
 // CHECK3-NEXT:    switch i32 [[TMP10]], label [[DOTUNTIED_DONE__I:%.*]] [
 // CHECK3-NEXT:    i32 0, label [[DOTUNTIED_JMP__I:%.*]]
@@ -4556,10 +4556,10 @@ void test_omp_all_memory()
 // CHECK3-NEXT:    store i32 1, ptr [[CLEANUP_DEST_SLOT_I]], align 4, !noalias !43
 // CHECK3-NEXT:    br label [[CLEANUP_I:%.*]]
 // CHECK3:       .untied.jmp..i:
-// CHECK3-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !43, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !43
 // CHECK3-NEXT:    store i32 1, ptr [[TMP11]], align 4
 // CHECK3-NEXT:    [[OMP_GLOBAL_THREAD_NUM_I:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB9]])
-// CHECK3-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !43, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !43
 // CHECK3-NEXT:    [[TMP13:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM_I]], ptr [[TMP12]])
 // CHECK3-NEXT:    br label [[DOTOMP_OUTLINED__5_EXIT:%.*]]
 // CHECK3:       .untied.jmp.1.i:
@@ -4588,7 +4588,7 @@ void test_omp_all_memory()
 // CHECK3-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK3-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK3-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK3-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK3-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_7:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK3-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK3-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -4604,7 +4604,7 @@ void test_omp_all_memory()
 // CHECK3-NEXT:    store ptr [[TMP3]], ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !53
 // CHECK3-NEXT:    store ptr [[TMP7]], ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !53
 // CHECK3-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !53
-// CHECK3-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !53, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !53
 // CHECK3-NEXT:    [[TMP10:%.*]] = load i32, ptr [[TMP9]], align 4, !noundef [[NOUNDEF3]]
 // CHECK3-NEXT:    switch i32 [[TMP10]], label [[DOTUNTIED_DONE__I:%.*]] [
 // CHECK3-NEXT:    i32 0, label [[DOTUNTIED_JMP__I:%.*]]
@@ -4614,10 +4614,10 @@ void test_omp_all_memory()
 // CHECK3-NEXT:    store i32 1, ptr [[CLEANUP_DEST_SLOT_I]], align 4, !noalias !53
 // CHECK3-NEXT:    br label [[CLEANUP_I:%.*]]
 // CHECK3:       .untied.jmp..i:
-// CHECK3-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !53, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !53
 // CHECK3-NEXT:    store i32 1, ptr [[TMP11]], align 4
 // CHECK3-NEXT:    [[OMP_GLOBAL_THREAD_NUM_I:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB11]])
-// CHECK3-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !53, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !53
 // CHECK3-NEXT:    [[TMP13:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM_I]], ptr [[TMP12]])
 // CHECK3-NEXT:    br label [[DOTOMP_OUTLINED__7_EXIT:%.*]]
 // CHECK3:       .untied.jmp.1.i:
@@ -4645,7 +4645,7 @@ void test_omp_all_memory()
 // CHECK3-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK3-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK3-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK3-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK3-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_9:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK3-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK3-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -4679,7 +4679,7 @@ void test_omp_all_memory()
 // CHECK3-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK3-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK3-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK3-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK3-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_11:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK3-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK3-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -4713,7 +4713,7 @@ void test_omp_all_memory()
 // CHECK3-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK3-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK3-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK3-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK3-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_13:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK3-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK3-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -4747,7 +4747,7 @@ void test_omp_all_memory()
 // CHECK3-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK3-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK3-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK3-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK3-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_15:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK3-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK3-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -4764,7 +4764,7 @@ void test_omp_all_memory()
 // CHECK3-NEXT:    store ptr [[TMP7]], ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !93
 // CHECK3-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !93
 // CHECK3-NEXT:    store i32 4, ptr @a, align 4, !noalias !93
-// CHECK3-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 8
 // CHECK3-NEXT:    store i32 5, ptr [[TMP9]], align 128
 // CHECK3-NEXT:    ret i32 0
 //
@@ -4776,9 +4776,9 @@ void test_omp_all_memory()
 // CHECK3-NEXT:    [[DOTADDR1:%.*]] = alloca ptr, align 8
 // CHECK3-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
 // CHECK3-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
-// CHECK3-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK3-NEXT:    [[TMP3:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T:%.*]], ptr [[TMP2]], i32 0, i32 0
-// CHECK3-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK3-NEXT:    store ptr [[TMP3]], ptr [[TMP4]], align 8
 // CHECK3-NEXT:    ret void
 //
@@ -4798,7 +4798,7 @@ void test_omp_all_memory()
 // CHECK3-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK3-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK3-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK3-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK3-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_18:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK3-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK3-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -4845,15 +4845,15 @@ void test_omp_all_memory()
 // CHECK3-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK3-NEXT:    store ptr [[TMP2]], ptr [[DOTADDR2]], align 8
 // CHECK3-NEXT:    store ptr [[TMP3]], ptr [[DOTADDR3]], align 8
-// CHECK3-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK3-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T_20:%.*]], ptr [[TMP4]], i32 0, i32 0
-// CHECK3-NEXT:    [[TMP6:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP6:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK3-NEXT:    store ptr [[TMP5]], ptr [[TMP6]], align 8
 // CHECK3-NEXT:    [[TMP7:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T_20]], ptr [[TMP4]], i32 0, i32 1
-// CHECK3-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[DOTADDR2]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[DOTADDR2]], align 8
 // CHECK3-NEXT:    store ptr [[TMP7]], ptr [[TMP8]], align 8
 // CHECK3-NEXT:    [[TMP9:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T_20]], ptr [[TMP4]], i32 0, i32 2
-// CHECK3-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[DOTADDR3]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[DOTADDR3]], align 8
 // CHECK3-NEXT:    store ptr [[TMP9]], ptr [[TMP10]], align 8
 // CHECK3-NEXT:    ret void
 //
@@ -4879,7 +4879,7 @@ void test_omp_all_memory()
 // CHECK3-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK3-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK3-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK3-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK3-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_19:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK3-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK3-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -4902,7 +4902,7 @@ void test_omp_all_memory()
 // CHECK3-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTFIRSTPRIV_PTR_ADDR_I]], align 8, !noalias !113
 // CHECK3-NEXT:    [[TMP13:%.*]] = load ptr, ptr [[DOTLOCAL_PTR_ADDR_I]], align 8, !noalias !113
 // CHECK3-NEXT:    [[TMP14:%.*]] = load ptr, ptr [[DOTLOCAL_PTR_ADDR1_I]], align 8, !noalias !113
-// CHECK3-NEXT:    [[TMP15:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP15:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113
 // CHECK3-NEXT:    [[TMP16:%.*]] = load i32, ptr [[TMP15]], align 4, !noundef [[NOUNDEF3]]
 // CHECK3-NEXT:    switch i32 [[TMP16]], label [[DOTUNTIED_DONE__I:%.*]] [
 // CHECK3-NEXT:    i32 0, label [[DOTUNTIED_JMP__I:%.*]]
@@ -4915,10 +4915,10 @@ void test_omp_all_memory()
 // CHECK3-NEXT:    store i32 1, ptr [[CLEANUP_DEST_SLOT_I]], align 4, !noalias !113
 // CHECK3-NEXT:    br label [[CLEANUP_I:%.*]]
 // CHECK3:       .untied.jmp..i:
-// CHECK3-NEXT:    [[TMP17:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP17:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113
 // CHECK3-NEXT:    store i32 1, ptr [[TMP17]], align 4
 // CHECK3-NEXT:    [[OMP_GLOBAL_THREAD_NUM_I:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB21]])
-// CHECK3-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113
 // CHECK3-NEXT:    [[TMP19:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM_I]], ptr [[TMP18]])
 // CHECK3-NEXT:    br label [[DOTOMP_OUTLINED__17_EXIT:%.*]]
 // CHECK3:       .untied.jmp.2.i:
@@ -4932,19 +4932,19 @@ void test_omp_all_memory()
 // CHECK3-NEXT:    store i32 [[TMP22]], ptr [[TMP21]], align 128
 // CHECK3-NEXT:    [[OMP_GLOBAL_THREAD_NUM4_I:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB23]])
 // CHECK3-NEXT:    [[TMP23:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM4_I]], ptr [[TMP20]])
-// CHECK3-NEXT:    [[TMP24:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP24:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113
 // CHECK3-NEXT:    store i32 2, ptr [[TMP24]], align 4
 // CHECK3-NEXT:    [[OMP_GLOBAL_THREAD_NUM5_I:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB21]])
-// CHECK3-NEXT:    [[TMP25:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP25:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113
 // CHECK3-NEXT:    [[TMP26:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM5_I]], ptr [[TMP25]])
 // CHECK3-NEXT:    br label [[DOTOMP_OUTLINED__17_EXIT]]
 // CHECK3:       .untied.jmp.6.i:
 // CHECK3-NEXT:    [[OMP_GLOBAL_THREAD_NUM8_I:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1]])
 // CHECK3-NEXT:    [[TMP27:%.*]] = call i32 @__kmpc_omp_taskyield(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM8_I]], i32 0)
-// CHECK3-NEXT:    [[TMP28:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP28:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113
 // CHECK3-NEXT:    store i32 3, ptr [[TMP28]], align 4
 // CHECK3-NEXT:    [[OMP_GLOBAL_THREAD_NUM9_I:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB21]])
-// CHECK3-NEXT:    [[TMP29:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP29:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113
 // CHECK3-NEXT:    [[TMP30:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM9_I]], ptr [[TMP29]])
 // CHECK3-NEXT:    br label [[DOTOMP_OUTLINED__17_EXIT]]
 // CHECK3:       .untied.jmp.10.i:
@@ -4954,10 +4954,10 @@ void test_omp_all_memory()
 // CHECK3-NEXT:    store i32 10, ptr [[S2_I]], align 4, !noalias !113
 // CHECK3-NEXT:    [[OMP_GLOBAL_THREAD_NUM13_I:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1]])
 // CHECK3-NEXT:    [[TMP31:%.*]] = call i32 @__kmpc_omp_taskwait(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM13_I]])
-// CHECK3-NEXT:    [[TMP32:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP32:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113
 // CHECK3-NEXT:    store i32 4, ptr [[TMP32]], align 4
 // CHECK3-NEXT:    [[OMP_GLOBAL_THREAD_NUM14_I:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB21]])
-// CHECK3-NEXT:    [[TMP33:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP33:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113
 // CHECK3-NEXT:    [[TMP34:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM14_I]], ptr [[TMP33]])
 // CHECK3-NEXT:    br label [[DOTOMP_OUTLINED__17_EXIT]]
 // CHECK3:       .untied.jmp.15.i:
@@ -5053,7 +5053,7 @@ void test_omp_all_memory()
 // CHECK3-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK3-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK3-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK3-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK3-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_22:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK3-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK3-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -5406,7 +5406,7 @@ void test_omp_all_memory()
 // CHECK4-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK4-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK4-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK4-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK4-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK4-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK4-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -5425,10 +5425,10 @@ void test_omp_all_memory()
 // CHECK4-NEXT:    store i32 15, ptr @a, align 4, !noalias !13
 // CHECK4-NEXT:    [[TMP9:%.*]] = load i32, ptr @a, align 4, !noalias !13, !noundef [[NOUNDEF3]]
 // CHECK4-NEXT:    [[CONV_I:%.*]] = trunc i32 [[TMP9]] to i8
-// CHECK4-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[TMP8]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[TMP8]], align 8
 // CHECK4-NEXT:    store i8 [[CONV_I]], ptr [[TMP10]], align 1
 // CHECK4-NEXT:    [[TMP11:%.*]] = getelementptr inbounds [[STRUCT_ANON:%.*]], ptr [[TMP8]], i32 0, i32 1
-// CHECK4-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[TMP11]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[TMP11]], align 8
 // CHECK4-NEXT:    store i32 10, ptr [[TMP12]], align 4
 // CHECK4-NEXT:    ret i32 0
 //
@@ -5447,7 +5447,7 @@ void test_omp_all_memory()
 // CHECK4-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK4-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK4-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK4-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK4-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_1:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK4-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK4-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -5464,7 +5464,7 @@ void test_omp_all_memory()
 // CHECK4-NEXT:    store ptr [[TMP7]], ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !23
 // CHECK4-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !23
 // CHECK4-NEXT:    store i32 15, ptr @a, align 4, !noalias !23
-// CHECK4-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 8
 // CHECK4-NEXT:    [[ARRAYIDX_I:%.*]] = getelementptr inbounds [2 x %struct.S], ptr [[TMP9]], i64 0, i64 1
 // CHECK4-NEXT:    store i32 10, ptr [[ARRAYIDX_I]], align 4
 // CHECK4-NEXT:    ret i32 0
@@ -5485,7 +5485,7 @@ void test_omp_all_memory()
 // CHECK4-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK4-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK4-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK4-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK4-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_3:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK4-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK4-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -5501,7 +5501,7 @@ void test_omp_all_memory()
 // CHECK4-NEXT:    store ptr [[TMP3]], ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !33
 // CHECK4-NEXT:    store ptr [[TMP7]], ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !33
 // CHECK4-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !33
-// CHECK4-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !33, !noundef [[NOUNDEF3]]
+// CHECK4-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !33
 // CHECK4-NEXT:    [[TMP10:%.*]] = load i32, ptr [[TMP9]], align 4, !noundef [[NOUNDEF3]]
 // CHECK4-NEXT:    switch i32 [[TMP10]], label [[DOTUNTIED_DONE__I:%.*]] [
 // CHECK4-NEXT:    i32 0, label [[DOTUNTIED_JMP__I:%.*]]
@@ -5511,10 +5511,10 @@ void test_omp_all_memory()
 // CHECK4-NEXT:    store i32 1, ptr [[CLEANUP_DEST_SLOT_I]], align 4, !noalias !33
 // CHECK4-NEXT:    br label [[CLEANUP_I:%.*]]
 // CHECK4:       .untied.jmp..i:
-// CHECK4-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !33, !noundef [[NOUNDEF3]]
+// CHECK4-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !33
 // CHECK4-NEXT:    store i32 1, ptr [[TMP11]], align 4
 // CHECK4-NEXT:    [[OMP_GLOBAL_THREAD_NUM_I:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB7]])
-// CHECK4-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !33, !noundef [[NOUNDEF3]]
+// CHECK4-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !33
 // CHECK4-NEXT:    [[TMP13:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM_I]], ptr [[TMP12]])
 // CHECK4-NEXT:    br label [[DOTOMP_OUTLINED__3_EXIT:%.*]]
 // CHECK4:       .untied.jmp.1.i:
@@ -5546,7 +5546,7 @@ void test_omp_all_memory()
 // CHECK4-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK4-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK4-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK4-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK4-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_5:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK4-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK4-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -5562,7 +5562,7 @@ void test_omp_all_memory()
 // CHECK4-NEXT:    store ptr [[TMP3]], ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !43
 // CHECK4-NEXT:    store ptr [[TMP7]], ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !43
 // CHECK4-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !43
-// CHECK4-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !43, !noundef [[NOUNDEF3]]
+// CHECK4-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !43
 // CHECK4-NEXT:    [[TMP10:%.*]] = load i32, ptr [[TMP9]], align 4, !noundef [[NOUNDEF3]]
 // CHECK4-NEXT:    switch i32 [[TMP10]], label [[DOTUNTIED_DONE__I:%.*]] [
 // CHECK4-NEXT:    i32 0, label [[DOTUNTIED_JMP__I:%.*]]
@@ -5572,10 +5572,10 @@ void test_omp_all_memory()
 // CHECK4-NEXT:    store i32 1, ptr [[CLEANUP_DEST_SLOT_I]], align 4, !noalias !43
 // CHECK4-NEXT:    br label [[CLEANUP_I:%.*]]
 // CHECK4:       .untied.jmp..i:
-// CHECK4-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !43, !noundef [[NOUNDEF3]]
+// CHECK4-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !43
 // CHECK4-NEXT:    store i32 1, ptr [[TMP11]], align 4
 // CHECK4-NEXT:    [[OMP_GLOBAL_THREAD_NUM_I:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB9]])
-// CHECK4-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !43, !noundef [[NOUNDEF3]]
+// CHECK4-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !43
 // CHECK4-NEXT:    [[TMP13:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM_I]], ptr [[TMP12]])
 // CHECK4-NEXT:    br label [[DOTOMP_OUTLINED__5_EXIT:%.*]]
 // CHECK4:       .untied.jmp.1.i:
@@ -5604,7 +5604,7 @@ void test_omp_all_memory()
 // CHECK4-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK4-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK4-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK4-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK4-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_7:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK4-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK4-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -5620,7 +5620,7 @@ void test_omp_all_memory()
 // CHECK4-NEXT:    store ptr [[TMP3]], ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !53
 // CHECK4-NEXT:    store ptr [[TMP7]], ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !53
 // CHECK4-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !53
-// CHECK4-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !53, !noundef [[NOUNDEF3]]
+// CHECK4-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !53
 // CHECK4-NEXT:    [[TMP10:%.*]] = load i32, ptr [[TMP9]], align 4, !noundef [[NOUNDEF3]]
 // CHECK4-NEXT:    switch i32 [[TMP10]], label [[DOTUNTIED_DONE__I:%.*]] [
 // CHECK4-NEXT:    i32 0, label [[DOTUNTIED_JMP__I:%.*]]
@@ -5630,10 +5630,10 @@ void test_omp_all_memory()
 // CHECK4-NEXT:    store i32 1, ptr [[CLEANUP_DEST_SLOT_I]], align 4, !noalias !53
 // CHECK4-NEXT:    br label [[CLEANUP_I:%.*]]
 // CHECK4:       .untied.jmp..i:
-// CHECK4-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !53, !noundef [[NOUNDEF3]]
+// CHECK4-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !53
 // CHECK4-NEXT:    store i32 1, ptr [[TMP11]], align 4
 // CHECK4-NEXT:    [[OMP_GLOBAL_THREAD_NUM_I:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB11]])
-// CHECK4-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !53, !noundef [[NOUNDEF3]]
+// CHECK4-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !53
 // CHECK4-NEXT:    [[TMP13:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM_I]], ptr [[TMP12]])
 // CHECK4-NEXT:    br label [[DOTOMP_OUTLINED__7_EXIT:%.*]]
 // CHECK4:       .untied.jmp.1.i:
@@ -5661,7 +5661,7 @@ void test_omp_all_memory()
 // CHECK4-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK4-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK4-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK4-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK4-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_9:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK4-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK4-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -5695,7 +5695,7 @@ void test_omp_all_memory()
 // CHECK4-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK4-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK4-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK4-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK4-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_11:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK4-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK4-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -5729,7 +5729,7 @@ void test_omp_all_memory()
 // CHECK4-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK4-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK4-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK4-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK4-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_13:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK4-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK4-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -5763,7 +5763,7 @@ void test_omp_all_memory()
 // CHECK4-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK4-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK4-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK4-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK4-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_15:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK4-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK4-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -5780,7 +5780,7 @@ void test_omp_all_memory()
 // CHECK4-NEXT:    store ptr [[TMP7]], ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !93
 // CHECK4-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !93
 // CHECK4-NEXT:    store i32 4, ptr @a, align 4, !noalias !93
-// CHECK4-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 8
 // CHECK4-NEXT:    store i32 5, ptr [[TMP9]], align 128
 // CHECK4-NEXT:    ret i32 0
 //
@@ -5792,9 +5792,9 @@ void test_omp_all_memory()
 // CHECK4-NEXT:    [[DOTADDR1:%.*]] = alloca ptr, align 8
 // CHECK4-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
 // CHECK4-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
-// CHECK4-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK4-NEXT:    [[TMP3:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T:%.*]], ptr [[TMP2]], i32 0, i32 0
-// CHECK4-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK4-NEXT:    store ptr [[TMP3]], ptr [[TMP4]], align 8
 // CHECK4-NEXT:    ret void
 //
@@ -5814,7 +5814,7 @@ void test_omp_all_memory()
 // CHECK4-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK4-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK4-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK4-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK4-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_18:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK4-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK4-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -5861,15 +5861,15 @@ void test_omp_all_memory()
 // CHECK4-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK4-NEXT:    store ptr [[TMP2]], ptr [[DOTADDR2]], align 8
 // CHECK4-NEXT:    store ptr [[TMP3]], ptr [[DOTADDR3]], align 8
-// CHECK4-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK4-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T_20:%.*]], ptr [[TMP4]], i32 0, i32 0
-// CHECK4-NEXT:    [[TMP6:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-NEXT:    [[TMP6:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK4-NEXT:    store ptr [[TMP5]], ptr [[TMP6]], align 8
 // CHECK4-NEXT:    [[TMP7:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T_20]], ptr [[TMP4]], i32 0, i32 1
-// CHECK4-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[DOTADDR2]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[DOTADDR2]], align 8
 // CHECK4-NEXT:    store ptr [[TMP7]], ptr [[TMP8]], align 8
 // CHECK4-NEXT:    [[TMP9:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T_20]], ptr [[TMP4]], i32 0, i32 2
-// CHECK4-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[DOTADDR3]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[DOTADDR3]], align 8
 // CHECK4-NEXT:    store ptr [[TMP9]], ptr [[TMP10]], align 8
 // CHECK4-NEXT:    ret void
 //
@@ -5895,7 +5895,7 @@ void test_omp_all_memory()
 // CHECK4-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK4-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK4-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK4-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK4-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_19:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK4-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK4-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -5918,7 +5918,7 @@ void test_omp_all_memory()
 // CHECK4-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTFIRSTPRIV_PTR_ADDR_I]], align 8, !noalias !113
 // CHECK4-NEXT:    [[TMP13:%.*]] = load ptr, ptr [[DOTLOCAL_PTR_ADDR_I]], align 8, !noalias !113
 // CHECK4-NEXT:    [[TMP14:%.*]] = load ptr, ptr [[DOTLOCAL_PTR_ADDR1_I]], align 8, !noalias !113
-// CHECK4-NEXT:    [[TMP15:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK4-NEXT:    [[TMP15:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113
 // CHECK4-NEXT:    [[TMP16:%.*]] = load i32, ptr [[TMP15]], align 4, !noundef [[NOUNDEF3]]
 // CHECK4-NEXT:    switch i32 [[TMP16]], label [[DOTUNTIED_DONE__I:%.*]] [
 // CHECK4-NEXT:    i32 0, label [[DOTUNTIED_JMP__I:%.*]]
@@ -5931,10 +5931,10 @@ void test_omp_all_memory()
 // CHECK4-NEXT:    store i32 1, ptr [[CLEANUP_DEST_SLOT_I]], align 4, !noalias !113
 // CHECK4-NEXT:    br label [[CLEANUP_I:%.*]]
 // CHECK4:       .untied.jmp..i:
-// CHECK4-NEXT:    [[TMP17:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK4-NEXT:    [[TMP17:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113
 // CHECK4-NEXT:    store i32 1, ptr [[TMP17]], align 4
 // CHECK4-NEXT:    [[OMP_GLOBAL_THREAD_NUM_I:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB21]])
-// CHECK4-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK4-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113
 // CHECK4-NEXT:    [[TMP19:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM_I]], ptr [[TMP18]])
 // CHECK4-NEXT:    br label [[DOTOMP_OUTLINED__17_EXIT:%.*]]
 // CHECK4:       .untied.jmp.2.i:
@@ -5948,19 +5948,19 @@ void test_omp_all_memory()
 // CHECK4-NEXT:    store i32 [[TMP22]], ptr [[TMP21]], align 128
 // CHECK4-NEXT:    [[OMP_GLOBAL_THREAD_NUM4_I:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB23]])
 // CHECK4-NEXT:    [[TMP23:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM4_I]], ptr [[TMP20]])
-// CHECK4-NEXT:    [[TMP24:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK4-NEXT:    [[TMP24:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113
 // CHECK4-NEXT:    store i32 2, ptr [[TMP24]], align 4
 // CHECK4-NEXT:    [[OMP_GLOBAL_THREAD_NUM5_I:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB21]])
-// CHECK4-NEXT:    [[TMP25:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK4-NEXT:    [[TMP25:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113
 // CHECK4-NEXT:    [[TMP26:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM5_I]], ptr [[TMP25]])
 // CHECK4-NEXT:    br label [[DOTOMP_OUTLINED__17_EXIT]]
 // CHECK4:       .untied.jmp.6.i:
 // CHECK4-NEXT:    [[OMP_GLOBAL_THREAD_NUM8_I:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1]])
 // CHECK4-NEXT:    [[TMP27:%.*]] = call i32 @__kmpc_omp_taskyield(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM8_I]], i32 0)
-// CHECK4-NEXT:    [[TMP28:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK4-NEXT:    [[TMP28:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113
 // CHECK4-NEXT:    store i32 3, ptr [[TMP28]], align 4
 // CHECK4-NEXT:    [[OMP_GLOBAL_THREAD_NUM9_I:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB21]])
-// CHECK4-NEXT:    [[TMP29:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK4-NEXT:    [[TMP29:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113
 // CHECK4-NEXT:    [[TMP30:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM9_I]], ptr [[TMP29]])
 // CHECK4-NEXT:    br label [[DOTOMP_OUTLINED__17_EXIT]]
 // CHECK4:       .untied.jmp.10.i:
@@ -5970,10 +5970,10 @@ void test_omp_all_memory()
 // CHECK4-NEXT:    store i32 10, ptr [[S2_I]], align 4, !noalias !113
 // CHECK4-NEXT:    [[OMP_GLOBAL_THREAD_NUM13_I:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1]])
 // CHECK4-NEXT:    [[TMP31:%.*]] = call i32 @__kmpc_omp_taskwait(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM13_I]])
-// CHECK4-NEXT:    [[TMP32:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK4-NEXT:    [[TMP32:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113
 // CHECK4-NEXT:    store i32 4, ptr [[TMP32]], align 4
 // CHECK4-NEXT:    [[OMP_GLOBAL_THREAD_NUM14_I:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB21]])
-// CHECK4-NEXT:    [[TMP33:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK4-NEXT:    [[TMP33:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113
 // CHECK4-NEXT:    [[TMP34:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM14_I]], ptr [[TMP33]])
 // CHECK4-NEXT:    br label [[DOTOMP_OUTLINED__17_EXIT]]
 // CHECK4:       .untied.jmp.15.i:
@@ -6069,7 +6069,7 @@ void test_omp_all_memory()
 // CHECK4-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK4-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK4-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK4-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK4-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_22:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK4-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK4-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -6472,7 +6472,7 @@ void test_omp_all_memory()
 // CHECK3-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK3-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK3-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK3-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK3-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -6491,10 +6491,10 @@ void test_omp_all_memory()
 // CHECK3-51-NEXT:    store i32 15, ptr @a, align 4, !noalias !13
 // CHECK3-51-NEXT:    [[TMP9:%.*]] = load i32, ptr @a, align 4, !noalias !13, !noundef [[NOUNDEF3]]
 // CHECK3-51-NEXT:    [[CONV_I:%.*]] = trunc i32 [[TMP9]] to i8
-// CHECK3-51-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[TMP8]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[TMP8]], align 8
 // CHECK3-51-NEXT:    store i8 [[CONV_I]], ptr [[TMP10]], align 1
 // CHECK3-51-NEXT:    [[TMP11:%.*]] = getelementptr inbounds [[STRUCT_ANON:%.*]], ptr [[TMP8]], i32 0, i32 1
-// CHECK3-51-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[TMP11]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[TMP11]], align 8
 // CHECK3-51-NEXT:    store i32 10, ptr [[TMP12]], align 4
 // CHECK3-51-NEXT:    ret i32 0
 //
@@ -6513,7 +6513,7 @@ void test_omp_all_memory()
 // CHECK3-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK3-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK3-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_1:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK3-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK3-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -6530,7 +6530,7 @@ void test_omp_all_memory()
 // CHECK3-51-NEXT:    store ptr [[TMP7]], ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !23
 // CHECK3-51-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !23
 // CHECK3-51-NEXT:    store i32 15, ptr @a, align 4, !noalias !23
-// CHECK3-51-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 8
 // CHECK3-51-NEXT:    [[ARRAYIDX_I:%.*]] = getelementptr inbounds [2 x %struct.S], ptr [[TMP9]], i64 0, i64 1
 // CHECK3-51-NEXT:    store i32 10, ptr [[ARRAYIDX_I]], align 4
 // CHECK3-51-NEXT:    ret i32 0
@@ -6551,7 +6551,7 @@ void test_omp_all_memory()
 // CHECK3-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK3-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK3-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_3:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK3-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK3-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -6567,7 +6567,7 @@ void test_omp_all_memory()
 // CHECK3-51-NEXT:    store ptr [[TMP3]], ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !33
 // CHECK3-51-NEXT:    store ptr [[TMP7]], ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !33
 // CHECK3-51-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !33
-// CHECK3-51-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !33, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !33
 // CHECK3-51-NEXT:    [[TMP10:%.*]] = load i32, ptr [[TMP9]], align 4, !noundef [[NOUNDEF3]]
 // CHECK3-51-NEXT:    switch i32 [[TMP10]], label [[DOTUNTIED_DONE__I:%.*]] [
 // CHECK3-51-NEXT:    i32 0, label [[DOTUNTIED_JMP__I:%.*]]
@@ -6577,10 +6577,10 @@ void test_omp_all_memory()
 // CHECK3-51-NEXT:    store i32 1, ptr [[CLEANUP_DEST_SLOT_I]], align 4, !noalias !33
 // CHECK3-51-NEXT:    br label [[CLEANUP_I:%.*]]
 // CHECK3-51:       .untied.jmp..i:
-// CHECK3-51-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !33, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !33
 // CHECK3-51-NEXT:    store i32 1, ptr [[TMP11]], align 4
 // CHECK3-51-NEXT:    [[OMP_GLOBAL_THREAD_NUM_I:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB7]])
-// CHECK3-51-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !33, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !33
 // CHECK3-51-NEXT:    [[TMP13:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM_I]], ptr [[TMP12]])
 // CHECK3-51-NEXT:    br label [[DOTOMP_OUTLINED__3_EXIT:%.*]]
 // CHECK3-51:       .untied.jmp.1.i:
@@ -6612,7 +6612,7 @@ void test_omp_all_memory()
 // CHECK3-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK3-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK3-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_5:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK3-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK3-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -6628,7 +6628,7 @@ void test_omp_all_memory()
 // CHECK3-51-NEXT:    store ptr [[TMP3]], ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !43
 // CHECK3-51-NEXT:    store ptr [[TMP7]], ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !43
 // CHECK3-51-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !43
-// CHECK3-51-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !43, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !43
 // CHECK3-51-NEXT:    [[TMP10:%.*]] = load i32, ptr [[TMP9]], align 4, !noundef [[NOUNDEF3]]
 // CHECK3-51-NEXT:    switch i32 [[TMP10]], label [[DOTUNTIED_DONE__I:%.*]] [
 // CHECK3-51-NEXT:    i32 0, label [[DOTUNTIED_JMP__I:%.*]]
@@ -6638,10 +6638,10 @@ void test_omp_all_memory()
 // CHECK3-51-NEXT:    store i32 1, ptr [[CLEANUP_DEST_SLOT_I]], align 4, !noalias !43
 // CHECK3-51-NEXT:    br label [[CLEANUP_I:%.*]]
 // CHECK3-51:       .untied.jmp..i:
-// CHECK3-51-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !43, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !43
 // CHECK3-51-NEXT:    store i32 1, ptr [[TMP11]], align 4
 // CHECK3-51-NEXT:    [[OMP_GLOBAL_THREAD_NUM_I:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB9]])
-// CHECK3-51-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !43, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !43
 // CHECK3-51-NEXT:    [[TMP13:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM_I]], ptr [[TMP12]])
 // CHECK3-51-NEXT:    br label [[DOTOMP_OUTLINED__5_EXIT:%.*]]
 // CHECK3-51:       .untied.jmp.1.i:
@@ -6670,7 +6670,7 @@ void test_omp_all_memory()
 // CHECK3-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK3-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK3-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_7:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK3-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK3-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -6686,7 +6686,7 @@ void test_omp_all_memory()
 // CHECK3-51-NEXT:    store ptr [[TMP3]], ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !53
 // CHECK3-51-NEXT:    store ptr [[TMP7]], ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !53
 // CHECK3-51-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !53
-// CHECK3-51-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !53, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !53
 // CHECK3-51-NEXT:    [[TMP10:%.*]] = load i32, ptr [[TMP9]], align 4, !noundef [[NOUNDEF3]]
 // CHECK3-51-NEXT:    switch i32 [[TMP10]], label [[DOTUNTIED_DONE__I:%.*]] [
 // CHECK3-51-NEXT:    i32 0, label [[DOTUNTIED_JMP__I:%.*]]
@@ -6696,10 +6696,10 @@ void test_omp_all_memory()
 // CHECK3-51-NEXT:    store i32 1, ptr [[CLEANUP_DEST_SLOT_I]], align 4, !noalias !53
 // CHECK3-51-NEXT:    br label [[CLEANUP_I:%.*]]
 // CHECK3-51:       .untied.jmp..i:
-// CHECK3-51-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !53, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !53
 // CHECK3-51-NEXT:    store i32 1, ptr [[TMP11]], align 4
 // CHECK3-51-NEXT:    [[OMP_GLOBAL_THREAD_NUM_I:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB11]])
-// CHECK3-51-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !53, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !53
 // CHECK3-51-NEXT:    [[TMP13:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM_I]], ptr [[TMP12]])
 // CHECK3-51-NEXT:    br label [[DOTOMP_OUTLINED__7_EXIT:%.*]]
 // CHECK3-51:       .untied.jmp.1.i:
@@ -6727,7 +6727,7 @@ void test_omp_all_memory()
 // CHECK3-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK3-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK3-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_9:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK3-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK3-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -6761,7 +6761,7 @@ void test_omp_all_memory()
 // CHECK3-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK3-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK3-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_11:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK3-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK3-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -6795,7 +6795,7 @@ void test_omp_all_memory()
 // CHECK3-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK3-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK3-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_13:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK3-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK3-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -6829,7 +6829,7 @@ void test_omp_all_memory()
 // CHECK3-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK3-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK3-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_15:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK3-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK3-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -6863,7 +6863,7 @@ void test_omp_all_memory()
 // CHECK3-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK3-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK3-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_17:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK3-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK3-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -6880,7 +6880,7 @@ void test_omp_all_memory()
 // CHECK3-51-NEXT:    store ptr [[TMP7]], ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !103
 // CHECK3-51-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !103
 // CHECK3-51-NEXT:    store i32 4, ptr @a, align 4, !noalias !103
-// CHECK3-51-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 8
 // CHECK3-51-NEXT:    store i32 5, ptr [[TMP9]], align 128
 // CHECK3-51-NEXT:    ret i32 0
 //
@@ -6892,9 +6892,9 @@ void test_omp_all_memory()
 // CHECK3-51-NEXT:    [[DOTADDR1:%.*]] = alloca ptr, align 8
 // CHECK3-51-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
 // CHECK3-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
-// CHECK3-51-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK3-51-NEXT:    [[TMP3:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T:%.*]], ptr [[TMP2]], i32 0, i32 0
-// CHECK3-51-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    store ptr [[TMP3]], ptr [[TMP4]], align 8
 // CHECK3-51-NEXT:    ret void
 //
@@ -6914,7 +6914,7 @@ void test_omp_all_memory()
 // CHECK3-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK3-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK3-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_20:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK3-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK3-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -6961,15 +6961,15 @@ void test_omp_all_memory()
 // CHECK3-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    store ptr [[TMP2]], ptr [[DOTADDR2]], align 8
 // CHECK3-51-NEXT:    store ptr [[TMP3]], ptr [[DOTADDR3]], align 8
-// CHECK3-51-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK3-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T_22:%.*]], ptr [[TMP4]], i32 0, i32 0
-// CHECK3-51-NEXT:    [[TMP6:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP6:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    store ptr [[TMP5]], ptr [[TMP6]], align 8
 // CHECK3-51-NEXT:    [[TMP7:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T_22]], ptr [[TMP4]], i32 0, i32 1
-// CHECK3-51-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[DOTADDR2]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[DOTADDR2]], align 8
 // CHECK3-51-NEXT:    store ptr [[TMP7]], ptr [[TMP8]], align 8
 // CHECK3-51-NEXT:    [[TMP9:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T_22]], ptr [[TMP4]], i32 0, i32 2
-// CHECK3-51-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[DOTADDR3]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[DOTADDR3]], align 8
 // CHECK3-51-NEXT:    store ptr [[TMP9]], ptr [[TMP10]], align 8
 // CHECK3-51-NEXT:    ret void
 //
@@ -6995,7 +6995,7 @@ void test_omp_all_memory()
 // CHECK3-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK3-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK3-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_21:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK3-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK3-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -7018,7 +7018,7 @@ void test_omp_all_memory()
 // CHECK3-51-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTFIRSTPRIV_PTR_ADDR_I]], align 8, !noalias !123
 // CHECK3-51-NEXT:    [[TMP13:%.*]] = load ptr, ptr [[DOTLOCAL_PTR_ADDR_I]], align 8, !noalias !123
 // CHECK3-51-NEXT:    [[TMP14:%.*]] = load ptr, ptr [[DOTLOCAL_PTR_ADDR1_I]], align 8, !noalias !123
-// CHECK3-51-NEXT:    [[TMP15:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !123, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP15:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !123
 // CHECK3-51-NEXT:    [[TMP16:%.*]] = load i32, ptr [[TMP15]], align 4, !noundef [[NOUNDEF3]]
 // CHECK3-51-NEXT:    switch i32 [[TMP16]], label [[DOTUNTIED_DONE__I:%.*]] [
 // CHECK3-51-NEXT:    i32 0, label [[DOTUNTIED_JMP__I:%.*]]
@@ -7031,10 +7031,10 @@ void test_omp_all_memory()
 // CHECK3-51-NEXT:    store i32 1, ptr [[CLEANUP_DEST_SLOT_I]], align 4, !noalias !123
 // CHECK3-51-NEXT:    br label [[CLEANUP_I:%.*]]
 // CHECK3-51:       .untied.jmp..i:
-// CHECK3-51-NEXT:    [[TMP17:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !123, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP17:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !123
 // CHECK3-51-NEXT:    store i32 1, ptr [[TMP17]], align 4
 // CHECK3-51-NEXT:    [[OMP_GLOBAL_THREAD_NUM_I:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB23]])
-// CHECK3-51-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !123, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !123
 // CHECK3-51-NEXT:    [[TMP19:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM_I]], ptr [[TMP18]])
 // CHECK3-51-NEXT:    br label [[DOTOMP_OUTLINED__19_EXIT:%.*]]
 // CHECK3-51:       .untied.jmp.2.i:
@@ -7048,19 +7048,19 @@ void test_omp_all_memory()
 // CHECK3-51-NEXT:    store i32 [[TMP22]], ptr [[TMP21]], align 128
 // CHECK3-51-NEXT:    [[OMP_GLOBAL_THREAD_NUM4_I:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB25]])
 // CHECK3-51-NEXT:    [[TMP23:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM4_I]], ptr [[TMP20]])
-// CHECK3-51-NEXT:    [[TMP24:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !123, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP24:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !123
 // CHECK3-51-NEXT:    store i32 2, ptr [[TMP24]], align 4
 // CHECK3-51-NEXT:    [[OMP_GLOBAL_THREAD_NUM5_I:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB23]])
-// CHECK3-51-NEXT:    [[TMP25:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !123, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP25:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !123
 // CHECK3-51-NEXT:    [[TMP26:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM5_I]], ptr [[TMP25]])
 // CHECK3-51-NEXT:    br label [[DOTOMP_OUTLINED__19_EXIT]]
 // CHECK3-51:       .untied.jmp.6.i:
 // CHECK3-51-NEXT:    [[OMP_GLOBAL_THREAD_NUM8_I:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1]])
 // CHECK3-51-NEXT:    [[TMP27:%.*]] = call i32 @__kmpc_omp_taskyield(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM8_I]], i32 0)
-// CHECK3-51-NEXT:    [[TMP28:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !123, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP28:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !123
 // CHECK3-51-NEXT:    store i32 3, ptr [[TMP28]], align 4
 // CHECK3-51-NEXT:    [[OMP_GLOBAL_THREAD_NUM9_I:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB23]])
-// CHECK3-51-NEXT:    [[TMP29:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !123, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP29:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !123
 // CHECK3-51-NEXT:    [[TMP30:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM9_I]], ptr [[TMP29]])
 // CHECK3-51-NEXT:    br label [[DOTOMP_OUTLINED__19_EXIT]]
 // CHECK3-51:       .untied.jmp.10.i:
@@ -7070,10 +7070,10 @@ void test_omp_all_memory()
 // CHECK3-51-NEXT:    store i32 10, ptr [[S2_I]], align 4, !noalias !123
 // CHECK3-51-NEXT:    [[OMP_GLOBAL_THREAD_NUM13_I:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1]])
 // CHECK3-51-NEXT:    [[TMP31:%.*]] = call i32 @__kmpc_omp_taskwait(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM13_I]])
-// CHECK3-51-NEXT:    [[TMP32:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !123, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP32:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !123
 // CHECK3-51-NEXT:    store i32 4, ptr [[TMP32]], align 4
 // CHECK3-51-NEXT:    [[OMP_GLOBAL_THREAD_NUM14_I:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB23]])
-// CHECK3-51-NEXT:    [[TMP33:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !123, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP33:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !123
 // CHECK3-51-NEXT:    [[TMP34:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM14_I]], ptr [[TMP33]])
 // CHECK3-51-NEXT:    br label [[DOTOMP_OUTLINED__19_EXIT]]
 // CHECK3-51:       .untied.jmp.15.i:
@@ -7169,7 +7169,7 @@ void test_omp_all_memory()
 // CHECK3-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK3-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK3-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_24:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK3-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK3-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -7345,9 +7345,9 @@ void test_omp_all_memory()
 // CHECK3-51-NEXT:    [[DOTADDR1:%.*]] = alloca ptr, align 8
 // CHECK3-51-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
 // CHECK3-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
-// CHECK3-51-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK3-51-NEXT:    [[TMP3:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T_27:%.*]], ptr [[TMP2]], i32 0, i32 0
-// CHECK3-51-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    store ptr [[TMP3]], ptr [[TMP4]], align 8
 // CHECK3-51-NEXT:    ret void
 //
@@ -7367,7 +7367,7 @@ void test_omp_all_memory()
 // CHECK3-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK3-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK3-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_26:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK3-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK3-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -7399,9 +7399,9 @@ void test_omp_all_memory()
 // CHECK3-51-NEXT:    [[DOTADDR1:%.*]] = alloca ptr, align 8
 // CHECK3-51-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
 // CHECK3-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
-// CHECK3-51-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK3-51-NEXT:    [[TMP3:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T_30:%.*]], ptr [[TMP2]], i32 0, i32 0
-// CHECK3-51-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    store ptr [[TMP3]], ptr [[TMP4]], align 8
 // CHECK3-51-NEXT:    ret void
 //
@@ -7421,7 +7421,7 @@ void test_omp_all_memory()
 // CHECK3-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK3-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK3-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_29:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK3-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK3-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -7453,9 +7453,9 @@ void test_omp_all_memory()
 // CHECK3-51-NEXT:    [[DOTADDR1:%.*]] = alloca ptr, align 8
 // CHECK3-51-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
 // CHECK3-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
-// CHECK3-51-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK3-51-NEXT:    [[TMP3:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T_33:%.*]], ptr [[TMP2]], i32 0, i32 0
-// CHECK3-51-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    store ptr [[TMP3]], ptr [[TMP4]], align 8
 // CHECK3-51-NEXT:    ret void
 //
@@ -7475,7 +7475,7 @@ void test_omp_all_memory()
 // CHECK3-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK3-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK3-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_32:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK3-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK3-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -7507,9 +7507,9 @@ void test_omp_all_memory()
 // CHECK3-51-NEXT:    [[DOTADDR1:%.*]] = alloca ptr, align 8
 // CHECK3-51-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
 // CHECK3-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
-// CHECK3-51-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK3-51-NEXT:    [[TMP3:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T_36:%.*]], ptr [[TMP2]], i32 0, i32 0
-// CHECK3-51-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    store ptr [[TMP3]], ptr [[TMP4]], align 8
 // CHECK3-51-NEXT:    ret void
 //
@@ -7529,7 +7529,7 @@ void test_omp_all_memory()
 // CHECK3-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK3-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK3-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_35:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK3-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK3-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -7561,9 +7561,9 @@ void test_omp_all_memory()
 // CHECK3-51-NEXT:    [[DOTADDR1:%.*]] = alloca ptr, align 8
 // CHECK3-51-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
 // CHECK3-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
-// CHECK3-51-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK3-51-NEXT:    [[TMP3:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T_39:%.*]], ptr [[TMP2]], i32 0, i32 0
-// CHECK3-51-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    store ptr [[TMP3]], ptr [[TMP4]], align 8
 // CHECK3-51-NEXT:    ret void
 //
@@ -7583,7 +7583,7 @@ void test_omp_all_memory()
 // CHECK3-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK3-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK3-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK3-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK3-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_38:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK3-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK3-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -7940,7 +7940,7 @@ void test_omp_all_memory()
 // CHECK4-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK4-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK4-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK4-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK4-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK4-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK4-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -7959,10 +7959,10 @@ void test_omp_all_memory()
 // CHECK4-51-NEXT:    store i32 15, ptr @a, align 4, !noalias !13
 // CHECK4-51-NEXT:    [[TMP9:%.*]] = load i32, ptr @a, align 4, !noalias !13, !noundef [[NOUNDEF3]]
 // CHECK4-51-NEXT:    [[CONV_I:%.*]] = trunc i32 [[TMP9]] to i8
-// CHECK4-51-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[TMP8]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-51-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[TMP8]], align 8
 // CHECK4-51-NEXT:    store i8 [[CONV_I]], ptr [[TMP10]], align 1
 // CHECK4-51-NEXT:    [[TMP11:%.*]] = getelementptr inbounds [[STRUCT_ANON:%.*]], ptr [[TMP8]], i32 0, i32 1
-// CHECK4-51-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[TMP11]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-51-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[TMP11]], align 8
 // CHECK4-51-NEXT:    store i32 10, ptr [[TMP12]], align 4
 // CHECK4-51-NEXT:    ret i32 0
 //
@@ -7981,7 +7981,7 @@ void test_omp_all_memory()
 // CHECK4-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK4-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK4-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK4-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK4-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_1:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK4-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK4-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -7998,7 +7998,7 @@ void test_omp_all_memory()
 // CHECK4-51-NEXT:    store ptr [[TMP7]], ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !23
 // CHECK4-51-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !23
 // CHECK4-51-NEXT:    store i32 15, ptr @a, align 4, !noalias !23
-// CHECK4-51-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-51-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 8
 // CHECK4-51-NEXT:    [[ARRAYIDX_I:%.*]] = getelementptr inbounds [2 x %struct.S], ptr [[TMP9]], i64 0, i64 1
 // CHECK4-51-NEXT:    store i32 10, ptr [[ARRAYIDX_I]], align 4
 // CHECK4-51-NEXT:    ret i32 0
@@ -8019,7 +8019,7 @@ void test_omp_all_memory()
 // CHECK4-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK4-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK4-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK4-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK4-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_3:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK4-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK4-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -8035,7 +8035,7 @@ void test_omp_all_memory()
 // CHECK4-51-NEXT:    store ptr [[TMP3]], ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !33
 // CHECK4-51-NEXT:    store ptr [[TMP7]], ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !33
 // CHECK4-51-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !33
-// CHECK4-51-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !33, !noundef [[NOUNDEF3]]
+// CHECK4-51-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !33
 // CHECK4-51-NEXT:    [[TMP10:%.*]] = load i32, ptr [[TMP9]], align 4, !noundef [[NOUNDEF3]]
 // CHECK4-51-NEXT:    switch i32 [[TMP10]], label [[DOTUNTIED_DONE__I:%.*]] [
 // CHECK4-51-NEXT:    i32 0, label [[DOTUNTIED_JMP__I:%.*]]
@@ -8045,10 +8045,10 @@ void test_omp_all_memory()
 // CHECK4-51-NEXT:    store i32 1, ptr [[CLEANUP_DEST_SLOT_I]], align 4, !noalias !33
 // CHECK4-51-NEXT:    br label [[CLEANUP_I:%.*]]
 // CHECK4-51:       .untied.jmp..i:
-// CHECK4-51-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !33, !noundef [[NOUNDEF3]]
+// CHECK4-51-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !33
 // CHECK4-51-NEXT:    store i32 1, ptr [[TMP11]], align 4
 // CHECK4-51-NEXT:    [[OMP_GLOBAL_THREAD_NUM_I:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB7]])
-// CHECK4-51-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !33, !noundef [[NOUNDEF3]]
+// CHECK4-51-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !33
 // CHECK4-51-NEXT:    [[TMP13:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM_I]], ptr [[TMP12]])
 // CHECK4-51-NEXT:    br label [[DOTOMP_OUTLINED__3_EXIT:%.*]]
 // CHECK4-51:       .untied.jmp.1.i:
@@ -8080,7 +8080,7 @@ void test_omp_all_memory()
 // CHECK4-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK4-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK4-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK4-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK4-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_5:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK4-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK4-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -8096,7 +8096,7 @@ void test_omp_all_memory()
 // CHECK4-51-NEXT:    store ptr [[TMP3]], ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !43
 // CHECK4-51-NEXT:    store ptr [[TMP7]], ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !43
 // CHECK4-51-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !43
-// CHECK4-51-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !43, !noundef [[NOUNDEF3]]
+// CHECK4-51-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !43
 // CHECK4-51-NEXT:    [[TMP10:%.*]] = load i32, ptr [[TMP9]], align 4, !noundef [[NOUNDEF3]]
 // CHECK4-51-NEXT:    switch i32 [[TMP10]], label [[DOTUNTIED_DONE__I:%.*]] [
 // CHECK4-51-NEXT:    i32 0, label [[DOTUNTIED_JMP__I:%.*]]
@@ -8106,10 +8106,10 @@ void test_omp_all_memory()
 // CHECK4-51-NEXT:    store i32 1, ptr [[CLEANUP_DEST_SLOT_I]], align 4, !noalias !43
 // CHECK4-51-NEXT:    br label [[CLEANUP_I:%.*]]
 // CHECK4-51:       .untied.jmp..i:
-// CHECK4-51-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !43, !noundef [[NOUNDEF3]]
+// CHECK4-51-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !43
 // CHECK4-51-NEXT:    store i32 1, ptr [[TMP11]], align 4
 // CHECK4-51-NEXT:    [[OMP_GLOBAL_THREAD_NUM_I:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB9]])
-// CHECK4-51-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !43, !noundef [[NOUNDEF3]]
+// CHECK4-51-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !43
 // CHECK4-51-NEXT:    [[TMP13:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM_I]], ptr [[TMP12]])
 // CHECK4-51-NEXT:    br label [[DOTOMP_OUTLINED__5_EXIT:%.*]]
 // CHECK4-51:       .untied.jmp.1.i:
@@ -8138,7 +8138,7 @@ void test_omp_all_memory()
 // CHECK4-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK4-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK4-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK4-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK4-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_7:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK4-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK4-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -8154,7 +8154,7 @@ void test_omp_all_memory()
 // CHECK4-51-NEXT:    store ptr [[TMP3]], ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !53
 // CHECK4-51-NEXT:    store ptr [[TMP7]], ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !53
 // CHECK4-51-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !53
-// CHECK4-51-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !53, !noundef [[NOUNDEF3]]
+// CHECK4-51-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !53
 // CHECK4-51-NEXT:    [[TMP10:%.*]] = load i32, ptr [[TMP9]], align 4, !noundef [[NOUNDEF3]]
 // CHECK4-51-NEXT:    switch i32 [[TMP10]], label [[DOTUNTIED_DONE__I:%.*]] [
 // CHECK4-51-NEXT:    i32 0, label [[DOTUNTIED_JMP__I:%.*]]
@@ -8164,10 +8164,10 @@ void test_omp_all_memory()
 // CHECK4-51-NEXT:    store i32 1, ptr [[CLEANUP_DEST_SLOT_I]], align 4, !noalias !53
 // CHECK4-51-NEXT:    br label [[CLEANUP_I:%.*]]
 // CHECK4-51:       .untied.jmp..i:
-// CHECK4-51-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !53, !noundef [[NOUNDEF3]]
+// CHECK4-51-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !53
 // CHECK4-51-NEXT:    store i32 1, ptr [[TMP11]], align 4
 // CHECK4-51-NEXT:    [[OMP_GLOBAL_THREAD_NUM_I:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB11]])
-// CHECK4-51-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !53, !noundef [[NOUNDEF3]]
+// CHECK4-51-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !53
 // CHECK4-51-NEXT:    [[TMP13:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM_I]], ptr [[TMP12]])
 // CHECK4-51-NEXT:    br label [[DOTOMP_OUTLINED__7_EXIT:%.*]]
 // CHECK4-51:       .untied.jmp.1.i:
@@ -8195,7 +8195,7 @@ void test_omp_all_memory()
 // CHECK4-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK4-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK4-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK4-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK4-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_9:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK4-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK4-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -8229,7 +8229,7 @@ void test_omp_all_memory()
 // CHECK4-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK4-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK4-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK4-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK4-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_11:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK4-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK4-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -8263,7 +8263,7 @@ void test_omp_all_memory()
 // CHECK4-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK4-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK4-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK4-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK4-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_13:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK4-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK4-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -8297,7 +8297,7 @@ void test_omp_all_memory()
 // CHECK4-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK4-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK4-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK4-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK4-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_15:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK4-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK4-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -8314,7 +8314,7 @@ void test_omp_all_memory()
 // CHECK4-51-NEXT:    store ptr [[TMP7]], ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !93
 // CHECK4-51-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[__CONTEXT_ADDR_I]], align 8, !noalias !93
 // CHECK4-51-NEXT:    store i32 4, ptr @a, align 4, !noalias !93
-// CHECK4-51-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-51-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 8
 // CHECK4-51-NEXT:    store i32 5, ptr [[TMP9]], align 128
 // CHECK4-51-NEXT:    ret i32 0
 //
@@ -8326,9 +8326,9 @@ void test_omp_all_memory()
 // CHECK4-51-NEXT:    [[DOTADDR1:%.*]] = alloca ptr, align 8
 // CHECK4-51-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
 // CHECK4-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
-// CHECK4-51-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-51-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK4-51-NEXT:    [[TMP3:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T:%.*]], ptr [[TMP2]], i32 0, i32 0
-// CHECK4-51-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-51-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK4-51-NEXT:    store ptr [[TMP3]], ptr [[TMP4]], align 8
 // CHECK4-51-NEXT:    ret void
 //
@@ -8348,7 +8348,7 @@ void test_omp_all_memory()
 // CHECK4-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK4-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK4-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK4-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK4-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_18:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK4-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK4-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -8395,15 +8395,15 @@ void test_omp_all_memory()
 // CHECK4-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK4-51-NEXT:    store ptr [[TMP2]], ptr [[DOTADDR2]], align 8
 // CHECK4-51-NEXT:    store ptr [[TMP3]], ptr [[DOTADDR3]], align 8
-// CHECK4-51-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-51-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK4-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T_20:%.*]], ptr [[TMP4]], i32 0, i32 0
-// CHECK4-51-NEXT:    [[TMP6:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-51-NEXT:    [[TMP6:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK4-51-NEXT:    store ptr [[TMP5]], ptr [[TMP6]], align 8
 // CHECK4-51-NEXT:    [[TMP7:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T_20]], ptr [[TMP4]], i32 0, i32 1
-// CHECK4-51-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[DOTADDR2]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-51-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[DOTADDR2]], align 8
 // CHECK4-51-NEXT:    store ptr [[TMP7]], ptr [[TMP8]], align 8
 // CHECK4-51-NEXT:    [[TMP9:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T_20]], ptr [[TMP4]], i32 0, i32 2
-// CHECK4-51-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[DOTADDR3]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-51-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[DOTADDR3]], align 8
 // CHECK4-51-NEXT:    store ptr [[TMP9]], ptr [[TMP10]], align 8
 // CHECK4-51-NEXT:    ret void
 //
@@ -8429,7 +8429,7 @@ void test_omp_all_memory()
 // CHECK4-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK4-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK4-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK4-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK4-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_19:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK4-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK4-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
@@ -8452,7 +8452,7 @@ void test_omp_all_memory()
 // CHECK4-51-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTFIRSTPRIV_PTR_ADDR_I]], align 8, !noalias !113
 // CHECK4-51-NEXT:    [[TMP13:%.*]] = load ptr, ptr [[DOTLOCAL_PTR_ADDR_I]], align 8, !noalias !113
 // CHECK4-51-NEXT:    [[TMP14:%.*]] = load ptr, ptr [[DOTLOCAL_PTR_ADDR1_I]], align 8, !noalias !113
-// CHECK4-51-NEXT:    [[TMP15:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK4-51-NEXT:    [[TMP15:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113
 // CHECK4-51-NEXT:    [[TMP16:%.*]] = load i32, ptr [[TMP15]], align 4, !noundef [[NOUNDEF3]]
 // CHECK4-51-NEXT:    switch i32 [[TMP16]], label [[DOTUNTIED_DONE__I:%.*]] [
 // CHECK4-51-NEXT:    i32 0, label [[DOTUNTIED_JMP__I:%.*]]
@@ -8465,10 +8465,10 @@ void test_omp_all_memory()
 // CHECK4-51-NEXT:    store i32 1, ptr [[CLEANUP_DEST_SLOT_I]], align 4, !noalias !113
 // CHECK4-51-NEXT:    br label [[CLEANUP_I:%.*]]
 // CHECK4-51:       .untied.jmp..i:
-// CHECK4-51-NEXT:    [[TMP17:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK4-51-NEXT:    [[TMP17:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113
 // CHECK4-51-NEXT:    store i32 1, ptr [[TMP17]], align 4
 // CHECK4-51-NEXT:    [[OMP_GLOBAL_THREAD_NUM_I:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB21]])
-// CHECK4-51-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK4-51-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113
 // CHECK4-51-NEXT:    [[TMP19:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM_I]], ptr [[TMP18]])
 // CHECK4-51-NEXT:    br label [[DOTOMP_OUTLINED__17_EXIT:%.*]]
 // CHECK4-51:       .untied.jmp.2.i:
@@ -8482,19 +8482,19 @@ void test_omp_all_memory()
 // CHECK4-51-NEXT:    store i32 [[TMP22]], ptr [[TMP21]], align 128
 // CHECK4-51-NEXT:    [[OMP_GLOBAL_THREAD_NUM4_I:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB23]])
 // CHECK4-51-NEXT:    [[TMP23:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM4_I]], ptr [[TMP20]])
-// CHECK4-51-NEXT:    [[TMP24:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK4-51-NEXT:    [[TMP24:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113
 // CHECK4-51-NEXT:    store i32 2, ptr [[TMP24]], align 4
 // CHECK4-51-NEXT:    [[OMP_GLOBAL_THREAD_NUM5_I:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB21]])
-// CHECK4-51-NEXT:    [[TMP25:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK4-51-NEXT:    [[TMP25:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113
 // CHECK4-51-NEXT:    [[TMP26:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM5_I]], ptr [[TMP25]])
 // CHECK4-51-NEXT:    br label [[DOTOMP_OUTLINED__17_EXIT]]
 // CHECK4-51:       .untied.jmp.6.i:
 // CHECK4-51-NEXT:    [[OMP_GLOBAL_THREAD_NUM8_I:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1]])
 // CHECK4-51-NEXT:    [[TMP27:%.*]] = call i32 @__kmpc_omp_taskyield(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM8_I]], i32 0)
-// CHECK4-51-NEXT:    [[TMP28:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK4-51-NEXT:    [[TMP28:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113
 // CHECK4-51-NEXT:    store i32 3, ptr [[TMP28]], align 4
 // CHECK4-51-NEXT:    [[OMP_GLOBAL_THREAD_NUM9_I:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB21]])
-// CHECK4-51-NEXT:    [[TMP29:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK4-51-NEXT:    [[TMP29:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113
 // CHECK4-51-NEXT:    [[TMP30:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM9_I]], ptr [[TMP29]])
 // CHECK4-51-NEXT:    br label [[DOTOMP_OUTLINED__17_EXIT]]
 // CHECK4-51:       .untied.jmp.10.i:
@@ -8504,10 +8504,10 @@ void test_omp_all_memory()
 // CHECK4-51-NEXT:    store i32 10, ptr [[S2_I]], align 4, !noalias !113
 // CHECK4-51-NEXT:    [[OMP_GLOBAL_THREAD_NUM13_I:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1]])
 // CHECK4-51-NEXT:    [[TMP31:%.*]] = call i32 @__kmpc_omp_taskwait(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM13_I]])
-// CHECK4-51-NEXT:    [[TMP32:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK4-51-NEXT:    [[TMP32:%.*]] = load ptr, ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias !113
 // CHECK4-51-NEXT:    store i32 4, ptr [[TMP32]], align 4
 // CHECK4-51-NEXT:    [[OMP_GLOBAL_THREAD_NUM14_I:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB21]])
-// CHECK4-51-NEXT:    [[TMP33:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113, !noundef [[NOUNDEF3]]
+// CHECK4-51-NEXT:    [[TMP33:%.*]] = load ptr, ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias !113
 // CHECK4-51-NEXT:    [[TMP34:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM14_I]], ptr [[TMP33]])
 // CHECK4-51-NEXT:    br label [[DOTOMP_OUTLINED__17_EXIT]]
 // CHECK4-51:       .untied.jmp.15.i:
@@ -8603,7 +8603,7 @@ void test_omp_all_memory()
 // CHECK4-51-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK4-51-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK4-51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK4-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK4-51-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK4-51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_22:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK4-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK4-51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0

@@ -217,7 +217,7 @@ int main() {
 // CHECK1-NEXT:    store i32 99, ptr [[DOTOMP_COMB_UB]], align 4
 // CHECK1-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK1-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK1-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF9]]
 // CHECK1-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1:[0-9]+]], i32 [[TMP1]], i32 92, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_COMB_LB]], ptr [[DOTOMP_COMB_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK1-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -299,7 +299,7 @@ int main() {
 // CHECK1-NEXT:    store i32 [[CONV1]], ptr [[DOTOMP_UB]], align 4
 // CHECK1-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK1-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK1-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4, !noundef [[NOUNDEF9]]
 // CHECK1-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB2:[0-9]+]], i32 [[TMP3]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK1-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -375,7 +375,7 @@ int main() {
 // CHECK1-NEXT:    store i32 99, ptr [[DOTOMP_COMB_UB]], align 4
 // CHECK1-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK1-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK1-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF9]]
 // CHECK1-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 92, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_COMB_LB]], ptr [[DOTOMP_COMB_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK1-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -403,7 +403,7 @@ int main() {
 // CHECK1-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4, !llvm.access.group [[ACC_GRP19]]
 // CHECK1-NEXT:    [[TMP10:%.*]] = zext i32 [[TMP9]] to i64
 // CHECK1-NEXT:    call void @__kmpc_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]]), !llvm.access.group [[ACC_GRP19]]
-// CHECK1-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !llvm.access.group [[ACC_GRP19]], !noundef [[NOUNDEF9]]
+// CHECK1-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !llvm.access.group [[ACC_GRP19]]
 // CHECK1-NEXT:    store i32 0, ptr [[DOTBOUND_ZERO_ADDR]], align 4, !llvm.access.group [[ACC_GRP19]]
 // CHECK1-NEXT:    call void @.omp_outlined..3(ptr [[TMP11]], ptr [[DOTBOUND_ZERO_ADDR]], i64 [[TMP8]], i64 [[TMP10]]) #[[ATTR2]], !llvm.access.group [[ACC_GRP19]]
 // CHECK1-NEXT:    call void @__kmpc_end_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]]), !llvm.access.group [[ACC_GRP19]]
@@ -456,7 +456,7 @@ int main() {
 // CHECK1-NEXT:    store i32 [[CONV1]], ptr [[DOTOMP_UB]], align 4
 // CHECK1-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK1-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK1-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4, !noundef [[NOUNDEF9]]
 // CHECK1-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB2]], i32 [[TMP3]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK1-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -630,7 +630,7 @@ int main() {
 // CHECK1-NEXT:    store i32 99, ptr [[DOTOMP_COMB_UB]], align 4
 // CHECK1-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK1-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK1-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF9]]
 // CHECK1-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 92, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_COMB_LB]], ptr [[DOTOMP_COMB_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK1-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -707,7 +707,7 @@ int main() {
 // CHECK1-NEXT:    store i32 [[CONV1]], ptr [[DOTOMP_UB]], align 4
 // CHECK1-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK1-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK1-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4, !noundef [[NOUNDEF9]]
 // CHECK1-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB2]], i32 [[TMP3]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK1-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -783,7 +783,7 @@ int main() {
 // CHECK1-NEXT:    store i32 99, ptr [[DOTOMP_COMB_UB]], align 4
 // CHECK1-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK1-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK1-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF9]]
 // CHECK1-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 92, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_COMB_LB]], ptr [[DOTOMP_COMB_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK1-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -811,7 +811,7 @@ int main() {
 // CHECK1-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4, !llvm.access.group [[ACC_GRP31]]
 // CHECK1-NEXT:    [[TMP10:%.*]] = zext i32 [[TMP9]] to i64
 // CHECK1-NEXT:    call void @__kmpc_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]]), !llvm.access.group [[ACC_GRP31]]
-// CHECK1-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !llvm.access.group [[ACC_GRP31]], !noundef [[NOUNDEF9]]
+// CHECK1-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !llvm.access.group [[ACC_GRP31]]
 // CHECK1-NEXT:    store i32 0, ptr [[DOTBOUND_ZERO_ADDR]], align 4, !llvm.access.group [[ACC_GRP31]]
 // CHECK1-NEXT:    call void @.omp_outlined..7(ptr [[TMP11]], ptr [[DOTBOUND_ZERO_ADDR]], i64 [[TMP8]], i64 [[TMP10]]) #[[ATTR2]], !llvm.access.group [[ACC_GRP31]]
 // CHECK1-NEXT:    call void @__kmpc_end_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]]), !llvm.access.group [[ACC_GRP31]]
@@ -864,7 +864,7 @@ int main() {
 // CHECK1-NEXT:    store i32 [[CONV1]], ptr [[DOTOMP_UB]], align 4
 // CHECK1-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK1-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK1-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4, !noundef [[NOUNDEF9]]
 // CHECK1-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB2]], i32 [[TMP3]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK1-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -950,7 +950,7 @@ int main() {
 // CHECK1-NEXT:    store i32 99, ptr [[DOTOMP_COMB_UB]], align 4
 // CHECK1-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK1-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK1-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF9]]
 // CHECK1-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 92, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_COMB_LB]], ptr [[DOTOMP_COMB_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK1-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -985,7 +985,7 @@ int main() {
 // CHECK1-NEXT:    br label [[OMP_IF_END:%.*]]
 // CHECK1:       omp_if.else:
 // CHECK1-NEXT:    call void @__kmpc_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]]), !llvm.access.group [[ACC_GRP37]]
-// CHECK1-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !llvm.access.group [[ACC_GRP37]], !noundef [[NOUNDEF9]]
+// CHECK1-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !llvm.access.group [[ACC_GRP37]]
 // CHECK1-NEXT:    store i32 0, ptr [[DOTBOUND_ZERO_ADDR]], align 4, !llvm.access.group [[ACC_GRP37]]
 // CHECK1-NEXT:    call void @.omp_outlined..9(ptr [[TMP12]], ptr [[DOTBOUND_ZERO_ADDR]], i64 [[TMP8]], i64 [[TMP10]]) #[[ATTR2]], !llvm.access.group [[ACC_GRP37]]
 // CHECK1-NEXT:    call void @__kmpc_end_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]]), !llvm.access.group [[ACC_GRP37]]
@@ -1040,7 +1040,7 @@ int main() {
 // CHECK1-NEXT:    store i32 [[CONV1]], ptr [[DOTOMP_UB]], align 4
 // CHECK1-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK1-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK1-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4, !noundef [[NOUNDEF9]]
 // CHECK1-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB2]], i32 [[TMP3]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK1-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -1203,7 +1203,7 @@ int main() {
 // CHECK1-NEXT:    store i32 99, ptr [[DOTOMP_COMB_UB]], align 4
 // CHECK1-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK1-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK1-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF9]]
 // CHECK1-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 92, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_COMB_LB]], ptr [[DOTOMP_COMB_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK1-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -1280,7 +1280,7 @@ int main() {
 // CHECK1-NEXT:    store i32 [[CONV1]], ptr [[DOTOMP_UB]], align 4
 // CHECK1-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK1-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK1-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4, !noundef [[NOUNDEF9]]
 // CHECK1-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB2]], i32 [[TMP3]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK1-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -1356,7 +1356,7 @@ int main() {
 // CHECK1-NEXT:    store i32 99, ptr [[DOTOMP_COMB_UB]], align 4
 // CHECK1-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK1-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK1-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF9]]
 // CHECK1-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 92, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_COMB_LB]], ptr [[DOTOMP_COMB_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK1-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -1384,7 +1384,7 @@ int main() {
 // CHECK1-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4, !llvm.access.group [[ACC_GRP49]]
 // CHECK1-NEXT:    [[TMP10:%.*]] = zext i32 [[TMP9]] to i64
 // CHECK1-NEXT:    call void @__kmpc_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]]), !llvm.access.group [[ACC_GRP49]]
-// CHECK1-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !llvm.access.group [[ACC_GRP49]], !noundef [[NOUNDEF9]]
+// CHECK1-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !llvm.access.group [[ACC_GRP49]]
 // CHECK1-NEXT:    store i32 0, ptr [[DOTBOUND_ZERO_ADDR]], align 4, !llvm.access.group [[ACC_GRP49]]
 // CHECK1-NEXT:    call void @.omp_outlined..15(ptr [[TMP11]], ptr [[DOTBOUND_ZERO_ADDR]], i64 [[TMP8]], i64 [[TMP10]]) #[[ATTR2]], !llvm.access.group [[ACC_GRP49]]
 // CHECK1-NEXT:    call void @__kmpc_end_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]]), !llvm.access.group [[ACC_GRP49]]
@@ -1437,7 +1437,7 @@ int main() {
 // CHECK1-NEXT:    store i32 [[CONV1]], ptr [[DOTOMP_UB]], align 4
 // CHECK1-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK1-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK1-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4, !noundef [[NOUNDEF9]]
 // CHECK1-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB2]], i32 [[TMP3]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK1-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -1523,7 +1523,7 @@ int main() {
 // CHECK1-NEXT:    store i32 99, ptr [[DOTOMP_COMB_UB]], align 4
 // CHECK1-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK1-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK1-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF9]]
 // CHECK1-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 92, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_COMB_LB]], ptr [[DOTOMP_COMB_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK1-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -1558,7 +1558,7 @@ int main() {
 // CHECK1-NEXT:    br label [[OMP_IF_END:%.*]]
 // CHECK1:       omp_if.else:
 // CHECK1-NEXT:    call void @__kmpc_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]]), !llvm.access.group [[ACC_GRP55]]
-// CHECK1-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !llvm.access.group [[ACC_GRP55]], !noundef [[NOUNDEF9]]
+// CHECK1-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !llvm.access.group [[ACC_GRP55]]
 // CHECK1-NEXT:    store i32 0, ptr [[DOTBOUND_ZERO_ADDR]], align 4, !llvm.access.group [[ACC_GRP55]]
 // CHECK1-NEXT:    call void @.omp_outlined..17(ptr [[TMP12]], ptr [[DOTBOUND_ZERO_ADDR]], i64 [[TMP8]], i64 [[TMP10]]) #[[ATTR2]], !llvm.access.group [[ACC_GRP55]]
 // CHECK1-NEXT:    call void @__kmpc_end_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]]), !llvm.access.group [[ACC_GRP55]]
@@ -1613,7 +1613,7 @@ int main() {
 // CHECK1-NEXT:    store i32 [[CONV1]], ptr [[DOTOMP_UB]], align 4
 // CHECK1-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK1-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK1-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4, !noundef [[NOUNDEF9]]
 // CHECK1-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB2]], i32 [[TMP3]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK1-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -1779,7 +1779,7 @@ int main() {
 // CHECK3-NEXT:    store i32 99, ptr [[DOTOMP_COMB_UB]], align 4
 // CHECK3-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK3-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK3-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK3-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK3-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF9]]
 // CHECK3-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1:[0-9]+]], i32 [[TMP1]], i32 92, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_COMB_LB]], ptr [[DOTOMP_COMB_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK3-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -1861,7 +1861,7 @@ int main() {
 // CHECK3-NEXT:    store i32 [[CONV1]], ptr [[DOTOMP_UB]], align 4
 // CHECK3-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK3-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK3-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK3-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK3-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4, !noundef [[NOUNDEF9]]
 // CHECK3-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB2:[0-9]+]], i32 [[TMP3]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK3-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -1937,7 +1937,7 @@ int main() {
 // CHECK3-NEXT:    store i32 99, ptr [[DOTOMP_COMB_UB]], align 4
 // CHECK3-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK3-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK3-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK3-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK3-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF9]]
 // CHECK3-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 92, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_COMB_LB]], ptr [[DOTOMP_COMB_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK3-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -1965,7 +1965,7 @@ int main() {
 // CHECK3-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4, !llvm.access.group [[ACC_GRP20]]
 // CHECK3-NEXT:    [[TMP10:%.*]] = zext i32 [[TMP9]] to i64
 // CHECK3-NEXT:    call void @__kmpc_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]]), !llvm.access.group [[ACC_GRP20]]
-// CHECK3-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !llvm.access.group [[ACC_GRP20]], !noundef [[NOUNDEF9]]
+// CHECK3-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !llvm.access.group [[ACC_GRP20]]
 // CHECK3-NEXT:    store i32 0, ptr [[DOTBOUND_ZERO_ADDR]], align 4, !llvm.access.group [[ACC_GRP20]]
 // CHECK3-NEXT:    call void @.omp_outlined..3(ptr [[TMP11]], ptr [[DOTBOUND_ZERO_ADDR]], i64 [[TMP8]], i64 [[TMP10]]) #[[ATTR2]], !llvm.access.group [[ACC_GRP20]]
 // CHECK3-NEXT:    call void @__kmpc_end_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]]), !llvm.access.group [[ACC_GRP20]]
@@ -2018,7 +2018,7 @@ int main() {
 // CHECK3-NEXT:    store i32 [[CONV1]], ptr [[DOTOMP_UB]], align 4
 // CHECK3-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK3-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK3-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK3-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK3-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4, !noundef [[NOUNDEF9]]
 // CHECK3-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB2]], i32 [[TMP3]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK3-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -2192,7 +2192,7 @@ int main() {
 // CHECK3-NEXT:    store i32 99, ptr [[DOTOMP_COMB_UB]], align 4
 // CHECK3-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK3-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK3-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK3-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK3-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF9]]
 // CHECK3-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 92, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_COMB_LB]], ptr [[DOTOMP_COMB_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK3-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -2269,7 +2269,7 @@ int main() {
 // CHECK3-NEXT:    store i32 [[CONV1]], ptr [[DOTOMP_UB]], align 4
 // CHECK3-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK3-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK3-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK3-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK3-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4, !noundef [[NOUNDEF9]]
 // CHECK3-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB2]], i32 [[TMP3]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK3-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -2345,7 +2345,7 @@ int main() {
 // CHECK3-NEXT:    store i32 99, ptr [[DOTOMP_COMB_UB]], align 4
 // CHECK3-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK3-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK3-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK3-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK3-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF9]]
 // CHECK3-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 92, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_COMB_LB]], ptr [[DOTOMP_COMB_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK3-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -2373,7 +2373,7 @@ int main() {
 // CHECK3-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4
 // CHECK3-NEXT:    [[TMP10:%.*]] = zext i32 [[TMP9]] to i64
 // CHECK3-NEXT:    call void @__kmpc_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]])
-// CHECK3-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK3-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK3-NEXT:    store i32 0, ptr [[DOTBOUND_ZERO_ADDR]], align 4
 // CHECK3-NEXT:    call void @.omp_outlined..7(ptr [[TMP11]], ptr [[DOTBOUND_ZERO_ADDR]], i64 [[TMP8]], i64 [[TMP10]]) #[[ATTR2]]
 // CHECK3-NEXT:    call void @__kmpc_end_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]])
@@ -2426,7 +2426,7 @@ int main() {
 // CHECK3-NEXT:    store i32 [[CONV1]], ptr [[DOTOMP_UB]], align 4
 // CHECK3-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK3-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK3-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK3-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK3-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4, !noundef [[NOUNDEF9]]
 // CHECK3-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB2]], i32 [[TMP3]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK3-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -2515,7 +2515,7 @@ int main() {
 // CHECK3-NEXT:    store i32 99, ptr [[DOTOMP_COMB_UB]], align 4
 // CHECK3-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK3-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK3-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK3-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK3-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF9]]
 // CHECK3-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 92, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_COMB_LB]], ptr [[DOTOMP_COMB_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK3-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -2559,7 +2559,7 @@ int main() {
 // CHECK3-NEXT:    br label [[OMP_IF_END:%.*]]
 // CHECK3:       omp_if.else:
 // CHECK3-NEXT:    call void @__kmpc_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]]), !llvm.access.group [[ACC_GRP35]]
-// CHECK3-NEXT:    [[TMP15:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !llvm.access.group [[ACC_GRP35]], !noundef [[NOUNDEF9]]
+// CHECK3-NEXT:    [[TMP15:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !llvm.access.group [[ACC_GRP35]]
 // CHECK3-NEXT:    store i32 0, ptr [[DOTBOUND_ZERO_ADDR]], align 4, !llvm.access.group [[ACC_GRP35]]
 // CHECK3-NEXT:    call void @.omp_outlined..9(ptr [[TMP15]], ptr [[DOTBOUND_ZERO_ADDR]], i64 [[TMP9]], i64 [[TMP11]], i64 [[TMP13]]) #[[ATTR2]], !llvm.access.group [[ACC_GRP35]]
 // CHECK3-NEXT:    call void @__kmpc_end_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]]), !llvm.access.group [[ACC_GRP35]]
@@ -2599,7 +2599,7 @@ int main() {
 // CHECK3-NEXT:    br label [[OMP_IF_END16:%.*]]
 // CHECK3:       omp_if.else14:
 // CHECK3-NEXT:    call void @__kmpc_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]])
-// CHECK3-NEXT:    [[TMP27:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK3-NEXT:    [[TMP27:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK3-NEXT:    store i32 0, ptr [[DOTBOUND_ZERO_ADDR15]], align 4
 // CHECK3-NEXT:    call void @.omp_outlined..10(ptr [[TMP27]], ptr [[DOTBOUND_ZERO_ADDR15]], i64 [[TMP21]], i64 [[TMP23]], i64 [[TMP25]]) #[[ATTR2]]
 // CHECK3-NEXT:    call void @__kmpc_end_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]])
@@ -2662,7 +2662,7 @@ int main() {
 // CHECK3-NEXT:    [[TOBOOL:%.*]] = trunc i8 [[TMP2]] to i1
 // CHECK3-NEXT:    br i1 [[TOBOOL]], label [[OMP_IF_THEN:%.*]], label [[OMP_IF_ELSE:%.*]]
 // CHECK3:       omp_if.then:
-// CHECK3-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK3-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK3-NEXT:    [[TMP4:%.*]] = load i32, ptr [[TMP3]], align 4, !noundef [[NOUNDEF9]]
 // CHECK3-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB2]], i32 [[TMP4]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK3-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -2701,7 +2701,7 @@ int main() {
 // CHECK3:       omp.inner.for.end:
 // CHECK3-NEXT:    br label [[OMP_IF_END:%.*]]
 // CHECK3:       omp_if.else:
-// CHECK3-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK3-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK3-NEXT:    [[TMP13:%.*]] = load i32, ptr [[TMP12]], align 4, !noundef [[NOUNDEF9]]
 // CHECK3-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB2]], i32 [[TMP13]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK3-NEXT:    [[TMP14:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -2742,7 +2742,7 @@ int main() {
 // CHECK3:       omp_if.end:
 // CHECK3-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
 // CHECK3:       omp.loop.exit:
-// CHECK3-NEXT:    [[TMP21:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK3-NEXT:    [[TMP21:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK3-NEXT:    [[TMP22:%.*]] = load i32, ptr [[TMP21]], align 4, !noundef [[NOUNDEF9]]
 // CHECK3-NEXT:    call void @__kmpc_for_static_fini(ptr @[[GLOB1]], i32 [[TMP22]])
 // CHECK3-NEXT:    [[TMP23:%.*]] = load i32, ptr [[DOTOMP_IS_LAST]], align 4, !noundef [[NOUNDEF9]]
@@ -2789,7 +2789,7 @@ int main() {
 // CHECK3-NEXT:    [[TOBOOL:%.*]] = trunc i8 [[TMP2]] to i1
 // CHECK3-NEXT:    br i1 [[TOBOOL]], label [[OMP_IF_THEN:%.*]], label [[OMP_IF_ELSE:%.*]]
 // CHECK3:       omp_if.then:
-// CHECK3-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK3-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK3-NEXT:    [[TMP4:%.*]] = load i32, ptr [[TMP3]], align 4, !noundef [[NOUNDEF9]]
 // CHECK3-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB2]], i32 [[TMP4]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK3-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -2828,7 +2828,7 @@ int main() {
 // CHECK3:       omp.inner.for.end:
 // CHECK3-NEXT:    br label [[OMP_IF_END:%.*]]
 // CHECK3:       omp_if.else:
-// CHECK3-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK3-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK3-NEXT:    [[TMP13:%.*]] = load i32, ptr [[TMP12]], align 4, !noundef [[NOUNDEF9]]
 // CHECK3-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB2]], i32 [[TMP13]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK3-NEXT:    [[TMP14:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -2869,7 +2869,7 @@ int main() {
 // CHECK3:       omp_if.end:
 // CHECK3-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
 // CHECK3:       omp.loop.exit:
-// CHECK3-NEXT:    [[TMP21:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK3-NEXT:    [[TMP21:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK3-NEXT:    [[TMP22:%.*]] = load i32, ptr [[TMP21]], align 4, !noundef [[NOUNDEF9]]
 // CHECK3-NEXT:    call void @__kmpc_for_static_fini(ptr @[[GLOB1]], i32 [[TMP22]])
 // CHECK3-NEXT:    [[TMP23:%.*]] = load i32, ptr [[DOTOMP_IS_LAST]], align 4, !noundef [[NOUNDEF9]]
@@ -2995,7 +2995,7 @@ int main() {
 // CHECK3-NEXT:    store i32 99, ptr [[DOTOMP_COMB_UB]], align 4
 // CHECK3-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK3-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK3-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK3-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK3-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF9]]
 // CHECK3-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 92, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_COMB_LB]], ptr [[DOTOMP_COMB_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK3-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -3072,7 +3072,7 @@ int main() {
 // CHECK3-NEXT:    store i32 [[CONV1]], ptr [[DOTOMP_UB]], align 4
 // CHECK3-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK3-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK3-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK3-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK3-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4, !noundef [[NOUNDEF9]]
 // CHECK3-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB2]], i32 [[TMP3]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK3-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -3148,7 +3148,7 @@ int main() {
 // CHECK3-NEXT:    store i32 99, ptr [[DOTOMP_COMB_UB]], align 4
 // CHECK3-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK3-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK3-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK3-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK3-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF9]]
 // CHECK3-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 92, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_COMB_LB]], ptr [[DOTOMP_COMB_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK3-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -3176,7 +3176,7 @@ int main() {
 // CHECK3-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4
 // CHECK3-NEXT:    [[TMP10:%.*]] = zext i32 [[TMP9]] to i64
 // CHECK3-NEXT:    call void @__kmpc_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]])
-// CHECK3-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK3-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK3-NEXT:    store i32 0, ptr [[DOTBOUND_ZERO_ADDR]], align 4
 // CHECK3-NEXT:    call void @.omp_outlined..16(ptr [[TMP11]], ptr [[DOTBOUND_ZERO_ADDR]], i64 [[TMP8]], i64 [[TMP10]]) #[[ATTR2]]
 // CHECK3-NEXT:    call void @__kmpc_end_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]])
@@ -3229,7 +3229,7 @@ int main() {
 // CHECK3-NEXT:    store i32 [[CONV1]], ptr [[DOTOMP_UB]], align 4
 // CHECK3-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK3-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK3-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK3-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK3-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4, !noundef [[NOUNDEF9]]
 // CHECK3-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB2]], i32 [[TMP3]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK3-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -3315,7 +3315,7 @@ int main() {
 // CHECK3-NEXT:    store i32 99, ptr [[DOTOMP_COMB_UB]], align 4
 // CHECK3-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK3-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK3-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK3-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK3-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF9]]
 // CHECK3-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 92, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_COMB_LB]], ptr [[DOTOMP_COMB_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK3-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -3350,7 +3350,7 @@ int main() {
 // CHECK3-NEXT:    br label [[OMP_IF_END:%.*]]
 // CHECK3:       omp_if.else:
 // CHECK3-NEXT:    call void @__kmpc_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]]), !llvm.access.group [[ACC_GRP55]]
-// CHECK3-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !llvm.access.group [[ACC_GRP55]], !noundef [[NOUNDEF9]]
+// CHECK3-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !llvm.access.group [[ACC_GRP55]]
 // CHECK3-NEXT:    store i32 0, ptr [[DOTBOUND_ZERO_ADDR]], align 4, !llvm.access.group [[ACC_GRP55]]
 // CHECK3-NEXT:    call void @.omp_outlined..18(ptr [[TMP12]], ptr [[DOTBOUND_ZERO_ADDR]], i64 [[TMP8]], i64 [[TMP10]]) #[[ATTR2]], !llvm.access.group [[ACC_GRP55]]
 // CHECK3-NEXT:    call void @__kmpc_end_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]]), !llvm.access.group [[ACC_GRP55]]
@@ -3405,7 +3405,7 @@ int main() {
 // CHECK3-NEXT:    store i32 [[CONV1]], ptr [[DOTOMP_UB]], align 4
 // CHECK3-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK3-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK3-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK3-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK3-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4, !noundef [[NOUNDEF9]]
 // CHECK3-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB2]], i32 [[TMP3]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK3-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -4164,7 +4164,7 @@ int main() {
 // CHECK9-NEXT:    store i32 99, ptr [[DOTOMP_COMB_UB]], align 4
 // CHECK9-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK9-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK9-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK9-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK9-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF9]]
 // CHECK9-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1:[0-9]+]], i32 [[TMP1]], i32 92, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_COMB_LB]], ptr [[DOTOMP_COMB_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK9-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -4246,7 +4246,7 @@ int main() {
 // CHECK9-NEXT:    store i32 [[CONV1]], ptr [[DOTOMP_UB]], align 4
 // CHECK9-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK9-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK9-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK9-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK9-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4, !noundef [[NOUNDEF9]]
 // CHECK9-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB2:[0-9]+]], i32 [[TMP3]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK9-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -4322,7 +4322,7 @@ int main() {
 // CHECK9-NEXT:    store i32 99, ptr [[DOTOMP_COMB_UB]], align 4
 // CHECK9-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK9-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK9-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK9-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK9-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF9]]
 // CHECK9-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 92, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_COMB_LB]], ptr [[DOTOMP_COMB_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK9-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -4350,7 +4350,7 @@ int main() {
 // CHECK9-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4, !llvm.access.group [[ACC_GRP19]]
 // CHECK9-NEXT:    [[TMP10:%.*]] = zext i32 [[TMP9]] to i64
 // CHECK9-NEXT:    call void @__kmpc_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]]), !llvm.access.group [[ACC_GRP19]]
-// CHECK9-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !llvm.access.group [[ACC_GRP19]], !noundef [[NOUNDEF9]]
+// CHECK9-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !llvm.access.group [[ACC_GRP19]]
 // CHECK9-NEXT:    store i32 0, ptr [[DOTBOUND_ZERO_ADDR]], align 4, !llvm.access.group [[ACC_GRP19]]
 // CHECK9-NEXT:    call void @.omp_outlined..3(ptr [[TMP11]], ptr [[DOTBOUND_ZERO_ADDR]], i64 [[TMP8]], i64 [[TMP10]]) #[[ATTR2]], !llvm.access.group [[ACC_GRP19]]
 // CHECK9-NEXT:    call void @__kmpc_end_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]]), !llvm.access.group [[ACC_GRP19]]
@@ -4403,7 +4403,7 @@ int main() {
 // CHECK9-NEXT:    store i32 [[CONV1]], ptr [[DOTOMP_UB]], align 4
 // CHECK9-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK9-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK9-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK9-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK9-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4, !noundef [[NOUNDEF9]]
 // CHECK9-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB2]], i32 [[TMP3]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK9-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -4577,7 +4577,7 @@ int main() {
 // CHECK9-NEXT:    store i32 99, ptr [[DOTOMP_COMB_UB]], align 4
 // CHECK9-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK9-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK9-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK9-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK9-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF9]]
 // CHECK9-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 92, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_COMB_LB]], ptr [[DOTOMP_COMB_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK9-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -4654,7 +4654,7 @@ int main() {
 // CHECK9-NEXT:    store i32 [[CONV1]], ptr [[DOTOMP_UB]], align 4
 // CHECK9-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK9-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK9-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK9-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK9-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4, !noundef [[NOUNDEF9]]
 // CHECK9-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB2]], i32 [[TMP3]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK9-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -4730,7 +4730,7 @@ int main() {
 // CHECK9-NEXT:    store i32 99, ptr [[DOTOMP_COMB_UB]], align 4
 // CHECK9-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK9-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK9-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK9-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK9-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF9]]
 // CHECK9-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 92, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_COMB_LB]], ptr [[DOTOMP_COMB_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK9-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -4758,7 +4758,7 @@ int main() {
 // CHECK9-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4, !llvm.access.group [[ACC_GRP31]]
 // CHECK9-NEXT:    [[TMP10:%.*]] = zext i32 [[TMP9]] to i64
 // CHECK9-NEXT:    call void @__kmpc_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]]), !llvm.access.group [[ACC_GRP31]]
-// CHECK9-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !llvm.access.group [[ACC_GRP31]], !noundef [[NOUNDEF9]]
+// CHECK9-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !llvm.access.group [[ACC_GRP31]]
 // CHECK9-NEXT:    store i32 0, ptr [[DOTBOUND_ZERO_ADDR]], align 4, !llvm.access.group [[ACC_GRP31]]
 // CHECK9-NEXT:    call void @.omp_outlined..7(ptr [[TMP11]], ptr [[DOTBOUND_ZERO_ADDR]], i64 [[TMP8]], i64 [[TMP10]]) #[[ATTR2]], !llvm.access.group [[ACC_GRP31]]
 // CHECK9-NEXT:    call void @__kmpc_end_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]]), !llvm.access.group [[ACC_GRP31]]
@@ -4811,7 +4811,7 @@ int main() {
 // CHECK9-NEXT:    store i32 [[CONV1]], ptr [[DOTOMP_UB]], align 4
 // CHECK9-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK9-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK9-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK9-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK9-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4, !noundef [[NOUNDEF9]]
 // CHECK9-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB2]], i32 [[TMP3]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK9-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -4897,7 +4897,7 @@ int main() {
 // CHECK9-NEXT:    store i32 99, ptr [[DOTOMP_COMB_UB]], align 4
 // CHECK9-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK9-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK9-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK9-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK9-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF9]]
 // CHECK9-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 92, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_COMB_LB]], ptr [[DOTOMP_COMB_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK9-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -4932,7 +4932,7 @@ int main() {
 // CHECK9-NEXT:    br label [[OMP_IF_END:%.*]]
 // CHECK9:       omp_if.else:
 // CHECK9-NEXT:    call void @__kmpc_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]]), !llvm.access.group [[ACC_GRP37]]
-// CHECK9-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !llvm.access.group [[ACC_GRP37]], !noundef [[NOUNDEF9]]
+// CHECK9-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !llvm.access.group [[ACC_GRP37]]
 // CHECK9-NEXT:    store i32 0, ptr [[DOTBOUND_ZERO_ADDR]], align 4, !llvm.access.group [[ACC_GRP37]]
 // CHECK9-NEXT:    call void @.omp_outlined..9(ptr [[TMP12]], ptr [[DOTBOUND_ZERO_ADDR]], i64 [[TMP8]], i64 [[TMP10]]) #[[ATTR2]], !llvm.access.group [[ACC_GRP37]]
 // CHECK9-NEXT:    call void @__kmpc_end_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]]), !llvm.access.group [[ACC_GRP37]]
@@ -4987,7 +4987,7 @@ int main() {
 // CHECK9-NEXT:    store i32 [[CONV1]], ptr [[DOTOMP_UB]], align 4
 // CHECK9-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK9-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK9-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK9-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK9-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4, !noundef [[NOUNDEF9]]
 // CHECK9-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB2]], i32 [[TMP3]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK9-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -5150,7 +5150,7 @@ int main() {
 // CHECK9-NEXT:    store i32 99, ptr [[DOTOMP_COMB_UB]], align 4
 // CHECK9-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK9-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK9-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK9-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK9-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF9]]
 // CHECK9-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 92, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_COMB_LB]], ptr [[DOTOMP_COMB_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK9-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -5227,7 +5227,7 @@ int main() {
 // CHECK9-NEXT:    store i32 [[CONV1]], ptr [[DOTOMP_UB]], align 4
 // CHECK9-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK9-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK9-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK9-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK9-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4, !noundef [[NOUNDEF9]]
 // CHECK9-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB2]], i32 [[TMP3]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK9-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -5303,7 +5303,7 @@ int main() {
 // CHECK9-NEXT:    store i32 99, ptr [[DOTOMP_COMB_UB]], align 4
 // CHECK9-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK9-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK9-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK9-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK9-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF9]]
 // CHECK9-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 92, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_COMB_LB]], ptr [[DOTOMP_COMB_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK9-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -5331,7 +5331,7 @@ int main() {
 // CHECK9-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4, !llvm.access.group [[ACC_GRP49]]
 // CHECK9-NEXT:    [[TMP10:%.*]] = zext i32 [[TMP9]] to i64
 // CHECK9-NEXT:    call void @__kmpc_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]]), !llvm.access.group [[ACC_GRP49]]
-// CHECK9-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !llvm.access.group [[ACC_GRP49]], !noundef [[NOUNDEF9]]
+// CHECK9-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !llvm.access.group [[ACC_GRP49]]
 // CHECK9-NEXT:    store i32 0, ptr [[DOTBOUND_ZERO_ADDR]], align 4, !llvm.access.group [[ACC_GRP49]]
 // CHECK9-NEXT:    call void @.omp_outlined..15(ptr [[TMP11]], ptr [[DOTBOUND_ZERO_ADDR]], i64 [[TMP8]], i64 [[TMP10]]) #[[ATTR2]], !llvm.access.group [[ACC_GRP49]]
 // CHECK9-NEXT:    call void @__kmpc_end_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]]), !llvm.access.group [[ACC_GRP49]]
@@ -5384,7 +5384,7 @@ int main() {
 // CHECK9-NEXT:    store i32 [[CONV1]], ptr [[DOTOMP_UB]], align 4
 // CHECK9-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK9-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK9-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK9-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK9-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4, !noundef [[NOUNDEF9]]
 // CHECK9-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB2]], i32 [[TMP3]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK9-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -5470,7 +5470,7 @@ int main() {
 // CHECK9-NEXT:    store i32 99, ptr [[DOTOMP_COMB_UB]], align 4
 // CHECK9-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK9-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK9-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK9-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK9-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF9]]
 // CHECK9-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 92, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_COMB_LB]], ptr [[DOTOMP_COMB_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK9-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -5505,7 +5505,7 @@ int main() {
 // CHECK9-NEXT:    br label [[OMP_IF_END:%.*]]
 // CHECK9:       omp_if.else:
 // CHECK9-NEXT:    call void @__kmpc_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]]), !llvm.access.group [[ACC_GRP55]]
-// CHECK9-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !llvm.access.group [[ACC_GRP55]], !noundef [[NOUNDEF9]]
+// CHECK9-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !llvm.access.group [[ACC_GRP55]]
 // CHECK9-NEXT:    store i32 0, ptr [[DOTBOUND_ZERO_ADDR]], align 4, !llvm.access.group [[ACC_GRP55]]
 // CHECK9-NEXT:    call void @.omp_outlined..17(ptr [[TMP12]], ptr [[DOTBOUND_ZERO_ADDR]], i64 [[TMP8]], i64 [[TMP10]]) #[[ATTR2]], !llvm.access.group [[ACC_GRP55]]
 // CHECK9-NEXT:    call void @__kmpc_end_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]]), !llvm.access.group [[ACC_GRP55]]
@@ -5560,7 +5560,7 @@ int main() {
 // CHECK9-NEXT:    store i32 [[CONV1]], ptr [[DOTOMP_UB]], align 4
 // CHECK9-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK9-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK9-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK9-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK9-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4, !noundef [[NOUNDEF9]]
 // CHECK9-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB2]], i32 [[TMP3]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK9-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -5726,7 +5726,7 @@ int main() {
 // CHECK11-NEXT:    store i32 99, ptr [[DOTOMP_COMB_UB]], align 4
 // CHECK11-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK11-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK11-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK11-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK11-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF9]]
 // CHECK11-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1:[0-9]+]], i32 [[TMP1]], i32 92, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_COMB_LB]], ptr [[DOTOMP_COMB_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK11-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -5808,7 +5808,7 @@ int main() {
 // CHECK11-NEXT:    store i32 [[CONV1]], ptr [[DOTOMP_UB]], align 4
 // CHECK11-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK11-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK11-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK11-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK11-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4, !noundef [[NOUNDEF9]]
 // CHECK11-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB2:[0-9]+]], i32 [[TMP3]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK11-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -5884,7 +5884,7 @@ int main() {
 // CHECK11-NEXT:    store i32 99, ptr [[DOTOMP_COMB_UB]], align 4
 // CHECK11-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK11-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK11-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK11-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK11-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF9]]
 // CHECK11-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 92, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_COMB_LB]], ptr [[DOTOMP_COMB_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK11-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -5912,7 +5912,7 @@ int main() {
 // CHECK11-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4, !llvm.access.group [[ACC_GRP20]]
 // CHECK11-NEXT:    [[TMP10:%.*]] = zext i32 [[TMP9]] to i64
 // CHECK11-NEXT:    call void @__kmpc_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]]), !llvm.access.group [[ACC_GRP20]]
-// CHECK11-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !llvm.access.group [[ACC_GRP20]], !noundef [[NOUNDEF9]]
+// CHECK11-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !llvm.access.group [[ACC_GRP20]]
 // CHECK11-NEXT:    store i32 0, ptr [[DOTBOUND_ZERO_ADDR]], align 4, !llvm.access.group [[ACC_GRP20]]
 // CHECK11-NEXT:    call void @.omp_outlined..3(ptr [[TMP11]], ptr [[DOTBOUND_ZERO_ADDR]], i64 [[TMP8]], i64 [[TMP10]]) #[[ATTR2]], !llvm.access.group [[ACC_GRP20]]
 // CHECK11-NEXT:    call void @__kmpc_end_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]]), !llvm.access.group [[ACC_GRP20]]
@@ -5965,7 +5965,7 @@ int main() {
 // CHECK11-NEXT:    store i32 [[CONV1]], ptr [[DOTOMP_UB]], align 4
 // CHECK11-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK11-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK11-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK11-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK11-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4, !noundef [[NOUNDEF9]]
 // CHECK11-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB2]], i32 [[TMP3]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK11-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -6139,7 +6139,7 @@ int main() {
 // CHECK11-NEXT:    store i32 99, ptr [[DOTOMP_COMB_UB]], align 4
 // CHECK11-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK11-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK11-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK11-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK11-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF9]]
 // CHECK11-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 92, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_COMB_LB]], ptr [[DOTOMP_COMB_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK11-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -6216,7 +6216,7 @@ int main() {
 // CHECK11-NEXT:    store i32 [[CONV1]], ptr [[DOTOMP_UB]], align 4
 // CHECK11-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK11-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK11-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK11-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK11-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4, !noundef [[NOUNDEF9]]
 // CHECK11-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB2]], i32 [[TMP3]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK11-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -6292,7 +6292,7 @@ int main() {
 // CHECK11-NEXT:    store i32 99, ptr [[DOTOMP_COMB_UB]], align 4
 // CHECK11-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK11-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK11-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK11-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK11-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF9]]
 // CHECK11-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 92, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_COMB_LB]], ptr [[DOTOMP_COMB_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK11-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -6320,7 +6320,7 @@ int main() {
 // CHECK11-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4
 // CHECK11-NEXT:    [[TMP10:%.*]] = zext i32 [[TMP9]] to i64
 // CHECK11-NEXT:    call void @__kmpc_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]])
-// CHECK11-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK11-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK11-NEXT:    store i32 0, ptr [[DOTBOUND_ZERO_ADDR]], align 4
 // CHECK11-NEXT:    call void @.omp_outlined..7(ptr [[TMP11]], ptr [[DOTBOUND_ZERO_ADDR]], i64 [[TMP8]], i64 [[TMP10]]) #[[ATTR2]]
 // CHECK11-NEXT:    call void @__kmpc_end_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]])
@@ -6373,7 +6373,7 @@ int main() {
 // CHECK11-NEXT:    store i32 [[CONV1]], ptr [[DOTOMP_UB]], align 4
 // CHECK11-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK11-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK11-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK11-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK11-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4, !noundef [[NOUNDEF9]]
 // CHECK11-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB2]], i32 [[TMP3]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK11-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -6462,7 +6462,7 @@ int main() {
 // CHECK11-NEXT:    store i32 99, ptr [[DOTOMP_COMB_UB]], align 4
 // CHECK11-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK11-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK11-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK11-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK11-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF9]]
 // CHECK11-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 92, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_COMB_LB]], ptr [[DOTOMP_COMB_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK11-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -6506,7 +6506,7 @@ int main() {
 // CHECK11-NEXT:    br label [[OMP_IF_END:%.*]]
 // CHECK11:       omp_if.else:
 // CHECK11-NEXT:    call void @__kmpc_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]]), !llvm.access.group [[ACC_GRP35]]
-// CHECK11-NEXT:    [[TMP15:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !llvm.access.group [[ACC_GRP35]], !noundef [[NOUNDEF9]]
+// CHECK11-NEXT:    [[TMP15:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !llvm.access.group [[ACC_GRP35]]
 // CHECK11-NEXT:    store i32 0, ptr [[DOTBOUND_ZERO_ADDR]], align 4, !llvm.access.group [[ACC_GRP35]]
 // CHECK11-NEXT:    call void @.omp_outlined..9(ptr [[TMP15]], ptr [[DOTBOUND_ZERO_ADDR]], i64 [[TMP9]], i64 [[TMP11]], i64 [[TMP13]]) #[[ATTR2]], !llvm.access.group [[ACC_GRP35]]
 // CHECK11-NEXT:    call void @__kmpc_end_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]]), !llvm.access.group [[ACC_GRP35]]
@@ -6546,7 +6546,7 @@ int main() {
 // CHECK11-NEXT:    br label [[OMP_IF_END16:%.*]]
 // CHECK11:       omp_if.else14:
 // CHECK11-NEXT:    call void @__kmpc_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]])
-// CHECK11-NEXT:    [[TMP27:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK11-NEXT:    [[TMP27:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK11-NEXT:    store i32 0, ptr [[DOTBOUND_ZERO_ADDR15]], align 4
 // CHECK11-NEXT:    call void @.omp_outlined..10(ptr [[TMP27]], ptr [[DOTBOUND_ZERO_ADDR15]], i64 [[TMP21]], i64 [[TMP23]], i64 [[TMP25]]) #[[ATTR2]]
 // CHECK11-NEXT:    call void @__kmpc_end_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]])
@@ -6609,7 +6609,7 @@ int main() {
 // CHECK11-NEXT:    [[TOBOOL:%.*]] = trunc i8 [[TMP2]] to i1
 // CHECK11-NEXT:    br i1 [[TOBOOL]], label [[OMP_IF_THEN:%.*]], label [[OMP_IF_ELSE:%.*]]
 // CHECK11:       omp_if.then:
-// CHECK11-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK11-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK11-NEXT:    [[TMP4:%.*]] = load i32, ptr [[TMP3]], align 4, !noundef [[NOUNDEF9]]
 // CHECK11-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB2]], i32 [[TMP4]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK11-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -6648,7 +6648,7 @@ int main() {
 // CHECK11:       omp.inner.for.end:
 // CHECK11-NEXT:    br label [[OMP_IF_END:%.*]]
 // CHECK11:       omp_if.else:
-// CHECK11-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK11-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK11-NEXT:    [[TMP13:%.*]] = load i32, ptr [[TMP12]], align 4, !noundef [[NOUNDEF9]]
 // CHECK11-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB2]], i32 [[TMP13]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK11-NEXT:    [[TMP14:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -6689,7 +6689,7 @@ int main() {
 // CHECK11:       omp_if.end:
 // CHECK11-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
 // CHECK11:       omp.loop.exit:
-// CHECK11-NEXT:    [[TMP21:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK11-NEXT:    [[TMP21:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK11-NEXT:    [[TMP22:%.*]] = load i32, ptr [[TMP21]], align 4, !noundef [[NOUNDEF9]]
 // CHECK11-NEXT:    call void @__kmpc_for_static_fini(ptr @[[GLOB1]], i32 [[TMP22]])
 // CHECK11-NEXT:    [[TMP23:%.*]] = load i32, ptr [[DOTOMP_IS_LAST]], align 4, !noundef [[NOUNDEF9]]
@@ -6736,7 +6736,7 @@ int main() {
 // CHECK11-NEXT:    [[TOBOOL:%.*]] = trunc i8 [[TMP2]] to i1
 // CHECK11-NEXT:    br i1 [[TOBOOL]], label [[OMP_IF_THEN:%.*]], label [[OMP_IF_ELSE:%.*]]
 // CHECK11:       omp_if.then:
-// CHECK11-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK11-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK11-NEXT:    [[TMP4:%.*]] = load i32, ptr [[TMP3]], align 4, !noundef [[NOUNDEF9]]
 // CHECK11-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB2]], i32 [[TMP4]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK11-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -6775,7 +6775,7 @@ int main() {
 // CHECK11:       omp.inner.for.end:
 // CHECK11-NEXT:    br label [[OMP_IF_END:%.*]]
 // CHECK11:       omp_if.else:
-// CHECK11-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK11-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK11-NEXT:    [[TMP13:%.*]] = load i32, ptr [[TMP12]], align 4, !noundef [[NOUNDEF9]]
 // CHECK11-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB2]], i32 [[TMP13]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK11-NEXT:    [[TMP14:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -6816,7 +6816,7 @@ int main() {
 // CHECK11:       omp_if.end:
 // CHECK11-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
 // CHECK11:       omp.loop.exit:
-// CHECK11-NEXT:    [[TMP21:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK11-NEXT:    [[TMP21:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK11-NEXT:    [[TMP22:%.*]] = load i32, ptr [[TMP21]], align 4, !noundef [[NOUNDEF9]]
 // CHECK11-NEXT:    call void @__kmpc_for_static_fini(ptr @[[GLOB1]], i32 [[TMP22]])
 // CHECK11-NEXT:    [[TMP23:%.*]] = load i32, ptr [[DOTOMP_IS_LAST]], align 4, !noundef [[NOUNDEF9]]
@@ -6942,7 +6942,7 @@ int main() {
 // CHECK11-NEXT:    store i32 99, ptr [[DOTOMP_COMB_UB]], align 4
 // CHECK11-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK11-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK11-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK11-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK11-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF9]]
 // CHECK11-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 92, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_COMB_LB]], ptr [[DOTOMP_COMB_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK11-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -7019,7 +7019,7 @@ int main() {
 // CHECK11-NEXT:    store i32 [[CONV1]], ptr [[DOTOMP_UB]], align 4
 // CHECK11-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK11-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK11-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK11-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK11-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4, !noundef [[NOUNDEF9]]
 // CHECK11-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB2]], i32 [[TMP3]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK11-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -7095,7 +7095,7 @@ int main() {
 // CHECK11-NEXT:    store i32 99, ptr [[DOTOMP_COMB_UB]], align 4
 // CHECK11-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK11-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK11-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK11-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK11-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF9]]
 // CHECK11-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 92, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_COMB_LB]], ptr [[DOTOMP_COMB_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK11-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -7123,7 +7123,7 @@ int main() {
 // CHECK11-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4
 // CHECK11-NEXT:    [[TMP10:%.*]] = zext i32 [[TMP9]] to i64
 // CHECK11-NEXT:    call void @__kmpc_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]])
-// CHECK11-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK11-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK11-NEXT:    store i32 0, ptr [[DOTBOUND_ZERO_ADDR]], align 4
 // CHECK11-NEXT:    call void @.omp_outlined..16(ptr [[TMP11]], ptr [[DOTBOUND_ZERO_ADDR]], i64 [[TMP8]], i64 [[TMP10]]) #[[ATTR2]]
 // CHECK11-NEXT:    call void @__kmpc_end_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]])
@@ -7176,7 +7176,7 @@ int main() {
 // CHECK11-NEXT:    store i32 [[CONV1]], ptr [[DOTOMP_UB]], align 4
 // CHECK11-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK11-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK11-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK11-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK11-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4, !noundef [[NOUNDEF9]]
 // CHECK11-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB2]], i32 [[TMP3]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK11-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -7262,7 +7262,7 @@ int main() {
 // CHECK11-NEXT:    store i32 99, ptr [[DOTOMP_COMB_UB]], align 4
 // CHECK11-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK11-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK11-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK11-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK11-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF9]]
 // CHECK11-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 92, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_COMB_LB]], ptr [[DOTOMP_COMB_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK11-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4, !noundef [[NOUNDEF9]]
@@ -7297,7 +7297,7 @@ int main() {
 // CHECK11-NEXT:    br label [[OMP_IF_END:%.*]]
 // CHECK11:       omp_if.else:
 // CHECK11-NEXT:    call void @__kmpc_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]]), !llvm.access.group [[ACC_GRP55]]
-// CHECK11-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !llvm.access.group [[ACC_GRP55]], !noundef [[NOUNDEF9]]
+// CHECK11-NEXT:    [[TMP12:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !llvm.access.group [[ACC_GRP55]]
 // CHECK11-NEXT:    store i32 0, ptr [[DOTBOUND_ZERO_ADDR]], align 4, !llvm.access.group [[ACC_GRP55]]
 // CHECK11-NEXT:    call void @.omp_outlined..18(ptr [[TMP12]], ptr [[DOTBOUND_ZERO_ADDR]], i64 [[TMP8]], i64 [[TMP10]]) #[[ATTR2]], !llvm.access.group [[ACC_GRP55]]
 // CHECK11-NEXT:    call void @__kmpc_end_serialized_parallel(ptr @[[GLOB3]], i32 [[TMP1]]), !llvm.access.group [[ACC_GRP55]]
@@ -7352,7 +7352,7 @@ int main() {
 // CHECK11-NEXT:    store i32 [[CONV1]], ptr [[DOTOMP_UB]], align 4
 // CHECK11-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
 // CHECK11-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK11-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF9]]
+// CHECK11-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK11-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4, !noundef [[NOUNDEF9]]
 // CHECK11-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB2]], i32 [[TMP3]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK11-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4, !noundef [[NOUNDEF9]]

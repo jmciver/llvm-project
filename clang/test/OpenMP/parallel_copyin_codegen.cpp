@@ -296,12 +296,12 @@ void foo() {
 // CHECK1-NEXT:  entry:
 // CHECK1-NEXT:    [[DOTADDR:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
-// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF4:![0-9]+]]
+// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK1-NEXT:    [[ARRAYINIT_BEGIN:%.*]] = getelementptr inbounds [2 x %struct.S], ptr [[TMP1]], i64 0, i64 0
 // CHECK1-NEXT:    call void @_ZN1SIfEC1Ef(ptr noundef nonnull align 4 dereferenceable(4) [[ARRAYINIT_BEGIN]], float noundef 1.000000e+00)
 // CHECK1-NEXT:    [[ARRAYINIT_ELEMENT:%.*]] = getelementptr inbounds [[STRUCT_S:%.*]], ptr [[ARRAYINIT_BEGIN]], i64 1
 // CHECK1-NEXT:    call void @_ZN1SIfEC1Ef(ptr noundef nonnull align 4 dereferenceable(4) [[ARRAYINIT_ELEMENT]], float noundef 2.000000e+00)
-// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF4]]
+// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK1-NEXT:    ret ptr [[TMP2]]
 //
 //
@@ -313,7 +313,7 @@ void foo() {
 // CHECK1-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK1-NEXT:    store float [[A]], ptr [[A_ADDR]], align 4
 // CHECK1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP0:%.*]] = load float, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF4]]
+// CHECK1-NEXT:    [[TMP0:%.*]] = load float, ptr [[A_ADDR]], align 4
 // CHECK1-NEXT:    call void @_ZN1SIfEC2Ef(ptr noundef nonnull align 4 dereferenceable(4) [[THIS1]], float noundef [[TMP0]])
 // CHECK1-NEXT:    ret void
 //
@@ -323,7 +323,7 @@ void foo() {
 // CHECK1-NEXT:  entry:
 // CHECK1-NEXT:    [[DOTADDR:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
-// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF4]]
+// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK1-NEXT:    [[TMP2:%.*]] = getelementptr inbounds [[STRUCT_S:%.*]], ptr [[TMP1]], i64 2
 // CHECK1-NEXT:    br label [[ARRAYDESTROY_BODY:%.*]]
 // CHECK1:       arraydestroy.body:
@@ -357,9 +357,9 @@ void foo() {
 // CHECK1-NEXT:  entry:
 // CHECK1-NEXT:    [[DOTADDR:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
-// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF4]]
+// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK1-NEXT:    call void @_ZN1SIfEC1Ef(ptr noundef nonnull align 4 dereferenceable(4) [[TMP1]], float noundef 3.000000e+00)
-// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF4]]
+// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK1-NEXT:    ret ptr [[TMP2]]
 //
 //
@@ -368,7 +368,7 @@ void foo() {
 // CHECK1-NEXT:  entry:
 // CHECK1-NEXT:    [[DOTADDR:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
-// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF4]]
+// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK1-NEXT:    call void @_ZN1SIfED1Ev(ptr noundef nonnull align 4 dereferenceable(4) [[TMP1]]) #[[ATTR3]]
 // CHECK1-NEXT:    ret void
 //
@@ -380,14 +380,14 @@ void foo() {
 // CHECK1-NEXT:    [[DOTBOUND_TID__ADDR:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK1-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
-// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF4]]
-// CHECK1-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF4]]
+// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
+// CHECK1-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
 // CHECK1-NEXT:    [[TMP2:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP1]], ptr @_ZZ4mainE5t_var, i64 4, ptr @_ZZ4mainE5t_var.cache.)
 // CHECK1-NEXT:    [[TMP3:%.*]] = ptrtoint ptr [[TMP2]] to i64
 // CHECK1-NEXT:    [[TMP4:%.*]] = icmp ne i64 ptrtoint (ptr @_ZZ4mainE5t_var to i64), [[TMP3]]
 // CHECK1-NEXT:    br i1 [[TMP4]], label [[COPYIN_NOT_MASTER:%.*]], label [[COPYIN_NOT_MASTER_END:%.*]]
 // CHECK1:       copyin.not.master:
-// CHECK1-NEXT:    [[TMP5:%.*]] = load i32, ptr @_ZZ4mainE5t_var, align 4, !noundef [[NOUNDEF4]]
+// CHECK1-NEXT:    [[TMP5:%.*]] = load i32, ptr @_ZZ4mainE5t_var, align 4
 // CHECK1-NEXT:    store i32 [[TMP5]], ptr [[TMP2]], align 4
 // CHECK1-NEXT:    [[TMP6:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP1]], ptr @_ZZ4mainE3vec, i64 8, ptr @_ZZ4mainE3vec.cache.)
 // CHECK1-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 4 [[TMP6]], ptr align 4 @_ZZ4mainE3vec, i64 8, i1 false)
@@ -411,7 +411,7 @@ void foo() {
 // CHECK1:       copyin.not.master.end:
 // CHECK1-NEXT:    call void @__kmpc_barrier(ptr @[[GLOB2:[0-9]+]], i32 [[TMP1]])
 // CHECK1-NEXT:    [[TMP10:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP1]], ptr @_ZZ4mainE5t_var, i64 4, ptr @_ZZ4mainE5t_var.cache.)
-// CHECK1-NEXT:    [[TMP11:%.*]] = load i32, ptr [[TMP10]], align 4, !noundef [[NOUNDEF4]]
+// CHECK1-NEXT:    [[TMP11:%.*]] = load i32, ptr [[TMP10]], align 4
 // CHECK1-NEXT:    [[TMP12:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP1]], ptr @_ZZ4mainE3vec, i64 8, ptr @_ZZ4mainE3vec.cache.)
 // CHECK1-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [2 x i32], ptr [[TMP12]], i64 0, i64 0
 // CHECK1-NEXT:    store i32 [[TMP11]], ptr [[ARRAYIDX]], align 4
@@ -429,20 +429,20 @@ void foo() {
 // CHECK1-NEXT:    [[DOTBOUND_TID__ADDR:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK1-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
-// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF4]]
-// CHECK1-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF4]]
+// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
+// CHECK1-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
 // CHECK1-NEXT:    [[TMP2:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP1]], ptr @_ZZ4mainE5t_var, i64 4, ptr @_ZZ4mainE5t_var.cache.)
 // CHECK1-NEXT:    [[TMP3:%.*]] = ptrtoint ptr [[TMP2]] to i64
 // CHECK1-NEXT:    [[TMP4:%.*]] = icmp ne i64 ptrtoint (ptr @_ZZ4mainE5t_var to i64), [[TMP3]]
 // CHECK1-NEXT:    br i1 [[TMP4]], label [[COPYIN_NOT_MASTER:%.*]], label [[COPYIN_NOT_MASTER_END:%.*]]
 // CHECK1:       copyin.not.master:
-// CHECK1-NEXT:    [[TMP5:%.*]] = load i32, ptr @_ZZ4mainE5t_var, align 4, !noundef [[NOUNDEF4]]
+// CHECK1-NEXT:    [[TMP5:%.*]] = load i32, ptr @_ZZ4mainE5t_var, align 4
 // CHECK1-NEXT:    store i32 [[TMP5]], ptr [[TMP2]], align 4
 // CHECK1-NEXT:    br label [[COPYIN_NOT_MASTER_END]]
 // CHECK1:       copyin.not.master.end:
 // CHECK1-NEXT:    call void @__kmpc_barrier(ptr @[[GLOB2]], i32 [[TMP1]])
 // CHECK1-NEXT:    [[TMP6:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP1]], ptr @_ZZ4mainE5t_var, i64 4, ptr @_ZZ4mainE5t_var.cache.)
-// CHECK1-NEXT:    [[TMP7:%.*]] = load i32, ptr [[TMP6]], align 4, !noundef [[NOUNDEF4]]
+// CHECK1-NEXT:    [[TMP7:%.*]] = load i32, ptr [[TMP6]], align 4
 // CHECK1-NEXT:    [[INC:%.*]] = add nsw i32 [[TMP7]], 1
 // CHECK1-NEXT:    store i32 [[INC]], ptr [[TMP6]], align 4
 // CHECK1-NEXT:    ret void
@@ -503,7 +503,7 @@ void foo() {
 // CHECK1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK1-NEXT:    [[F:%.*]] = getelementptr inbounds [[STRUCT_S:%.*]], ptr [[THIS1]], i32 0, i32 0
 // CHECK1-NEXT:    [[TMP1:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP0]], ptr @g, i64 4, ptr @g.cache.)
-// CHECK1-NEXT:    [[TMP2:%.*]] = load volatile i32, ptr [[TMP1]], align 128, !noundef [[NOUNDEF4]]
+// CHECK1-NEXT:    [[TMP2:%.*]] = load volatile i32, ptr [[TMP1]], align 128
 // CHECK1-NEXT:    [[CONV:%.*]] = sitofp i32 [[TMP2]] to float
 // CHECK1-NEXT:    store float [[CONV]], ptr [[F]], align 4
 // CHECK1-NEXT:    ret void
@@ -528,9 +528,9 @@ void foo() {
 // CHECK1-NEXT:    store float [[A]], ptr [[A_ADDR]], align 4
 // CHECK1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK1-NEXT:    [[F:%.*]] = getelementptr inbounds [[STRUCT_S:%.*]], ptr [[THIS1]], i32 0, i32 0
-// CHECK1-NEXT:    [[TMP1:%.*]] = load float, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF4]]
+// CHECK1-NEXT:    [[TMP1:%.*]] = load float, ptr [[A_ADDR]], align 4
 // CHECK1-NEXT:    [[TMP2:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP0]], ptr @g, i64 4, ptr @g.cache.)
-// CHECK1-NEXT:    [[TMP3:%.*]] = load volatile i32, ptr [[TMP2]], align 128, !noundef [[NOUNDEF4]]
+// CHECK1-NEXT:    [[TMP3:%.*]] = load volatile i32, ptr [[TMP2]], align 128
 // CHECK1-NEXT:    [[CONV:%.*]] = sitofp i32 [[TMP3]] to float
 // CHECK1-NEXT:    [[ADD:%.*]] = fadd float [[TMP1]], [[CONV]]
 // CHECK1-NEXT:    store float [[ADD]], ptr [[F]], align 4
@@ -573,12 +573,12 @@ void foo() {
 // CHECK1-NEXT:  entry:
 // CHECK1-NEXT:    [[DOTADDR:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
-// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF4]]
+// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK1-NEXT:    [[ARRAYINIT_BEGIN:%.*]] = getelementptr inbounds [2 x %struct.S.0], ptr [[TMP1]], i64 0, i64 0
 // CHECK1-NEXT:    call void @_ZN1SIiEC1Ei(ptr noundef nonnull align 4 dereferenceable(4) [[ARRAYINIT_BEGIN]], i32 noundef 1)
 // CHECK1-NEXT:    [[ARRAYINIT_ELEMENT:%.*]] = getelementptr inbounds [[STRUCT_S_0:%.*]], ptr [[ARRAYINIT_BEGIN]], i64 1
 // CHECK1-NEXT:    call void @_ZN1SIiEC1Ei(ptr noundef nonnull align 4 dereferenceable(4) [[ARRAYINIT_ELEMENT]], i32 noundef 2)
-// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF4]]
+// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK1-NEXT:    ret ptr [[TMP2]]
 //
 //
@@ -590,7 +590,7 @@ void foo() {
 // CHECK1-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK1-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF4]]
+// CHECK1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
 // CHECK1-NEXT:    call void @_ZN1SIiEC2Ei(ptr noundef nonnull align 4 dereferenceable(4) [[THIS1]], i32 noundef [[TMP0]])
 // CHECK1-NEXT:    ret void
 //
@@ -600,7 +600,7 @@ void foo() {
 // CHECK1-NEXT:  entry:
 // CHECK1-NEXT:    [[DOTADDR:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
-// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF4]]
+// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK1-NEXT:    [[TMP2:%.*]] = getelementptr inbounds [[STRUCT_S_0:%.*]], ptr [[TMP1]], i64 2
 // CHECK1-NEXT:    br label [[ARRAYDESTROY_BODY:%.*]]
 // CHECK1:       arraydestroy.body:
@@ -634,9 +634,9 @@ void foo() {
 // CHECK1-NEXT:  entry:
 // CHECK1-NEXT:    [[DOTADDR:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
-// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF4]]
+// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK1-NEXT:    call void @_ZN1SIiEC1Ei(ptr noundef nonnull align 4 dereferenceable(4) [[TMP1]], i32 noundef 3)
-// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF4]]
+// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK1-NEXT:    ret ptr [[TMP2]]
 //
 //
@@ -645,7 +645,7 @@ void foo() {
 // CHECK1-NEXT:  entry:
 // CHECK1-NEXT:    [[DOTADDR:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
-// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF4]]
+// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK1-NEXT:    call void @_ZN1SIiED1Ev(ptr noundef nonnull align 4 dereferenceable(4) [[TMP1]]) #[[ATTR3]]
 // CHECK1-NEXT:    ret void
 //
@@ -657,14 +657,14 @@ void foo() {
 // CHECK1-NEXT:    [[DOTBOUND_TID__ADDR:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK1-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
-// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF4]]
-// CHECK1-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF4]]
+// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
+// CHECK1-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
 // CHECK1-NEXT:    [[TMP2:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP1]], ptr @_ZZ5tmainIiET_vE5t_var, i64 4, ptr @_ZZ5tmainIiET_vE5t_var.cache.)
 // CHECK1-NEXT:    [[TMP3:%.*]] = ptrtoint ptr [[TMP2]] to i64
 // CHECK1-NEXT:    [[TMP4:%.*]] = icmp ne i64 ptrtoint (ptr @_ZZ5tmainIiET_vE5t_var to i64), [[TMP3]]
 // CHECK1-NEXT:    br i1 [[TMP4]], label [[COPYIN_NOT_MASTER:%.*]], label [[COPYIN_NOT_MASTER_END:%.*]]
 // CHECK1:       copyin.not.master:
-// CHECK1-NEXT:    [[TMP5:%.*]] = load i32, ptr @_ZZ5tmainIiET_vE5t_var, align 128, !noundef [[NOUNDEF4]]
+// CHECK1-NEXT:    [[TMP5:%.*]] = load i32, ptr @_ZZ5tmainIiET_vE5t_var, align 128
 // CHECK1-NEXT:    store i32 [[TMP5]], ptr [[TMP2]], align 128
 // CHECK1-NEXT:    [[TMP6:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP1]], ptr @_ZZ5tmainIiET_vE3vec, i64 8, ptr @_ZZ5tmainIiET_vE3vec.cache.)
 // CHECK1-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 128 [[TMP6]], ptr align 128 @_ZZ5tmainIiET_vE3vec, i64 8, i1 false)
@@ -688,7 +688,7 @@ void foo() {
 // CHECK1:       copyin.not.master.end:
 // CHECK1-NEXT:    call void @__kmpc_barrier(ptr @[[GLOB2]], i32 [[TMP1]])
 // CHECK1-NEXT:    [[TMP10:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP1]], ptr @_ZZ5tmainIiET_vE5t_var, i64 4, ptr @_ZZ5tmainIiET_vE5t_var.cache.)
-// CHECK1-NEXT:    [[TMP11:%.*]] = load i32, ptr [[TMP10]], align 128, !noundef [[NOUNDEF4]]
+// CHECK1-NEXT:    [[TMP11:%.*]] = load i32, ptr [[TMP10]], align 128
 // CHECK1-NEXT:    [[TMP12:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP1]], ptr @_ZZ5tmainIiET_vE3vec, i64 8, ptr @_ZZ5tmainIiET_vE3vec.cache.)
 // CHECK1-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [2 x i32], ptr [[TMP12]], i64 0, i64 0
 // CHECK1-NEXT:    store i32 [[TMP11]], ptr [[ARRAYIDX]], align 128
@@ -706,14 +706,14 @@ void foo() {
 // CHECK1-NEXT:    [[DOTBOUND_TID__ADDR:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK1-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
-// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF4]]
-// CHECK1-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF4]]
+// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
+// CHECK1-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
 // CHECK1-NEXT:    [[TMP2:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP1]], ptr @_ZZ5tmainIiET_vE5t_var, i64 4, ptr @_ZZ5tmainIiET_vE5t_var.cache.)
 // CHECK1-NEXT:    [[TMP3:%.*]] = ptrtoint ptr [[TMP2]] to i64
 // CHECK1-NEXT:    [[TMP4:%.*]] = icmp ne i64 ptrtoint (ptr @_ZZ5tmainIiET_vE5t_var to i64), [[TMP3]]
 // CHECK1-NEXT:    br i1 [[TMP4]], label [[COPYIN_NOT_MASTER:%.*]], label [[COPYIN_NOT_MASTER_END:%.*]]
 // CHECK1:       copyin.not.master:
-// CHECK1-NEXT:    [[TMP5:%.*]] = load i32, ptr @_ZZ5tmainIiET_vE5t_var, align 128, !noundef [[NOUNDEF4]]
+// CHECK1-NEXT:    [[TMP5:%.*]] = load i32, ptr @_ZZ5tmainIiET_vE5t_var, align 128
 // CHECK1-NEXT:    store i32 [[TMP5]], ptr [[TMP2]], align 128
 // CHECK1-NEXT:    br label [[COPYIN_NOT_MASTER_END]]
 // CHECK1:       copyin.not.master.end:
@@ -730,7 +730,7 @@ void foo() {
 // CHECK1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK1-NEXT:    [[F:%.*]] = getelementptr inbounds [[STRUCT_S_0:%.*]], ptr [[THIS1]], i32 0, i32 0
 // CHECK1-NEXT:    [[TMP1:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP0]], ptr @g, i64 4, ptr @g.cache.)
-// CHECK1-NEXT:    [[TMP2:%.*]] = load volatile i32, ptr [[TMP1]], align 128, !noundef [[NOUNDEF4]]
+// CHECK1-NEXT:    [[TMP2:%.*]] = load volatile i32, ptr [[TMP1]], align 128
 // CHECK1-NEXT:    store i32 [[TMP2]], ptr [[F]], align 4
 // CHECK1-NEXT:    ret void
 //
@@ -754,9 +754,9 @@ void foo() {
 // CHECK1-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK1-NEXT:    [[F:%.*]] = getelementptr inbounds [[STRUCT_S_0:%.*]], ptr [[THIS1]], i32 0, i32 0
-// CHECK1-NEXT:    [[TMP1:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF4]]
+// CHECK1-NEXT:    [[TMP1:%.*]] = load i32, ptr [[A_ADDR]], align 4
 // CHECK1-NEXT:    [[TMP2:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP0]], ptr @g, i64 4, ptr @g.cache.)
-// CHECK1-NEXT:    [[TMP3:%.*]] = load volatile i32, ptr [[TMP2]], align 128, !noundef [[NOUNDEF4]]
+// CHECK1-NEXT:    [[TMP3:%.*]] = load volatile i32, ptr [[TMP2]], align 128
 // CHECK1-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP1]], [[TMP3]]
 // CHECK1-NEXT:    store i32 [[ADD]], ptr [[F]], align 4
 // CHECK1-NEXT:    ret void
@@ -780,14 +780,14 @@ void foo() {
 // CHECK3-NEXT:    [[REF_TMP:%.*]] = alloca [[CLASS_ANON_0:%.*]], align 1
 // CHECK3-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK3-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
-// CHECK3-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF3:![0-9]+]]
-// CHECK3-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
+// CHECK3-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
 // CHECK3-NEXT:    [[TMP2:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1:[0-9]+]], i32 [[TMP1]], ptr @g, i64 4, ptr @g.cache.)
 // CHECK3-NEXT:    [[TMP3:%.*]] = ptrtoint ptr [[TMP2]] to i64
 // CHECK3-NEXT:    [[TMP4:%.*]] = icmp ne i64 ptrtoint (ptr @g to i64), [[TMP3]]
 // CHECK3-NEXT:    br i1 [[TMP4]], label [[COPYIN_NOT_MASTER:%.*]], label [[COPYIN_NOT_MASTER_END:%.*]]
 // CHECK3:       copyin.not.master:
-// CHECK3-NEXT:    [[TMP5:%.*]] = load i32, ptr @g, align 128, !noundef [[NOUNDEF3]]
+// CHECK3-NEXT:    [[TMP5:%.*]] = load i32, ptr @g, align 128
 // CHECK3-NEXT:    store volatile i32 [[TMP5]], ptr [[TMP2]], align 128
 // CHECK3-NEXT:    br label [[COPYIN_NOT_MASTER_END]]
 // CHECK3:       copyin.not.master.end:
@@ -826,14 +826,14 @@ void foo() {
 // CHECK4-NEXT:    [[DOTBOUND_TID__ADDR:%.*]] = alloca ptr, align 8
 // CHECK4-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK4-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
-// CHECK4-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF3:![0-9]+]]
-// CHECK4-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF3]]
+// CHECK4-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
+// CHECK4-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
 // CHECK4-NEXT:    [[TMP2:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP1]], ptr @g, i64 4, ptr @g.cache.)
 // CHECK4-NEXT:    [[TMP3:%.*]] = ptrtoint ptr [[TMP2]] to i64
 // CHECK4-NEXT:    [[TMP4:%.*]] = icmp ne i64 ptrtoint (ptr @g to i64), [[TMP3]]
 // CHECK4-NEXT:    br i1 [[TMP4]], label [[COPYIN_NOT_MASTER:%.*]], label [[COPYIN_NOT_MASTER_END:%.*]]
 // CHECK4:       copyin.not.master:
-// CHECK4-NEXT:    [[TMP5:%.*]] = load i32, ptr @g, align 128, !noundef [[NOUNDEF3]]
+// CHECK4-NEXT:    [[TMP5:%.*]] = load i32, ptr @g, align 128
 // CHECK4-NEXT:    store volatile i32 [[TMP5]], ptr [[TMP2]], align 128
 // CHECK4-NEXT:    br label [[COPYIN_NOT_MASTER_END]]
 // CHECK4:       copyin.not.master.end:
@@ -892,7 +892,7 @@ void foo() {
 // CHECK5-NEXT:  entry:
 // CHECK5-NEXT:    [[DOTADDR:%.*]] = alloca ptr, align 8
 // CHECK5-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
-// CHECK5-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF4:![0-9]+]]
+// CHECK5-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK5-NEXT:    [[ARRAY_BEGIN:%.*]] = getelementptr inbounds [2 x %struct.St], ptr [[TMP1]], i32 0, i32 0
 // CHECK5-NEXT:    [[ARRAYCTOR_END:%.*]] = getelementptr inbounds [[STRUCT_ST:%.*]], ptr [[ARRAY_BEGIN]], i64 2
 // CHECK5-NEXT:    br label [[ARRAYCTOR_LOOP:%.*]]
@@ -903,7 +903,7 @@ void foo() {
 // CHECK5-NEXT:    [[ARRAYCTOR_DONE:%.*]] = icmp eq ptr [[ARRAYCTOR_NEXT]], [[ARRAYCTOR_END]]
 // CHECK5-NEXT:    br i1 [[ARRAYCTOR_DONE]], label [[ARRAYCTOR_CONT:%.*]], label [[ARRAYCTOR_LOOP]]
 // CHECK5:       arrayctor.cont:
-// CHECK5-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF4]]
+// CHECK5-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK5-NEXT:    ret ptr [[TMP2]]
 //
 //
@@ -922,7 +922,7 @@ void foo() {
 // CHECK5-NEXT:  entry:
 // CHECK5-NEXT:    [[DOTADDR:%.*]] = alloca ptr, align 8
 // CHECK5-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
-// CHECK5-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF4]]
+// CHECK5-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK5-NEXT:    [[TMP2:%.*]] = getelementptr inbounds [[STRUCT_ST:%.*]], ptr [[TMP1]], i64 2
 // CHECK5-NEXT:    br label [[ARRAYDESTROY_BODY:%.*]]
 // CHECK5:       arraydestroy.body:
@@ -968,8 +968,8 @@ void foo() {
 // CHECK5-NEXT:    [[DOTBOUND_TID__ADDR:%.*]] = alloca ptr, align 8
 // CHECK5-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK5-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
-// CHECK5-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF4]]
-// CHECK5-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF4]]
+// CHECK5-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
+// CHECK5-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
 // CHECK5-NEXT:    [[TMP2:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP1]], ptr @_ZZ10array_funcvE1a, i64 8, ptr @_ZZ10array_funcvE1a.cache.)
 // CHECK5-NEXT:    [[TMP3:%.*]] = ptrtoint ptr [[TMP2]] to i64
 // CHECK5-NEXT:    [[TMP4:%.*]] = icmp ne i64 ptrtoint (ptr @_ZZ10array_funcvE1a to i64), [[TMP3]]
@@ -1112,7 +1112,7 @@ void foo() {
 // CHECK11-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK11-NEXT:    store float [[A]], ptr [[A_ADDR]], align 4
 // CHECK11-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK11-NEXT:    [[TMP0:%.*]] = load float, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF4:![0-9]+]]
+// CHECK11-NEXT:    [[TMP0:%.*]] = load float, ptr [[A_ADDR]], align 4
 // CHECK11-NEXT:    call void @_ZN1SIfEC2Ef(ptr noundef nonnull align 4 dereferenceable(4) [[THIS1]], float noundef [[TMP0]])
 // CHECK11-NEXT:    ret void
 //
@@ -1148,17 +1148,17 @@ void foo() {
 // CHECK11-NEXT:    store ptr [[VEC]], ptr [[VEC_ADDR]], align 8
 // CHECK11-NEXT:    store ptr [[S_ARR]], ptr [[S_ARR_ADDR]], align 8
 // CHECK11-NEXT:    store ptr [[VAR]], ptr [[VAR_ADDR]], align 8
-// CHECK11-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[T_VAR_ADDR]], align 8, !noundef [[NOUNDEF4]]
-// CHECK11-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[VEC_ADDR]], align 8, !noundef [[NOUNDEF4]]
-// CHECK11-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[S_ARR_ADDR]], align 8, !noundef [[NOUNDEF4]]
-// CHECK11-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[VAR_ADDR]], align 8, !noundef [[NOUNDEF4]]
+// CHECK11-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[T_VAR_ADDR]], align 8
+// CHECK11-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[VEC_ADDR]], align 8
+// CHECK11-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[S_ARR_ADDR]], align 8
+// CHECK11-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[VAR_ADDR]], align 8
 // CHECK11-NEXT:    [[TMP4:%.*]] = call align 4 ptr @llvm.threadlocal.address.p0(ptr align 4 @_ZZ4mainE5t_var)
 // CHECK11-NEXT:    [[TMP5:%.*]] = ptrtoint ptr [[TMP0]] to i64
 // CHECK11-NEXT:    [[TMP6:%.*]] = ptrtoint ptr [[TMP4]] to i64
 // CHECK11-NEXT:    [[TMP7:%.*]] = icmp ne i64 [[TMP5]], [[TMP6]]
 // CHECK11-NEXT:    br i1 [[TMP7]], label [[COPYIN_NOT_MASTER:%.*]], label [[COPYIN_NOT_MASTER_END:%.*]]
 // CHECK11:       copyin.not.master:
-// CHECK11-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF4]]
+// CHECK11-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP0]], align 4
 // CHECK11-NEXT:    store i32 [[TMP8]], ptr [[TMP4]], align 4
 // CHECK11-NEXT:    [[TMP9:%.*]] = call align 4 ptr @llvm.threadlocal.address.p0(ptr align 4 @_ZZ4mainE3vec)
 // CHECK11-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 4 [[TMP9]], ptr align 4 [[TMP1]], i64 8, i1 false)
@@ -1180,11 +1180,11 @@ void foo() {
 // CHECK11-NEXT:    [[CALL2:%.*]] = call noundef nonnull align 4 dereferenceable(4) ptr @_ZN1SIfEaSERKS0_(ptr noundef nonnull align 4 dereferenceable(4) [[TMP12]], ptr noundef nonnull align 4 dereferenceable(4) [[TMP3]])
 // CHECK11-NEXT:    br label [[COPYIN_NOT_MASTER_END]]
 // CHECK11:       copyin.not.master.end:
-// CHECK11-NEXT:    [[TMP13:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF4]]
-// CHECK11-NEXT:    [[TMP14:%.*]] = load i32, ptr [[TMP13]], align 4, !noundef [[NOUNDEF4]]
+// CHECK11-NEXT:    [[TMP13:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
+// CHECK11-NEXT:    [[TMP14:%.*]] = load i32, ptr [[TMP13]], align 4
 // CHECK11-NEXT:    call void @__kmpc_barrier(ptr @[[GLOB1:[0-9]+]], i32 [[TMP14]])
 // CHECK11-NEXT:    [[TMP15:%.*]] = call align 4 ptr @llvm.threadlocal.address.p0(ptr align 4 @_ZZ4mainE5t_var)
-// CHECK11-NEXT:    [[TMP16:%.*]] = load i32, ptr [[TMP15]], align 4, !noundef [[NOUNDEF4]]
+// CHECK11-NEXT:    [[TMP16:%.*]] = load i32, ptr [[TMP15]], align 4
 // CHECK11-NEXT:    [[TMP17:%.*]] = call align 4 ptr @llvm.threadlocal.address.p0(ptr align 4 @_ZZ4mainE3vec)
 // CHECK11-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [2 x i32], ptr [[TMP17]], i64 0, i64 0
 // CHECK11-NEXT:    store i32 [[TMP16]], ptr [[ARRAYIDX]], align 4
@@ -1204,22 +1204,22 @@ void foo() {
 // CHECK11-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK11-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK11-NEXT:    store ptr [[T_VAR]], ptr [[T_VAR_ADDR]], align 8
-// CHECK11-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[T_VAR_ADDR]], align 8, !noundef [[NOUNDEF4]]
+// CHECK11-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[T_VAR_ADDR]], align 8
 // CHECK11-NEXT:    [[TMP1:%.*]] = call align 4 ptr @llvm.threadlocal.address.p0(ptr align 4 @_ZZ4mainE5t_var)
 // CHECK11-NEXT:    [[TMP2:%.*]] = ptrtoint ptr [[TMP0]] to i64
 // CHECK11-NEXT:    [[TMP3:%.*]] = ptrtoint ptr [[TMP1]] to i64
 // CHECK11-NEXT:    [[TMP4:%.*]] = icmp ne i64 [[TMP2]], [[TMP3]]
 // CHECK11-NEXT:    br i1 [[TMP4]], label [[COPYIN_NOT_MASTER:%.*]], label [[COPYIN_NOT_MASTER_END:%.*]]
 // CHECK11:       copyin.not.master:
-// CHECK11-NEXT:    [[TMP5:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF4]]
+// CHECK11-NEXT:    [[TMP5:%.*]] = load i32, ptr [[TMP0]], align 4
 // CHECK11-NEXT:    store i32 [[TMP5]], ptr [[TMP1]], align 4
 // CHECK11-NEXT:    br label [[COPYIN_NOT_MASTER_END]]
 // CHECK11:       copyin.not.master.end:
-// CHECK11-NEXT:    [[TMP6:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF4]]
-// CHECK11-NEXT:    [[TMP7:%.*]] = load i32, ptr [[TMP6]], align 4, !noundef [[NOUNDEF4]]
+// CHECK11-NEXT:    [[TMP6:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
+// CHECK11-NEXT:    [[TMP7:%.*]] = load i32, ptr [[TMP6]], align 4
 // CHECK11-NEXT:    call void @__kmpc_barrier(ptr @[[GLOB1]], i32 [[TMP7]])
 // CHECK11-NEXT:    [[TMP8:%.*]] = call align 4 ptr @llvm.threadlocal.address.p0(ptr align 4 @_ZZ4mainE5t_var)
-// CHECK11-NEXT:    [[TMP9:%.*]] = load i32, ptr [[TMP8]], align 4, !noundef [[NOUNDEF4]]
+// CHECK11-NEXT:    [[TMP9:%.*]] = load i32, ptr [[TMP8]], align 4
 // CHECK11-NEXT:    [[INC:%.*]] = add nsw i32 [[TMP9]], 1
 // CHECK11-NEXT:    store i32 [[INC]], ptr [[TMP8]], align 4
 // CHECK11-NEXT:    ret void
@@ -1272,7 +1272,7 @@ void foo() {
 // CHECK11-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK11-NEXT:    [[F:%.*]] = getelementptr inbounds [[STRUCT_S:%.*]], ptr [[THIS1]], i32 0, i32 0
 // CHECK11-NEXT:    [[TMP0:%.*]] = call align 128 ptr @llvm.threadlocal.address.p0(ptr align 128 @g)
-// CHECK11-NEXT:    [[TMP1:%.*]] = load volatile i32, ptr [[TMP0]], align 128, !noundef [[NOUNDEF4]]
+// CHECK11-NEXT:    [[TMP1:%.*]] = load volatile i32, ptr [[TMP0]], align 128
 // CHECK11-NEXT:    [[CONV:%.*]] = sitofp i32 [[TMP1]] to float
 // CHECK11-NEXT:    store float [[CONV]], ptr [[F]], align 4
 // CHECK11-NEXT:    ret void
@@ -1296,9 +1296,9 @@ void foo() {
 // CHECK11-NEXT:    store float [[A]], ptr [[A_ADDR]], align 4
 // CHECK11-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK11-NEXT:    [[F:%.*]] = getelementptr inbounds [[STRUCT_S:%.*]], ptr [[THIS1]], i32 0, i32 0
-// CHECK11-NEXT:    [[TMP0:%.*]] = load float, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF4]]
+// CHECK11-NEXT:    [[TMP0:%.*]] = load float, ptr [[A_ADDR]], align 4
 // CHECK11-NEXT:    [[TMP1:%.*]] = call align 128 ptr @llvm.threadlocal.address.p0(ptr align 128 @g)
-// CHECK11-NEXT:    [[TMP2:%.*]] = load volatile i32, ptr [[TMP1]], align 128, !noundef [[NOUNDEF4]]
+// CHECK11-NEXT:    [[TMP2:%.*]] = load volatile i32, ptr [[TMP1]], align 128
 // CHECK11-NEXT:    [[CONV:%.*]] = sitofp i32 [[TMP2]] to float
 // CHECK11-NEXT:    [[ADD:%.*]] = fadd float [[TMP0]], [[CONV]]
 // CHECK11-NEXT:    store float [[ADD]], ptr [[F]], align 4
@@ -1344,7 +1344,7 @@ void foo() {
 // CHECK11-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK11-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK11-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK11-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF4]]
+// CHECK11-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
 // CHECK11-NEXT:    call void @_ZN1SIiEC2Ei(ptr noundef nonnull align 4 dereferenceable(4) [[THIS1]], i32 noundef [[TMP0]])
 // CHECK11-NEXT:    ret void
 //
@@ -1380,17 +1380,17 @@ void foo() {
 // CHECK11-NEXT:    store ptr [[VEC]], ptr [[VEC_ADDR]], align 8
 // CHECK11-NEXT:    store ptr [[S_ARR]], ptr [[S_ARR_ADDR]], align 8
 // CHECK11-NEXT:    store ptr [[VAR]], ptr [[VAR_ADDR]], align 8
-// CHECK11-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[T_VAR_ADDR]], align 8, !noundef [[NOUNDEF4]]
-// CHECK11-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[VEC_ADDR]], align 8, !noundef [[NOUNDEF4]]
-// CHECK11-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[S_ARR_ADDR]], align 8, !noundef [[NOUNDEF4]]
-// CHECK11-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[VAR_ADDR]], align 8, !noundef [[NOUNDEF4]]
+// CHECK11-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[T_VAR_ADDR]], align 8
+// CHECK11-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[VEC_ADDR]], align 8
+// CHECK11-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[S_ARR_ADDR]], align 8
+// CHECK11-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[VAR_ADDR]], align 8
 // CHECK11-NEXT:    [[TMP4:%.*]] = call align 128 ptr @llvm.threadlocal.address.p0(ptr align 128 @_ZZ5tmainIiET_vE5t_var)
 // CHECK11-NEXT:    [[TMP5:%.*]] = ptrtoint ptr [[TMP0]] to i64
 // CHECK11-NEXT:    [[TMP6:%.*]] = ptrtoint ptr [[TMP4]] to i64
 // CHECK11-NEXT:    [[TMP7:%.*]] = icmp ne i64 [[TMP5]], [[TMP6]]
 // CHECK11-NEXT:    br i1 [[TMP7]], label [[COPYIN_NOT_MASTER:%.*]], label [[COPYIN_NOT_MASTER_END:%.*]]
 // CHECK11:       copyin.not.master:
-// CHECK11-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP0]], align 128, !noundef [[NOUNDEF4]]
+// CHECK11-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP0]], align 128
 // CHECK11-NEXT:    store i32 [[TMP8]], ptr [[TMP4]], align 128
 // CHECK11-NEXT:    [[TMP9:%.*]] = call align 128 ptr @llvm.threadlocal.address.p0(ptr align 128 @_ZZ5tmainIiET_vE3vec)
 // CHECK11-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 128 [[TMP9]], ptr align 128 [[TMP1]], i64 8, i1 false)
@@ -1412,11 +1412,11 @@ void foo() {
 // CHECK11-NEXT:    [[CALL2:%.*]] = call noundef nonnull align 4 dereferenceable(4) ptr @_ZN1SIiEaSERKS0_(ptr noundef nonnull align 4 dereferenceable(4) [[TMP12]], ptr noundef nonnull align 4 dereferenceable(4) [[TMP3]])
 // CHECK11-NEXT:    br label [[COPYIN_NOT_MASTER_END]]
 // CHECK11:       copyin.not.master.end:
-// CHECK11-NEXT:    [[TMP13:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF4]]
-// CHECK11-NEXT:    [[TMP14:%.*]] = load i32, ptr [[TMP13]], align 4, !noundef [[NOUNDEF4]]
+// CHECK11-NEXT:    [[TMP13:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
+// CHECK11-NEXT:    [[TMP14:%.*]] = load i32, ptr [[TMP13]], align 4
 // CHECK11-NEXT:    call void @__kmpc_barrier(ptr @[[GLOB1]], i32 [[TMP14]])
 // CHECK11-NEXT:    [[TMP15:%.*]] = call align 128 ptr @llvm.threadlocal.address.p0(ptr align 128 @_ZZ5tmainIiET_vE5t_var)
-// CHECK11-NEXT:    [[TMP16:%.*]] = load i32, ptr [[TMP15]], align 128, !noundef [[NOUNDEF4]]
+// CHECK11-NEXT:    [[TMP16:%.*]] = load i32, ptr [[TMP15]], align 128
 // CHECK11-NEXT:    [[TMP17:%.*]] = call align 128 ptr @llvm.threadlocal.address.p0(ptr align 128 @_ZZ5tmainIiET_vE3vec)
 // CHECK11-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [2 x i32], ptr [[TMP17]], i64 0, i64 0
 // CHECK11-NEXT:    store i32 [[TMP16]], ptr [[ARRAYIDX]], align 128
@@ -1436,19 +1436,19 @@ void foo() {
 // CHECK11-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK11-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK11-NEXT:    store ptr [[T_VAR]], ptr [[T_VAR_ADDR]], align 8
-// CHECK11-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[T_VAR_ADDR]], align 8, !noundef [[NOUNDEF4]]
+// CHECK11-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[T_VAR_ADDR]], align 8
 // CHECK11-NEXT:    [[TMP1:%.*]] = call align 128 ptr @llvm.threadlocal.address.p0(ptr align 128 @_ZZ5tmainIiET_vE5t_var)
 // CHECK11-NEXT:    [[TMP2:%.*]] = ptrtoint ptr [[TMP0]] to i64
 // CHECK11-NEXT:    [[TMP3:%.*]] = ptrtoint ptr [[TMP1]] to i64
 // CHECK11-NEXT:    [[TMP4:%.*]] = icmp ne i64 [[TMP2]], [[TMP3]]
 // CHECK11-NEXT:    br i1 [[TMP4]], label [[COPYIN_NOT_MASTER:%.*]], label [[COPYIN_NOT_MASTER_END:%.*]]
 // CHECK11:       copyin.not.master:
-// CHECK11-NEXT:    [[TMP5:%.*]] = load i32, ptr [[TMP0]], align 128, !noundef [[NOUNDEF4]]
+// CHECK11-NEXT:    [[TMP5:%.*]] = load i32, ptr [[TMP0]], align 128
 // CHECK11-NEXT:    store i32 [[TMP5]], ptr [[TMP1]], align 128
 // CHECK11-NEXT:    br label [[COPYIN_NOT_MASTER_END]]
 // CHECK11:       copyin.not.master.end:
-// CHECK11-NEXT:    [[TMP6:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF4]]
-// CHECK11-NEXT:    [[TMP7:%.*]] = load i32, ptr [[TMP6]], align 4, !noundef [[NOUNDEF4]]
+// CHECK11-NEXT:    [[TMP6:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
+// CHECK11-NEXT:    [[TMP7:%.*]] = load i32, ptr [[TMP6]], align 4
 // CHECK11-NEXT:    call void @__kmpc_barrier(ptr @[[GLOB1]], i32 [[TMP7]])
 // CHECK11-NEXT:    ret void
 //
@@ -1461,7 +1461,7 @@ void foo() {
 // CHECK11-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK11-NEXT:    [[F:%.*]] = getelementptr inbounds [[STRUCT_S_0:%.*]], ptr [[THIS1]], i32 0, i32 0
 // CHECK11-NEXT:    [[TMP0:%.*]] = call align 128 ptr @llvm.threadlocal.address.p0(ptr align 128 @g)
-// CHECK11-NEXT:    [[TMP1:%.*]] = load volatile i32, ptr [[TMP0]], align 128, !noundef [[NOUNDEF4]]
+// CHECK11-NEXT:    [[TMP1:%.*]] = load volatile i32, ptr [[TMP0]], align 128
 // CHECK11-NEXT:    store i32 [[TMP1]], ptr [[F]], align 4
 // CHECK11-NEXT:    ret void
 //
@@ -1484,9 +1484,9 @@ void foo() {
 // CHECK11-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK11-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK11-NEXT:    [[F:%.*]] = getelementptr inbounds [[STRUCT_S_0:%.*]], ptr [[THIS1]], i32 0, i32 0
-// CHECK11-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF4]]
+// CHECK11-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
 // CHECK11-NEXT:    [[TMP1:%.*]] = call align 128 ptr @llvm.threadlocal.address.p0(ptr align 128 @g)
-// CHECK11-NEXT:    [[TMP2:%.*]] = load volatile i32, ptr [[TMP1]], align 128, !noundef [[NOUNDEF4]]
+// CHECK11-NEXT:    [[TMP2:%.*]] = load volatile i32, ptr [[TMP1]], align 128
 // CHECK11-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP0]], [[TMP2]]
 // CHECK11-NEXT:    store i32 [[ADD]], ptr [[F]], align 4
 // CHECK11-NEXT:    ret void
@@ -1518,19 +1518,19 @@ void foo() {
 // CHECK13-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK13-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK13-NEXT:    store ptr [[G]], ptr [[G_ADDR]], align 8
-// CHECK13-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[G_ADDR]], align 8, !noundef [[NOUNDEF3:![0-9]+]]
+// CHECK13-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[G_ADDR]], align 8
 // CHECK13-NEXT:    [[TMP1:%.*]] = call align 128 ptr @llvm.threadlocal.address.p0(ptr align 128 @g)
 // CHECK13-NEXT:    [[TMP2:%.*]] = ptrtoint ptr [[TMP0]] to i64
 // CHECK13-NEXT:    [[TMP3:%.*]] = ptrtoint ptr [[TMP1]] to i64
 // CHECK13-NEXT:    [[TMP4:%.*]] = icmp ne i64 [[TMP2]], [[TMP3]]
 // CHECK13-NEXT:    br i1 [[TMP4]], label [[COPYIN_NOT_MASTER:%.*]], label [[COPYIN_NOT_MASTER_END:%.*]]
 // CHECK13:       copyin.not.master:
-// CHECK13-NEXT:    [[TMP5:%.*]] = load i32, ptr [[TMP0]], align 128, !noundef [[NOUNDEF3]]
+// CHECK13-NEXT:    [[TMP5:%.*]] = load i32, ptr [[TMP0]], align 128
 // CHECK13-NEXT:    store volatile i32 [[TMP5]], ptr [[TMP1]], align 128
 // CHECK13-NEXT:    br label [[COPYIN_NOT_MASTER_END]]
 // CHECK13:       copyin.not.master.end:
-// CHECK13-NEXT:    [[TMP6:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF3]]
-// CHECK13-NEXT:    [[TMP7:%.*]] = load i32, ptr [[TMP6]], align 4, !noundef [[NOUNDEF3]]
+// CHECK13-NEXT:    [[TMP6:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
+// CHECK13-NEXT:    [[TMP7:%.*]] = load i32, ptr [[TMP6]], align 4
 // CHECK13-NEXT:    call void @__kmpc_barrier(ptr @[[GLOB1:[0-9]+]], i32 [[TMP7]])
 // CHECK13-NEXT:    [[TMP8:%.*]] = call align 128 ptr @llvm.threadlocal.address.p0(ptr align 128 @g)
 // CHECK13-NEXT:    store volatile i32 1, ptr [[TMP8]], align 128
@@ -1575,19 +1575,19 @@ void foo() {
 // CHECK14-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK14-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK14-NEXT:    store ptr [[G]], ptr [[G_ADDR]], align 8
-// CHECK14-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[G_ADDR]], align 8, !noundef [[NOUNDEF3:![0-9]+]]
+// CHECK14-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[G_ADDR]], align 8
 // CHECK14-NEXT:    [[TMP1:%.*]] = call align 128 ptr @llvm.threadlocal.address.p0(ptr align 128 @g)
 // CHECK14-NEXT:    [[TMP2:%.*]] = ptrtoint ptr [[TMP0]] to i64
 // CHECK14-NEXT:    [[TMP3:%.*]] = ptrtoint ptr [[TMP1]] to i64
 // CHECK14-NEXT:    [[TMP4:%.*]] = icmp ne i64 [[TMP2]], [[TMP3]]
 // CHECK14-NEXT:    br i1 [[TMP4]], label [[COPYIN_NOT_MASTER:%.*]], label [[COPYIN_NOT_MASTER_END:%.*]]
 // CHECK14:       copyin.not.master:
-// CHECK14-NEXT:    [[TMP5:%.*]] = load i32, ptr [[TMP0]], align 128, !noundef [[NOUNDEF3]]
+// CHECK14-NEXT:    [[TMP5:%.*]] = load i32, ptr [[TMP0]], align 128
 // CHECK14-NEXT:    store volatile i32 [[TMP5]], ptr [[TMP1]], align 128
 // CHECK14-NEXT:    br label [[COPYIN_NOT_MASTER_END]]
 // CHECK14:       copyin.not.master.end:
-// CHECK14-NEXT:    [[TMP6:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF3]]
-// CHECK14-NEXT:    [[TMP7:%.*]] = load i32, ptr [[TMP6]], align 4, !noundef [[NOUNDEF3]]
+// CHECK14-NEXT:    [[TMP6:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
+// CHECK14-NEXT:    [[TMP7:%.*]] = load i32, ptr [[TMP6]], align 4
 // CHECK14-NEXT:    call void @__kmpc_barrier(ptr @[[GLOB1:[0-9]+]], i32 [[TMP7]])
 // CHECK14-NEXT:    [[TMP8:%.*]] = call align 128 ptr @llvm.threadlocal.address.p0(ptr align 128 @g)
 // CHECK14-NEXT:    store volatile i32 1, ptr [[TMP8]], align 128
@@ -1686,8 +1686,8 @@ void foo() {
 // CHECK15-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK15-NEXT:    store ptr [[A]], ptr [[A_ADDR]], align 8
 // CHECK15-NEXT:    store ptr [[S]], ptr [[S_ADDR]], align 8
-// CHECK15-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[A_ADDR]], align 8, !noundef [[NOUNDEF4:![0-9]+]]
-// CHECK15-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[S_ADDR]], align 8, !noundef [[NOUNDEF4]]
+// CHECK15-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[A_ADDR]], align 8
+// CHECK15-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[S_ADDR]], align 8
 // CHECK15-NEXT:    [[TMP2:%.*]] = call align 4 ptr @llvm.threadlocal.address.p0(ptr align 4 @_ZZ10array_funcvE1a)
 // CHECK15-NEXT:    [[TMP3:%.*]] = ptrtoint ptr [[TMP0]] to i64
 // CHECK15-NEXT:    [[TMP4:%.*]] = ptrtoint ptr [[TMP2]] to i64
@@ -1711,8 +1711,8 @@ void foo() {
 // CHECK15:       omp.arraycpy.done1:
 // CHECK15-NEXT:    br label [[COPYIN_NOT_MASTER_END]]
 // CHECK15:       copyin.not.master.end:
-// CHECK15-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF4]]
-// CHECK15-NEXT:    [[TMP9:%.*]] = load i32, ptr [[TMP8]], align 4, !noundef [[NOUNDEF4]]
+// CHECK15-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
+// CHECK15-NEXT:    [[TMP9:%.*]] = load i32, ptr [[TMP8]], align 4
 // CHECK15-NEXT:    call void @__kmpc_barrier(ptr @[[GLOB1:[0-9]+]], i32 [[TMP9]])
 // CHECK15-NEXT:    ret void
 //
@@ -1787,22 +1787,22 @@ void foo() {
 // CHECK16-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK16-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK16-NEXT:    store ptr [[T]], ptr [[T_ADDR]], align 8
-// CHECK16-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[T_ADDR]], align 8, !noundef [[NOUNDEF3:![0-9]+]]
+// CHECK16-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[T_ADDR]], align 8
 // CHECK16-NEXT:    [[TMP1:%.*]] = call ptr @_ZTW1t()
 // CHECK16-NEXT:    [[TMP2:%.*]] = ptrtoint ptr [[TMP0]] to i64
 // CHECK16-NEXT:    [[TMP3:%.*]] = ptrtoint ptr [[TMP1]] to i64
 // CHECK16-NEXT:    [[TMP4:%.*]] = icmp ne i64 [[TMP2]], [[TMP3]]
 // CHECK16-NEXT:    br i1 [[TMP4]], label [[COPYIN_NOT_MASTER:%.*]], label [[COPYIN_NOT_MASTER_END:%.*]]
 // CHECK16:       copyin.not.master:
-// CHECK16-NEXT:    [[TMP5:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF3]]
+// CHECK16-NEXT:    [[TMP5:%.*]] = load i32, ptr [[TMP0]], align 4
 // CHECK16-NEXT:    store i32 [[TMP5]], ptr [[TMP1]], align 4
 // CHECK16-NEXT:    br label [[COPYIN_NOT_MASTER_END]]
 // CHECK16:       copyin.not.master.end:
-// CHECK16-NEXT:    [[TMP6:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF3]]
-// CHECK16-NEXT:    [[TMP7:%.*]] = load i32, ptr [[TMP6]], align 4, !noundef [[NOUNDEF3]]
+// CHECK16-NEXT:    [[TMP6:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
+// CHECK16-NEXT:    [[TMP7:%.*]] = load i32, ptr [[TMP6]], align 4
 // CHECK16-NEXT:    call void @__kmpc_barrier(ptr @[[GLOB1:[0-9]+]], i32 [[TMP7]])
 // CHECK16-NEXT:    [[TMP8:%.*]] = call ptr @_ZTW1t()
-// CHECK16-NEXT:    [[TMP9:%.*]] = load i32, ptr [[TMP8]], align 4, !noundef [[NOUNDEF3]]
+// CHECK16-NEXT:    [[TMP9:%.*]] = load i32, ptr [[TMP8]], align 4
 // CHECK16-NEXT:    [[INC:%.*]] = add nsw i32 [[TMP9]], 1
 // CHECK16-NEXT:    store i32 [[INC]], ptr [[TMP8]], align 4
 // CHECK16-NEXT:    ret void
@@ -1820,7 +1820,7 @@ void foo() {
 // CHECK16-NEXT:  entry:
 // CHECK16-NEXT:    [[TMP0:%.*]] = load i8, ptr @__tls_guard, align 1
 // CHECK16-NEXT:    [[GUARD_UNINITIALIZED:%.*]] = icmp eq i8 [[TMP0]], 0
-// CHECK16-NEXT:    br i1 [[GUARD_UNINITIALIZED]], label [[INIT:%.*]], label [[EXIT:%.*]], !prof [[PROF6:![0-9]+]]
+// CHECK16-NEXT:    br i1 [[GUARD_UNINITIALIZED]], label [[INIT:%.*]], label [[EXIT:%.*]], !prof [[PROF5:![0-9]+]]
 // CHECK16:       init:
 // CHECK16-NEXT:    store i8 1, ptr @__tls_guard, align 1
 // CHECK16-NEXT:    call void @__cxx_global_var_init()

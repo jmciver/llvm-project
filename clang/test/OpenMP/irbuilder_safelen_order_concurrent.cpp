@@ -128,7 +128,6 @@ void simple(float *a, float *b, int *c) {
 //.
 // CHECK: !0 = !{i32 1, !"wchar_size", i32 4}
 // CHECK: !1 = !{i32 7, !"openmp", i32 50}
-// CHECK: !2 = !{!"clang version 16.0.0 (git@github.com:jmciver/llvm-project.git 3bbf24c18bcf5294d0c8438a4f4c955054eb3c05)"}
 // CHECK: !3 = !{}
 // CHECK: !4 = distinct !{}
 // CHECK: !5 = distinct !{!5, !6, !7, !8}

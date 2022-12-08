@@ -76,19 +76,19 @@ extern "C" void workshareloop_iterator(float *a, float *b, float *c) {
 // CHECK-NEXT:    call void @__captured_stmt.1(ptr [[IT]], i64 [[TMP7]], ptr [[AGG_CAPTURED1]])
 // CHECK-NEXT:    [[CALL:%.*]] = call noundef i32 @_ZNK10MyIteratordeEv(ptr noundef nonnull align 1 dereferenceable(1) [[IT]])
 // CHECK-NEXT:    store i32 [[CALL]], ptr [[I]], align 4
-// CHECK-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[B_ADDR]], align 8, !noundef [[NOUNDEF3:![0-9]+]]
-// CHECK-NEXT:    [[TMP9:%.*]] = load i32, ptr [[I]], align 4, !noundef [[NOUNDEF3]]
+// CHECK-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[B_ADDR]], align 8
+// CHECK-NEXT:    [[TMP9:%.*]] = load i32, ptr [[I]], align 4
 // CHECK-NEXT:    [[IDXPROM:%.*]] = zext i32 [[TMP9]] to i64
 // CHECK-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds float, ptr [[TMP8]], i64 [[IDXPROM]]
-// CHECK-NEXT:    [[TMP10:%.*]] = load float, ptr [[ARRAYIDX]], align 4, !noundef [[NOUNDEF3]]
-// CHECK-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[C_ADDR]], align 8, !noundef [[NOUNDEF3]]
-// CHECK-NEXT:    [[TMP12:%.*]] = load i32, ptr [[I]], align 4, !noundef [[NOUNDEF3]]
+// CHECK-NEXT:    [[TMP10:%.*]] = load float, ptr [[ARRAYIDX]], align 4
+// CHECK-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[C_ADDR]], align 8
+// CHECK-NEXT:    [[TMP12:%.*]] = load i32, ptr [[I]], align 4
 // CHECK-NEXT:    [[IDXPROM2:%.*]] = zext i32 [[TMP12]] to i64
 // CHECK-NEXT:    [[ARRAYIDX3:%.*]] = getelementptr inbounds float, ptr [[TMP11]], i64 [[IDXPROM2]]
-// CHECK-NEXT:    [[TMP13:%.*]] = load float, ptr [[ARRAYIDX3]], align 4, !noundef [[NOUNDEF3]]
+// CHECK-NEXT:    [[TMP13:%.*]] = load float, ptr [[ARRAYIDX3]], align 4
 // CHECK-NEXT:    [[MUL:%.*]] = fmul float [[TMP10]], [[TMP13]]
-// CHECK-NEXT:    [[TMP14:%.*]] = load ptr, ptr [[A_ADDR]], align 8, !noundef [[NOUNDEF3]]
-// CHECK-NEXT:    [[TMP15:%.*]] = load i32, ptr [[I]], align 4, !noundef [[NOUNDEF3]]
+// CHECK-NEXT:    [[TMP14:%.*]] = load ptr, ptr [[A_ADDR]], align 8
+// CHECK-NEXT:    [[TMP15:%.*]] = load i32, ptr [[I]], align 4
 // CHECK-NEXT:    [[IDXPROM4:%.*]] = zext i32 [[TMP15]] to i64
 // CHECK-NEXT:    [[ARRAYIDX5:%.*]] = getelementptr inbounds float, ptr [[TMP14]], i64 [[IDXPROM4]]
 // CHECK-NEXT:    store float [[MUL]], ptr [[ARRAYIDX5]], align 4
@@ -117,29 +117,29 @@ extern "C" void workshareloop_iterator(float *a, float *b, float *c) {
 // CHECK-NEXT:    store ptr [[__CONTEXT]], ptr [[__CONTEXT_ADDR]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[__CONTEXT_ADDR]], align 8
 // CHECK-NEXT:    [[TMP1:%.*]] = getelementptr inbounds [[STRUCT_ANON:%.*]], ptr [[TMP0]], i32 0, i32 0
-// CHECK-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[TMP1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[TMP1]], align 8
 // CHECK-NEXT:    call void @_ZN10MyIteratorC1ERKS_(ptr noundef nonnull align 1 dereferenceable(1) [[DOTSTART]], ptr noundef nonnull align 1 dereferenceable(1) [[TMP2]])
 // CHECK-NEXT:    call void @_ZN10MyIteratorC1Ej(ptr noundef nonnull align 1 dereferenceable(1) [[DOTSTOP]], i32 noundef 41)
 // CHECK-NEXT:    store i64 1, ptr [[DOTSTEP]], align 8
-// CHECK-NEXT:    [[TMP3:%.*]] = load i64, ptr [[DOTSTEP]], align 8, !noundef [[NOUNDEF3]]
+// CHECK-NEXT:    [[TMP3:%.*]] = load i64, ptr [[DOTSTEP]], align 8
 // CHECK-NEXT:    [[CMP:%.*]] = icmp ult i64 [[TMP3]], 0
 // CHECK-NEXT:    br i1 [[CMP]], label [[COND_TRUE:%.*]], label [[COND_FALSE:%.*]]
 // CHECK:       cond.true:
 // CHECK-NEXT:    [[CALL:%.*]] = call noundef i32 @_ZNK10MyIteratormiERKS_(ptr noundef nonnull align 1 dereferenceable(1) [[DOTSTART]], ptr noundef nonnull align 1 dereferenceable(1) [[DOTSTOP]])
 // CHECK-NEXT:    [[CONV:%.*]] = sext i32 [[CALL]] to i64
-// CHECK-NEXT:    [[TMP4:%.*]] = load i64, ptr [[DOTSTEP]], align 8, !noundef [[NOUNDEF3]]
+// CHECK-NEXT:    [[TMP4:%.*]] = load i64, ptr [[DOTSTEP]], align 8
 // CHECK-NEXT:    [[SUB:%.*]] = sub i64 0, [[TMP4]]
 // CHECK-NEXT:    [[DIV:%.*]] = udiv i64 [[CONV]], [[SUB]]
 // CHECK-NEXT:    br label [[COND_END:%.*]]
 // CHECK:       cond.false:
 // CHECK-NEXT:    [[CALL1:%.*]] = call noundef i32 @_ZNK10MyIteratormiERKS_(ptr noundef nonnull align 1 dereferenceable(1) [[DOTSTOP]], ptr noundef nonnull align 1 dereferenceable(1) [[DOTSTART]])
 // CHECK-NEXT:    [[CONV2:%.*]] = sext i32 [[CALL1]] to i64
-// CHECK-NEXT:    [[TMP5:%.*]] = load i64, ptr [[DOTSTEP]], align 8, !noundef [[NOUNDEF3]]
+// CHECK-NEXT:    [[TMP5:%.*]] = load i64, ptr [[DOTSTEP]], align 8
 // CHECK-NEXT:    [[DIV3:%.*]] = udiv i64 [[CONV2]], [[TMP5]]
 // CHECK-NEXT:    br label [[COND_END]]
 // CHECK:       cond.end:
 // CHECK-NEXT:    [[COND:%.*]] = phi i64 [ [[DIV]], [[COND_TRUE]] ], [ [[DIV3]], [[COND_FALSE]] ]
-// CHECK-NEXT:    [[TMP6:%.*]] = load ptr, ptr [[DISTANCE_ADDR]], align 8, !noundef [[NOUNDEF3]]
+// CHECK-NEXT:    [[TMP6:%.*]] = load ptr, ptr [[DISTANCE_ADDR]], align 8
 // CHECK-NEXT:    store i64 [[COND]], ptr [[TMP6]], align 8
 // CHECK-NEXT:    ret void
 //
@@ -156,11 +156,11 @@ extern "C" void workshareloop_iterator(float *a, float *b, float *c) {
 // CHECK-NEXT:    store ptr [[__CONTEXT]], ptr [[__CONTEXT_ADDR]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[__CONTEXT_ADDR]], align 8
 // CHECK-NEXT:    [[TMP1:%.*]] = getelementptr inbounds [[STRUCT_ANON_0:%.*]], ptr [[TMP0]], i32 0, i32 0
-// CHECK-NEXT:    [[TMP2:%.*]] = load i64, ptr [[LOGICAL_ADDR]], align 8, !noundef [[NOUNDEF3]]
+// CHECK-NEXT:    [[TMP2:%.*]] = load i64, ptr [[LOGICAL_ADDR]], align 8
 // CHECK-NEXT:    [[MUL:%.*]] = mul i64 1, [[TMP2]]
 // CHECK-NEXT:    [[CONV:%.*]] = trunc i64 [[MUL]] to i32
 // CHECK-NEXT:    call void @_ZNK10MyIteratorplEj(ptr sret([[STRUCT_MYITERATOR]]) align 1 [[REF_TMP]], ptr noundef nonnull align 1 dereferenceable(1) [[TMP1]], i32 noundef [[CONV]])
-// CHECK-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[LOOPVAR_ADDR]], align 8, !noundef [[NOUNDEF3]]
+// CHECK-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[LOOPVAR_ADDR]], align 8
 // CHECK-NEXT:    [[CALL:%.*]] = call noundef nonnull align 1 dereferenceable(1) ptr @_ZN10MyIteratoraSERKS_(ptr noundef nonnull align 1 dereferenceable(1) [[TMP3]], ptr noundef nonnull align 1 dereferenceable(1) [[REF_TMP]])
 // CHECK-NEXT:    ret void
 //

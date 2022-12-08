@@ -17,9 +17,9 @@ void a() {
 // CHECK1-NEXT:    [[B:%.*]] = alloca { float, float }, align 4
 // CHECK1-NEXT:    [[B_CASTED:%.*]] = alloca i64, align 8
 // CHECK1-NEXT:    call void @llvm.dbg.declare(metadata ptr [[B]], metadata [[META11:![0-9]+]], metadata !DIExpression()), !dbg [[DBG13:![0-9]+]]
-// CHECK1-NEXT:    [[TMP0:%.*]] = load { float, float }, ptr [[B]], align 4, !dbg [[DBG14:![0-9]+]], !noundef [[NOUNDEF10:![0-9]+]]
+// CHECK1-NEXT:    [[TMP0:%.*]] = load { float, float }, ptr [[B]], align 4, !dbg [[DBG14:![0-9]+]]
 // CHECK1-NEXT:    store { float, float } [[TMP0]], ptr [[B_CASTED]], align 4, !dbg [[DBG14]]
-// CHECK1-NEXT:    [[TMP1:%.*]] = load i64, ptr [[B_CASTED]], align 8, !dbg [[DBG14]], !noundef [[NOUNDEF10]]
+// CHECK1-NEXT:    [[TMP1:%.*]] = load i64, ptr [[B_CASTED]], align 8, !dbg [[DBG14]]
 // CHECK1-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB1:[0-9]+]], i32 1, ptr @.omp_outlined., i64 [[TMP1]]), !dbg [[DBG14]]
 // CHECK1-NEXT:    ret void, !dbg [[DBG15:![0-9]+]]
 //
@@ -51,9 +51,9 @@ void a() {
 // CHECK1-NEXT:    call void @llvm.dbg.declare(metadata ptr [[DOTBOUND_TID__ADDR]], metadata [[META36:![0-9]+]], metadata !DIExpression()), !dbg [[DBG35]]
 // CHECK1-NEXT:    store i64 [[B]], ptr [[B_ADDR]], align 8
 // CHECK1-NEXT:    call void @llvm.dbg.declare(metadata ptr [[B_ADDR]], metadata [[META37:![0-9]+]], metadata !DIExpression()), !dbg [[DBG35]]
-// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !dbg [[DBG38:![0-9]+]], !noundef [[NOUNDEF10]]
-// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTBOUND_TID__ADDR]], align 8, !dbg [[DBG38]], !noundef [[NOUNDEF10]]
-// CHECK1-NEXT:    [[TMP2:%.*]] = load <2 x float>, ptr [[B_ADDR]], align 4, !dbg [[DBG38]], !noundef [[NOUNDEF10]]
+// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !dbg [[DBG38:![0-9]+]]
+// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTBOUND_TID__ADDR]], align 8, !dbg [[DBG38]]
+// CHECK1-NEXT:    [[TMP2:%.*]] = load <2 x float>, ptr [[B_ADDR]], align 4, !dbg [[DBG38]]
 // CHECK1-NEXT:    call void @.omp_outlined._debug__(ptr [[TMP0]], ptr [[TMP1]], <2 x float> [[TMP2]]) #[[ATTR4:[0-9]+]], !dbg [[DBG38]]
 // CHECK1-NEXT:    ret void, !dbg [[DBG38]]
 //

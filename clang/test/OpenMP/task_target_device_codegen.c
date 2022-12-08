@@ -6,6 +6,7 @@
 // RUN: %clang_cc1 -verify -triple x86_64-apple-darwin10 -fopenmp-simd -fopenmp-version=50 -x c -emit-llvm %s -o - | FileCheck --check-prefix SIMD-ONLY0 %s
 // RUN: %clang_cc1 -fopenmp-simd -fopenmp-version=50 -x c -triple x86_64-apple-darwin10 -emit-pch -o %t %s
 // RUN: %clang_cc1 -fopenmp-simd -fopenmp-version=50 -x c -triple x86_64-apple-darwin10 -include-pch %t -verify %s -emit-llvm -o - | FileCheck --check-prefix SIMD-ONLY0 %s
+// SIMD-ONLY0-NOT: {{__kmpc|__tgt}}
 // expected-no-diagnostics
 #ifndef HEADER
 #define HEADER
@@ -48,9 +49,9 @@ void test_task_affinity(void) {
 // CHECK-NEXT:    [[DOTADDR1:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
 // CHECK-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
-// CHECK-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
+// CHECK-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK-NEXT:    [[TMP3:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T:%.*]], ptr [[TMP2]], i32 0, i32 0
-// CHECK-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK-NEXT:    store ptr [[TMP3]], ptr [[TMP4]], align 8
 // CHECK-NEXT:    ret void
 //
@@ -71,7 +72,7 @@ void test_task_affinity(void) {
 // CHECK-NEXT:    store i32 [[TMP0]], ptr [[DOTADDR]], align 4
 // CHECK-NEXT:    store ptr [[TMP1]], ptr [[DOTADDR1]], align 8
 // CHECK-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTADDR]], align 4, !noundef [[NOUNDEF3]]
-// CHECK-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8, !noundef [[NOUNDEF3]]
+// CHECK-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES:%.*]], ptr [[TMP3]], i32 0, i32 0
 // CHECK-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // CHECK-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
