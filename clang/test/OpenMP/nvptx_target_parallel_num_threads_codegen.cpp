@@ -52,7 +52,7 @@ int bar(int n){
 // CHECK1-NEXT:    [[AA_ADDR:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    [[CAPTURED_VARS_ADDRS:%.*]] = alloca [1 x ptr], align 8
 // CHECK1-NEXT:    store ptr [[AA]], ptr [[AA_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[AA_ADDR]], align 8
+// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[AA_ADDR]], align 8, !noundef [[NOUNDEF8:![0-9]+]]
 // CHECK1-NEXT:    [[TMP1:%.*]] = call i32 @__kmpc_target_init(ptr @[[GLOB1:[0-9]+]], i8 2, i1 false, i1 true)
 // CHECK1-NEXT:    [[EXEC_USER_CODE:%.*]] = icmp eq i32 [[TMP1]], -1
 // CHECK1-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
@@ -76,8 +76,8 @@ int bar(int n){
 // CHECK1-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK1-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK1-NEXT:    store ptr [[AA]], ptr [[AA_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[AA_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP1:%.*]] = load i16, ptr [[TMP0]], align 2
+// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[AA_ADDR]], align 8, !noundef [[NOUNDEF8]]
+// CHECK1-NEXT:    [[TMP1:%.*]] = load i16, ptr [[TMP0]], align 2, !noundef [[NOUNDEF8]]
 // CHECK1-NEXT:    [[CONV:%.*]] = sext i16 [[TMP1]] to i32
 // CHECK1-NEXT:    [[ADD:%.*]] = add nsw i32 [[CONV]], 1
 // CHECK1-NEXT:    [[CONV1:%.*]] = trunc i32 [[ADD]] to i16
@@ -97,21 +97,21 @@ int bar(int n){
 // CHECK1-NEXT:    store ptr [[AA]], ptr [[AA_ADDR]], align 8
 // CHECK1-NEXT:    store ptr [[B]], ptr [[B_ADDR]], align 8
 // CHECK1-NEXT:    store i64 [[DOTCAPTURE_EXPR_]], ptr [[DOTCAPTURE_EXPR__ADDR]], align 8
-// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[A_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[AA_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[B_ADDR]], align 8
+// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[A_ADDR]], align 8, !noundef [[NOUNDEF8]]
+// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[AA_ADDR]], align 8, !noundef [[NOUNDEF8]]
+// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[B_ADDR]], align 8, !noundef [[NOUNDEF8]]
 // CHECK1-NEXT:    [[TMP3:%.*]] = call i32 @__kmpc_target_init(ptr @[[GLOB1]], i8 2, i1 false, i1 true)
 // CHECK1-NEXT:    [[EXEC_USER_CODE:%.*]] = icmp eq i32 [[TMP3]], -1
 // CHECK1-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
 // CHECK1:       user_code.entry:
 // CHECK1-NEXT:    [[TMP4:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB2]])
-// CHECK1-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR__ADDR]], align 4
+// CHECK1-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR__ADDR]], align 4, !noundef [[NOUNDEF8]]
 // CHECK1-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [3 x ptr], ptr [[CAPTURED_VARS_ADDRS]], i64 0, i64 0
 // CHECK1-NEXT:    store ptr [[TMP0]], ptr [[TMP6]], align 8
-// CHECK1-NEXT:    [[TMP8:%.*]] = getelementptr inbounds [3 x ptr], ptr [[CAPTURED_VARS_ADDRS]], i64 0, i64 1
-// CHECK1-NEXT:    store ptr [[TMP1]], ptr [[TMP8]], align 8
-// CHECK1-NEXT:    [[TMP10:%.*]] = getelementptr inbounds [3 x ptr], ptr [[CAPTURED_VARS_ADDRS]], i64 0, i64 2
-// CHECK1-NEXT:    store ptr [[TMP2]], ptr [[TMP10]], align 8
+// CHECK1-NEXT:    [[TMP7:%.*]] = getelementptr inbounds [3 x ptr], ptr [[CAPTURED_VARS_ADDRS]], i64 0, i64 1
+// CHECK1-NEXT:    store ptr [[TMP1]], ptr [[TMP7]], align 8
+// CHECK1-NEXT:    [[TMP8:%.*]] = getelementptr inbounds [3 x ptr], ptr [[CAPTURED_VARS_ADDRS]], i64 0, i64 2
+// CHECK1-NEXT:    store ptr [[TMP2]], ptr [[TMP8]], align 8
 // CHECK1-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB2]], i32 [[TMP4]], i32 1, i32 [[TMP5]], i32 -1, ptr @__omp_outlined__1, ptr null, ptr [[CAPTURED_VARS_ADDRS]], i64 3)
 // CHECK1-NEXT:    call void @__kmpc_target_deinit(ptr @[[GLOB1]], i8 2, i1 true)
 // CHECK1-NEXT:    ret void
@@ -132,19 +132,19 @@ int bar(int n){
 // CHECK1-NEXT:    store ptr [[A]], ptr [[A_ADDR]], align 8
 // CHECK1-NEXT:    store ptr [[AA]], ptr [[AA_ADDR]], align 8
 // CHECK1-NEXT:    store ptr [[B]], ptr [[B_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[A_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[AA_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[B_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[A_ADDR]], align 8, !noundef [[NOUNDEF8]]
+// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[AA_ADDR]], align 8, !noundef [[NOUNDEF8]]
+// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[B_ADDR]], align 8, !noundef [[NOUNDEF8]]
+// CHECK1-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF8]]
 // CHECK1-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP3]], 1
 // CHECK1-NEXT:    store i32 [[ADD]], ptr [[TMP0]], align 4
-// CHECK1-NEXT:    [[TMP4:%.*]] = load i16, ptr [[TMP1]], align 2
+// CHECK1-NEXT:    [[TMP4:%.*]] = load i16, ptr [[TMP1]], align 2, !noundef [[NOUNDEF8]]
 // CHECK1-NEXT:    [[CONV:%.*]] = sext i16 [[TMP4]] to i32
 // CHECK1-NEXT:    [[ADD1:%.*]] = add nsw i32 [[CONV]], 1
 // CHECK1-NEXT:    [[CONV2:%.*]] = trunc i32 [[ADD1]] to i16
 // CHECK1-NEXT:    store i16 [[CONV2]], ptr [[TMP1]], align 2
 // CHECK1-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [10 x i32], ptr [[TMP2]], i64 0, i64 2
-// CHECK1-NEXT:    [[TMP5:%.*]] = load i32, ptr [[ARRAYIDX]], align 4
+// CHECK1-NEXT:    [[TMP5:%.*]] = load i32, ptr [[ARRAYIDX]], align 4, !noundef [[NOUNDEF8]]
 // CHECK1-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP5]], 1
 // CHECK1-NEXT:    store i32 [[ADD3]], ptr [[ARRAYIDX]], align 4
 // CHECK1-NEXT:    ret void
@@ -156,7 +156,7 @@ int bar(int n){
 // CHECK2-NEXT:    [[AA_ADDR:%.*]] = alloca ptr, align 4
 // CHECK2-NEXT:    [[CAPTURED_VARS_ADDRS:%.*]] = alloca [1 x ptr], align 4
 // CHECK2-NEXT:    store ptr [[AA]], ptr [[AA_ADDR]], align 4
-// CHECK2-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[AA_ADDR]], align 4
+// CHECK2-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[AA_ADDR]], align 4, !noundef [[NOUNDEF8:![0-9]+]]
 // CHECK2-NEXT:    [[TMP1:%.*]] = call i32 @__kmpc_target_init(ptr @[[GLOB1:[0-9]+]], i8 2, i1 false, i1 true)
 // CHECK2-NEXT:    [[EXEC_USER_CODE:%.*]] = icmp eq i32 [[TMP1]], -1
 // CHECK2-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
@@ -180,8 +180,8 @@ int bar(int n){
 // CHECK2-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 4
 // CHECK2-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 4
 // CHECK2-NEXT:    store ptr [[AA]], ptr [[AA_ADDR]], align 4
-// CHECK2-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[AA_ADDR]], align 4
-// CHECK2-NEXT:    [[TMP1:%.*]] = load i16, ptr [[TMP0]], align 2
+// CHECK2-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[AA_ADDR]], align 4, !noundef [[NOUNDEF8]]
+// CHECK2-NEXT:    [[TMP1:%.*]] = load i16, ptr [[TMP0]], align 2, !noundef [[NOUNDEF8]]
 // CHECK2-NEXT:    [[CONV:%.*]] = sext i16 [[TMP1]] to i32
 // CHECK2-NEXT:    [[ADD:%.*]] = add nsw i32 [[CONV]], 1
 // CHECK2-NEXT:    [[CONV1:%.*]] = trunc i32 [[ADD]] to i16
@@ -201,21 +201,21 @@ int bar(int n){
 // CHECK2-NEXT:    store ptr [[AA]], ptr [[AA_ADDR]], align 4
 // CHECK2-NEXT:    store ptr [[B]], ptr [[B_ADDR]], align 4
 // CHECK2-NEXT:    store i32 [[DOTCAPTURE_EXPR_]], ptr [[DOTCAPTURE_EXPR__ADDR]], align 4
-// CHECK2-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[A_ADDR]], align 4
-// CHECK2-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[AA_ADDR]], align 4
-// CHECK2-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[B_ADDR]], align 4
+// CHECK2-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF8]]
+// CHECK2-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[AA_ADDR]], align 4, !noundef [[NOUNDEF8]]
+// CHECK2-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[B_ADDR]], align 4, !noundef [[NOUNDEF8]]
 // CHECK2-NEXT:    [[TMP3:%.*]] = call i32 @__kmpc_target_init(ptr @[[GLOB1]], i8 2, i1 false, i1 true)
 // CHECK2-NEXT:    [[EXEC_USER_CODE:%.*]] = icmp eq i32 [[TMP3]], -1
 // CHECK2-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
 // CHECK2:       user_code.entry:
 // CHECK2-NEXT:    [[TMP4:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB2]])
-// CHECK2-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR__ADDR]], align 4
+// CHECK2-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR__ADDR]], align 4, !noundef [[NOUNDEF8]]
 // CHECK2-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [3 x ptr], ptr [[CAPTURED_VARS_ADDRS]], i32 0, i32 0
 // CHECK2-NEXT:    store ptr [[TMP0]], ptr [[TMP6]], align 4
-// CHECK2-NEXT:    [[TMP8:%.*]] = getelementptr inbounds [3 x ptr], ptr [[CAPTURED_VARS_ADDRS]], i32 0, i32 1
-// CHECK2-NEXT:    store ptr [[TMP1]], ptr [[TMP8]], align 4
-// CHECK2-NEXT:    [[TMP10:%.*]] = getelementptr inbounds [3 x ptr], ptr [[CAPTURED_VARS_ADDRS]], i32 0, i32 2
-// CHECK2-NEXT:    store ptr [[TMP2]], ptr [[TMP10]], align 4
+// CHECK2-NEXT:    [[TMP7:%.*]] = getelementptr inbounds [3 x ptr], ptr [[CAPTURED_VARS_ADDRS]], i32 0, i32 1
+// CHECK2-NEXT:    store ptr [[TMP1]], ptr [[TMP7]], align 4
+// CHECK2-NEXT:    [[TMP8:%.*]] = getelementptr inbounds [3 x ptr], ptr [[CAPTURED_VARS_ADDRS]], i32 0, i32 2
+// CHECK2-NEXT:    store ptr [[TMP2]], ptr [[TMP8]], align 4
 // CHECK2-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB2]], i32 [[TMP4]], i32 1, i32 [[TMP5]], i32 -1, ptr @__omp_outlined__1, ptr null, ptr [[CAPTURED_VARS_ADDRS]], i32 3)
 // CHECK2-NEXT:    call void @__kmpc_target_deinit(ptr @[[GLOB1]], i8 2, i1 true)
 // CHECK2-NEXT:    ret void
@@ -236,19 +236,19 @@ int bar(int n){
 // CHECK2-NEXT:    store ptr [[A]], ptr [[A_ADDR]], align 4
 // CHECK2-NEXT:    store ptr [[AA]], ptr [[AA_ADDR]], align 4
 // CHECK2-NEXT:    store ptr [[B]], ptr [[B_ADDR]], align 4
-// CHECK2-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[A_ADDR]], align 4
-// CHECK2-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[AA_ADDR]], align 4
-// CHECK2-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[B_ADDR]], align 4
-// CHECK2-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK2-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF8]]
+// CHECK2-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[AA_ADDR]], align 4, !noundef [[NOUNDEF8]]
+// CHECK2-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[B_ADDR]], align 4, !noundef [[NOUNDEF8]]
+// CHECK2-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF8]]
 // CHECK2-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP3]], 1
 // CHECK2-NEXT:    store i32 [[ADD]], ptr [[TMP0]], align 4
-// CHECK2-NEXT:    [[TMP4:%.*]] = load i16, ptr [[TMP1]], align 2
+// CHECK2-NEXT:    [[TMP4:%.*]] = load i16, ptr [[TMP1]], align 2, !noundef [[NOUNDEF8]]
 // CHECK2-NEXT:    [[CONV:%.*]] = sext i16 [[TMP4]] to i32
 // CHECK2-NEXT:    [[ADD1:%.*]] = add nsw i32 [[CONV]], 1
 // CHECK2-NEXT:    [[CONV2:%.*]] = trunc i32 [[ADD1]] to i16
 // CHECK2-NEXT:    store i16 [[CONV2]], ptr [[TMP1]], align 2
 // CHECK2-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [10 x i32], ptr [[TMP2]], i32 0, i32 2
-// CHECK2-NEXT:    [[TMP5:%.*]] = load i32, ptr [[ARRAYIDX]], align 4
+// CHECK2-NEXT:    [[TMP5:%.*]] = load i32, ptr [[ARRAYIDX]], align 4, !noundef [[NOUNDEF8]]
 // CHECK2-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP5]], 1
 // CHECK2-NEXT:    store i32 [[ADD3]], ptr [[ARRAYIDX]], align 4
 // CHECK2-NEXT:    ret void

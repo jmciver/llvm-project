@@ -698,7 +698,7 @@ void foo_simd(int low, int up) {
 // CHECK1-NEXT:  entry:
 // CHECK1-NEXT:    [[I_ADDR:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    store ptr [[I]], ptr [[I_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[I_ADDR]], align 8
+// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[I_ADDR]], align 8, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    [[IDXPROM:%.*]] = sext i32 [[TMP1]] to i64
 // CHECK1-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [10 x float], ptr @f, i64 0, i64 [[IDXPROM]]
@@ -711,7 +711,7 @@ void foo_simd(int low, int up) {
 // CHECK1-NEXT:  entry:
 // CHECK1-NEXT:    [[I_ADDR:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    store ptr [[I]], ptr [[I_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[I_ADDR]], align 8
+// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[I_ADDR]], align 8, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    [[IDXPROM:%.*]] = sext i32 [[TMP1]] to i64
 // CHECK1-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [10 x float], ptr @f, i64 0, i64 [[IDXPROM]]
@@ -1326,7 +1326,7 @@ void foo_simd(int low, int up) {
 // CHECK1-IRBUILDER-NEXT:  entry:
 // CHECK1-IRBUILDER-NEXT:    [[I_ADDR:%.*]] = alloca ptr, align 8
 // CHECK1-IRBUILDER-NEXT:    store ptr [[I]], ptr [[I_ADDR]], align 8
-// CHECK1-IRBUILDER-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[I_ADDR]], align 8
+// CHECK1-IRBUILDER-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[I_ADDR]], align 8, !noundef [[NOUNDEF3]]
 // CHECK1-IRBUILDER-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF3]]
 // CHECK1-IRBUILDER-NEXT:    [[IDXPROM:%.*]] = sext i32 [[TMP1]] to i64
 // CHECK1-IRBUILDER-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [10 x float], ptr @f, i64 0, i64 [[IDXPROM]]
@@ -1339,7 +1339,7 @@ void foo_simd(int low, int up) {
 // CHECK1-IRBUILDER-NEXT:  entry:
 // CHECK1-IRBUILDER-NEXT:    [[I_ADDR:%.*]] = alloca ptr, align 8
 // CHECK1-IRBUILDER-NEXT:    store ptr [[I]], ptr [[I_ADDR]], align 8
-// CHECK1-IRBUILDER-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[I_ADDR]], align 8
+// CHECK1-IRBUILDER-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[I_ADDR]], align 8, !noundef [[NOUNDEF3]]
 // CHECK1-IRBUILDER-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF3]]
 // CHECK1-IRBUILDER-NEXT:    [[IDXPROM:%.*]] = sext i32 [[TMP1]] to i64
 // CHECK1-IRBUILDER-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [10 x float], ptr @f, i64 0, i64 [[IDXPROM]]
@@ -1923,7 +1923,7 @@ void foo_simd(int low, int up) {
 // CHECK3-NEXT:  entry:
 // CHECK3-NEXT:    [[I_ADDR:%.*]] = alloca ptr, align 8
 // CHECK3-NEXT:    store ptr [[I]], ptr [[I_ADDR]], align 8
-// CHECK3-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[I_ADDR]], align 8
+// CHECK3-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[I_ADDR]], align 8, !noundef [[NOUNDEF3]]
 // CHECK3-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF3]]
 // CHECK3-NEXT:    [[IDXPROM:%.*]] = sext i32 [[TMP1]] to i64
 // CHECK3-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [10 x float], ptr @f, i64 0, i64 [[IDXPROM]]
@@ -1936,7 +1936,7 @@ void foo_simd(int low, int up) {
 // CHECK3-NEXT:  entry:
 // CHECK3-NEXT:    [[I_ADDR:%.*]] = alloca ptr, align 8
 // CHECK3-NEXT:    store ptr [[I]], ptr [[I_ADDR]], align 8
-// CHECK3-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[I_ADDR]], align 8
+// CHECK3-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[I_ADDR]], align 8, !noundef [[NOUNDEF3]]
 // CHECK3-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF3]]
 // CHECK3-NEXT:    [[IDXPROM:%.*]] = sext i32 [[TMP1]] to i64
 // CHECK3-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [10 x float], ptr @f, i64 0, i64 [[IDXPROM]]
@@ -2551,7 +2551,7 @@ void foo_simd(int low, int up) {
 // CHECK3-IRBUILDER-NEXT:  entry:
 // CHECK3-IRBUILDER-NEXT:    [[I_ADDR:%.*]] = alloca ptr, align 8
 // CHECK3-IRBUILDER-NEXT:    store ptr [[I]], ptr [[I_ADDR]], align 8
-// CHECK3-IRBUILDER-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[I_ADDR]], align 8
+// CHECK3-IRBUILDER-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[I_ADDR]], align 8, !noundef [[NOUNDEF3]]
 // CHECK3-IRBUILDER-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF3]]
 // CHECK3-IRBUILDER-NEXT:    [[IDXPROM:%.*]] = sext i32 [[TMP1]] to i64
 // CHECK3-IRBUILDER-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [10 x float], ptr @f, i64 0, i64 [[IDXPROM]]
@@ -2564,7 +2564,7 @@ void foo_simd(int low, int up) {
 // CHECK3-IRBUILDER-NEXT:  entry:
 // CHECK3-IRBUILDER-NEXT:    [[I_ADDR:%.*]] = alloca ptr, align 8
 // CHECK3-IRBUILDER-NEXT:    store ptr [[I]], ptr [[I_ADDR]], align 8
-// CHECK3-IRBUILDER-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[I_ADDR]], align 8
+// CHECK3-IRBUILDER-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[I_ADDR]], align 8, !noundef [[NOUNDEF3]]
 // CHECK3-IRBUILDER-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !noundef [[NOUNDEF3]]
 // CHECK3-IRBUILDER-NEXT:    [[IDXPROM:%.*]] = sext i32 [[TMP1]] to i64
 // CHECK3-IRBUILDER-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [10 x float], ptr @f, i64 0, i64 [[IDXPROM]]

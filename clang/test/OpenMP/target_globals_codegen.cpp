@@ -21,48 +21,70 @@
 // CHECK: @__omp_rtl_assume_threads_oversubscription = weak_odr hidden constant i32 0
 // CHECK: @__omp_rtl_assume_no_thread_state = weak_odr hidden constant i32 0
 // CHECK: @__omp_rtl_assume_no_nested_parallelism = weak_odr hidden constant i32 0
+// CHECK: @0 = private unnamed_addr constant [23 x i8] c"
+// CHECK: @1 = private unnamed_addr constant %struct.ident_t { i32 0, i32 2, i32 0, i32 22, ptr @0 }, align 8
+// CHECK: @__omp_offloading_fd02_50e075b__Z3foov_l68_exec_mode = weak protected constant i8 1
+// CHECK: @llvm.compiler.used = appending global [1 x ptr] [ptr @__omp_offloading_fd02_50e075b__Z3foov_l68_exec_mode], section "llvm.metadata"
 //.
 // CHECK-EQ: @__omp_rtl_debug_kind = weak_odr hidden constant i32 111
 // CHECK-EQ: @__omp_rtl_assume_teams_oversubscription = weak_odr hidden constant i32 0
 // CHECK-EQ: @__omp_rtl_assume_threads_oversubscription = weak_odr hidden constant i32 0
 // CHECK-EQ: @__omp_rtl_assume_no_thread_state = weak_odr hidden constant i32 0
 // CHECK-EQ: @__omp_rtl_assume_no_nested_parallelism = weak_odr hidden constant i32 0
+// CHECK-EQ: @0 = private unnamed_addr constant [23 x i8] c"
+// CHECK-EQ: @1 = private unnamed_addr constant %struct.ident_t { i32 0, i32 2, i32 0, i32 22, ptr @0 }, align 8
+// CHECK-EQ: @__omp_offloading_fd02_50e075b__Z3foov_l68_exec_mode = weak protected constant i8 1
+// CHECK-EQ: @llvm.compiler.used = appending global [1 x ptr] [ptr @__omp_offloading_fd02_50e075b__Z3foov_l68_exec_mode], section "llvm.metadata"
 //.
 // CHECK-DEFAULT: @__omp_rtl_debug_kind = weak_odr hidden constant i32 0
 // CHECK-DEFAULT: @__omp_rtl_assume_teams_oversubscription = weak_odr hidden constant i32 0
 // CHECK-DEFAULT: @__omp_rtl_assume_threads_oversubscription = weak_odr hidden constant i32 0
 // CHECK-DEFAULT: @__omp_rtl_assume_no_thread_state = weak_odr hidden constant i32 0
 // CHECK-DEFAULT: @__omp_rtl_assume_no_nested_parallelism = weak_odr hidden constant i32 0
+// CHECK-DEFAULT: @0 = private unnamed_addr constant [23 x i8] c"
+// CHECK-DEFAULT: @1 = private unnamed_addr constant %struct.ident_t { i32 0, i32 2, i32 0, i32 22, ptr @0 }, align 8
+// CHECK-DEFAULT: @__omp_offloading_fd02_50e075b__Z3foov_l68_exec_mode = weak protected constant i8 1
+// CHECK-DEFAULT: @llvm.compiler.used = appending global [1 x ptr] [ptr @__omp_offloading_fd02_50e075b__Z3foov_l68_exec_mode], section "llvm.metadata"
 //.
 // CHECK-THREADS: @__omp_rtl_debug_kind = weak_odr hidden constant i32 0
 // CHECK-THREADS: @__omp_rtl_assume_teams_oversubscription = weak_odr hidden constant i32 0
 // CHECK-THREADS: @__omp_rtl_assume_threads_oversubscription = weak_odr hidden constant i32 1
 // CHECK-THREADS: @__omp_rtl_assume_no_thread_state = weak_odr hidden constant i32 0
 // CHECK-THREADS: @__omp_rtl_assume_no_nested_parallelism = weak_odr hidden constant i32 0
+// CHECK-THREADS: @0 = private unnamed_addr constant [23 x i8] c"
+// CHECK-THREADS: @1 = private unnamed_addr constant %struct.ident_t { i32 0, i32 2, i32 0, i32 22, ptr @0 }, align 8
+// CHECK-THREADS: @__omp_offloading_fd02_50e075b__Z3foov_l68_exec_mode = weak protected constant i8 1
+// CHECK-THREADS: @llvm.compiler.used = appending global [1 x ptr] [ptr @__omp_offloading_fd02_50e075b__Z3foov_l68_exec_mode], section "llvm.metadata"
 //.
 // CHECK-TEAMS: @__omp_rtl_debug_kind = weak_odr hidden constant i32 0
 // CHECK-TEAMS: @__omp_rtl_assume_teams_oversubscription = weak_odr hidden constant i32 1
 // CHECK-TEAMS: @__omp_rtl_assume_threads_oversubscription = weak_odr hidden constant i32 0
 // CHECK-TEAMS: @__omp_rtl_assume_no_thread_state = weak_odr hidden constant i32 0
 // CHECK-TEAMS: @__omp_rtl_assume_no_nested_parallelism = weak_odr hidden constant i32 0
+// CHECK-TEAMS: @0 = private unnamed_addr constant [23 x i8] c"
+// CHECK-TEAMS: @1 = private unnamed_addr constant %struct.ident_t { i32 0, i32 2, i32 0, i32 22, ptr @0 }, align 8
+// CHECK-TEAMS: @__omp_offloading_fd02_50e075b__Z3foov_l68_exec_mode = weak protected constant i8 1
+// CHECK-TEAMS: @llvm.compiler.used = appending global [1 x ptr] [ptr @__omp_offloading_fd02_50e075b__Z3foov_l68_exec_mode], section "llvm.metadata"
 //.
 // CHECK-STATE: @__omp_rtl_debug_kind = weak_odr hidden constant i32 0
 // CHECK-STATE: @__omp_rtl_assume_teams_oversubscription = weak_odr hidden constant i32 0
 // CHECK-STATE: @__omp_rtl_assume_threads_oversubscription = weak_odr hidden constant i32 0
 // CHECK-STATE: @__omp_rtl_assume_no_thread_state = weak_odr hidden constant i32 1
 // CHECK-STATE: @__omp_rtl_assume_no_nested_parallelism = weak_odr hidden constant i32 0
+// CHECK-STATE: @0 = private unnamed_addr constant [23 x i8] c"
+// CHECK-STATE: @1 = private unnamed_addr constant %struct.ident_t { i32 0, i32 2, i32 0, i32 22, ptr @0 }, align 8
+// CHECK-STATE: @__omp_offloading_fd02_50e075b__Z3foov_l68_exec_mode = weak protected constant i8 1
+// CHECK-STATE: @llvm.compiler.used = appending global [1 x ptr] [ptr @__omp_offloading_fd02_50e075b__Z3foov_l68_exec_mode], section "llvm.metadata"
 //.
 // CHECK-NESTED: @__omp_rtl_debug_kind = weak_odr hidden constant i32 0
 // CHECK-NESTED: @__omp_rtl_assume_teams_oversubscription = weak_odr hidden constant i32 0
 // CHECK-NESTED: @__omp_rtl_assume_threads_oversubscription = weak_odr hidden constant i32 0
 // CHECK-NESTED: @__omp_rtl_assume_no_thread_state = weak_odr hidden constant i32 0
 // CHECK-NESTED: @__omp_rtl_assume_no_nested_parallelism = weak_odr hidden constant i32 1
-//.
-// CHECK-RUNTIME-NOT: @__omp_rtl_debug_kind = weak_odr hidden constant i32 0
-// CHECK-RUNTIME-NOT: @__omp_rtl_assume_teams_oversubscription = weak_odr hidden constant i32 1
-// CHECK-RUNTIME-NOT: @__omp_rtl_assume_threads_oversubscription = weak_odr hidden constant i32 0
-// CHECK-RUNTIME-NOT: @__omp_rtl_assume_no_thread_state = weak_odr hidden constant i32 0
-// CHECK-RUNTIME-NOT: @__omp_rtl_assume_no_nested_parallelism = weak_odr hidden constant i32 0
+// CHECK-NESTED: @0 = private unnamed_addr constant [23 x i8] c"
+// CHECK-NESTED: @1 = private unnamed_addr constant %struct.ident_t { i32 0, i32 2, i32 0, i32 22, ptr @0 }, align 8
+// CHECK-NESTED: @__omp_offloading_fd02_50e075b__Z3foov_l68_exec_mode = weak protected constant i8 1
+// CHECK-NESTED: @llvm.compiler.used = appending global [1 x ptr] [ptr @__omp_offloading_fd02_50e075b__Z3foov_l68_exec_mode], section "llvm.metadata"
 //.
 void foo() {
 #pragma omp target
@@ -70,3 +92,81 @@ void foo() {
 }
 
 #endif
+//.
+// CHECK: attributes #0 = { convergent noinline norecurse nounwind optnone "frame-pointer"="none" "kernel" "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-features"="+ptx32,+sm_20" }
+//.
+// CHECK-EQ: attributes #0 = { convergent noinline norecurse nounwind optnone "frame-pointer"="none" "kernel" "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-features"="+ptx32,+sm_20" }
+//.
+// CHECK-DEFAULT: attributes #0 = { convergent noinline norecurse nounwind optnone "frame-pointer"="none" "kernel" "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-features"="+ptx32,+sm_20" }
+//.
+// CHECK-THREADS: attributes #0 = { convergent noinline norecurse nounwind optnone "frame-pointer"="none" "kernel" "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-features"="+ptx32,+sm_20" }
+//.
+// CHECK-TEAMS: attributes #0 = { convergent noinline norecurse nounwind optnone "frame-pointer"="none" "kernel" "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-features"="+ptx32,+sm_20" }
+//.
+// CHECK-STATE: attributes #0 = { convergent noinline norecurse nounwind optnone "frame-pointer"="none" "kernel" "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-features"="+ptx32,+sm_20" }
+//.
+// CHECK-NESTED: attributes #0 = { convergent noinline norecurse nounwind optnone "frame-pointer"="none" "kernel" "min-legal-vector-width"="0" "no-trapping-math"="true" "stack-protector-buffer-size"="8" "target-features"="+ptx32,+sm_20" }
+//.
+// CHECK: !0 = !{i32 0, i32 64770, i32 84805467, !"_Z3foov", i32 68, i32 0, i32 0}
+// CHECK: !1 = !{ptr @__omp_offloading_fd02_50e075b__Z3foov_l68, !"kernel", i32 1}
+// CHECK: !2 = !{i32 1, !"wchar_size", i32 4}
+// CHECK: !3 = !{i32 7, !"openmp", i32 50}
+// CHECK: !4 = !{i32 7, !"openmp-device", i32 50}
+// CHECK: !5 = !{!"clang version 16.0.0 (git@github.com:jmciver/llvm-project.git 3bbf24c18bcf5294d0c8438a4f4c955054eb3c05)"}
+//.
+// CHECK-EQ: !0 = !{i32 0, i32 64770, i32 84805467, !"_Z3foov", i32 68, i32 0, i32 0}
+// CHECK-EQ: !1 = !{ptr @__omp_offloading_fd02_50e075b__Z3foov_l68, !"kernel", i32 1}
+// CHECK-EQ: !2 = !{i32 1, !"wchar_size", i32 4}
+// CHECK-EQ: !3 = !{i32 7, !"openmp", i32 50}
+// CHECK-EQ: !4 = !{i32 7, !"openmp-device", i32 50}
+// CHECK-EQ: !5 = !{!"clang version 16.0.0 (git@github.com:jmciver/llvm-project.git 3bbf24c18bcf5294d0c8438a4f4c955054eb3c05)"}
+//.
+// CHECK-DEFAULT: !0 = !{i32 0, i32 64770, i32 84805467, !"_Z3foov", i32 68, i32 0, i32 0}
+// CHECK-DEFAULT: !1 = !{ptr @__omp_offloading_fd02_50e075b__Z3foov_l68, !"kernel", i32 1}
+// CHECK-DEFAULT: !2 = !{i32 1, !"wchar_size", i32 4}
+// CHECK-DEFAULT: !3 = !{i32 7, !"openmp", i32 50}
+// CHECK-DEFAULT: !4 = !{i32 7, !"openmp-device", i32 50}
+// CHECK-DEFAULT: !5 = !{!"clang version 16.0.0 (git@github.com:jmciver/llvm-project.git 3bbf24c18bcf5294d0c8438a4f4c955054eb3c05)"}
+//.
+// CHECK-THREADS: !0 = !{i32 0, i32 64770, i32 84805467, !"_Z3foov", i32 68, i32 0, i32 0}
+// CHECK-THREADS: !1 = !{ptr @__omp_offloading_fd02_50e075b__Z3foov_l68, !"kernel", i32 1}
+// CHECK-THREADS: !2 = !{i32 1, !"wchar_size", i32 4}
+// CHECK-THREADS: !3 = !{i32 7, !"openmp", i32 50}
+// CHECK-THREADS: !4 = !{i32 7, !"openmp-device", i32 50}
+// CHECK-THREADS: !5 = !{!"clang version 16.0.0 (git@github.com:jmciver/llvm-project.git 3bbf24c18bcf5294d0c8438a4f4c955054eb3c05)"}
+//.
+// CHECK-TEAMS: !0 = !{i32 0, i32 64770, i32 84805467, !"_Z3foov", i32 68, i32 0, i32 0}
+// CHECK-TEAMS: !1 = !{ptr @__omp_offloading_fd02_50e075b__Z3foov_l68, !"kernel", i32 1}
+// CHECK-TEAMS: !2 = !{i32 1, !"wchar_size", i32 4}
+// CHECK-TEAMS: !3 = !{i32 7, !"openmp", i32 50}
+// CHECK-TEAMS: !4 = !{i32 7, !"openmp-device", i32 50}
+// CHECK-TEAMS: !5 = !{!"clang version 16.0.0 (git@github.com:jmciver/llvm-project.git 3bbf24c18bcf5294d0c8438a4f4c955054eb3c05)"}
+//.
+// CHECK-STATE: !0 = !{i32 0, i32 64770, i32 84805467, !"_Z3foov", i32 68, i32 0, i32 0}
+// CHECK-STATE: !1 = !{ptr @__omp_offloading_fd02_50e075b__Z3foov_l68, !"kernel", i32 1}
+// CHECK-STATE: !2 = !{i32 1, !"wchar_size", i32 4}
+// CHECK-STATE: !3 = !{i32 7, !"openmp", i32 50}
+// CHECK-STATE: !4 = !{i32 7, !"openmp-device", i32 50}
+// CHECK-STATE: !5 = !{!"clang version 16.0.0 (git@github.com:jmciver/llvm-project.git 3bbf24c18bcf5294d0c8438a4f4c955054eb3c05)"}
+//.
+// CHECK-NESTED: !0 = !{i32 0, i32 64770, i32 84805467, !"_Z3foov", i32 68, i32 0, i32 0}
+// CHECK-NESTED: !1 = !{ptr @__omp_offloading_fd02_50e075b__Z3foov_l68, !"kernel", i32 1}
+// CHECK-NESTED: !2 = !{i32 1, !"wchar_size", i32 4}
+// CHECK-NESTED: !3 = !{i32 7, !"openmp", i32 50}
+// CHECK-NESTED: !4 = !{i32 7, !"openmp-device", i32 50}
+// CHECK-NESTED: !5 = !{!"clang version 16.0.0 (git@github.com:jmciver/llvm-project.git 3bbf24c18bcf5294d0c8438a4f4c955054eb3c05)"}
+//.
+// CHECK-RUNTIME: !0 = !{i32 1, !"wchar_size", i32 4}
+// CHECK-RUNTIME: !1 = !{i32 7, !"openmp", i32 50}
+// CHECK-RUNTIME: !2 = !{i32 7, !"openmp-device", i32 50}
+// CHECK-RUNTIME: !3 = !{!"clang version 16.0.0 (git@github.com:jmciver/llvm-project.git 3bbf24c18bcf5294d0c8438a4f4c955054eb3c05)"}
+//.
+//// NOTE: These prefixes are unused and the list is autogenerated. Do not add tests below this line:
+// CHECK: {{.*}}
+// CHECK-DEFAULT: {{.*}}
+// CHECK-EQ: {{.*}}
+// CHECK-NESTED: {{.*}}
+// CHECK-RUNTIME: {{.*}}
+// CHECK-STATE: {{.*}}
+// CHECK-TEAMS: {{.*}}
+// CHECK-THREADS: {{.*}}

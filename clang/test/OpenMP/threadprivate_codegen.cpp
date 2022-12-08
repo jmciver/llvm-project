@@ -976,9 +976,9 @@ int foobar() {
 // CHECK1-NEXT:  entry:
 // CHECK1-NEXT:    [[DOTADDR:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
-// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8
+// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3:![0-9]+]]
 // CHECK1-NEXT:    call void @_ZN2S1C1Ei(ptr noundef nonnull align 4 dereferenceable(4) [[TMP1]], i32 noundef 5)
-// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
+// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    ret ptr [[TMP2]]
 //
 //
@@ -990,7 +990,7 @@ int foobar() {
 // CHECK1-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK1-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    call void @_ZN2S1C2Ei(ptr noundef nonnull align 4 dereferenceable(4) [[THIS1]], i32 noundef [[TMP0]])
 // CHECK1-NEXT:    ret void
 //
@@ -1000,7 +1000,7 @@ int foobar() {
 // CHECK1-NEXT:  entry:
 // CHECK1-NEXT:    [[DOTADDR:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
-// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8
+// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    call void @_ZN2S1D1Ev(ptr noundef nonnull align 4 dereferenceable(4) [[TMP1]]) #[[ATTR3:[0-9]+]]
 // CHECK1-NEXT:    ret void
 //
@@ -1033,7 +1033,7 @@ int foobar() {
 // CHECK1-NEXT:    [[EHSELECTOR_SLOT:%.*]] = alloca i32, align 4
 // CHECK1-NEXT:    [[ARRAYINIT_ENDOFINIT9:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
-// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8
+// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    [[ARRAYINIT_BEGIN:%.*]] = getelementptr inbounds [2 x [3 x %struct.S1]], ptr [[TMP1]], i64 0, i64 0
 // CHECK1-NEXT:    store ptr [[ARRAYINIT_BEGIN]], ptr [[ARRAYINIT_ENDOFINIT]], align 8
 // CHECK1-NEXT:    [[ARRAYINIT_BEGIN1:%.*]] = getelementptr inbounds [3 x %struct.S1], ptr [[ARRAYINIT_BEGIN]], i64 0, i64 0
@@ -1068,7 +1068,7 @@ int foobar() {
 // CHECK1-NEXT:    invoke void @_ZN2S1C1Ei(ptr noundef nonnull align 4 dereferenceable(4) [[ARRAYINIT_ELEMENT14]], i32 noundef 6)
 // CHECK1-NEXT:    to label [[INVOKE_CONT15:%.*]] unwind label [[LPAD10]]
 // CHECK1:       invoke.cont15:
-// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
+// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    ret ptr [[TMP2]]
 // CHECK1:       lpad:
 // CHECK1-NEXT:    [[TMP3:%.*]] = landingpad { ptr, i32 }
@@ -1133,7 +1133,7 @@ int foobar() {
 // CHECK1-NEXT:  entry:
 // CHECK1-NEXT:    [[DOTADDR:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
-// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8
+// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    [[TMP2:%.*]] = getelementptr inbounds [[STRUCT_S1:%.*]], ptr [[TMP1]], i64 6
 // CHECK1-NEXT:    br label [[ARRAYDESTROY_BODY:%.*]]
 // CHECK1:       arraydestroy.body:
@@ -1171,7 +1171,7 @@ int foobar() {
 // CHECK1-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK1-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_S1:%.*]], ptr [[THIS1]], i32 0, i32 0
-// CHECK1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 4
 // CHECK1-NEXT:    ret void
 //
@@ -1203,7 +1203,7 @@ int foobar() {
 // CHECK1-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK1-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    call void @_ZN2S2C2Ei(ptr noundef nonnull align 8 dereferenceable(16) [[THIS1]], i32 noundef [[TMP0]])
 // CHECK1-NEXT:    ret void
 //
@@ -1227,7 +1227,7 @@ int foobar() {
 // CHECK1-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK1-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_S2:%.*]], ptr [[THIS1]], i32 0, i32 0
-// CHECK1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 8
 // CHECK1-NEXT:    ret void
 //
@@ -1363,7 +1363,7 @@ int foobar() {
 // CHECK1-NEXT:    store i32 0, ptr [[RETVAL]], align 4
 // CHECK1-NEXT:    [[TMP1:%.*]] = load atomic i8, ptr @_ZGVZ4mainE2sm acquire, align 8
 // CHECK1-NEXT:    [[GUARD_UNINITIALIZED:%.*]] = icmp eq i8 [[TMP1]], 0
-// CHECK1-NEXT:    br i1 [[GUARD_UNINITIALIZED]], label [[INIT_CHECK:%.*]], label [[INIT_END:%.*]], !prof [[PROF3:![0-9]+]]
+// CHECK1-NEXT:    br i1 [[GUARD_UNINITIALIZED]], label [[INIT_CHECK:%.*]], label [[INIT_END:%.*]], !prof [[PROF4:![0-9]+]]
 // CHECK1:       init.check:
 // CHECK1-NEXT:    [[TMP2:%.*]] = call i32 @__cxa_guard_acquire(ptr @_ZGVZ4mainE2sm) #[[ATTR3]]
 // CHECK1-NEXT:    [[TOBOOL:%.*]] = icmp ne i32 [[TMP2]], 0
@@ -1373,7 +1373,7 @@ int foobar() {
 // CHECK1-NEXT:    call void @__kmpc_threadprivate_register(ptr @[[GLOB1]], ptr @_ZZ4mainE2sm, ptr @.__kmpc_global_ctor_..6, ptr null, ptr @.__kmpc_global_dtor_..7)
 // CHECK1-NEXT:    [[TMP4:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP0]], ptr @_ZL3gs1, i64 4, ptr @_ZL3gs1.cache.)
 // CHECK1-NEXT:    [[A:%.*]] = getelementptr inbounds [[STRUCT_S1:%.*]], ptr [[TMP4]], i32 0, i32 0
-// CHECK1-NEXT:    [[TMP5:%.*]] = load i32, ptr [[A]], align 4
+// CHECK1-NEXT:    [[TMP5:%.*]] = load i32, ptr [[A]], align 4, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    invoke void @_ZZ4mainEN5SmainC1Ei(ptr noundef nonnull align 8 dereferenceable(24) @_ZZ4mainE2sm, i32 noundef [[TMP5]])
 // CHECK1-NEXT:    to label [[INVOKE_CONT:%.*]] unwind label [[LPAD:%.*]]
 // CHECK1:       invoke.cont:
@@ -1383,56 +1383,56 @@ int foobar() {
 // CHECK1:       init.end:
 // CHECK1-NEXT:    [[TMP7:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP0]], ptr @_ZN6Static1sE, i64 8, ptr @_ZN6Static1sE.cache.)
 // CHECK1-NEXT:    [[A1:%.*]] = getelementptr inbounds [[STRUCT_S3:%.*]], ptr [[TMP7]], i32 0, i32 0
-// CHECK1-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A1]], align 4
+// CHECK1-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A1]], align 4, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    store i32 [[TMP8]], ptr [[RES]], align 4
 // CHECK1-NEXT:    [[TMP9:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP0]], ptr @_ZZ4mainE2sm, i64 24, ptr @_ZZ4mainE2sm.cache.)
 // CHECK1-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_SMAIN:%.*]], ptr [[TMP9]], i32 0, i32 0
-// CHECK1-NEXT:    [[TMP10:%.*]] = load i32, ptr [[A2]], align 8
-// CHECK1-NEXT:    [[TMP11:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK1-NEXT:    [[TMP10:%.*]] = load i32, ptr [[A2]], align 8, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP11:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP11]], [[TMP10]]
 // CHECK1-NEXT:    store i32 [[ADD]], ptr [[RES]], align 4
 // CHECK1-NEXT:    [[TMP12:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP0]], ptr @_ZL3gs1, i64 4, ptr @_ZL3gs1.cache.)
 // CHECK1-NEXT:    [[A3:%.*]] = getelementptr inbounds [[STRUCT_S1]], ptr [[TMP12]], i32 0, i32 0
-// CHECK1-NEXT:    [[TMP13:%.*]] = load i32, ptr [[A3]], align 4
-// CHECK1-NEXT:    [[TMP14:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK1-NEXT:    [[TMP13:%.*]] = load i32, ptr [[A3]], align 4, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP14:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    [[ADD4:%.*]] = add nsw i32 [[TMP14]], [[TMP13]]
 // CHECK1-NEXT:    store i32 [[ADD4]], ptr [[RES]], align 4
-// CHECK1-NEXT:    [[TMP15:%.*]] = load i32, ptr @_ZL3gs2, align 8
-// CHECK1-NEXT:    [[TMP16:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK1-NEXT:    [[TMP15:%.*]] = load i32, ptr @_ZL3gs2, align 8, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP16:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    [[ADD5:%.*]] = add nsw i32 [[TMP16]], [[TMP15]]
 // CHECK1-NEXT:    store i32 [[ADD5]], ptr [[RES]], align 4
 // CHECK1-NEXT:    [[TMP17:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP0]], ptr @gs3, i64 12, ptr @gs3.cache.)
 // CHECK1-NEXT:    [[A6:%.*]] = getelementptr inbounds [[STRUCT_S5:%.*]], ptr [[TMP17]], i32 0, i32 0
-// CHECK1-NEXT:    [[TMP18:%.*]] = load i32, ptr [[A6]], align 4
-// CHECK1-NEXT:    [[TMP19:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK1-NEXT:    [[TMP18:%.*]] = load i32, ptr [[A6]], align 4, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP19:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP19]], [[TMP18]]
 // CHECK1-NEXT:    store i32 [[ADD7]], ptr [[RES]], align 4
 // CHECK1-NEXT:    [[TMP20:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP0]], ptr @arr_x, i64 24, ptr @arr_x.cache.)
 // CHECK1-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [2 x [3 x %struct.S1]], ptr [[TMP20]], i64 0, i64 1
 // CHECK1-NEXT:    [[ARRAYIDX8:%.*]] = getelementptr inbounds [3 x %struct.S1], ptr [[ARRAYIDX]], i64 0, i64 1
 // CHECK1-NEXT:    [[A9:%.*]] = getelementptr inbounds [[STRUCT_S1]], ptr [[ARRAYIDX8]], i32 0, i32 0
-// CHECK1-NEXT:    [[TMP21:%.*]] = load i32, ptr [[A9]], align 4
-// CHECK1-NEXT:    [[TMP22:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK1-NEXT:    [[TMP21:%.*]] = load i32, ptr [[A9]], align 4, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP22:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    [[ADD10:%.*]] = add nsw i32 [[TMP22]], [[TMP21]]
 // CHECK1-NEXT:    store i32 [[ADD10]], ptr [[RES]], align 4
 // CHECK1-NEXT:    [[TMP23:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP0]], ptr @_ZN2STIiE2stE, i64 4, ptr @_ZN2STIiE2stE.cache.)
-// CHECK1-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP23]], align 4
-// CHECK1-NEXT:    [[TMP25:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK1-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP23]], align 4, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP25:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    [[ADD11:%.*]] = add nsw i32 [[TMP25]], [[TMP24]]
 // CHECK1-NEXT:    store i32 [[ADD11]], ptr [[RES]], align 4
 // CHECK1-NEXT:    [[TMP26:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP0]], ptr @_ZN2STIfE2stE, i64 4, ptr @_ZN2STIfE2stE.cache.)
-// CHECK1-NEXT:    [[TMP27:%.*]] = load float, ptr [[TMP26]], align 4
+// CHECK1-NEXT:    [[TMP27:%.*]] = load float, ptr [[TMP26]], align 4, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    [[CONV:%.*]] = fptosi float [[TMP27]] to i32
-// CHECK1-NEXT:    [[TMP28:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK1-NEXT:    [[TMP28:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    [[ADD12:%.*]] = add nsw i32 [[TMP28]], [[CONV]]
 // CHECK1-NEXT:    store i32 [[ADD12]], ptr [[RES]], align 4
 // CHECK1-NEXT:    [[TMP29:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP0]], ptr @_ZN2STI2S4E2stE, i64 8, ptr @_ZN2STI2S4E2stE.cache.)
 // CHECK1-NEXT:    [[A13:%.*]] = getelementptr inbounds [[STRUCT_S4:%.*]], ptr [[TMP29]], i32 0, i32 0
-// CHECK1-NEXT:    [[TMP30:%.*]] = load i32, ptr [[A13]], align 4
-// CHECK1-NEXT:    [[TMP31:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK1-NEXT:    [[TMP30:%.*]] = load i32, ptr [[A13]], align 4, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP31:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    [[ADD14:%.*]] = add nsw i32 [[TMP31]], [[TMP30]]
 // CHECK1-NEXT:    store i32 [[ADD14]], ptr [[RES]], align 4
-// CHECK1-NEXT:    [[TMP32:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK1-NEXT:    [[TMP32:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    ret i32 [[TMP32]]
 // CHECK1:       lpad:
 // CHECK1-NEXT:    [[TMP33:%.*]] = landingpad { ptr, i32 }
@@ -1457,12 +1457,12 @@ int foobar() {
 // CHECK1-NEXT:    [[DOTADDR:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    [[TMP1:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1]])
 // CHECK1-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
-// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
+// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    [[TMP3:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP1]], ptr @_ZL3gs1, i64 4, ptr @_ZL3gs1.cache.)
 // CHECK1-NEXT:    [[A:%.*]] = getelementptr inbounds [[STRUCT_S1:%.*]], ptr [[TMP3]], i32 0, i32 0
-// CHECK1-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A]], align 4
+// CHECK1-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A]], align 4, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    call void @_ZZ4mainEN5SmainC1Ei(ptr noundef nonnull align 8 dereferenceable(24) [[TMP2]], i32 noundef [[TMP4]])
-// CHECK1-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[DOTADDR]], align 8
+// CHECK1-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    ret ptr [[TMP5]]
 //
 //
@@ -1474,7 +1474,7 @@ int foobar() {
 // CHECK1-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK1-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    call void @_ZZ4mainEN5SmainC2Ei(ptr noundef nonnull align 8 dereferenceable(24) [[THIS1]], i32 noundef [[TMP0]])
 // CHECK1-NEXT:    ret void
 //
@@ -1484,7 +1484,7 @@ int foobar() {
 // CHECK1-NEXT:  entry:
 // CHECK1-NEXT:    [[DOTADDR:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
-// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8
+// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    call void @_ZZ4mainEN5SmainD1Ev(ptr noundef nonnull align 8 dereferenceable(24) [[TMP1]]) #[[ATTR3]]
 // CHECK1-NEXT:    ret void
 //
@@ -1508,7 +1508,7 @@ int foobar() {
 // CHECK1-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK1-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_SMAIN:%.*]], ptr [[THIS1]], i32 0, i32 0
-// CHECK1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 8
 // CHECK1-NEXT:    ret void
 //
@@ -1531,50 +1531,50 @@ int foobar() {
 // CHECK1-NEXT:    [[TMP0:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1]])
 // CHECK1-NEXT:    [[TMP1:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP0]], ptr @_ZN6Static1sE, i64 8, ptr @_ZN6Static1sE.cache.)
 // CHECK1-NEXT:    [[A:%.*]] = getelementptr inbounds [[STRUCT_S3:%.*]], ptr [[TMP1]], i32 0, i32 0
-// CHECK1-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
+// CHECK1-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    store i32 [[TMP2]], ptr [[RES]], align 4
 // CHECK1-NEXT:    [[TMP3:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP0]], ptr @_ZL3gs1, i64 4, ptr @_ZL3gs1.cache.)
 // CHECK1-NEXT:    [[A1:%.*]] = getelementptr inbounds [[STRUCT_S1:%.*]], ptr [[TMP3]], i32 0, i32 0
-// CHECK1-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A1]], align 4
-// CHECK1-NEXT:    [[TMP5:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK1-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A1]], align 4, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP5:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP5]], [[TMP4]]
 // CHECK1-NEXT:    store i32 [[ADD]], ptr [[RES]], align 4
-// CHECK1-NEXT:    [[TMP6:%.*]] = load i32, ptr @_ZL3gs2, align 8
-// CHECK1-NEXT:    [[TMP7:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK1-NEXT:    [[TMP6:%.*]] = load i32, ptr @_ZL3gs2, align 8, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP7:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP7]], [[TMP6]]
 // CHECK1-NEXT:    store i32 [[ADD2]], ptr [[RES]], align 4
 // CHECK1-NEXT:    [[TMP8:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP0]], ptr @gs3, i64 12, ptr @gs3.cache.)
 // CHECK1-NEXT:    [[A3:%.*]] = getelementptr inbounds [[STRUCT_S5:%.*]], ptr [[TMP8]], i32 0, i32 0
-// CHECK1-NEXT:    [[TMP9:%.*]] = load i32, ptr [[A3]], align 4
-// CHECK1-NEXT:    [[TMP10:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK1-NEXT:    [[TMP9:%.*]] = load i32, ptr [[A3]], align 4, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP10:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    [[ADD4:%.*]] = add nsw i32 [[TMP10]], [[TMP9]]
 // CHECK1-NEXT:    store i32 [[ADD4]], ptr [[RES]], align 4
 // CHECK1-NEXT:    [[TMP11:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP0]], ptr @arr_x, i64 24, ptr @arr_x.cache.)
 // CHECK1-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [2 x [3 x %struct.S1]], ptr [[TMP11]], i64 0, i64 1
 // CHECK1-NEXT:    [[ARRAYIDX5:%.*]] = getelementptr inbounds [3 x %struct.S1], ptr [[ARRAYIDX]], i64 0, i64 1
 // CHECK1-NEXT:    [[A6:%.*]] = getelementptr inbounds [[STRUCT_S1]], ptr [[ARRAYIDX5]], i32 0, i32 0
-// CHECK1-NEXT:    [[TMP12:%.*]] = load i32, ptr [[A6]], align 4
-// CHECK1-NEXT:    [[TMP13:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK1-NEXT:    [[TMP12:%.*]] = load i32, ptr [[A6]], align 4, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP13:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP13]], [[TMP12]]
 // CHECK1-NEXT:    store i32 [[ADD7]], ptr [[RES]], align 4
 // CHECK1-NEXT:    [[TMP14:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP0]], ptr @_ZN2STIiE2stE, i64 4, ptr @_ZN2STIiE2stE.cache.)
-// CHECK1-NEXT:    [[TMP15:%.*]] = load i32, ptr [[TMP14]], align 4
-// CHECK1-NEXT:    [[TMP16:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK1-NEXT:    [[TMP15:%.*]] = load i32, ptr [[TMP14]], align 4, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP16:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP16]], [[TMP15]]
 // CHECK1-NEXT:    store i32 [[ADD8]], ptr [[RES]], align 4
 // CHECK1-NEXT:    [[TMP17:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP0]], ptr @_ZN2STIfE2stE, i64 4, ptr @_ZN2STIfE2stE.cache.)
-// CHECK1-NEXT:    [[TMP18:%.*]] = load float, ptr [[TMP17]], align 4
+// CHECK1-NEXT:    [[TMP18:%.*]] = load float, ptr [[TMP17]], align 4, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    [[CONV:%.*]] = fptosi float [[TMP18]] to i32
-// CHECK1-NEXT:    [[TMP19:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK1-NEXT:    [[TMP19:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    [[ADD9:%.*]] = add nsw i32 [[TMP19]], [[CONV]]
 // CHECK1-NEXT:    store i32 [[ADD9]], ptr [[RES]], align 4
 // CHECK1-NEXT:    [[TMP20:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP0]], ptr @_ZN2STI2S4E2stE, i64 8, ptr @_ZN2STI2S4E2stE.cache.)
 // CHECK1-NEXT:    [[A10:%.*]] = getelementptr inbounds [[STRUCT_S4:%.*]], ptr [[TMP20]], i32 0, i32 0
-// CHECK1-NEXT:    [[TMP21:%.*]] = load i32, ptr [[A10]], align 4
-// CHECK1-NEXT:    [[TMP22:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK1-NEXT:    [[TMP21:%.*]] = load i32, ptr [[A10]], align 4, !noundef [[NOUNDEF3]]
+// CHECK1-NEXT:    [[TMP22:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    [[ADD11:%.*]] = add nsw i32 [[TMP22]], [[TMP21]]
 // CHECK1-NEXT:    store i32 [[ADD11]], ptr [[RES]], align 4
-// CHECK1-NEXT:    [[TMP23:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK1-NEXT:    [[TMP23:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    ret i32 [[TMP23]]
 //
 //
@@ -1600,9 +1600,9 @@ int foobar() {
 // CHECK1-NEXT:  entry:
 // CHECK1-NEXT:    [[DOTADDR:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
-// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8
+// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    call void @_ZN2S4C1Ei(ptr noundef nonnull align 4 dereferenceable(8) [[TMP1]], i32 noundef 23)
-// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
+// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    ret ptr [[TMP2]]
 //
 //
@@ -1614,7 +1614,7 @@ int foobar() {
 // CHECK1-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK1-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    call void @_ZN2S4C2Ei(ptr noundef nonnull align 4 dereferenceable(8) [[THIS1]], i32 noundef [[TMP0]])
 // CHECK1-NEXT:    ret void
 //
@@ -1624,7 +1624,7 @@ int foobar() {
 // CHECK1-NEXT:  entry:
 // CHECK1-NEXT:    [[DOTADDR:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
-// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8
+// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    call void @_ZN2S4D1Ev(ptr noundef nonnull align 4 dereferenceable(8) [[TMP1]]) #[[ATTR3]]
 // CHECK1-NEXT:    ret void
 //
@@ -1648,7 +1648,7 @@ int foobar() {
 // CHECK1-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK1-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_S4:%.*]], ptr [[THIS1]], i32 0, i32 0
-// CHECK1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF3]]
 // CHECK1-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 4
 // CHECK1-NEXT:    ret void
 //
@@ -1691,7 +1691,7 @@ int foobar() {
 // CHECK2-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK2-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF3:![0-9]+]]
 // CHECK2-NEXT:    call void @_ZN2S1C2Ei(ptr noundef nonnull align 4 dereferenceable(4) [[THIS1]], i32 noundef [[TMP0]])
 // CHECK2-NEXT:    ret void
 //
@@ -1711,9 +1711,9 @@ int foobar() {
 // CHECK2-NEXT:  entry:
 // CHECK2-NEXT:    [[DOTADDR:%.*]] = alloca ptr, align 8
 // CHECK2-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
-// CHECK2-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8
+// CHECK2-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    call void @_ZN2S1C1Ei(ptr noundef nonnull align 4 dereferenceable(4) [[TMP1]], i32 noundef 5)
-// CHECK2-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
+// CHECK2-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    ret ptr [[TMP2]]
 //
 //
@@ -1722,7 +1722,7 @@ int foobar() {
 // CHECK2-NEXT:  entry:
 // CHECK2-NEXT:    [[DOTADDR:%.*]] = alloca ptr, align 8
 // CHECK2-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
-// CHECK2-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8
+// CHECK2-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    call void @_ZN2S1D1Ev(ptr noundef nonnull align 4 dereferenceable(4) [[TMP1]]) #[[ATTR3]]
 // CHECK2-NEXT:    ret void
 //
@@ -1751,7 +1751,7 @@ int foobar() {
 // CHECK2-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK2-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    call void @_ZN2S2C2Ei(ptr noundef nonnull align 8 dereferenceable(16) [[THIS1]], i32 noundef [[TMP0]])
 // CHECK2-NEXT:    ret void
 //
@@ -1885,7 +1885,7 @@ int foobar() {
 // CHECK2-NEXT:    [[EHSELECTOR_SLOT:%.*]] = alloca i32, align 4
 // CHECK2-NEXT:    [[ARRAYINIT_ENDOFINIT9:%.*]] = alloca ptr, align 8
 // CHECK2-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
-// CHECK2-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8
+// CHECK2-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    [[ARRAYINIT_BEGIN:%.*]] = getelementptr inbounds [2 x [3 x %struct.S1]], ptr [[TMP1]], i64 0, i64 0
 // CHECK2-NEXT:    store ptr [[ARRAYINIT_BEGIN]], ptr [[ARRAYINIT_ENDOFINIT]], align 8
 // CHECK2-NEXT:    [[ARRAYINIT_BEGIN1:%.*]] = getelementptr inbounds [3 x %struct.S1], ptr [[ARRAYINIT_BEGIN]], i64 0, i64 0
@@ -1920,7 +1920,7 @@ int foobar() {
 // CHECK2-NEXT:    invoke void @_ZN2S1C1Ei(ptr noundef nonnull align 4 dereferenceable(4) [[ARRAYINIT_ELEMENT14]], i32 noundef 6)
 // CHECK2-NEXT:    to label [[INVOKE_CONT15:%.*]] unwind label [[LPAD10]]
 // CHECK2:       invoke.cont15:
-// CHECK2-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
+// CHECK2-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    ret ptr [[TMP2]]
 // CHECK2:       lpad:
 // CHECK2-NEXT:    [[TMP3:%.*]] = landingpad { ptr, i32 }
@@ -1985,7 +1985,7 @@ int foobar() {
 // CHECK2-NEXT:  entry:
 // CHECK2-NEXT:    [[DOTADDR:%.*]] = alloca ptr, align 8
 // CHECK2-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
-// CHECK2-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8
+// CHECK2-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    [[TMP2:%.*]] = getelementptr inbounds [[STRUCT_S1:%.*]], ptr [[TMP1]], i64 6
 // CHECK2-NEXT:    br label [[ARRAYDESTROY_BODY:%.*]]
 // CHECK2:       arraydestroy.body:
@@ -2017,7 +2017,7 @@ int foobar() {
 // CHECK2-NEXT:    store i32 0, ptr [[RETVAL]], align 4
 // CHECK2-NEXT:    [[TMP1:%.*]] = load atomic i8, ptr @_ZGVZ4mainE2sm acquire, align 8
 // CHECK2-NEXT:    [[GUARD_UNINITIALIZED:%.*]] = icmp eq i8 [[TMP1]], 0
-// CHECK2-NEXT:    br i1 [[GUARD_UNINITIALIZED]], label [[INIT_CHECK:%.*]], label [[INIT_END:%.*]], !prof [[PROF3:![0-9]+]]
+// CHECK2-NEXT:    br i1 [[GUARD_UNINITIALIZED]], label [[INIT_CHECK:%.*]], label [[INIT_END:%.*]], !prof [[PROF4:![0-9]+]]
 // CHECK2:       init.check:
 // CHECK2-NEXT:    [[TMP2:%.*]] = call i32 @__cxa_guard_acquire(ptr @_ZGVZ4mainE2sm) #[[ATTR3]]
 // CHECK2-NEXT:    [[TOBOOL:%.*]] = icmp ne i32 [[TMP2]], 0
@@ -2027,7 +2027,7 @@ int foobar() {
 // CHECK2-NEXT:    call void @__kmpc_threadprivate_register(ptr @[[GLOB1]], ptr @_ZZ4mainE2sm, ptr @.__kmpc_global_ctor_..6, ptr null, ptr @.__kmpc_global_dtor_..7)
 // CHECK2-NEXT:    [[TMP4:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP0]], ptr @_ZL3gs1, i64 4, ptr @_ZL3gs1.cache.)
 // CHECK2-NEXT:    [[A:%.*]] = getelementptr inbounds [[STRUCT_S1:%.*]], ptr [[TMP4]], i32 0, i32 0
-// CHECK2-NEXT:    [[TMP5:%.*]] = load i32, ptr [[A]], align 4
+// CHECK2-NEXT:    [[TMP5:%.*]] = load i32, ptr [[A]], align 4, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    invoke void @_ZZ4mainEN5SmainC1Ei(ptr noundef nonnull align 8 dereferenceable(24) @_ZZ4mainE2sm, i32 noundef [[TMP5]])
 // CHECK2-NEXT:    to label [[INVOKE_CONT:%.*]] unwind label [[LPAD:%.*]]
 // CHECK2:       invoke.cont:
@@ -2037,56 +2037,56 @@ int foobar() {
 // CHECK2:       init.end:
 // CHECK2-NEXT:    [[TMP7:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP0]], ptr @_ZN6Static1sE, i64 8, ptr @_ZN6Static1sE.cache.)
 // CHECK2-NEXT:    [[A1:%.*]] = getelementptr inbounds [[STRUCT_S3:%.*]], ptr [[TMP7]], i32 0, i32 0
-// CHECK2-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A1]], align 4
+// CHECK2-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A1]], align 4, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    store i32 [[TMP8]], ptr [[RES]], align 4
 // CHECK2-NEXT:    [[TMP9:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP0]], ptr @_ZZ4mainE2sm, i64 24, ptr @_ZZ4mainE2sm.cache.)
 // CHECK2-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_SMAIN:%.*]], ptr [[TMP9]], i32 0, i32 0
-// CHECK2-NEXT:    [[TMP10:%.*]] = load i32, ptr [[A2]], align 8
-// CHECK2-NEXT:    [[TMP11:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK2-NEXT:    [[TMP10:%.*]] = load i32, ptr [[A2]], align 8, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP11:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP11]], [[TMP10]]
 // CHECK2-NEXT:    store i32 [[ADD]], ptr [[RES]], align 4
 // CHECK2-NEXT:    [[TMP12:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP0]], ptr @_ZL3gs1, i64 4, ptr @_ZL3gs1.cache.)
 // CHECK2-NEXT:    [[A3:%.*]] = getelementptr inbounds [[STRUCT_S1]], ptr [[TMP12]], i32 0, i32 0
-// CHECK2-NEXT:    [[TMP13:%.*]] = load i32, ptr [[A3]], align 4
-// CHECK2-NEXT:    [[TMP14:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK2-NEXT:    [[TMP13:%.*]] = load i32, ptr [[A3]], align 4, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP14:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    [[ADD4:%.*]] = add nsw i32 [[TMP14]], [[TMP13]]
 // CHECK2-NEXT:    store i32 [[ADD4]], ptr [[RES]], align 4
-// CHECK2-NEXT:    [[TMP15:%.*]] = load i32, ptr @_ZL3gs2, align 8
-// CHECK2-NEXT:    [[TMP16:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK2-NEXT:    [[TMP15:%.*]] = load i32, ptr @_ZL3gs2, align 8, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP16:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    [[ADD5:%.*]] = add nsw i32 [[TMP16]], [[TMP15]]
 // CHECK2-NEXT:    store i32 [[ADD5]], ptr [[RES]], align 4
 // CHECK2-NEXT:    [[TMP17:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP0]], ptr @gs3, i64 12, ptr @gs3.cache.)
 // CHECK2-NEXT:    [[A6:%.*]] = getelementptr inbounds [[STRUCT_S5:%.*]], ptr [[TMP17]], i32 0, i32 0
-// CHECK2-NEXT:    [[TMP18:%.*]] = load i32, ptr [[A6]], align 4
-// CHECK2-NEXT:    [[TMP19:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK2-NEXT:    [[TMP18:%.*]] = load i32, ptr [[A6]], align 4, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP19:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP19]], [[TMP18]]
 // CHECK2-NEXT:    store i32 [[ADD7]], ptr [[RES]], align 4
 // CHECK2-NEXT:    [[TMP20:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP0]], ptr @arr_x, i64 24, ptr @arr_x.cache.)
 // CHECK2-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [2 x [3 x %struct.S1]], ptr [[TMP20]], i64 0, i64 1
 // CHECK2-NEXT:    [[ARRAYIDX8:%.*]] = getelementptr inbounds [3 x %struct.S1], ptr [[ARRAYIDX]], i64 0, i64 1
 // CHECK2-NEXT:    [[A9:%.*]] = getelementptr inbounds [[STRUCT_S1]], ptr [[ARRAYIDX8]], i32 0, i32 0
-// CHECK2-NEXT:    [[TMP21:%.*]] = load i32, ptr [[A9]], align 4
-// CHECK2-NEXT:    [[TMP22:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK2-NEXT:    [[TMP21:%.*]] = load i32, ptr [[A9]], align 4, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP22:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    [[ADD10:%.*]] = add nsw i32 [[TMP22]], [[TMP21]]
 // CHECK2-NEXT:    store i32 [[ADD10]], ptr [[RES]], align 4
 // CHECK2-NEXT:    [[TMP23:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP0]], ptr @_ZN2STIiE2stE, i64 4, ptr @_ZN2STIiE2stE.cache.)
-// CHECK2-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP23]], align 4
-// CHECK2-NEXT:    [[TMP25:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK2-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP23]], align 4, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP25:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    [[ADD11:%.*]] = add nsw i32 [[TMP25]], [[TMP24]]
 // CHECK2-NEXT:    store i32 [[ADD11]], ptr [[RES]], align 4
 // CHECK2-NEXT:    [[TMP26:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP0]], ptr @_ZN2STIfE2stE, i64 4, ptr @_ZN2STIfE2stE.cache.)
-// CHECK2-NEXT:    [[TMP27:%.*]] = load float, ptr [[TMP26]], align 4
+// CHECK2-NEXT:    [[TMP27:%.*]] = load float, ptr [[TMP26]], align 4, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    [[CONV:%.*]] = fptosi float [[TMP27]] to i32
-// CHECK2-NEXT:    [[TMP28:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK2-NEXT:    [[TMP28:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    [[ADD12:%.*]] = add nsw i32 [[TMP28]], [[CONV]]
 // CHECK2-NEXT:    store i32 [[ADD12]], ptr [[RES]], align 4
 // CHECK2-NEXT:    [[TMP29:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP0]], ptr @_ZN2STI2S4E2stE, i64 8, ptr @_ZN2STI2S4E2stE.cache.)
 // CHECK2-NEXT:    [[A13:%.*]] = getelementptr inbounds [[STRUCT_S4:%.*]], ptr [[TMP29]], i32 0, i32 0
-// CHECK2-NEXT:    [[TMP30:%.*]] = load i32, ptr [[A13]], align 4
-// CHECK2-NEXT:    [[TMP31:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK2-NEXT:    [[TMP30:%.*]] = load i32, ptr [[A13]], align 4, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP31:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    [[ADD14:%.*]] = add nsw i32 [[TMP31]], [[TMP30]]
 // CHECK2-NEXT:    store i32 [[ADD14]], ptr [[RES]], align 4
-// CHECK2-NEXT:    [[TMP32:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK2-NEXT:    [[TMP32:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    ret i32 [[TMP32]]
 // CHECK2:       lpad:
 // CHECK2-NEXT:    [[TMP33:%.*]] = landingpad { ptr, i32 }
@@ -2111,12 +2111,12 @@ int foobar() {
 // CHECK2-NEXT:    [[DOTADDR:%.*]] = alloca ptr, align 8
 // CHECK2-NEXT:    [[TMP1:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1]])
 // CHECK2-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
-// CHECK2-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
+// CHECK2-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    [[TMP3:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP1]], ptr @_ZL3gs1, i64 4, ptr @_ZL3gs1.cache.)
 // CHECK2-NEXT:    [[A:%.*]] = getelementptr inbounds [[STRUCT_S1:%.*]], ptr [[TMP3]], i32 0, i32 0
-// CHECK2-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A]], align 4
+// CHECK2-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A]], align 4, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    call void @_ZZ4mainEN5SmainC1Ei(ptr noundef nonnull align 8 dereferenceable(24) [[TMP2]], i32 noundef [[TMP4]])
-// CHECK2-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[DOTADDR]], align 8
+// CHECK2-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    ret ptr [[TMP5]]
 //
 //
@@ -2128,7 +2128,7 @@ int foobar() {
 // CHECK2-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK2-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    call void @_ZZ4mainEN5SmainC2Ei(ptr noundef nonnull align 8 dereferenceable(24) [[THIS1]], i32 noundef [[TMP0]])
 // CHECK2-NEXT:    ret void
 //
@@ -2138,7 +2138,7 @@ int foobar() {
 // CHECK2-NEXT:  entry:
 // CHECK2-NEXT:    [[DOTADDR:%.*]] = alloca ptr, align 8
 // CHECK2-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
-// CHECK2-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8
+// CHECK2-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    call void @_ZZ4mainEN5SmainD1Ev(ptr noundef nonnull align 8 dereferenceable(24) [[TMP1]]) #[[ATTR3]]
 // CHECK2-NEXT:    ret void
 //
@@ -2160,50 +2160,50 @@ int foobar() {
 // CHECK2-NEXT:    [[TMP0:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1]])
 // CHECK2-NEXT:    [[TMP1:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP0]], ptr @_ZN6Static1sE, i64 8, ptr @_ZN6Static1sE.cache.)
 // CHECK2-NEXT:    [[A:%.*]] = getelementptr inbounds [[STRUCT_S3:%.*]], ptr [[TMP1]], i32 0, i32 0
-// CHECK2-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
+// CHECK2-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    store i32 [[TMP2]], ptr [[RES]], align 4
 // CHECK2-NEXT:    [[TMP3:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP0]], ptr @_ZL3gs1, i64 4, ptr @_ZL3gs1.cache.)
 // CHECK2-NEXT:    [[A1:%.*]] = getelementptr inbounds [[STRUCT_S1:%.*]], ptr [[TMP3]], i32 0, i32 0
-// CHECK2-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A1]], align 4
-// CHECK2-NEXT:    [[TMP5:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK2-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A1]], align 4, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP5:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP5]], [[TMP4]]
 // CHECK2-NEXT:    store i32 [[ADD]], ptr [[RES]], align 4
-// CHECK2-NEXT:    [[TMP6:%.*]] = load i32, ptr @_ZL3gs2, align 8
-// CHECK2-NEXT:    [[TMP7:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK2-NEXT:    [[TMP6:%.*]] = load i32, ptr @_ZL3gs2, align 8, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP7:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP7]], [[TMP6]]
 // CHECK2-NEXT:    store i32 [[ADD2]], ptr [[RES]], align 4
 // CHECK2-NEXT:    [[TMP8:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP0]], ptr @gs3, i64 12, ptr @gs3.cache.)
 // CHECK2-NEXT:    [[A3:%.*]] = getelementptr inbounds [[STRUCT_S5:%.*]], ptr [[TMP8]], i32 0, i32 0
-// CHECK2-NEXT:    [[TMP9:%.*]] = load i32, ptr [[A3]], align 4
-// CHECK2-NEXT:    [[TMP10:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK2-NEXT:    [[TMP9:%.*]] = load i32, ptr [[A3]], align 4, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP10:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    [[ADD4:%.*]] = add nsw i32 [[TMP10]], [[TMP9]]
 // CHECK2-NEXT:    store i32 [[ADD4]], ptr [[RES]], align 4
 // CHECK2-NEXT:    [[TMP11:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP0]], ptr @arr_x, i64 24, ptr @arr_x.cache.)
 // CHECK2-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [2 x [3 x %struct.S1]], ptr [[TMP11]], i64 0, i64 1
 // CHECK2-NEXT:    [[ARRAYIDX5:%.*]] = getelementptr inbounds [3 x %struct.S1], ptr [[ARRAYIDX]], i64 0, i64 1
 // CHECK2-NEXT:    [[A6:%.*]] = getelementptr inbounds [[STRUCT_S1]], ptr [[ARRAYIDX5]], i32 0, i32 0
-// CHECK2-NEXT:    [[TMP12:%.*]] = load i32, ptr [[A6]], align 4
-// CHECK2-NEXT:    [[TMP13:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK2-NEXT:    [[TMP12:%.*]] = load i32, ptr [[A6]], align 4, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP13:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP13]], [[TMP12]]
 // CHECK2-NEXT:    store i32 [[ADD7]], ptr [[RES]], align 4
 // CHECK2-NEXT:    [[TMP14:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP0]], ptr @_ZN2STIiE2stE, i64 4, ptr @_ZN2STIiE2stE.cache.)
-// CHECK2-NEXT:    [[TMP15:%.*]] = load i32, ptr [[TMP14]], align 4
-// CHECK2-NEXT:    [[TMP16:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK2-NEXT:    [[TMP15:%.*]] = load i32, ptr [[TMP14]], align 4, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP16:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP16]], [[TMP15]]
 // CHECK2-NEXT:    store i32 [[ADD8]], ptr [[RES]], align 4
 // CHECK2-NEXT:    [[TMP17:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP0]], ptr @_ZN2STIfE2stE, i64 4, ptr @_ZN2STIfE2stE.cache.)
-// CHECK2-NEXT:    [[TMP18:%.*]] = load float, ptr [[TMP17]], align 4
+// CHECK2-NEXT:    [[TMP18:%.*]] = load float, ptr [[TMP17]], align 4, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    [[CONV:%.*]] = fptosi float [[TMP18]] to i32
-// CHECK2-NEXT:    [[TMP19:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK2-NEXT:    [[TMP19:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    [[ADD9:%.*]] = add nsw i32 [[TMP19]], [[CONV]]
 // CHECK2-NEXT:    store i32 [[ADD9]], ptr [[RES]], align 4
 // CHECK2-NEXT:    [[TMP20:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB1]], i32 [[TMP0]], ptr @_ZN2STI2S4E2stE, i64 8, ptr @_ZN2STI2S4E2stE.cache.)
 // CHECK2-NEXT:    [[A10:%.*]] = getelementptr inbounds [[STRUCT_S4:%.*]], ptr [[TMP20]], i32 0, i32 0
-// CHECK2-NEXT:    [[TMP21:%.*]] = load i32, ptr [[A10]], align 4
-// CHECK2-NEXT:    [[TMP22:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK2-NEXT:    [[TMP21:%.*]] = load i32, ptr [[A10]], align 4, !noundef [[NOUNDEF3]]
+// CHECK2-NEXT:    [[TMP22:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    [[ADD11:%.*]] = add nsw i32 [[TMP22]], [[TMP21]]
 // CHECK2-NEXT:    store i32 [[ADD11]], ptr [[RES]], align 4
-// CHECK2-NEXT:    [[TMP23:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK2-NEXT:    [[TMP23:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    ret i32 [[TMP23]]
 //
 //
@@ -2229,9 +2229,9 @@ int foobar() {
 // CHECK2-NEXT:  entry:
 // CHECK2-NEXT:    [[DOTADDR:%.*]] = alloca ptr, align 8
 // CHECK2-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
-// CHECK2-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8
+// CHECK2-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    call void @_ZN2S4C1Ei(ptr noundef nonnull align 4 dereferenceable(8) [[TMP1]], i32 noundef 23)
-// CHECK2-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
+// CHECK2-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    ret ptr [[TMP2]]
 //
 //
@@ -2243,7 +2243,7 @@ int foobar() {
 // CHECK2-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK2-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    call void @_ZN2S4C2Ei(ptr noundef nonnull align 4 dereferenceable(8) [[THIS1]], i32 noundef [[TMP0]])
 // CHECK2-NEXT:    ret void
 //
@@ -2253,7 +2253,7 @@ int foobar() {
 // CHECK2-NEXT:  entry:
 // CHECK2-NEXT:    [[DOTADDR:%.*]] = alloca ptr, align 8
 // CHECK2-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
-// CHECK2-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8
+// CHECK2-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    call void @_ZN2S4D1Ev(ptr noundef nonnull align 4 dereferenceable(8) [[TMP1]]) #[[ATTR3]]
 // CHECK2-NEXT:    ret void
 //
@@ -2277,7 +2277,7 @@ int foobar() {
 // CHECK2-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK2-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_S1:%.*]], ptr [[THIS1]], i32 0, i32 0
-// CHECK2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 4
 // CHECK2-NEXT:    ret void
 //
@@ -2302,7 +2302,7 @@ int foobar() {
 // CHECK2-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK2-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_S2:%.*]], ptr [[THIS1]], i32 0, i32 0
-// CHECK2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 8
 // CHECK2-NEXT:    ret void
 //
@@ -2327,7 +2327,7 @@ int foobar() {
 // CHECK2-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK2-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_SMAIN:%.*]], ptr [[THIS1]], i32 0, i32 0
-// CHECK2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 8
 // CHECK2-NEXT:    ret void
 //
@@ -2352,7 +2352,7 @@ int foobar() {
 // CHECK2-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK2-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_S4:%.*]], ptr [[THIS1]], i32 0, i32 0
-// CHECK2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF3]]
 // CHECK2-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 4
 // CHECK2-NEXT:    ret void
 //
@@ -2395,7 +2395,7 @@ int foobar() {
 // SIMD1-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // SIMD1-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // SIMD1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// SIMD1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// SIMD1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF2:![0-9]+]]
 // SIMD1-NEXT:    call void @_ZN2S1C2Ei(ptr noundef nonnull align 4 dereferenceable(4) [[THIS1]], i32 noundef [[TMP0]])
 // SIMD1-NEXT:    ret void
 //
@@ -2426,7 +2426,7 @@ int foobar() {
 // SIMD1-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // SIMD1-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // SIMD1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// SIMD1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// SIMD1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF2]]
 // SIMD1-NEXT:    call void @_ZN2S2C2Ei(ptr noundef nonnull align 8 dereferenceable(16) [[THIS1]], i32 noundef [[TMP0]])
 // SIMD1-NEXT:    ret void
 //
@@ -2560,13 +2560,13 @@ int foobar() {
 // SIMD1-NEXT:    store i32 0, ptr [[RETVAL]], align 4
 // SIMD1-NEXT:    [[TMP0:%.*]] = load atomic i8, ptr @_ZGVZ4mainE2sm acquire, align 8
 // SIMD1-NEXT:    [[GUARD_UNINITIALIZED:%.*]] = icmp eq i8 [[TMP0]], 0
-// SIMD1-NEXT:    br i1 [[GUARD_UNINITIALIZED]], label [[INIT_CHECK:%.*]], label [[INIT_END:%.*]], !prof [[PROF2:![0-9]+]]
+// SIMD1-NEXT:    br i1 [[GUARD_UNINITIALIZED]], label [[INIT_CHECK:%.*]], label [[INIT_END:%.*]], !prof [[PROF3:![0-9]+]]
 // SIMD1:       init.check:
 // SIMD1-NEXT:    [[TMP1:%.*]] = call i32 @__cxa_guard_acquire(ptr @_ZGVZ4mainE2sm) #[[ATTR3]]
 // SIMD1-NEXT:    [[TOBOOL:%.*]] = icmp ne i32 [[TMP1]], 0
 // SIMD1-NEXT:    br i1 [[TOBOOL]], label [[INIT:%.*]], label [[INIT_END]]
 // SIMD1:       init:
-// SIMD1-NEXT:    [[TMP2:%.*]] = load i32, ptr @_ZL3gs1, align 4
+// SIMD1-NEXT:    [[TMP2:%.*]] = load i32, ptr @_ZL3gs1, align 4, !noundef [[NOUNDEF2]]
 // SIMD1-NEXT:    invoke void @_ZZ4mainEN5SmainC1Ei(ptr noundef nonnull align 8 dereferenceable(24) @_ZZ4mainE2sm, i32 noundef [[TMP2]])
 // SIMD1-NEXT:    to label [[INVOKE_CONT:%.*]] unwind label [[LPAD:%.*]]
 // SIMD1:       invoke.cont:
@@ -2574,42 +2574,42 @@ int foobar() {
 // SIMD1-NEXT:    call void @__cxa_guard_release(ptr @_ZGVZ4mainE2sm) #[[ATTR3]]
 // SIMD1-NEXT:    br label [[INIT_END]]
 // SIMD1:       init.end:
-// SIMD1-NEXT:    [[TMP4:%.*]] = load i32, ptr @_ZN6Static1sE, align 4
+// SIMD1-NEXT:    [[TMP4:%.*]] = load i32, ptr @_ZN6Static1sE, align 4, !noundef [[NOUNDEF2]]
 // SIMD1-NEXT:    store i32 [[TMP4]], ptr [[RES]], align 4
-// SIMD1-NEXT:    [[TMP5:%.*]] = load i32, ptr @_ZZ4mainE2sm, align 8
-// SIMD1-NEXT:    [[TMP6:%.*]] = load i32, ptr [[RES]], align 4
+// SIMD1-NEXT:    [[TMP5:%.*]] = load i32, ptr @_ZZ4mainE2sm, align 8, !noundef [[NOUNDEF2]]
+// SIMD1-NEXT:    [[TMP6:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF2]]
 // SIMD1-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP6]], [[TMP5]]
 // SIMD1-NEXT:    store i32 [[ADD]], ptr [[RES]], align 4
-// SIMD1-NEXT:    [[TMP7:%.*]] = load i32, ptr @_ZL3gs1, align 4
-// SIMD1-NEXT:    [[TMP8:%.*]] = load i32, ptr [[RES]], align 4
+// SIMD1-NEXT:    [[TMP7:%.*]] = load i32, ptr @_ZL3gs1, align 4, !noundef [[NOUNDEF2]]
+// SIMD1-NEXT:    [[TMP8:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF2]]
 // SIMD1-NEXT:    [[ADD1:%.*]] = add nsw i32 [[TMP8]], [[TMP7]]
 // SIMD1-NEXT:    store i32 [[ADD1]], ptr [[RES]], align 4
-// SIMD1-NEXT:    [[TMP9:%.*]] = load i32, ptr @_ZL3gs2, align 8
-// SIMD1-NEXT:    [[TMP10:%.*]] = load i32, ptr [[RES]], align 4
+// SIMD1-NEXT:    [[TMP9:%.*]] = load i32, ptr @_ZL3gs2, align 8, !noundef [[NOUNDEF2]]
+// SIMD1-NEXT:    [[TMP10:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF2]]
 // SIMD1-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP10]], [[TMP9]]
 // SIMD1-NEXT:    store i32 [[ADD2]], ptr [[RES]], align 4
-// SIMD1-NEXT:    [[TMP11:%.*]] = load i32, ptr @gs3, align 4
-// SIMD1-NEXT:    [[TMP12:%.*]] = load i32, ptr [[RES]], align 4
+// SIMD1-NEXT:    [[TMP11:%.*]] = load i32, ptr @gs3, align 4, !noundef [[NOUNDEF2]]
+// SIMD1-NEXT:    [[TMP12:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF2]]
 // SIMD1-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP12]], [[TMP11]]
 // SIMD1-NEXT:    store i32 [[ADD3]], ptr [[RES]], align 4
-// SIMD1-NEXT:    [[TMP13:%.*]] = load i32, ptr getelementptr inbounds ([2 x [3 x %struct.S1]], ptr @arr_x, i64 0, i64 1, i64 1), align 4
-// SIMD1-NEXT:    [[TMP14:%.*]] = load i32, ptr [[RES]], align 4
+// SIMD1-NEXT:    [[TMP13:%.*]] = load i32, ptr getelementptr inbounds ([2 x [3 x %struct.S1]], ptr @arr_x, i64 0, i64 1, i64 1), align 4, !noundef [[NOUNDEF2]]
+// SIMD1-NEXT:    [[TMP14:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF2]]
 // SIMD1-NEXT:    [[ADD4:%.*]] = add nsw i32 [[TMP14]], [[TMP13]]
 // SIMD1-NEXT:    store i32 [[ADD4]], ptr [[RES]], align 4
-// SIMD1-NEXT:    [[TMP15:%.*]] = load i32, ptr @_ZN2STIiE2stE, align 4
-// SIMD1-NEXT:    [[TMP16:%.*]] = load i32, ptr [[RES]], align 4
+// SIMD1-NEXT:    [[TMP15:%.*]] = load i32, ptr @_ZN2STIiE2stE, align 4, !noundef [[NOUNDEF2]]
+// SIMD1-NEXT:    [[TMP16:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF2]]
 // SIMD1-NEXT:    [[ADD5:%.*]] = add nsw i32 [[TMP16]], [[TMP15]]
 // SIMD1-NEXT:    store i32 [[ADD5]], ptr [[RES]], align 4
-// SIMD1-NEXT:    [[TMP17:%.*]] = load float, ptr @_ZN2STIfE2stE, align 4
+// SIMD1-NEXT:    [[TMP17:%.*]] = load float, ptr @_ZN2STIfE2stE, align 4, !noundef [[NOUNDEF2]]
 // SIMD1-NEXT:    [[CONV:%.*]] = fptosi float [[TMP17]] to i32
-// SIMD1-NEXT:    [[TMP18:%.*]] = load i32, ptr [[RES]], align 4
+// SIMD1-NEXT:    [[TMP18:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF2]]
 // SIMD1-NEXT:    [[ADD6:%.*]] = add nsw i32 [[TMP18]], [[CONV]]
 // SIMD1-NEXT:    store i32 [[ADD6]], ptr [[RES]], align 4
-// SIMD1-NEXT:    [[TMP19:%.*]] = load i32, ptr @_ZN2STI2S4E2stE, align 4
-// SIMD1-NEXT:    [[TMP20:%.*]] = load i32, ptr [[RES]], align 4
+// SIMD1-NEXT:    [[TMP19:%.*]] = load i32, ptr @_ZN2STI2S4E2stE, align 4, !noundef [[NOUNDEF2]]
+// SIMD1-NEXT:    [[TMP20:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF2]]
 // SIMD1-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP20]], [[TMP19]]
 // SIMD1-NEXT:    store i32 [[ADD7]], ptr [[RES]], align 4
-// SIMD1-NEXT:    [[TMP21:%.*]] = load i32, ptr [[RES]], align 4
+// SIMD1-NEXT:    [[TMP21:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF2]]
 // SIMD1-NEXT:    ret i32 [[TMP21]]
 // SIMD1:       lpad:
 // SIMD1-NEXT:    [[TMP22:%.*]] = landingpad { ptr, i32 }
@@ -2636,7 +2636,7 @@ int foobar() {
 // SIMD1-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // SIMD1-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // SIMD1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// SIMD1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// SIMD1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF2]]
 // SIMD1-NEXT:    call void @_ZZ4mainEN5SmainC2Ei(ptr noundef nonnull align 8 dereferenceable(24) [[THIS1]], i32 noundef [[TMP0]])
 // SIMD1-NEXT:    ret void
 //
@@ -2655,38 +2655,38 @@ int foobar() {
 // SIMD1-SAME: () #[[ATTR5:[0-9]+]] {
 // SIMD1-NEXT:  entry:
 // SIMD1-NEXT:    [[RES:%.*]] = alloca i32, align 4
-// SIMD1-NEXT:    [[TMP0:%.*]] = load i32, ptr @_ZN6Static1sE, align 4
+// SIMD1-NEXT:    [[TMP0:%.*]] = load i32, ptr @_ZN6Static1sE, align 4, !noundef [[NOUNDEF2]]
 // SIMD1-NEXT:    store i32 [[TMP0]], ptr [[RES]], align 4
-// SIMD1-NEXT:    [[TMP1:%.*]] = load i32, ptr @_ZL3gs1, align 4
-// SIMD1-NEXT:    [[TMP2:%.*]] = load i32, ptr [[RES]], align 4
+// SIMD1-NEXT:    [[TMP1:%.*]] = load i32, ptr @_ZL3gs1, align 4, !noundef [[NOUNDEF2]]
+// SIMD1-NEXT:    [[TMP2:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF2]]
 // SIMD1-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP2]], [[TMP1]]
 // SIMD1-NEXT:    store i32 [[ADD]], ptr [[RES]], align 4
-// SIMD1-NEXT:    [[TMP3:%.*]] = load i32, ptr @_ZL3gs2, align 8
-// SIMD1-NEXT:    [[TMP4:%.*]] = load i32, ptr [[RES]], align 4
+// SIMD1-NEXT:    [[TMP3:%.*]] = load i32, ptr @_ZL3gs2, align 8, !noundef [[NOUNDEF2]]
+// SIMD1-NEXT:    [[TMP4:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF2]]
 // SIMD1-NEXT:    [[ADD1:%.*]] = add nsw i32 [[TMP4]], [[TMP3]]
 // SIMD1-NEXT:    store i32 [[ADD1]], ptr [[RES]], align 4
-// SIMD1-NEXT:    [[TMP5:%.*]] = load i32, ptr @gs3, align 4
-// SIMD1-NEXT:    [[TMP6:%.*]] = load i32, ptr [[RES]], align 4
+// SIMD1-NEXT:    [[TMP5:%.*]] = load i32, ptr @gs3, align 4, !noundef [[NOUNDEF2]]
+// SIMD1-NEXT:    [[TMP6:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF2]]
 // SIMD1-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP6]], [[TMP5]]
 // SIMD1-NEXT:    store i32 [[ADD2]], ptr [[RES]], align 4
-// SIMD1-NEXT:    [[TMP7:%.*]] = load i32, ptr getelementptr inbounds ([2 x [3 x %struct.S1]], ptr @arr_x, i64 0, i64 1, i64 1), align 4
-// SIMD1-NEXT:    [[TMP8:%.*]] = load i32, ptr [[RES]], align 4
+// SIMD1-NEXT:    [[TMP7:%.*]] = load i32, ptr getelementptr inbounds ([2 x [3 x %struct.S1]], ptr @arr_x, i64 0, i64 1, i64 1), align 4, !noundef [[NOUNDEF2]]
+// SIMD1-NEXT:    [[TMP8:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF2]]
 // SIMD1-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP8]], [[TMP7]]
 // SIMD1-NEXT:    store i32 [[ADD3]], ptr [[RES]], align 4
-// SIMD1-NEXT:    [[TMP9:%.*]] = load i32, ptr @_ZN2STIiE2stE, align 4
-// SIMD1-NEXT:    [[TMP10:%.*]] = load i32, ptr [[RES]], align 4
+// SIMD1-NEXT:    [[TMP9:%.*]] = load i32, ptr @_ZN2STIiE2stE, align 4, !noundef [[NOUNDEF2]]
+// SIMD1-NEXT:    [[TMP10:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF2]]
 // SIMD1-NEXT:    [[ADD4:%.*]] = add nsw i32 [[TMP10]], [[TMP9]]
 // SIMD1-NEXT:    store i32 [[ADD4]], ptr [[RES]], align 4
-// SIMD1-NEXT:    [[TMP11:%.*]] = load float, ptr @_ZN2STIfE2stE, align 4
+// SIMD1-NEXT:    [[TMP11:%.*]] = load float, ptr @_ZN2STIfE2stE, align 4, !noundef [[NOUNDEF2]]
 // SIMD1-NEXT:    [[CONV:%.*]] = fptosi float [[TMP11]] to i32
-// SIMD1-NEXT:    [[TMP12:%.*]] = load i32, ptr [[RES]], align 4
+// SIMD1-NEXT:    [[TMP12:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF2]]
 // SIMD1-NEXT:    [[ADD5:%.*]] = add nsw i32 [[TMP12]], [[CONV]]
 // SIMD1-NEXT:    store i32 [[ADD5]], ptr [[RES]], align 4
-// SIMD1-NEXT:    [[TMP13:%.*]] = load i32, ptr @_ZN2STI2S4E2stE, align 4
-// SIMD1-NEXT:    [[TMP14:%.*]] = load i32, ptr [[RES]], align 4
+// SIMD1-NEXT:    [[TMP13:%.*]] = load i32, ptr @_ZN2STI2S4E2stE, align 4, !noundef [[NOUNDEF2]]
+// SIMD1-NEXT:    [[TMP14:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF2]]
 // SIMD1-NEXT:    [[ADD6:%.*]] = add nsw i32 [[TMP14]], [[TMP13]]
 // SIMD1-NEXT:    store i32 [[ADD6]], ptr [[RES]], align 4
-// SIMD1-NEXT:    [[TMP15:%.*]] = load i32, ptr [[RES]], align 4
+// SIMD1-NEXT:    [[TMP15:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF2]]
 // SIMD1-NEXT:    ret i32 [[TMP15]]
 //
 //
@@ -2713,7 +2713,7 @@ int foobar() {
 // SIMD1-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // SIMD1-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // SIMD1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// SIMD1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// SIMD1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF2]]
 // SIMD1-NEXT:    call void @_ZN2S4C2Ei(ptr noundef nonnull align 4 dereferenceable(8) [[THIS1]], i32 noundef [[TMP0]])
 // SIMD1-NEXT:    ret void
 //
@@ -2737,7 +2737,7 @@ int foobar() {
 // SIMD1-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // SIMD1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // SIMD1-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_S1:%.*]], ptr [[THIS1]], i32 0, i32 0
-// SIMD1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// SIMD1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF2]]
 // SIMD1-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 4
 // SIMD1-NEXT:    ret void
 //
@@ -2762,7 +2762,7 @@ int foobar() {
 // SIMD1-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // SIMD1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // SIMD1-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_S2:%.*]], ptr [[THIS1]], i32 0, i32 0
-// SIMD1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// SIMD1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF2]]
 // SIMD1-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 8
 // SIMD1-NEXT:    ret void
 //
@@ -2787,7 +2787,7 @@ int foobar() {
 // SIMD1-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // SIMD1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // SIMD1-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_SMAIN:%.*]], ptr [[THIS1]], i32 0, i32 0
-// SIMD1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// SIMD1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF2]]
 // SIMD1-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 8
 // SIMD1-NEXT:    ret void
 //
@@ -2812,7 +2812,7 @@ int foobar() {
 // SIMD1-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // SIMD1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // SIMD1-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_S4:%.*]], ptr [[THIS1]], i32 0, i32 0
-// SIMD1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// SIMD1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF2]]
 // SIMD1-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 4
 // SIMD1-NEXT:    ret void
 //
@@ -2855,7 +2855,7 @@ int foobar() {
 // SIMD2-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // SIMD2-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META126:![0-9]+]], metadata !DIExpression()), !dbg [[DBG127:![0-9]+]]
 // SIMD2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// SIMD2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG128:![0-9]+]]
+// SIMD2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG128:![0-9]+]], !noundef [[NOUNDEF54:![0-9]+]]
 // SIMD2-NEXT:    call void @_ZN2S1C2Ei(ptr noundef nonnull align 4 dereferenceable(4) [[THIS1]], i32 noundef [[TMP0]]), !dbg [[DBG128]]
 // SIMD2-NEXT:    ret void, !dbg [[DBG129:![0-9]+]]
 //
@@ -2889,7 +2889,7 @@ int foobar() {
 // SIMD2-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // SIMD2-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META144:![0-9]+]], metadata !DIExpression()), !dbg [[DBG145:![0-9]+]]
 // SIMD2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// SIMD2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG146:![0-9]+]]
+// SIMD2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG146:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD2-NEXT:    call void @_ZN2S2C2Ei(ptr noundef nonnull align 8 dereferenceable(16) [[THIS1]], i32 noundef [[TMP0]]), !dbg [[DBG146]]
 // SIMD2-NEXT:    ret void, !dbg [[DBG147:![0-9]+]]
 //
@@ -3032,7 +3032,7 @@ int foobar() {
 // SIMD2-NEXT:    [[TOBOOL:%.*]] = icmp ne i32 [[TMP1]], 0, !dbg [[DBG174]]
 // SIMD2-NEXT:    br i1 [[TOBOOL]], label [[INIT:%.*]], label [[INIT_END]], !dbg [[DBG174]]
 // SIMD2:       init:
-// SIMD2-NEXT:    [[TMP2:%.*]] = load i32, ptr @_ZL3gs1, align 4, !dbg [[DBG176:![0-9]+]]
+// SIMD2-NEXT:    [[TMP2:%.*]] = load i32, ptr @_ZL3gs1, align 4, !dbg [[DBG176:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD2-NEXT:    invoke void @_ZZ4mainEN5SmainC1Ei(ptr noundef nonnull align 8 dereferenceable(24) @_ZZ4mainE2sm, i32 noundef [[TMP2]])
 // SIMD2-NEXT:    to label [[INVOKE_CONT:%.*]] unwind label [[LPAD:%.*]], !dbg [[DBG177:![0-9]+]]
 // SIMD2:       invoke.cont:
@@ -3040,42 +3040,42 @@ int foobar() {
 // SIMD2-NEXT:    call void @__cxa_guard_release(ptr @_ZGVZ4mainE2sm) #[[ATTR3]], !dbg [[DBG174]]
 // SIMD2-NEXT:    br label [[INIT_END]], !dbg [[DBG174]]
 // SIMD2:       init.end:
-// SIMD2-NEXT:    [[TMP4:%.*]] = load i32, ptr @_ZN6Static1sE, align 4, !dbg [[DBG178:![0-9]+]]
+// SIMD2-NEXT:    [[TMP4:%.*]] = load i32, ptr @_ZN6Static1sE, align 4, !dbg [[DBG178:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD2-NEXT:    store i32 [[TMP4]], ptr [[RES]], align 4, !dbg [[DBG179:![0-9]+]]
-// SIMD2-NEXT:    [[TMP5:%.*]] = load i32, ptr @_ZZ4mainE2sm, align 8, !dbg [[DBG180:![0-9]+]]
-// SIMD2-NEXT:    [[TMP6:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG181:![0-9]+]]
+// SIMD2-NEXT:    [[TMP5:%.*]] = load i32, ptr @_ZZ4mainE2sm, align 8, !dbg [[DBG180:![0-9]+]], !noundef [[NOUNDEF54]]
+// SIMD2-NEXT:    [[TMP6:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG181:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD2-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP6]], [[TMP5]], !dbg [[DBG181]]
 // SIMD2-NEXT:    store i32 [[ADD]], ptr [[RES]], align 4, !dbg [[DBG181]]
-// SIMD2-NEXT:    [[TMP7:%.*]] = load i32, ptr @_ZL3gs1, align 4, !dbg [[DBG182:![0-9]+]]
-// SIMD2-NEXT:    [[TMP8:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG183:![0-9]+]]
+// SIMD2-NEXT:    [[TMP7:%.*]] = load i32, ptr @_ZL3gs1, align 4, !dbg [[DBG182:![0-9]+]], !noundef [[NOUNDEF54]]
+// SIMD2-NEXT:    [[TMP8:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG183:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD2-NEXT:    [[ADD1:%.*]] = add nsw i32 [[TMP8]], [[TMP7]], !dbg [[DBG183]]
 // SIMD2-NEXT:    store i32 [[ADD1]], ptr [[RES]], align 4, !dbg [[DBG183]]
-// SIMD2-NEXT:    [[TMP9:%.*]] = load i32, ptr @_ZL3gs2, align 8, !dbg [[DBG184:![0-9]+]]
-// SIMD2-NEXT:    [[TMP10:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG185:![0-9]+]]
+// SIMD2-NEXT:    [[TMP9:%.*]] = load i32, ptr @_ZL3gs2, align 8, !dbg [[DBG184:![0-9]+]], !noundef [[NOUNDEF54]]
+// SIMD2-NEXT:    [[TMP10:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG185:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD2-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP10]], [[TMP9]], !dbg [[DBG185]]
 // SIMD2-NEXT:    store i32 [[ADD2]], ptr [[RES]], align 4, !dbg [[DBG185]]
-// SIMD2-NEXT:    [[TMP11:%.*]] = load i32, ptr @gs3, align 4, !dbg [[DBG186:![0-9]+]]
-// SIMD2-NEXT:    [[TMP12:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG187:![0-9]+]]
+// SIMD2-NEXT:    [[TMP11:%.*]] = load i32, ptr @gs3, align 4, !dbg [[DBG186:![0-9]+]], !noundef [[NOUNDEF54]]
+// SIMD2-NEXT:    [[TMP12:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG187:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD2-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP12]], [[TMP11]], !dbg [[DBG187]]
 // SIMD2-NEXT:    store i32 [[ADD3]], ptr [[RES]], align 4, !dbg [[DBG187]]
-// SIMD2-NEXT:    [[TMP13:%.*]] = load i32, ptr getelementptr inbounds ([2 x [3 x %struct.S1]], ptr @arr_x, i64 0, i64 1, i64 1), align 4, !dbg [[DBG188:![0-9]+]]
-// SIMD2-NEXT:    [[TMP14:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG189:![0-9]+]]
+// SIMD2-NEXT:    [[TMP13:%.*]] = load i32, ptr getelementptr inbounds ([2 x [3 x %struct.S1]], ptr @arr_x, i64 0, i64 1, i64 1), align 4, !dbg [[DBG188:![0-9]+]], !noundef [[NOUNDEF54]]
+// SIMD2-NEXT:    [[TMP14:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG189:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD2-NEXT:    [[ADD4:%.*]] = add nsw i32 [[TMP14]], [[TMP13]], !dbg [[DBG189]]
 // SIMD2-NEXT:    store i32 [[ADD4]], ptr [[RES]], align 4, !dbg [[DBG189]]
-// SIMD2-NEXT:    [[TMP15:%.*]] = load i32, ptr @_ZN2STIiE2stE, align 4, !dbg [[DBG190:![0-9]+]]
-// SIMD2-NEXT:    [[TMP16:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG191:![0-9]+]]
+// SIMD2-NEXT:    [[TMP15:%.*]] = load i32, ptr @_ZN2STIiE2stE, align 4, !dbg [[DBG190:![0-9]+]], !noundef [[NOUNDEF54]]
+// SIMD2-NEXT:    [[TMP16:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG191:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD2-NEXT:    [[ADD5:%.*]] = add nsw i32 [[TMP16]], [[TMP15]], !dbg [[DBG191]]
 // SIMD2-NEXT:    store i32 [[ADD5]], ptr [[RES]], align 4, !dbg [[DBG191]]
-// SIMD2-NEXT:    [[TMP17:%.*]] = load float, ptr @_ZN2STIfE2stE, align 4, !dbg [[DBG192:![0-9]+]]
+// SIMD2-NEXT:    [[TMP17:%.*]] = load float, ptr @_ZN2STIfE2stE, align 4, !dbg [[DBG192:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD2-NEXT:    [[CONV:%.*]] = fptosi float [[TMP17]] to i32, !dbg [[DBG192]]
-// SIMD2-NEXT:    [[TMP18:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG193:![0-9]+]]
+// SIMD2-NEXT:    [[TMP18:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG193:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD2-NEXT:    [[ADD6:%.*]] = add nsw i32 [[TMP18]], [[CONV]], !dbg [[DBG193]]
 // SIMD2-NEXT:    store i32 [[ADD6]], ptr [[RES]], align 4, !dbg [[DBG193]]
-// SIMD2-NEXT:    [[TMP19:%.*]] = load i32, ptr @_ZN2STI2S4E2stE, align 4, !dbg [[DBG194:![0-9]+]]
-// SIMD2-NEXT:    [[TMP20:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG195:![0-9]+]]
+// SIMD2-NEXT:    [[TMP19:%.*]] = load i32, ptr @_ZN2STI2S4E2stE, align 4, !dbg [[DBG194:![0-9]+]], !noundef [[NOUNDEF54]]
+// SIMD2-NEXT:    [[TMP20:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG195:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD2-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP20]], [[TMP19]], !dbg [[DBG195]]
 // SIMD2-NEXT:    store i32 [[ADD7]], ptr [[RES]], align 4, !dbg [[DBG195]]
-// SIMD2-NEXT:    [[TMP21:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG196:![0-9]+]]
+// SIMD2-NEXT:    [[TMP21:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG196:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD2-NEXT:    ret i32 [[TMP21]], !dbg [[DBG197:![0-9]+]]
 // SIMD2:       lpad:
 // SIMD2-NEXT:    [[TMP22:%.*]] = landingpad { ptr, i32 }
@@ -3104,7 +3104,7 @@ int foobar() {
 // SIMD2-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // SIMD2-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META203:![0-9]+]], metadata !DIExpression()), !dbg [[DBG204:![0-9]+]]
 // SIMD2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// SIMD2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG205:![0-9]+]]
+// SIMD2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG205:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD2-NEXT:    call void @_ZZ4mainEN5SmainC2Ei(ptr noundef nonnull align 8 dereferenceable(24) [[THIS1]], i32 noundef [[TMP0]]), !dbg [[DBG205]]
 // SIMD2-NEXT:    ret void, !dbg [[DBG206:![0-9]+]]
 //
@@ -3125,38 +3125,38 @@ int foobar() {
 // SIMD2-NEXT:  entry:
 // SIMD2-NEXT:    [[RES:%.*]] = alloca i32, align 4
 // SIMD2-NEXT:    call void @llvm.dbg.declare(metadata ptr [[RES]], metadata [[META213:![0-9]+]], metadata !DIExpression()), !dbg [[DBG214:![0-9]+]]
-// SIMD2-NEXT:    [[TMP0:%.*]] = load i32, ptr @_ZN6Static1sE, align 4, !dbg [[DBG215:![0-9]+]]
+// SIMD2-NEXT:    [[TMP0:%.*]] = load i32, ptr @_ZN6Static1sE, align 4, !dbg [[DBG215:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD2-NEXT:    store i32 [[TMP0]], ptr [[RES]], align 4, !dbg [[DBG216:![0-9]+]]
-// SIMD2-NEXT:    [[TMP1:%.*]] = load i32, ptr @_ZL3gs1, align 4, !dbg [[DBG217:![0-9]+]]
-// SIMD2-NEXT:    [[TMP2:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG218:![0-9]+]]
+// SIMD2-NEXT:    [[TMP1:%.*]] = load i32, ptr @_ZL3gs1, align 4, !dbg [[DBG217:![0-9]+]], !noundef [[NOUNDEF54]]
+// SIMD2-NEXT:    [[TMP2:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG218:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD2-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP2]], [[TMP1]], !dbg [[DBG218]]
 // SIMD2-NEXT:    store i32 [[ADD]], ptr [[RES]], align 4, !dbg [[DBG218]]
-// SIMD2-NEXT:    [[TMP3:%.*]] = load i32, ptr @_ZL3gs2, align 8, !dbg [[DBG219:![0-9]+]]
-// SIMD2-NEXT:    [[TMP4:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG220:![0-9]+]]
+// SIMD2-NEXT:    [[TMP3:%.*]] = load i32, ptr @_ZL3gs2, align 8, !dbg [[DBG219:![0-9]+]], !noundef [[NOUNDEF54]]
+// SIMD2-NEXT:    [[TMP4:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG220:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD2-NEXT:    [[ADD1:%.*]] = add nsw i32 [[TMP4]], [[TMP3]], !dbg [[DBG220]]
 // SIMD2-NEXT:    store i32 [[ADD1]], ptr [[RES]], align 4, !dbg [[DBG220]]
-// SIMD2-NEXT:    [[TMP5:%.*]] = load i32, ptr @gs3, align 4, !dbg [[DBG221:![0-9]+]]
-// SIMD2-NEXT:    [[TMP6:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG222:![0-9]+]]
+// SIMD2-NEXT:    [[TMP5:%.*]] = load i32, ptr @gs3, align 4, !dbg [[DBG221:![0-9]+]], !noundef [[NOUNDEF54]]
+// SIMD2-NEXT:    [[TMP6:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG222:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD2-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP6]], [[TMP5]], !dbg [[DBG222]]
 // SIMD2-NEXT:    store i32 [[ADD2]], ptr [[RES]], align 4, !dbg [[DBG222]]
-// SIMD2-NEXT:    [[TMP7:%.*]] = load i32, ptr getelementptr inbounds ([2 x [3 x %struct.S1]], ptr @arr_x, i64 0, i64 1, i64 1), align 4, !dbg [[DBG223:![0-9]+]]
-// SIMD2-NEXT:    [[TMP8:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG224:![0-9]+]]
+// SIMD2-NEXT:    [[TMP7:%.*]] = load i32, ptr getelementptr inbounds ([2 x [3 x %struct.S1]], ptr @arr_x, i64 0, i64 1, i64 1), align 4, !dbg [[DBG223:![0-9]+]], !noundef [[NOUNDEF54]]
+// SIMD2-NEXT:    [[TMP8:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG224:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD2-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP8]], [[TMP7]], !dbg [[DBG224]]
 // SIMD2-NEXT:    store i32 [[ADD3]], ptr [[RES]], align 4, !dbg [[DBG224]]
-// SIMD2-NEXT:    [[TMP9:%.*]] = load i32, ptr @_ZN2STIiE2stE, align 4, !dbg [[DBG225:![0-9]+]]
-// SIMD2-NEXT:    [[TMP10:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG226:![0-9]+]]
+// SIMD2-NEXT:    [[TMP9:%.*]] = load i32, ptr @_ZN2STIiE2stE, align 4, !dbg [[DBG225:![0-9]+]], !noundef [[NOUNDEF54]]
+// SIMD2-NEXT:    [[TMP10:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG226:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD2-NEXT:    [[ADD4:%.*]] = add nsw i32 [[TMP10]], [[TMP9]], !dbg [[DBG226]]
 // SIMD2-NEXT:    store i32 [[ADD4]], ptr [[RES]], align 4, !dbg [[DBG226]]
-// SIMD2-NEXT:    [[TMP11:%.*]] = load float, ptr @_ZN2STIfE2stE, align 4, !dbg [[DBG227:![0-9]+]]
+// SIMD2-NEXT:    [[TMP11:%.*]] = load float, ptr @_ZN2STIfE2stE, align 4, !dbg [[DBG227:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD2-NEXT:    [[CONV:%.*]] = fptosi float [[TMP11]] to i32, !dbg [[DBG227]]
-// SIMD2-NEXT:    [[TMP12:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG228:![0-9]+]]
+// SIMD2-NEXT:    [[TMP12:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG228:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD2-NEXT:    [[ADD5:%.*]] = add nsw i32 [[TMP12]], [[CONV]], !dbg [[DBG228]]
 // SIMD2-NEXT:    store i32 [[ADD5]], ptr [[RES]], align 4, !dbg [[DBG228]]
-// SIMD2-NEXT:    [[TMP13:%.*]] = load i32, ptr @_ZN2STI2S4E2stE, align 4, !dbg [[DBG229:![0-9]+]]
-// SIMD2-NEXT:    [[TMP14:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG230:![0-9]+]]
+// SIMD2-NEXT:    [[TMP13:%.*]] = load i32, ptr @_ZN2STI2S4E2stE, align 4, !dbg [[DBG229:![0-9]+]], !noundef [[NOUNDEF54]]
+// SIMD2-NEXT:    [[TMP14:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG230:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD2-NEXT:    [[ADD6:%.*]] = add nsw i32 [[TMP14]], [[TMP13]], !dbg [[DBG230]]
 // SIMD2-NEXT:    store i32 [[ADD6]], ptr [[RES]], align 4, !dbg [[DBG230]]
-// SIMD2-NEXT:    [[TMP15:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG231:![0-9]+]]
+// SIMD2-NEXT:    [[TMP15:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG231:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD2-NEXT:    ret i32 [[TMP15]], !dbg [[DBG232:![0-9]+]]
 //
 //
@@ -3185,7 +3185,7 @@ int foobar() {
 // SIMD2-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // SIMD2-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META242:![0-9]+]], metadata !DIExpression()), !dbg [[DBG243:![0-9]+]]
 // SIMD2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// SIMD2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG244:![0-9]+]]
+// SIMD2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG244:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD2-NEXT:    call void @_ZN2S4C2Ei(ptr noundef nonnull align 4 dereferenceable(8) [[THIS1]], i32 noundef [[TMP0]]), !dbg [[DBG244]]
 // SIMD2-NEXT:    ret void, !dbg [[DBG245:![0-9]+]]
 //
@@ -3212,7 +3212,7 @@ int foobar() {
 // SIMD2-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META254:![0-9]+]], metadata !DIExpression()), !dbg [[DBG255:![0-9]+]]
 // SIMD2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // SIMD2-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_S1:%.*]], ptr [[THIS1]], i32 0, i32 0, !dbg [[DBG256:![0-9]+]]
-// SIMD2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG257:![0-9]+]]
+// SIMD2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG257:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD2-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 4, !dbg [[DBG256]]
 // SIMD2-NEXT:    ret void, !dbg [[DBG258:![0-9]+]]
 //
@@ -3240,7 +3240,7 @@ int foobar() {
 // SIMD2-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META269:![0-9]+]], metadata !DIExpression()), !dbg [[DBG270:![0-9]+]]
 // SIMD2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // SIMD2-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_S2:%.*]], ptr [[THIS1]], i32 0, i32 0, !dbg [[DBG271:![0-9]+]]
-// SIMD2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG272:![0-9]+]]
+// SIMD2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG272:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD2-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 8, !dbg [[DBG271]]
 // SIMD2-NEXT:    ret void, !dbg [[DBG273:![0-9]+]]
 //
@@ -3268,7 +3268,7 @@ int foobar() {
 // SIMD2-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META284:![0-9]+]], metadata !DIExpression()), !dbg [[DBG285:![0-9]+]]
 // SIMD2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // SIMD2-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_SMAIN:%.*]], ptr [[THIS1]], i32 0, i32 0, !dbg [[DBG286:![0-9]+]]
-// SIMD2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG287:![0-9]+]]
+// SIMD2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG287:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD2-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 8, !dbg [[DBG286]]
 // SIMD2-NEXT:    ret void, !dbg [[DBG288:![0-9]+]]
 //
@@ -3296,7 +3296,7 @@ int foobar() {
 // SIMD2-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META299:![0-9]+]], metadata !DIExpression()), !dbg [[DBG300:![0-9]+]]
 // SIMD2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // SIMD2-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_S4:%.*]], ptr [[THIS1]], i32 0, i32 0, !dbg [[DBG301:![0-9]+]]
-// SIMD2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG302:![0-9]+]]
+// SIMD2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG302:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD2-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 4, !dbg [[DBG301]]
 // SIMD2-NEXT:    ret void, !dbg [[DBG303:![0-9]+]]
 //
@@ -3338,7 +3338,7 @@ int foobar() {
 // CHECK-TLS1-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-TLS1-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK-TLS1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-TLS1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK-TLS1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF3:![0-9]+]]
 // CHECK-TLS1-NEXT:    call void @_ZN2S1C2Ei(ptr noundef nonnull align 4 dereferenceable(4) [[THIS1]], i32 noundef [[TMP0]])
 // CHECK-TLS1-NEXT:    ret void
 //
@@ -3362,7 +3362,7 @@ int foobar() {
 // CHECK-TLS1-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK-TLS1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK-TLS1-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_S1:%.*]], ptr [[THIS1]], i32 0, i32 0
-// CHECK-TLS1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK-TLS1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF3]]
 // CHECK-TLS1-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 4
 // CHECK-TLS1-NEXT:    ret void
 //
@@ -3394,7 +3394,7 @@ int foobar() {
 // CHECK-TLS1-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-TLS1-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK-TLS1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-TLS1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK-TLS1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF3]]
 // CHECK-TLS1-NEXT:    call void @_ZN2S2C2Ei(ptr noundef nonnull align 8 dereferenceable(16) [[THIS1]], i32 noundef [[TMP0]])
 // CHECK-TLS1-NEXT:    ret void
 //
@@ -3418,7 +3418,7 @@ int foobar() {
 // CHECK-TLS1-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK-TLS1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK-TLS1-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_S2:%.*]], ptr [[THIS1]], i32 0, i32 0
-// CHECK-TLS1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK-TLS1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF3]]
 // CHECK-TLS1-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 8
 // CHECK-TLS1-NEXT:    ret void
 //
@@ -3551,11 +3551,11 @@ int foobar() {
 // CHECK-TLS1-NEXT:    store i32 0, ptr [[RETVAL]], align 4
 // CHECK-TLS1-NEXT:    [[TMP0:%.*]] = load i8, ptr @_ZGVZ4mainE2sm, align 1
 // CHECK-TLS1-NEXT:    [[GUARD_UNINITIALIZED:%.*]] = icmp eq i8 [[TMP0]], 0
-// CHECK-TLS1-NEXT:    br i1 [[GUARD_UNINITIALIZED]], label [[INIT_CHECK:%.*]], label [[INIT_END:%.*]], !prof [[PROF3:![0-9]+]]
+// CHECK-TLS1-NEXT:    br i1 [[GUARD_UNINITIALIZED]], label [[INIT_CHECK:%.*]], label [[INIT_END:%.*]], !prof [[PROF4:![0-9]+]]
 // CHECK-TLS1:       init.check:
 // CHECK-TLS1-NEXT:    [[TMP1:%.*]] = call ptr @_ZTWL3gs1()
 // CHECK-TLS1-NEXT:    [[A:%.*]] = getelementptr inbounds [[STRUCT_S1:%.*]], ptr [[TMP1]], i32 0, i32 0
-// CHECK-TLS1-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
+// CHECK-TLS1-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4, !noundef [[NOUNDEF3]]
 // CHECK-TLS1-NEXT:    call void @_ZZ4mainEN5SmainC1Ei(ptr noundef nonnull align 8 dereferenceable(24) @_ZZ4mainE2sm, i32 noundef [[TMP2]])
 // CHECK-TLS1-NEXT:    [[TMP3:%.*]] = call i32 @__cxa_thread_atexit(ptr @_ZZ4mainEN5SmainD1Ev, ptr @_ZZ4mainE2sm, ptr @__dso_handle) #[[ATTR3]]
 // CHECK-TLS1-NEXT:    store i8 1, ptr @_ZGVZ4mainE2sm, align 1
@@ -3563,56 +3563,56 @@ int foobar() {
 // CHECK-TLS1:       init.end:
 // CHECK-TLS1-NEXT:    [[TMP4:%.*]] = call ptr @_ZTWN6Static1sE()
 // CHECK-TLS1-NEXT:    [[A1:%.*]] = getelementptr inbounds [[STRUCT_S3:%.*]], ptr [[TMP4]], i32 0, i32 0
-// CHECK-TLS1-NEXT:    [[TMP5:%.*]] = load i32, ptr [[A1]], align 4
+// CHECK-TLS1-NEXT:    [[TMP5:%.*]] = load i32, ptr [[A1]], align 4, !noundef [[NOUNDEF3]]
 // CHECK-TLS1-NEXT:    store i32 [[TMP5]], ptr [[RES]], align 4
 // CHECK-TLS1-NEXT:    [[TMP6:%.*]] = call align 8 ptr @llvm.threadlocal.address.p0(ptr align 8 @_ZZ4mainE2sm)
 // CHECK-TLS1-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_SMAIN:%.*]], ptr [[TMP6]], i32 0, i32 0
-// CHECK-TLS1-NEXT:    [[TMP7:%.*]] = load i32, ptr [[A2]], align 8
-// CHECK-TLS1-NEXT:    [[TMP8:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK-TLS1-NEXT:    [[TMP7:%.*]] = load i32, ptr [[A2]], align 8, !noundef [[NOUNDEF3]]
+// CHECK-TLS1-NEXT:    [[TMP8:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK-TLS1-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP8]], [[TMP7]]
 // CHECK-TLS1-NEXT:    store i32 [[ADD]], ptr [[RES]], align 4
 // CHECK-TLS1-NEXT:    [[TMP9:%.*]] = call ptr @_ZTWL3gs1()
 // CHECK-TLS1-NEXT:    [[A3:%.*]] = getelementptr inbounds [[STRUCT_S1]], ptr [[TMP9]], i32 0, i32 0
-// CHECK-TLS1-NEXT:    [[TMP10:%.*]] = load i32, ptr [[A3]], align 4
-// CHECK-TLS1-NEXT:    [[TMP11:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK-TLS1-NEXT:    [[TMP10:%.*]] = load i32, ptr [[A3]], align 4, !noundef [[NOUNDEF3]]
+// CHECK-TLS1-NEXT:    [[TMP11:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK-TLS1-NEXT:    [[ADD4:%.*]] = add nsw i32 [[TMP11]], [[TMP10]]
 // CHECK-TLS1-NEXT:    store i32 [[ADD4]], ptr [[RES]], align 4
-// CHECK-TLS1-NEXT:    [[TMP12:%.*]] = load i32, ptr @_ZL3gs2, align 8
-// CHECK-TLS1-NEXT:    [[TMP13:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK-TLS1-NEXT:    [[TMP12:%.*]] = load i32, ptr @_ZL3gs2, align 8, !noundef [[NOUNDEF3]]
+// CHECK-TLS1-NEXT:    [[TMP13:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK-TLS1-NEXT:    [[ADD5:%.*]] = add nsw i32 [[TMP13]], [[TMP12]]
 // CHECK-TLS1-NEXT:    store i32 [[ADD5]], ptr [[RES]], align 4
 // CHECK-TLS1-NEXT:    [[TMP14:%.*]] = call ptr @_ZTW3gs3()
 // CHECK-TLS1-NEXT:    [[A6:%.*]] = getelementptr inbounds [[STRUCT_S5:%.*]], ptr [[TMP14]], i32 0, i32 0
-// CHECK-TLS1-NEXT:    [[TMP15:%.*]] = load i32, ptr [[A6]], align 4
-// CHECK-TLS1-NEXT:    [[TMP16:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK-TLS1-NEXT:    [[TMP15:%.*]] = load i32, ptr [[A6]], align 4, !noundef [[NOUNDEF3]]
+// CHECK-TLS1-NEXT:    [[TMP16:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK-TLS1-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP16]], [[TMP15]]
 // CHECK-TLS1-NEXT:    store i32 [[ADD7]], ptr [[RES]], align 4
 // CHECK-TLS1-NEXT:    [[TMP17:%.*]] = call ptr @_ZTW5arr_x()
 // CHECK-TLS1-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [2 x [3 x %struct.S1]], ptr [[TMP17]], i64 0, i64 1
 // CHECK-TLS1-NEXT:    [[ARRAYIDX8:%.*]] = getelementptr inbounds [3 x %struct.S1], ptr [[ARRAYIDX]], i64 0, i64 1
 // CHECK-TLS1-NEXT:    [[A9:%.*]] = getelementptr inbounds [[STRUCT_S1]], ptr [[ARRAYIDX8]], i32 0, i32 0
-// CHECK-TLS1-NEXT:    [[TMP18:%.*]] = load i32, ptr [[A9]], align 4
-// CHECK-TLS1-NEXT:    [[TMP19:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK-TLS1-NEXT:    [[TMP18:%.*]] = load i32, ptr [[A9]], align 4, !noundef [[NOUNDEF3]]
+// CHECK-TLS1-NEXT:    [[TMP19:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK-TLS1-NEXT:    [[ADD10:%.*]] = add nsw i32 [[TMP19]], [[TMP18]]
 // CHECK-TLS1-NEXT:    store i32 [[ADD10]], ptr [[RES]], align 4
 // CHECK-TLS1-NEXT:    [[TMP20:%.*]] = call align 4 ptr @llvm.threadlocal.address.p0(ptr align 4 @_ZN2STIiE2stE)
-// CHECK-TLS1-NEXT:    [[TMP21:%.*]] = load i32, ptr [[TMP20]], align 4
-// CHECK-TLS1-NEXT:    [[TMP22:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK-TLS1-NEXT:    [[TMP21:%.*]] = load i32, ptr [[TMP20]], align 4, !noundef [[NOUNDEF3]]
+// CHECK-TLS1-NEXT:    [[TMP22:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK-TLS1-NEXT:    [[ADD11:%.*]] = add nsw i32 [[TMP22]], [[TMP21]]
 // CHECK-TLS1-NEXT:    store i32 [[ADD11]], ptr [[RES]], align 4
 // CHECK-TLS1-NEXT:    [[TMP23:%.*]] = call align 4 ptr @llvm.threadlocal.address.p0(ptr align 4 @_ZN2STIfE2stE)
-// CHECK-TLS1-NEXT:    [[TMP24:%.*]] = load float, ptr [[TMP23]], align 4
+// CHECK-TLS1-NEXT:    [[TMP24:%.*]] = load float, ptr [[TMP23]], align 4, !noundef [[NOUNDEF3]]
 // CHECK-TLS1-NEXT:    [[CONV:%.*]] = fptosi float [[TMP24]] to i32
-// CHECK-TLS1-NEXT:    [[TMP25:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK-TLS1-NEXT:    [[TMP25:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK-TLS1-NEXT:    [[ADD12:%.*]] = add nsw i32 [[TMP25]], [[CONV]]
 // CHECK-TLS1-NEXT:    store i32 [[ADD12]], ptr [[RES]], align 4
 // CHECK-TLS1-NEXT:    [[TMP26:%.*]] = call ptr @_ZTWN2STI2S4E2stE()
 // CHECK-TLS1-NEXT:    [[A13:%.*]] = getelementptr inbounds [[STRUCT_S4:%.*]], ptr [[TMP26]], i32 0, i32 0
-// CHECK-TLS1-NEXT:    [[TMP27:%.*]] = load i32, ptr [[A13]], align 4
-// CHECK-TLS1-NEXT:    [[TMP28:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK-TLS1-NEXT:    [[TMP27:%.*]] = load i32, ptr [[A13]], align 4, !noundef [[NOUNDEF3]]
+// CHECK-TLS1-NEXT:    [[TMP28:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK-TLS1-NEXT:    [[ADD14:%.*]] = add nsw i32 [[TMP28]], [[TMP27]]
 // CHECK-TLS1-NEXT:    store i32 [[ADD14]], ptr [[RES]], align 4
-// CHECK-TLS1-NEXT:    [[TMP29:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK-TLS1-NEXT:    [[TMP29:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK-TLS1-NEXT:    ret i32 [[TMP29]]
 //
 //
@@ -3631,7 +3631,7 @@ int foobar() {
 // CHECK-TLS1-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-TLS1-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK-TLS1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-TLS1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK-TLS1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF3]]
 // CHECK-TLS1-NEXT:    call void @_ZZ4mainEN5SmainC2Ei(ptr noundef nonnull align 8 dereferenceable(24) [[THIS1]], i32 noundef [[TMP0]])
 // CHECK-TLS1-NEXT:    ret void
 //
@@ -3691,7 +3691,7 @@ int foobar() {
 // CHECK-TLS1-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK-TLS1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK-TLS1-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_SMAIN:%.*]], ptr [[THIS1]], i32 0, i32 0
-// CHECK-TLS1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK-TLS1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF3]]
 // CHECK-TLS1-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 8
 // CHECK-TLS1-NEXT:    ret void
 //
@@ -3713,50 +3713,50 @@ int foobar() {
 // CHECK-TLS1-NEXT:    [[RES:%.*]] = alloca i32, align 4
 // CHECK-TLS1-NEXT:    [[TMP0:%.*]] = call ptr @_ZTWN6Static1sE()
 // CHECK-TLS1-NEXT:    [[A:%.*]] = getelementptr inbounds [[STRUCT_S3:%.*]], ptr [[TMP0]], i32 0, i32 0
-// CHECK-TLS1-NEXT:    [[TMP1:%.*]] = load i32, ptr [[A]], align 4
+// CHECK-TLS1-NEXT:    [[TMP1:%.*]] = load i32, ptr [[A]], align 4, !noundef [[NOUNDEF3]]
 // CHECK-TLS1-NEXT:    store i32 [[TMP1]], ptr [[RES]], align 4
 // CHECK-TLS1-NEXT:    [[TMP2:%.*]] = call ptr @_ZTWL3gs1()
 // CHECK-TLS1-NEXT:    [[A1:%.*]] = getelementptr inbounds [[STRUCT_S1:%.*]], ptr [[TMP2]], i32 0, i32 0
-// CHECK-TLS1-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A1]], align 4
-// CHECK-TLS1-NEXT:    [[TMP4:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK-TLS1-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A1]], align 4, !noundef [[NOUNDEF3]]
+// CHECK-TLS1-NEXT:    [[TMP4:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK-TLS1-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP4]], [[TMP3]]
 // CHECK-TLS1-NEXT:    store i32 [[ADD]], ptr [[RES]], align 4
-// CHECK-TLS1-NEXT:    [[TMP5:%.*]] = load i32, ptr @_ZL3gs2, align 8
-// CHECK-TLS1-NEXT:    [[TMP6:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK-TLS1-NEXT:    [[TMP5:%.*]] = load i32, ptr @_ZL3gs2, align 8, !noundef [[NOUNDEF3]]
+// CHECK-TLS1-NEXT:    [[TMP6:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK-TLS1-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP6]], [[TMP5]]
 // CHECK-TLS1-NEXT:    store i32 [[ADD2]], ptr [[RES]], align 4
 // CHECK-TLS1-NEXT:    [[TMP7:%.*]] = call ptr @_ZTW3gs3()
 // CHECK-TLS1-NEXT:    [[A3:%.*]] = getelementptr inbounds [[STRUCT_S5:%.*]], ptr [[TMP7]], i32 0, i32 0
-// CHECK-TLS1-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A3]], align 4
-// CHECK-TLS1-NEXT:    [[TMP9:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK-TLS1-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A3]], align 4, !noundef [[NOUNDEF3]]
+// CHECK-TLS1-NEXT:    [[TMP9:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK-TLS1-NEXT:    [[ADD4:%.*]] = add nsw i32 [[TMP9]], [[TMP8]]
 // CHECK-TLS1-NEXT:    store i32 [[ADD4]], ptr [[RES]], align 4
 // CHECK-TLS1-NEXT:    [[TMP10:%.*]] = call ptr @_ZTW5arr_x()
 // CHECK-TLS1-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [2 x [3 x %struct.S1]], ptr [[TMP10]], i64 0, i64 1
 // CHECK-TLS1-NEXT:    [[ARRAYIDX5:%.*]] = getelementptr inbounds [3 x %struct.S1], ptr [[ARRAYIDX]], i64 0, i64 1
 // CHECK-TLS1-NEXT:    [[A6:%.*]] = getelementptr inbounds [[STRUCT_S1]], ptr [[ARRAYIDX5]], i32 0, i32 0
-// CHECK-TLS1-NEXT:    [[TMP11:%.*]] = load i32, ptr [[A6]], align 4
-// CHECK-TLS1-NEXT:    [[TMP12:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK-TLS1-NEXT:    [[TMP11:%.*]] = load i32, ptr [[A6]], align 4, !noundef [[NOUNDEF3]]
+// CHECK-TLS1-NEXT:    [[TMP12:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK-TLS1-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP12]], [[TMP11]]
 // CHECK-TLS1-NEXT:    store i32 [[ADD7]], ptr [[RES]], align 4
 // CHECK-TLS1-NEXT:    [[TMP13:%.*]] = call align 4 ptr @llvm.threadlocal.address.p0(ptr align 4 @_ZN2STIiE2stE)
-// CHECK-TLS1-NEXT:    [[TMP14:%.*]] = load i32, ptr [[TMP13]], align 4
-// CHECK-TLS1-NEXT:    [[TMP15:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK-TLS1-NEXT:    [[TMP14:%.*]] = load i32, ptr [[TMP13]], align 4, !noundef [[NOUNDEF3]]
+// CHECK-TLS1-NEXT:    [[TMP15:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK-TLS1-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP15]], [[TMP14]]
 // CHECK-TLS1-NEXT:    store i32 [[ADD8]], ptr [[RES]], align 4
 // CHECK-TLS1-NEXT:    [[TMP16:%.*]] = call align 4 ptr @llvm.threadlocal.address.p0(ptr align 4 @_ZN2STIfE2stE)
-// CHECK-TLS1-NEXT:    [[TMP17:%.*]] = load float, ptr [[TMP16]], align 4
+// CHECK-TLS1-NEXT:    [[TMP17:%.*]] = load float, ptr [[TMP16]], align 4, !noundef [[NOUNDEF3]]
 // CHECK-TLS1-NEXT:    [[CONV:%.*]] = fptosi float [[TMP17]] to i32
-// CHECK-TLS1-NEXT:    [[TMP18:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK-TLS1-NEXT:    [[TMP18:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK-TLS1-NEXT:    [[ADD9:%.*]] = add nsw i32 [[TMP18]], [[CONV]]
 // CHECK-TLS1-NEXT:    store i32 [[ADD9]], ptr [[RES]], align 4
 // CHECK-TLS1-NEXT:    [[TMP19:%.*]] = call ptr @_ZTWN2STI2S4E2stE()
 // CHECK-TLS1-NEXT:    [[A10:%.*]] = getelementptr inbounds [[STRUCT_S4:%.*]], ptr [[TMP19]], i32 0, i32 0
-// CHECK-TLS1-NEXT:    [[TMP20:%.*]] = load i32, ptr [[A10]], align 4
-// CHECK-TLS1-NEXT:    [[TMP21:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK-TLS1-NEXT:    [[TMP20:%.*]] = load i32, ptr [[A10]], align 4, !noundef [[NOUNDEF3]]
+// CHECK-TLS1-NEXT:    [[TMP21:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK-TLS1-NEXT:    [[ADD11:%.*]] = add nsw i32 [[TMP21]], [[TMP20]]
 // CHECK-TLS1-NEXT:    store i32 [[ADD11]], ptr [[RES]], align 4
-// CHECK-TLS1-NEXT:    [[TMP22:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK-TLS1-NEXT:    [[TMP22:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF3]]
 // CHECK-TLS1-NEXT:    ret i32 [[TMP22]]
 //
 //
@@ -3783,7 +3783,7 @@ int foobar() {
 // CHECK-TLS1-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-TLS1-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK-TLS1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-TLS1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK-TLS1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF3]]
 // CHECK-TLS1-NEXT:    call void @_ZN2S4C2Ei(ptr noundef nonnull align 4 dereferenceable(8) [[THIS1]], i32 noundef [[TMP0]])
 // CHECK-TLS1-NEXT:    ret void
 //
@@ -3807,7 +3807,7 @@ int foobar() {
 // CHECK-TLS1-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK-TLS1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK-TLS1-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_S4:%.*]], ptr [[THIS1]], i32 0, i32 0
-// CHECK-TLS1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK-TLS1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF3]]
 // CHECK-TLS1-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 4
 // CHECK-TLS1-NEXT:    ret void
 //
@@ -3835,7 +3835,7 @@ int foobar() {
 // CHECK-TLS1-NEXT:  entry:
 // CHECK-TLS1-NEXT:    [[TMP0:%.*]] = load i8, ptr @__tls_guard, align 1
 // CHECK-TLS1-NEXT:    [[GUARD_UNINITIALIZED:%.*]] = icmp eq i8 [[TMP0]], 0
-// CHECK-TLS1-NEXT:    br i1 [[GUARD_UNINITIALIZED]], label [[INIT:%.*]], label [[EXIT:%.*]], !prof [[PROF3]]
+// CHECK-TLS1-NEXT:    br i1 [[GUARD_UNINITIALIZED]], label [[INIT:%.*]], label [[EXIT:%.*]], !prof [[PROF4]]
 // CHECK-TLS1:       init:
 // CHECK-TLS1-NEXT:    store i8 1, ptr @__tls_guard, align 1
 // CHECK-TLS1-NEXT:    call void @__cxx_global_var_init()
@@ -3857,7 +3857,7 @@ int foobar() {
 // CHECK-TLS2:       init.check:
 // CHECK-TLS2-NEXT:    [[TMP1:%.*]] = call ptr @_ZTWL3gs1()
 // CHECK-TLS2-NEXT:    [[A:%.*]] = getelementptr inbounds [[STRUCT_S1:%.*]], ptr [[TMP1]], i32 0, i32 0
-// CHECK-TLS2-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
+// CHECK-TLS2-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4, !noundef [[NOUNDEF4:![0-9]+]]
 // CHECK-TLS2-NEXT:    call void @_ZZ4mainEN5SmainC1Ei(ptr noundef nonnull align 8 dereferenceable(24) @_ZZ4mainE2sm, i32 noundef [[TMP2]])
 // CHECK-TLS2-NEXT:    [[TMP3:%.*]] = call i32 @__cxa_thread_atexit(ptr @_ZZ4mainEN5SmainD1Ev, ptr @_ZZ4mainE2sm, ptr @__dso_handle) #[[ATTR4:[0-9]+]]
 // CHECK-TLS2-NEXT:    store i8 1, ptr @_ZGVZ4mainE2sm, align 1
@@ -3865,56 +3865,56 @@ int foobar() {
 // CHECK-TLS2:       init.end:
 // CHECK-TLS2-NEXT:    [[TMP4:%.*]] = call ptr @_ZTWN6Static1sE()
 // CHECK-TLS2-NEXT:    [[A1:%.*]] = getelementptr inbounds [[STRUCT_S3:%.*]], ptr [[TMP4]], i32 0, i32 0
-// CHECK-TLS2-NEXT:    [[TMP5:%.*]] = load i32, ptr [[A1]], align 4
+// CHECK-TLS2-NEXT:    [[TMP5:%.*]] = load i32, ptr [[A1]], align 4, !noundef [[NOUNDEF4]]
 // CHECK-TLS2-NEXT:    store i32 [[TMP5]], ptr [[RES]], align 4
 // CHECK-TLS2-NEXT:    [[TMP6:%.*]] = call align 8 ptr @llvm.threadlocal.address.p0(ptr align 8 @_ZZ4mainE2sm)
 // CHECK-TLS2-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_SMAIN:%.*]], ptr [[TMP6]], i32 0, i32 0
-// CHECK-TLS2-NEXT:    [[TMP7:%.*]] = load i32, ptr [[A2]], align 8
-// CHECK-TLS2-NEXT:    [[TMP8:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK-TLS2-NEXT:    [[TMP7:%.*]] = load i32, ptr [[A2]], align 8, !noundef [[NOUNDEF4]]
+// CHECK-TLS2-NEXT:    [[TMP8:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF4]]
 // CHECK-TLS2-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP8]], [[TMP7]]
 // CHECK-TLS2-NEXT:    store i32 [[ADD]], ptr [[RES]], align 4
 // CHECK-TLS2-NEXT:    [[TMP9:%.*]] = call ptr @_ZTWL3gs1()
 // CHECK-TLS2-NEXT:    [[A3:%.*]] = getelementptr inbounds [[STRUCT_S1]], ptr [[TMP9]], i32 0, i32 0
-// CHECK-TLS2-NEXT:    [[TMP10:%.*]] = load i32, ptr [[A3]], align 4
-// CHECK-TLS2-NEXT:    [[TMP11:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK-TLS2-NEXT:    [[TMP10:%.*]] = load i32, ptr [[A3]], align 4, !noundef [[NOUNDEF4]]
+// CHECK-TLS2-NEXT:    [[TMP11:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF4]]
 // CHECK-TLS2-NEXT:    [[ADD4:%.*]] = add nsw i32 [[TMP11]], [[TMP10]]
 // CHECK-TLS2-NEXT:    store i32 [[ADD4]], ptr [[RES]], align 4
-// CHECK-TLS2-NEXT:    [[TMP12:%.*]] = load i32, ptr @_ZL3gs2, align 8
-// CHECK-TLS2-NEXT:    [[TMP13:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK-TLS2-NEXT:    [[TMP12:%.*]] = load i32, ptr @_ZL3gs2, align 8, !noundef [[NOUNDEF4]]
+// CHECK-TLS2-NEXT:    [[TMP13:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF4]]
 // CHECK-TLS2-NEXT:    [[ADD5:%.*]] = add nsw i32 [[TMP13]], [[TMP12]]
 // CHECK-TLS2-NEXT:    store i32 [[ADD5]], ptr [[RES]], align 4
 // CHECK-TLS2-NEXT:    [[TMP14:%.*]] = call ptr @_ZTW3gs3()
 // CHECK-TLS2-NEXT:    [[A6:%.*]] = getelementptr inbounds [[STRUCT_S5:%.*]], ptr [[TMP14]], i32 0, i32 0
-// CHECK-TLS2-NEXT:    [[TMP15:%.*]] = load i32, ptr [[A6]], align 4
-// CHECK-TLS2-NEXT:    [[TMP16:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK-TLS2-NEXT:    [[TMP15:%.*]] = load i32, ptr [[A6]], align 4, !noundef [[NOUNDEF4]]
+// CHECK-TLS2-NEXT:    [[TMP16:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF4]]
 // CHECK-TLS2-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP16]], [[TMP15]]
 // CHECK-TLS2-NEXT:    store i32 [[ADD7]], ptr [[RES]], align 4
 // CHECK-TLS2-NEXT:    [[TMP17:%.*]] = call ptr @_ZTW5arr_x()
 // CHECK-TLS2-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [2 x [3 x %struct.S1]], ptr [[TMP17]], i64 0, i64 1
 // CHECK-TLS2-NEXT:    [[ARRAYIDX8:%.*]] = getelementptr inbounds [3 x %struct.S1], ptr [[ARRAYIDX]], i64 0, i64 1
 // CHECK-TLS2-NEXT:    [[A9:%.*]] = getelementptr inbounds [[STRUCT_S1]], ptr [[ARRAYIDX8]], i32 0, i32 0
-// CHECK-TLS2-NEXT:    [[TMP18:%.*]] = load i32, ptr [[A9]], align 4
-// CHECK-TLS2-NEXT:    [[TMP19:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK-TLS2-NEXT:    [[TMP18:%.*]] = load i32, ptr [[A9]], align 4, !noundef [[NOUNDEF4]]
+// CHECK-TLS2-NEXT:    [[TMP19:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF4]]
 // CHECK-TLS2-NEXT:    [[ADD10:%.*]] = add nsw i32 [[TMP19]], [[TMP18]]
 // CHECK-TLS2-NEXT:    store i32 [[ADD10]], ptr [[RES]], align 4
 // CHECK-TLS2-NEXT:    [[TMP20:%.*]] = call ptr @_ZTWN2STIiE2stE()
-// CHECK-TLS2-NEXT:    [[TMP21:%.*]] = load i32, ptr [[TMP20]], align 4
-// CHECK-TLS2-NEXT:    [[TMP22:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK-TLS2-NEXT:    [[TMP21:%.*]] = load i32, ptr [[TMP20]], align 4, !noundef [[NOUNDEF4]]
+// CHECK-TLS2-NEXT:    [[TMP22:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF4]]
 // CHECK-TLS2-NEXT:    [[ADD11:%.*]] = add nsw i32 [[TMP22]], [[TMP21]]
 // CHECK-TLS2-NEXT:    store i32 [[ADD11]], ptr [[RES]], align 4
 // CHECK-TLS2-NEXT:    [[TMP23:%.*]] = call ptr @_ZTWN2STIfE2stE()
-// CHECK-TLS2-NEXT:    [[TMP24:%.*]] = load float, ptr [[TMP23]], align 4
+// CHECK-TLS2-NEXT:    [[TMP24:%.*]] = load float, ptr [[TMP23]], align 4, !noundef [[NOUNDEF4]]
 // CHECK-TLS2-NEXT:    [[CONV:%.*]] = fptosi float [[TMP24]] to i32
-// CHECK-TLS2-NEXT:    [[TMP25:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK-TLS2-NEXT:    [[TMP25:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF4]]
 // CHECK-TLS2-NEXT:    [[ADD12:%.*]] = add nsw i32 [[TMP25]], [[CONV]]
 // CHECK-TLS2-NEXT:    store i32 [[ADD12]], ptr [[RES]], align 4
 // CHECK-TLS2-NEXT:    [[TMP26:%.*]] = call ptr @_ZTWN2STI2S4E2stE()
 // CHECK-TLS2-NEXT:    [[A13:%.*]] = getelementptr inbounds [[STRUCT_S4:%.*]], ptr [[TMP26]], i32 0, i32 0
-// CHECK-TLS2-NEXT:    [[TMP27:%.*]] = load i32, ptr [[A13]], align 4
-// CHECK-TLS2-NEXT:    [[TMP28:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK-TLS2-NEXT:    [[TMP27:%.*]] = load i32, ptr [[A13]], align 4, !noundef [[NOUNDEF4]]
+// CHECK-TLS2-NEXT:    [[TMP28:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF4]]
 // CHECK-TLS2-NEXT:    [[ADD14:%.*]] = add nsw i32 [[TMP28]], [[TMP27]]
 // CHECK-TLS2-NEXT:    store i32 [[ADD14]], ptr [[RES]], align 4
-// CHECK-TLS2-NEXT:    [[TMP29:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK-TLS2-NEXT:    [[TMP29:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF4]]
 // CHECK-TLS2-NEXT:    ret i32 [[TMP29]]
 //
 //
@@ -3933,7 +3933,7 @@ int foobar() {
 // CHECK-TLS2-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-TLS2-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK-TLS2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-TLS2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK-TLS2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF4]]
 // CHECK-TLS2-NEXT:    call void @_ZZ4mainEN5SmainC2Ei(ptr noundef nonnull align 8 dereferenceable(24) [[THIS1]], i32 noundef [[TMP0]])
 // CHECK-TLS2-NEXT:    ret void
 //
@@ -4002,50 +4002,50 @@ int foobar() {
 // CHECK-TLS2-NEXT:    [[RES:%.*]] = alloca i32, align 4
 // CHECK-TLS2-NEXT:    [[TMP0:%.*]] = call ptr @_ZTWN6Static1sE()
 // CHECK-TLS2-NEXT:    [[A:%.*]] = getelementptr inbounds [[STRUCT_S3:%.*]], ptr [[TMP0]], i32 0, i32 0
-// CHECK-TLS2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[A]], align 4
+// CHECK-TLS2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[A]], align 4, !noundef [[NOUNDEF4]]
 // CHECK-TLS2-NEXT:    store i32 [[TMP1]], ptr [[RES]], align 4
 // CHECK-TLS2-NEXT:    [[TMP2:%.*]] = call ptr @_ZTWL3gs1()
 // CHECK-TLS2-NEXT:    [[A1:%.*]] = getelementptr inbounds [[STRUCT_S1:%.*]], ptr [[TMP2]], i32 0, i32 0
-// CHECK-TLS2-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A1]], align 4
-// CHECK-TLS2-NEXT:    [[TMP4:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK-TLS2-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A1]], align 4, !noundef [[NOUNDEF4]]
+// CHECK-TLS2-NEXT:    [[TMP4:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF4]]
 // CHECK-TLS2-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP4]], [[TMP3]]
 // CHECK-TLS2-NEXT:    store i32 [[ADD]], ptr [[RES]], align 4
-// CHECK-TLS2-NEXT:    [[TMP5:%.*]] = load i32, ptr @_ZL3gs2, align 8
-// CHECK-TLS2-NEXT:    [[TMP6:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK-TLS2-NEXT:    [[TMP5:%.*]] = load i32, ptr @_ZL3gs2, align 8, !noundef [[NOUNDEF4]]
+// CHECK-TLS2-NEXT:    [[TMP6:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF4]]
 // CHECK-TLS2-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP6]], [[TMP5]]
 // CHECK-TLS2-NEXT:    store i32 [[ADD2]], ptr [[RES]], align 4
 // CHECK-TLS2-NEXT:    [[TMP7:%.*]] = call ptr @_ZTW3gs3()
 // CHECK-TLS2-NEXT:    [[A3:%.*]] = getelementptr inbounds [[STRUCT_S5:%.*]], ptr [[TMP7]], i32 0, i32 0
-// CHECK-TLS2-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A3]], align 4
-// CHECK-TLS2-NEXT:    [[TMP9:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK-TLS2-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A3]], align 4, !noundef [[NOUNDEF4]]
+// CHECK-TLS2-NEXT:    [[TMP9:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF4]]
 // CHECK-TLS2-NEXT:    [[ADD4:%.*]] = add nsw i32 [[TMP9]], [[TMP8]]
 // CHECK-TLS2-NEXT:    store i32 [[ADD4]], ptr [[RES]], align 4
 // CHECK-TLS2-NEXT:    [[TMP10:%.*]] = call ptr @_ZTW5arr_x()
 // CHECK-TLS2-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [2 x [3 x %struct.S1]], ptr [[TMP10]], i64 0, i64 1
 // CHECK-TLS2-NEXT:    [[ARRAYIDX5:%.*]] = getelementptr inbounds [3 x %struct.S1], ptr [[ARRAYIDX]], i64 0, i64 1
 // CHECK-TLS2-NEXT:    [[A6:%.*]] = getelementptr inbounds [[STRUCT_S1]], ptr [[ARRAYIDX5]], i32 0, i32 0
-// CHECK-TLS2-NEXT:    [[TMP11:%.*]] = load i32, ptr [[A6]], align 4
-// CHECK-TLS2-NEXT:    [[TMP12:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK-TLS2-NEXT:    [[TMP11:%.*]] = load i32, ptr [[A6]], align 4, !noundef [[NOUNDEF4]]
+// CHECK-TLS2-NEXT:    [[TMP12:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF4]]
 // CHECK-TLS2-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP12]], [[TMP11]]
 // CHECK-TLS2-NEXT:    store i32 [[ADD7]], ptr [[RES]], align 4
 // CHECK-TLS2-NEXT:    [[TMP13:%.*]] = call ptr @_ZTWN2STIiE2stE()
-// CHECK-TLS2-NEXT:    [[TMP14:%.*]] = load i32, ptr [[TMP13]], align 4
-// CHECK-TLS2-NEXT:    [[TMP15:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK-TLS2-NEXT:    [[TMP14:%.*]] = load i32, ptr [[TMP13]], align 4, !noundef [[NOUNDEF4]]
+// CHECK-TLS2-NEXT:    [[TMP15:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF4]]
 // CHECK-TLS2-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP15]], [[TMP14]]
 // CHECK-TLS2-NEXT:    store i32 [[ADD8]], ptr [[RES]], align 4
 // CHECK-TLS2-NEXT:    [[TMP16:%.*]] = call ptr @_ZTWN2STIfE2stE()
-// CHECK-TLS2-NEXT:    [[TMP17:%.*]] = load float, ptr [[TMP16]], align 4
+// CHECK-TLS2-NEXT:    [[TMP17:%.*]] = load float, ptr [[TMP16]], align 4, !noundef [[NOUNDEF4]]
 // CHECK-TLS2-NEXT:    [[CONV:%.*]] = fptosi float [[TMP17]] to i32
-// CHECK-TLS2-NEXT:    [[TMP18:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK-TLS2-NEXT:    [[TMP18:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF4]]
 // CHECK-TLS2-NEXT:    [[ADD9:%.*]] = add nsw i32 [[TMP18]], [[CONV]]
 // CHECK-TLS2-NEXT:    store i32 [[ADD9]], ptr [[RES]], align 4
 // CHECK-TLS2-NEXT:    [[TMP19:%.*]] = call ptr @_ZTWN2STI2S4E2stE()
 // CHECK-TLS2-NEXT:    [[A10:%.*]] = getelementptr inbounds [[STRUCT_S4:%.*]], ptr [[TMP19]], i32 0, i32 0
-// CHECK-TLS2-NEXT:    [[TMP20:%.*]] = load i32, ptr [[A10]], align 4
-// CHECK-TLS2-NEXT:    [[TMP21:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK-TLS2-NEXT:    [[TMP20:%.*]] = load i32, ptr [[A10]], align 4, !noundef [[NOUNDEF4]]
+// CHECK-TLS2-NEXT:    [[TMP21:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF4]]
 // CHECK-TLS2-NEXT:    [[ADD11:%.*]] = add nsw i32 [[TMP21]], [[TMP20]]
 // CHECK-TLS2-NEXT:    store i32 [[ADD11]], ptr [[RES]], align 4
-// CHECK-TLS2-NEXT:    [[TMP22:%.*]] = load i32, ptr [[RES]], align 4
+// CHECK-TLS2-NEXT:    [[TMP22:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF4]]
 // CHECK-TLS2-NEXT:    ret i32 [[TMP22]]
 //
 //
@@ -4065,7 +4065,7 @@ int foobar() {
 // CHECK-TLS2-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-TLS2-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK-TLS2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-TLS2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK-TLS2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF4]]
 // CHECK-TLS2-NEXT:    call void @_ZN2S1C2Ei(ptr noundef nonnull align 4 dereferenceable(4) [[THIS1]], i32 noundef [[TMP0]])
 // CHECK-TLS2-NEXT:    ret void
 //
@@ -4089,7 +4089,7 @@ int foobar() {
 // CHECK-TLS2-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK-TLS2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK-TLS2-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_S1:%.*]], ptr [[THIS1]], i32 0, i32 0
-// CHECK-TLS2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK-TLS2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF4]]
 // CHECK-TLS2-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 4
 // CHECK-TLS2-NEXT:    ret void
 //
@@ -4121,7 +4121,7 @@ int foobar() {
 // CHECK-TLS2-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-TLS2-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK-TLS2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-TLS2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK-TLS2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF4]]
 // CHECK-TLS2-NEXT:    call void @_ZN2S2C2Ei(ptr noundef nonnull align 8 dereferenceable(16) [[THIS1]], i32 noundef [[TMP0]])
 // CHECK-TLS2-NEXT:    ret void
 //
@@ -4145,7 +4145,7 @@ int foobar() {
 // CHECK-TLS2-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK-TLS2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK-TLS2-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_S2:%.*]], ptr [[THIS1]], i32 0, i32 0
-// CHECK-TLS2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK-TLS2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF4]]
 // CHECK-TLS2-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 8
 // CHECK-TLS2-NEXT:    ret void
 //
@@ -4279,7 +4279,7 @@ int foobar() {
 // CHECK-TLS2-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK-TLS2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK-TLS2-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_SMAIN:%.*]], ptr [[THIS1]], i32 0, i32 0
-// CHECK-TLS2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK-TLS2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF4]]
 // CHECK-TLS2-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 8
 // CHECK-TLS2-NEXT:    ret void
 //
@@ -4318,7 +4318,7 @@ int foobar() {
 // CHECK-TLS2-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-TLS2-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK-TLS2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-TLS2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK-TLS2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF4]]
 // CHECK-TLS2-NEXT:    call void @_ZN2S4C2Ei(ptr noundef nonnull align 4 dereferenceable(8) [[THIS1]], i32 noundef [[TMP0]])
 // CHECK-TLS2-NEXT:    ret void
 //
@@ -4342,7 +4342,7 @@ int foobar() {
 // CHECK-TLS2-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK-TLS2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK-TLS2-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_S4:%.*]], ptr [[THIS1]], i32 0, i32 0
-// CHECK-TLS2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK-TLS2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF4]]
 // CHECK-TLS2-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 4
 // CHECK-TLS2-NEXT:    ret void
 //
@@ -4398,7 +4398,7 @@ int foobar() {
 // CHECK-TLS3-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK-TLS3-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META127:![0-9]+]], metadata !DIExpression()), !dbg [[DBG128:![0-9]+]]
 // CHECK-TLS3-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-TLS3-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG129:![0-9]+]]
+// CHECK-TLS3-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG129:![0-9]+]], !noundef [[NOUNDEF54:![0-9]+]]
 // CHECK-TLS3-NEXT:    call void @_ZN2S1C2Ei(ptr noundef nonnull align 4 dereferenceable(4) [[THIS1]], i32 noundef [[TMP0]]), !dbg [[DBG129]]
 // CHECK-TLS3-NEXT:    ret void, !dbg [[DBG130:![0-9]+]]
 //
@@ -4425,7 +4425,7 @@ int foobar() {
 // CHECK-TLS3-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META139:![0-9]+]], metadata !DIExpression()), !dbg [[DBG140:![0-9]+]]
 // CHECK-TLS3-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK-TLS3-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_S1:%.*]], ptr [[THIS1]], i32 0, i32 0, !dbg [[DBG141:![0-9]+]]
-// CHECK-TLS3-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG142:![0-9]+]]
+// CHECK-TLS3-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG142:![0-9]+]], !noundef [[NOUNDEF54]]
 // CHECK-TLS3-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 4, !dbg [[DBG141]]
 // CHECK-TLS3-NEXT:    ret void, !dbg [[DBG143:![0-9]+]]
 //
@@ -4460,7 +4460,7 @@ int foobar() {
 // CHECK-TLS3-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK-TLS3-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META160:![0-9]+]], metadata !DIExpression()), !dbg [[DBG161:![0-9]+]]
 // CHECK-TLS3-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-TLS3-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG162:![0-9]+]]
+// CHECK-TLS3-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG162:![0-9]+]], !noundef [[NOUNDEF54]]
 // CHECK-TLS3-NEXT:    call void @_ZN2S2C2Ei(ptr noundef nonnull align 8 dereferenceable(16) [[THIS1]], i32 noundef [[TMP0]]), !dbg [[DBG162]]
 // CHECK-TLS3-NEXT:    ret void, !dbg [[DBG163:![0-9]+]]
 //
@@ -4487,7 +4487,7 @@ int foobar() {
 // CHECK-TLS3-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META172:![0-9]+]], metadata !DIExpression()), !dbg [[DBG173:![0-9]+]]
 // CHECK-TLS3-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK-TLS3-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_S2:%.*]], ptr [[THIS1]], i32 0, i32 0, !dbg [[DBG174:![0-9]+]]
-// CHECK-TLS3-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG175:![0-9]+]]
+// CHECK-TLS3-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG175:![0-9]+]], !noundef [[NOUNDEF54]]
 // CHECK-TLS3-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 8, !dbg [[DBG174]]
 // CHECK-TLS3-NEXT:    ret void, !dbg [[DBG176:![0-9]+]]
 //
@@ -4627,7 +4627,7 @@ int foobar() {
 // CHECK-TLS3:       init.check:
 // CHECK-TLS3-NEXT:    [[TMP1:%.*]] = call ptr @_ZTWL3gs1(), !dbg [[DBG207:![0-9]+]]
 // CHECK-TLS3-NEXT:    [[A:%.*]] = getelementptr inbounds [[STRUCT_S1:%.*]], ptr [[TMP1]], i32 0, i32 0, !dbg [[DBG208:![0-9]+]]
-// CHECK-TLS3-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4, !dbg [[DBG208]]
+// CHECK-TLS3-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4, !dbg [[DBG208]], !noundef [[NOUNDEF54]]
 // CHECK-TLS3-NEXT:    call void @_ZZ4mainEN5SmainC1Ei(ptr noundef nonnull align 8 dereferenceable(24) @_ZZ4mainE2sm, i32 noundef [[TMP2]]), !dbg [[DBG209:![0-9]+]]
 // CHECK-TLS3-NEXT:    [[TMP3:%.*]] = call i32 @__cxa_thread_atexit(ptr @_ZZ4mainEN5SmainD1Ev, ptr @_ZZ4mainE2sm, ptr @__dso_handle) #[[ATTR3]], !dbg [[DBG205]]
 // CHECK-TLS3-NEXT:    store i8 1, ptr @_ZGVZ4mainE2sm, align 1, !dbg [[DBG205]]
@@ -4635,56 +4635,56 @@ int foobar() {
 // CHECK-TLS3:       init.end:
 // CHECK-TLS3-NEXT:    [[TMP4:%.*]] = call ptr @_ZTWN6Static1sE(), !dbg [[DBG210:![0-9]+]]
 // CHECK-TLS3-NEXT:    [[A1:%.*]] = getelementptr inbounds [[STRUCT_S3:%.*]], ptr [[TMP4]], i32 0, i32 0, !dbg [[DBG211:![0-9]+]]
-// CHECK-TLS3-NEXT:    [[TMP5:%.*]] = load i32, ptr [[A1]], align 4, !dbg [[DBG211]]
+// CHECK-TLS3-NEXT:    [[TMP5:%.*]] = load i32, ptr [[A1]], align 4, !dbg [[DBG211]], !noundef [[NOUNDEF54]]
 // CHECK-TLS3-NEXT:    store i32 [[TMP5]], ptr [[RES]], align 4, !dbg [[DBG212:![0-9]+]]
 // CHECK-TLS3-NEXT:    [[TMP6:%.*]] = call align 8 ptr @llvm.threadlocal.address.p0(ptr align 8 @_ZZ4mainE2sm), !dbg [[DBG213:![0-9]+]]
 // CHECK-TLS3-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_SMAIN:%.*]], ptr [[TMP6]], i32 0, i32 0, !dbg [[DBG214:![0-9]+]]
-// CHECK-TLS3-NEXT:    [[TMP7:%.*]] = load i32, ptr [[A2]], align 8, !dbg [[DBG214]]
-// CHECK-TLS3-NEXT:    [[TMP8:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG215:![0-9]+]]
+// CHECK-TLS3-NEXT:    [[TMP7:%.*]] = load i32, ptr [[A2]], align 8, !dbg [[DBG214]], !noundef [[NOUNDEF54]]
+// CHECK-TLS3-NEXT:    [[TMP8:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG215:![0-9]+]], !noundef [[NOUNDEF54]]
 // CHECK-TLS3-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP8]], [[TMP7]], !dbg [[DBG215]]
 // CHECK-TLS3-NEXT:    store i32 [[ADD]], ptr [[RES]], align 4, !dbg [[DBG215]]
 // CHECK-TLS3-NEXT:    [[TMP9:%.*]] = call ptr @_ZTWL3gs1(), !dbg [[DBG216:![0-9]+]]
 // CHECK-TLS3-NEXT:    [[A3:%.*]] = getelementptr inbounds [[STRUCT_S1]], ptr [[TMP9]], i32 0, i32 0, !dbg [[DBG217:![0-9]+]]
-// CHECK-TLS3-NEXT:    [[TMP10:%.*]] = load i32, ptr [[A3]], align 4, !dbg [[DBG217]]
-// CHECK-TLS3-NEXT:    [[TMP11:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG218:![0-9]+]]
+// CHECK-TLS3-NEXT:    [[TMP10:%.*]] = load i32, ptr [[A3]], align 4, !dbg [[DBG217]], !noundef [[NOUNDEF54]]
+// CHECK-TLS3-NEXT:    [[TMP11:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG218:![0-9]+]], !noundef [[NOUNDEF54]]
 // CHECK-TLS3-NEXT:    [[ADD4:%.*]] = add nsw i32 [[TMP11]], [[TMP10]], !dbg [[DBG218]]
 // CHECK-TLS3-NEXT:    store i32 [[ADD4]], ptr [[RES]], align 4, !dbg [[DBG218]]
-// CHECK-TLS3-NEXT:    [[TMP12:%.*]] = load i32, ptr @_ZL3gs2, align 8, !dbg [[DBG219:![0-9]+]]
-// CHECK-TLS3-NEXT:    [[TMP13:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG220:![0-9]+]]
+// CHECK-TLS3-NEXT:    [[TMP12:%.*]] = load i32, ptr @_ZL3gs2, align 8, !dbg [[DBG219:![0-9]+]], !noundef [[NOUNDEF54]]
+// CHECK-TLS3-NEXT:    [[TMP13:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG220:![0-9]+]], !noundef [[NOUNDEF54]]
 // CHECK-TLS3-NEXT:    [[ADD5:%.*]] = add nsw i32 [[TMP13]], [[TMP12]], !dbg [[DBG220]]
 // CHECK-TLS3-NEXT:    store i32 [[ADD5]], ptr [[RES]], align 4, !dbg [[DBG220]]
 // CHECK-TLS3-NEXT:    [[TMP14:%.*]] = call ptr @_ZTW3gs3(), !dbg [[DBG221:![0-9]+]]
 // CHECK-TLS3-NEXT:    [[A6:%.*]] = getelementptr inbounds [[STRUCT_S5:%.*]], ptr [[TMP14]], i32 0, i32 0, !dbg [[DBG222:![0-9]+]]
-// CHECK-TLS3-NEXT:    [[TMP15:%.*]] = load i32, ptr [[A6]], align 4, !dbg [[DBG222]]
-// CHECK-TLS3-NEXT:    [[TMP16:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG223:![0-9]+]]
+// CHECK-TLS3-NEXT:    [[TMP15:%.*]] = load i32, ptr [[A6]], align 4, !dbg [[DBG222]], !noundef [[NOUNDEF54]]
+// CHECK-TLS3-NEXT:    [[TMP16:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG223:![0-9]+]], !noundef [[NOUNDEF54]]
 // CHECK-TLS3-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP16]], [[TMP15]], !dbg [[DBG223]]
 // CHECK-TLS3-NEXT:    store i32 [[ADD7]], ptr [[RES]], align 4, !dbg [[DBG223]]
 // CHECK-TLS3-NEXT:    [[TMP17:%.*]] = call ptr @_ZTW5arr_x(), !dbg [[DBG224:![0-9]+]]
 // CHECK-TLS3-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [2 x [3 x %struct.S1]], ptr [[TMP17]], i64 0, i64 1, !dbg [[DBG224]]
 // CHECK-TLS3-NEXT:    [[ARRAYIDX8:%.*]] = getelementptr inbounds [3 x %struct.S1], ptr [[ARRAYIDX]], i64 0, i64 1, !dbg [[DBG224]]
 // CHECK-TLS3-NEXT:    [[A9:%.*]] = getelementptr inbounds [[STRUCT_S1]], ptr [[ARRAYIDX8]], i32 0, i32 0, !dbg [[DBG225:![0-9]+]]
-// CHECK-TLS3-NEXT:    [[TMP18:%.*]] = load i32, ptr [[A9]], align 4, !dbg [[DBG225]]
-// CHECK-TLS3-NEXT:    [[TMP19:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG226:![0-9]+]]
+// CHECK-TLS3-NEXT:    [[TMP18:%.*]] = load i32, ptr [[A9]], align 4, !dbg [[DBG225]], !noundef [[NOUNDEF54]]
+// CHECK-TLS3-NEXT:    [[TMP19:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG226:![0-9]+]], !noundef [[NOUNDEF54]]
 // CHECK-TLS3-NEXT:    [[ADD10:%.*]] = add nsw i32 [[TMP19]], [[TMP18]], !dbg [[DBG226]]
 // CHECK-TLS3-NEXT:    store i32 [[ADD10]], ptr [[RES]], align 4, !dbg [[DBG226]]
 // CHECK-TLS3-NEXT:    [[TMP20:%.*]] = call align 4 ptr @llvm.threadlocal.address.p0(ptr align 4 @_ZN2STIiE2stE), !dbg [[DBG227:![0-9]+]]
-// CHECK-TLS3-NEXT:    [[TMP21:%.*]] = load i32, ptr [[TMP20]], align 4, !dbg [[DBG227]]
-// CHECK-TLS3-NEXT:    [[TMP22:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG228:![0-9]+]]
+// CHECK-TLS3-NEXT:    [[TMP21:%.*]] = load i32, ptr [[TMP20]], align 4, !dbg [[DBG227]], !noundef [[NOUNDEF54]]
+// CHECK-TLS3-NEXT:    [[TMP22:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG228:![0-9]+]], !noundef [[NOUNDEF54]]
 // CHECK-TLS3-NEXT:    [[ADD11:%.*]] = add nsw i32 [[TMP22]], [[TMP21]], !dbg [[DBG228]]
 // CHECK-TLS3-NEXT:    store i32 [[ADD11]], ptr [[RES]], align 4, !dbg [[DBG228]]
 // CHECK-TLS3-NEXT:    [[TMP23:%.*]] = call align 4 ptr @llvm.threadlocal.address.p0(ptr align 4 @_ZN2STIfE2stE), !dbg [[DBG229:![0-9]+]]
-// CHECK-TLS3-NEXT:    [[TMP24:%.*]] = load float, ptr [[TMP23]], align 4, !dbg [[DBG229]]
+// CHECK-TLS3-NEXT:    [[TMP24:%.*]] = load float, ptr [[TMP23]], align 4, !dbg [[DBG229]], !noundef [[NOUNDEF54]]
 // CHECK-TLS3-NEXT:    [[CONV:%.*]] = fptosi float [[TMP24]] to i32, !dbg [[DBG229]]
-// CHECK-TLS3-NEXT:    [[TMP25:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG230:![0-9]+]]
+// CHECK-TLS3-NEXT:    [[TMP25:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG230:![0-9]+]], !noundef [[NOUNDEF54]]
 // CHECK-TLS3-NEXT:    [[ADD12:%.*]] = add nsw i32 [[TMP25]], [[CONV]], !dbg [[DBG230]]
 // CHECK-TLS3-NEXT:    store i32 [[ADD12]], ptr [[RES]], align 4, !dbg [[DBG230]]
 // CHECK-TLS3-NEXT:    [[TMP26:%.*]] = call ptr @_ZTWN2STI2S4E2stE(), !dbg [[DBG231:![0-9]+]]
 // CHECK-TLS3-NEXT:    [[A13:%.*]] = getelementptr inbounds [[STRUCT_S4:%.*]], ptr [[TMP26]], i32 0, i32 0, !dbg [[DBG232:![0-9]+]]
-// CHECK-TLS3-NEXT:    [[TMP27:%.*]] = load i32, ptr [[A13]], align 4, !dbg [[DBG232]]
-// CHECK-TLS3-NEXT:    [[TMP28:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG233:![0-9]+]]
+// CHECK-TLS3-NEXT:    [[TMP27:%.*]] = load i32, ptr [[A13]], align 4, !dbg [[DBG232]], !noundef [[NOUNDEF54]]
+// CHECK-TLS3-NEXT:    [[TMP28:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG233:![0-9]+]], !noundef [[NOUNDEF54]]
 // CHECK-TLS3-NEXT:    [[ADD14:%.*]] = add nsw i32 [[TMP28]], [[TMP27]], !dbg [[DBG233]]
 // CHECK-TLS3-NEXT:    store i32 [[ADD14]], ptr [[RES]], align 4, !dbg [[DBG233]]
-// CHECK-TLS3-NEXT:    [[TMP29:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG234:![0-9]+]]
+// CHECK-TLS3-NEXT:    [[TMP29:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG234:![0-9]+]], !noundef [[NOUNDEF54]]
 // CHECK-TLS3-NEXT:    ret i32 [[TMP29]], !dbg [[DBG235:![0-9]+]]
 //
 //
@@ -4705,7 +4705,7 @@ int foobar() {
 // CHECK-TLS3-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK-TLS3-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META240:![0-9]+]], metadata !DIExpression()), !dbg [[DBG241:![0-9]+]]
 // CHECK-TLS3-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-TLS3-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG242:![0-9]+]]
+// CHECK-TLS3-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG242:![0-9]+]], !noundef [[NOUNDEF54]]
 // CHECK-TLS3-NEXT:    call void @_ZZ4mainEN5SmainC2Ei(ptr noundef nonnull align 8 dereferenceable(24) [[THIS1]], i32 noundef [[TMP0]]), !dbg [[DBG242]]
 // CHECK-TLS3-NEXT:    ret void, !dbg [[DBG243:![0-9]+]]
 //
@@ -4768,7 +4768,7 @@ int foobar() {
 // CHECK-TLS3-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META252:![0-9]+]], metadata !DIExpression()), !dbg [[DBG253:![0-9]+]]
 // CHECK-TLS3-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK-TLS3-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_SMAIN:%.*]], ptr [[THIS1]], i32 0, i32 0, !dbg [[DBG254:![0-9]+]]
-// CHECK-TLS3-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG255:![0-9]+]]
+// CHECK-TLS3-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG255:![0-9]+]], !noundef [[NOUNDEF54]]
 // CHECK-TLS3-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 8, !dbg [[DBG254]]
 // CHECK-TLS3-NEXT:    ret void, !dbg [[DBG256:![0-9]+]]
 //
@@ -4792,50 +4792,50 @@ int foobar() {
 // CHECK-TLS3-NEXT:    call void @llvm.dbg.declare(metadata ptr [[RES]], metadata [[META265:![0-9]+]], metadata !DIExpression()), !dbg [[DBG266:![0-9]+]]
 // CHECK-TLS3-NEXT:    [[TMP0:%.*]] = call ptr @_ZTWN6Static1sE(), !dbg [[DBG267:![0-9]+]]
 // CHECK-TLS3-NEXT:    [[A:%.*]] = getelementptr inbounds [[STRUCT_S3:%.*]], ptr [[TMP0]], i32 0, i32 0, !dbg [[DBG268:![0-9]+]]
-// CHECK-TLS3-NEXT:    [[TMP1:%.*]] = load i32, ptr [[A]], align 4, !dbg [[DBG268]]
+// CHECK-TLS3-NEXT:    [[TMP1:%.*]] = load i32, ptr [[A]], align 4, !dbg [[DBG268]], !noundef [[NOUNDEF54]]
 // CHECK-TLS3-NEXT:    store i32 [[TMP1]], ptr [[RES]], align 4, !dbg [[DBG269:![0-9]+]]
 // CHECK-TLS3-NEXT:    [[TMP2:%.*]] = call ptr @_ZTWL3gs1(), !dbg [[DBG270:![0-9]+]]
 // CHECK-TLS3-NEXT:    [[A1:%.*]] = getelementptr inbounds [[STRUCT_S1:%.*]], ptr [[TMP2]], i32 0, i32 0, !dbg [[DBG271:![0-9]+]]
-// CHECK-TLS3-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A1]], align 4, !dbg [[DBG271]]
-// CHECK-TLS3-NEXT:    [[TMP4:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG272:![0-9]+]]
+// CHECK-TLS3-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A1]], align 4, !dbg [[DBG271]], !noundef [[NOUNDEF54]]
+// CHECK-TLS3-NEXT:    [[TMP4:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG272:![0-9]+]], !noundef [[NOUNDEF54]]
 // CHECK-TLS3-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP4]], [[TMP3]], !dbg [[DBG272]]
 // CHECK-TLS3-NEXT:    store i32 [[ADD]], ptr [[RES]], align 4, !dbg [[DBG272]]
-// CHECK-TLS3-NEXT:    [[TMP5:%.*]] = load i32, ptr @_ZL3gs2, align 8, !dbg [[DBG273:![0-9]+]]
-// CHECK-TLS3-NEXT:    [[TMP6:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG274:![0-9]+]]
+// CHECK-TLS3-NEXT:    [[TMP5:%.*]] = load i32, ptr @_ZL3gs2, align 8, !dbg [[DBG273:![0-9]+]], !noundef [[NOUNDEF54]]
+// CHECK-TLS3-NEXT:    [[TMP6:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG274:![0-9]+]], !noundef [[NOUNDEF54]]
 // CHECK-TLS3-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP6]], [[TMP5]], !dbg [[DBG274]]
 // CHECK-TLS3-NEXT:    store i32 [[ADD2]], ptr [[RES]], align 4, !dbg [[DBG274]]
 // CHECK-TLS3-NEXT:    [[TMP7:%.*]] = call ptr @_ZTW3gs3(), !dbg [[DBG275:![0-9]+]]
 // CHECK-TLS3-NEXT:    [[A3:%.*]] = getelementptr inbounds [[STRUCT_S5:%.*]], ptr [[TMP7]], i32 0, i32 0, !dbg [[DBG276:![0-9]+]]
-// CHECK-TLS3-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A3]], align 4, !dbg [[DBG276]]
-// CHECK-TLS3-NEXT:    [[TMP9:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG277:![0-9]+]]
+// CHECK-TLS3-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A3]], align 4, !dbg [[DBG276]], !noundef [[NOUNDEF54]]
+// CHECK-TLS3-NEXT:    [[TMP9:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG277:![0-9]+]], !noundef [[NOUNDEF54]]
 // CHECK-TLS3-NEXT:    [[ADD4:%.*]] = add nsw i32 [[TMP9]], [[TMP8]], !dbg [[DBG277]]
 // CHECK-TLS3-NEXT:    store i32 [[ADD4]], ptr [[RES]], align 4, !dbg [[DBG277]]
 // CHECK-TLS3-NEXT:    [[TMP10:%.*]] = call ptr @_ZTW5arr_x(), !dbg [[DBG278:![0-9]+]]
 // CHECK-TLS3-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [2 x [3 x %struct.S1]], ptr [[TMP10]], i64 0, i64 1, !dbg [[DBG278]]
 // CHECK-TLS3-NEXT:    [[ARRAYIDX5:%.*]] = getelementptr inbounds [3 x %struct.S1], ptr [[ARRAYIDX]], i64 0, i64 1, !dbg [[DBG278]]
 // CHECK-TLS3-NEXT:    [[A6:%.*]] = getelementptr inbounds [[STRUCT_S1]], ptr [[ARRAYIDX5]], i32 0, i32 0, !dbg [[DBG279:![0-9]+]]
-// CHECK-TLS3-NEXT:    [[TMP11:%.*]] = load i32, ptr [[A6]], align 4, !dbg [[DBG279]]
-// CHECK-TLS3-NEXT:    [[TMP12:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG280:![0-9]+]]
+// CHECK-TLS3-NEXT:    [[TMP11:%.*]] = load i32, ptr [[A6]], align 4, !dbg [[DBG279]], !noundef [[NOUNDEF54]]
+// CHECK-TLS3-NEXT:    [[TMP12:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG280:![0-9]+]], !noundef [[NOUNDEF54]]
 // CHECK-TLS3-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP12]], [[TMP11]], !dbg [[DBG280]]
 // CHECK-TLS3-NEXT:    store i32 [[ADD7]], ptr [[RES]], align 4, !dbg [[DBG280]]
 // CHECK-TLS3-NEXT:    [[TMP13:%.*]] = call align 4 ptr @llvm.threadlocal.address.p0(ptr align 4 @_ZN2STIiE2stE), !dbg [[DBG281:![0-9]+]]
-// CHECK-TLS3-NEXT:    [[TMP14:%.*]] = load i32, ptr [[TMP13]], align 4, !dbg [[DBG281]]
-// CHECK-TLS3-NEXT:    [[TMP15:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG282:![0-9]+]]
+// CHECK-TLS3-NEXT:    [[TMP14:%.*]] = load i32, ptr [[TMP13]], align 4, !dbg [[DBG281]], !noundef [[NOUNDEF54]]
+// CHECK-TLS3-NEXT:    [[TMP15:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG282:![0-9]+]], !noundef [[NOUNDEF54]]
 // CHECK-TLS3-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP15]], [[TMP14]], !dbg [[DBG282]]
 // CHECK-TLS3-NEXT:    store i32 [[ADD8]], ptr [[RES]], align 4, !dbg [[DBG282]]
 // CHECK-TLS3-NEXT:    [[TMP16:%.*]] = call align 4 ptr @llvm.threadlocal.address.p0(ptr align 4 @_ZN2STIfE2stE), !dbg [[DBG283:![0-9]+]]
-// CHECK-TLS3-NEXT:    [[TMP17:%.*]] = load float, ptr [[TMP16]], align 4, !dbg [[DBG283]]
+// CHECK-TLS3-NEXT:    [[TMP17:%.*]] = load float, ptr [[TMP16]], align 4, !dbg [[DBG283]], !noundef [[NOUNDEF54]]
 // CHECK-TLS3-NEXT:    [[CONV:%.*]] = fptosi float [[TMP17]] to i32, !dbg [[DBG283]]
-// CHECK-TLS3-NEXT:    [[TMP18:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG284:![0-9]+]]
+// CHECK-TLS3-NEXT:    [[TMP18:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG284:![0-9]+]], !noundef [[NOUNDEF54]]
 // CHECK-TLS3-NEXT:    [[ADD9:%.*]] = add nsw i32 [[TMP18]], [[CONV]], !dbg [[DBG284]]
 // CHECK-TLS3-NEXT:    store i32 [[ADD9]], ptr [[RES]], align 4, !dbg [[DBG284]]
 // CHECK-TLS3-NEXT:    [[TMP19:%.*]] = call ptr @_ZTWN2STI2S4E2stE(), !dbg [[DBG285:![0-9]+]]
 // CHECK-TLS3-NEXT:    [[A10:%.*]] = getelementptr inbounds [[STRUCT_S4:%.*]], ptr [[TMP19]], i32 0, i32 0, !dbg [[DBG286:![0-9]+]]
-// CHECK-TLS3-NEXT:    [[TMP20:%.*]] = load i32, ptr [[A10]], align 4, !dbg [[DBG286]]
-// CHECK-TLS3-NEXT:    [[TMP21:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG287:![0-9]+]]
+// CHECK-TLS3-NEXT:    [[TMP20:%.*]] = load i32, ptr [[A10]], align 4, !dbg [[DBG286]], !noundef [[NOUNDEF54]]
+// CHECK-TLS3-NEXT:    [[TMP21:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG287:![0-9]+]], !noundef [[NOUNDEF54]]
 // CHECK-TLS3-NEXT:    [[ADD11:%.*]] = add nsw i32 [[TMP21]], [[TMP20]], !dbg [[DBG287]]
 // CHECK-TLS3-NEXT:    store i32 [[ADD11]], ptr [[RES]], align 4, !dbg [[DBG287]]
-// CHECK-TLS3-NEXT:    [[TMP22:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG288:![0-9]+]]
+// CHECK-TLS3-NEXT:    [[TMP22:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG288:![0-9]+]], !noundef [[NOUNDEF54]]
 // CHECK-TLS3-NEXT:    ret i32 [[TMP22]], !dbg [[DBG289:![0-9]+]]
 //
 //
@@ -4864,7 +4864,7 @@ int foobar() {
 // CHECK-TLS3-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK-TLS3-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META299:![0-9]+]], metadata !DIExpression()), !dbg [[DBG300:![0-9]+]]
 // CHECK-TLS3-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-TLS3-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG301:![0-9]+]]
+// CHECK-TLS3-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG301:![0-9]+]], !noundef [[NOUNDEF54]]
 // CHECK-TLS3-NEXT:    call void @_ZN2S4C2Ei(ptr noundef nonnull align 4 dereferenceable(8) [[THIS1]], i32 noundef [[TMP0]]), !dbg [[DBG301]]
 // CHECK-TLS3-NEXT:    ret void, !dbg [[DBG302:![0-9]+]]
 //
@@ -4891,7 +4891,7 @@ int foobar() {
 // CHECK-TLS3-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META311:![0-9]+]], metadata !DIExpression()), !dbg [[DBG312:![0-9]+]]
 // CHECK-TLS3-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK-TLS3-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_S4:%.*]], ptr [[THIS1]], i32 0, i32 0, !dbg [[DBG313:![0-9]+]]
-// CHECK-TLS3-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG314:![0-9]+]]
+// CHECK-TLS3-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG314:![0-9]+]], !noundef [[NOUNDEF54]]
 // CHECK-TLS3-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 4, !dbg [[DBG313]]
 // CHECK-TLS3-NEXT:    ret void, !dbg [[DBG315:![0-9]+]]
 //
@@ -4943,7 +4943,7 @@ int foobar() {
 // CHECK-TLS4:       init.check:
 // CHECK-TLS4-NEXT:    [[TMP1:%.*]] = call ptr @_ZTWL3gs1(), !dbg [[DBG120:![0-9]+]]
 // CHECK-TLS4-NEXT:    [[A:%.*]] = getelementptr inbounds [[STRUCT_S1:%.*]], ptr [[TMP1]], i32 0, i32 0, !dbg [[DBG121:![0-9]+]]
-// CHECK-TLS4-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4, !dbg [[DBG121]]
+// CHECK-TLS4-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4, !dbg [[DBG121]], !noundef [[NOUNDEF12:![0-9]+]]
 // CHECK-TLS4-NEXT:    call void @_ZZ4mainEN5SmainC1Ei(ptr noundef nonnull align 8 dereferenceable(24) @_ZZ4mainE2sm, i32 noundef [[TMP2]]), !dbg [[DBG122:![0-9]+]]
 // CHECK-TLS4-NEXT:    [[TMP3:%.*]] = call i32 @__cxa_thread_atexit(ptr @_ZZ4mainEN5SmainD1Ev, ptr @_ZZ4mainE2sm, ptr @__dso_handle) #[[ATTR5:[0-9]+]], !dbg [[DBG118]]
 // CHECK-TLS4-NEXT:    store i8 1, ptr @_ZGVZ4mainE2sm, align 1, !dbg [[DBG118]]
@@ -4951,56 +4951,56 @@ int foobar() {
 // CHECK-TLS4:       init.end:
 // CHECK-TLS4-NEXT:    [[TMP4:%.*]] = call ptr @_ZTWN6Static1sE(), !dbg [[DBG123:![0-9]+]]
 // CHECK-TLS4-NEXT:    [[A1:%.*]] = getelementptr inbounds [[STRUCT_S3:%.*]], ptr [[TMP4]], i32 0, i32 0, !dbg [[DBG124:![0-9]+]]
-// CHECK-TLS4-NEXT:    [[TMP5:%.*]] = load i32, ptr [[A1]], align 4, !dbg [[DBG124]]
+// CHECK-TLS4-NEXT:    [[TMP5:%.*]] = load i32, ptr [[A1]], align 4, !dbg [[DBG124]], !noundef [[NOUNDEF12]]
 // CHECK-TLS4-NEXT:    store i32 [[TMP5]], ptr [[RES]], align 4, !dbg [[DBG125:![0-9]+]]
 // CHECK-TLS4-NEXT:    [[TMP6:%.*]] = call align 8 ptr @llvm.threadlocal.address.p0(ptr align 8 @_ZZ4mainE2sm), !dbg [[DBG126:![0-9]+]]
 // CHECK-TLS4-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_SMAIN:%.*]], ptr [[TMP6]], i32 0, i32 0, !dbg [[DBG127:![0-9]+]]
-// CHECK-TLS4-NEXT:    [[TMP7:%.*]] = load i32, ptr [[A2]], align 8, !dbg [[DBG127]]
-// CHECK-TLS4-NEXT:    [[TMP8:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG128:![0-9]+]]
+// CHECK-TLS4-NEXT:    [[TMP7:%.*]] = load i32, ptr [[A2]], align 8, !dbg [[DBG127]], !noundef [[NOUNDEF12]]
+// CHECK-TLS4-NEXT:    [[TMP8:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG128:![0-9]+]], !noundef [[NOUNDEF12]]
 // CHECK-TLS4-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP8]], [[TMP7]], !dbg [[DBG128]]
 // CHECK-TLS4-NEXT:    store i32 [[ADD]], ptr [[RES]], align 4, !dbg [[DBG128]]
 // CHECK-TLS4-NEXT:    [[TMP9:%.*]] = call ptr @_ZTWL3gs1(), !dbg [[DBG129:![0-9]+]]
 // CHECK-TLS4-NEXT:    [[A3:%.*]] = getelementptr inbounds [[STRUCT_S1]], ptr [[TMP9]], i32 0, i32 0, !dbg [[DBG130:![0-9]+]]
-// CHECK-TLS4-NEXT:    [[TMP10:%.*]] = load i32, ptr [[A3]], align 4, !dbg [[DBG130]]
-// CHECK-TLS4-NEXT:    [[TMP11:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG131:![0-9]+]]
+// CHECK-TLS4-NEXT:    [[TMP10:%.*]] = load i32, ptr [[A3]], align 4, !dbg [[DBG130]], !noundef [[NOUNDEF12]]
+// CHECK-TLS4-NEXT:    [[TMP11:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG131:![0-9]+]], !noundef [[NOUNDEF12]]
 // CHECK-TLS4-NEXT:    [[ADD4:%.*]] = add nsw i32 [[TMP11]], [[TMP10]], !dbg [[DBG131]]
 // CHECK-TLS4-NEXT:    store i32 [[ADD4]], ptr [[RES]], align 4, !dbg [[DBG131]]
-// CHECK-TLS4-NEXT:    [[TMP12:%.*]] = load i32, ptr @_ZL3gs2, align 8, !dbg [[DBG132:![0-9]+]]
-// CHECK-TLS4-NEXT:    [[TMP13:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG133:![0-9]+]]
+// CHECK-TLS4-NEXT:    [[TMP12:%.*]] = load i32, ptr @_ZL3gs2, align 8, !dbg [[DBG132:![0-9]+]], !noundef [[NOUNDEF12]]
+// CHECK-TLS4-NEXT:    [[TMP13:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG133:![0-9]+]], !noundef [[NOUNDEF12]]
 // CHECK-TLS4-NEXT:    [[ADD5:%.*]] = add nsw i32 [[TMP13]], [[TMP12]], !dbg [[DBG133]]
 // CHECK-TLS4-NEXT:    store i32 [[ADD5]], ptr [[RES]], align 4, !dbg [[DBG133]]
 // CHECK-TLS4-NEXT:    [[TMP14:%.*]] = call ptr @_ZTW3gs3(), !dbg [[DBG134:![0-9]+]]
 // CHECK-TLS4-NEXT:    [[A6:%.*]] = getelementptr inbounds [[STRUCT_S5:%.*]], ptr [[TMP14]], i32 0, i32 0, !dbg [[DBG135:![0-9]+]]
-// CHECK-TLS4-NEXT:    [[TMP15:%.*]] = load i32, ptr [[A6]], align 4, !dbg [[DBG135]]
-// CHECK-TLS4-NEXT:    [[TMP16:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG136:![0-9]+]]
+// CHECK-TLS4-NEXT:    [[TMP15:%.*]] = load i32, ptr [[A6]], align 4, !dbg [[DBG135]], !noundef [[NOUNDEF12]]
+// CHECK-TLS4-NEXT:    [[TMP16:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG136:![0-9]+]], !noundef [[NOUNDEF12]]
 // CHECK-TLS4-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP16]], [[TMP15]], !dbg [[DBG136]]
 // CHECK-TLS4-NEXT:    store i32 [[ADD7]], ptr [[RES]], align 4, !dbg [[DBG136]]
 // CHECK-TLS4-NEXT:    [[TMP17:%.*]] = call ptr @_ZTW5arr_x(), !dbg [[DBG137:![0-9]+]]
 // CHECK-TLS4-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [2 x [3 x %struct.S1]], ptr [[TMP17]], i64 0, i64 1, !dbg [[DBG137]]
 // CHECK-TLS4-NEXT:    [[ARRAYIDX8:%.*]] = getelementptr inbounds [3 x %struct.S1], ptr [[ARRAYIDX]], i64 0, i64 1, !dbg [[DBG137]]
 // CHECK-TLS4-NEXT:    [[A9:%.*]] = getelementptr inbounds [[STRUCT_S1]], ptr [[ARRAYIDX8]], i32 0, i32 0, !dbg [[DBG138:![0-9]+]]
-// CHECK-TLS4-NEXT:    [[TMP18:%.*]] = load i32, ptr [[A9]], align 4, !dbg [[DBG138]]
-// CHECK-TLS4-NEXT:    [[TMP19:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG139:![0-9]+]]
+// CHECK-TLS4-NEXT:    [[TMP18:%.*]] = load i32, ptr [[A9]], align 4, !dbg [[DBG138]], !noundef [[NOUNDEF12]]
+// CHECK-TLS4-NEXT:    [[TMP19:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG139:![0-9]+]], !noundef [[NOUNDEF12]]
 // CHECK-TLS4-NEXT:    [[ADD10:%.*]] = add nsw i32 [[TMP19]], [[TMP18]], !dbg [[DBG139]]
 // CHECK-TLS4-NEXT:    store i32 [[ADD10]], ptr [[RES]], align 4, !dbg [[DBG139]]
 // CHECK-TLS4-NEXT:    [[TMP20:%.*]] = call ptr @_ZTWN2STIiE2stE(), !dbg [[DBG140:![0-9]+]]
-// CHECK-TLS4-NEXT:    [[TMP21:%.*]] = load i32, ptr [[TMP20]], align 4, !dbg [[DBG140]]
-// CHECK-TLS4-NEXT:    [[TMP22:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG141:![0-9]+]]
+// CHECK-TLS4-NEXT:    [[TMP21:%.*]] = load i32, ptr [[TMP20]], align 4, !dbg [[DBG140]], !noundef [[NOUNDEF12]]
+// CHECK-TLS4-NEXT:    [[TMP22:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG141:![0-9]+]], !noundef [[NOUNDEF12]]
 // CHECK-TLS4-NEXT:    [[ADD11:%.*]] = add nsw i32 [[TMP22]], [[TMP21]], !dbg [[DBG141]]
 // CHECK-TLS4-NEXT:    store i32 [[ADD11]], ptr [[RES]], align 4, !dbg [[DBG141]]
 // CHECK-TLS4-NEXT:    [[TMP23:%.*]] = call ptr @_ZTWN2STIfE2stE(), !dbg [[DBG142:![0-9]+]]
-// CHECK-TLS4-NEXT:    [[TMP24:%.*]] = load float, ptr [[TMP23]], align 4, !dbg [[DBG142]]
+// CHECK-TLS4-NEXT:    [[TMP24:%.*]] = load float, ptr [[TMP23]], align 4, !dbg [[DBG142]], !noundef [[NOUNDEF12]]
 // CHECK-TLS4-NEXT:    [[CONV:%.*]] = fptosi float [[TMP24]] to i32, !dbg [[DBG142]]
-// CHECK-TLS4-NEXT:    [[TMP25:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG143:![0-9]+]]
+// CHECK-TLS4-NEXT:    [[TMP25:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG143:![0-9]+]], !noundef [[NOUNDEF12]]
 // CHECK-TLS4-NEXT:    [[ADD12:%.*]] = add nsw i32 [[TMP25]], [[CONV]], !dbg [[DBG143]]
 // CHECK-TLS4-NEXT:    store i32 [[ADD12]], ptr [[RES]], align 4, !dbg [[DBG143]]
 // CHECK-TLS4-NEXT:    [[TMP26:%.*]] = call ptr @_ZTWN2STI2S4E2stE(), !dbg [[DBG144:![0-9]+]]
 // CHECK-TLS4-NEXT:    [[A13:%.*]] = getelementptr inbounds [[STRUCT_S4:%.*]], ptr [[TMP26]], i32 0, i32 0, !dbg [[DBG145:![0-9]+]]
-// CHECK-TLS4-NEXT:    [[TMP27:%.*]] = load i32, ptr [[A13]], align 4, !dbg [[DBG145]]
-// CHECK-TLS4-NEXT:    [[TMP28:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG146:![0-9]+]]
+// CHECK-TLS4-NEXT:    [[TMP27:%.*]] = load i32, ptr [[A13]], align 4, !dbg [[DBG145]], !noundef [[NOUNDEF12]]
+// CHECK-TLS4-NEXT:    [[TMP28:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG146:![0-9]+]], !noundef [[NOUNDEF12]]
 // CHECK-TLS4-NEXT:    [[ADD14:%.*]] = add nsw i32 [[TMP28]], [[TMP27]], !dbg [[DBG146]]
 // CHECK-TLS4-NEXT:    store i32 [[ADD14]], ptr [[RES]], align 4, !dbg [[DBG146]]
-// CHECK-TLS4-NEXT:    [[TMP29:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG147:![0-9]+]]
+// CHECK-TLS4-NEXT:    [[TMP29:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG147:![0-9]+]], !noundef [[NOUNDEF12]]
 // CHECK-TLS4-NEXT:    ret i32 [[TMP29]], !dbg [[DBG148:![0-9]+]]
 //
 //
@@ -5021,7 +5021,7 @@ int foobar() {
 // CHECK-TLS4-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK-TLS4-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META153:![0-9]+]], metadata !DIExpression()), !dbg [[DBG154:![0-9]+]]
 // CHECK-TLS4-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-TLS4-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG155:![0-9]+]]
+// CHECK-TLS4-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG155:![0-9]+]], !noundef [[NOUNDEF12]]
 // CHECK-TLS4-NEXT:    call void @_ZZ4mainEN5SmainC2Ei(ptr noundef nonnull align 8 dereferenceable(24) [[THIS1]], i32 noundef [[TMP0]]), !dbg [[DBG155]]
 // CHECK-TLS4-NEXT:    ret void, !dbg [[DBG156:![0-9]+]]
 //
@@ -5092,50 +5092,50 @@ int foobar() {
 // CHECK-TLS4-NEXT:    call void @llvm.dbg.declare(metadata ptr [[RES]], metadata [[META163:![0-9]+]], metadata !DIExpression()), !dbg [[DBG164:![0-9]+]]
 // CHECK-TLS4-NEXT:    [[TMP0:%.*]] = call ptr @_ZTWN6Static1sE(), !dbg [[DBG165:![0-9]+]]
 // CHECK-TLS4-NEXT:    [[A:%.*]] = getelementptr inbounds [[STRUCT_S3:%.*]], ptr [[TMP0]], i32 0, i32 0, !dbg [[DBG166:![0-9]+]]
-// CHECK-TLS4-NEXT:    [[TMP1:%.*]] = load i32, ptr [[A]], align 4, !dbg [[DBG166]]
+// CHECK-TLS4-NEXT:    [[TMP1:%.*]] = load i32, ptr [[A]], align 4, !dbg [[DBG166]], !noundef [[NOUNDEF12]]
 // CHECK-TLS4-NEXT:    store i32 [[TMP1]], ptr [[RES]], align 4, !dbg [[DBG167:![0-9]+]]
 // CHECK-TLS4-NEXT:    [[TMP2:%.*]] = call ptr @_ZTWL3gs1(), !dbg [[DBG168:![0-9]+]]
 // CHECK-TLS4-NEXT:    [[A1:%.*]] = getelementptr inbounds [[STRUCT_S1:%.*]], ptr [[TMP2]], i32 0, i32 0, !dbg [[DBG169:![0-9]+]]
-// CHECK-TLS4-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A1]], align 4, !dbg [[DBG169]]
-// CHECK-TLS4-NEXT:    [[TMP4:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG170:![0-9]+]]
+// CHECK-TLS4-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A1]], align 4, !dbg [[DBG169]], !noundef [[NOUNDEF12]]
+// CHECK-TLS4-NEXT:    [[TMP4:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG170:![0-9]+]], !noundef [[NOUNDEF12]]
 // CHECK-TLS4-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP4]], [[TMP3]], !dbg [[DBG170]]
 // CHECK-TLS4-NEXT:    store i32 [[ADD]], ptr [[RES]], align 4, !dbg [[DBG170]]
-// CHECK-TLS4-NEXT:    [[TMP5:%.*]] = load i32, ptr @_ZL3gs2, align 8, !dbg [[DBG171:![0-9]+]]
-// CHECK-TLS4-NEXT:    [[TMP6:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG172:![0-9]+]]
+// CHECK-TLS4-NEXT:    [[TMP5:%.*]] = load i32, ptr @_ZL3gs2, align 8, !dbg [[DBG171:![0-9]+]], !noundef [[NOUNDEF12]]
+// CHECK-TLS4-NEXT:    [[TMP6:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG172:![0-9]+]], !noundef [[NOUNDEF12]]
 // CHECK-TLS4-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP6]], [[TMP5]], !dbg [[DBG172]]
 // CHECK-TLS4-NEXT:    store i32 [[ADD2]], ptr [[RES]], align 4, !dbg [[DBG172]]
 // CHECK-TLS4-NEXT:    [[TMP7:%.*]] = call ptr @_ZTW3gs3(), !dbg [[DBG173:![0-9]+]]
 // CHECK-TLS4-NEXT:    [[A3:%.*]] = getelementptr inbounds [[STRUCT_S5:%.*]], ptr [[TMP7]], i32 0, i32 0, !dbg [[DBG174:![0-9]+]]
-// CHECK-TLS4-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A3]], align 4, !dbg [[DBG174]]
-// CHECK-TLS4-NEXT:    [[TMP9:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG175:![0-9]+]]
+// CHECK-TLS4-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A3]], align 4, !dbg [[DBG174]], !noundef [[NOUNDEF12]]
+// CHECK-TLS4-NEXT:    [[TMP9:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG175:![0-9]+]], !noundef [[NOUNDEF12]]
 // CHECK-TLS4-NEXT:    [[ADD4:%.*]] = add nsw i32 [[TMP9]], [[TMP8]], !dbg [[DBG175]]
 // CHECK-TLS4-NEXT:    store i32 [[ADD4]], ptr [[RES]], align 4, !dbg [[DBG175]]
 // CHECK-TLS4-NEXT:    [[TMP10:%.*]] = call ptr @_ZTW5arr_x(), !dbg [[DBG176:![0-9]+]]
 // CHECK-TLS4-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [2 x [3 x %struct.S1]], ptr [[TMP10]], i64 0, i64 1, !dbg [[DBG176]]
 // CHECK-TLS4-NEXT:    [[ARRAYIDX5:%.*]] = getelementptr inbounds [3 x %struct.S1], ptr [[ARRAYIDX]], i64 0, i64 1, !dbg [[DBG176]]
 // CHECK-TLS4-NEXT:    [[A6:%.*]] = getelementptr inbounds [[STRUCT_S1]], ptr [[ARRAYIDX5]], i32 0, i32 0, !dbg [[DBG177:![0-9]+]]
-// CHECK-TLS4-NEXT:    [[TMP11:%.*]] = load i32, ptr [[A6]], align 4, !dbg [[DBG177]]
-// CHECK-TLS4-NEXT:    [[TMP12:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG178:![0-9]+]]
+// CHECK-TLS4-NEXT:    [[TMP11:%.*]] = load i32, ptr [[A6]], align 4, !dbg [[DBG177]], !noundef [[NOUNDEF12]]
+// CHECK-TLS4-NEXT:    [[TMP12:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG178:![0-9]+]], !noundef [[NOUNDEF12]]
 // CHECK-TLS4-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP12]], [[TMP11]], !dbg [[DBG178]]
 // CHECK-TLS4-NEXT:    store i32 [[ADD7]], ptr [[RES]], align 4, !dbg [[DBG178]]
 // CHECK-TLS4-NEXT:    [[TMP13:%.*]] = call ptr @_ZTWN2STIiE2stE(), !dbg [[DBG179:![0-9]+]]
-// CHECK-TLS4-NEXT:    [[TMP14:%.*]] = load i32, ptr [[TMP13]], align 4, !dbg [[DBG179]]
-// CHECK-TLS4-NEXT:    [[TMP15:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG180:![0-9]+]]
+// CHECK-TLS4-NEXT:    [[TMP14:%.*]] = load i32, ptr [[TMP13]], align 4, !dbg [[DBG179]], !noundef [[NOUNDEF12]]
+// CHECK-TLS4-NEXT:    [[TMP15:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG180:![0-9]+]], !noundef [[NOUNDEF12]]
 // CHECK-TLS4-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP15]], [[TMP14]], !dbg [[DBG180]]
 // CHECK-TLS4-NEXT:    store i32 [[ADD8]], ptr [[RES]], align 4, !dbg [[DBG180]]
 // CHECK-TLS4-NEXT:    [[TMP16:%.*]] = call ptr @_ZTWN2STIfE2stE(), !dbg [[DBG181:![0-9]+]]
-// CHECK-TLS4-NEXT:    [[TMP17:%.*]] = load float, ptr [[TMP16]], align 4, !dbg [[DBG181]]
+// CHECK-TLS4-NEXT:    [[TMP17:%.*]] = load float, ptr [[TMP16]], align 4, !dbg [[DBG181]], !noundef [[NOUNDEF12]]
 // CHECK-TLS4-NEXT:    [[CONV:%.*]] = fptosi float [[TMP17]] to i32, !dbg [[DBG181]]
-// CHECK-TLS4-NEXT:    [[TMP18:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG182:![0-9]+]]
+// CHECK-TLS4-NEXT:    [[TMP18:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG182:![0-9]+]], !noundef [[NOUNDEF12]]
 // CHECK-TLS4-NEXT:    [[ADD9:%.*]] = add nsw i32 [[TMP18]], [[CONV]], !dbg [[DBG182]]
 // CHECK-TLS4-NEXT:    store i32 [[ADD9]], ptr [[RES]], align 4, !dbg [[DBG182]]
 // CHECK-TLS4-NEXT:    [[TMP19:%.*]] = call ptr @_ZTWN2STI2S4E2stE(), !dbg [[DBG183:![0-9]+]]
 // CHECK-TLS4-NEXT:    [[A10:%.*]] = getelementptr inbounds [[STRUCT_S4:%.*]], ptr [[TMP19]], i32 0, i32 0, !dbg [[DBG184:![0-9]+]]
-// CHECK-TLS4-NEXT:    [[TMP20:%.*]] = load i32, ptr [[A10]], align 4, !dbg [[DBG184]]
-// CHECK-TLS4-NEXT:    [[TMP21:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG185:![0-9]+]]
+// CHECK-TLS4-NEXT:    [[TMP20:%.*]] = load i32, ptr [[A10]], align 4, !dbg [[DBG184]], !noundef [[NOUNDEF12]]
+// CHECK-TLS4-NEXT:    [[TMP21:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG185:![0-9]+]], !noundef [[NOUNDEF12]]
 // CHECK-TLS4-NEXT:    [[ADD11:%.*]] = add nsw i32 [[TMP21]], [[TMP20]], !dbg [[DBG185]]
 // CHECK-TLS4-NEXT:    store i32 [[ADD11]], ptr [[RES]], align 4, !dbg [[DBG185]]
-// CHECK-TLS4-NEXT:    [[TMP22:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG186:![0-9]+]]
+// CHECK-TLS4-NEXT:    [[TMP22:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG186:![0-9]+]], !noundef [[NOUNDEF12]]
 // CHECK-TLS4-NEXT:    ret i32 [[TMP22]], !dbg [[DBG187:![0-9]+]]
 //
 //
@@ -5157,7 +5157,7 @@ int foobar() {
 // CHECK-TLS4-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK-TLS4-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META199:![0-9]+]], metadata !DIExpression()), !dbg [[DBG200:![0-9]+]]
 // CHECK-TLS4-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-TLS4-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG201:![0-9]+]]
+// CHECK-TLS4-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG201:![0-9]+]], !noundef [[NOUNDEF12]]
 // CHECK-TLS4-NEXT:    call void @_ZN2S1C2Ei(ptr noundef nonnull align 4 dereferenceable(4) [[THIS1]], i32 noundef [[TMP0]]), !dbg [[DBG201]]
 // CHECK-TLS4-NEXT:    ret void, !dbg [[DBG202:![0-9]+]]
 //
@@ -5184,7 +5184,7 @@ int foobar() {
 // CHECK-TLS4-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META211:![0-9]+]], metadata !DIExpression()), !dbg [[DBG212:![0-9]+]]
 // CHECK-TLS4-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK-TLS4-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_S1:%.*]], ptr [[THIS1]], i32 0, i32 0, !dbg [[DBG213:![0-9]+]]
-// CHECK-TLS4-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG214:![0-9]+]]
+// CHECK-TLS4-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG214:![0-9]+]], !noundef [[NOUNDEF12]]
 // CHECK-TLS4-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 4, !dbg [[DBG213]]
 // CHECK-TLS4-NEXT:    ret void, !dbg [[DBG215:![0-9]+]]
 //
@@ -5219,7 +5219,7 @@ int foobar() {
 // CHECK-TLS4-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK-TLS4-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META232:![0-9]+]], metadata !DIExpression()), !dbg [[DBG233:![0-9]+]]
 // CHECK-TLS4-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-TLS4-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG234:![0-9]+]]
+// CHECK-TLS4-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG234:![0-9]+]], !noundef [[NOUNDEF12]]
 // CHECK-TLS4-NEXT:    call void @_ZN2S2C2Ei(ptr noundef nonnull align 8 dereferenceable(16) [[THIS1]], i32 noundef [[TMP0]]), !dbg [[DBG234]]
 // CHECK-TLS4-NEXT:    ret void, !dbg [[DBG235:![0-9]+]]
 //
@@ -5246,7 +5246,7 @@ int foobar() {
 // CHECK-TLS4-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META244:![0-9]+]], metadata !DIExpression()), !dbg [[DBG245:![0-9]+]]
 // CHECK-TLS4-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK-TLS4-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_S2:%.*]], ptr [[THIS1]], i32 0, i32 0, !dbg [[DBG246:![0-9]+]]
-// CHECK-TLS4-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG247:![0-9]+]]
+// CHECK-TLS4-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG247:![0-9]+]], !noundef [[NOUNDEF12]]
 // CHECK-TLS4-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 8, !dbg [[DBG246]]
 // CHECK-TLS4-NEXT:    ret void, !dbg [[DBG248:![0-9]+]]
 //
@@ -5384,7 +5384,7 @@ int foobar() {
 // CHECK-TLS4-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META278:![0-9]+]], metadata !DIExpression()), !dbg [[DBG279:![0-9]+]]
 // CHECK-TLS4-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK-TLS4-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_SMAIN:%.*]], ptr [[THIS1]], i32 0, i32 0, !dbg [[DBG280:![0-9]+]]
-// CHECK-TLS4-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG281:![0-9]+]]
+// CHECK-TLS4-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG281:![0-9]+]], !noundef [[NOUNDEF12]]
 // CHECK-TLS4-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 8, !dbg [[DBG280]]
 // CHECK-TLS4-NEXT:    ret void, !dbg [[DBG282:![0-9]+]]
 //
@@ -5426,7 +5426,7 @@ int foobar() {
 // CHECK-TLS4-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // CHECK-TLS4-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META299:![0-9]+]], metadata !DIExpression()), !dbg [[DBG300:![0-9]+]]
 // CHECK-TLS4-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-TLS4-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG301:![0-9]+]]
+// CHECK-TLS4-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG301:![0-9]+]], !noundef [[NOUNDEF12]]
 // CHECK-TLS4-NEXT:    call void @_ZN2S4C2Ei(ptr noundef nonnull align 4 dereferenceable(8) [[THIS1]], i32 noundef [[TMP0]]), !dbg [[DBG301]]
 // CHECK-TLS4-NEXT:    ret void, !dbg [[DBG302:![0-9]+]]
 //
@@ -5453,7 +5453,7 @@ int foobar() {
 // CHECK-TLS4-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META311:![0-9]+]], metadata !DIExpression()), !dbg [[DBG312:![0-9]+]]
 // CHECK-TLS4-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK-TLS4-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_S4:%.*]], ptr [[THIS1]], i32 0, i32 0, !dbg [[DBG313:![0-9]+]]
-// CHECK-TLS4-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG314:![0-9]+]]
+// CHECK-TLS4-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG314:![0-9]+]], !noundef [[NOUNDEF12]]
 // CHECK-TLS4-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 4, !dbg [[DBG313]]
 // CHECK-TLS4-NEXT:    ret void, !dbg [[DBG315:![0-9]+]]
 //
@@ -5508,7 +5508,7 @@ int foobar() {
 // SIMD3-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // SIMD3-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // SIMD3-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// SIMD3-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// SIMD3-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF2:![0-9]+]]
 // SIMD3-NEXT:    call void @_ZN2S1C2Ei(ptr noundef nonnull align 4 dereferenceable(4) [[THIS1]], i32 noundef [[TMP0]])
 // SIMD3-NEXT:    ret void
 //
@@ -5539,7 +5539,7 @@ int foobar() {
 // SIMD3-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // SIMD3-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // SIMD3-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// SIMD3-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// SIMD3-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF2]]
 // SIMD3-NEXT:    call void @_ZN2S2C2Ei(ptr noundef nonnull align 8 dereferenceable(16) [[THIS1]], i32 noundef [[TMP0]])
 // SIMD3-NEXT:    ret void
 //
@@ -5673,13 +5673,13 @@ int foobar() {
 // SIMD3-NEXT:    store i32 0, ptr [[RETVAL]], align 4
 // SIMD3-NEXT:    [[TMP0:%.*]] = load atomic i8, ptr @_ZGVZ4mainE2sm acquire, align 8
 // SIMD3-NEXT:    [[GUARD_UNINITIALIZED:%.*]] = icmp eq i8 [[TMP0]], 0
-// SIMD3-NEXT:    br i1 [[GUARD_UNINITIALIZED]], label [[INIT_CHECK:%.*]], label [[INIT_END:%.*]], !prof [[PROF2:![0-9]+]]
+// SIMD3-NEXT:    br i1 [[GUARD_UNINITIALIZED]], label [[INIT_CHECK:%.*]], label [[INIT_END:%.*]], !prof [[PROF3:![0-9]+]]
 // SIMD3:       init.check:
 // SIMD3-NEXT:    [[TMP1:%.*]] = call i32 @__cxa_guard_acquire(ptr @_ZGVZ4mainE2sm) #[[ATTR3]]
 // SIMD3-NEXT:    [[TOBOOL:%.*]] = icmp ne i32 [[TMP1]], 0
 // SIMD3-NEXT:    br i1 [[TOBOOL]], label [[INIT:%.*]], label [[INIT_END]]
 // SIMD3:       init:
-// SIMD3-NEXT:    [[TMP2:%.*]] = load i32, ptr @_ZL3gs1, align 4
+// SIMD3-NEXT:    [[TMP2:%.*]] = load i32, ptr @_ZL3gs1, align 4, !noundef [[NOUNDEF2]]
 // SIMD3-NEXT:    invoke void @_ZZ4mainEN5SmainC1Ei(ptr noundef nonnull align 8 dereferenceable(24) @_ZZ4mainE2sm, i32 noundef [[TMP2]])
 // SIMD3-NEXT:    to label [[INVOKE_CONT:%.*]] unwind label [[LPAD:%.*]]
 // SIMD3:       invoke.cont:
@@ -5687,42 +5687,42 @@ int foobar() {
 // SIMD3-NEXT:    call void @__cxa_guard_release(ptr @_ZGVZ4mainE2sm) #[[ATTR3]]
 // SIMD3-NEXT:    br label [[INIT_END]]
 // SIMD3:       init.end:
-// SIMD3-NEXT:    [[TMP4:%.*]] = load i32, ptr @_ZN6Static1sE, align 4
+// SIMD3-NEXT:    [[TMP4:%.*]] = load i32, ptr @_ZN6Static1sE, align 4, !noundef [[NOUNDEF2]]
 // SIMD3-NEXT:    store i32 [[TMP4]], ptr [[RES]], align 4
-// SIMD3-NEXT:    [[TMP5:%.*]] = load i32, ptr @_ZZ4mainE2sm, align 8
-// SIMD3-NEXT:    [[TMP6:%.*]] = load i32, ptr [[RES]], align 4
+// SIMD3-NEXT:    [[TMP5:%.*]] = load i32, ptr @_ZZ4mainE2sm, align 8, !noundef [[NOUNDEF2]]
+// SIMD3-NEXT:    [[TMP6:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF2]]
 // SIMD3-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP6]], [[TMP5]]
 // SIMD3-NEXT:    store i32 [[ADD]], ptr [[RES]], align 4
-// SIMD3-NEXT:    [[TMP7:%.*]] = load i32, ptr @_ZL3gs1, align 4
-// SIMD3-NEXT:    [[TMP8:%.*]] = load i32, ptr [[RES]], align 4
+// SIMD3-NEXT:    [[TMP7:%.*]] = load i32, ptr @_ZL3gs1, align 4, !noundef [[NOUNDEF2]]
+// SIMD3-NEXT:    [[TMP8:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF2]]
 // SIMD3-NEXT:    [[ADD1:%.*]] = add nsw i32 [[TMP8]], [[TMP7]]
 // SIMD3-NEXT:    store i32 [[ADD1]], ptr [[RES]], align 4
-// SIMD3-NEXT:    [[TMP9:%.*]] = load i32, ptr @_ZL3gs2, align 8
-// SIMD3-NEXT:    [[TMP10:%.*]] = load i32, ptr [[RES]], align 4
+// SIMD3-NEXT:    [[TMP9:%.*]] = load i32, ptr @_ZL3gs2, align 8, !noundef [[NOUNDEF2]]
+// SIMD3-NEXT:    [[TMP10:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF2]]
 // SIMD3-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP10]], [[TMP9]]
 // SIMD3-NEXT:    store i32 [[ADD2]], ptr [[RES]], align 4
-// SIMD3-NEXT:    [[TMP11:%.*]] = load i32, ptr @gs3, align 4
-// SIMD3-NEXT:    [[TMP12:%.*]] = load i32, ptr [[RES]], align 4
+// SIMD3-NEXT:    [[TMP11:%.*]] = load i32, ptr @gs3, align 4, !noundef [[NOUNDEF2]]
+// SIMD3-NEXT:    [[TMP12:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF2]]
 // SIMD3-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP12]], [[TMP11]]
 // SIMD3-NEXT:    store i32 [[ADD3]], ptr [[RES]], align 4
-// SIMD3-NEXT:    [[TMP13:%.*]] = load i32, ptr getelementptr inbounds ([2 x [3 x %struct.S1]], ptr @arr_x, i64 0, i64 1, i64 1), align 4
-// SIMD3-NEXT:    [[TMP14:%.*]] = load i32, ptr [[RES]], align 4
+// SIMD3-NEXT:    [[TMP13:%.*]] = load i32, ptr getelementptr inbounds ([2 x [3 x %struct.S1]], ptr @arr_x, i64 0, i64 1, i64 1), align 4, !noundef [[NOUNDEF2]]
+// SIMD3-NEXT:    [[TMP14:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF2]]
 // SIMD3-NEXT:    [[ADD4:%.*]] = add nsw i32 [[TMP14]], [[TMP13]]
 // SIMD3-NEXT:    store i32 [[ADD4]], ptr [[RES]], align 4
-// SIMD3-NEXT:    [[TMP15:%.*]] = load i32, ptr @_ZN2STIiE2stE, align 4
-// SIMD3-NEXT:    [[TMP16:%.*]] = load i32, ptr [[RES]], align 4
+// SIMD3-NEXT:    [[TMP15:%.*]] = load i32, ptr @_ZN2STIiE2stE, align 4, !noundef [[NOUNDEF2]]
+// SIMD3-NEXT:    [[TMP16:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF2]]
 // SIMD3-NEXT:    [[ADD5:%.*]] = add nsw i32 [[TMP16]], [[TMP15]]
 // SIMD3-NEXT:    store i32 [[ADD5]], ptr [[RES]], align 4
-// SIMD3-NEXT:    [[TMP17:%.*]] = load float, ptr @_ZN2STIfE2stE, align 4
+// SIMD3-NEXT:    [[TMP17:%.*]] = load float, ptr @_ZN2STIfE2stE, align 4, !noundef [[NOUNDEF2]]
 // SIMD3-NEXT:    [[CONV:%.*]] = fptosi float [[TMP17]] to i32
-// SIMD3-NEXT:    [[TMP18:%.*]] = load i32, ptr [[RES]], align 4
+// SIMD3-NEXT:    [[TMP18:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF2]]
 // SIMD3-NEXT:    [[ADD6:%.*]] = add nsw i32 [[TMP18]], [[CONV]]
 // SIMD3-NEXT:    store i32 [[ADD6]], ptr [[RES]], align 4
-// SIMD3-NEXT:    [[TMP19:%.*]] = load i32, ptr @_ZN2STI2S4E2stE, align 4
-// SIMD3-NEXT:    [[TMP20:%.*]] = load i32, ptr [[RES]], align 4
+// SIMD3-NEXT:    [[TMP19:%.*]] = load i32, ptr @_ZN2STI2S4E2stE, align 4, !noundef [[NOUNDEF2]]
+// SIMD3-NEXT:    [[TMP20:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF2]]
 // SIMD3-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP20]], [[TMP19]]
 // SIMD3-NEXT:    store i32 [[ADD7]], ptr [[RES]], align 4
-// SIMD3-NEXT:    [[TMP21:%.*]] = load i32, ptr [[RES]], align 4
+// SIMD3-NEXT:    [[TMP21:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF2]]
 // SIMD3-NEXT:    ret i32 [[TMP21]]
 // SIMD3:       lpad:
 // SIMD3-NEXT:    [[TMP22:%.*]] = landingpad { ptr, i32 }
@@ -5749,7 +5749,7 @@ int foobar() {
 // SIMD3-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // SIMD3-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // SIMD3-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// SIMD3-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// SIMD3-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF2]]
 // SIMD3-NEXT:    call void @_ZZ4mainEN5SmainC2Ei(ptr noundef nonnull align 8 dereferenceable(24) [[THIS1]], i32 noundef [[TMP0]])
 // SIMD3-NEXT:    ret void
 //
@@ -5768,38 +5768,38 @@ int foobar() {
 // SIMD3-SAME: () #[[ATTR5:[0-9]+]] {
 // SIMD3-NEXT:  entry:
 // SIMD3-NEXT:    [[RES:%.*]] = alloca i32, align 4
-// SIMD3-NEXT:    [[TMP0:%.*]] = load i32, ptr @_ZN6Static1sE, align 4
+// SIMD3-NEXT:    [[TMP0:%.*]] = load i32, ptr @_ZN6Static1sE, align 4, !noundef [[NOUNDEF2]]
 // SIMD3-NEXT:    store i32 [[TMP0]], ptr [[RES]], align 4
-// SIMD3-NEXT:    [[TMP1:%.*]] = load i32, ptr @_ZL3gs1, align 4
-// SIMD3-NEXT:    [[TMP2:%.*]] = load i32, ptr [[RES]], align 4
+// SIMD3-NEXT:    [[TMP1:%.*]] = load i32, ptr @_ZL3gs1, align 4, !noundef [[NOUNDEF2]]
+// SIMD3-NEXT:    [[TMP2:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF2]]
 // SIMD3-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP2]], [[TMP1]]
 // SIMD3-NEXT:    store i32 [[ADD]], ptr [[RES]], align 4
-// SIMD3-NEXT:    [[TMP3:%.*]] = load i32, ptr @_ZL3gs2, align 8
-// SIMD3-NEXT:    [[TMP4:%.*]] = load i32, ptr [[RES]], align 4
+// SIMD3-NEXT:    [[TMP3:%.*]] = load i32, ptr @_ZL3gs2, align 8, !noundef [[NOUNDEF2]]
+// SIMD3-NEXT:    [[TMP4:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF2]]
 // SIMD3-NEXT:    [[ADD1:%.*]] = add nsw i32 [[TMP4]], [[TMP3]]
 // SIMD3-NEXT:    store i32 [[ADD1]], ptr [[RES]], align 4
-// SIMD3-NEXT:    [[TMP5:%.*]] = load i32, ptr @gs3, align 4
-// SIMD3-NEXT:    [[TMP6:%.*]] = load i32, ptr [[RES]], align 4
+// SIMD3-NEXT:    [[TMP5:%.*]] = load i32, ptr @gs3, align 4, !noundef [[NOUNDEF2]]
+// SIMD3-NEXT:    [[TMP6:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF2]]
 // SIMD3-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP6]], [[TMP5]]
 // SIMD3-NEXT:    store i32 [[ADD2]], ptr [[RES]], align 4
-// SIMD3-NEXT:    [[TMP7:%.*]] = load i32, ptr getelementptr inbounds ([2 x [3 x %struct.S1]], ptr @arr_x, i64 0, i64 1, i64 1), align 4
-// SIMD3-NEXT:    [[TMP8:%.*]] = load i32, ptr [[RES]], align 4
+// SIMD3-NEXT:    [[TMP7:%.*]] = load i32, ptr getelementptr inbounds ([2 x [3 x %struct.S1]], ptr @arr_x, i64 0, i64 1, i64 1), align 4, !noundef [[NOUNDEF2]]
+// SIMD3-NEXT:    [[TMP8:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF2]]
 // SIMD3-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP8]], [[TMP7]]
 // SIMD3-NEXT:    store i32 [[ADD3]], ptr [[RES]], align 4
-// SIMD3-NEXT:    [[TMP9:%.*]] = load i32, ptr @_ZN2STIiE2stE, align 4
-// SIMD3-NEXT:    [[TMP10:%.*]] = load i32, ptr [[RES]], align 4
+// SIMD3-NEXT:    [[TMP9:%.*]] = load i32, ptr @_ZN2STIiE2stE, align 4, !noundef [[NOUNDEF2]]
+// SIMD3-NEXT:    [[TMP10:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF2]]
 // SIMD3-NEXT:    [[ADD4:%.*]] = add nsw i32 [[TMP10]], [[TMP9]]
 // SIMD3-NEXT:    store i32 [[ADD4]], ptr [[RES]], align 4
-// SIMD3-NEXT:    [[TMP11:%.*]] = load float, ptr @_ZN2STIfE2stE, align 4
+// SIMD3-NEXT:    [[TMP11:%.*]] = load float, ptr @_ZN2STIfE2stE, align 4, !noundef [[NOUNDEF2]]
 // SIMD3-NEXT:    [[CONV:%.*]] = fptosi float [[TMP11]] to i32
-// SIMD3-NEXT:    [[TMP12:%.*]] = load i32, ptr [[RES]], align 4
+// SIMD3-NEXT:    [[TMP12:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF2]]
 // SIMD3-NEXT:    [[ADD5:%.*]] = add nsw i32 [[TMP12]], [[CONV]]
 // SIMD3-NEXT:    store i32 [[ADD5]], ptr [[RES]], align 4
-// SIMD3-NEXT:    [[TMP13:%.*]] = load i32, ptr @_ZN2STI2S4E2stE, align 4
-// SIMD3-NEXT:    [[TMP14:%.*]] = load i32, ptr [[RES]], align 4
+// SIMD3-NEXT:    [[TMP13:%.*]] = load i32, ptr @_ZN2STI2S4E2stE, align 4, !noundef [[NOUNDEF2]]
+// SIMD3-NEXT:    [[TMP14:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF2]]
 // SIMD3-NEXT:    [[ADD6:%.*]] = add nsw i32 [[TMP14]], [[TMP13]]
 // SIMD3-NEXT:    store i32 [[ADD6]], ptr [[RES]], align 4
-// SIMD3-NEXT:    [[TMP15:%.*]] = load i32, ptr [[RES]], align 4
+// SIMD3-NEXT:    [[TMP15:%.*]] = load i32, ptr [[RES]], align 4, !noundef [[NOUNDEF2]]
 // SIMD3-NEXT:    ret i32 [[TMP15]]
 //
 //
@@ -5826,7 +5826,7 @@ int foobar() {
 // SIMD3-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // SIMD3-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // SIMD3-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// SIMD3-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// SIMD3-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF2]]
 // SIMD3-NEXT:    call void @_ZN2S4C2Ei(ptr noundef nonnull align 4 dereferenceable(8) [[THIS1]], i32 noundef [[TMP0]])
 // SIMD3-NEXT:    ret void
 //
@@ -5850,7 +5850,7 @@ int foobar() {
 // SIMD3-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // SIMD3-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // SIMD3-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_S1:%.*]], ptr [[THIS1]], i32 0, i32 0
-// SIMD3-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// SIMD3-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF2]]
 // SIMD3-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 4
 // SIMD3-NEXT:    ret void
 //
@@ -5875,7 +5875,7 @@ int foobar() {
 // SIMD3-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // SIMD3-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // SIMD3-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_S2:%.*]], ptr [[THIS1]], i32 0, i32 0
-// SIMD3-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// SIMD3-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF2]]
 // SIMD3-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 8
 // SIMD3-NEXT:    ret void
 //
@@ -5900,7 +5900,7 @@ int foobar() {
 // SIMD3-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // SIMD3-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // SIMD3-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_SMAIN:%.*]], ptr [[THIS1]], i32 0, i32 0
-// SIMD3-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// SIMD3-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF2]]
 // SIMD3-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 8
 // SIMD3-NEXT:    ret void
 //
@@ -5925,7 +5925,7 @@ int foobar() {
 // SIMD3-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // SIMD3-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // SIMD3-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_S4:%.*]], ptr [[THIS1]], i32 0, i32 0
-// SIMD3-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// SIMD3-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !noundef [[NOUNDEF2]]
 // SIMD3-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 4
 // SIMD3-NEXT:    ret void
 //
@@ -5968,7 +5968,7 @@ int foobar() {
 // SIMD4-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // SIMD4-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META126:![0-9]+]], metadata !DIExpression()), !dbg [[DBG127:![0-9]+]]
 // SIMD4-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// SIMD4-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG128:![0-9]+]]
+// SIMD4-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG128:![0-9]+]], !noundef [[NOUNDEF54:![0-9]+]]
 // SIMD4-NEXT:    call void @_ZN2S1C2Ei(ptr noundef nonnull align 4 dereferenceable(4) [[THIS1]], i32 noundef [[TMP0]]), !dbg [[DBG128]]
 // SIMD4-NEXT:    ret void, !dbg [[DBG129:![0-9]+]]
 //
@@ -6002,7 +6002,7 @@ int foobar() {
 // SIMD4-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // SIMD4-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META144:![0-9]+]], metadata !DIExpression()), !dbg [[DBG145:![0-9]+]]
 // SIMD4-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// SIMD4-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG146:![0-9]+]]
+// SIMD4-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG146:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD4-NEXT:    call void @_ZN2S2C2Ei(ptr noundef nonnull align 8 dereferenceable(16) [[THIS1]], i32 noundef [[TMP0]]), !dbg [[DBG146]]
 // SIMD4-NEXT:    ret void, !dbg [[DBG147:![0-9]+]]
 //
@@ -6145,7 +6145,7 @@ int foobar() {
 // SIMD4-NEXT:    [[TOBOOL:%.*]] = icmp ne i32 [[TMP1]], 0, !dbg [[DBG174]]
 // SIMD4-NEXT:    br i1 [[TOBOOL]], label [[INIT:%.*]], label [[INIT_END]], !dbg [[DBG174]]
 // SIMD4:       init:
-// SIMD4-NEXT:    [[TMP2:%.*]] = load i32, ptr @_ZL3gs1, align 4, !dbg [[DBG176:![0-9]+]]
+// SIMD4-NEXT:    [[TMP2:%.*]] = load i32, ptr @_ZL3gs1, align 4, !dbg [[DBG176:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD4-NEXT:    invoke void @_ZZ4mainEN5SmainC1Ei(ptr noundef nonnull align 8 dereferenceable(24) @_ZZ4mainE2sm, i32 noundef [[TMP2]])
 // SIMD4-NEXT:    to label [[INVOKE_CONT:%.*]] unwind label [[LPAD:%.*]], !dbg [[DBG177:![0-9]+]]
 // SIMD4:       invoke.cont:
@@ -6153,42 +6153,42 @@ int foobar() {
 // SIMD4-NEXT:    call void @__cxa_guard_release(ptr @_ZGVZ4mainE2sm) #[[ATTR3]], !dbg [[DBG174]]
 // SIMD4-NEXT:    br label [[INIT_END]], !dbg [[DBG174]]
 // SIMD4:       init.end:
-// SIMD4-NEXT:    [[TMP4:%.*]] = load i32, ptr @_ZN6Static1sE, align 4, !dbg [[DBG178:![0-9]+]]
+// SIMD4-NEXT:    [[TMP4:%.*]] = load i32, ptr @_ZN6Static1sE, align 4, !dbg [[DBG178:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD4-NEXT:    store i32 [[TMP4]], ptr [[RES]], align 4, !dbg [[DBG179:![0-9]+]]
-// SIMD4-NEXT:    [[TMP5:%.*]] = load i32, ptr @_ZZ4mainE2sm, align 8, !dbg [[DBG180:![0-9]+]]
-// SIMD4-NEXT:    [[TMP6:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG181:![0-9]+]]
+// SIMD4-NEXT:    [[TMP5:%.*]] = load i32, ptr @_ZZ4mainE2sm, align 8, !dbg [[DBG180:![0-9]+]], !noundef [[NOUNDEF54]]
+// SIMD4-NEXT:    [[TMP6:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG181:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD4-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP6]], [[TMP5]], !dbg [[DBG181]]
 // SIMD4-NEXT:    store i32 [[ADD]], ptr [[RES]], align 4, !dbg [[DBG181]]
-// SIMD4-NEXT:    [[TMP7:%.*]] = load i32, ptr @_ZL3gs1, align 4, !dbg [[DBG182:![0-9]+]]
-// SIMD4-NEXT:    [[TMP8:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG183:![0-9]+]]
+// SIMD4-NEXT:    [[TMP7:%.*]] = load i32, ptr @_ZL3gs1, align 4, !dbg [[DBG182:![0-9]+]], !noundef [[NOUNDEF54]]
+// SIMD4-NEXT:    [[TMP8:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG183:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD4-NEXT:    [[ADD1:%.*]] = add nsw i32 [[TMP8]], [[TMP7]], !dbg [[DBG183]]
 // SIMD4-NEXT:    store i32 [[ADD1]], ptr [[RES]], align 4, !dbg [[DBG183]]
-// SIMD4-NEXT:    [[TMP9:%.*]] = load i32, ptr @_ZL3gs2, align 8, !dbg [[DBG184:![0-9]+]]
-// SIMD4-NEXT:    [[TMP10:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG185:![0-9]+]]
+// SIMD4-NEXT:    [[TMP9:%.*]] = load i32, ptr @_ZL3gs2, align 8, !dbg [[DBG184:![0-9]+]], !noundef [[NOUNDEF54]]
+// SIMD4-NEXT:    [[TMP10:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG185:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD4-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP10]], [[TMP9]], !dbg [[DBG185]]
 // SIMD4-NEXT:    store i32 [[ADD2]], ptr [[RES]], align 4, !dbg [[DBG185]]
-// SIMD4-NEXT:    [[TMP11:%.*]] = load i32, ptr @gs3, align 4, !dbg [[DBG186:![0-9]+]]
-// SIMD4-NEXT:    [[TMP12:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG187:![0-9]+]]
+// SIMD4-NEXT:    [[TMP11:%.*]] = load i32, ptr @gs3, align 4, !dbg [[DBG186:![0-9]+]], !noundef [[NOUNDEF54]]
+// SIMD4-NEXT:    [[TMP12:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG187:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD4-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP12]], [[TMP11]], !dbg [[DBG187]]
 // SIMD4-NEXT:    store i32 [[ADD3]], ptr [[RES]], align 4, !dbg [[DBG187]]
-// SIMD4-NEXT:    [[TMP13:%.*]] = load i32, ptr getelementptr inbounds ([2 x [3 x %struct.S1]], ptr @arr_x, i64 0, i64 1, i64 1), align 4, !dbg [[DBG188:![0-9]+]]
-// SIMD4-NEXT:    [[TMP14:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG189:![0-9]+]]
+// SIMD4-NEXT:    [[TMP13:%.*]] = load i32, ptr getelementptr inbounds ([2 x [3 x %struct.S1]], ptr @arr_x, i64 0, i64 1, i64 1), align 4, !dbg [[DBG188:![0-9]+]], !noundef [[NOUNDEF54]]
+// SIMD4-NEXT:    [[TMP14:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG189:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD4-NEXT:    [[ADD4:%.*]] = add nsw i32 [[TMP14]], [[TMP13]], !dbg [[DBG189]]
 // SIMD4-NEXT:    store i32 [[ADD4]], ptr [[RES]], align 4, !dbg [[DBG189]]
-// SIMD4-NEXT:    [[TMP15:%.*]] = load i32, ptr @_ZN2STIiE2stE, align 4, !dbg [[DBG190:![0-9]+]]
-// SIMD4-NEXT:    [[TMP16:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG191:![0-9]+]]
+// SIMD4-NEXT:    [[TMP15:%.*]] = load i32, ptr @_ZN2STIiE2stE, align 4, !dbg [[DBG190:![0-9]+]], !noundef [[NOUNDEF54]]
+// SIMD4-NEXT:    [[TMP16:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG191:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD4-NEXT:    [[ADD5:%.*]] = add nsw i32 [[TMP16]], [[TMP15]], !dbg [[DBG191]]
 // SIMD4-NEXT:    store i32 [[ADD5]], ptr [[RES]], align 4, !dbg [[DBG191]]
-// SIMD4-NEXT:    [[TMP17:%.*]] = load float, ptr @_ZN2STIfE2stE, align 4, !dbg [[DBG192:![0-9]+]]
+// SIMD4-NEXT:    [[TMP17:%.*]] = load float, ptr @_ZN2STIfE2stE, align 4, !dbg [[DBG192:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD4-NEXT:    [[CONV:%.*]] = fptosi float [[TMP17]] to i32, !dbg [[DBG192]]
-// SIMD4-NEXT:    [[TMP18:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG193:![0-9]+]]
+// SIMD4-NEXT:    [[TMP18:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG193:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD4-NEXT:    [[ADD6:%.*]] = add nsw i32 [[TMP18]], [[CONV]], !dbg [[DBG193]]
 // SIMD4-NEXT:    store i32 [[ADD6]], ptr [[RES]], align 4, !dbg [[DBG193]]
-// SIMD4-NEXT:    [[TMP19:%.*]] = load i32, ptr @_ZN2STI2S4E2stE, align 4, !dbg [[DBG194:![0-9]+]]
-// SIMD4-NEXT:    [[TMP20:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG195:![0-9]+]]
+// SIMD4-NEXT:    [[TMP19:%.*]] = load i32, ptr @_ZN2STI2S4E2stE, align 4, !dbg [[DBG194:![0-9]+]], !noundef [[NOUNDEF54]]
+// SIMD4-NEXT:    [[TMP20:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG195:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD4-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP20]], [[TMP19]], !dbg [[DBG195]]
 // SIMD4-NEXT:    store i32 [[ADD7]], ptr [[RES]], align 4, !dbg [[DBG195]]
-// SIMD4-NEXT:    [[TMP21:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG196:![0-9]+]]
+// SIMD4-NEXT:    [[TMP21:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG196:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD4-NEXT:    ret i32 [[TMP21]], !dbg [[DBG197:![0-9]+]]
 // SIMD4:       lpad:
 // SIMD4-NEXT:    [[TMP22:%.*]] = landingpad { ptr, i32 }
@@ -6217,7 +6217,7 @@ int foobar() {
 // SIMD4-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // SIMD4-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META203:![0-9]+]], metadata !DIExpression()), !dbg [[DBG204:![0-9]+]]
 // SIMD4-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// SIMD4-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG205:![0-9]+]]
+// SIMD4-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG205:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD4-NEXT:    call void @_ZZ4mainEN5SmainC2Ei(ptr noundef nonnull align 8 dereferenceable(24) [[THIS1]], i32 noundef [[TMP0]]), !dbg [[DBG205]]
 // SIMD4-NEXT:    ret void, !dbg [[DBG206:![0-9]+]]
 //
@@ -6238,38 +6238,38 @@ int foobar() {
 // SIMD4-NEXT:  entry:
 // SIMD4-NEXT:    [[RES:%.*]] = alloca i32, align 4
 // SIMD4-NEXT:    call void @llvm.dbg.declare(metadata ptr [[RES]], metadata [[META213:![0-9]+]], metadata !DIExpression()), !dbg [[DBG214:![0-9]+]]
-// SIMD4-NEXT:    [[TMP0:%.*]] = load i32, ptr @_ZN6Static1sE, align 4, !dbg [[DBG215:![0-9]+]]
+// SIMD4-NEXT:    [[TMP0:%.*]] = load i32, ptr @_ZN6Static1sE, align 4, !dbg [[DBG215:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD4-NEXT:    store i32 [[TMP0]], ptr [[RES]], align 4, !dbg [[DBG216:![0-9]+]]
-// SIMD4-NEXT:    [[TMP1:%.*]] = load i32, ptr @_ZL3gs1, align 4, !dbg [[DBG217:![0-9]+]]
-// SIMD4-NEXT:    [[TMP2:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG218:![0-9]+]]
+// SIMD4-NEXT:    [[TMP1:%.*]] = load i32, ptr @_ZL3gs1, align 4, !dbg [[DBG217:![0-9]+]], !noundef [[NOUNDEF54]]
+// SIMD4-NEXT:    [[TMP2:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG218:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD4-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP2]], [[TMP1]], !dbg [[DBG218]]
 // SIMD4-NEXT:    store i32 [[ADD]], ptr [[RES]], align 4, !dbg [[DBG218]]
-// SIMD4-NEXT:    [[TMP3:%.*]] = load i32, ptr @_ZL3gs2, align 8, !dbg [[DBG219:![0-9]+]]
-// SIMD4-NEXT:    [[TMP4:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG220:![0-9]+]]
+// SIMD4-NEXT:    [[TMP3:%.*]] = load i32, ptr @_ZL3gs2, align 8, !dbg [[DBG219:![0-9]+]], !noundef [[NOUNDEF54]]
+// SIMD4-NEXT:    [[TMP4:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG220:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD4-NEXT:    [[ADD1:%.*]] = add nsw i32 [[TMP4]], [[TMP3]], !dbg [[DBG220]]
 // SIMD4-NEXT:    store i32 [[ADD1]], ptr [[RES]], align 4, !dbg [[DBG220]]
-// SIMD4-NEXT:    [[TMP5:%.*]] = load i32, ptr @gs3, align 4, !dbg [[DBG221:![0-9]+]]
-// SIMD4-NEXT:    [[TMP6:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG222:![0-9]+]]
+// SIMD4-NEXT:    [[TMP5:%.*]] = load i32, ptr @gs3, align 4, !dbg [[DBG221:![0-9]+]], !noundef [[NOUNDEF54]]
+// SIMD4-NEXT:    [[TMP6:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG222:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD4-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP6]], [[TMP5]], !dbg [[DBG222]]
 // SIMD4-NEXT:    store i32 [[ADD2]], ptr [[RES]], align 4, !dbg [[DBG222]]
-// SIMD4-NEXT:    [[TMP7:%.*]] = load i32, ptr getelementptr inbounds ([2 x [3 x %struct.S1]], ptr @arr_x, i64 0, i64 1, i64 1), align 4, !dbg [[DBG223:![0-9]+]]
-// SIMD4-NEXT:    [[TMP8:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG224:![0-9]+]]
+// SIMD4-NEXT:    [[TMP7:%.*]] = load i32, ptr getelementptr inbounds ([2 x [3 x %struct.S1]], ptr @arr_x, i64 0, i64 1, i64 1), align 4, !dbg [[DBG223:![0-9]+]], !noundef [[NOUNDEF54]]
+// SIMD4-NEXT:    [[TMP8:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG224:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD4-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP8]], [[TMP7]], !dbg [[DBG224]]
 // SIMD4-NEXT:    store i32 [[ADD3]], ptr [[RES]], align 4, !dbg [[DBG224]]
-// SIMD4-NEXT:    [[TMP9:%.*]] = load i32, ptr @_ZN2STIiE2stE, align 4, !dbg [[DBG225:![0-9]+]]
-// SIMD4-NEXT:    [[TMP10:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG226:![0-9]+]]
+// SIMD4-NEXT:    [[TMP9:%.*]] = load i32, ptr @_ZN2STIiE2stE, align 4, !dbg [[DBG225:![0-9]+]], !noundef [[NOUNDEF54]]
+// SIMD4-NEXT:    [[TMP10:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG226:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD4-NEXT:    [[ADD4:%.*]] = add nsw i32 [[TMP10]], [[TMP9]], !dbg [[DBG226]]
 // SIMD4-NEXT:    store i32 [[ADD4]], ptr [[RES]], align 4, !dbg [[DBG226]]
-// SIMD4-NEXT:    [[TMP11:%.*]] = load float, ptr @_ZN2STIfE2stE, align 4, !dbg [[DBG227:![0-9]+]]
+// SIMD4-NEXT:    [[TMP11:%.*]] = load float, ptr @_ZN2STIfE2stE, align 4, !dbg [[DBG227:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD4-NEXT:    [[CONV:%.*]] = fptosi float [[TMP11]] to i32, !dbg [[DBG227]]
-// SIMD4-NEXT:    [[TMP12:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG228:![0-9]+]]
+// SIMD4-NEXT:    [[TMP12:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG228:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD4-NEXT:    [[ADD5:%.*]] = add nsw i32 [[TMP12]], [[CONV]], !dbg [[DBG228]]
 // SIMD4-NEXT:    store i32 [[ADD5]], ptr [[RES]], align 4, !dbg [[DBG228]]
-// SIMD4-NEXT:    [[TMP13:%.*]] = load i32, ptr @_ZN2STI2S4E2stE, align 4, !dbg [[DBG229:![0-9]+]]
-// SIMD4-NEXT:    [[TMP14:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG230:![0-9]+]]
+// SIMD4-NEXT:    [[TMP13:%.*]] = load i32, ptr @_ZN2STI2S4E2stE, align 4, !dbg [[DBG229:![0-9]+]], !noundef [[NOUNDEF54]]
+// SIMD4-NEXT:    [[TMP14:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG230:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD4-NEXT:    [[ADD6:%.*]] = add nsw i32 [[TMP14]], [[TMP13]], !dbg [[DBG230]]
 // SIMD4-NEXT:    store i32 [[ADD6]], ptr [[RES]], align 4, !dbg [[DBG230]]
-// SIMD4-NEXT:    [[TMP15:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG231:![0-9]+]]
+// SIMD4-NEXT:    [[TMP15:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG231:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD4-NEXT:    ret i32 [[TMP15]], !dbg [[DBG232:![0-9]+]]
 //
 //
@@ -6298,7 +6298,7 @@ int foobar() {
 // SIMD4-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // SIMD4-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META242:![0-9]+]], metadata !DIExpression()), !dbg [[DBG243:![0-9]+]]
 // SIMD4-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// SIMD4-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG244:![0-9]+]]
+// SIMD4-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG244:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD4-NEXT:    call void @_ZN2S4C2Ei(ptr noundef nonnull align 4 dereferenceable(8) [[THIS1]], i32 noundef [[TMP0]]), !dbg [[DBG244]]
 // SIMD4-NEXT:    ret void, !dbg [[DBG245:![0-9]+]]
 //
@@ -6325,7 +6325,7 @@ int foobar() {
 // SIMD4-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META254:![0-9]+]], metadata !DIExpression()), !dbg [[DBG255:![0-9]+]]
 // SIMD4-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // SIMD4-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_S1:%.*]], ptr [[THIS1]], i32 0, i32 0, !dbg [[DBG256:![0-9]+]]
-// SIMD4-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG257:![0-9]+]]
+// SIMD4-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG257:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD4-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 4, !dbg [[DBG256]]
 // SIMD4-NEXT:    ret void, !dbg [[DBG258:![0-9]+]]
 //
@@ -6353,7 +6353,7 @@ int foobar() {
 // SIMD4-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META269:![0-9]+]], metadata !DIExpression()), !dbg [[DBG270:![0-9]+]]
 // SIMD4-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // SIMD4-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_S2:%.*]], ptr [[THIS1]], i32 0, i32 0, !dbg [[DBG271:![0-9]+]]
-// SIMD4-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG272:![0-9]+]]
+// SIMD4-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG272:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD4-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 8, !dbg [[DBG271]]
 // SIMD4-NEXT:    ret void, !dbg [[DBG273:![0-9]+]]
 //
@@ -6381,7 +6381,7 @@ int foobar() {
 // SIMD4-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META284:![0-9]+]], metadata !DIExpression()), !dbg [[DBG285:![0-9]+]]
 // SIMD4-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // SIMD4-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_SMAIN:%.*]], ptr [[THIS1]], i32 0, i32 0, !dbg [[DBG286:![0-9]+]]
-// SIMD4-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG287:![0-9]+]]
+// SIMD4-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG287:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD4-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 8, !dbg [[DBG286]]
 // SIMD4-NEXT:    ret void, !dbg [[DBG288:![0-9]+]]
 //
@@ -6409,7 +6409,7 @@ int foobar() {
 // SIMD4-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META299:![0-9]+]], metadata !DIExpression()), !dbg [[DBG300:![0-9]+]]
 // SIMD4-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // SIMD4-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_S4:%.*]], ptr [[THIS1]], i32 0, i32 0, !dbg [[DBG301:![0-9]+]]
-// SIMD4-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG302:![0-9]+]]
+// SIMD4-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG302:![0-9]+]], !noundef [[NOUNDEF54]]
 // SIMD4-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 4, !dbg [[DBG301]]
 // SIMD4-NEXT:    ret void, !dbg [[DBG303:![0-9]+]]
 //
@@ -6441,9 +6441,9 @@ int foobar() {
 // DEBUG1-NEXT:    [[DOTADDR:%.*]] = alloca ptr, align 8
 // DEBUG1-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
 // DEBUG1-NEXT:    call void @llvm.dbg.declare(metadata ptr [[DOTADDR]], metadata [[META118:![0-9]+]], metadata !DIExpression()), !dbg [[DBG120:![0-9]+]]
-// DEBUG1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG121:![0-9]+]]
+// DEBUG1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG121:![0-9]+]], !noundef [[NOUNDEF54:![0-9]+]]
 // DEBUG1-NEXT:    call void @_ZN2S1C1Ei(ptr noundef nonnull align 4 dereferenceable(4) [[TMP1]], i32 noundef 5), !dbg [[DBG122:![0-9]+]]
-// DEBUG1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG121]]
+// DEBUG1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG121]], !noundef [[NOUNDEF54]]
 // DEBUG1-NEXT:    ret ptr [[TMP2]], !dbg [[DBG121]]
 //
 //
@@ -6457,7 +6457,7 @@ int foobar() {
 // DEBUG1-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // DEBUG1-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META127:![0-9]+]], metadata !DIExpression()), !dbg [[DBG128:![0-9]+]]
 // DEBUG1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// DEBUG1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG129:![0-9]+]]
+// DEBUG1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG129:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG1-NEXT:    call void @_ZN2S1C2Ei(ptr noundef nonnull align 4 dereferenceable(4) [[THIS1]], i32 noundef [[TMP0]]), !dbg [[DBG129]]
 // DEBUG1-NEXT:    ret void, !dbg [[DBG130:![0-9]+]]
 //
@@ -6468,7 +6468,7 @@ int foobar() {
 // DEBUG1-NEXT:    [[DOTADDR:%.*]] = alloca ptr, align 8
 // DEBUG1-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
 // DEBUG1-NEXT:    call void @llvm.dbg.declare(metadata ptr [[DOTADDR]], metadata [[META132:![0-9]+]], metadata !DIExpression()), !dbg [[DBG133:![0-9]+]]
-// DEBUG1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG133]]
+// DEBUG1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG133]], !noundef [[NOUNDEF54]]
 // DEBUG1-NEXT:    call void @_ZN2S1D1Ev(ptr noundef nonnull align 4 dereferenceable(4) [[TMP1]]) #[[ATTR4:[0-9]+]], !dbg [[DBG133]]
 // DEBUG1-NEXT:    ret void, !dbg [[DBG134:![0-9]+]]
 //
@@ -6503,7 +6503,7 @@ int foobar() {
 // DEBUG1-NEXT:    [[ARRAYINIT_ENDOFINIT9:%.*]] = alloca ptr, align 8
 // DEBUG1-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
 // DEBUG1-NEXT:    call void @llvm.dbg.declare(metadata ptr [[DOTADDR]], metadata [[META143:![0-9]+]], metadata !DIExpression()), !dbg [[DBG144:![0-9]+]]
-// DEBUG1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG145:![0-9]+]]
+// DEBUG1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG145:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG1-NEXT:    [[ARRAYINIT_BEGIN:%.*]] = getelementptr inbounds [2 x [3 x %struct.S1]], ptr [[TMP1]], i64 0, i64 0, !dbg [[DBG146:![0-9]+]]
 // DEBUG1-NEXT:    store ptr [[ARRAYINIT_BEGIN]], ptr [[ARRAYINIT_ENDOFINIT]], align 8, !dbg [[DBG146]]
 // DEBUG1-NEXT:    [[ARRAYINIT_BEGIN1:%.*]] = getelementptr inbounds [3 x %struct.S1], ptr [[ARRAYINIT_BEGIN]], i64 0, i64 0, !dbg [[DBG147:![0-9]+]]
@@ -6538,7 +6538,7 @@ int foobar() {
 // DEBUG1-NEXT:    invoke void @_ZN2S1C1Ei(ptr noundef nonnull align 4 dereferenceable(4) [[ARRAYINIT_ELEMENT14]], i32 noundef 6)
 // DEBUG1-NEXT:    to label [[INVOKE_CONT15:%.*]] unwind label [[LPAD10]], !dbg [[DBG154:![0-9]+]]
 // DEBUG1:       invoke.cont15:
-// DEBUG1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG145]]
+// DEBUG1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG145]], !noundef [[NOUNDEF54]]
 // DEBUG1-NEXT:    ret ptr [[TMP2]], !dbg [[DBG145]]
 // DEBUG1:       lpad:
 // DEBUG1-NEXT:    [[TMP3:%.*]] = landingpad { ptr, i32 }
@@ -6604,7 +6604,7 @@ int foobar() {
 // DEBUG1-NEXT:    [[DOTADDR:%.*]] = alloca ptr, align 8
 // DEBUG1-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
 // DEBUG1-NEXT:    call void @llvm.dbg.declare(metadata ptr [[DOTADDR]], metadata [[META156:![0-9]+]], metadata !DIExpression()), !dbg [[DBG157:![0-9]+]]
-// DEBUG1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG157]]
+// DEBUG1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG157]], !noundef [[NOUNDEF54]]
 // DEBUG1-NEXT:    [[TMP2:%.*]] = getelementptr inbounds [[STRUCT_S1:%.*]], ptr [[TMP1]], i64 6, !dbg [[DBG157]]
 // DEBUG1-NEXT:    br label [[ARRAYDESTROY_BODY:%.*]], !dbg [[DBG157]]
 // DEBUG1:       arraydestroy.body:
@@ -6644,7 +6644,7 @@ int foobar() {
 // DEBUG1-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META171:![0-9]+]], metadata !DIExpression()), !dbg [[DBG172:![0-9]+]]
 // DEBUG1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // DEBUG1-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_S1:%.*]], ptr [[THIS1]], i32 0, i32 0, !dbg [[DBG173:![0-9]+]]
-// DEBUG1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG174:![0-9]+]]
+// DEBUG1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG174:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG1-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 4, !dbg [[DBG173]]
 // DEBUG1-NEXT:    ret void, !dbg [[DBG175:![0-9]+]]
 //
@@ -6679,7 +6679,7 @@ int foobar() {
 // DEBUG1-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // DEBUG1-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META192:![0-9]+]], metadata !DIExpression()), !dbg [[DBG193:![0-9]+]]
 // DEBUG1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// DEBUG1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG194:![0-9]+]]
+// DEBUG1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG194:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG1-NEXT:    call void @_ZN2S2C2Ei(ptr noundef nonnull align 8 dereferenceable(16) [[THIS1]], i32 noundef [[TMP0]]), !dbg [[DBG194]]
 // DEBUG1-NEXT:    ret void, !dbg [[DBG195:![0-9]+]]
 //
@@ -6706,7 +6706,7 @@ int foobar() {
 // DEBUG1-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META204:![0-9]+]], metadata !DIExpression()), !dbg [[DBG205:![0-9]+]]
 // DEBUG1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // DEBUG1-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_S2:%.*]], ptr [[THIS1]], i32 0, i32 0, !dbg [[DBG206:![0-9]+]]
-// DEBUG1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG207:![0-9]+]]
+// DEBUG1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG207:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG1-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 8, !dbg [[DBG206]]
 // DEBUG1-NEXT:    ret void, !dbg [[DBG208:![0-9]+]]
 //
@@ -6855,7 +6855,7 @@ int foobar() {
 // DEBUG1-NEXT:    call void @__kmpc_threadprivate_register(ptr @[[GLOB7]], ptr @_ZZ4mainE2sm, ptr @.__kmpc_global_ctor_..6, ptr null, ptr @.__kmpc_global_dtor_..7), !dbg [[DBG236]]
 // DEBUG1-NEXT:    [[TMP4:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB9]], i32 [[TMP0]], ptr @_ZL3gs1, i64 4, ptr @_ZL3gs1.cache.), !dbg [[DBG238:![0-9]+]]
 // DEBUG1-NEXT:    [[A:%.*]] = getelementptr inbounds [[STRUCT_S1:%.*]], ptr [[TMP4]], i32 0, i32 0, !dbg [[DBG239:![0-9]+]]
-// DEBUG1-NEXT:    [[TMP5:%.*]] = load i32, ptr [[A]], align 4, !dbg [[DBG239]]
+// DEBUG1-NEXT:    [[TMP5:%.*]] = load i32, ptr [[A]], align 4, !dbg [[DBG239]], !noundef [[NOUNDEF54]]
 // DEBUG1-NEXT:    invoke void @_ZZ4mainEN5SmainC1Ei(ptr noundef nonnull align 8 dereferenceable(24) @_ZZ4mainE2sm, i32 noundef [[TMP5]])
 // DEBUG1-NEXT:    to label [[INVOKE_CONT:%.*]] unwind label [[LPAD:%.*]], !dbg [[DBG240:![0-9]+]]
 // DEBUG1:       invoke.cont:
@@ -6865,56 +6865,56 @@ int foobar() {
 // DEBUG1:       init.end:
 // DEBUG1-NEXT:    [[TMP7:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB11:[0-9]+]], i32 [[TMP0]], ptr @_ZN6Static1sE, i64 8, ptr @_ZN6Static1sE.cache.), !dbg [[DBG241:![0-9]+]]
 // DEBUG1-NEXT:    [[A1:%.*]] = getelementptr inbounds [[STRUCT_S3:%.*]], ptr [[TMP7]], i32 0, i32 0, !dbg [[DBG242:![0-9]+]]
-// DEBUG1-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A1]], align 4, !dbg [[DBG242]]
+// DEBUG1-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A1]], align 4, !dbg [[DBG242]], !noundef [[NOUNDEF54]]
 // DEBUG1-NEXT:    store i32 [[TMP8]], ptr [[RES]], align 4, !dbg [[DBG243:![0-9]+]]
 // DEBUG1-NEXT:    [[TMP9:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB13:[0-9]+]], i32 [[TMP0]], ptr @_ZZ4mainE2sm, i64 24, ptr @_ZZ4mainE2sm.cache.), !dbg [[DBG244:![0-9]+]]
 // DEBUG1-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_SMAIN:%.*]], ptr [[TMP9]], i32 0, i32 0, !dbg [[DBG245:![0-9]+]]
-// DEBUG1-NEXT:    [[TMP10:%.*]] = load i32, ptr [[A2]], align 8, !dbg [[DBG245]]
-// DEBUG1-NEXT:    [[TMP11:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG246:![0-9]+]]
+// DEBUG1-NEXT:    [[TMP10:%.*]] = load i32, ptr [[A2]], align 8, !dbg [[DBG245]], !noundef [[NOUNDEF54]]
+// DEBUG1-NEXT:    [[TMP11:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG246:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG1-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP11]], [[TMP10]], !dbg [[DBG246]]
 // DEBUG1-NEXT:    store i32 [[ADD]], ptr [[RES]], align 4, !dbg [[DBG246]]
 // DEBUG1-NEXT:    [[TMP12:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB15:[0-9]+]], i32 [[TMP0]], ptr @_ZL3gs1, i64 4, ptr @_ZL3gs1.cache.), !dbg [[DBG247:![0-9]+]]
 // DEBUG1-NEXT:    [[A3:%.*]] = getelementptr inbounds [[STRUCT_S1]], ptr [[TMP12]], i32 0, i32 0, !dbg [[DBG248:![0-9]+]]
-// DEBUG1-NEXT:    [[TMP13:%.*]] = load i32, ptr [[A3]], align 4, !dbg [[DBG248]]
-// DEBUG1-NEXT:    [[TMP14:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG249:![0-9]+]]
+// DEBUG1-NEXT:    [[TMP13:%.*]] = load i32, ptr [[A3]], align 4, !dbg [[DBG248]], !noundef [[NOUNDEF54]]
+// DEBUG1-NEXT:    [[TMP14:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG249:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG1-NEXT:    [[ADD4:%.*]] = add nsw i32 [[TMP14]], [[TMP13]], !dbg [[DBG249]]
 // DEBUG1-NEXT:    store i32 [[ADD4]], ptr [[RES]], align 4, !dbg [[DBG249]]
-// DEBUG1-NEXT:    [[TMP15:%.*]] = load i32, ptr @_ZL3gs2, align 8, !dbg [[DBG250:![0-9]+]]
-// DEBUG1-NEXT:    [[TMP16:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG251:![0-9]+]]
+// DEBUG1-NEXT:    [[TMP15:%.*]] = load i32, ptr @_ZL3gs2, align 8, !dbg [[DBG250:![0-9]+]], !noundef [[NOUNDEF54]]
+// DEBUG1-NEXT:    [[TMP16:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG251:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG1-NEXT:    [[ADD5:%.*]] = add nsw i32 [[TMP16]], [[TMP15]], !dbg [[DBG251]]
 // DEBUG1-NEXT:    store i32 [[ADD5]], ptr [[RES]], align 4, !dbg [[DBG251]]
 // DEBUG1-NEXT:    [[TMP17:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB17:[0-9]+]], i32 [[TMP0]], ptr @gs3, i64 12, ptr @gs3.cache.), !dbg [[DBG252:![0-9]+]]
 // DEBUG1-NEXT:    [[A6:%.*]] = getelementptr inbounds [[STRUCT_S5:%.*]], ptr [[TMP17]], i32 0, i32 0, !dbg [[DBG253:![0-9]+]]
-// DEBUG1-NEXT:    [[TMP18:%.*]] = load i32, ptr [[A6]], align 4, !dbg [[DBG253]]
-// DEBUG1-NEXT:    [[TMP19:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG254:![0-9]+]]
+// DEBUG1-NEXT:    [[TMP18:%.*]] = load i32, ptr [[A6]], align 4, !dbg [[DBG253]], !noundef [[NOUNDEF54]]
+// DEBUG1-NEXT:    [[TMP19:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG254:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG1-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP19]], [[TMP18]], !dbg [[DBG254]]
 // DEBUG1-NEXT:    store i32 [[ADD7]], ptr [[RES]], align 4, !dbg [[DBG254]]
 // DEBUG1-NEXT:    [[TMP20:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB19:[0-9]+]], i32 [[TMP0]], ptr @arr_x, i64 24, ptr @arr_x.cache.), !dbg [[DBG255:![0-9]+]]
 // DEBUG1-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [2 x [3 x %struct.S1]], ptr [[TMP20]], i64 0, i64 1, !dbg [[DBG255]]
 // DEBUG1-NEXT:    [[ARRAYIDX8:%.*]] = getelementptr inbounds [3 x %struct.S1], ptr [[ARRAYIDX]], i64 0, i64 1, !dbg [[DBG255]]
 // DEBUG1-NEXT:    [[A9:%.*]] = getelementptr inbounds [[STRUCT_S1]], ptr [[ARRAYIDX8]], i32 0, i32 0, !dbg [[DBG256:![0-9]+]]
-// DEBUG1-NEXT:    [[TMP21:%.*]] = load i32, ptr [[A9]], align 4, !dbg [[DBG256]]
-// DEBUG1-NEXT:    [[TMP22:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG257:![0-9]+]]
+// DEBUG1-NEXT:    [[TMP21:%.*]] = load i32, ptr [[A9]], align 4, !dbg [[DBG256]], !noundef [[NOUNDEF54]]
+// DEBUG1-NEXT:    [[TMP22:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG257:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG1-NEXT:    [[ADD10:%.*]] = add nsw i32 [[TMP22]], [[TMP21]], !dbg [[DBG257]]
 // DEBUG1-NEXT:    store i32 [[ADD10]], ptr [[RES]], align 4, !dbg [[DBG257]]
 // DEBUG1-NEXT:    [[TMP23:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB21:[0-9]+]], i32 [[TMP0]], ptr @_ZN2STIiE2stE, i64 4, ptr @_ZN2STIiE2stE.cache.), !dbg [[DBG258:![0-9]+]]
-// DEBUG1-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP23]], align 4, !dbg [[DBG258]]
-// DEBUG1-NEXT:    [[TMP25:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG259:![0-9]+]]
+// DEBUG1-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP23]], align 4, !dbg [[DBG258]], !noundef [[NOUNDEF54]]
+// DEBUG1-NEXT:    [[TMP25:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG259:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG1-NEXT:    [[ADD11:%.*]] = add nsw i32 [[TMP25]], [[TMP24]], !dbg [[DBG259]]
 // DEBUG1-NEXT:    store i32 [[ADD11]], ptr [[RES]], align 4, !dbg [[DBG259]]
 // DEBUG1-NEXT:    [[TMP26:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB23:[0-9]+]], i32 [[TMP0]], ptr @_ZN2STIfE2stE, i64 4, ptr @_ZN2STIfE2stE.cache.), !dbg [[DBG260:![0-9]+]]
-// DEBUG1-NEXT:    [[TMP27:%.*]] = load float, ptr [[TMP26]], align 4, !dbg [[DBG260]]
+// DEBUG1-NEXT:    [[TMP27:%.*]] = load float, ptr [[TMP26]], align 4, !dbg [[DBG260]], !noundef [[NOUNDEF54]]
 // DEBUG1-NEXT:    [[CONV:%.*]] = fptosi float [[TMP27]] to i32, !dbg [[DBG260]]
-// DEBUG1-NEXT:    [[TMP28:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG261:![0-9]+]]
+// DEBUG1-NEXT:    [[TMP28:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG261:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG1-NEXT:    [[ADD12:%.*]] = add nsw i32 [[TMP28]], [[CONV]], !dbg [[DBG261]]
 // DEBUG1-NEXT:    store i32 [[ADD12]], ptr [[RES]], align 4, !dbg [[DBG261]]
 // DEBUG1-NEXT:    [[TMP29:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB25:[0-9]+]], i32 [[TMP0]], ptr @_ZN2STI2S4E2stE, i64 8, ptr @_ZN2STI2S4E2stE.cache.), !dbg [[DBG262:![0-9]+]]
 // DEBUG1-NEXT:    [[A13:%.*]] = getelementptr inbounds [[STRUCT_S4:%.*]], ptr [[TMP29]], i32 0, i32 0, !dbg [[DBG263:![0-9]+]]
-// DEBUG1-NEXT:    [[TMP30:%.*]] = load i32, ptr [[A13]], align 4, !dbg [[DBG263]]
-// DEBUG1-NEXT:    [[TMP31:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG264:![0-9]+]]
+// DEBUG1-NEXT:    [[TMP30:%.*]] = load i32, ptr [[A13]], align 4, !dbg [[DBG263]], !noundef [[NOUNDEF54]]
+// DEBUG1-NEXT:    [[TMP31:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG264:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG1-NEXT:    [[ADD14:%.*]] = add nsw i32 [[TMP31]], [[TMP30]], !dbg [[DBG264]]
 // DEBUG1-NEXT:    store i32 [[ADD14]], ptr [[RES]], align 4, !dbg [[DBG264]]
-// DEBUG1-NEXT:    [[TMP32:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG265:![0-9]+]]
+// DEBUG1-NEXT:    [[TMP32:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG265:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG1-NEXT:    ret i32 [[TMP32]], !dbg [[DBG266:![0-9]+]]
 // DEBUG1:       lpad:
 // DEBUG1-NEXT:    [[TMP33:%.*]] = landingpad { ptr, i32 }
@@ -6940,12 +6940,12 @@ int foobar() {
 // DEBUG1-NEXT:    [[TMP1:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB5:[0-9]+]])
 // DEBUG1-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
 // DEBUG1-NEXT:    call void @llvm.dbg.declare(metadata ptr [[DOTADDR]], metadata [[META269:![0-9]+]], metadata !DIExpression()), !dbg [[DBG270:![0-9]+]]
-// DEBUG1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG271:![0-9]+]]
+// DEBUG1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG271:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG1-NEXT:    [[TMP3:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB5]], i32 [[TMP1]], ptr @_ZL3gs1, i64 4, ptr @_ZL3gs1.cache.), !dbg [[DBG272:![0-9]+]]
 // DEBUG1-NEXT:    [[A:%.*]] = getelementptr inbounds [[STRUCT_S1:%.*]], ptr [[TMP3]], i32 0, i32 0, !dbg [[DBG273:![0-9]+]]
-// DEBUG1-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A]], align 4, !dbg [[DBG273]]
+// DEBUG1-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A]], align 4, !dbg [[DBG273]], !noundef [[NOUNDEF54]]
 // DEBUG1-NEXT:    call void @_ZZ4mainEN5SmainC1Ei(ptr noundef nonnull align 8 dereferenceable(24) [[TMP2]], i32 noundef [[TMP4]]), !dbg [[DBG274:![0-9]+]]
-// DEBUG1-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG271]]
+// DEBUG1-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG271]], !noundef [[NOUNDEF54]]
 // DEBUG1-NEXT:    ret ptr [[TMP5]], !dbg [[DBG271]]
 //
 //
@@ -6959,7 +6959,7 @@ int foobar() {
 // DEBUG1-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // DEBUG1-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META279:![0-9]+]], metadata !DIExpression()), !dbg [[DBG280:![0-9]+]]
 // DEBUG1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// DEBUG1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG281:![0-9]+]]
+// DEBUG1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG281:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG1-NEXT:    call void @_ZZ4mainEN5SmainC2Ei(ptr noundef nonnull align 8 dereferenceable(24) [[THIS1]], i32 noundef [[TMP0]]), !dbg [[DBG281]]
 // DEBUG1-NEXT:    ret void, !dbg [[DBG282:![0-9]+]]
 //
@@ -6970,7 +6970,7 @@ int foobar() {
 // DEBUG1-NEXT:    [[DOTADDR:%.*]] = alloca ptr, align 8
 // DEBUG1-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
 // DEBUG1-NEXT:    call void @llvm.dbg.declare(metadata ptr [[DOTADDR]], metadata [[META284:![0-9]+]], metadata !DIExpression()), !dbg [[DBG285:![0-9]+]]
-// DEBUG1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG285]]
+// DEBUG1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG285]], !noundef [[NOUNDEF54]]
 // DEBUG1-NEXT:    call void @_ZZ4mainEN5SmainD1Ev(ptr noundef nonnull align 8 dereferenceable(24) [[TMP1]]) #[[ATTR4]], !dbg [[DBG285]]
 // DEBUG1-NEXT:    ret void, !dbg [[DBG286:![0-9]+]]
 //
@@ -6997,7 +6997,7 @@ int foobar() {
 // DEBUG1-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META295:![0-9]+]], metadata !DIExpression()), !dbg [[DBG296:![0-9]+]]
 // DEBUG1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // DEBUG1-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_SMAIN:%.*]], ptr [[THIS1]], i32 0, i32 0, !dbg [[DBG297:![0-9]+]]
-// DEBUG1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG298:![0-9]+]]
+// DEBUG1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG298:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG1-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 8, !dbg [[DBG297]]
 // DEBUG1-NEXT:    ret void, !dbg [[DBG299:![0-9]+]]
 //
@@ -7022,50 +7022,50 @@ int foobar() {
 // DEBUG1-NEXT:    call void @llvm.dbg.declare(metadata ptr [[RES]], metadata [[META308:![0-9]+]], metadata !DIExpression()), !dbg [[DBG309:![0-9]+]]
 // DEBUG1-NEXT:    [[TMP1:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB27]], i32 [[TMP0]], ptr @_ZN6Static1sE, i64 8, ptr @_ZN6Static1sE.cache.), !dbg [[DBG310:![0-9]+]]
 // DEBUG1-NEXT:    [[A:%.*]] = getelementptr inbounds [[STRUCT_S3:%.*]], ptr [[TMP1]], i32 0, i32 0, !dbg [[DBG311:![0-9]+]]
-// DEBUG1-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4, !dbg [[DBG311]]
+// DEBUG1-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4, !dbg [[DBG311]], !noundef [[NOUNDEF54]]
 // DEBUG1-NEXT:    store i32 [[TMP2]], ptr [[RES]], align 4, !dbg [[DBG312:![0-9]+]]
 // DEBUG1-NEXT:    [[TMP3:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB29:[0-9]+]], i32 [[TMP0]], ptr @_ZL3gs1, i64 4, ptr @_ZL3gs1.cache.), !dbg [[DBG313:![0-9]+]]
 // DEBUG1-NEXT:    [[A1:%.*]] = getelementptr inbounds [[STRUCT_S1:%.*]], ptr [[TMP3]], i32 0, i32 0, !dbg [[DBG314:![0-9]+]]
-// DEBUG1-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A1]], align 4, !dbg [[DBG314]]
-// DEBUG1-NEXT:    [[TMP5:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG315:![0-9]+]]
+// DEBUG1-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A1]], align 4, !dbg [[DBG314]], !noundef [[NOUNDEF54]]
+// DEBUG1-NEXT:    [[TMP5:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG315:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG1-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP5]], [[TMP4]], !dbg [[DBG315]]
 // DEBUG1-NEXT:    store i32 [[ADD]], ptr [[RES]], align 4, !dbg [[DBG315]]
-// DEBUG1-NEXT:    [[TMP6:%.*]] = load i32, ptr @_ZL3gs2, align 8, !dbg [[DBG316:![0-9]+]]
-// DEBUG1-NEXT:    [[TMP7:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG317:![0-9]+]]
+// DEBUG1-NEXT:    [[TMP6:%.*]] = load i32, ptr @_ZL3gs2, align 8, !dbg [[DBG316:![0-9]+]], !noundef [[NOUNDEF54]]
+// DEBUG1-NEXT:    [[TMP7:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG317:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG1-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP7]], [[TMP6]], !dbg [[DBG317]]
 // DEBUG1-NEXT:    store i32 [[ADD2]], ptr [[RES]], align 4, !dbg [[DBG317]]
 // DEBUG1-NEXT:    [[TMP8:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB31:[0-9]+]], i32 [[TMP0]], ptr @gs3, i64 12, ptr @gs3.cache.), !dbg [[DBG318:![0-9]+]]
 // DEBUG1-NEXT:    [[A3:%.*]] = getelementptr inbounds [[STRUCT_S5:%.*]], ptr [[TMP8]], i32 0, i32 0, !dbg [[DBG319:![0-9]+]]
-// DEBUG1-NEXT:    [[TMP9:%.*]] = load i32, ptr [[A3]], align 4, !dbg [[DBG319]]
-// DEBUG1-NEXT:    [[TMP10:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG320:![0-9]+]]
+// DEBUG1-NEXT:    [[TMP9:%.*]] = load i32, ptr [[A3]], align 4, !dbg [[DBG319]], !noundef [[NOUNDEF54]]
+// DEBUG1-NEXT:    [[TMP10:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG320:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG1-NEXT:    [[ADD4:%.*]] = add nsw i32 [[TMP10]], [[TMP9]], !dbg [[DBG320]]
 // DEBUG1-NEXT:    store i32 [[ADD4]], ptr [[RES]], align 4, !dbg [[DBG320]]
 // DEBUG1-NEXT:    [[TMP11:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB33:[0-9]+]], i32 [[TMP0]], ptr @arr_x, i64 24, ptr @arr_x.cache.), !dbg [[DBG321:![0-9]+]]
 // DEBUG1-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [2 x [3 x %struct.S1]], ptr [[TMP11]], i64 0, i64 1, !dbg [[DBG321]]
 // DEBUG1-NEXT:    [[ARRAYIDX5:%.*]] = getelementptr inbounds [3 x %struct.S1], ptr [[ARRAYIDX]], i64 0, i64 1, !dbg [[DBG321]]
 // DEBUG1-NEXT:    [[A6:%.*]] = getelementptr inbounds [[STRUCT_S1]], ptr [[ARRAYIDX5]], i32 0, i32 0, !dbg [[DBG322:![0-9]+]]
-// DEBUG1-NEXT:    [[TMP12:%.*]] = load i32, ptr [[A6]], align 4, !dbg [[DBG322]]
-// DEBUG1-NEXT:    [[TMP13:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG323:![0-9]+]]
+// DEBUG1-NEXT:    [[TMP12:%.*]] = load i32, ptr [[A6]], align 4, !dbg [[DBG322]], !noundef [[NOUNDEF54]]
+// DEBUG1-NEXT:    [[TMP13:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG323:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG1-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP13]], [[TMP12]], !dbg [[DBG323]]
 // DEBUG1-NEXT:    store i32 [[ADD7]], ptr [[RES]], align 4, !dbg [[DBG323]]
 // DEBUG1-NEXT:    [[TMP14:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB35:[0-9]+]], i32 [[TMP0]], ptr @_ZN2STIiE2stE, i64 4, ptr @_ZN2STIiE2stE.cache.), !dbg [[DBG324:![0-9]+]]
-// DEBUG1-NEXT:    [[TMP15:%.*]] = load i32, ptr [[TMP14]], align 4, !dbg [[DBG324]]
-// DEBUG1-NEXT:    [[TMP16:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG325:![0-9]+]]
+// DEBUG1-NEXT:    [[TMP15:%.*]] = load i32, ptr [[TMP14]], align 4, !dbg [[DBG324]], !noundef [[NOUNDEF54]]
+// DEBUG1-NEXT:    [[TMP16:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG325:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG1-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP16]], [[TMP15]], !dbg [[DBG325]]
 // DEBUG1-NEXT:    store i32 [[ADD8]], ptr [[RES]], align 4, !dbg [[DBG325]]
 // DEBUG1-NEXT:    [[TMP17:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB37:[0-9]+]], i32 [[TMP0]], ptr @_ZN2STIfE2stE, i64 4, ptr @_ZN2STIfE2stE.cache.), !dbg [[DBG326:![0-9]+]]
-// DEBUG1-NEXT:    [[TMP18:%.*]] = load float, ptr [[TMP17]], align 4, !dbg [[DBG326]]
+// DEBUG1-NEXT:    [[TMP18:%.*]] = load float, ptr [[TMP17]], align 4, !dbg [[DBG326]], !noundef [[NOUNDEF54]]
 // DEBUG1-NEXT:    [[CONV:%.*]] = fptosi float [[TMP18]] to i32, !dbg [[DBG326]]
-// DEBUG1-NEXT:    [[TMP19:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG327:![0-9]+]]
+// DEBUG1-NEXT:    [[TMP19:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG327:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG1-NEXT:    [[ADD9:%.*]] = add nsw i32 [[TMP19]], [[CONV]], !dbg [[DBG327]]
 // DEBUG1-NEXT:    store i32 [[ADD9]], ptr [[RES]], align 4, !dbg [[DBG327]]
 // DEBUG1-NEXT:    [[TMP20:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB39:[0-9]+]], i32 [[TMP0]], ptr @_ZN2STI2S4E2stE, i64 8, ptr @_ZN2STI2S4E2stE.cache.), !dbg [[DBG328:![0-9]+]]
 // DEBUG1-NEXT:    [[A10:%.*]] = getelementptr inbounds [[STRUCT_S4:%.*]], ptr [[TMP20]], i32 0, i32 0, !dbg [[DBG329:![0-9]+]]
-// DEBUG1-NEXT:    [[TMP21:%.*]] = load i32, ptr [[A10]], align 4, !dbg [[DBG329]]
-// DEBUG1-NEXT:    [[TMP22:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG330:![0-9]+]]
+// DEBUG1-NEXT:    [[TMP21:%.*]] = load i32, ptr [[A10]], align 4, !dbg [[DBG329]], !noundef [[NOUNDEF54]]
+// DEBUG1-NEXT:    [[TMP22:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG330:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG1-NEXT:    [[ADD11:%.*]] = add nsw i32 [[TMP22]], [[TMP21]], !dbg [[DBG330]]
 // DEBUG1-NEXT:    store i32 [[ADD11]], ptr [[RES]], align 4, !dbg [[DBG330]]
-// DEBUG1-NEXT:    [[TMP23:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG331:![0-9]+]]
+// DEBUG1-NEXT:    [[TMP23:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG331:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG1-NEXT:    ret i32 [[TMP23]], !dbg [[DBG332:![0-9]+]]
 //
 //
@@ -7092,9 +7092,9 @@ int foobar() {
 // DEBUG1-NEXT:    [[DOTADDR:%.*]] = alloca ptr, align 8
 // DEBUG1-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
 // DEBUG1-NEXT:    call void @llvm.dbg.declare(metadata ptr [[DOTADDR]], metadata [[META339:![0-9]+]], metadata !DIExpression()), !dbg [[DBG340:![0-9]+]]
-// DEBUG1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG341:![0-9]+]]
+// DEBUG1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG341:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG1-NEXT:    call void @_ZN2S4C1Ei(ptr noundef nonnull align 4 dereferenceable(8) [[TMP1]], i32 noundef 23), !dbg [[DBG342:![0-9]+]]
-// DEBUG1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG341]]
+// DEBUG1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG341]], !noundef [[NOUNDEF54]]
 // DEBUG1-NEXT:    ret ptr [[TMP2]], !dbg [[DBG341]]
 //
 //
@@ -7108,7 +7108,7 @@ int foobar() {
 // DEBUG1-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // DEBUG1-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META347:![0-9]+]], metadata !DIExpression()), !dbg [[DBG348:![0-9]+]]
 // DEBUG1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// DEBUG1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG349:![0-9]+]]
+// DEBUG1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG349:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG1-NEXT:    call void @_ZN2S4C2Ei(ptr noundef nonnull align 4 dereferenceable(8) [[THIS1]], i32 noundef [[TMP0]]), !dbg [[DBG349]]
 // DEBUG1-NEXT:    ret void, !dbg [[DBG350:![0-9]+]]
 //
@@ -7119,7 +7119,7 @@ int foobar() {
 // DEBUG1-NEXT:    [[DOTADDR:%.*]] = alloca ptr, align 8
 // DEBUG1-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
 // DEBUG1-NEXT:    call void @llvm.dbg.declare(metadata ptr [[DOTADDR]], metadata [[META352:![0-9]+]], metadata !DIExpression()), !dbg [[DBG353:![0-9]+]]
-// DEBUG1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG353]]
+// DEBUG1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG353]], !noundef [[NOUNDEF54]]
 // DEBUG1-NEXT:    call void @_ZN2S4D1Ev(ptr noundef nonnull align 4 dereferenceable(8) [[TMP1]]) #[[ATTR4]], !dbg [[DBG353]]
 // DEBUG1-NEXT:    ret void, !dbg [[DBG354:![0-9]+]]
 //
@@ -7146,7 +7146,7 @@ int foobar() {
 // DEBUG1-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META363:![0-9]+]], metadata !DIExpression()), !dbg [[DBG364:![0-9]+]]
 // DEBUG1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // DEBUG1-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_S4:%.*]], ptr [[THIS1]], i32 0, i32 0, !dbg [[DBG365:![0-9]+]]
-// DEBUG1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG366:![0-9]+]]
+// DEBUG1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG366:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG1-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 4, !dbg [[DBG365]]
 // DEBUG1-NEXT:    ret void, !dbg [[DBG367:![0-9]+]]
 //
@@ -7190,9 +7190,9 @@ int foobar() {
 // DEBUG2-NEXT:    [[DOTADDR:%.*]] = alloca ptr, align 8
 // DEBUG2-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
 // DEBUG2-NEXT:    call void @llvm.dbg.declare(metadata ptr [[DOTADDR]], metadata [[META125:![0-9]+]], metadata !DIExpression()), !dbg [[DBG127:![0-9]+]]
-// DEBUG2-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG128:![0-9]+]]
+// DEBUG2-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG128:![0-9]+]], !noundef [[NOUNDEF54:![0-9]+]]
 // DEBUG2-NEXT:    call void @_ZN2S1C1Ei(ptr noundef nonnull align 4 dereferenceable(4) [[TMP1]], i32 noundef 5), !dbg [[DBG129:![0-9]+]]
-// DEBUG2-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG128]]
+// DEBUG2-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG128]], !noundef [[NOUNDEF54]]
 // DEBUG2-NEXT:    ret ptr [[TMP2]], !dbg [[DBG128]]
 //
 //
@@ -7206,7 +7206,7 @@ int foobar() {
 // DEBUG2-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // DEBUG2-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META134:![0-9]+]], metadata !DIExpression()), !dbg [[DBG135:![0-9]+]]
 // DEBUG2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// DEBUG2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG136:![0-9]+]]
+// DEBUG2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG136:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG2-NEXT:    call void @_ZN2S1C2Ei(ptr noundef nonnull align 4 dereferenceable(4) [[THIS1]], i32 noundef [[TMP0]]), !dbg [[DBG136]]
 // DEBUG2-NEXT:    ret void, !dbg [[DBG137:![0-9]+]]
 //
@@ -7217,7 +7217,7 @@ int foobar() {
 // DEBUG2-NEXT:    [[DOTADDR:%.*]] = alloca ptr, align 8
 // DEBUG2-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
 // DEBUG2-NEXT:    call void @llvm.dbg.declare(metadata ptr [[DOTADDR]], metadata [[META139:![0-9]+]], metadata !DIExpression()), !dbg [[DBG140:![0-9]+]]
-// DEBUG2-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG140]]
+// DEBUG2-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG140]], !noundef [[NOUNDEF54]]
 // DEBUG2-NEXT:    call void @_ZN2S1D1Ev(ptr noundef nonnull align 4 dereferenceable(4) [[TMP1]]) #[[ATTR4]], !dbg [[DBG140]]
 // DEBUG2-NEXT:    ret void, !dbg [[DBG141:![0-9]+]]
 //
@@ -7251,7 +7251,7 @@ int foobar() {
 // DEBUG2-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // DEBUG2-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META156:![0-9]+]], metadata !DIExpression()), !dbg [[DBG157:![0-9]+]]
 // DEBUG2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// DEBUG2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG158:![0-9]+]]
+// DEBUG2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG158:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG2-NEXT:    call void @_ZN2S2C2Ei(ptr noundef nonnull align 8 dereferenceable(16) [[THIS1]], i32 noundef [[TMP0]]), !dbg [[DBG158]]
 // DEBUG2-NEXT:    ret void, !dbg [[DBG159:![0-9]+]]
 //
@@ -7373,7 +7373,7 @@ int foobar() {
 // DEBUG2-NEXT:    [[ARRAYINIT_ENDOFINIT9:%.*]] = alloca ptr, align 8
 // DEBUG2-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
 // DEBUG2-NEXT:    call void @llvm.dbg.declare(metadata ptr [[DOTADDR]], metadata [[META179:![0-9]+]], metadata !DIExpression()), !dbg [[DBG180:![0-9]+]]
-// DEBUG2-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG181:![0-9]+]]
+// DEBUG2-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG181:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG2-NEXT:    [[ARRAYINIT_BEGIN:%.*]] = getelementptr inbounds [2 x [3 x %struct.S1]], ptr [[TMP1]], i64 0, i64 0, !dbg [[DBG182:![0-9]+]]
 // DEBUG2-NEXT:    store ptr [[ARRAYINIT_BEGIN]], ptr [[ARRAYINIT_ENDOFINIT]], align 8, !dbg [[DBG182]]
 // DEBUG2-NEXT:    [[ARRAYINIT_BEGIN1:%.*]] = getelementptr inbounds [3 x %struct.S1], ptr [[ARRAYINIT_BEGIN]], i64 0, i64 0, !dbg [[DBG183:![0-9]+]]
@@ -7408,7 +7408,7 @@ int foobar() {
 // DEBUG2-NEXT:    invoke void @_ZN2S1C1Ei(ptr noundef nonnull align 4 dereferenceable(4) [[ARRAYINIT_ELEMENT14]], i32 noundef 6)
 // DEBUG2-NEXT:    to label [[INVOKE_CONT15:%.*]] unwind label [[LPAD10]], !dbg [[DBG190:![0-9]+]]
 // DEBUG2:       invoke.cont15:
-// DEBUG2-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG181]]
+// DEBUG2-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG181]], !noundef [[NOUNDEF54]]
 // DEBUG2-NEXT:    ret ptr [[TMP2]], !dbg [[DBG181]]
 // DEBUG2:       lpad:
 // DEBUG2-NEXT:    [[TMP3:%.*]] = landingpad { ptr, i32 }
@@ -7474,7 +7474,7 @@ int foobar() {
 // DEBUG2-NEXT:    [[DOTADDR:%.*]] = alloca ptr, align 8
 // DEBUG2-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
 // DEBUG2-NEXT:    call void @llvm.dbg.declare(metadata ptr [[DOTADDR]], metadata [[META192:![0-9]+]], metadata !DIExpression()), !dbg [[DBG193:![0-9]+]]
-// DEBUG2-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG193]]
+// DEBUG2-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG193]], !noundef [[NOUNDEF54]]
 // DEBUG2-NEXT:    [[TMP2:%.*]] = getelementptr inbounds [[STRUCT_S1:%.*]], ptr [[TMP1]], i64 6, !dbg [[DBG193]]
 // DEBUG2-NEXT:    br label [[ARRAYDESTROY_BODY:%.*]], !dbg [[DBG193]]
 // DEBUG2:       arraydestroy.body:
@@ -7526,7 +7526,7 @@ int foobar() {
 // DEBUG2-NEXT:    call void @__kmpc_threadprivate_register(ptr @[[GLOB7]], ptr @_ZZ4mainE2sm, ptr @.__kmpc_global_ctor_..5, ptr null, ptr @.__kmpc_global_dtor_..6), !dbg [[DBG202]]
 // DEBUG2-NEXT:    [[TMP4:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB9]], i32 [[TMP0]], ptr @_ZL3gs1, i64 4, ptr @_ZL3gs1.cache.), !dbg [[DBG204:![0-9]+]]
 // DEBUG2-NEXT:    [[A:%.*]] = getelementptr inbounds [[STRUCT_S1:%.*]], ptr [[TMP4]], i32 0, i32 0, !dbg [[DBG205:![0-9]+]]
-// DEBUG2-NEXT:    [[TMP5:%.*]] = load i32, ptr [[A]], align 4, !dbg [[DBG205]]
+// DEBUG2-NEXT:    [[TMP5:%.*]] = load i32, ptr [[A]], align 4, !dbg [[DBG205]], !noundef [[NOUNDEF54]]
 // DEBUG2-NEXT:    invoke void @_ZZ4mainEN5SmainC1Ei(ptr noundef nonnull align 8 dereferenceable(24) @_ZZ4mainE2sm, i32 noundef [[TMP5]])
 // DEBUG2-NEXT:    to label [[INVOKE_CONT:%.*]] unwind label [[LPAD:%.*]], !dbg [[DBG206:![0-9]+]]
 // DEBUG2:       invoke.cont:
@@ -7536,56 +7536,56 @@ int foobar() {
 // DEBUG2:       init.end:
 // DEBUG2-NEXT:    [[TMP7:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB11:[0-9]+]], i32 [[TMP0]], ptr @_ZN6Static1sE, i64 8, ptr @_ZN6Static1sE.cache.), !dbg [[DBG207:![0-9]+]]
 // DEBUG2-NEXT:    [[A1:%.*]] = getelementptr inbounds [[STRUCT_S3:%.*]], ptr [[TMP7]], i32 0, i32 0, !dbg [[DBG208:![0-9]+]]
-// DEBUG2-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A1]], align 4, !dbg [[DBG208]]
+// DEBUG2-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A1]], align 4, !dbg [[DBG208]], !noundef [[NOUNDEF54]]
 // DEBUG2-NEXT:    store i32 [[TMP8]], ptr [[RES]], align 4, !dbg [[DBG209:![0-9]+]]
 // DEBUG2-NEXT:    [[TMP9:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB13:[0-9]+]], i32 [[TMP0]], ptr @_ZZ4mainE2sm, i64 24, ptr @_ZZ4mainE2sm.cache.), !dbg [[DBG210:![0-9]+]]
 // DEBUG2-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_SMAIN:%.*]], ptr [[TMP9]], i32 0, i32 0, !dbg [[DBG211:![0-9]+]]
-// DEBUG2-NEXT:    [[TMP10:%.*]] = load i32, ptr [[A2]], align 8, !dbg [[DBG211]]
-// DEBUG2-NEXT:    [[TMP11:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG212:![0-9]+]]
+// DEBUG2-NEXT:    [[TMP10:%.*]] = load i32, ptr [[A2]], align 8, !dbg [[DBG211]], !noundef [[NOUNDEF54]]
+// DEBUG2-NEXT:    [[TMP11:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG212:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG2-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP11]], [[TMP10]], !dbg [[DBG212]]
 // DEBUG2-NEXT:    store i32 [[ADD]], ptr [[RES]], align 4, !dbg [[DBG212]]
 // DEBUG2-NEXT:    [[TMP12:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB15:[0-9]+]], i32 [[TMP0]], ptr @_ZL3gs1, i64 4, ptr @_ZL3gs1.cache.), !dbg [[DBG213:![0-9]+]]
 // DEBUG2-NEXT:    [[A3:%.*]] = getelementptr inbounds [[STRUCT_S1]], ptr [[TMP12]], i32 0, i32 0, !dbg [[DBG214:![0-9]+]]
-// DEBUG2-NEXT:    [[TMP13:%.*]] = load i32, ptr [[A3]], align 4, !dbg [[DBG214]]
-// DEBUG2-NEXT:    [[TMP14:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG215:![0-9]+]]
+// DEBUG2-NEXT:    [[TMP13:%.*]] = load i32, ptr [[A3]], align 4, !dbg [[DBG214]], !noundef [[NOUNDEF54]]
+// DEBUG2-NEXT:    [[TMP14:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG215:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG2-NEXT:    [[ADD4:%.*]] = add nsw i32 [[TMP14]], [[TMP13]], !dbg [[DBG215]]
 // DEBUG2-NEXT:    store i32 [[ADD4]], ptr [[RES]], align 4, !dbg [[DBG215]]
-// DEBUG2-NEXT:    [[TMP15:%.*]] = load i32, ptr @_ZL3gs2, align 8, !dbg [[DBG216:![0-9]+]]
-// DEBUG2-NEXT:    [[TMP16:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG217:![0-9]+]]
+// DEBUG2-NEXT:    [[TMP15:%.*]] = load i32, ptr @_ZL3gs2, align 8, !dbg [[DBG216:![0-9]+]], !noundef [[NOUNDEF54]]
+// DEBUG2-NEXT:    [[TMP16:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG217:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG2-NEXT:    [[ADD5:%.*]] = add nsw i32 [[TMP16]], [[TMP15]], !dbg [[DBG217]]
 // DEBUG2-NEXT:    store i32 [[ADD5]], ptr [[RES]], align 4, !dbg [[DBG217]]
 // DEBUG2-NEXT:    [[TMP17:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB17:[0-9]+]], i32 [[TMP0]], ptr @gs3, i64 12, ptr @gs3.cache.), !dbg [[DBG218:![0-9]+]]
 // DEBUG2-NEXT:    [[A6:%.*]] = getelementptr inbounds [[STRUCT_S5:%.*]], ptr [[TMP17]], i32 0, i32 0, !dbg [[DBG219:![0-9]+]]
-// DEBUG2-NEXT:    [[TMP18:%.*]] = load i32, ptr [[A6]], align 4, !dbg [[DBG219]]
-// DEBUG2-NEXT:    [[TMP19:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG220:![0-9]+]]
+// DEBUG2-NEXT:    [[TMP18:%.*]] = load i32, ptr [[A6]], align 4, !dbg [[DBG219]], !noundef [[NOUNDEF54]]
+// DEBUG2-NEXT:    [[TMP19:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG220:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG2-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP19]], [[TMP18]], !dbg [[DBG220]]
 // DEBUG2-NEXT:    store i32 [[ADD7]], ptr [[RES]], align 4, !dbg [[DBG220]]
 // DEBUG2-NEXT:    [[TMP20:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB19:[0-9]+]], i32 [[TMP0]], ptr @arr_x, i64 24, ptr @arr_x.cache.), !dbg [[DBG221:![0-9]+]]
 // DEBUG2-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [2 x [3 x %struct.S1]], ptr [[TMP20]], i64 0, i64 1, !dbg [[DBG221]]
 // DEBUG2-NEXT:    [[ARRAYIDX8:%.*]] = getelementptr inbounds [3 x %struct.S1], ptr [[ARRAYIDX]], i64 0, i64 1, !dbg [[DBG221]]
 // DEBUG2-NEXT:    [[A9:%.*]] = getelementptr inbounds [[STRUCT_S1]], ptr [[ARRAYIDX8]], i32 0, i32 0, !dbg [[DBG222:![0-9]+]]
-// DEBUG2-NEXT:    [[TMP21:%.*]] = load i32, ptr [[A9]], align 4, !dbg [[DBG222]]
-// DEBUG2-NEXT:    [[TMP22:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG223:![0-9]+]]
+// DEBUG2-NEXT:    [[TMP21:%.*]] = load i32, ptr [[A9]], align 4, !dbg [[DBG222]], !noundef [[NOUNDEF54]]
+// DEBUG2-NEXT:    [[TMP22:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG223:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG2-NEXT:    [[ADD10:%.*]] = add nsw i32 [[TMP22]], [[TMP21]], !dbg [[DBG223]]
 // DEBUG2-NEXT:    store i32 [[ADD10]], ptr [[RES]], align 4, !dbg [[DBG223]]
 // DEBUG2-NEXT:    [[TMP23:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB21:[0-9]+]], i32 [[TMP0]], ptr @_ZN2STIiE2stE, i64 4, ptr @_ZN2STIiE2stE.cache.), !dbg [[DBG224:![0-9]+]]
-// DEBUG2-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP23]], align 4, !dbg [[DBG224]]
-// DEBUG2-NEXT:    [[TMP25:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG225:![0-9]+]]
+// DEBUG2-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP23]], align 4, !dbg [[DBG224]], !noundef [[NOUNDEF54]]
+// DEBUG2-NEXT:    [[TMP25:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG225:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG2-NEXT:    [[ADD11:%.*]] = add nsw i32 [[TMP25]], [[TMP24]], !dbg [[DBG225]]
 // DEBUG2-NEXT:    store i32 [[ADD11]], ptr [[RES]], align 4, !dbg [[DBG225]]
 // DEBUG2-NEXT:    [[TMP26:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB23:[0-9]+]], i32 [[TMP0]], ptr @_ZN2STIfE2stE, i64 4, ptr @_ZN2STIfE2stE.cache.), !dbg [[DBG226:![0-9]+]]
-// DEBUG2-NEXT:    [[TMP27:%.*]] = load float, ptr [[TMP26]], align 4, !dbg [[DBG226]]
+// DEBUG2-NEXT:    [[TMP27:%.*]] = load float, ptr [[TMP26]], align 4, !dbg [[DBG226]], !noundef [[NOUNDEF54]]
 // DEBUG2-NEXT:    [[CONV:%.*]] = fptosi float [[TMP27]] to i32, !dbg [[DBG226]]
-// DEBUG2-NEXT:    [[TMP28:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG227:![0-9]+]]
+// DEBUG2-NEXT:    [[TMP28:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG227:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG2-NEXT:    [[ADD12:%.*]] = add nsw i32 [[TMP28]], [[CONV]], !dbg [[DBG227]]
 // DEBUG2-NEXT:    store i32 [[ADD12]], ptr [[RES]], align 4, !dbg [[DBG227]]
 // DEBUG2-NEXT:    [[TMP29:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB25:[0-9]+]], i32 [[TMP0]], ptr @_ZN2STI2S4E2stE, i64 8, ptr @_ZN2STI2S4E2stE.cache.), !dbg [[DBG228:![0-9]+]]
 // DEBUG2-NEXT:    [[A13:%.*]] = getelementptr inbounds [[STRUCT_S4:%.*]], ptr [[TMP29]], i32 0, i32 0, !dbg [[DBG229:![0-9]+]]
-// DEBUG2-NEXT:    [[TMP30:%.*]] = load i32, ptr [[A13]], align 4, !dbg [[DBG229]]
-// DEBUG2-NEXT:    [[TMP31:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG230:![0-9]+]]
+// DEBUG2-NEXT:    [[TMP30:%.*]] = load i32, ptr [[A13]], align 4, !dbg [[DBG229]], !noundef [[NOUNDEF54]]
+// DEBUG2-NEXT:    [[TMP31:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG230:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG2-NEXT:    [[ADD14:%.*]] = add nsw i32 [[TMP31]], [[TMP30]], !dbg [[DBG230]]
 // DEBUG2-NEXT:    store i32 [[ADD14]], ptr [[RES]], align 4, !dbg [[DBG230]]
-// DEBUG2-NEXT:    [[TMP32:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG231:![0-9]+]]
+// DEBUG2-NEXT:    [[TMP32:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG231:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG2-NEXT:    ret i32 [[TMP32]], !dbg [[DBG232:![0-9]+]]
 // DEBUG2:       lpad:
 // DEBUG2-NEXT:    [[TMP33:%.*]] = landingpad { ptr, i32 }
@@ -7611,12 +7611,12 @@ int foobar() {
 // DEBUG2-NEXT:    [[TMP1:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB5:[0-9]+]])
 // DEBUG2-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
 // DEBUG2-NEXT:    call void @llvm.dbg.declare(metadata ptr [[DOTADDR]], metadata [[META235:![0-9]+]], metadata !DIExpression()), !dbg [[DBG236:![0-9]+]]
-// DEBUG2-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG237:![0-9]+]]
+// DEBUG2-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG237:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG2-NEXT:    [[TMP3:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB5]], i32 [[TMP1]], ptr @_ZL3gs1, i64 4, ptr @_ZL3gs1.cache.), !dbg [[DBG238:![0-9]+]]
 // DEBUG2-NEXT:    [[A:%.*]] = getelementptr inbounds [[STRUCT_S1:%.*]], ptr [[TMP3]], i32 0, i32 0, !dbg [[DBG239:![0-9]+]]
-// DEBUG2-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A]], align 4, !dbg [[DBG239]]
+// DEBUG2-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A]], align 4, !dbg [[DBG239]], !noundef [[NOUNDEF54]]
 // DEBUG2-NEXT:    call void @_ZZ4mainEN5SmainC1Ei(ptr noundef nonnull align 8 dereferenceable(24) [[TMP2]], i32 noundef [[TMP4]]), !dbg [[DBG240:![0-9]+]]
-// DEBUG2-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG237]]
+// DEBUG2-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG237]], !noundef [[NOUNDEF54]]
 // DEBUG2-NEXT:    ret ptr [[TMP5]], !dbg [[DBG237]]
 //
 //
@@ -7630,7 +7630,7 @@ int foobar() {
 // DEBUG2-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // DEBUG2-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META245:![0-9]+]], metadata !DIExpression()), !dbg [[DBG246:![0-9]+]]
 // DEBUG2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// DEBUG2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG247:![0-9]+]]
+// DEBUG2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG247:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG2-NEXT:    call void @_ZZ4mainEN5SmainC2Ei(ptr noundef nonnull align 8 dereferenceable(24) [[THIS1]], i32 noundef [[TMP0]]), !dbg [[DBG247]]
 // DEBUG2-NEXT:    ret void, !dbg [[DBG248:![0-9]+]]
 //
@@ -7641,7 +7641,7 @@ int foobar() {
 // DEBUG2-NEXT:    [[DOTADDR:%.*]] = alloca ptr, align 8
 // DEBUG2-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
 // DEBUG2-NEXT:    call void @llvm.dbg.declare(metadata ptr [[DOTADDR]], metadata [[META250:![0-9]+]], metadata !DIExpression()), !dbg [[DBG251:![0-9]+]]
-// DEBUG2-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG251]]
+// DEBUG2-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG251]], !noundef [[NOUNDEF54]]
 // DEBUG2-NEXT:    call void @_ZZ4mainEN5SmainD1Ev(ptr noundef nonnull align 8 dereferenceable(24) [[TMP1]]) #[[ATTR4]], !dbg [[DBG251]]
 // DEBUG2-NEXT:    ret void, !dbg [[DBG252:![0-9]+]]
 //
@@ -7665,50 +7665,50 @@ int foobar() {
 // DEBUG2-NEXT:    call void @llvm.dbg.declare(metadata ptr [[RES]], metadata [[META259:![0-9]+]], metadata !DIExpression()), !dbg [[DBG260:![0-9]+]]
 // DEBUG2-NEXT:    [[TMP1:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB27]], i32 [[TMP0]], ptr @_ZN6Static1sE, i64 8, ptr @_ZN6Static1sE.cache.), !dbg [[DBG261:![0-9]+]]
 // DEBUG2-NEXT:    [[A:%.*]] = getelementptr inbounds [[STRUCT_S3:%.*]], ptr [[TMP1]], i32 0, i32 0, !dbg [[DBG262:![0-9]+]]
-// DEBUG2-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4, !dbg [[DBG262]]
+// DEBUG2-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4, !dbg [[DBG262]], !noundef [[NOUNDEF54]]
 // DEBUG2-NEXT:    store i32 [[TMP2]], ptr [[RES]], align 4, !dbg [[DBG263:![0-9]+]]
 // DEBUG2-NEXT:    [[TMP3:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB29:[0-9]+]], i32 [[TMP0]], ptr @_ZL3gs1, i64 4, ptr @_ZL3gs1.cache.), !dbg [[DBG264:![0-9]+]]
 // DEBUG2-NEXT:    [[A1:%.*]] = getelementptr inbounds [[STRUCT_S1:%.*]], ptr [[TMP3]], i32 0, i32 0, !dbg [[DBG265:![0-9]+]]
-// DEBUG2-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A1]], align 4, !dbg [[DBG265]]
-// DEBUG2-NEXT:    [[TMP5:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG266:![0-9]+]]
+// DEBUG2-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A1]], align 4, !dbg [[DBG265]], !noundef [[NOUNDEF54]]
+// DEBUG2-NEXT:    [[TMP5:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG266:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG2-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP5]], [[TMP4]], !dbg [[DBG266]]
 // DEBUG2-NEXT:    store i32 [[ADD]], ptr [[RES]], align 4, !dbg [[DBG266]]
-// DEBUG2-NEXT:    [[TMP6:%.*]] = load i32, ptr @_ZL3gs2, align 8, !dbg [[DBG267:![0-9]+]]
-// DEBUG2-NEXT:    [[TMP7:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG268:![0-9]+]]
+// DEBUG2-NEXT:    [[TMP6:%.*]] = load i32, ptr @_ZL3gs2, align 8, !dbg [[DBG267:![0-9]+]], !noundef [[NOUNDEF54]]
+// DEBUG2-NEXT:    [[TMP7:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG268:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG2-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP7]], [[TMP6]], !dbg [[DBG268]]
 // DEBUG2-NEXT:    store i32 [[ADD2]], ptr [[RES]], align 4, !dbg [[DBG268]]
 // DEBUG2-NEXT:    [[TMP8:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB31:[0-9]+]], i32 [[TMP0]], ptr @gs3, i64 12, ptr @gs3.cache.), !dbg [[DBG269:![0-9]+]]
 // DEBUG2-NEXT:    [[A3:%.*]] = getelementptr inbounds [[STRUCT_S5:%.*]], ptr [[TMP8]], i32 0, i32 0, !dbg [[DBG270:![0-9]+]]
-// DEBUG2-NEXT:    [[TMP9:%.*]] = load i32, ptr [[A3]], align 4, !dbg [[DBG270]]
-// DEBUG2-NEXT:    [[TMP10:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG271:![0-9]+]]
+// DEBUG2-NEXT:    [[TMP9:%.*]] = load i32, ptr [[A3]], align 4, !dbg [[DBG270]], !noundef [[NOUNDEF54]]
+// DEBUG2-NEXT:    [[TMP10:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG271:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG2-NEXT:    [[ADD4:%.*]] = add nsw i32 [[TMP10]], [[TMP9]], !dbg [[DBG271]]
 // DEBUG2-NEXT:    store i32 [[ADD4]], ptr [[RES]], align 4, !dbg [[DBG271]]
 // DEBUG2-NEXT:    [[TMP11:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB33:[0-9]+]], i32 [[TMP0]], ptr @arr_x, i64 24, ptr @arr_x.cache.), !dbg [[DBG272:![0-9]+]]
 // DEBUG2-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [2 x [3 x %struct.S1]], ptr [[TMP11]], i64 0, i64 1, !dbg [[DBG272]]
 // DEBUG2-NEXT:    [[ARRAYIDX5:%.*]] = getelementptr inbounds [3 x %struct.S1], ptr [[ARRAYIDX]], i64 0, i64 1, !dbg [[DBG272]]
 // DEBUG2-NEXT:    [[A6:%.*]] = getelementptr inbounds [[STRUCT_S1]], ptr [[ARRAYIDX5]], i32 0, i32 0, !dbg [[DBG273:![0-9]+]]
-// DEBUG2-NEXT:    [[TMP12:%.*]] = load i32, ptr [[A6]], align 4, !dbg [[DBG273]]
-// DEBUG2-NEXT:    [[TMP13:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG274:![0-9]+]]
+// DEBUG2-NEXT:    [[TMP12:%.*]] = load i32, ptr [[A6]], align 4, !dbg [[DBG273]], !noundef [[NOUNDEF54]]
+// DEBUG2-NEXT:    [[TMP13:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG274:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG2-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP13]], [[TMP12]], !dbg [[DBG274]]
 // DEBUG2-NEXT:    store i32 [[ADD7]], ptr [[RES]], align 4, !dbg [[DBG274]]
 // DEBUG2-NEXT:    [[TMP14:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB35:[0-9]+]], i32 [[TMP0]], ptr @_ZN2STIiE2stE, i64 4, ptr @_ZN2STIiE2stE.cache.), !dbg [[DBG275:![0-9]+]]
-// DEBUG2-NEXT:    [[TMP15:%.*]] = load i32, ptr [[TMP14]], align 4, !dbg [[DBG275]]
-// DEBUG2-NEXT:    [[TMP16:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG276:![0-9]+]]
+// DEBUG2-NEXT:    [[TMP15:%.*]] = load i32, ptr [[TMP14]], align 4, !dbg [[DBG275]], !noundef [[NOUNDEF54]]
+// DEBUG2-NEXT:    [[TMP16:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG276:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG2-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP16]], [[TMP15]], !dbg [[DBG276]]
 // DEBUG2-NEXT:    store i32 [[ADD8]], ptr [[RES]], align 4, !dbg [[DBG276]]
 // DEBUG2-NEXT:    [[TMP17:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB37:[0-9]+]], i32 [[TMP0]], ptr @_ZN2STIfE2stE, i64 4, ptr @_ZN2STIfE2stE.cache.), !dbg [[DBG277:![0-9]+]]
-// DEBUG2-NEXT:    [[TMP18:%.*]] = load float, ptr [[TMP17]], align 4, !dbg [[DBG277]]
+// DEBUG2-NEXT:    [[TMP18:%.*]] = load float, ptr [[TMP17]], align 4, !dbg [[DBG277]], !noundef [[NOUNDEF54]]
 // DEBUG2-NEXT:    [[CONV:%.*]] = fptosi float [[TMP18]] to i32, !dbg [[DBG277]]
-// DEBUG2-NEXT:    [[TMP19:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG278:![0-9]+]]
+// DEBUG2-NEXT:    [[TMP19:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG278:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG2-NEXT:    [[ADD9:%.*]] = add nsw i32 [[TMP19]], [[CONV]], !dbg [[DBG278]]
 // DEBUG2-NEXT:    store i32 [[ADD9]], ptr [[RES]], align 4, !dbg [[DBG278]]
 // DEBUG2-NEXT:    [[TMP20:%.*]] = call ptr @__kmpc_threadprivate_cached(ptr @[[GLOB39:[0-9]+]], i32 [[TMP0]], ptr @_ZN2STI2S4E2stE, i64 8, ptr @_ZN2STI2S4E2stE.cache.), !dbg [[DBG279:![0-9]+]]
 // DEBUG2-NEXT:    [[A10:%.*]] = getelementptr inbounds [[STRUCT_S4:%.*]], ptr [[TMP20]], i32 0, i32 0, !dbg [[DBG280:![0-9]+]]
-// DEBUG2-NEXT:    [[TMP21:%.*]] = load i32, ptr [[A10]], align 4, !dbg [[DBG280]]
-// DEBUG2-NEXT:    [[TMP22:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG281:![0-9]+]]
+// DEBUG2-NEXT:    [[TMP21:%.*]] = load i32, ptr [[A10]], align 4, !dbg [[DBG280]], !noundef [[NOUNDEF54]]
+// DEBUG2-NEXT:    [[TMP22:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG281:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG2-NEXT:    [[ADD11:%.*]] = add nsw i32 [[TMP22]], [[TMP21]], !dbg [[DBG281]]
 // DEBUG2-NEXT:    store i32 [[ADD11]], ptr [[RES]], align 4, !dbg [[DBG281]]
-// DEBUG2-NEXT:    [[TMP23:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG282:![0-9]+]]
+// DEBUG2-NEXT:    [[TMP23:%.*]] = load i32, ptr [[RES]], align 4, !dbg [[DBG282:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG2-NEXT:    ret i32 [[TMP23]], !dbg [[DBG283:![0-9]+]]
 //
 //
@@ -7735,9 +7735,9 @@ int foobar() {
 // DEBUG2-NEXT:    [[DOTADDR:%.*]] = alloca ptr, align 8
 // DEBUG2-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
 // DEBUG2-NEXT:    call void @llvm.dbg.declare(metadata ptr [[DOTADDR]], metadata [[META290:![0-9]+]], metadata !DIExpression()), !dbg [[DBG291:![0-9]+]]
-// DEBUG2-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG292:![0-9]+]]
+// DEBUG2-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG292:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG2-NEXT:    call void @_ZN2S4C1Ei(ptr noundef nonnull align 4 dereferenceable(8) [[TMP1]], i32 noundef 23), !dbg [[DBG293:![0-9]+]]
-// DEBUG2-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG292]]
+// DEBUG2-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG292]], !noundef [[NOUNDEF54]]
 // DEBUG2-NEXT:    ret ptr [[TMP2]], !dbg [[DBG292]]
 //
 //
@@ -7751,7 +7751,7 @@ int foobar() {
 // DEBUG2-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // DEBUG2-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META298:![0-9]+]], metadata !DIExpression()), !dbg [[DBG299:![0-9]+]]
 // DEBUG2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// DEBUG2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG300:![0-9]+]]
+// DEBUG2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG300:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG2-NEXT:    call void @_ZN2S4C2Ei(ptr noundef nonnull align 4 dereferenceable(8) [[THIS1]], i32 noundef [[TMP0]]), !dbg [[DBG300]]
 // DEBUG2-NEXT:    ret void, !dbg [[DBG301:![0-9]+]]
 //
@@ -7762,7 +7762,7 @@ int foobar() {
 // DEBUG2-NEXT:    [[DOTADDR:%.*]] = alloca ptr, align 8
 // DEBUG2-NEXT:    store ptr [[TMP0]], ptr [[DOTADDR]], align 8
 // DEBUG2-NEXT:    call void @llvm.dbg.declare(metadata ptr [[DOTADDR]], metadata [[META303:![0-9]+]], metadata !DIExpression()), !dbg [[DBG304:![0-9]+]]
-// DEBUG2-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG304]]
+// DEBUG2-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTADDR]], align 8, !dbg [[DBG304]], !noundef [[NOUNDEF54]]
 // DEBUG2-NEXT:    call void @_ZN2S4D1Ev(ptr noundef nonnull align 4 dereferenceable(8) [[TMP1]]) #[[ATTR4]], !dbg [[DBG304]]
 // DEBUG2-NEXT:    ret void, !dbg [[DBG305:![0-9]+]]
 //
@@ -7789,7 +7789,7 @@ int foobar() {
 // DEBUG2-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META314:![0-9]+]], metadata !DIExpression()), !dbg [[DBG315:![0-9]+]]
 // DEBUG2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // DEBUG2-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_S1:%.*]], ptr [[THIS1]], i32 0, i32 0, !dbg [[DBG316:![0-9]+]]
-// DEBUG2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG317:![0-9]+]]
+// DEBUG2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG317:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG2-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 4, !dbg [[DBG316]]
 // DEBUG2-NEXT:    ret void, !dbg [[DBG318:![0-9]+]]
 //
@@ -7817,7 +7817,7 @@ int foobar() {
 // DEBUG2-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META329:![0-9]+]], metadata !DIExpression()), !dbg [[DBG330:![0-9]+]]
 // DEBUG2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // DEBUG2-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_S2:%.*]], ptr [[THIS1]], i32 0, i32 0, !dbg [[DBG331:![0-9]+]]
-// DEBUG2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG332:![0-9]+]]
+// DEBUG2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG332:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG2-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 8, !dbg [[DBG331]]
 // DEBUG2-NEXT:    ret void, !dbg [[DBG333:![0-9]+]]
 //
@@ -7845,7 +7845,7 @@ int foobar() {
 // DEBUG2-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META344:![0-9]+]], metadata !DIExpression()), !dbg [[DBG345:![0-9]+]]
 // DEBUG2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // DEBUG2-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_SMAIN:%.*]], ptr [[THIS1]], i32 0, i32 0, !dbg [[DBG346:![0-9]+]]
-// DEBUG2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG347:![0-9]+]]
+// DEBUG2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG347:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG2-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 8, !dbg [[DBG346]]
 // DEBUG2-NEXT:    ret void, !dbg [[DBG348:![0-9]+]]
 //
@@ -7873,7 +7873,7 @@ int foobar() {
 // DEBUG2-NEXT:    call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META359:![0-9]+]], metadata !DIExpression()), !dbg [[DBG360:![0-9]+]]
 // DEBUG2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // DEBUG2-NEXT:    [[A2:%.*]] = getelementptr inbounds [[STRUCT_S4:%.*]], ptr [[THIS1]], i32 0, i32 0, !dbg [[DBG361:![0-9]+]]
-// DEBUG2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG362:![0-9]+]]
+// DEBUG2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !dbg [[DBG362:![0-9]+]], !noundef [[NOUNDEF54]]
 // DEBUG2-NEXT:    store i32 [[TMP0]], ptr [[A2]], align 4, !dbg [[DBG361]]
 // DEBUG2-NEXT:    ret void, !dbg [[DBG363:![0-9]+]]
 //

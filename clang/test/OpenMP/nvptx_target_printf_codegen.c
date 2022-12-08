@@ -40,6 +40,18 @@ void CheckAllocaIsInEntryBlock(void) {
     }
   }
 }
+// CHECK-LABEL: define {{[^@]+}}@{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}_CheckNoArgs_l25
+// CHECK-SAME: () #[[ATTR0:[0-9]+]] {
+// CHECK-NEXT:  entry:
+// CHECK-NEXT:    [[TMP0:%.*]] = call i32 @__kmpc_target_init(ptr @[[GLOB1:[0-9]+]], i8 1, i1 true, i1 true)
+// CHECK-NEXT:    [[EXEC_USER_CODE:%.*]] = icmp eq i32 [[TMP0]], -1
+// CHECK-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
+// CHECK:       user_code.entry:
+// CHECK-NEXT:    [[TMP1:%.*]] = call i32 @__llvm_omp_vprintf(ptr @.str1, ptr null, i32 0)
+// CHECK-NEXT:    call void @__kmpc_target_deinit(ptr @[[GLOB1]], i8 1, i1 true)
+// CHECK-NEXT:    ret void
+// CHECK:       worker.exit:
+// CHECK-NEXT:    ret void
 //
 //
 //
@@ -53,14 +65,14 @@ void CheckAllocaIsInEntryBlock(void) {
 // CHECK-64-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
 // CHECK-64:       user_code.entry:
 // CHECK-64-NEXT:    store ptr @.str, ptr [[FMT]], align 8
-// CHECK-64-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[FMT]], align 8
+// CHECK-64-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[FMT]], align 8, !noundef [[NOUNDEF10:![0-9]+]]
 // CHECK-64-NEXT:    [[TMP2:%.*]] = getelementptr inbounds [[PRINTF_ARGS]], ptr [[TMP]], i32 0, i32 0
 // CHECK-64-NEXT:    store i32 1, ptr [[TMP2]], align 4
 // CHECK-64-NEXT:    [[TMP3:%.*]] = getelementptr inbounds [[PRINTF_ARGS]], ptr [[TMP]], i32 0, i32 1
 // CHECK-64-NEXT:    store i64 2, ptr [[TMP3]], align 8
 // CHECK-64-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[PRINTF_ARGS]], ptr [[TMP]], i32 0, i32 2
 // CHECK-64-NEXT:    store double 3.000000e+00, ptr [[TMP4]], align 8
-// CHECK-64-NEXT:    [[TMP6:%.*]] = call i32 @__llvm_omp_vprintf(ptr [[TMP1]], ptr [[TMP]], i32 24)
+// CHECK-64-NEXT:    [[TMP5:%.*]] = call i32 @__llvm_omp_vprintf(ptr [[TMP1]], ptr [[TMP]], i32 24)
 // CHECK-64-NEXT:    call void @__kmpc_target_deinit(ptr @[[GLOB1]], i8 1, i1 true)
 // CHECK-64-NEXT:    ret void
 // CHECK-64:       worker.exit:
@@ -91,20 +103,19 @@ void CheckAllocaIsInEntryBlock(void) {
 // CHECK-64-NEXT:    [[EXEC_USER_CODE:%.*]] = icmp eq i32 [[TMP0]], -1
 // CHECK-64-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
 // CHECK-64:       user_code.entry:
-// CHECK-64-NEXT:    [[TMP1:%.*]] = load i32, ptr [[FOO_ADDR]], align 4
+// CHECK-64-NEXT:    [[TMP1:%.*]] = load i32, ptr [[FOO_ADDR]], align 4, !noundef [[NOUNDEF10]]
 // CHECK-64-NEXT:    [[TOBOOL:%.*]] = icmp ne i32 [[TMP1]], 0
 // CHECK-64-NEXT:    br i1 [[TOBOOL]], label [[IF_THEN:%.*]], label [[IF_END:%.*]]
 // CHECK-64:       if.then:
 // CHECK-64-NEXT:    [[TMP2:%.*]] = getelementptr inbounds [[PRINTF_ARGS_0]], ptr [[TMP]], i32 0, i32 0
 // CHECK-64-NEXT:    store i32 42, ptr [[TMP2]], align 4
-// CHECK-64-NEXT:    [[TMP4:%.*]] = call i32 @__llvm_omp_vprintf(ptr @.str2, ptr [[TMP]], i32 4)
+// CHECK-64-NEXT:    [[TMP3:%.*]] = call i32 @__llvm_omp_vprintf(ptr @.str2, ptr [[TMP]], i32 4)
 // CHECK-64-NEXT:    br label [[IF_END]]
 // CHECK-64:       worker.exit:
 // CHECK-64-NEXT:    ret void
 // CHECK-64:       if.end:
 // CHECK-64-NEXT:    call void @__kmpc_target_deinit(ptr @[[GLOB1]], i8 1, i1 true)
 // CHECK-64-NEXT:    ret void
-//
 //
 //
 //
@@ -119,14 +130,14 @@ void CheckAllocaIsInEntryBlock(void) {
 // CHECK-32-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
 // CHECK-32:       user_code.entry:
 // CHECK-32-NEXT:    store ptr @.str, ptr [[FMT]], align 4
-// CHECK-32-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[FMT]], align 4
+// CHECK-32-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[FMT]], align 4, !noundef [[NOUNDEF10:![0-9]+]]
 // CHECK-32-NEXT:    [[TMP2:%.*]] = getelementptr inbounds [[PRINTF_ARGS]], ptr [[TMP]], i32 0, i32 0
 // CHECK-32-NEXT:    store i32 1, ptr [[TMP2]], align 4
 // CHECK-32-NEXT:    [[TMP3:%.*]] = getelementptr inbounds [[PRINTF_ARGS]], ptr [[TMP]], i32 0, i32 1
 // CHECK-32-NEXT:    store i64 2, ptr [[TMP3]], align 8
 // CHECK-32-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [[PRINTF_ARGS]], ptr [[TMP]], i32 0, i32 2
 // CHECK-32-NEXT:    store double 3.000000e+00, ptr [[TMP4]], align 8
-// CHECK-32-NEXT:    [[TMP6:%.*]] = call i32 @__llvm_omp_vprintf(ptr [[TMP1]], ptr [[TMP]], i32 24)
+// CHECK-32-NEXT:    [[TMP5:%.*]] = call i32 @__llvm_omp_vprintf(ptr [[TMP1]], ptr [[TMP]], i32 24)
 // CHECK-32-NEXT:    call void @__kmpc_target_deinit(ptr @[[GLOB1]], i8 1, i1 true)
 // CHECK-32-NEXT:    ret void
 // CHECK-32:       worker.exit:
@@ -157,13 +168,13 @@ void CheckAllocaIsInEntryBlock(void) {
 // CHECK-32-NEXT:    [[EXEC_USER_CODE:%.*]] = icmp eq i32 [[TMP0]], -1
 // CHECK-32-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
 // CHECK-32:       user_code.entry:
-// CHECK-32-NEXT:    [[TMP1:%.*]] = load i32, ptr [[FOO_ADDR]], align 4
+// CHECK-32-NEXT:    [[TMP1:%.*]] = load i32, ptr [[FOO_ADDR]], align 4, !noundef [[NOUNDEF10]]
 // CHECK-32-NEXT:    [[TOBOOL:%.*]] = icmp ne i32 [[TMP1]], 0
 // CHECK-32-NEXT:    br i1 [[TOBOOL]], label [[IF_THEN:%.*]], label [[IF_END:%.*]]
 // CHECK-32:       if.then:
 // CHECK-32-NEXT:    [[TMP2:%.*]] = getelementptr inbounds [[PRINTF_ARGS_0]], ptr [[TMP]], i32 0, i32 0
 // CHECK-32-NEXT:    store i32 42, ptr [[TMP2]], align 4
-// CHECK-32-NEXT:    [[TMP4:%.*]] = call i32 @__llvm_omp_vprintf(ptr @.str2, ptr [[TMP]], i32 4)
+// CHECK-32-NEXT:    [[TMP3:%.*]] = call i32 @__llvm_omp_vprintf(ptr @.str2, ptr [[TMP]], i32 4)
 // CHECK-32-NEXT:    br label [[IF_END]]
 // CHECK-32:       worker.exit:
 // CHECK-32-NEXT:    ret void

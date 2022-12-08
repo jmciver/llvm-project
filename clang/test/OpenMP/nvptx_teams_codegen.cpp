@@ -87,7 +87,7 @@ int main (int argc, char **argv) {
 // CHECK1-NEXT:    [[EXEC_USER_CODE:%.*]] = icmp eq i32 [[TMP0]], -1
 // CHECK1-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
 // CHECK1:       user_code.entry:
-// CHECK1-NEXT:    [[TMP1:%.*]] = load i32, ptr [[ARGC_ADDR]], align 4
+// CHECK1-NEXT:    [[TMP1:%.*]] = load i32, ptr [[ARGC_ADDR]], align 4, !noundef [[NOUNDEF8:![0-9]+]]
 // CHECK1-NEXT:    [[ARGC1:%.*]] = call align 8 ptr @__kmpc_alloc_shared(i64 4)
 // CHECK1-NEXT:    store i32 [[TMP1]], ptr [[ARGC1]], align 4
 // CHECK1-NEXT:    [[TMP2:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1]])
@@ -110,7 +110,7 @@ int main (int argc, char **argv) {
 // CHECK1-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK1-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK1-NEXT:    store ptr [[ARGC]], ptr [[ARGC_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[ARGC_ADDR]], align 8
+// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[ARGC_ADDR]], align 8, !noundef [[NOUNDEF8]]
 // CHECK1-NEXT:    store i32 0, ptr [[TMP0]], align 4
 // CHECK1-NEXT:    ret void
 //
@@ -126,7 +126,7 @@ int main (int argc, char **argv) {
 // CHECK1-NEXT:    [[EXEC_USER_CODE:%.*]] = icmp eq i32 [[TMP0]], -1
 // CHECK1-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
 // CHECK1:       user_code.entry:
-// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[ARGC_ADDR]], align 8
+// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[ARGC_ADDR]], align 8, !noundef [[NOUNDEF8]]
 // CHECK1-NEXT:    [[ARGC1:%.*]] = call align 8 ptr @__kmpc_alloc_shared(i64 8)
 // CHECK1-NEXT:    store ptr [[TMP1]], ptr [[ARGC1]], align 8
 // CHECK1-NEXT:    [[TMP2:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1]])
@@ -149,7 +149,7 @@ int main (int argc, char **argv) {
 // CHECK1-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK1-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK1-NEXT:    store ptr [[ARGC]], ptr [[ARGC_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[ARGC_ADDR]], align 8
+// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[ARGC_ADDR]], align 8, !noundef [[NOUNDEF8]]
 // CHECK1-NEXT:    store ptr null, ptr [[TMP0]], align 8
 // CHECK1-NEXT:    ret void
 //
@@ -165,7 +165,7 @@ int main (int argc, char **argv) {
 // CHECK2-NEXT:    [[EXEC_USER_CODE:%.*]] = icmp eq i32 [[TMP0]], -1
 // CHECK2-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
 // CHECK2:       user_code.entry:
-// CHECK2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[ARGC_ADDR]], align 4
+// CHECK2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[ARGC_ADDR]], align 4, !noundef [[NOUNDEF8:![0-9]+]]
 // CHECK2-NEXT:    [[ARGC1:%.*]] = call align 8 ptr @__kmpc_alloc_shared(i32 4)
 // CHECK2-NEXT:    store i32 [[TMP1]], ptr [[ARGC1]], align 4
 // CHECK2-NEXT:    [[TMP2:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1]])
@@ -188,7 +188,7 @@ int main (int argc, char **argv) {
 // CHECK2-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 4
 // CHECK2-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 4
 // CHECK2-NEXT:    store ptr [[ARGC]], ptr [[ARGC_ADDR]], align 4
-// CHECK2-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[ARGC_ADDR]], align 4
+// CHECK2-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[ARGC_ADDR]], align 4, !noundef [[NOUNDEF8]]
 // CHECK2-NEXT:    store i32 0, ptr [[TMP0]], align 4
 // CHECK2-NEXT:    ret void
 //
@@ -204,7 +204,7 @@ int main (int argc, char **argv) {
 // CHECK2-NEXT:    [[EXEC_USER_CODE:%.*]] = icmp eq i32 [[TMP0]], -1
 // CHECK2-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
 // CHECK2:       user_code.entry:
-// CHECK2-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[ARGC_ADDR]], align 4
+// CHECK2-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[ARGC_ADDR]], align 4, !noundef [[NOUNDEF8]]
 // CHECK2-NEXT:    [[ARGC1:%.*]] = call align 8 ptr @__kmpc_alloc_shared(i32 4)
 // CHECK2-NEXT:    store ptr [[TMP1]], ptr [[ARGC1]], align 4
 // CHECK2-NEXT:    [[TMP2:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1]])
@@ -227,7 +227,7 @@ int main (int argc, char **argv) {
 // CHECK2-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 4
 // CHECK2-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 4
 // CHECK2-NEXT:    store ptr [[ARGC]], ptr [[ARGC_ADDR]], align 4
-// CHECK2-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[ARGC_ADDR]], align 4
+// CHECK2-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[ARGC_ADDR]], align 4, !noundef [[NOUNDEF8]]
 // CHECK2-NEXT:    store ptr null, ptr [[TMP0]], align 4
 // CHECK2-NEXT:    ret void
 //
@@ -247,14 +247,14 @@ int main (int argc, char **argv) {
 // CHECK3-NEXT:    [[EXEC_USER_CODE:%.*]] = icmp eq i32 [[TMP0]], -1
 // CHECK3-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
 // CHECK3:       user_code.entry:
-// CHECK3-NEXT:    [[TMP1:%.*]] = load i32, ptr [[ARGC_ADDR]], align 4
-// CHECK3-NEXT:    [[ARGC3:%.*]] = call align 8 ptr @__kmpc_alloc_shared(i64 4)
-// CHECK3-NEXT:    store i32 [[TMP1]], ptr [[ARGC3]], align 4
+// CHECK3-NEXT:    [[TMP1:%.*]] = load i32, ptr [[ARGC_ADDR]], align 4, !noundef [[NOUNDEF8:![0-9]+]]
+// CHECK3-NEXT:    [[ARGC1:%.*]] = call align 8 ptr @__kmpc_alloc_shared(i64 4)
+// CHECK3-NEXT:    store i32 [[TMP1]], ptr [[ARGC1]], align 4
 // CHECK3-NEXT:    [[TMP2:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1]])
 // CHECK3-NEXT:    store i32 0, ptr [[DOTZERO_ADDR]], align 4
 // CHECK3-NEXT:    store i32 [[TMP2]], ptr [[DOTTHREADID_TEMP_]], align 4
-// CHECK3-NEXT:    call void @__omp_outlined__(ptr [[DOTTHREADID_TEMP_]], ptr [[DOTZERO_ADDR]], ptr [[ARGC3]]) #[[ATTR3:[0-9]+]]
-// CHECK3-NEXT:    call void @__kmpc_free_shared(ptr [[ARGC3]], i64 4)
+// CHECK3-NEXT:    call void @__omp_outlined__(ptr [[DOTTHREADID_TEMP_]], ptr [[DOTZERO_ADDR]], ptr [[ARGC1]]) #[[ATTR3:[0-9]+]]
+// CHECK3-NEXT:    call void @__kmpc_free_shared(ptr [[ARGC1]], i64 4)
 // CHECK3-NEXT:    call void @__kmpc_target_deinit(ptr @[[GLOB1]], i8 1, i1 true)
 // CHECK3-NEXT:    ret void
 // CHECK3:       worker.exit:
@@ -270,7 +270,7 @@ int main (int argc, char **argv) {
 // CHECK3-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK3-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK3-NEXT:    store ptr [[ARGC]], ptr [[ARGC_ADDR]], align 8
-// CHECK3-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[ARGC_ADDR]], align 8
+// CHECK3-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[ARGC_ADDR]], align 8, !noundef [[NOUNDEF8]]
 // CHECK3-NEXT:    store i32 0, ptr [[TMP0]], align 4
 // CHECK3-NEXT:    ret void
 //
@@ -290,14 +290,14 @@ int main (int argc, char **argv) {
 // CHECK3-NEXT:    [[EXEC_USER_CODE:%.*]] = icmp eq i32 [[TMP0]], -1
 // CHECK3-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
 // CHECK3:       user_code.entry:
-// CHECK3-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[ARGC_ADDR]], align 8
-// CHECK3-NEXT:    [[ARGC2:%.*]] = call align 8 ptr @__kmpc_alloc_shared(i64 8)
-// CHECK3-NEXT:    store ptr [[TMP1]], ptr [[ARGC2]], align 8
+// CHECK3-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[ARGC_ADDR]], align 8, !noundef [[NOUNDEF8]]
+// CHECK3-NEXT:    [[ARGC1:%.*]] = call align 8 ptr @__kmpc_alloc_shared(i64 8)
+// CHECK3-NEXT:    store ptr [[TMP1]], ptr [[ARGC1]], align 8
 // CHECK3-NEXT:    [[TMP2:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1]])
 // CHECK3-NEXT:    store i32 0, ptr [[DOTZERO_ADDR]], align 4
 // CHECK3-NEXT:    store i32 [[TMP2]], ptr [[DOTTHREADID_TEMP_]], align 4
-// CHECK3-NEXT:    call void @__omp_outlined__1(ptr [[DOTTHREADID_TEMP_]], ptr [[DOTZERO_ADDR]], ptr [[ARGC2]]) #[[ATTR3]]
-// CHECK3-NEXT:    call void @__kmpc_free_shared(ptr [[ARGC2]], i64 8)
+// CHECK3-NEXT:    call void @__omp_outlined__1(ptr [[DOTTHREADID_TEMP_]], ptr [[DOTZERO_ADDR]], ptr [[ARGC1]]) #[[ATTR3]]
+// CHECK3-NEXT:    call void @__kmpc_free_shared(ptr [[ARGC1]], i64 8)
 // CHECK3-NEXT:    call void @__kmpc_target_deinit(ptr @[[GLOB1]], i8 1, i1 true)
 // CHECK3-NEXT:    ret void
 // CHECK3:       worker.exit:
@@ -313,7 +313,7 @@ int main (int argc, char **argv) {
 // CHECK3-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK3-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK3-NEXT:    store ptr [[ARGC]], ptr [[ARGC_ADDR]], align 8
-// CHECK3-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[ARGC_ADDR]], align 8
+// CHECK3-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[ARGC_ADDR]], align 8, !noundef [[NOUNDEF8]]
 // CHECK3-NEXT:    store ptr null, ptr [[TMP0]], align 8
 // CHECK3-NEXT:    ret void
 //
@@ -333,7 +333,7 @@ int main (int argc, char **argv) {
 // CHECK4-NEXT:    [[EXEC_USER_CODE:%.*]] = icmp eq i32 [[TMP0]], -1
 // CHECK4-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
 // CHECK4:       user_code.entry:
-// CHECK4-NEXT:    [[TMP1:%.*]] = load i32, ptr [[ARGC_ADDR]], align 4
+// CHECK4-NEXT:    [[TMP1:%.*]] = load i32, ptr [[ARGC_ADDR]], align 4, !noundef [[NOUNDEF8:![0-9]+]]
 // CHECK4-NEXT:    [[ARGC1:%.*]] = call align 8 ptr @__kmpc_alloc_shared(i32 4)
 // CHECK4-NEXT:    store i32 [[TMP1]], ptr [[ARGC1]], align 4
 // CHECK4-NEXT:    [[TMP2:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1]])
@@ -356,7 +356,7 @@ int main (int argc, char **argv) {
 // CHECK4-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 4
 // CHECK4-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 4
 // CHECK4-NEXT:    store ptr [[ARGC]], ptr [[ARGC_ADDR]], align 4
-// CHECK4-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[ARGC_ADDR]], align 4
+// CHECK4-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[ARGC_ADDR]], align 4, !noundef [[NOUNDEF8]]
 // CHECK4-NEXT:    store i32 0, ptr [[TMP0]], align 4
 // CHECK4-NEXT:    ret void
 //
@@ -376,7 +376,7 @@ int main (int argc, char **argv) {
 // CHECK4-NEXT:    [[EXEC_USER_CODE:%.*]] = icmp eq i32 [[TMP0]], -1
 // CHECK4-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
 // CHECK4:       user_code.entry:
-// CHECK4-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[ARGC_ADDR]], align 4
+// CHECK4-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[ARGC_ADDR]], align 4, !noundef [[NOUNDEF8]]
 // CHECK4-NEXT:    [[ARGC1:%.*]] = call align 8 ptr @__kmpc_alloc_shared(i32 4)
 // CHECK4-NEXT:    store ptr [[TMP1]], ptr [[ARGC1]], align 4
 // CHECK4-NEXT:    [[TMP2:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1]])
@@ -399,7 +399,7 @@ int main (int argc, char **argv) {
 // CHECK4-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 4
 // CHECK4-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 4
 // CHECK4-NEXT:    store ptr [[ARGC]], ptr [[ARGC_ADDR]], align 4
-// CHECK4-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[ARGC_ADDR]], align 4
+// CHECK4-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[ARGC_ADDR]], align 4, !noundef [[NOUNDEF8]]
 // CHECK4-NEXT:    store ptr null, ptr [[TMP0]], align 4
 // CHECK4-NEXT:    ret void
 //

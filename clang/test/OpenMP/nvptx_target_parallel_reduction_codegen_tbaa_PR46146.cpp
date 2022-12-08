@@ -79,8 +79,8 @@ void test() {
 // CHECK1-NEXT:    call void @llvm.lifetime.start.p0(i64 4, ptr [[DOTOMP_IS_LAST]]) #[[ATTR6]]
 // CHECK1-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4, !tbaa [[TBAA8]]
 // CHECK1-NEXT:    call void @llvm.lifetime.start.p0(i64 4, ptr [[IB]]) #[[ATTR6]]
-// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// CHECK1-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !tbaa [[TBAA8]], !noundef [[NOUNDEF14:![0-9]+]]
+// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF14:![0-9]+]]
+// CHECK1-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !tbaa [[TBAA8]], !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    call void @__kmpc_distribute_static_init_4(ptr @[[GLOB2:[0-9]+]], i32 [[TMP1]], i32 92, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK1-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4, !tbaa [[TBAA8]], !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[TMP2]], 99
@@ -200,9 +200,9 @@ void test() {
 // CHECK1-NEXT:    store ptr [[ISTART]], ptr [[ISTART_ADDR]], align 8, !tbaa [[TBAA12]]
 // CHECK1-NEXT:    store ptr [[IEND]], ptr [[IEND_ADDR]], align 8, !tbaa [[TBAA12]]
 // CHECK1-NEXT:    store ptr [[PARTIAL_SUM]], ptr [[PARTIAL_SUM_ADDR]], align 8, !tbaa [[TBAA12]]
-// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[ISTART_ADDR]], align 8, !tbaa [[TBAA12]]
-// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[IEND_ADDR]], align 8, !tbaa [[TBAA12]]
-// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[PARTIAL_SUM_ADDR]], align 8, !tbaa [[TBAA12]]
+// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[ISTART_ADDR]], align 8, !tbaa [[TBAA12]], !noundef [[NOUNDEF14]]
+// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[IEND_ADDR]], align 8, !tbaa [[TBAA12]], !noundef [[NOUNDEF14]]
+// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[PARTIAL_SUM_ADDR]], align 8, !tbaa [[TBAA12]], !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    call void @llvm.lifetime.start.p0(i64 4, ptr [[DOTOMP_IV]]) #[[ATTR6]]
 // CHECK1-NEXT:    call void @llvm.lifetime.start.p0(i64 4, ptr [[DOTCAPTURE_EXPR_]]) #[[ATTR6]]
 // CHECK1-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP0]], align 4, !tbaa [[TBAA8]], !noundef [[NOUNDEF14]]
@@ -246,7 +246,7 @@ void test() {
 // CHECK1-NEXT:    call void @llvm.lifetime.end.p0(i64 4, ptr [[REF_TMP6]]) #[[ATTR6]]
 // CHECK1-NEXT:    call void @llvm.lifetime.end.p0(i64 4, ptr [[REF_TMP]]) #[[ATTR6]]
 // CHECK1-NEXT:    call void @llvm.lifetime.start.p0(i64 4, ptr [[I7]]) #[[ATTR6]]
-// CHECK1-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
+// CHECK1-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    [[TMP12:%.*]] = load i32, ptr [[TMP11]], align 4, !tbaa [[TBAA8]], !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    call void @__kmpc_for_static_init_4u(ptr @[[GLOB3:[0-9]+]], i32 [[TMP12]], i32 33, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK1-NEXT:    br label [[OMP_DISPATCH_COND:%.*]]
@@ -324,10 +324,10 @@ void test() {
 // CHECK1-NEXT:    store i32 [[ADD20]], ptr [[DOTOMP_UB]], align 4, !tbaa [[TBAA8]]
 // CHECK1-NEXT:    br label [[OMP_DISPATCH_COND]]
 // CHECK1:       omp.dispatch.end:
-// CHECK1-NEXT:    [[TMP31:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
+// CHECK1-NEXT:    [[TMP31:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    [[TMP32:%.*]] = load i32, ptr [[TMP31]], align 4, !tbaa [[TBAA8]], !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    call void @__kmpc_for_static_fini(ptr @[[GLOB3]], i32 [[TMP32]])
-// CHECK1-NEXT:    [[TMP33:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
+// CHECK1-NEXT:    [[TMP33:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    [[TMP34:%.*]] = load i32, ptr [[TMP33]], align 4, !tbaa [[TBAA8]], !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    [[TMP35:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOMP_REDUCTION_RED_LIST]], i64 0, i64 0
 // CHECK1-NEXT:    store ptr [[PARTIAL_SUM5]], ptr [[TMP35]], align 8
@@ -362,13 +362,13 @@ void test() {
 // CHECK1-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8, !tbaa [[TBAA12]]
 // CHECK1-NEXT:    store ptr [[__C]], ptr [[__C_ADDR]], align 8, !tbaa [[TBAA12]]
 // CHECK1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[__C_ADDR]], align 8, !tbaa [[TBAA12]]
+// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[__C_ADDR]], align 8, !tbaa [[TBAA12]], !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    [[CALL:%.*]] = call float @_ZNKSt7complexIfE4realEv(ptr nonnull align 4 dereferenceable(8) [[TMP0]]) #[[ATTR12]]
 // CHECK1-NEXT:    [[__RE_:%.*]] = getelementptr inbounds %"class.std::complex", ptr [[THIS1]], i32 0, i32 0
 // CHECK1-NEXT:    [[TMP1:%.*]] = load float, ptr [[__RE_]], align 4, !tbaa [[TBAA17:![0-9]+]], !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    [[ADD:%.*]] = fadd float [[TMP1]], [[CALL]]
 // CHECK1-NEXT:    store float [[ADD]], ptr [[__RE_]], align 4, !tbaa [[TBAA17]]
-// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[__C_ADDR]], align 8, !tbaa [[TBAA12]]
+// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[__C_ADDR]], align 8, !tbaa [[TBAA12]], !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    [[CALL2:%.*]] = call float @_ZNKSt7complexIfE4imagEv(ptr nonnull align 4 dereferenceable(8) [[TMP2]]) #[[ATTR12]]
 // CHECK1-NEXT:    [[__IM_:%.*]] = getelementptr inbounds %"class.std::complex", ptr [[THIS1]], i32 0, i32 1
 // CHECK1-NEXT:    [[TMP3:%.*]] = load float, ptr [[__IM_]], align 4, !tbaa [[TBAA19:![0-9]+]], !noundef [[NOUNDEF14]]
@@ -395,7 +395,7 @@ void test() {
 // CHECK1-NEXT:    [[TMP6:%.*]] = load i16, ptr [[DOTADDR2]], align 2, !tbaa [[TBAA20]], !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    [[TMP7:%.*]] = load i16, ptr [[DOTADDR3]], align 2, !tbaa [[TBAA20]], !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    [[TMP8:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP4]], i64 0, i64 0
-// CHECK1-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 8
+// CHECK1-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 8, !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    [[TMP10:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOMP_REDUCTION_REMOTE_REDUCE_LIST]], i64 0, i64 0
 // CHECK1-NEXT:    [[TMP11:%.*]] = getelementptr %"class.std::complex", ptr [[TMP9]], i64 1
 // CHECK1-NEXT:    [[TMP12:%.*]] = load i64, ptr [[TMP9]], align 4, !noundef [[NOUNDEF14]]
@@ -431,9 +431,9 @@ void test() {
 // CHECK1-NEXT:    br i1 [[TMP32]], label [[THEN4:%.*]], label [[ELSE5:%.*]]
 // CHECK1:       then4:
 // CHECK1-NEXT:    [[TMP33:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOMP_REDUCTION_REMOTE_REDUCE_LIST]], i64 0, i64 0
-// CHECK1-NEXT:    [[TMP34:%.*]] = load ptr, ptr [[TMP33]], align 8
+// CHECK1-NEXT:    [[TMP34:%.*]] = load ptr, ptr [[TMP33]], align 8, !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    [[TMP35:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP4]], i64 0, i64 0
-// CHECK1-NEXT:    [[TMP36:%.*]] = load ptr, ptr [[TMP35]], align 8
+// CHECK1-NEXT:    [[TMP36:%.*]] = load ptr, ptr [[TMP35]], align 8, !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 4 [[TMP36]], ptr align 4 [[TMP34]], i64 8, i1 false), !tbaa.struct !22
 // CHECK1-NEXT:    br label [[IFCONT6:%.*]]
 // CHECK1:       else5:
@@ -511,7 +511,7 @@ void test() {
 // CHECK1-NEXT:    store i32 [[TMP1]], ptr [[DOTADDR1]], align 4, !tbaa [[TBAA8]]
 // CHECK1-NEXT:    store i32 0, ptr [[DOTZERO_ADDR]], align 4
 // CHECK1-NEXT:    call void @__kmpc_get_shared_variables(ptr [[GLOBAL_ARGS]])
-// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[GLOBAL_ARGS]], align 8
+// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[GLOBAL_ARGS]], align 8, !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    [[TMP3:%.*]] = getelementptr inbounds ptr, ptr [[TMP2]], i64 0
 // CHECK1-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[TMP3]], align 8, !tbaa [[TBAA12]], !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    [[TMP5:%.*]] = getelementptr inbounds ptr, ptr [[TMP2]], i64 1
@@ -571,7 +571,7 @@ void test() {
 // CHECK1-NEXT:    call void @llvm.lifetime.start.p0(i64 4, ptr [[DOTOMP_IS_LAST]]) #[[ATTR6]]
 // CHECK1-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4, !tbaa [[TBAA8]]
 // CHECK1-NEXT:    call void @llvm.lifetime.start.p0(i64 4, ptr [[IB]]) #[[ATTR6]]
-// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
+// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !tbaa [[TBAA8]], !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    call void @__kmpc_distribute_static_init_4(ptr @[[GLOB2]], i32 [[TMP1]], i32 92, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK1-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4, !tbaa [[TBAA8]], !noundef [[NOUNDEF14]]
@@ -692,9 +692,9 @@ void test() {
 // CHECK1-NEXT:    store ptr [[ISTART]], ptr [[ISTART_ADDR]], align 8, !tbaa [[TBAA12]]
 // CHECK1-NEXT:    store ptr [[IEND]], ptr [[IEND_ADDR]], align 8, !tbaa [[TBAA12]]
 // CHECK1-NEXT:    store ptr [[PARTIAL_SUM]], ptr [[PARTIAL_SUM_ADDR]], align 8, !tbaa [[TBAA12]]
-// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[ISTART_ADDR]], align 8, !tbaa [[TBAA12]]
-// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[IEND_ADDR]], align 8, !tbaa [[TBAA12]]
-// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[PARTIAL_SUM_ADDR]], align 8, !tbaa [[TBAA12]]
+// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[ISTART_ADDR]], align 8, !tbaa [[TBAA12]], !noundef [[NOUNDEF14]]
+// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[IEND_ADDR]], align 8, !tbaa [[TBAA12]], !noundef [[NOUNDEF14]]
+// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[PARTIAL_SUM_ADDR]], align 8, !tbaa [[TBAA12]], !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    call void @llvm.lifetime.start.p0(i64 4, ptr [[DOTOMP_IV]]) #[[ATTR6]]
 // CHECK1-NEXT:    call void @llvm.lifetime.start.p0(i64 4, ptr [[DOTCAPTURE_EXPR_]]) #[[ATTR6]]
 // CHECK1-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP0]], align 4, !tbaa [[TBAA8]], !noundef [[NOUNDEF14]]
@@ -738,7 +738,7 @@ void test() {
 // CHECK1-NEXT:    call void @llvm.lifetime.end.p0(i64 8, ptr [[REF_TMP6]]) #[[ATTR6]]
 // CHECK1-NEXT:    call void @llvm.lifetime.end.p0(i64 8, ptr [[REF_TMP]]) #[[ATTR6]]
 // CHECK1-NEXT:    call void @llvm.lifetime.start.p0(i64 4, ptr [[I7]]) #[[ATTR6]]
-// CHECK1-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
+// CHECK1-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    [[TMP12:%.*]] = load i32, ptr [[TMP11]], align 4, !tbaa [[TBAA8]], !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    call void @__kmpc_for_static_init_4u(ptr @[[GLOB3]], i32 [[TMP12]], i32 33, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK1-NEXT:    br label [[OMP_DISPATCH_COND:%.*]]
@@ -816,10 +816,10 @@ void test() {
 // CHECK1-NEXT:    store i32 [[ADD20]], ptr [[DOTOMP_UB]], align 4, !tbaa [[TBAA8]]
 // CHECK1-NEXT:    br label [[OMP_DISPATCH_COND]]
 // CHECK1:       omp.dispatch.end:
-// CHECK1-NEXT:    [[TMP31:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
+// CHECK1-NEXT:    [[TMP31:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    [[TMP32:%.*]] = load i32, ptr [[TMP31]], align 4, !tbaa [[TBAA8]], !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    call void @__kmpc_for_static_fini(ptr @[[GLOB3]], i32 [[TMP32]])
-// CHECK1-NEXT:    [[TMP33:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
+// CHECK1-NEXT:    [[TMP33:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    [[TMP34:%.*]] = load i32, ptr [[TMP33]], align 4, !tbaa [[TBAA8]], !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    [[TMP35:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOMP_REDUCTION_RED_LIST]], i64 0, i64 0
 // CHECK1-NEXT:    store ptr [[PARTIAL_SUM5]], ptr [[TMP35]], align 8
@@ -854,13 +854,13 @@ void test() {
 // CHECK1-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8, !tbaa [[TBAA12]]
 // CHECK1-NEXT:    store ptr [[__C]], ptr [[__C_ADDR]], align 8, !tbaa [[TBAA12]]
 // CHECK1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[__C_ADDR]], align 8, !tbaa [[TBAA12]]
+// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[__C_ADDR]], align 8, !tbaa [[TBAA12]], !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    [[CALL:%.*]] = call double @_ZNKSt7complexIdE4realEv(ptr nonnull align 8 dereferenceable(16) [[TMP0]]) #[[ATTR12]]
 // CHECK1-NEXT:    [[__RE_:%.*]] = getelementptr inbounds %"class.std::complex.0", ptr [[THIS1]], i32 0, i32 0
 // CHECK1-NEXT:    [[TMP1:%.*]] = load double, ptr [[__RE_]], align 8, !tbaa [[TBAA25:![0-9]+]], !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    [[ADD:%.*]] = fadd double [[TMP1]], [[CALL]]
 // CHECK1-NEXT:    store double [[ADD]], ptr [[__RE_]], align 8, !tbaa [[TBAA25]]
-// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[__C_ADDR]], align 8, !tbaa [[TBAA12]]
+// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[__C_ADDR]], align 8, !tbaa [[TBAA12]], !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    [[CALL2:%.*]] = call double @_ZNKSt7complexIdE4imagEv(ptr nonnull align 8 dereferenceable(16) [[TMP2]]) #[[ATTR12]]
 // CHECK1-NEXT:    [[__IM_:%.*]] = getelementptr inbounds %"class.std::complex.0", ptr [[THIS1]], i32 0, i32 1
 // CHECK1-NEXT:    [[TMP3:%.*]] = load double, ptr [[__IM_]], align 8, !tbaa [[TBAA27:![0-9]+]], !noundef [[NOUNDEF14]]
@@ -887,7 +887,7 @@ void test() {
 // CHECK1-NEXT:    [[TMP6:%.*]] = load i16, ptr [[DOTADDR2]], align 2, !tbaa [[TBAA20]], !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    [[TMP7:%.*]] = load i16, ptr [[DOTADDR3]], align 2, !tbaa [[TBAA20]], !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    [[TMP8:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP4]], i64 0, i64 0
-// CHECK1-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 8
+// CHECK1-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 8, !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    [[TMP10:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOMP_REDUCTION_REMOTE_REDUCE_LIST]], i64 0, i64 0
 // CHECK1-NEXT:    [[TMP11:%.*]] = getelementptr %"class.std::complex.0", ptr [[TMP9]], i64 1
 // CHECK1-NEXT:    br label [[DOTSHUFFLE_PRE_COND:%.*]]
@@ -936,9 +936,9 @@ void test() {
 // CHECK1-NEXT:    br i1 [[TMP39]], label [[THEN4:%.*]], label [[ELSE5:%.*]]
 // CHECK1:       then4:
 // CHECK1-NEXT:    [[TMP40:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOMP_REDUCTION_REMOTE_REDUCE_LIST]], i64 0, i64 0
-// CHECK1-NEXT:    [[TMP41:%.*]] = load ptr, ptr [[TMP40]], align 8
+// CHECK1-NEXT:    [[TMP41:%.*]] = load ptr, ptr [[TMP40]], align 8, !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    [[TMP42:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP4]], i64 0, i64 0
-// CHECK1-NEXT:    [[TMP43:%.*]] = load ptr, ptr [[TMP42]], align 8
+// CHECK1-NEXT:    [[TMP43:%.*]] = load ptr, ptr [[TMP42]], align 8, !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 8 [[TMP43]], ptr align 8 [[TMP41]], i64 16, i1 false), !tbaa.struct !28
 // CHECK1-NEXT:    br label [[IFCONT6:%.*]]
 // CHECK1:       else5:
@@ -1016,7 +1016,7 @@ void test() {
 // CHECK1-NEXT:    store i32 [[TMP1]], ptr [[DOTADDR1]], align 4, !tbaa [[TBAA8]]
 // CHECK1-NEXT:    store i32 0, ptr [[DOTZERO_ADDR]], align 4
 // CHECK1-NEXT:    call void @__kmpc_get_shared_variables(ptr [[GLOBAL_ARGS]])
-// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[GLOBAL_ARGS]], align 8
+// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[GLOBAL_ARGS]], align 8, !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    [[TMP3:%.*]] = getelementptr inbounds ptr, ptr [[TMP2]], i64 0
 // CHECK1-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[TMP3]], align 8, !tbaa [[TBAA12]], !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    [[TMP5:%.*]] = getelementptr inbounds ptr, ptr [[TMP2]], i64 1
@@ -1038,11 +1038,11 @@ void test() {
 // CHECK1-NEXT:    store ptr [[__IM]], ptr [[__IM_ADDR]], align 8, !tbaa [[TBAA12]]
 // CHECK1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK1-NEXT:    [[__RE_:%.*]] = getelementptr inbounds %"class.std::complex", ptr [[THIS1]], i32 0, i32 0
-// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[__RE_ADDR]], align 8, !tbaa [[TBAA12]]
+// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[__RE_ADDR]], align 8, !tbaa [[TBAA12]], !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    [[TMP1:%.*]] = load float, ptr [[TMP0]], align 4, !tbaa [[TBAA15]], !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    store float [[TMP1]], ptr [[__RE_]], align 4, !tbaa [[TBAA17]]
 // CHECK1-NEXT:    [[__IM_:%.*]] = getelementptr inbounds %"class.std::complex", ptr [[THIS1]], i32 0, i32 1
-// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[__IM_ADDR]], align 8, !tbaa [[TBAA12]]
+// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[__IM_ADDR]], align 8, !tbaa [[TBAA12]], !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    [[TMP3:%.*]] = load float, ptr [[TMP2]], align 4, !tbaa [[TBAA15]], !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    store float [[TMP3]], ptr [[__IM_]], align 4, !tbaa [[TBAA19]]
 // CHECK1-NEXT:    ret void
@@ -1081,11 +1081,11 @@ void test() {
 // CHECK1-NEXT:    store ptr [[__IM]], ptr [[__IM_ADDR]], align 8, !tbaa [[TBAA12]]
 // CHECK1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK1-NEXT:    [[__RE_:%.*]] = getelementptr inbounds %"class.std::complex.0", ptr [[THIS1]], i32 0, i32 0
-// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[__RE_ADDR]], align 8, !tbaa [[TBAA12]]
+// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[__RE_ADDR]], align 8, !tbaa [[TBAA12]], !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    [[TMP1:%.*]] = load double, ptr [[TMP0]], align 8, !tbaa [[TBAA23]], !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    store double [[TMP1]], ptr [[__RE_]], align 8, !tbaa [[TBAA25]]
 // CHECK1-NEXT:    [[__IM_:%.*]] = getelementptr inbounds %"class.std::complex.0", ptr [[THIS1]], i32 0, i32 1
-// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[__IM_ADDR]], align 8, !tbaa [[TBAA12]]
+// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[__IM_ADDR]], align 8, !tbaa [[TBAA12]], !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    [[TMP3:%.*]] = load double, ptr [[TMP2]], align 8, !tbaa [[TBAA23]], !noundef [[NOUNDEF14]]
 // CHECK1-NEXT:    store double [[TMP3]], ptr [[__IM_]], align 8, !tbaa [[TBAA27]]
 // CHECK1-NEXT:    ret void

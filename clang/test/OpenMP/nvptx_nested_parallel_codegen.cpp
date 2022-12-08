@@ -39,7 +39,7 @@ int main() {
 // CHECK1-NEXT:    [[C_ADDR:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    [[CAPTURED_VARS_ADDRS:%.*]] = alloca [1 x ptr], align 8
 // CHECK1-NEXT:    store ptr [[C]], ptr [[C_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[C_ADDR]], align 8
+// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[C_ADDR]], align 8, !noundef [[NOUNDEF6:![0-9]+]]
 // CHECK1-NEXT:    [[TMP1:%.*]] = call i32 @__kmpc_target_init(ptr @[[GLOB1:[0-9]+]], i8 1, i1 true, i1 true)
 // CHECK1-NEXT:    [[EXEC_USER_CODE:%.*]] = icmp eq i32 [[TMP1]], -1
 // CHECK1-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
@@ -77,7 +77,7 @@ int main() {
 // CHECK1-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK1-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK1-NEXT:    store ptr [[C]], ptr [[C_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[C_ADDR]], align 8
+// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[C_ADDR]], align 8, !noundef [[NOUNDEF6]]
 // CHECK1-NEXT:    call void @_Z3usePi(ptr noundef [[TMP0]]) #[[ATTR7]]
 // CHECK1-NEXT:    ret void
 //
@@ -93,10 +93,10 @@ int main() {
 // CHECK1-NEXT:    store i32 [[TMP1]], ptr [[DOTADDR1]], align 4
 // CHECK1-NEXT:    store i32 0, ptr [[DOTZERO_ADDR]], align 4
 // CHECK1-NEXT:    call void @__kmpc_get_shared_variables(ptr [[GLOBAL_ARGS]])
-// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[GLOBAL_ARGS]], align 8
+// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[GLOBAL_ARGS]], align 8, !noundef [[NOUNDEF6]]
 // CHECK1-NEXT:    [[TMP3:%.*]] = getelementptr inbounds ptr, ptr [[TMP2]], i64 0
-// CHECK1-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[TMP3]], align 8
-// CHECK1-NEXT:    call void @__omp_outlined__(ptr [[DOTADDR1]], ptr [[DOTZERO_ADDR]], ptr [[TMP5]]) #[[ATTR4:[0-9]+]]
+// CHECK1-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[TMP3]], align 8, !noundef [[NOUNDEF6]]
+// CHECK1-NEXT:    call void @__omp_outlined__(ptr [[DOTADDR1]], ptr [[DOTZERO_ADDR]], ptr [[TMP4]]) #[[ATTR4:[0-9]+]]
 // CHECK1-NEXT:    ret void
 //
 //
@@ -109,8 +109,8 @@ int main() {
 // CHECK1-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK1-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK1-NEXT:    store ptr [[C]], ptr [[C_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[C_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[TMP0]], align 8
+// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[C_ADDR]], align 8, !noundef [[NOUNDEF6]]
+// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[TMP0]], align 8, !noundef [[NOUNDEF6]]
 // CHECK1-NEXT:    call void @_Z4workPi(ptr noundef [[TMP1]]) #[[ATTR7]]
 // CHECK1-NEXT:    ret void
 //
@@ -122,12 +122,12 @@ int main() {
 // CHECK1-NEXT:    [[ATOMIC_TEMP:%.*]] = alloca i32, align 4
 // CHECK1-NEXT:    [[ATOMIC_TEMP1:%.*]] = alloca i32, align 4
 // CHECK1-NEXT:    store ptr [[C]], ptr [[C_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[C_ADDR]], align 8
+// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[C_ADDR]], align 8, !noundef [[NOUNDEF6]]
 // CHECK1-NEXT:    call void @__atomic_load(i64 noundef 4, ptr noundef [[TMP0]], ptr noundef [[ATOMIC_TEMP]], i32 noundef 0) #[[ATTR7]]
 // CHECK1-NEXT:    br label [[ATOMIC_CONT:%.*]]
 // CHECK1:       atomic_cont:
-// CHECK1-NEXT:    [[TMP3:%.*]] = load i32, ptr [[ATOMIC_TEMP]], align 4
-// CHECK1-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP3]], 1
+// CHECK1-NEXT:    [[TMP1:%.*]] = load i32, ptr [[ATOMIC_TEMP]], align 4, !noundef [[NOUNDEF6]]
+// CHECK1-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP1]], 1
 // CHECK1-NEXT:    store i32 [[ADD]], ptr [[ATOMIC_TEMP1]], align 4
 // CHECK1-NEXT:    [[CALL:%.*]] = call noundef zeroext i1 @__atomic_compare_exchange(i64 noundef 4, ptr noundef [[TMP0]], ptr noundef [[ATOMIC_TEMP]], ptr noundef [[ATOMIC_TEMP1]], i32 noundef 0, i32 noundef 0) #[[ATTR7]]
 // CHECK1-NEXT:    br i1 [[CALL]], label [[ATOMIC_EXIT:%.*]], label [[ATOMIC_CONT]]
@@ -146,10 +146,10 @@ int main() {
 // CHECK1-NEXT:    store i32 [[TMP1]], ptr [[DOTADDR1]], align 4
 // CHECK1-NEXT:    store i32 0, ptr [[DOTZERO_ADDR]], align 4
 // CHECK1-NEXT:    call void @__kmpc_get_shared_variables(ptr [[GLOBAL_ARGS]])
-// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[GLOBAL_ARGS]], align 8
+// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[GLOBAL_ARGS]], align 8, !noundef [[NOUNDEF6]]
 // CHECK1-NEXT:    [[TMP3:%.*]] = getelementptr inbounds ptr, ptr [[TMP2]], i64 0
-// CHECK1-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[TMP3]], align 8
-// CHECK1-NEXT:    call void @__omp_outlined__1(ptr [[DOTADDR1]], ptr [[DOTZERO_ADDR]], ptr [[TMP5]]) #[[ATTR4]]
+// CHECK1-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[TMP3]], align 8, !noundef [[NOUNDEF6]]
+// CHECK1-NEXT:    call void @__omp_outlined__1(ptr [[DOTADDR1]], ptr [[DOTZERO_ADDR]], ptr [[TMP4]]) #[[ATTR4]]
 // CHECK1-NEXT:    ret void
 //
 //
@@ -159,7 +159,7 @@ int main() {
 // CHECK2-NEXT:    [[C_ADDR:%.*]] = alloca ptr, align 4
 // CHECK2-NEXT:    [[CAPTURED_VARS_ADDRS:%.*]] = alloca [1 x ptr], align 4
 // CHECK2-NEXT:    store ptr [[C]], ptr [[C_ADDR]], align 4
-// CHECK2-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[C_ADDR]], align 4
+// CHECK2-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[C_ADDR]], align 4, !noundef [[NOUNDEF6:![0-9]+]]
 // CHECK2-NEXT:    [[TMP1:%.*]] = call i32 @__kmpc_target_init(ptr @[[GLOB1:[0-9]+]], i8 1, i1 true, i1 true)
 // CHECK2-NEXT:    [[EXEC_USER_CODE:%.*]] = icmp eq i32 [[TMP1]], -1
 // CHECK2-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
@@ -197,7 +197,7 @@ int main() {
 // CHECK2-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 4
 // CHECK2-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 4
 // CHECK2-NEXT:    store ptr [[C]], ptr [[C_ADDR]], align 4
-// CHECK2-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[C_ADDR]], align 4
+// CHECK2-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[C_ADDR]], align 4, !noundef [[NOUNDEF6]]
 // CHECK2-NEXT:    call void @_Z3usePi(ptr noundef [[TMP0]]) #[[ATTR7]]
 // CHECK2-NEXT:    ret void
 //
@@ -213,10 +213,10 @@ int main() {
 // CHECK2-NEXT:    store i32 [[TMP1]], ptr [[DOTADDR1]], align 4
 // CHECK2-NEXT:    store i32 0, ptr [[DOTZERO_ADDR]], align 4
 // CHECK2-NEXT:    call void @__kmpc_get_shared_variables(ptr [[GLOBAL_ARGS]])
-// CHECK2-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[GLOBAL_ARGS]], align 4
+// CHECK2-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[GLOBAL_ARGS]], align 4, !noundef [[NOUNDEF6]]
 // CHECK2-NEXT:    [[TMP3:%.*]] = getelementptr inbounds ptr, ptr [[TMP2]], i32 0
-// CHECK2-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[TMP3]], align 4
-// CHECK2-NEXT:    call void @__omp_outlined__(ptr [[DOTADDR1]], ptr [[DOTZERO_ADDR]], ptr [[TMP5]]) #[[ATTR4:[0-9]+]]
+// CHECK2-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[TMP3]], align 4, !noundef [[NOUNDEF6]]
+// CHECK2-NEXT:    call void @__omp_outlined__(ptr [[DOTADDR1]], ptr [[DOTZERO_ADDR]], ptr [[TMP4]]) #[[ATTR4:[0-9]+]]
 // CHECK2-NEXT:    ret void
 //
 //
@@ -229,8 +229,8 @@ int main() {
 // CHECK2-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 4
 // CHECK2-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 4
 // CHECK2-NEXT:    store ptr [[C]], ptr [[C_ADDR]], align 4
-// CHECK2-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[C_ADDR]], align 4
-// CHECK2-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[TMP0]], align 4
+// CHECK2-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[C_ADDR]], align 4, !noundef [[NOUNDEF6]]
+// CHECK2-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[TMP0]], align 4, !noundef [[NOUNDEF6]]
 // CHECK2-NEXT:    call void @_Z4workPi(ptr noundef [[TMP1]]) #[[ATTR7]]
 // CHECK2-NEXT:    ret void
 //
@@ -242,12 +242,12 @@ int main() {
 // CHECK2-NEXT:    [[ATOMIC_TEMP:%.*]] = alloca i32, align 4
 // CHECK2-NEXT:    [[ATOMIC_TEMP1:%.*]] = alloca i32, align 4
 // CHECK2-NEXT:    store ptr [[C]], ptr [[C_ADDR]], align 4
-// CHECK2-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[C_ADDR]], align 4
+// CHECK2-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[C_ADDR]], align 4, !noundef [[NOUNDEF6]]
 // CHECK2-NEXT:    call void @__atomic_load(i32 noundef 4, ptr noundef [[TMP0]], ptr noundef [[ATOMIC_TEMP]], i32 noundef 0) #[[ATTR7]]
 // CHECK2-NEXT:    br label [[ATOMIC_CONT:%.*]]
 // CHECK2:       atomic_cont:
-// CHECK2-NEXT:    [[TMP3:%.*]] = load i32, ptr [[ATOMIC_TEMP]], align 4
-// CHECK2-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP3]], 1
+// CHECK2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[ATOMIC_TEMP]], align 4, !noundef [[NOUNDEF6]]
+// CHECK2-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP1]], 1
 // CHECK2-NEXT:    store i32 [[ADD]], ptr [[ATOMIC_TEMP1]], align 4
 // CHECK2-NEXT:    [[CALL:%.*]] = call noundef zeroext i1 @__atomic_compare_exchange(i32 noundef 4, ptr noundef [[TMP0]], ptr noundef [[ATOMIC_TEMP]], ptr noundef [[ATOMIC_TEMP1]], i32 noundef 0, i32 noundef 0) #[[ATTR7]]
 // CHECK2-NEXT:    br i1 [[CALL]], label [[ATOMIC_EXIT:%.*]], label [[ATOMIC_CONT]]
@@ -266,9 +266,9 @@ int main() {
 // CHECK2-NEXT:    store i32 [[TMP1]], ptr [[DOTADDR1]], align 4
 // CHECK2-NEXT:    store i32 0, ptr [[DOTZERO_ADDR]], align 4
 // CHECK2-NEXT:    call void @__kmpc_get_shared_variables(ptr [[GLOBAL_ARGS]])
-// CHECK2-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[GLOBAL_ARGS]], align 4
+// CHECK2-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[GLOBAL_ARGS]], align 4, !noundef [[NOUNDEF6]]
 // CHECK2-NEXT:    [[TMP3:%.*]] = getelementptr inbounds ptr, ptr [[TMP2]], i32 0
-// CHECK2-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[TMP3]], align 4
-// CHECK2-NEXT:    call void @__omp_outlined__1(ptr [[DOTADDR1]], ptr [[DOTZERO_ADDR]], ptr [[TMP5]]) #[[ATTR4]]
+// CHECK2-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[TMP3]], align 4, !noundef [[NOUNDEF6]]
+// CHECK2-NEXT:    call void @__omp_outlined__1(ptr [[DOTADDR1]], ptr [[DOTZERO_ADDR]], ptr [[TMP4]]) #[[ATTR4]]
 // CHECK2-NEXT:    ret void
 //
