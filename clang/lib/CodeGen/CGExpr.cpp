@@ -2575,6 +2575,10 @@ Address CodeGenFunction::EmitLoadOfPointer(Address Ptr,
                                            LValueBaseInfo *BaseInfo,
                                            TBAAAccessInfo *TBAAInfo) {
   llvm::Value *Addr = Builder.CreateLoad(Ptr);
+  applyNoundefToLoadInst(CGM.getCodeGenOpts().EnableNoundefLoadAttr,
+                         PtrTy->getPointeeType(),
+                         dyn_cast<llvm::LoadInst>(Addr));
+  // throw std::runtime_error("POINTER!");
   return Address(Addr, ConvertTypeForMem(PtrTy->getPointeeType()),
                  CGM.getNaturalTypeAlignment(PtrTy->getPointeeType(), BaseInfo,
                                              TBAAInfo,
