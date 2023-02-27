@@ -3141,7 +3141,7 @@ void ModuleBitcodeWriter::writeInstruction(const Instruction &I,
 
   case Instruction::Load:
     if (cast<LoadInst>(I).isAtomic()) {
-      Code = bitc::FUNC_CODE_INST_LOADATOMIC;
+      Code = bitc::FUNC_CODE_INST_LOADATOMIC_OLD;
       pushValueAndType(I.getOperand(0), InstID, Vals);
     } else {
       Code = bitc::FUNC_CODE_INST_LOAD_OLD;
