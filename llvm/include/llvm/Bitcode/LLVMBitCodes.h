@@ -554,8 +554,8 @@ enum FunctionCodes {
   FUNC_CODE_INST_PHI = 16, // PHI:        [ty, val0,bb0, ...]
   // 17 is unused.
   // 18 is unused.
-  FUNC_CODE_INST_ALLOCA = 19, // ALLOCA:     [instty, opty, op, align]
-  FUNC_CODE_INST_LOAD = 20,   // LOAD:       [opty, op, align, vol]
+  FUNC_CODE_INST_ALLOCA = 19,   // ALLOCA:     [instty, opty, op, align]
+  FUNC_CODE_INST_LOAD_OLD = 20, // LOAD:       [opty, op, align, vol]
   // 21 is unused.
   // 22 is unused.
   FUNC_CODE_INST_VAARG = 23, // VAARG:      [valistty, valist, instty]
