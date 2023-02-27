@@ -3144,7 +3144,7 @@ void ModuleBitcodeWriter::writeInstruction(const Instruction &I,
       Code = bitc::FUNC_CODE_INST_LOADATOMIC;
       pushValueAndType(I.getOperand(0), InstID, Vals);
     } else {
-      Code = bitc::FUNC_CODE_INST_LOAD;
+      Code = bitc::FUNC_CODE_INST_LOAD_OLD;
       if (!pushValueAndType(I.getOperand(0), InstID, Vals)) // ptr
         AbbrevToUse = FUNCTION_INST_LOAD_ABBREV;
     }
@@ -3580,7 +3580,7 @@ void ModuleBitcodeWriter::writeBlockInfo() {
 
   { // INST_LOAD abbrev for FUNCTION_BLOCK.
     auto Abbv = std::make_shared<BitCodeAbbrev>();
-    Abbv->Add(BitCodeAbbrevOp(bitc::FUNC_CODE_INST_LOAD));
+    Abbv->Add(BitCodeAbbrevOp(bitc::FUNC_CODE_INST_LOAD_OLD));
     Abbv->Add(BitCodeAbbrevOp(BitCodeAbbrevOp::VBR, 6)); // Ptr
     Abbv->Add(BitCodeAbbrevOp(BitCodeAbbrevOp::Fixed,    // dest ty
                               VE.computeBitsRequiredForTypeIndicies()));
