@@ -1562,32 +1562,34 @@ static Align computeLoadStoreDefaultAlign(Type *Ty, Instruction *I) {
 }
 
 LoadInst::LoadInst(Type *Ty, Value *Ptr, const Twine &Name,
-                   Instruction *InsertBef)
-    : LoadInst(Ty, Ptr, Name, /*isVolatile=*/false, InsertBef) {}
+                   Instruction *InsertBef, LoadInst::Version Version)
+    : LoadInst(Ty, Ptr, Name, /*isVolatile=*/false, InsertBef, Version) {}
 
 LoadInst::LoadInst(Type *Ty, Value *Ptr, const Twine &Name,
-                   BasicBlock *InsertAE)
-    : LoadInst(Ty, Ptr, Name, /*isVolatile=*/false, InsertAE) {}
+                   BasicBlock *InsertAE, LoadInst::Version Version)
+    : LoadInst(Ty, Ptr, Name, /*isVolatile=*/false, InsertAE, Version) {}
 
 LoadInst::LoadInst(Type *Ty, Value *Ptr, const Twine &Name, bool isVolatile,
-                   Instruction *InsertBef)
+                   Instruction *InsertBef, LoadInst::Version Version)
     : LoadInst(Ty, Ptr, Name, isVolatile,
-               computeLoadStoreDefaultAlign(Ty, InsertBef), InsertBef) {}
+               computeLoadStoreDefaultAlign(Ty, InsertBef), InsertBef,
+               Version) {}
 
 LoadInst::LoadInst(Type *Ty, Value *Ptr, const Twine &Name, bool isVolatile,
-                   BasicBlock *InsertAE)
+                   BasicBlock *InsertAE, LoadInst::Version Version)
     : LoadInst(Ty, Ptr, Name, isVolatile,
-               computeLoadStoreDefaultAlign(Ty, InsertAE), InsertAE) {}
+               computeLoadStoreDefaultAlign(Ty, InsertAE), InsertAE, Version) {}
 
 LoadInst::LoadInst(Type *Ty, Value *Ptr, const Twine &Name, bool isVolatile,
-                   Align Align, Instruction *InsertBef)
+                   Align Align, Instruction *InsertBef,
+                   LoadInst::Version Version)
     : LoadInst(Ty, Ptr, Name, isVolatile, Align, AtomicOrdering::NotAtomic,
-               SyncScope::System, InsertBef) {}
+               SyncScope::System, InsertBef, Version) {}
 
 LoadInst::LoadInst(Type *Ty, Value *Ptr, const Twine &Name, bool isVolatile,
-                   Align Align, BasicBlock *InsertAE)
+                   Align Align, BasicBlock *InsertAE, LoadInst::Version Version)
     : LoadInst(Ty, Ptr, Name, isVolatile, Align, AtomicOrdering::NotAtomic,
-               SyncScope::System, InsertAE) {}
+               SyncScope::System, InsertAE, Version) {}
 
 LoadInst::LoadInst(Type *Ty, Value *Ptr, const Twine &Name, bool isVolatile,
                    Align Align, AtomicOrdering Order, SyncScope::ID SSID,
