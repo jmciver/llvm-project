@@ -556,7 +556,7 @@ enum FunctionCodes {
   // 18 is unused.
   FUNC_CODE_INST_ALLOCA = 19,   // ALLOCA:     [instty, opty, op, align]
   FUNC_CODE_INST_LOAD_OLD = 20, // LOAD:       [opty, op, align, vol]
-  // 21 is unused.
+  FUNC_CODE_INST_LOAD = 21,     // LOAD:       [opty, op, align, vol]
   // 22 is unused.
   FUNC_CODE_INST_VAARG = 23, // VAARG:      [valistty, valist, instty]
   // This store code encodes the pointer type, rather than the value type
@@ -606,7 +606,8 @@ enum FunctionCodes {
   FUNC_CODE_INST_CLEANUPPAD = 51,  // CLEANUPPAD: [num,args...]
   FUNC_CODE_INST_CATCHSWITCH =
       52, // CATCHSWITCH: [num,args...] or [num,args...,bb]
-  // 53 is unused.
+  FUNC_CODE_INST_LOADATOMIC = 53,  // LOAD: [opty, op, align, vol,
+                                   //        ordering, synchscope]
   // 54 is unused.
   FUNC_CODE_OPERAND_BUNDLE = 55,  // OPERAND_BUNDLE: [tag#, value...]
   FUNC_CODE_INST_UNOP = 56,       // UNOP:       [opcode, ty, opval]
