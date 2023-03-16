@@ -4630,6 +4630,14 @@ Error BitcodeReader::propagateAttributeTypes(CallBase *CB,
   return Error::success();
 }
 
+static LoadInst::Version loadInstructionVersion(const unsigned BitCode) {
+  if (BitCode == bitc::FUNC_CODE_INST_LOAD_OLD ||
+      BitCode == bitc::FUNC_CODE_INST_LOADATOMIC_OLD)
+    return LoadInst::Version::v1;
+  else
+    return LoadInst::Version::v2;
+}
+
 /// Lazily parse the specified function body block.
 Error BitcodeReader::parseFunctionBody(Function *F) {
   if (Error Err = Stream.EnterSubBlock(bitc::FUNCTION_BLOCK_ID))
@@ -5951,7 +5959,8 @@ Error BitcodeReader::parseFunctionBody(Function *F) {
       InstructionList.push_back(I);
       break;
     }
-    case bitc::FUNC_CODE_INST_LOAD_OLD: { // LOAD: [opty, op, align, vol]
+    case bitc::FUNC_CODE_INST_LOAD_OLD:
+    case bitc::FUNC_CODE_INST_LOAD: { // LOAD: [opty, op, align, vol]
       unsigned OpNum = 0;
       Value *Op;
       unsigned OpTypeID;
@@ -5984,11 +5993,14 @@ Error BitcodeReader::parseFunctionBody(Function *F) {
         return error("load of unsized type");
       if (!Align)
         Align = TheModule->getDataLayout().getABITypeAlign(Ty);
-      I = new LoadInst(Ty, Op, "", Record[OpNum + 1], *Align);
+      I = new LoadInst(Ty, Op, "", Record[OpNum + 1], *Align,
+                       static_cast<Instruction *>(nullptr),
+                       loadInstructionVersion(BitCode));
       InstructionList.push_back(I);
       break;
     }
-    case bitc::FUNC_CODE_INST_LOADATOMIC_OLD: {
+    case bitc::FUNC_CODE_INST_LOADATOMIC_OLD:
+    case bitc::FUNC_CODE_INST_LOADATOMIC: {
        // LOADATOMIC: [opty, op, align, vol, ordering, ssid]
       unsigned OpNum = 0;
       Value *Op;
@@ -6028,7 +6040,9 @@ Error BitcodeReader::parseFunctionBody(Function *F) {
         return Err;
       if (!Align)
         return error("Alignment missing from atomic load");
-      I = new LoadInst(Ty, Op, "", Record[OpNum + 1], *Align, Ordering, SSID);
+      I = new LoadInst(Ty, Op, "", Record[OpNum + 1], *Align, Ordering, SSID,
+                       static_cast<Instruction *>(nullptr),
+                       loadInstructionVersion(BitCode));
       InstructionList.push_back(I);
       break;
     }
