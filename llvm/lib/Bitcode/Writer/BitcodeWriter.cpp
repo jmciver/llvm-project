@@ -821,6 +821,20 @@ static uint64_t getAttrKindEncoding(Attribute::AttrKind Kind) {
   llvm_unreachable("Trying to encode unknown attribute");
 }
 
+static bitc::FunctionCodes getLoadInstBitcode(const LoadInst &load) {
+  if (load.isVersion(LoadInst::Version::v1))
+    return bitc::FUNC_CODE_INST_LOAD_OLD;
+  else
+    return bitc::FUNC_CODE_INST_LOAD;
+}
+
+static bitc::FunctionCodes getLoadAtomicInstBitcode(const LoadInst &load) {
+  if (load.isVersion(LoadInst::Version::v1))
+    return bitc::FUNC_CODE_INST_LOADATOMIC_OLD;
+  else
+    return bitc::FUNC_CODE_INST_LOADATOMIC;
+}
+
 void ModuleBitcodeWriter::writeAttributeGroupTable() {
   const std::vector<ValueEnumerator::IndexAndAttrSet> &AttrGrps =
       VE.getAttributeGroups();
