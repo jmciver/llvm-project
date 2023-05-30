@@ -3155,10 +3155,10 @@ void ModuleBitcodeWriter::writeInstruction(const Instruction &I,
 
   case Instruction::Load:
     if (cast<LoadInst>(I).isAtomic()) {
-      Code = bitc::FUNC_CODE_INST_LOADATOMIC_OLD;
+      Code = getLoadAtomicInstBitcode(cast<LoadInst>(I));
       pushValueAndType(I.getOperand(0), InstID, Vals);
     } else {
-      Code = bitc::FUNC_CODE_INST_LOAD_OLD;
+      Code = getLoadInstBitcode(cast<LoadInst>(I));
       if (!pushValueAndType(I.getOperand(0), InstID, Vals)) // ptr
         AbbrevToUse = FUNCTION_INST_LOAD_ABBREV;
     }
