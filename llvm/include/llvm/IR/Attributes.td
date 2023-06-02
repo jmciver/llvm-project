@@ -107,7 +107,7 @@ def ElementType : TypeAttr<"elementtype", [ParamAttr]>;
 def FnRetThunkExtern : EnumAttr<"fn_ret_thunk_extern", [FnAttr]>;
 
 /// Convert unitialized memory per byte to a non-deterministic value.
-def FreezeUninit : EnumAttr<"freeze_uninit", [ParamAttr]>;
+def FreezeBits : EnumAttr<"freeze_bits", [ParamAttr]>;
 
 /// Pass structure in an alloca.
 def InAlloca : TypeAttr<"inalloca", [ParamAttr]>;
