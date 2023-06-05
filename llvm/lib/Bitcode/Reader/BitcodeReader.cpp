@@ -4632,14 +4632,6 @@ Error BitcodeReader::propagateAttributeTypes(CallBase *CB,
   return Error::success();
 }
 
-static LoadInst::Version loadInstructionVersion(const unsigned BitCode) {
-  if (BitCode == bitc::FUNC_CODE_INST_LOAD_OLD ||
-      BitCode == bitc::FUNC_CODE_INST_LOADATOMIC_OLD)
-    return LoadInst::Version::v1;
-  else
-    return LoadInst::Version::v2;
-}
-
 /// Lazily parse the specified function body block.
 Error BitcodeReader::parseFunctionBody(Function *F) {
   if (Error Err = Stream.EnterSubBlock(bitc::FUNCTION_BLOCK_ID))
@@ -5996,8 +5988,9 @@ Error BitcodeReader::parseFunctionBody(Function *F) {
       if (!Align)
         Align = TheModule->getDataLayout().getABITypeAlign(Ty);
       I = new LoadInst(Ty, Op, "", Record[OpNum + 1], *Align,
-                       static_cast<Instruction *>(nullptr),
-                       loadInstructionVersion(BitCode));
+                       static_cast<Instruction *>(nullptr));
+      if (BitCode == bitc::FUNC_CODE_INST_LOAD_OLD)
+        UpgradeLoadInstruction(I);
       InstructionList.push_back(I);
       break;
     }
@@ -6043,8 +6036,9 @@ Error BitcodeReader::parseFunctionBody(Function *F) {
       if (!Align)
         return error("Alignment missing from atomic load");
       I = new LoadInst(Ty, Op, "", Record[OpNum + 1], *Align, Ordering, SSID,
-                       static_cast<Instruction *>(nullptr),
-                       loadInstructionVersion(BitCode));
+                       static_cast<Instruction *>(nullptr));
+      if (BitCode == bitc::FUNC_CODE_INST_LOADATOMIC_OLD)
+        UpgradeLoadInstruction(I);
       InstructionList.push_back(I);
       break;
     }
