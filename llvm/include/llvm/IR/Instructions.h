@@ -283,8 +283,6 @@ public:
     return getPointerOperandType()->getPointerAddressSpace();
   }
 
-  bool isVersion(const Version version) const { return LoadVersion == version; }
-
   // Methods for support type inquiry through isa, cast, and dyn_cast:
   static bool classof(const Instruction *I) {
     return I->getOpcode() == Instruction::Load;
