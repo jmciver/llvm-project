@@ -823,20 +823,6 @@ static uint64_t getAttrKindEncoding(Attribute::AttrKind Kind) {
   llvm_unreachable("Trying to encode unknown attribute");
 }
 
-static bitc::FunctionCodes getLoadInstBitcode(const LoadInst &load) {
-  if (load.isVersion(LoadInst::Version::v1))
-    return bitc::FUNC_CODE_INST_LOAD_OLD;
-  else
-    return bitc::FUNC_CODE_INST_LOAD;
-}
-
-static bitc::FunctionCodes getLoadAtomicInstBitcode(const LoadInst &load) {
-  if (load.isVersion(LoadInst::Version::v1))
-    return bitc::FUNC_CODE_INST_LOADATOMIC_OLD;
-  else
-    return bitc::FUNC_CODE_INST_LOADATOMIC;
-}
-
 void ModuleBitcodeWriter::writeAttributeGroupTable() {
   const std::vector<ValueEnumerator::IndexAndAttrSet> &AttrGrps =
       VE.getAttributeGroups();
@@ -3157,10 +3143,10 @@ void ModuleBitcodeWriter::writeInstruction(const Instruction &I,
 
   case Instruction::Load:
     if (cast<LoadInst>(I).isAtomic()) {
-      Code = getLoadAtomicInstBitcode(cast<LoadInst>(I));
+      Code = bitc::FUNC_CODE_INST_LOADATOMIC;
       pushValueAndType(I.getOperand(0), InstID, Vals);
     } else {
-      Code = getLoadInstBitcode(cast<LoadInst>(I));
+      Code = bitc::FUNC_CODE_INST_LOAD;
       if (!pushValueAndType(I.getOperand(0), InstID, Vals)) // ptr
         AbbrevToUse = FUNCTION_INST_LOAD_ABBREV;
     }
