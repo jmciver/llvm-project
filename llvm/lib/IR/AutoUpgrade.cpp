@@ -5068,3 +5068,8 @@ void llvm::UpgradeOperandBundles(std::vector<OperandBundleDef> &Bundles) {
            OBD.inputs().empty();
   });
 }
+
+void llvm::UpgradeLoadInstruction(LoadInst *Inst) {
+  Inst->setMetadata(llvm::LLVMContext::MD_freeze_bits,
+                    llvm::MDNode::get(Inst->getContext(), std::nullopt));
+}
