@@ -191,14 +191,6 @@ protected:
   LoadInst *cloneImpl() const;
 
 public:
-
-  // Semantics:
-  // v1: uninitialized memory results in undef and does not support the use of
-  //     of freeze_uninit attribute.
-  // v2: uninitialized memory results in poison and supports the use of the
-  //     freeze_uninit attribute.
-  enum class Version { v1, v2 };
-
   LoadInst(Type *Ty, Value *Ptr, const Twine &NameStr,
            Instruction *InsertBefore);
   LoadInst(Type *Ty, Value *Ptr, const Twine &NameStr, BasicBlock *InsertAtEnd);
@@ -213,11 +205,10 @@ public:
   LoadInst(Type *Ty, Value *Ptr, const Twine &NameStr, bool isVolatile,
            Align Align, AtomicOrdering Order,
            SyncScope::ID SSID = SyncScope::System,
-           Instruction *InsertBefore = nullptr,
-           Version Version = LoadInst::Version::v2);
+           Instruction *InsertBefore = nullptr);
   LoadInst(Type *Ty, Value *Ptr, const Twine &NameStr, bool isVolatile,
            Align Align, AtomicOrdering Order, SyncScope::ID SSID,
-           BasicBlock *InsertAtEnd, Version Version = LoadInst::Version::v2);
+           BasicBlock *InsertAtEnd);
 
   /// Return true if this is a load from a volatile memory location.
   bool isVolatile() const { return getSubclassData<VolatileField>(); }
@@ -300,8 +291,6 @@ private:
   /// room in SubClassData for everything, so synchronization scope ID gets its
   /// own field.
   SyncScope::ID SSID;
-
-  Version LoadVersion;
 };
 
 //===----------------------------------------------------------------------===//

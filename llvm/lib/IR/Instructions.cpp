@@ -1591,8 +1591,8 @@ LoadInst::LoadInst(Type *Ty, Value *Ptr, const Twine &Name, bool isVolatile,
 
 LoadInst::LoadInst(Type *Ty, Value *Ptr, const Twine &Name, bool isVolatile,
                    Align Align, AtomicOrdering Order, SyncScope::ID SSID,
-                   Instruction *InsertBef, LoadInst::Version Version)
-    : UnaryInstruction(Ty, Load, Ptr, InsertBef), LoadVersion(Version) {
+                   Instruction *InsertBef)
+    : UnaryInstruction(Ty, Load, Ptr, InsertBef) {
   assert(cast<PointerType>(Ptr->getType())->isOpaqueOrPointeeTypeMatches(Ty));
   setVolatile(isVolatile);
   setAlignment(Align);
@@ -1603,8 +1603,8 @@ LoadInst::LoadInst(Type *Ty, Value *Ptr, const Twine &Name, bool isVolatile,
 
 LoadInst::LoadInst(Type *Ty, Value *Ptr, const Twine &Name, bool isVolatile,
                    Align Align, AtomicOrdering Order, SyncScope::ID SSID,
-                   BasicBlock *InsertAE, LoadInst::Version Version)
-    : UnaryInstruction(Ty, Load, Ptr, InsertAE), LoadVersion(Version) {
+                   BasicBlock *InsertAE)
+    : UnaryInstruction(Ty, Load, Ptr, InsertAE) {
   assert(cast<PointerType>(Ptr->getType())->isOpaqueOrPointeeTypeMatches(Ty));
   setVolatile(isVolatile);
   setAlignment(Align);
