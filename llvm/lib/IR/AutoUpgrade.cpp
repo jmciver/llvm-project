@@ -5069,7 +5069,8 @@ void llvm::UpgradeOperandBundles(std::vector<OperandBundleDef> &Bundles) {
   });
 }
 
-void llvm::UpgradeLoadInstruction(LoadInst *Inst) {
-  Inst->setMetadata(llvm::LLVMContext::MD_freeze_bits,
-                    llvm::MDNode::get(Inst->getContext(), std::nullopt));
+void llvm::UpgradeLoadInstruction(Instruction *Inst) {
+  if (LoadInst *Load = dyn_cast<LoadInst>(Inst))
+    Load->setMetadata(llvm::LLVMContext::MD_freeze_bits,
+                      llvm::MDNode::get(Load->getContext(), std::nullopt));
 }

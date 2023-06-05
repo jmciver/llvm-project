@@ -108,7 +108,7 @@ namespace llvm {
   void UpgradeOperandBundles(std::vector<OperandBundleDef> &OperandBundles);
 
   /// Upgrade load instruction version 1 to load instruction version 2.
-  void UpgradeLoadInstruction(LoadInst *Inst);
+  void UpgradeLoadInstruction(Instruction *Inst);
 
 } // End llvm namespace
 
