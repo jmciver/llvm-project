@@ -200,19 +200,16 @@ public:
   enum class Version { v1, v2 };
 
   LoadInst(Type *Ty, Value *Ptr, const Twine &NameStr,
-           Instruction *InsertBefore, Version Version = LoadInst::Version::v2);
-  LoadInst(Type *Ty, Value *Ptr, const Twine &NameStr, BasicBlock *InsertAtEnd,
-           Version Version = LoadInst::Version::v2);
+           Instruction *InsertBefore);
+  LoadInst(Type *Ty, Value *Ptr, const Twine &NameStr, BasicBlock *InsertAtEnd);
   LoadInst(Type *Ty, Value *Ptr, const Twine &NameStr, bool isVolatile,
-           Instruction *InsertBefore, Version Version = LoadInst::Version::v2);
+           Instruction *InsertBefore);
   LoadInst(Type *Ty, Value *Ptr, const Twine &NameStr, bool isVolatile,
-           BasicBlock *InsertAtEnd, Version Version = LoadInst::Version::v2);
+           BasicBlock *InsertAtEnd);
   LoadInst(Type *Ty, Value *Ptr, const Twine &NameStr, bool isVolatile,
-           Align Align, Instruction *InsertBefore = nullptr,
-           Version Version = LoadInst::Version::v2);
+           Align Align, Instruction *InsertBefore = nullptr);
   LoadInst(Type *Ty, Value *Ptr, const Twine &NameStr, bool isVolatile,
-           Align Align, BasicBlock *InsertAtEnd,
-           Version Version = LoadInst::Version::v2);
+           Align Align, BasicBlock *InsertAtEnd);
   LoadInst(Type *Ty, Value *Ptr, const Twine &NameStr, bool isVolatile,
            Align Align, AtomicOrdering Order,
            SyncScope::ID SSID = SyncScope::System,
