@@ -13,7 +13,6 @@
 
 #include "llvm-c/Core.h"
 #include "llvm/IR/Attributes.h"
-#include "llvm/IR/AutoUpgrade.h"
 #include "llvm/IR/BasicBlock.h"
 #include "llvm/IR/Constants.h"
 #include "llvm/IR/DebugInfoMetadata.h"
@@ -3511,14 +3510,13 @@ LLVMValueRef LLVMBuildFree(LLVMBuilderRef B, LLVMValueRef PointerVal) {
 
 LLVMValueRef LLVMBuildLoad2(LLVMBuilderRef B, LLVMTypeRef Ty,
                             LLVMValueRef PointerVal, const char *Name) {
-  auto Load = unwrap(B)->CreateLoad(unwrap(Ty), unwrap(PointerVal), Name);
-  UpgradeLoadInstruction(Load);
-  return wrap(Load);
+  return wrap(unwrap(B)->CreateLoad(unwrap(Ty), unwrap(PointerVal), Name));
 }
 
 LLVMValueRef LLVMBuildLoad3(LLVMBuilderRef B, LLVMTypeRef Ty,
                             LLVMValueRef PointerVal, const char *Name) {
-  return wrap(unwrap(B)->CreateLoad(unwrap(Ty), unwrap(PointerVal), Name));
+  return wrap(
+      unwrap(B)->CreateLoad(unwrap(Ty), unwrap(PointerVal), Name, false));
 }
 
 LLVMValueRef LLVMBuildStore(LLVMBuilderRef B, LLVMValueRef Val,
