@@ -5955,6 +5955,8 @@ Error BitcodeReader::parseFunctionBody(Function *F) {
       if (!Align)
         Align = TheModule->getDataLayout().getABITypeAlign(Ty);
       I = new LoadInst(Ty, Op, "", Record[OpNum + 1], *Align);
+      if (BitCode == bitc::FUNC_CODE_INST_LOAD_OLD)
+        UpgradeLoadInstruction(I);
       InstructionList.push_back(I);
       break;
     }
@@ -6000,6 +6002,8 @@ Error BitcodeReader::parseFunctionBody(Function *F) {
       if (!Align)
         return error("Alignment missing from atomic load");
       I = new LoadInst(Ty, Op, "", Record[OpNum + 1], *Align, Ordering, SSID);
+      if (BitCode == bitc::FUNC_CODE_INST_LOADATOMIC_OLD)
+        UpgradeLoadInstruction(I);
       InstructionList.push_back(I);
       break;
     }
