@@ -6,10 +6,10 @@
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[X:%.*]] = alloca i32, align 4
 // CHECK-NEXT:    store i32 0, ptr [[X]], align 4, !annotation [[META2:![0-9]+]]
-// CHECK-NEXT:    [[TMP0:%.*]] = load i32, ptr [[X]], align 4
+// CHECK-NEXT:    [[TMP0:%.*]] = load i32, ptr [[X]], align 4, !freeze_bits [[FREEZE_BITS3:![0-9]+]]
 // CHECK-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP0]], 1
 // CHECK-NEXT:    store i32 [[ADD]], ptr [[X]], align 4
-// CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr [[X]], align 4
+// CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr [[X]], align 4, !freeze_bits [[FREEZE_BITS3]]
 // CHECK-NEXT:    ret i32 [[TMP1]]
 //
 int foo() {
@@ -18,4 +18,5 @@ int foo() {
 }
 //.
 // CHECK: [[META2]] = !{!"auto-init"}
+// CHECK: [[FREEZE_BITS3]] = !{}
 //.
