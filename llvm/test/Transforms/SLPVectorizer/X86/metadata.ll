@@ -7,10 +7,10 @@ target triple = "x86_64-apple-macosx10.8.0"
 define void @test1(ptr %a, ptr %b, ptr %c) {
 ; CHECK-LABEL: @test1(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[TMP1:%.*]] = load <2 x double>, ptr [[A:%.*]], align 8, !tbaa [[TBAA0:![0-9]+]]
-; CHECK-NEXT:    [[TMP3:%.*]] = load <2 x double>, ptr [[B:%.*]], align 8, !tbaa [[TBAA0]]
-; CHECK-NEXT:    [[TMP4:%.*]] = fmul <2 x double> [[TMP1]], [[TMP3]], !fpmath !4
-; CHECK-NEXT:    store <2 x double> [[TMP4]], ptr [[C:%.*]], align 8, !tbaa [[TBAA0]]
+; CHECK-NEXT:    [[TMP0:%.*]] = load <2 x double>, ptr [[A:%.*]], align 8, !tbaa [[TBAA0:![0-9]+]], !freeze_bits [[FREEZE_BITS4:![0-9]+]]
+; CHECK-NEXT:    [[TMP1:%.*]] = load <2 x double>, ptr [[B:%.*]], align 8, !tbaa [[TBAA0]], !freeze_bits [[FREEZE_BITS4]]
+; CHECK-NEXT:    [[TMP2:%.*]] = fmul <2 x double> [[TMP0]], [[TMP1]], !fpmath !5
+; CHECK-NEXT:    store <2 x double> [[TMP2]], ptr [[C:%.*]], align 8, !tbaa [[TBAA0]]
 ; CHECK-NEXT:    ret void
 ;
 entry:
@@ -31,10 +31,10 @@ entry:
 define void @test2(ptr %a, ptr %b, ptr %e) {
 ; CHECK-LABEL: @test2(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[TMP1:%.*]] = load <2 x double>, ptr [[A:%.*]], align 8, !tbaa [[TBAA0]]
-; CHECK-NEXT:    [[TMP3:%.*]] = load <2 x double>, ptr [[B:%.*]], align 8, !tbaa [[TBAA0]]
-; CHECK-NEXT:    [[TMP4:%.*]] = fmul <2 x double> [[TMP1]], [[TMP3]], !fpmath !5
-; CHECK-NEXT:    store <2 x double> [[TMP4]], ptr [[E:%.*]], align 8, !tbaa [[TBAA0]]
+; CHECK-NEXT:    [[TMP0:%.*]] = load <2 x double>, ptr [[A:%.*]], align 8, !tbaa [[TBAA0]], !freeze_bits [[FREEZE_BITS4]]
+; CHECK-NEXT:    [[TMP1:%.*]] = load <2 x double>, ptr [[B:%.*]], align 8, !tbaa [[TBAA0]], !freeze_bits [[FREEZE_BITS4]]
+; CHECK-NEXT:    [[TMP2:%.*]] = fmul <2 x double> [[TMP0]], [[TMP1]], !fpmath !6
+; CHECK-NEXT:    store <2 x double> [[TMP2]], ptr [[E:%.*]], align 8, !tbaa [[TBAA0]]
 ; CHECK-NEXT:    ret void
 ;
 entry:
