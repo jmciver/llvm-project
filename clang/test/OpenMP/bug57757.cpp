@@ -32,7 +32,7 @@ void foo() {
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[TMP2:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP1]], i64 0, i32 2
 // CHECK-NEXT:    tail call void @llvm.experimental.noalias.scope.decl(metadata [[META13:![0-9]+]])
-// CHECK-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4, !tbaa [[TBAA16:![0-9]+]], !alias.scope [[META13]], !noalias [[META17:![0-9]+]]
+// CHECK-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4, !tbaa [[TBAA16:![0-9]+]], !alias.scope [[META13]], !noalias [[META17:![0-9]+]], !freeze_bits [[FREEZE_BITS19:![0-9]+]]
 // CHECK-NEXT:    switch i32 [[TMP3]], label [[DOTOMP_OUTLINED__EXIT:%.*]] [
 // CHECK-NEXT:      i32 0, label [[DOTUNTIED_JMP__I:%.*]]
 // CHECK-NEXT:      i32 1, label [[DOTUNTIED_NEXT__I:%.*]]
@@ -45,9 +45,9 @@ void foo() {
 // CHECK-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES:%.*]], ptr [[TMP1]], i64 0, i32 1
 // CHECK-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES]], ptr [[TMP1]], i64 0, i32 1, i32 2
 // CHECK-NEXT:    [[TMP7:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES]], ptr [[TMP1]], i64 0, i32 1, i32 1
-// CHECK-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[TMP5]], align 8, !tbaa [[TBAA19:![0-9]+]], !noalias [[META13]]
-// CHECK-NEXT:    [[TMP9:%.*]] = load i32, ptr [[TMP7]], align 4, !tbaa [[TBAA16]], !noalias [[META13]]
-// CHECK-NEXT:    [[TMP10:%.*]] = load float, ptr [[TMP6]], align 4, !tbaa [[TBAA20:![0-9]+]], !noalias [[META13]]
+// CHECK-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[TMP5]], align 8, !tbaa [[TBAA20:![0-9]+]], !noalias [[META13]], !freeze_bits [[FREEZE_BITS19]]
+// CHECK-NEXT:    [[TMP9:%.*]] = load i32, ptr [[TMP7]], align 4, !tbaa [[TBAA16]], !noalias [[META13]], !freeze_bits [[FREEZE_BITS19]]
+// CHECK-NEXT:    [[TMP10:%.*]] = load float, ptr [[TMP6]], align 4, !tbaa [[TBAA21:![0-9]+]], !noalias [[META13]], !freeze_bits [[FREEZE_BITS19]]
 // CHECK-NEXT:    tail call void [[TMP8]](i32 noundef [[TMP9]], float noundef [[TMP10]]) #[[ATTR2:[0-9]+]], !noalias [[META13]]
 // CHECK-NEXT:    br label [[DOTOMP_OUTLINED__EXIT]]
 // CHECK:       .omp_outlined..exit:
