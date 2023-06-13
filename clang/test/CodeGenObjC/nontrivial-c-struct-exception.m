@@ -55,7 +55,7 @@ void testStrongException(void) {
 // CHECK: resume
 
 // CHECK: define{{.*}} void @__destructor_8_w8({{.*}} !dbg ![[DTOR_SP:.*]] {
-// CHECK: load i8**, i8*** {{.*}}, !dbg ![[DTOR_LOC:.*]]
+// CHECK: load i8**, i8*** {{.*}}, !dbg ![[DTOR_LOC:[0-9]+]]
 
 Weak genWeak(void);
 void calleeWeak(Weak, Weak);
