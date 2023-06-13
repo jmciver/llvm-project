@@ -96,7 +96,7 @@ __attribute__((no_sanitize("all"))) int test_no_sanitize_all(int *x, int *y) {
 // CHECK: attributes #4 = { nounwind }
 //.
 // CHECK: !0 = !{i32 1, !"wchar_size", i32 4}
-// CHECK: !1 = !{!"clang version 17.0.0 (git@github.com:jmciver/llvm-project.git 0f27bf97831aaefbd46b89061e3095cd202877fa)"}
+// CHECK: !1 = !{!"clang version {{.*}}"}
 // CHECK: !2 = !{!"sanmd_covered!C", !3}
 // CHECK: !3 = !{i64 0}
 // CHECK: !4 = !{!"sanmd_covered!C", !5}
