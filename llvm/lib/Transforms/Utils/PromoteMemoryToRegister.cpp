@@ -24,6 +24,7 @@
 #include "llvm/Analysis/AssumptionCache.h"
 #include "llvm/Analysis/InstructionSimplify.h"
 #include "llvm/Analysis/IteratedDominanceFrontier.h"
+#include "llvm/Analysis/MemoryBuiltins.h"
 #include "llvm/Analysis/ValueTracking.h"
 #include "llvm/IR/BasicBlock.h"
 #include "llvm/IR/CFG.h"
@@ -304,6 +305,7 @@ struct PromoteMem2Reg {
 
   DominatorTree &DT;
   DIBuilder DIB;
+  const TargetLibraryInfo *TLI;
 
   /// A cache of @llvm.assume intrinsics used by SimplifyInstruction.
   AssumptionCache *AC;
@@ -349,11 +351,12 @@ struct PromoteMem2Reg {
 
 public:
   PromoteMem2Reg(ArrayRef<AllocaInst *> Allocas, DominatorTree &DT,
-                 AssumptionCache *AC)
+                 const TargetLibraryInfo *TLI, AssumptionCache *AC)
       : Allocas(Allocas.begin(), Allocas.end()), DT(DT),
         DIB(*DT.getRoot()->getParent()->getParent(), /*AllowUnresolved*/ false),
-        AC(AC), SQ(DT.getRoot()->getParent()->getParent()->getDataLayout(),
-                   nullptr, &DT, AC) {}
+        TLI(TLI), AC(AC),
+        SQ(DT.getRoot()->getParent()->getParent()->getDataLayout(), nullptr,
+           &DT, AC) {}
 
   void run();
 
@@ -563,7 +566,8 @@ static bool rewriteSingleStoreAlloca(
 ///  }
 static bool promoteSingleBlockAlloca(
     AllocaInst *AI, const AllocaInfo &Info, LargeBlockInfo &LBI,
-    const DataLayout &DL, DominatorTree &DT, AssumptionCache *AC,
+    const DataLayout &DL, DominatorTree &DT, const TargetLibraryInfo *TLI,
+    AssumptionCache *AC,
     SmallSet<DbgAssignIntrinsic *, 8> *DbgAssignsToDelete) {
   // The trickiest case to handle is when we have large blocks. Because of this,
   // this code is optimized assuming that large blocks happen.  This does not
@@ -598,13 +602,16 @@ static bool promoteSingleBlockAlloca(
         less_first());
     Value *ReplVal;
     if (I == StoresByIndex.begin()) {
-      if (StoresByIndex.empty())
+      if (StoresByIndex.empty()) {
         // If there are no stores, the load takes the undef value.
-        ReplVal = UndefValue::get(LI->getType());
-      else
+        ReplVal = getInitialValueOfAllocation(AI, TLI, LI->getType());
+        if (!ReplVal)
+          ReplVal = UndefValue::get(LI->getType());
+      } else {
         // There is no store before this load, bail out (load may be affected
         // by the following stores - see main comment).
         return false;
+      }
     } else {
       // Otherwise, there was a store before this load, the load takes its
       // value.
@@ -700,7 +707,7 @@ void PromoteMem2Reg::run() {
     // If the alloca is only read and written in one basic block, just perform a
     // linear sweep over the block to eliminate it.
     if (Info.OnlyUsedInOneBlock &&
-        promoteSingleBlockAlloca(AI, Info, LBI, SQ.DL, DT, AC,
+        promoteSingleBlockAlloca(AI, Info, LBI, SQ.DL, DT, TLI, AC,
                                  &DbgAssignsToDelete)) {
       // The alloca has been processed, move on.
       RemoveFromAllocasList(AllocaNum);
@@ -1127,10 +1134,10 @@ NextIteration:
 }
 
 void llvm::PromoteMemToReg(ArrayRef<AllocaInst *> Allocas, DominatorTree &DT,
-                           AssumptionCache *AC) {
+                           const TargetLibraryInfo *TLI, AssumptionCache *AC) {
   // If there is nothing to do, bail out...
   if (Allocas.empty())
     return;
 
-  PromoteMem2Reg(Allocas, DT, AC).run();
+  PromoteMem2Reg(Allocas, DT, TLI, AC).run();
 }
