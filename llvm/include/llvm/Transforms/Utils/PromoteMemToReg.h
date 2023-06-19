@@ -19,6 +19,7 @@ namespace llvm {
 template <typename T> class ArrayRef;
 class AllocaInst;
 class DominatorTree;
+class TargetLibraryInfo;
 class AssumptionCache;
 
 /// Return true if this alloca is legal for promotion.
@@ -37,6 +38,7 @@ bool isAllocaPromotable(const AllocaInst *AI);
 /// the same function.
 ///
 void PromoteMemToReg(ArrayRef<AllocaInst *> Allocas, DominatorTree &DT,
+                     const TargetLibraryInfo *TLI = nullptr,
                      AssumptionCache *AC = nullptr);
 
 } // End llvm namespace
