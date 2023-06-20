@@ -36,6 +36,7 @@ class Function;
 class LLVMContext;
 class PHINode;
 class SelectInst;
+class TargetLibraryInfo;
 class Use;
 
 /// A private "module" namespace for types and utilities used by SROA. These
@@ -96,6 +97,7 @@ enum class SROAOptions : bool { ModifyCFG, PreserveCFG };
 class SROAPass : public PassInfoMixin<SROAPass> {
   LLVMContext *C = nullptr;
   DomTreeUpdater *DTU = nullptr;
+  TargetLibraryInfo *TLI = nullptr;
   AssumptionCache *AC = nullptr;
   const bool PreserveCFG;
 
@@ -173,9 +175,9 @@ private:
 
   /// Helper used by both the public run method and by the legacy pass.
   PreservedAnalyses runImpl(Function &F, DomTreeUpdater &RunDTU,
-                            AssumptionCache &RunAC);
+                            TargetLibraryInfo &RunTLI, AssumptionCache &RunAC);
   PreservedAnalyses runImpl(Function &F, DominatorTree &RunDT,
-                            AssumptionCache &RunAC);
+                            TargetLibraryInfo &RunTLI, AssumptionCache &RunAC);
 
   bool presplitLoadsAndStores(AllocaInst &AI, sroa::AllocaSlices &AS);
   AllocaInst *rewritePartition(AllocaInst &AI, sroa::AllocaSlices &AS,

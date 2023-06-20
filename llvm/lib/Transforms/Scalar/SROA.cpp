@@ -42,6 +42,7 @@
 #include "llvm/Analysis/GlobalsModRef.h"
 #include "llvm/Analysis/Loads.h"
 #include "llvm/Analysis/PtrUseVisitor.h"
+#include "llvm/Analysis/TargetLibraryInfo.h"
 #include "llvm/Config/llvm-config.h"
 #include "llvm/IR/BasicBlock.h"
 #include "llvm/IR/Constant.h"
@@ -5066,7 +5067,7 @@ bool SROAPass::promoteAllocas(Function &F) {
     LLVM_DEBUG(dbgs() << "Not promoting allocas with mem2reg!\n");
   } else {
     LLVM_DEBUG(dbgs() << "Promoting allocas with mem2reg...\n");
-    PromoteMemToReg(PromotableAllocas, DTU->getDomTree(), AC);
+    PromoteMemToReg(PromotableAllocas, DTU->getDomTree(), TLI, AC);
   }
 
   PromotableAllocas.clear();
@@ -5074,10 +5075,12 @@ bool SROAPass::promoteAllocas(Function &F) {
 }
 
 PreservedAnalyses SROAPass::runImpl(Function &F, DomTreeUpdater &RunDTU,
+                                    TargetLibraryInfo &RunTLI,
                                     AssumptionCache &RunAC) {
   LLVM_DEBUG(dbgs() << "SROA function: " << F.getName() << "\n");
   C = &F.getContext();
   DTU = &RunDTU;
+  TLI = &RunTLI;
   AC = &RunAC;
 
   const DataLayout &DL = F.getParent()->getDataLayout();
@@ -5145,15 +5148,17 @@ PreservedAnalyses SROAPass::runImpl(Function &F, DomTreeUpdater &RunDTU,
 }
 
 PreservedAnalyses SROAPass::runImpl(Function &F, DominatorTree &RunDT,
+                                    TargetLibraryInfo &RunTLI,
                                     AssumptionCache &RunAC) {
   DomTreeUpdater DTU(RunDT, DomTreeUpdater::UpdateStrategy::Lazy);
-  return runImpl(F, DTU, RunAC);
+  return runImpl(F, DTU, RunTLI, RunAC);
 }
 
 PreservedAnalyses SROAPass::run(Function &F, FunctionAnalysisManager &AM) {
   DominatorTree &DT = AM.getResult<DominatorTreeAnalysis>(F);
+  TargetLibraryInfo &TLI = AM.getResult<TargetLibraryAnalysis>(F);
   AssumptionCache &AC = AM.getResult<AssumptionAnalysis>(F);
-  return runImpl(F, DT, AC);
+  return runImpl(F, DT, TLI, AC);
 }
 
 void SROAPass::printPipeline(
@@ -5188,6 +5193,7 @@ public:
 
     auto PA = Impl.runImpl(
         F, getAnalysis<DominatorTreeWrapperPass>().getDomTree(),
+        getAnalysis<TargetLibraryInfoWrapperPass>().getTLI(F),
         getAnalysis<AssumptionCacheTracker>().getAssumptionCache(F));
     return !PA.areAllPreserved();
   }
