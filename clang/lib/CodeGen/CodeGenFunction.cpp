@@ -35,6 +35,7 @@
 #include "clang/CodeGen/CGFunctionInfo.h"
 #include "clang/Frontend/FrontendDiagnostic.h"
 #include "llvm/ADT/ArrayRef.h"
+#include "llvm/Analysis/TargetLibraryInfo.h"
 #include "llvm/Frontend/OpenMP/OMPIRBuilder.h"
 #include "llvm/IR/DataLayout.h"
 #include "llvm/IR/Dominators.h"
@@ -474,8 +475,10 @@ void CodeGenFunction::FinishFunction(SourceLocation EndLoc) {
   // difficult.
   if (NormalCleanupDest.isValid() && isCoroutine()) {
     llvm::DominatorTree DT(*CurFn);
+    auto TLI = llvm::TargetLibraryInfo(
+        llvm::TargetLibraryInfoImpl(Target.getTriple()), CurFn);
     llvm::PromoteMemToReg(
-        cast<llvm::AllocaInst>(NormalCleanupDest.getPointer()), DT);
+        cast<llvm::AllocaInst>(NormalCleanupDest.getPointer()), DT, &TLI);
     NormalCleanupDest = Address::invalid();
   }
 
