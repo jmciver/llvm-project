@@ -1980,7 +1980,8 @@ static void insertRematerializationStores(
 /// Do all the relocation update via allocas and mem2reg
 static void relocationViaAlloca(
     Function &F, DominatorTree &DT, ArrayRef<Value *> Live,
-    ArrayRef<PartiallyConstructedSafepointRecord> Records) {
+    ArrayRef<PartiallyConstructedSafepointRecord> Records,
+    const TargetLibraryInfo &TLI) {
 #ifndef NDEBUG
   // record initial number of (static) allocas; we'll check we have the same
   // number when we get done.
@@ -2165,7 +2166,7 @@ static void relocationViaAlloca(
   (void) NumRematerializedValues;
   if (!PromotableAllocas.empty()) {
     // Apply mem2reg to promote alloca to SSA
-    PromoteMemToReg(PromotableAllocas, DT);
+    PromoteMemToReg(PromotableAllocas, DT, &TLI);
   }
 
 #ifndef NDEBUG
@@ -2618,6 +2619,7 @@ static bool inlineGetBaseAndOffset(Function &F,
 
 static bool insertParsePoints(Function &F, DominatorTree &DT,
                               TargetTransformInfo &TTI,
+                              const TargetLibraryInfo &TLI,
                               SmallVectorImpl<CallBase *> &ToUpdate,
                               DefiningValueMapTy &DVCache,
                               IsKnownBaseMapTy &KnownBases) {
@@ -2840,7 +2842,7 @@ static bool insertParsePoints(Function &F, DominatorTree &DT,
            "must be a gc pointer type");
 #endif
 
-  relocationViaAlloca(F, DT, Live, Records);
+  relocationViaAlloca(F, DT, Live, Records, TLI);
   return !Records.empty();
 }
 
@@ -3146,7 +3148,7 @@ bool RewriteStatepointsForGC::runOnFunction(Function &F, DominatorTree &DT,
 
   if (!ParsePointNeeded.empty())
     MadeChange |=
-        insertParsePoints(F, DT, TTI, ParsePointNeeded, DVCache, KnownBases);
+        insertParsePoints(F, DT, TTI, TLI, ParsePointNeeded, DVCache, KnownBases);
 
   return MadeChange;
 }
