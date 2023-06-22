@@ -32,6 +32,7 @@
 #include "llvm/Analysis/ConstantFolding.h"
 #include "llvm/Analysis/LazyCallGraph.h"
 #include "llvm/Analysis/OptimizationRemarkEmitter.h"
+#include "llvm/Analysis/TargetLibraryInfo.h"
 #include "llvm/Analysis/TargetTransformInfo.h"
 #include "llvm/BinaryFormat/Dwarf.h"
 #include "llvm/IR/Argument.h"
@@ -1950,7 +1951,8 @@ namespace {
 
 static coro::Shape
 splitCoroutine(Function &F, SmallVectorImpl<Function *> &Clones,
-               TargetTransformInfo &TTI, bool OptimizeFrame,
+               TargetTransformInfo &TTI, TargetLibraryInfo &TLI,
+               bool OptimizeFrame,
                std::function<bool(Instruction &)> MaterializableCallback) {
   PrettyStackTraceFunction prettyStackTrace(F);
 
@@ -1963,7 +1965,7 @@ splitCoroutine(Function &F, SmallVectorImpl<Function *> &Clones,
     return Shape;
 
   simplifySuspendPoints(Shape);
-  buildCoroutineFrame(F, Shape, MaterializableCallback);
+  buildCoroutineFrame(F, Shape, TLI, MaterializableCallback);
   replaceFrameSizeAndAlignment(Shape);
 
   // If there are no suspend points, no split required, just remove
@@ -2155,7 +2157,8 @@ PreservedAnalyses CoroSplitPass::run(LazyCallGraph::SCC &C,
     auto &ORE = FAM.getResult<OptimizationRemarkEmitterAnalysis>(F);
     const coro::Shape Shape =
         splitCoroutine(F, Clones, FAM.getResult<TargetIRAnalysis>(F),
-                       OptimizeFrame, MaterializableCallback);
+                       FAM.getResult<TargetLibraryAnalysis>(F), OptimizeFrame,
+                       MaterializableCallback);
     updateCallGraphAfterCoroutineSplit(*N, Shape, Clones, C, CG, AM, UR, FAM);
 
     ORE.emit([&]() {

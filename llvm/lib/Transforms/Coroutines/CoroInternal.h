@@ -17,6 +17,7 @@
 namespace llvm {
 
 class CallGraph;
+class TargetLibraryInfo;
 
 namespace coro {
 
@@ -265,7 +266,7 @@ struct LLVM_LIBRARY_VISIBILITY Shape {
 
 bool defaultMaterializable(Instruction &V);
 void buildCoroutineFrame(
-    Function &F, Shape &Shape,
+    Function &F, Shape &Shape, const TargetLibraryInfo &TLI,
     const std::function<bool(Instruction &)> &MaterializableCallback);
 CallInst *createMustTailCall(DebugLoc Loc, Function *MustTailCallFn,
                              ArrayRef<Value *> Arguments, IRBuilder<> &);

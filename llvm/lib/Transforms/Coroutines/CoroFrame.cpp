@@ -21,6 +21,7 @@
 #include "llvm/ADT/SmallString.h"
 #include "llvm/Analysis/PtrUseVisitor.h"
 #include "llvm/Analysis/StackLifetime.h"
+#include "llvm/Analysis/TargetLibraryInfo.h"
 #include "llvm/Config/llvm-config.h"
 #include "llvm/IR/CFG.h"
 #include "llvm/IR/DIBuilder.h"
@@ -2633,8 +2634,9 @@ static void eliminateSwiftErrorArgument(Function &F, Argument &Arg,
 
 /// Eliminate all problematic uses of swifterror arguments and allocas
 /// from the function.  We'll fix them up later when splitting the function.
-static void eliminateSwiftError(Function &F, coro::Shape &Shape) {
-  SmallVector<AllocaInst*, 4> AllocasToPromote;
+static void eliminateSwiftError(Function &F, coro::Shape &Shape,
+                                const TargetLibraryInfo &TLI) {
+  SmallVector<AllocaInst *, 4> AllocasToPromote;
 
   // Look for a swifterror argument.
   for (auto &Arg : F.args()) {
@@ -2660,7 +2662,7 @@ static void eliminateSwiftError(Function &F, coro::Shape &Shape) {
   // promote them en masse.
   if (!AllocasToPromote.empty()) {
     DominatorTree DT(F);
-    PromoteMemToReg(AllocasToPromote, DT);
+    PromoteMemToReg(AllocasToPromote, DT, &TLI);
   }
 }
 
@@ -2988,11 +2990,11 @@ static void doRematerializations(
 }
 
 void coro::buildCoroutineFrame(
-    Function &F, Shape &Shape,
+    Function &F, Shape &Shape, const TargetLibraryInfo &TLI,
     const std::function<bool(Instruction &)> &MaterializableCallback) {
   // Don't eliminate swifterror in async functions that won't be split.
   if (Shape.ABI != coro::ABI::Async || !Shape.CoroSuspends.empty())
-    eliminateSwiftError(F, Shape);
+    eliminateSwiftError(F, Shape, TLI);
 
   if (Shape.ABI == coro::ABI::Switch &&
       Shape.SwitchLowering.PromiseAlloca) {
