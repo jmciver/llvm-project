@@ -475,8 +475,7 @@ void CodeGenFunction::FinishFunction(SourceLocation EndLoc) {
   // difficult.
   if (NormalCleanupDest.isValid() && isCoroutine()) {
     llvm::DominatorTree DT(*CurFn);
-    auto TLI = llvm::TargetLibraryInfo(
-        llvm::TargetLibraryInfoImpl(Target.getTriple()), CurFn);
+    auto TLI = CGM.getTargetLibraryInfo(*CurFn);
     llvm::PromoteMemToReg(
         cast<llvm::AllocaInst>(NormalCleanupDest.getPointer()), DT, &TLI);
     NormalCleanupDest = Address::invalid();

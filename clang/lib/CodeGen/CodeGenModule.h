@@ -33,6 +33,7 @@
 #include "llvm/ADT/SetVector.h"
 #include "llvm/ADT/SmallPtrSet.h"
 #include "llvm/ADT/StringMap.h"
+#include "llvm/Analysis/TargetLibraryInfo.h"
 #include "llvm/IR/Module.h"
 #include "llvm/IR/ValueHandle.h"
 #include "llvm/Transforms/Utils/SanitizerStats.h"
@@ -594,6 +595,10 @@ private:
   // when used with -fincremental-extensions.
   std::pair<std::unique_ptr<CodeGenFunction>, const TopLevelStmtDecl *>
       GlobalTopLevelStmtBlockInFlight;
+
+  // Used to generate TargetLibraryInfo objects for functions contained within
+  // this module.
+  std::optional<llvm::TargetLibraryInfoImpl> TLIImpl;
 
 public:
   CodeGenModule(ASTContext &C, IntrusiveRefCntPtr<llvm::vfs::FileSystem> FS,
@@ -1549,6 +1554,9 @@ public:
   /// essential for the incremental parsing environment like Clang Interpreter,
   /// because we'll lose all important information after each repl.
   void moveLazyEmissionStates(CodeGenModule *NewBuilder);
+
+  /// Provide lazily-emitted TLI object.
+  llvm::TargetLibraryInfo getTargetLibraryInfo(llvm::Function &F);
 
 private:
   llvm::Constant *GetOrCreateLLVMFunction(
