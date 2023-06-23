@@ -7485,3 +7485,9 @@ void CodeGenModule::moveLazyEmissionStates(CodeGenModule *NewBuilder) {
 
   NewBuilder->ABI->MangleCtx = std::move(ABI->MangleCtx);
 }
+
+llvm::TargetLibraryInfo CodeGenModule::getTargetLibraryInfo(llvm::Function &F) {
+  if (!TLIImpl)
+    TLIImpl = llvm::TargetLibraryInfoImpl(getTriple());
+  return llvm::TargetLibraryInfo(*TLIImpl, &F);
+}
