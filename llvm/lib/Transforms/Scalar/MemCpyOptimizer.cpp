@@ -22,6 +22,7 @@
 #include "llvm/Analysis/CaptureTracking.h"
 #include "llvm/Analysis/GlobalsModRef.h"
 #include "llvm/Analysis/Loads.h"
+#include "llvm/Analysis/MemoryBuiltins.h"
 #include "llvm/Analysis/MemoryLocation.h"
 #include "llvm/Analysis/MemorySSA.h"
 #include "llvm/Analysis/MemorySSAUpdater.h"
@@ -1307,9 +1308,11 @@ bool MemCpyOptPass::processMemSetMemCpyDependence(MemCpyInst *MemCpy,
 /// Determine whether the instruction has undefined content for the given Size,
 /// either because it was freshly alloca'd or started its lifetime.
 static bool hasUndefContents(MemorySSA *MSSA, BatchAAResults &AA, Value *V,
-                             MemoryDef *Def, Value *Size) {
-  if (MSSA->isLiveOnEntryDef(Def))
+                             MemoryDef *Def, Value *Size,
+                             const TargetLibraryInfo *TLI) {
+  if (MSSA->isLiveOnEntryDef(Def)) {
     return isa<AllocaInst>(getUnderlyingObject(V));
+  }
 
   if (auto *II = dyn_cast_or_null<IntrinsicInst>(Def->getMemoryInst())) {
     if (II->getIntrinsicID() == Intrinsic::lifetime_start) {
@@ -1336,6 +1339,11 @@ static bool hasUndefContents(MemorySSA *MSSA, BatchAAResults &AA, Value *V,
       }
     }
   }
+
+  if (auto *CI = dyn_cast_or_null<CallInst>(Def->getMemoryInst()))
+    if (dyn_cast_or_null<CallInst>(V) == CI)
+      return isa_and_nonnull<UndefValue>(
+          getInitialValueOfAllocation(CI, TLI, CI->getType()));
 
   return false;
 }
@@ -1387,7 +1395,7 @@ bool MemCpyOptPass::performMemCpyToMemSetOptzn(MemCpyInst *MemCpy,
       MemoryAccess *Clobber = MSSA->getWalker()->getClobberingMemoryAccess(
           MemSetAccess->getDefiningAccess(), MemCpyLoc, BAA);
       if (auto *MD = dyn_cast<MemoryDef>(Clobber))
-        if (hasUndefContents(MSSA, BAA, MemCpy->getSource(), MD, CopySize))
+        if (hasUndefContents(MSSA, BAA, MemCpy->getSource(), MD, CopySize, TLI))
           CanReduceSize = true;
 
       if (!CanReduceSize)
@@ -1500,7 +1508,7 @@ bool MemCpyOptPass::processMemCpy(MemCpyInst *M, BasicBlock::iterator &BBI) {
       }
     }
 
-    if (hasUndefContents(MSSA, BAA, M->getSource(), MD, M->getLength())) {
+    if (hasUndefContents(MSSA, BAA, M->getSource(), MD, M->getLength(), TLI)) {
       LLVM_DEBUG(dbgs() << "Removed memcpy from undef\n");
       eraseInstruction(M);
       ++NumMemCpyInstr;

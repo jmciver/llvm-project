@@ -128,7 +128,6 @@ define void @test_memcpy_removal_uninitialzied(ptr nocapture %foobie) nounwind n
 ; CHECK-NEXT:    [[BLETCH_SROA_1:%.*]] = call noalias ptr @malloc(i64 noundef 7) #[[ATTR4:[0-9]+]]
 ; CHECK-NEXT:    store i8 98, ptr [[FOOBIE:%.*]], align 4
 ; CHECK-NEXT:    [[TMP1:%.*]] = getelementptr inbounds [[STRUCT_FOO:%.*]], ptr [[FOOBIE]], i64 0, i32 1, i64 0
-; CHECK-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr [[TMP1]], ptr [[BLETCH_SROA_1]], i64 7, i1 false)
 ; CHECK-NEXT:    [[TMP2:%.*]] = getelementptr inbounds [[STRUCT_FOO]], ptr [[FOOBIE]], i64 0, i32 2
 ; CHECK-NEXT:    store i32 20, ptr [[TMP2]], align 4
 ; CHECK-NEXT:    ret void
@@ -137,6 +136,26 @@ define void @test_memcpy_removal_uninitialzied(ptr nocapture %foobie) nounwind n
   store i8 98, ptr %foobie, align 4
   %1 = getelementptr inbounds %struct.foo, ptr %foobie, i64 0, i32 1, i64 0
   call void @llvm.memcpy.p0.p0.i64(ptr %1, ptr %bletch.sroa.1, i64 7, i1 false)
+  %2 = getelementptr inbounds %struct.foo, ptr %foobie, i64 0, i32 2
+  store i32 20, ptr %2, align 4
+  ret void
+}
+
+; check that the memcpy is not removed.
+define void @test_memcpy_no_removal(ptr nocapture %foobie) nounwind noinline ssp uwtable {
+; CHECK-LABEL: @test_memcpy_no_removal(
+; CHECK-NEXT:    [[BLETCH_SROA_1:%.*]] = call noalias ptr @malloc(i64 noundef 7) #[[ATTR4]]
+; CHECK-NEXT:    store i8 98, ptr [[FOOBIE:%.*]], align 4
+; CHECK-NEXT:    [[TMP1:%.*]] = getelementptr inbounds [[STRUCT_FOO:%.*]], ptr [[FOOBIE]], i64 0, i32 1, i64 0
+; CHECK-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr [[BLETCH_SROA_1]], ptr [[TMP1]], i64 7, i1 false)
+; CHECK-NEXT:    [[TMP2:%.*]] = getelementptr inbounds [[STRUCT_FOO]], ptr [[FOOBIE]], i64 0, i32 2
+; CHECK-NEXT:    store i32 20, ptr [[TMP2]], align 4
+; CHECK-NEXT:    ret void
+;
+  %bletch.sroa.1 = call noalias ptr @malloc(i64 noundef 7) nounwind allocsize(0)
+  store i8 98, ptr %foobie, align 4
+  %1 = getelementptr inbounds %struct.foo, ptr %foobie, i64 0, i32 1, i64 0
+  call void @llvm.memcpy.p0.p0.i64(ptr %bletch.sroa.1, ptr %1, i64 7, i1 false)
   %2 = getelementptr inbounds %struct.foo, ptr %foobie, i64 0, i32 2
   store i32 20, ptr %2, align 4
   ret void
