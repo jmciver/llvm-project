@@ -1502,8 +1502,8 @@ NewGVN::performSymbolicLoadCoercion(Type *LoadType, Value *LoadPtr,
     if (II->getIntrinsicID() == Intrinsic::lifetime_start)
       return createConstantExpression(UndefValue::get(LoadType));
   } else if (auto *InitVal =
-                 getInitialValueOfAllocation(DepInst, TLI, LoadType))
-      return createConstantExpression(InitVal);
+                 getInitialValueOfAllocation(DepInst, TLI, LoadType).second)
+    return createConstantExpression(InitVal);
 
   return nullptr;
 }
