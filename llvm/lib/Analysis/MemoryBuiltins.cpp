@@ -433,24 +433,24 @@ llvm::getAllocSize(const CallBase *CB, const TargetLibraryInfo *TLI,
   return Size;
 }
 
-Constant *llvm::getInitialValueOfAllocation(const Value *V,
-                                            const TargetLibraryInfo *TLI,
-                                            Type *Ty) {
+std::pair<InitializationCategory, Constant *>
+llvm::getInitialValueOfAllocation(const Value *V, const TargetLibraryInfo *TLI,
+                                  Type *Ty) {
   auto *Alloc = dyn_cast<CallBase>(V);
   if (!Alloc)
-    return nullptr;
+    return {InitializationCategory::Unknown, nullptr};
 
   // malloc are uninitialized (undef)
   if (getAllocationData(Alloc, MallocOrOpNewLike, TLI).has_value())
-    return UndefValue::get(Ty);
+    return {InitializationCategory::Constant, UndefValue::get(Ty)};
 
   AllocFnKind AK = getAllocFnKind(Alloc);
   if ((AK & AllocFnKind::Uninitialized) != AllocFnKind::Unknown)
-    return UndefValue::get(Ty);
+    return {InitializationCategory::Constant, UndefValue::get(Ty)};
   if ((AK & AllocFnKind::Zeroed) != AllocFnKind::Unknown)
-    return Constant::getNullValue(Ty);
+    return {InitializationCategory::Constant, Constant::getNullValue(Ty)};
 
-  return nullptr;
+  return {InitializationCategory::Unknown, nullptr};
 }
 
 struct FreeFnsTy {

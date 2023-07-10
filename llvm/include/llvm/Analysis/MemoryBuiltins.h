@@ -151,9 +151,9 @@ enum class InitializationCategory {
 /// If this is a call to an allocation function that initializes memory to a
 /// fixed value, return said value in the requested type.  Otherwise, return
 /// nullptr.
-Constant *getInitialValueOfAllocation(const Value *V,
-                                      const TargetLibraryInfo *TLI,
-                                      Type *Ty);
+std::pair<InitializationCategory, Constant *>
+getInitialValueOfAllocation(const Value *V, const TargetLibraryInfo *TLI,
+                            Type *Ty);
 
 /// If a function is part of an allocation family (e.g.
 /// malloc/realloc/calloc/free), return the identifier for its family
