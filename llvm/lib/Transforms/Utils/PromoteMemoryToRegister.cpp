@@ -604,7 +604,7 @@ static bool promoteSingleBlockAlloca(
     if (I == StoresByIndex.begin()) {
       if (StoresByIndex.empty())
         // If there are no stores, the load takes the undef value.
-        ReplVal = getInitialValueOfAllocation(AI, TLI, LI->getType());
+        ReplVal = getInitialValueOfAllocation(AI, TLI, LI->getType()).second;
       else
         // There is no store before this load, bail out (load may be affected
         // by the following stores - see main comment).

@@ -231,7 +231,7 @@ Constant *AA::getInitialValueForObj(Attributor &A, Value &Obj, Type &Ty,
                                     AA::RangeTy *RangePtr) {
   if (isa<AllocaInst>(Obj))
     return UndefValue::get(&Ty);
-  if (Constant *Init = getInitialValueOfAllocation(&Obj, TLI, &Ty))
+  if (Constant *Init = getInitialValueOfAllocation(&Obj, TLI, &Ty).second)
     return Init;
   auto *GV = dyn_cast<GlobalVariable>(&Obj);
   if (!GV)
