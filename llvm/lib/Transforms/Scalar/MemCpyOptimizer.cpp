@@ -1343,7 +1343,7 @@ static bool hasUndefContents(MemorySSA *MSSA, BatchAAResults &AA, Value *V,
   if (auto *CI = dyn_cast_or_null<CallInst>(Def->getMemoryInst()))
     if (dyn_cast_or_null<CallInst>(V) == CI)
       return isa_and_nonnull<UndefValue>(
-          getInitialValueOfAllocation(CI, TLI, CI->getType()));
+          getInitialValueOfAllocation(CI, TLI, CI->getType()).second);
 
   return false;
 }
