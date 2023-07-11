@@ -435,7 +435,7 @@ llvm::getAllocSize(const CallBase *CB, const TargetLibraryInfo *TLI,
 
 std::pair<InitializationCategory, Constant *>
 llvm::getInitialValueOfAllocation(const Value *V, const TargetLibraryInfo *TLI,
-                                  Type *Ty) {
+                                  Type *Ty, const LoadInst *Load) {
   if (isa<AllocaInst>(V))
     return {InitializationCategory::Constant, UndefValue::get(Ty)};
 
