@@ -149,11 +149,15 @@ enum class InitializationCategory {
 };
 
 /// If this is a call to an allocation function that initializes memory to a
-/// fixed value, return said value in the requested type.  Otherwise, return
+/// fixed value, return said value in the requested type. Otherwise, return
 /// nullptr.
+///
+/// This function also serves to determine the return value of a load
+/// instruction directly using allocation without an intermediate store
+/// instruction(s). This mode is enabled by passing a load institution pointer.
 std::pair<InitializationCategory, Constant *>
 getInitialValueOfAllocation(const Value *V, const TargetLibraryInfo *TLI,
-                            Type *Ty);
+                            Type *Ty, const LoadInst *Load = nullptr);
 
 /// If a function is part of an allocation family (e.g.
 /// malloc/realloc/calloc/free), return the identifier for its family

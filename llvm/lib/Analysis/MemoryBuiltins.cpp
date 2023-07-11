@@ -435,7 +435,7 @@ llvm::getAllocSize(const CallBase *CB, const TargetLibraryInfo *TLI,
 
 std::pair<InitializationCategory, Constant *>
 llvm::getInitialValueOfAllocation(const Value *V, const TargetLibraryInfo *TLI,
-                                  Type *Ty) {
+                                  Type *Ty, const LoadInst *Load) {
   auto *Alloc = dyn_cast<CallBase>(V);
   if (!Alloc)
     return {InitializationCategory::Unknown, nullptr};
