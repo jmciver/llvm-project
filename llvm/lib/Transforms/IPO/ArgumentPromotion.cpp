@@ -391,8 +391,9 @@ doPromotion(Function *F, FunctionAnalysisManager &FAM,
     // Our earlier checks have ensured that PromoteMemToReg() will
     // succeed.
     auto &DT = FAM.getResult<DominatorTreeAnalysis>(*NF);
+    auto &LTI = FAM.getResult<TargetLibraryAnalysis>(*NF);
     auto &AC = FAM.getResult<AssumptionAnalysis>(*NF);
-    PromoteMemToReg(Allocas, DT, &AC);
+    PromoteMemToReg(Allocas, DT, &LTI, &AC);
   }
 
   return NF;
