@@ -439,6 +439,13 @@ Constant *llvm::getInitialValueOfAllocation(const Value *V,
   if (isa<AllocaInst>(V))
     return UndefValue::get(Ty);
 
+  if (const IntrinsicInst* II = dyn_cast<IntrinsicInst>(V)) {
+    if (II->getIntrinsicID() == Intrinsic::lifetime_start)
+      return UndefValue::get(Ty);
+    else
+      return nullptr;
+  }
+
   auto *Alloc = dyn_cast<CallBase>(V);
   if (!Alloc)
     return nullptr;
