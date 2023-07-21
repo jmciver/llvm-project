@@ -5918,7 +5918,8 @@ Error BitcodeReader::parseFunctionBody(Function *F) {
       InstructionList.push_back(I);
       break;
     }
-    case bitc::FUNC_CODE_INST_LOAD_OLD: { // LOAD: [opty, op, align, vol]
+    case bitc::FUNC_CODE_INST_LOAD_OLD:
+    case bitc::FUNC_CODE_INST_LOAD: { // LOAD: [opty, op, align, vol]
       unsigned OpNum = 0;
       Value *Op;
       unsigned OpTypeID;
@@ -5955,7 +5956,8 @@ Error BitcodeReader::parseFunctionBody(Function *F) {
       InstructionList.push_back(I);
       break;
     }
-    case bitc::FUNC_CODE_INST_LOADATOMIC_OLD: {
+    case bitc::FUNC_CODE_INST_LOADATOMIC_OLD:
+    case bitc::FUNC_CODE_INST_LOADATOMIC: {
        // LOADATOMIC: [opty, op, align, vol, ordering, ssid]
       unsigned OpNum = 0;
       Value *Op;
