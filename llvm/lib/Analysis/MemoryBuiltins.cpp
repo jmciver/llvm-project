@@ -438,8 +438,7 @@ static bool loadHasFreezeBits(const LoadInst *const Load) {
 }
 
 static std::pair<InitializationCategory, Constant *>
-valueUsingLoadInstAndFreezeBits(const LoadInst *const Load,
-                              const Type *const Ty) {
+valueUsingLoadInstAndFreezeBits(const LoadInst *const Load, Type *const Ty) {
   if (loadHasFreezeBits(Load))
     return {InitializationCategory::FreezePoison, nullptr};
   else
