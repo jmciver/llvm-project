@@ -12,7 +12,7 @@ define void @test1() {
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    br label [[LOOP:%.*]]
 ; CHECK:       loop:
-; CHECK-NEXT:    [[T_0:%.*]] = phi i32 [ undef, [[ENTRY:%.*]] ], [ [[N:%.*]], [[LOOP]] ]
+; CHECK-NEXT:    [[T_0:%.*]] = phi i32 [ poison, [[ENTRY:%.*]] ], [ [[N:%.*]], [[LOOP]] ]
 ; CHECK-NEXT:    [[C:%.*]] = call i1 @use(i32 [[T_0]])
 ; CHECK-NEXT:    [[N]] = call i32 @def(i32 7)
 ; CHECK-NEXT:    br i1 [[C]], label [[LOOP]], label [[EXIT:%.*]]
@@ -34,6 +34,34 @@ define void @test1() {
   ret void
 }
 
+define void @test1_withfreezebits() {
+; CHECK-LABEL: @test1_withfreezebits(
+; CHECK-NEXT:  entry:
+; CHECK-NEXT:    br label [[LOOP:%.*]]
+; CHECK:       loop:
+; CHECK-NEXT:    [[T_0:%.*]] = phi i32 [ poison, [[ENTRY:%.*]] ], [ [[N:%.*]], [[LOOP]] ]
+; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze i32 [[T_0]]
+; CHECK-NEXT:    [[C:%.*]] = call i1 @use(i32 [[FREEZE_LOAD]])
+; CHECK-NEXT:    [[N]] = call i32 @def(i32 7)
+; CHECK-NEXT:    br i1 [[C]], label [[LOOP]], label [[EXIT:%.*]]
+; CHECK:       exit:
+; CHECK-NEXT:    ret void
+;
+  entry:
+  %t = alloca i32
+  br label %loop
+
+  loop:
+  %v = load i32, ptr %t, !freeze_bits !0
+  %c = call i1 @use(i32 %v)
+  %n = call i32 @def(i32 7)
+  store i32 %n, ptr %t
+  br i1 %c, label %loop, label %exit
+
+  exit:
+  ret void
+}
+
 ; Same as above, except there is no following store. The alloca should just be
 ; replaced with an undef
 define void @test2() {
@@ -41,7 +69,7 @@ define void @test2() {
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    br label [[LOOP:%.*]]
 ; CHECK:       loop:
-; CHECK-NEXT:    [[C:%.*]] = call i1 @use(i32 undef)
+; CHECK-NEXT:    [[C:%.*]] = call i1 @use(i32 poison)
 ; CHECK-NEXT:    br i1 [[C]], label [[LOOP]], label [[EXIT:%.*]]
 ; CHECK:       exit:
 ; CHECK-NEXT:    ret void
@@ -58,3 +86,29 @@ define void @test2() {
   exit:
   ret void
 }
+
+define void @test2_withfreezebits() {
+; CHECK-LABEL: @test2_withfreezebits(
+; CHECK-NEXT:  entry:
+; CHECK-NEXT:    br label [[LOOP:%.*]]
+; CHECK:       loop:
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i32 poison
+; CHECK-NEXT:    [[C:%.*]] = call i1 @use(i32 [[FREEZE]])
+; CHECK-NEXT:    br i1 [[C]], label [[LOOP]], label [[EXIT:%.*]]
+; CHECK:       exit:
+; CHECK-NEXT:    ret void
+;
+  entry:
+  %t = alloca i32
+  br label %loop
+
+  loop:
+  %v = load i32, ptr %t, !freeze_bits !0
+  %c = call i1 @use(i32 %v)
+  br i1 %c, label %loop, label %exit
+
+  exit:
+  ret void
+}
+
+!0 = !{}
