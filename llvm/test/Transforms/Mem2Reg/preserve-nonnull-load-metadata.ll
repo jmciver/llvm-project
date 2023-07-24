@@ -21,6 +21,23 @@ entry:
   ret ptr %buf.load
 }
 
+; Check the case where the alloca in question has a single store.
+define ptr @single_store_noundef_freezebits(ptr %arg) {
+; CHECK-LABEL: @single_store_noundef_freezebits(
+; CHECK-NEXT:  entry:
+; CHECK-NEXT:    [[ARG_LOAD:%.*]] = load ptr, ptr [[ARG:%.*]], align 8, !freeze_bits [[FREEZE_BITS0:![0-9]+]]
+; CHECK-NEXT:    [[TMP0:%.*]] = icmp ne ptr [[ARG_LOAD]], null
+; CHECK-NEXT:    call void @llvm.assume(i1 [[TMP0]])
+; CHECK-NEXT:    ret ptr [[ARG_LOAD]]
+;
+entry:
+  %buf = alloca ptr
+  %arg.load = load ptr, ptr %arg, align 8, !freeze_bits !0
+  store ptr %arg.load, ptr %buf, align 8
+  %buf.load = load ptr, ptr %buf, !nonnull !0, !noundef !0, !freeze_bits !0
+  ret ptr %buf.load
+}
+
 define ptr @single_store_missing_noundef(ptr %arg) {
 ; CHECK-LABEL: @single_store_missing_noundef(
 ; CHECK-NEXT:  entry:
@@ -30,6 +47,20 @@ define ptr @single_store_missing_noundef(ptr %arg) {
 entry:
   %buf = alloca ptr
   %arg.load = load ptr, ptr %arg, align 8
+  store ptr %arg.load, ptr %buf, align 8
+  %buf.load = load ptr, ptr %buf, !nonnull !0
+  ret ptr %buf.load
+}
+
+define ptr @single_store_missing_noundef_freezebits(ptr %arg) {
+; CHECK-LABEL: @single_store_missing_noundef_freezebits(
+; CHECK-NEXT:  entry:
+; CHECK-NEXT:    [[ARG_LOAD:%.*]] = load ptr, ptr [[ARG:%.*]], align 8, !freeze_bits [[FREEZE_BITS0]]
+; CHECK-NEXT:    ret ptr [[ARG_LOAD]]
+;
+entry:
+  %buf = alloca ptr
+  %arg.load = load ptr, ptr %arg, align 8, !freeze_bits !0
   store ptr %arg.load, ptr %buf, align 8
   %buf.load = load ptr, ptr %buf, !nonnull !0
   ret ptr %buf.load
@@ -54,6 +85,23 @@ entry:
   ret ptr %buf.load
 }
 
+define ptr @single_block_noundef_freezebits(ptr %arg) {
+; CHECK-LABEL: @single_block_noundef_freezebits(
+; CHECK-NEXT:  entry:
+; CHECK-NEXT:    [[ARG_LOAD:%.*]] = load ptr, ptr [[ARG:%.*]], align 8, !freeze_bits [[FREEZE_BITS0]]
+; CHECK-NEXT:    [[TMP0:%.*]] = icmp ne ptr [[ARG_LOAD]], null
+; CHECK-NEXT:    call void @llvm.assume(i1 [[TMP0]])
+; CHECK-NEXT:    ret ptr [[ARG_LOAD]]
+;
+entry:
+  %buf = alloca ptr
+  %arg.load = load ptr, ptr %arg, align 8, !freeze_bits !0
+  store ptr null, ptr %buf, align 8
+  store ptr %arg.load, ptr %buf, align 8
+  %buf.load = load ptr, ptr %buf, !nonnull !0, !noundef !0
+  ret ptr %buf.load
+}
+
 define ptr @single_block_missing_noundef(ptr %arg) {
 ; CHECK-LABEL: @single_block_missing_noundef(
 ; CHECK-NEXT:  entry:
@@ -63,6 +111,21 @@ define ptr @single_block_missing_noundef(ptr %arg) {
 entry:
   %buf = alloca ptr
   %arg.load = load ptr, ptr %arg, align 8
+  store ptr null, ptr %buf, align 8
+  store ptr %arg.load, ptr %buf, align 8
+  %buf.load = load ptr, ptr %buf, !nonnull !0
+  ret ptr %buf.load
+}
+
+define ptr @single_block_missing_noundef_freezebits(ptr %arg) {
+; CHECK-LABEL: @single_block_missing_noundef_freezebits(
+; CHECK-NEXT:  entry:
+; CHECK-NEXT:    [[ARG_LOAD:%.*]] = load ptr, ptr [[ARG:%.*]], align 8, !freeze_bits [[FREEZE_BITS0]]
+; CHECK-NEXT:    ret ptr [[ARG_LOAD]]
+;
+entry:
+  %buf = alloca ptr
+  %arg.load = load ptr, ptr %arg, align 8, !freeze_bits !0
   store ptr null, ptr %buf, align 8
   store ptr %arg.load, ptr %buf, align 8
   %buf.load = load ptr, ptr %buf, !nonnull !0
@@ -92,6 +155,27 @@ next:
   ret ptr %buf.load
 }
 
+define ptr @multi_block_noundef_freezebits(ptr %arg) {
+; CHECK-LABEL: @multi_block_noundef_freezebits(
+; CHECK-NEXT:  entry:
+; CHECK-NEXT:    [[ARG_LOAD:%.*]] = load ptr, ptr [[ARG:%.*]], align 8, !freeze_bits [[FREEZE_BITS0]]
+; CHECK-NEXT:    br label [[NEXT:%.*]]
+; CHECK:       next:
+; CHECK-NEXT:    [[TMP0:%.*]] = icmp ne ptr [[ARG_LOAD]], null
+; CHECK-NEXT:    call void @llvm.assume(i1 [[TMP0]])
+; CHECK-NEXT:    ret ptr [[ARG_LOAD]]
+;
+entry:
+  %buf = alloca ptr
+  %arg.load = load ptr, ptr %arg, align 8, !freeze_bits !0
+  store ptr null, ptr %buf, align 8
+  br label %next
+next:
+  store ptr %arg.load, ptr %buf, align 8
+  %buf.load = load ptr, ptr %buf, !nonnull !0, !noundef !0
+  ret ptr %buf.load
+}
+
 define ptr @multi_block_missing_noundef(ptr %arg) {
 ; CHECK-LABEL: @multi_block_missing_noundef(
 ; CHECK-NEXT:  entry:
@@ -103,6 +187,25 @@ define ptr @multi_block_missing_noundef(ptr %arg) {
 entry:
   %buf = alloca ptr
   %arg.load = load ptr, ptr %arg, align 8
+  store ptr null, ptr %buf, align 8
+  br label %next
+next:
+  store ptr %arg.load, ptr %buf, align 8
+  %buf.load = load ptr, ptr %buf, !nonnull !0
+  ret ptr %buf.load
+}
+
+define ptr @multi_block_missing_noundef_freezebits(ptr %arg) {
+; CHECK-LABEL: @multi_block_missing_noundef_freezebits(
+; CHECK-NEXT:  entry:
+; CHECK-NEXT:    [[ARG_LOAD:%.*]] = load ptr, ptr [[ARG:%.*]], align 8, !freeze_bits [[FREEZE_BITS0]]
+; CHECK-NEXT:    br label [[NEXT:%.*]]
+; CHECK:       next:
+; CHECK-NEXT:    ret ptr [[ARG_LOAD]]
+;
+entry:
+  %buf = alloca ptr
+  %arg.load = load ptr, ptr %arg, align 8, !freeze_bits !0
   store ptr null, ptr %buf, align 8
   br label %next
 next:
@@ -140,16 +243,57 @@ fin:
   ret ptr null
 }
 
+define ptr @no_assume_freezebits(ptr %arg) {
+; CHECK-LABEL: @no_assume_freezebits(
+; CHECK-NEXT:  entry:
+; CHECK-NEXT:    [[ARG_LOAD:%.*]] = load ptr, ptr [[ARG:%.*]], align 8, !freeze_bits [[FREEZE_BITS0]]
+; CHECK-NEXT:    [[CN:%.*]] = icmp ne ptr [[ARG_LOAD]], null
+; CHECK-NEXT:    br i1 [[CN]], label [[NEXT:%.*]], label [[FIN:%.*]]
+; CHECK:       next:
+; CHECK-NEXT:    ret ptr [[ARG_LOAD]]
+; CHECK:       fin:
+; CHECK-NEXT:    ret ptr null
+;
+entry:
+  %buf = alloca ptr
+  %arg.load = load ptr, ptr %arg, align 8, !freeze_bits !0
+  %cn = icmp ne ptr %arg.load, null
+  br i1 %cn, label %next, label %fin
+next:
+; At this point the above nonnull check ensures that
+; the value %arg.load is nonnull in this block and thus
+; we need not add the assume.
+  store ptr %arg.load, ptr %buf, align 8
+  %buf.load = load ptr, ptr %buf, !nonnull !0
+  ret ptr %buf.load
+fin:
+  ret ptr null
+}
+
 define ptr @no_store_single_load() {
 ; CHECK-LABEL: @no_store_single_load(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[TMP0:%.*]] = icmp ne ptr undef, null
+; CHECK-NEXT:    [[TMP0:%.*]] = icmp ne ptr poison, null
 ; CHECK-NEXT:    call void @llvm.assume(i1 [[TMP0]])
-; CHECK-NEXT:    ret ptr undef
+; CHECK-NEXT:    ret ptr poison
 ;
 entry:
   %buf = alloca ptr
   %buf.load = load ptr, ptr %buf, !nonnull !0, !noundef !0
+  ret ptr %buf.load
+}
+
+define ptr @no_store_single_load_freezebits() {
+; CHECK-LABEL: @no_store_single_load_freezebits(
+; CHECK-NEXT:  entry:
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze ptr poison
+; CHECK-NEXT:    [[TMP0:%.*]] = icmp ne ptr [[FREEZE]], null
+; CHECK-NEXT:    call void @llvm.assume(i1 [[TMP0]])
+; CHECK-NEXT:    ret ptr [[FREEZE]]
+;
+entry:
+  %buf = alloca ptr
+  %buf.load = load ptr, ptr %buf, !nonnull !0, !noundef !0, !freeze_bits !0
   ret ptr %buf.load
 }
 
@@ -158,13 +302,13 @@ define ptr @no_store_multiple_loads(i1 %c) {
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    br i1 [[C:%.*]], label [[IF:%.*]], label [[ELSE:%.*]]
 ; CHECK:       if:
-; CHECK-NEXT:    [[TMP0:%.*]] = icmp ne ptr undef, null
+; CHECK-NEXT:    [[TMP0:%.*]] = icmp ne ptr poison, null
 ; CHECK-NEXT:    call void @llvm.assume(i1 [[TMP0]])
-; CHECK-NEXT:    ret ptr undef
+; CHECK-NEXT:    ret ptr poison
 ; CHECK:       else:
-; CHECK-NEXT:    [[TMP1:%.*]] = icmp ne ptr undef, null
+; CHECK-NEXT:    [[TMP1:%.*]] = icmp ne ptr poison, null
 ; CHECK-NEXT:    call void @llvm.assume(i1 [[TMP1]])
-; CHECK-NEXT:    ret ptr undef
+; CHECK-NEXT:    ret ptr poison
 ;
 entry:
   %buf = alloca ptr
@@ -176,6 +320,34 @@ if:
 
   else:
   %buf.load2 = load ptr, ptr %buf, !nonnull !0, !noundef !0
+  ret ptr %buf.load2
+}
+
+define ptr @no_store_multiple_loads_freezebits(i1 %c) {
+; CHECK-LABEL: @no_store_multiple_loads_freezebits(
+; CHECK-NEXT:  entry:
+; CHECK-NEXT:    br i1 [[C:%.*]], label [[IF:%.*]], label [[ELSE:%.*]]
+; CHECK:       if:
+; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze ptr poison
+; CHECK-NEXT:    [[TMP0:%.*]] = icmp ne ptr [[FREEZE_LOAD]], null
+; CHECK-NEXT:    call void @llvm.assume(i1 [[TMP0]])
+; CHECK-NEXT:    ret ptr [[FREEZE_LOAD]]
+; CHECK:       else:
+; CHECK-NEXT:    [[FREEZE_LOAD1:%.*]] = freeze ptr poison
+; CHECK-NEXT:    [[TMP1:%.*]] = icmp ne ptr [[FREEZE_LOAD1]], null
+; CHECK-NEXT:    call void @llvm.assume(i1 [[TMP1]])
+; CHECK-NEXT:    ret ptr [[FREEZE_LOAD1]]
+;
+entry:
+  %buf = alloca ptr
+  br i1 %c, label %if, label %else
+
+if:
+  %buf.load = load ptr, ptr %buf, !nonnull !0, !noundef !0, !freeze_bits !0
+  ret ptr %buf.load
+
+  else:
+  %buf.load2 = load ptr, ptr %buf, !nonnull !0, !noundef !0, !freeze_bits !0
   ret ptr %buf.load2
 }
 
