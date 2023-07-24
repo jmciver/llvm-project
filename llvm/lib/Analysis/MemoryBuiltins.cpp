@@ -433,13 +433,13 @@ llvm::getAllocSize(const CallBase *CB, const TargetLibraryInfo *TLI,
   return Size;
 }
 
-static bool loadHasFreezeBits(const LoadInst *const Load) {
-  return Load && Load->hasMetadata(LLVMContext::MD_freeze_bits);
+static bool loadHasFreezeBits(const LoadInst *const LI) {
+  return LI && LI->hasMetadata(LLVMContext::MD_freeze_bits);
 }
 
 static std::pair<InitializationCategory, Constant *>
-valueUsingLoadInstAndFreezeBits(const LoadInst *const Load, Type *const Ty) {
-  if (loadHasFreezeBits(Load))
+valueUsingLoadInstAndFreezeBits(const LoadInst *const LI, Type *const Ty) {
+  if (loadHasFreezeBits(LI))
     return {InitializationCategory::FreezePoison, nullptr};
   else
     return {InitializationCategory::Constant, PoisonValue::get(Ty)};
@@ -447,9 +447,9 @@ valueUsingLoadInstAndFreezeBits(const LoadInst *const Load, Type *const Ty) {
 
 std::pair<InitializationCategory, Constant *>
 llvm::getInitialValueOfAllocation(const Value *V, const TargetLibraryInfo *TLI,
-                                  Type *Ty, const LoadInst *Load) {
+                                  Type *Ty, const LoadInst *LI) {
   if (isa<AllocaInst>(V))
-    return valueUsingLoadInstAndFreezeBits(Load, Ty);
+    return valueUsingLoadInstAndFreezeBits(LI, Ty);
 
   auto *Alloc = dyn_cast<CallBase>(V);
   if (!Alloc)
@@ -457,11 +457,11 @@ llvm::getInitialValueOfAllocation(const Value *V, const TargetLibraryInfo *TLI,
 
   // malloc are uninitialized (undef)
   if (getAllocationData(Alloc, MallocOrOpNewLike, TLI).has_value())
-    return valueUsingLoadInstAndFreezeBits(Load, Ty);
+    return valueUsingLoadInstAndFreezeBits(LI, Ty);
 
   AllocFnKind AK = getAllocFnKind(Alloc);
   if ((AK & AllocFnKind::Uninitialized) != AllocFnKind::Unknown)
-    return valueUsingLoadInstAndFreezeBits(Load, Ty);
+    return valueUsingLoadInstAndFreezeBits(LI, Ty);
   if ((AK & AllocFnKind::Zeroed) != AllocFnKind::Unknown)
     return {InitializationCategory::Constant, Constant::getNullValue(Ty)};
 
