@@ -433,6 +433,10 @@ llvm::getAllocSize(const CallBase *CB, const TargetLibraryInfo *TLI,
   return Size;
 }
 
+static bool loadHasFreezeBits(const LoadInst* const Load) {
+  return Load && Load->hasMetadata(LLVMContext::MD_freeze_bits);
+}
+
 std::pair<InitializationCategory, Constant *>
 llvm::getInitialValueOfAllocation(const Value *V, const TargetLibraryInfo *TLI,
                                   Type *Ty, const LoadInst *Load) {
