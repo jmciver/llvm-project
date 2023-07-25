@@ -286,9 +286,10 @@ entry:
 define ptr @no_store_single_load_freezebits() {
 ; CHECK-LABEL: @no_store_single_load_freezebits(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[TMP0:%.*]] = icmp ne ptr poison, null
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze ptr poison
+; CHECK-NEXT:    [[TMP0:%.*]] = icmp ne ptr [[FREEZE]], null
 ; CHECK-NEXT:    call void @llvm.assume(i1 [[TMP0]])
-; CHECK-NEXT:    ret ptr poison
+; CHECK-NEXT:    ret ptr [[FREEZE]]
 ;
 entry:
   %buf = alloca ptr

@@ -39,6 +39,7 @@
 #include "llvm/IR/Instructions.h"
 #include "llvm/IR/IntrinsicInst.h"
 #include "llvm/IR/Intrinsics.h"
+#include "llvm/IR/IRBuilder.h"
 #include "llvm/IR/LLVMContext.h"
 #include "llvm/IR/Module.h"
 #include "llvm/IR/Type.h"
@@ -599,13 +600,30 @@ static bool promoteSingleBlockAlloca(
         less_first());
     Value *ReplVal;
     if (I == StoresByIndex.begin()) {
-      if (StoresByIndex.empty())
-        // If there are no stores, the load takes the undef value.
-        ReplVal = getInitialValueOfAllocation(AI, nullptr, LI->getType()).second;
-      else
+      if (StoresByIndex.empty()) {
+        // If there are no stores, the load may take a poison or freeze poison
+        // value value.
+        auto [QueryEnum, QueryReplVal] =
+            getInitialValueOfAllocation(AI, nullptr, LI->getType(), LI);
+        switch (QueryEnum) {
+        case InitializationCategory::Unknown:
+          return false;
+          break;
+        case InitializationCategory::Constant:
+          ReplVal = QueryReplVal;
+          break;
+        case InitializationCategory::FreezePoison:
+          IRBuilder<> Builder(LI);
+          ReplVal =
+              Builder.CreateFreeze(PoisonValue::get(LI->getType()), "freeze");
+          LI->replaceAllUsesWith(ReplVal);
+          break;
+        }
+      } else {
         // There is no store before this load, bail out (load may be affected
         // by the following stores - see main comment).
         return false;
+      }
     } else {
       // Otherwise, there was a store before this load, the load takes its
       // value.

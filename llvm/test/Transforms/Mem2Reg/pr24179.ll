@@ -91,7 +91,8 @@ define void @test2_withfreezebits() {
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    br label [[LOOP:%.*]]
 ; CHECK:       loop:
-; CHECK-NEXT:    [[C:%.*]] = call i1 @use(i32 poison)
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i32 poison
+; CHECK-NEXT:    [[C:%.*]] = call i1 @use(i32 [[FREEZE]])
 ; CHECK-NEXT:    br i1 [[C]], label [[LOOP]], label [[EXIT:%.*]]
 ; CHECK:       exit:
 ; CHECK-NEXT:    ret void
