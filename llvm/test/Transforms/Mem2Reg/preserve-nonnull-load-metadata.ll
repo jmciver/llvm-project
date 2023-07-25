@@ -22,8 +22,8 @@ entry:
 }
 
 ; Check the case where the alloca in question has a single store.
-define ptr @single_store_noundef_freeze_bits(ptr %arg) {
-; CHECK-LABEL: @single_store_noundef_freeze_bits(
+define ptr @single_store_noundef_freezebits(ptr %arg) {
+; CHECK-LABEL: @single_store_noundef_freezebits(
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    [[ARG_LOAD:%.*]] = load ptr, ptr [[ARG:%.*]], align 8, !freeze_bits [[FREEZE_BITS0:![0-9]+]]
 ; CHECK-NEXT:    [[TMP0:%.*]] = icmp ne ptr [[ARG_LOAD]], null
@@ -243,8 +243,8 @@ fin:
   ret ptr null
 }
 
-define ptr @no_assume_freeze_bits(ptr %arg) {
-; CHECK-LABEL: @no_assume_freeze_bits(
+define ptr @no_assume_freezebits(ptr %arg) {
+; CHECK-LABEL: @no_assume_freezebits(
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    [[ARG_LOAD:%.*]] = load ptr, ptr [[ARG:%.*]], align 8, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    [[CN:%.*]] = icmp ne ptr [[ARG_LOAD]], null
