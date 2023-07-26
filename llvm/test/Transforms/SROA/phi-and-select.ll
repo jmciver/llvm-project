@@ -88,8 +88,8 @@ define i32 @test2_addrspacecast() {
 ; CHECK-NEXT:    [[A_SROA_3:%.*]] = alloca i32, align 4
 ; CHECK-NEXT:    store i32 0, ptr [[A_SROA_0]], align 4
 ; CHECK-NEXT:    store i32 1, ptr [[A_SROA_3]], align 4
-; CHECK-NEXT:    [[A_SROA_0_0_A_SROA_0_0_V0:%.*]] = load i32, ptr [[A_SROA_0]], align 4
-; CHECK-NEXT:    [[A_SROA_3_0_A_SROA_3_4_V1:%.*]] = load i32, ptr [[A_SROA_3]], align 4
+; CHECK-NEXT:    [[A_SROA_0_0_A_SROA_0_0_V0:%.*]] = load i32, ptr [[A_SROA_0]], align 4, !freeze_bits [[FREEZE_BITS0:![0-9]+]]
+; CHECK-NEXT:    [[A_SROA_3_0_A_SROA_3_4_V1:%.*]] = load i32, ptr [[A_SROA_3]], align 4, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    [[COND:%.*]] = icmp sle i32 [[A_SROA_0_0_A_SROA_0_0_V0]], [[A_SROA_3_0_A_SROA_3_4_V1]]
 ; CHECK-NEXT:    [[SELECT:%.*]] = select i1 [[COND]], ptr [[A_SROA_3]], ptr [[A_SROA_0]]
 ; CHECK-NEXT:    [[SELECT_ASC:%.*]] = addrspacecast ptr [[SELECT]] to ptr addrspace(1)
@@ -233,6 +233,7 @@ define i32 @test6(ptr %b) {
 ; CHECK-NEXT:    [[SELECT2:%.*]] = select i1 false, ptr poison, ptr [[B:%.*]]
 ; CHECK-NEXT:    [[SELECT3:%.*]] = select i1 false, ptr poison, ptr [[B]]
 ; CHECK-NEXT:    call void @f(ptr [[SELECT2]], ptr [[SELECT3]])
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i32 poison
 ; CHECK-NEXT:    ret i32 1
 ;
 entry:
@@ -265,7 +266,7 @@ define i32 @test7(i1 %c1) {
 ; CHECK:       good:
 ; CHECK-NEXT:    br label [[EXIT:%.*]]
 ; CHECK:       bad:
-; CHECK-NEXT:    [[P_SROA_SPECULATE_LOAD_BAD:%.*]] = load i32, ptr poison, align 4
+; CHECK-NEXT:    [[P_SROA_SPECULATE_LOAD_BAD:%.*]] = load i32, ptr poison, align 4, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    br label [[EXIT]]
 ; CHECK:       exit:
 ; CHECK-NEXT:    [[P_SROA_SPECULATED:%.*]] = phi i32 [ 0, [[GOOD]] ], [ [[P_SROA_SPECULATE_LOAD_BAD]], [[BAD]] ]
@@ -299,12 +300,13 @@ define i32 @test8(i32 %b, ptr %ptr) {
 ; CHECK-NEXT:    [[TEST:%.*]] = icmp ne i32 [[B:%.*]], 0
 ; CHECK-NEXT:    br i1 [[TEST]], label [[THEN:%.*]], label [[ELSE:%.*]]
 ; CHECK:       then:
-; CHECK-NEXT:    [[PHI_SROA_SPECULATE_LOAD_THEN:%.*]] = load i32, ptr [[PTR:%.*]], align 4
+; CHECK-NEXT:    [[PHI_SROA_SPECULATE_LOAD_THEN:%.*]] = load i32, ptr [[PTR:%.*]], align 4, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    br label [[EXIT:%.*]]
 ; CHECK:       else:
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i32 poison
 ; CHECK-NEXT:    br label [[EXIT]]
 ; CHECK:       exit:
-; CHECK-NEXT:    [[PHI_SROA_SPECULATED:%.*]] = phi i32 [ undef, [[ELSE]] ], [ [[PHI_SROA_SPECULATE_LOAD_THEN]], [[THEN]] ]
+; CHECK-NEXT:    [[PHI_SROA_SPECULATED:%.*]] = phi i32 [ [[FREEZE]], [[ELSE]] ], [ [[PHI_SROA_SPECULATE_LOAD_THEN]], [[THEN]] ]
 ; CHECK-NEXT:    ret i32 [[PHI_SROA_SPECULATED]]
 ;
 entry:
@@ -331,8 +333,9 @@ define i32 @test9(i32 %b, ptr %ptr) {
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    store i32 0, ptr [[PTR:%.*]], align 4
 ; CHECK-NEXT:    [[TEST:%.*]] = icmp ne i32 [[B:%.*]], 0
-; CHECK-NEXT:    [[LOADED_SROA_SPECULATE_LOAD_FALSE:%.*]] = load i32, ptr [[PTR]], align 4
-; CHECK-NEXT:    [[LOADED_SROA_SPECULATED:%.*]] = select i1 [[TEST]], i32 undef, i32 [[LOADED_SROA_SPECULATE_LOAD_FALSE]]
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i32 poison
+; CHECK-NEXT:    [[LOADED_SROA_SPECULATE_LOAD_FALSE:%.*]] = load i32, ptr [[PTR]], align 4, !freeze_bits [[FREEZE_BITS0]]
+; CHECK-NEXT:    [[LOADED_SROA_SPECULATED:%.*]] = select i1 [[TEST]], i32 [[FREEZE]], i32 [[LOADED_SROA_SPECULATE_LOAD_FALSE]]
 ; CHECK-NEXT:    ret i32 [[LOADED_SROA_SPECULATED]]
 ;
 entry:
@@ -356,10 +359,10 @@ define float @test10(i32 %b, ptr %ptr) {
 ; CHECK-NEXT:    [[TEST:%.*]] = icmp ne i32 [[B:%.*]], 0
 ; CHECK-NEXT:    br i1 [[TEST]], label [[THEN:%.*]], label [[ELSE:%.*]]
 ; CHECK:       then:
-; CHECK-NEXT:    [[PHI_SROA_SPECULATE_LOAD_THEN:%.*]] = load float, ptr [[PTR:%.*]], align 4
+; CHECK-NEXT:    [[PHI_SROA_SPECULATE_LOAD_THEN:%.*]] = load float, ptr [[PTR:%.*]], align 4, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    br label [[EXIT:%.*]]
 ; CHECK:       else:
-; CHECK-NEXT:    [[F_0_PHI_SROA_SPECULATE_LOAD_ELSE:%.*]] = load float, ptr [[F]], align 8
+; CHECK-NEXT:    [[F_0_PHI_SROA_SPECULATE_LOAD_ELSE:%.*]] = load float, ptr [[F]], align 8, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    br label [[EXIT]]
 ; CHECK:       exit:
 ; CHECK-NEXT:    [[PHI_SROA_SPECULATED:%.*]] = phi float [ [[F_0_PHI_SROA_SPECULATE_LOAD_ELSE]], [[ELSE]] ], [ [[PHI_SROA_SPECULATE_LOAD_THEN]], [[THEN]] ]
@@ -392,8 +395,8 @@ define float @test11(i32 %b, ptr %ptr) {
 ; CHECK-NEXT:    store double 0.000000e+00, ptr [[F]], align 8
 ; CHECK-NEXT:    store float 0.000000e+00, ptr [[PTR:%.*]], align 4
 ; CHECK-NEXT:    [[TEST:%.*]] = icmp ne i32 [[B:%.*]], 0
-; CHECK-NEXT:    [[F_0_LOADED_SROA_SPECULATE_LOAD_TRUE:%.*]] = load float, ptr [[F]], align 8
-; CHECK-NEXT:    [[LOADED_SROA_SPECULATE_LOAD_FALSE:%.*]] = load float, ptr [[PTR]], align 4
+; CHECK-NEXT:    [[F_0_LOADED_SROA_SPECULATE_LOAD_TRUE:%.*]] = load float, ptr [[F]], align 8, !freeze_bits [[FREEZE_BITS0]]
+; CHECK-NEXT:    [[LOADED_SROA_SPECULATE_LOAD_FALSE:%.*]] = load float, ptr [[PTR]], align 4, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    [[LOADED_SROA_SPECULATED:%.*]] = select i1 [[TEST]], float [[F_0_LOADED_SROA_SPECULATE_LOAD_TRUE]], float [[LOADED_SROA_SPECULATE_LOAD_FALSE]]
 ; CHECK-NEXT:    ret float [[LOADED_SROA_SPECULATED]]
 ;
@@ -776,9 +779,9 @@ define i32 @phi_align(ptr %z) {
 ; CHECK-NEXT:    store i32 0, ptr [[A_SROA_0]], align 1
 ; CHECK-NEXT:    [[A_SROA_0_3_A1X_SROA_IDX3:%.*]] = getelementptr inbounds i8, ptr [[A_SROA_0]], i64 3
 ; CHECK-NEXT:    store i32 1, ptr [[A_SROA_0_3_A1X_SROA_IDX3]], align 1
-; CHECK-NEXT:    [[A_SROA_0_0_A_SROA_0_1_V0:%.*]] = load i32, ptr [[A_SROA_0]], align 1
+; CHECK-NEXT:    [[A_SROA_0_0_A_SROA_0_1_V0:%.*]] = load i32, ptr [[A_SROA_0]], align 1, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    [[A_SROA_0_3_A1X_SROA_IDX4:%.*]] = getelementptr inbounds i8, ptr [[A_SROA_0]], i64 3
-; CHECK-NEXT:    [[A_SROA_0_3_A_SROA_0_4_V1:%.*]] = load i32, ptr [[A_SROA_0_3_A1X_SROA_IDX4]], align 1
+; CHECK-NEXT:    [[A_SROA_0_3_A_SROA_0_4_V1:%.*]] = load i32, ptr [[A_SROA_0_3_A1X_SROA_IDX4]], align 1, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    [[COND:%.*]] = icmp sle i32 [[A_SROA_0_0_A_SROA_0_1_V0]], [[A_SROA_0_3_A_SROA_0_4_V1]]
 ; CHECK-NEXT:    br i1 [[COND]], label [[THEN:%.*]], label [[EXIT:%.*]]
 ; CHECK:       then:

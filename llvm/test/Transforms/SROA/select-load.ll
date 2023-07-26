@@ -39,9 +39,13 @@ entry:
 define void @test_multiple_loads_select(i1 %cmp){
 ; CHECK-LABEL: @test_multiple_loads_select(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[ADDR_I8_SROA_SPECULATED:%.*]] = select i1 [[CMP:%.*]], ptr undef, ptr undef
+; CHECK-NEXT:    [[FREEZE1:%.*]] = freeze ptr poison
+; CHECK-NEXT:    [[FREEZE3:%.*]] = freeze ptr poison
+; CHECK-NEXT:    [[ADDR_I8_SROA_SPECULATED:%.*]] = select i1 [[CMP:%.*]], ptr [[FREEZE1]], ptr [[FREEZE3]]
 ; CHECK-NEXT:    call void @foo_i8(ptr [[ADDR_I8_SROA_SPECULATED]])
-; CHECK-NEXT:    [[ADDR_I32_SROA_SPECULATED:%.*]] = select i1 [[CMP]], ptr undef, ptr undef
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze ptr poison
+; CHECK-NEXT:    [[FREEZE2:%.*]] = freeze ptr poison
+; CHECK-NEXT:    [[ADDR_I32_SROA_SPECULATED:%.*]] = select i1 [[CMP]], ptr [[FREEZE]], ptr [[FREEZE2]]
 ; CHECK-NEXT:    call void @foo_i32(ptr [[ADDR_I32_SROA_SPECULATED]])
 ; CHECK-NEXT:    ret void
 ;
@@ -418,12 +422,13 @@ define void @load_of_select_with_noundef_nonnull(ptr %buffer, i1 %b) {
 ; CHECK-PRESERVE-CFG-NEXT:    ret void
 ;
 ; CHECK-MODIFY-CFG-LABEL: @load_of_select_with_noundef_nonnull(
+; CHECK-MODIFY-CFG-NEXT:    [[FREEZE:%.*]] = freeze ptr poison
 ; CHECK-MODIFY-CFG-NEXT:    br i1 [[B:%.*]], label [[DOTTHEN:%.*]], label [[DOTCONT:%.*]]
 ; CHECK-MODIFY-CFG:       .then:
 ; CHECK-MODIFY-CFG-NEXT:    [[LOAD_PTR_THEN_VAL:%.*]] = load ptr, ptr [[BUFFER:%.*]], align 8, !nonnull !0, !noundef !0
 ; CHECK-MODIFY-CFG-NEXT:    br label [[DOTCONT]]
 ; CHECK-MODIFY-CFG:       .cont:
-; CHECK-MODIFY-CFG-NEXT:    [[LOAD_PTR:%.*]] = phi ptr [ [[LOAD_PTR_THEN_VAL]], [[DOTTHEN]] ], [ undef, [[TMP0:%.*]] ]
+; CHECK-MODIFY-CFG-NEXT:    [[LOAD_PTR:%.*]] = phi ptr [ [[LOAD_PTR_THEN_VAL]], [[DOTTHEN]] ], [ [[FREEZE]], [[TMP0:%.*]] ]
 ; CHECK-MODIFY-CFG-NEXT:    ret void
 ;
   %ub_ptr = alloca ptr
