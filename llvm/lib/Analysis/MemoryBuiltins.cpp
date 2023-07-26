@@ -433,7 +433,7 @@ llvm::getAllocSize(const CallBase *CB, const TargetLibraryInfo *TLI,
   return Size;
 }
 
-static bool loadHasFreezeBits(const LoadInst *const LI) {
+bool llvm::loadHasFreezeBits(const LoadInst *const LI) {
   return LI && LI->hasMetadata(LLVMContext::MD_freeze_bits);
 }
 

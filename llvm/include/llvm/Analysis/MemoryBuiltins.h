@@ -118,6 +118,8 @@ std::optional<APInt> getAllocSize(
       return V;
     });
 
+bool loadHasFreezeBits(const LoadInst *const LI);
+
 /// Provide categorical information concerning constant selection.
 enum class InitializationCategory {
   /// This enumerator will be returned when the load is determined to be of an
