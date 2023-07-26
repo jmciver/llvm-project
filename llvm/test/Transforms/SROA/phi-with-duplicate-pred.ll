@@ -14,15 +14,16 @@ define void @f2(i1 %c1) {
 ; CHECK:       if.then:
 ; CHECK-NEXT:    br label [[CLEANUP:%.*]]
 ; CHECK:       cleanup:
-; CHECK-NEXT:    [[G_0_SROA_SPECULATE_LOAD_CLEANUP:%.*]] = load i16, ptr @a, align 1
+; CHECK-NEXT:    [[G_0_SROA_SPECULATE_LOAD_CLEANUP:%.*]] = load i16, ptr @a, align 1, !freeze_bits [[FREEZE_BITS0:![0-9]+]]
 ; CHECK-NEXT:    switch i32 2, label [[CLEANUP7:%.*]] [
 ; CHECK-NEXT:    i32 0, label [[LBL1:%.*]]
 ; CHECK-NEXT:    i32 2, label [[LBL1]]
 ; CHECK-NEXT:    ]
 ; CHECK:       if.else:
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i16 poison
 ; CHECK-NEXT:    br label [[LBL1]]
 ; CHECK:       lbl1:
-; CHECK-NEXT:    [[G_0_SROA_SPECULATED:%.*]] = phi i16 [ [[G_0_SROA_SPECULATE_LOAD_CLEANUP]], [[CLEANUP]] ], [ [[G_0_SROA_SPECULATE_LOAD_CLEANUP]], [[CLEANUP]] ], [ undef, [[IF_ELSE]] ]
+; CHECK-NEXT:    [[G_0_SROA_SPECULATED:%.*]] = phi i16 [ [[G_0_SROA_SPECULATE_LOAD_CLEANUP]], [[CLEANUP]] ], [ [[G_0_SROA_SPECULATE_LOAD_CLEANUP]], [[CLEANUP]] ], [ [[FREEZE]], [[IF_ELSE]] ]
 ; CHECK-NEXT:    unreachable
 ; CHECK:       cleanup7:
 ; CHECK-NEXT:    ret void
