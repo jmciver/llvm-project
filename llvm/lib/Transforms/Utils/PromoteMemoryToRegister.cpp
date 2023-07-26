@@ -181,6 +181,7 @@ struct AllocaInfo {
   StoreInst *OnlyStore;
   BasicBlock *OnlyBlock;
   bool OnlyUsedInOneBlock;
+  bool HasLoadingFreeze;
 
   /// Debug users of the alloca - does not include dbg.assign intrinsics.
   DbgUserVec DbgUsers;
@@ -193,6 +194,7 @@ struct AllocaInfo {
     OnlyStore = nullptr;
     OnlyBlock = nullptr;
     OnlyUsedInOneBlock = true;
+    HasLoadingFreeze = false;
     DbgUsers.clear();
     AssignmentTracking.clear();
   }
@@ -217,6 +219,9 @@ struct AllocaInfo {
         // Otherwise it must be a load instruction, keep track of variable
         // reads.
         UsingBlocks.push_back(LI->getParent());
+        if (!HasLoadingFreeze) {
+          HasLoadingFreeze = loadHasFreezeBits(LI);
+        }
       }
 
       if (OnlyUsedInOneBlock) {
@@ -584,6 +589,14 @@ static bool promoteSingleBlockAlloca(
   // binary search.
   llvm::sort(StoresByIndex, less_first());
 
+  LoadInst *LLI {nullptr};
+  for (User *U: make_early_inc_range(AI->users())) {
+    if (isa<LoadInst>(U)) {
+      LLI = dyn_cast<LoadInst>(U);
+      break;
+    }
+  }
+
   // Walk all of the loads from this alloca, replacing them with the nearest
   // store above them, if any.
   for (User *U : make_early_inc_range(AI->users())) {
@@ -627,7 +640,11 @@ static bool promoteSingleBlockAlloca(
     } else {
       // Otherwise, there was a store before this load, the load takes its
       // value.
-      ReplVal = std::prev(I)->second->getOperand(0);
+      if (Info.HasLoadingFreeze && LI == LLI) {
+        IRBuilder<> Builder(LI);
+        ReplVal = Builder.CreateFreeze(std::prev(I)->second->getOperand(0), "freeze");
+      } else
+        ReplVal = std::prev(I)->second->getOperand(0);
     }
 
     convertMetadataToAssumes(LI, ReplVal, DL, AC, &DT);
