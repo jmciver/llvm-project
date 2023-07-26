@@ -13,7 +13,7 @@ define ptr @propagate_nonnull(ptr %v) {
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    [[A_SROA_1:%.*]] = alloca ptr, align 8
 ; CHECK-NEXT:    store ptr [[V:%.*]], ptr [[A_SROA_1]], align 8
-; CHECK-NEXT:    [[A_SROA_1_0_A_SROA_1_8_LOAD:%.*]] = load volatile ptr, ptr [[A_SROA_1]], align 8, !nonnull !0
+; CHECK-NEXT:    [[A_SROA_1_0_A_SROA_1_8_LOAD:%.*]] = load volatile ptr, ptr [[A_SROA_1]], align 8, !nonnull !0, !freeze_bits [[FREEZE_BITS0:![0-9]+]]
 ; CHECK-NEXT:    ret ptr [[A_SROA_1_0_A_SROA_1_8_LOAD]]
 ;
 entry:
@@ -30,7 +30,7 @@ define i32 @propagate_range(i32 %v) {
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    [[A_SROA_1:%.*]] = alloca i32, align 4
 ; CHECK-NEXT:    store i32 [[V:%.*]], ptr [[A_SROA_1]], align 4
-; CHECK-NEXT:    [[A_SROA_1_0_A_SROA_1_4_LOAD:%.*]] = load volatile i32, ptr [[A_SROA_1]], align 4, !range [[RNG1:![0-9]+]]
+; CHECK-NEXT:    [[A_SROA_1_0_A_SROA_1_4_LOAD:%.*]] = load volatile i32, ptr [[A_SROA_1]], align 4, !range [[RNG1:![0-9]+]], !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    ret i32 [[A_SROA_1_0_A_SROA_1_4_LOAD]]
 ;
 entry:
@@ -47,7 +47,7 @@ define ptr @propagate_noundef(ptr %v) {
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    [[A_SROA_1:%.*]] = alloca ptr, align 8
 ; CHECK-NEXT:    store ptr [[V:%.*]], ptr [[A_SROA_1]], align 8
-; CHECK-NEXT:    [[A_SROA_1_0_A_SROA_1_8_LOAD:%.*]] = load volatile ptr, ptr [[A_SROA_1]], align 8, !noundef !0
+; CHECK-NEXT:    [[A_SROA_1_0_A_SROA_1_8_LOAD:%.*]] = load volatile ptr, ptr [[A_SROA_1]], align 8, !noundef !0, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    ret ptr [[A_SROA_1_0_A_SROA_1_8_LOAD]]
 ;
 entry:
@@ -62,7 +62,7 @@ entry:
 define ptr @turn_nonnull_noundef_into_assume(ptr %arg) {
 ; CHECK-LABEL: @turn_nonnull_noundef_into_assume(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[BUF_0_COPYLOAD:%.*]] = load ptr, ptr [[ARG:%.*]], align 8
+; CHECK-NEXT:    [[BUF_0_COPYLOAD:%.*]] = load ptr, ptr [[ARG:%.*]], align 8, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    [[TMP0:%.*]] = icmp ne ptr [[BUF_0_COPYLOAD]], null
 ; CHECK-NEXT:    call void @llvm.assume(i1 [[TMP0]])
 ; CHECK-NEXT:    ret ptr [[BUF_0_COPYLOAD]]
@@ -77,7 +77,7 @@ entry:
 define ptr @dont_turn_nonnull_without_noundef_into_assume(ptr %arg) {
 ; CHECK-LABEL: @dont_turn_nonnull_without_noundef_into_assume(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[BUF_0_COPYLOAD:%.*]] = load ptr, ptr [[ARG:%.*]], align 8
+; CHECK-NEXT:    [[BUF_0_COPYLOAD:%.*]] = load ptr, ptr [[ARG:%.*]], align 8, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    ret ptr [[BUF_0_COPYLOAD]]
 ;
 entry:
@@ -98,7 +98,7 @@ define ptr @propagate_nonnull_to_int() {
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    [[A_SROA_1:%.*]] = alloca ptr, align 8
 ; CHECK-NEXT:    store ptr inttoptr (i64 42 to ptr), ptr [[A_SROA_1]], align 8
-; CHECK-NEXT:    [[A_SROA_1_0_A_SROA_1_8_LOAD:%.*]] = load volatile ptr, ptr [[A_SROA_1]], align 8, !nonnull !0
+; CHECK-NEXT:    [[A_SROA_1_0_A_SROA_1_8_LOAD:%.*]] = load volatile ptr, ptr [[A_SROA_1]], align 8, !nonnull !0, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    ret ptr [[A_SROA_1_0_A_SROA_1_8_LOAD]]
 ;
 entry:
@@ -131,7 +131,8 @@ entry:
 define i128 @load_i128_to_load_ptr() {
 ; CHECK-LABEL: @load_i128_to_load_ptr(
 ; CHECK-NEXT:    [[TMP1:%.*]] = ptrtoint ptr null to i64
-; CHECK-NEXT:    [[A_SROA_2_0_INSERT_EXT:%.*]] = zext i64 undef to i128
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i64 poison
+; CHECK-NEXT:    [[A_SROA_2_0_INSERT_EXT:%.*]] = zext i64 [[FREEZE]] to i128
 ; CHECK-NEXT:    [[A_SROA_2_0_INSERT_SHIFT:%.*]] = shl i128 [[A_SROA_2_0_INSERT_EXT]], 64
 ; CHECK-NEXT:    [[A_SROA_2_0_INSERT_MASK:%.*]] = and i128 undef, 18446744073709551615
 ; CHECK-NEXT:    [[A_SROA_2_0_INSERT_INSERT:%.*]] = or i128 [[A_SROA_2_0_INSERT_MASK]], [[A_SROA_2_0_INSERT_SHIFT]]
