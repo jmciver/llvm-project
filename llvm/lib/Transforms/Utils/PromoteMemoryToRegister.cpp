@@ -181,7 +181,6 @@ struct AllocaInfo {
   StoreInst *OnlyStore;
   BasicBlock *OnlyBlock;
   bool OnlyUsedInOneBlock;
-  bool HasLoadingFreeze;
 
   /// Debug users of the alloca - does not include dbg.assign intrinsics.
   DbgUserVec DbgUsers;
@@ -194,7 +193,6 @@ struct AllocaInfo {
     OnlyStore = nullptr;
     OnlyBlock = nullptr;
     OnlyUsedInOneBlock = true;
-    HasLoadingFreeze = false;
     DbgUsers.clear();
     AssignmentTracking.clear();
   }
@@ -219,9 +217,6 @@ struct AllocaInfo {
         // Otherwise it must be a load instruction, keep track of variable
         // reads.
         UsingBlocks.push_back(LI->getParent());
-        if (!HasLoadingFreeze) {
-          HasLoadingFreeze = loadHasFreezeBits(LI);
-        }
       }
 
       if (OnlyUsedInOneBlock) {
@@ -581,27 +576,13 @@ static bool promoteSingleBlockAlloca(
   using StoresByIndexTy = SmallVector<std::pair<unsigned, StoreInst *>, 64>;
   StoresByIndexTy StoresByIndex;
 
-  using PairIndexLoadInstTy = std::pair<unsigned, LoadInst *>;
-  using LoadsByIndexTy = SmallVector<PairIndexLoadInstTy, 64>;
-  LoadsByIndexTy LoadsByIndex;
-
-  for (User *U : AI->users()) {
+  for (User *U : AI->users())
     if (StoreInst *SI = dyn_cast<StoreInst>(U))
       StoresByIndex.push_back(std::make_pair(LBI.getInstructionIndex(SI), SI));
-    if (LoadInst *LI = dyn_cast<LoadInst>(U))
-      LoadsByIndex.push_back(std::make_pair(LBI.getInstructionIndex(LI), LI));
-  }
 
   // Sort the stores by their index, making it efficient to do a lookup with a
   // binary search.
   llvm::sort(StoresByIndex, less_first());
-
-  // Find the load instruction with the largest index.
-  auto MaxIndexLoadInst =
-      std::max_element(begin(LoadsByIndex), end(LoadsByIndex),
-                       [](PairIndexLoadInstTy &lhs, PairIndexLoadInstTy &rhs) {
-                         return lhs.first < rhs.first;
-                       });
 
   // Walk all of the loads from this alloca, replacing them with the nearest
   // store above them, if any.
@@ -646,11 +627,11 @@ static bool promoteSingleBlockAlloca(
     } else {
       // Otherwise, there was a store before this load, the load takes its
       // value.
-      if (Info.HasLoadingFreeze && LI == MaxIndexLoadInst->second) {
+      ReplVal = std::prev(I)->second->getOperand(0);
+      if (loadHasFreezeBits(LI)) {
         IRBuilder<> Builder(LI);
-        ReplVal = Builder.CreateFreeze(std::prev(I)->second->getOperand(0), "freeze");
-      } else
-        ReplVal = std::prev(I)->second->getOperand(0);
+        ReplVal = Builder.CreateFreeze(ReplVal, "freeze");
+      }
     }
 
     convertMetadataToAssumes(LI, ReplVal, DL, AC, &DT);
