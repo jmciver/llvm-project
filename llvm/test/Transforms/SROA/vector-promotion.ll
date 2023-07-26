@@ -162,9 +162,9 @@ entry:
 define i32 @test4(<4 x i32> %x, <4 x i32> %y, ptr %z) {
 ; CHECK-LABEL: @test4(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[A_SROA_3_16_COPYLOAD:%.*]] = load <4 x i32>, ptr [[Z:%.*]], align 1
+; CHECK-NEXT:    [[A_SROA_3_16_COPYLOAD:%.*]] = load <4 x i32>, ptr [[Z:%.*]], align 1, !freeze_bits [[FREEZE_BITS0:![0-9]+]]
 ; CHECK-NEXT:    [[Z_TMP1:%.*]] = getelementptr inbounds <4 x i32>, ptr [[Z]], i64 0, i64 2
-; CHECK-NEXT:    [[A_SROA_0_8_COPYLOAD:%.*]] = load i32, ptr [[Z_TMP1]], align 1
+; CHECK-NEXT:    [[A_SROA_0_8_COPYLOAD:%.*]] = load i32, ptr [[Z_TMP1]], align 1, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    [[A_SROA_0_8_VEC_INSERT:%.*]] = insertelement <4 x i32> [[X:%.*]], i32 [[A_SROA_0_8_COPYLOAD]], i32 2
 ; CHECK-NEXT:    [[A_SROA_0_8_VEC_EXTRACT:%.*]] = extractelement <4 x i32> [[A_SROA_0_8_VEC_INSERT]], i32 2
 ; CHECK-NEXT:    [[A_SROA_3_28_VEC_EXTRACT:%.*]] = extractelement <4 x i32> [[A_SROA_3_16_COPYLOAD]], i32 3
@@ -177,11 +177,11 @@ define i32 @test4(<4 x i32> %x, <4 x i32> %y, ptr %z) {
 ; DEBUG-NEXT:  entry:
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META83:![0-9]+]], metadata !DIExpression()), !dbg [[DBG94:![0-9]+]]
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META84:![0-9]+]], metadata !DIExpression()), !dbg [[DBG95:![0-9]+]]
-; DEBUG-NEXT:    [[A_SROA_3_16_COPYLOAD:%.*]] = load <4 x i32>, ptr [[Z:%.*]], align 1, !dbg [[DBG96:![0-9]+]]
+; DEBUG-NEXT:    [[A_SROA_3_16_COPYLOAD:%.*]] = load <4 x i32>, ptr [[Z:%.*]], align 1, !dbg [[DBG96:![0-9]+]], !freeze_bits [[FREEZE_BITS7:![0-9]+]]
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META85:![0-9]+]], metadata !DIExpression()), !dbg [[DBG97:![0-9]+]]
 ; DEBUG-NEXT:    [[Z_TMP1:%.*]] = getelementptr inbounds <4 x i32>, ptr [[Z]], i64 0, i64 2, !dbg [[DBG98:![0-9]+]]
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr [[Z_TMP1]], metadata [[META86:![0-9]+]], metadata !DIExpression()), !dbg [[DBG98]]
-; DEBUG-NEXT:    [[A_SROA_0_8_COPYLOAD:%.*]] = load i32, ptr [[Z_TMP1]], align 1, !dbg [[DBG99:![0-9]+]]
+; DEBUG-NEXT:    [[A_SROA_0_8_COPYLOAD:%.*]] = load i32, ptr [[Z_TMP1]], align 1, !dbg [[DBG99:![0-9]+]], !freeze_bits [[FREEZE_BITS7]]
 ; DEBUG-NEXT:    [[A_SROA_0_8_VEC_INSERT:%.*]] = insertelement <4 x i32> [[X:%.*]], i32 [[A_SROA_0_8_COPYLOAD]], i32 2, !dbg [[DBG99]]
 ; DEBUG-NEXT:    [[A_SROA_0_8_VEC_EXTRACT:%.*]] = extractelement <4 x i32> [[A_SROA_0_8_VEC_INSERT]], i32 2, !dbg [[DBG100:![0-9]+]]
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata i32 [[A_SROA_0_8_VEC_EXTRACT]], metadata [[META87:![0-9]+]], metadata !DIExpression()), !dbg [[DBG100]]
@@ -226,9 +226,9 @@ declare void @llvm.memcpy.p0.p1.i32(ptr nocapture, ptr addrspace(1) nocapture, i
 define i32 @test4_as1(<4 x i32> %x, <4 x i32> %y, ptr addrspace(1) %z) {
 ; CHECK-LABEL: @test4_as1(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[A_SROA_3_16_COPYLOAD:%.*]] = load <4 x i32>, ptr addrspace(1) [[Z:%.*]], align 1
+; CHECK-NEXT:    [[A_SROA_3_16_COPYLOAD:%.*]] = load <4 x i32>, ptr addrspace(1) [[Z:%.*]], align 1, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    [[Z_TMP1:%.*]] = getelementptr inbounds <4 x i32>, ptr addrspace(1) [[Z]], i16 0, i16 2
-; CHECK-NEXT:    [[A_SROA_0_8_COPYLOAD:%.*]] = load i32, ptr addrspace(1) [[Z_TMP1]], align 1
+; CHECK-NEXT:    [[A_SROA_0_8_COPYLOAD:%.*]] = load i32, ptr addrspace(1) [[Z_TMP1]], align 1, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    [[A_SROA_0_8_VEC_INSERT:%.*]] = insertelement <4 x i32> [[X:%.*]], i32 [[A_SROA_0_8_COPYLOAD]], i32 2
 ; CHECK-NEXT:    [[A_SROA_0_8_VEC_EXTRACT:%.*]] = extractelement <4 x i32> [[A_SROA_0_8_VEC_INSERT]], i32 2
 ; CHECK-NEXT:    [[A_SROA_3_28_VEC_EXTRACT:%.*]] = extractelement <4 x i32> [[A_SROA_3_16_COPYLOAD]], i32 3
@@ -241,11 +241,11 @@ define i32 @test4_as1(<4 x i32> %x, <4 x i32> %y, ptr addrspace(1) %z) {
 ; DEBUG-NEXT:  entry:
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META110:![0-9]+]], metadata !DIExpression()), !dbg [[DBG121:![0-9]+]]
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META111:![0-9]+]], metadata !DIExpression()), !dbg [[DBG122:![0-9]+]]
-; DEBUG-NEXT:    [[A_SROA_3_16_COPYLOAD:%.*]] = load <4 x i32>, ptr addrspace(1) [[Z:%.*]], align 1, !dbg [[DBG123:![0-9]+]]
+; DEBUG-NEXT:    [[A_SROA_3_16_COPYLOAD:%.*]] = load <4 x i32>, ptr addrspace(1) [[Z:%.*]], align 1, !dbg [[DBG123:![0-9]+]], !freeze_bits [[FREEZE_BITS7]]
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META112:![0-9]+]], metadata !DIExpression()), !dbg [[DBG124:![0-9]+]]
 ; DEBUG-NEXT:    [[Z_TMP1:%.*]] = getelementptr inbounds <4 x i32>, ptr addrspace(1) [[Z]], i16 0, i16 2, !dbg [[DBG125:![0-9]+]]
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr addrspace(1) [[Z_TMP1]], metadata [[META113:![0-9]+]], metadata !DIExpression()), !dbg [[DBG125]]
-; DEBUG-NEXT:    [[A_SROA_0_8_COPYLOAD:%.*]] = load i32, ptr addrspace(1) [[Z_TMP1]], align 1, !dbg [[DBG126:![0-9]+]]
+; DEBUG-NEXT:    [[A_SROA_0_8_COPYLOAD:%.*]] = load i32, ptr addrspace(1) [[Z_TMP1]], align 1, !dbg [[DBG126:![0-9]+]], !freeze_bits [[FREEZE_BITS7]]
 ; DEBUG-NEXT:    [[A_SROA_0_8_VEC_INSERT:%.*]] = insertelement <4 x i32> [[X:%.*]], i32 [[A_SROA_0_8_COPYLOAD]], i32 2, !dbg [[DBG126]]
 ; DEBUG-NEXT:    [[A_SROA_0_8_VEC_EXTRACT:%.*]] = extractelement <4 x i32> [[A_SROA_0_8_VEC_INSERT]], i32 2, !dbg [[DBG127:![0-9]+]]
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata i32 [[A_SROA_0_8_VEC_EXTRACT]], metadata [[META114:![0-9]+]], metadata !DIExpression()), !dbg [[DBG127]]
@@ -389,24 +389,28 @@ define i64 @test6(<4 x i64> %x, <4 x i64> %y, i64 %n) {
 define <4 x i32> @test_subvec_store() {
 ; CHECK-LABEL: @test_subvec_store(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[A_0_VECBLEND:%.*]] = select <4 x i1> <i1 true, i1 true, i1 false, i1 false>, <4 x i32> <i32 0, i32 0, i32 undef, i32 undef>, <4 x i32> undef
+; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <4 x i32> poison
+; CHECK-NEXT:    [[A_0_VECBLEND:%.*]] = select <4 x i1> <i1 true, i1 true, i1 false, i1 false>, <4 x i32> <i32 0, i32 0, i32 undef, i32 undef>, <4 x i32> [[FREEZE_LOAD]]
 ; CHECK-NEXT:    [[A_4_VECBLEND:%.*]] = select <4 x i1> <i1 false, i1 true, i1 true, i1 false>, <4 x i32> <i32 undef, i32 1, i32 1, i32 undef>, <4 x i32> [[A_0_VECBLEND]]
 ; CHECK-NEXT:    [[A_8_VECBLEND:%.*]] = select <4 x i1> <i1 false, i1 false, i1 true, i1 true>, <4 x i32> <i32 undef, i32 undef, i32 2, i32 2>, <4 x i32> [[A_4_VECBLEND]]
 ; CHECK-NEXT:    [[A_12_VEC_INSERT:%.*]] = insertelement <4 x i32> [[A_8_VECBLEND]], i32 3, i32 3
-; CHECK-NEXT:    ret <4 x i32> [[A_12_VEC_INSERT]]
+; CHECK-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <4 x i32> [[A_12_VEC_INSERT]]
+; CHECK-NEXT:    ret <4 x i32> [[FREEZE_LOAD2]]
 ;
 ; DEBUG-LABEL: @test_subvec_store(
 ; DEBUG-NEXT:  entry:
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META178:![0-9]+]], metadata !DIExpression()), !dbg [[DBG184:![0-9]+]]
-; DEBUG-NEXT:    [[A_0_VECBLEND:%.*]] = select <4 x i1> <i1 true, i1 true, i1 false, i1 false>, <4 x i32> <i32 0, i32 0, i32 undef, i32 undef>, <4 x i32> undef, !dbg [[DBG185:![0-9]+]]
+; DEBUG-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <4 x i32> poison, !dbg [[DBG185:![0-9]+]]
+; DEBUG-NEXT:    [[A_0_VECBLEND:%.*]] = select <4 x i1> <i1 true, i1 true, i1 false, i1 false>, <4 x i32> <i32 0, i32 0, i32 undef, i32 undef>, <4 x i32> [[FREEZE_LOAD]], !dbg [[DBG185]]
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META179:![0-9]+]], metadata !DIExpression()), !dbg [[DBG186:![0-9]+]]
 ; DEBUG-NEXT:    [[A_4_VECBLEND:%.*]] = select <4 x i1> <i1 false, i1 true, i1 true, i1 false>, <4 x i32> <i32 undef, i32 1, i32 1, i32 undef>, <4 x i32> [[A_0_VECBLEND]], !dbg [[DBG187:![0-9]+]]
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META180:![0-9]+]], metadata !DIExpression()), !dbg [[DBG188:![0-9]+]]
 ; DEBUG-NEXT:    [[A_8_VECBLEND:%.*]] = select <4 x i1> <i1 false, i1 false, i1 true, i1 true>, <4 x i32> <i32 undef, i32 undef, i32 2, i32 2>, <4 x i32> [[A_4_VECBLEND]], !dbg [[DBG189:![0-9]+]]
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META181:![0-9]+]], metadata !DIExpression()), !dbg [[DBG190:![0-9]+]]
 ; DEBUG-NEXT:    [[A_12_VEC_INSERT:%.*]] = insertelement <4 x i32> [[A_8_VECBLEND]], i32 3, i32 3, !dbg [[DBG191:![0-9]+]]
-; DEBUG-NEXT:    call void @llvm.dbg.value(metadata <4 x i32> [[A_12_VEC_INSERT]], metadata [[META182:![0-9]+]], metadata !DIExpression()), !dbg [[DBG192:![0-9]+]]
-; DEBUG-NEXT:    ret <4 x i32> [[A_12_VEC_INSERT]], !dbg [[DBG193:![0-9]+]]
+; DEBUG-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <4 x i32> [[A_12_VEC_INSERT]], !dbg [[DBG192:![0-9]+]]
+; DEBUG-NEXT:    call void @llvm.dbg.value(metadata <4 x i32> [[FREEZE_LOAD2]], metadata [[META182:![0-9]+]], metadata !DIExpression()), !dbg [[DBG192]]
+; DEBUG-NEXT:    ret <4 x i32> [[FREEZE_LOAD2]], !dbg [[DBG193:![0-9]+]]
 ;
 entry:
   %a = alloca <4 x i32>
@@ -476,24 +480,28 @@ entry:
 define <4 x float> @test_subvec_memset() {
 ; CHECK-LABEL: @test_subvec_memset(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[A_0_VECBLEND:%.*]] = select <4 x i1> <i1 true, i1 true, i1 false, i1 false>, <4 x float> <float 0.000000e+00, float 0.000000e+00, float undef, float undef>, <4 x float> undef
+; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <4 x float> poison
+; CHECK-NEXT:    [[A_0_VECBLEND:%.*]] = select <4 x i1> <i1 true, i1 true, i1 false, i1 false>, <4 x float> <float 0.000000e+00, float 0.000000e+00, float undef, float undef>, <4 x float> [[FREEZE_LOAD]]
 ; CHECK-NEXT:    [[A_4_VECBLEND:%.*]] = select <4 x i1> <i1 false, i1 true, i1 true, i1 false>, <4 x float> <float undef, float 0x3820202020000000, float 0x3820202020000000, float undef>, <4 x float> [[A_0_VECBLEND]]
 ; CHECK-NEXT:    [[A_8_VECBLEND:%.*]] = select <4 x i1> <i1 false, i1 false, i1 true, i1 true>, <4 x float> <float undef, float undef, float 0x3860606060000000, float 0x3860606060000000>, <4 x float> [[A_4_VECBLEND]]
 ; CHECK-NEXT:    [[A_12_VEC_INSERT:%.*]] = insertelement <4 x float> [[A_8_VECBLEND]], float 0x38E0E0E0E0000000, i32 3
-; CHECK-NEXT:    ret <4 x float> [[A_12_VEC_INSERT]]
+; CHECK-NEXT:    [[FREEZE_LOAD1:%.*]] = freeze <4 x float> [[A_12_VEC_INSERT]]
+; CHECK-NEXT:    ret <4 x float> [[FREEZE_LOAD1]]
 ;
 ; DEBUG-LABEL: @test_subvec_memset(
 ; DEBUG-NEXT:  entry:
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META215:![0-9]+]], metadata !DIExpression()), !dbg [[DBG220:![0-9]+]]
-; DEBUG-NEXT:    [[A_0_VECBLEND:%.*]] = select <4 x i1> <i1 true, i1 true, i1 false, i1 false>, <4 x float> <float 0.000000e+00, float 0.000000e+00, float undef, float undef>, <4 x float> undef, !dbg [[DBG221:![0-9]+]]
+; DEBUG-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <4 x float> poison, !dbg [[DBG221:![0-9]+]]
+; DEBUG-NEXT:    [[A_0_VECBLEND:%.*]] = select <4 x i1> <i1 true, i1 true, i1 false, i1 false>, <4 x float> <float 0.000000e+00, float 0.000000e+00, float undef, float undef>, <4 x float> [[FREEZE_LOAD]], !dbg [[DBG221]]
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META216:![0-9]+]], metadata !DIExpression()), !dbg [[DBG222:![0-9]+]]
 ; DEBUG-NEXT:    [[A_4_VECBLEND:%.*]] = select <4 x i1> <i1 false, i1 true, i1 true, i1 false>, <4 x float> <float undef, float 0x3820202020000000, float 0x3820202020000000, float undef>, <4 x float> [[A_0_VECBLEND]], !dbg [[DBG223:![0-9]+]]
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META217:![0-9]+]], metadata !DIExpression()), !dbg [[DBG224:![0-9]+]]
 ; DEBUG-NEXT:    [[A_8_VECBLEND:%.*]] = select <4 x i1> <i1 false, i1 false, i1 true, i1 true>, <4 x float> <float undef, float undef, float 0x3860606060000000, float 0x3860606060000000>, <4 x float> [[A_4_VECBLEND]], !dbg [[DBG225:![0-9]+]]
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META218:![0-9]+]], metadata !DIExpression()), !dbg [[DBG226:![0-9]+]]
 ; DEBUG-NEXT:    [[A_12_VEC_INSERT:%.*]] = insertelement <4 x float> [[A_8_VECBLEND]], float 0x38E0E0E0E0000000, i32 3, !dbg [[DBG227:![0-9]+]]
-; DEBUG-NEXT:    call void @llvm.dbg.value(metadata <4 x float> [[A_12_VEC_INSERT]], metadata [[META219:![0-9]+]], metadata !DIExpression()), !dbg [[DBG228:![0-9]+]]
-; DEBUG-NEXT:    ret <4 x float> [[A_12_VEC_INSERT]], !dbg [[DBG229:![0-9]+]]
+; DEBUG-NEXT:    [[FREEZE_LOAD1:%.*]] = freeze <4 x float> [[A_12_VEC_INSERT]], !dbg [[DBG228:![0-9]+]]
+; DEBUG-NEXT:    call void @llvm.dbg.value(metadata <4 x float> [[FREEZE_LOAD1]], metadata [[META219:![0-9]+]], metadata !DIExpression()), !dbg [[DBG228]]
+; DEBUG-NEXT:    ret <4 x float> [[FREEZE_LOAD1]], !dbg [[DBG229:![0-9]+]]
 ;
 entry:
   %a = alloca <4 x float>
@@ -517,42 +525,46 @@ entry:
 define <4 x float> @test_subvec_memcpy(ptr %x, ptr %y, ptr %z, ptr %f, ptr %out) {
 ; CHECK-LABEL: @test_subvec_memcpy(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[A_0_COPYLOAD:%.*]] = load <2 x float>, ptr [[X:%.*]], align 1
+; CHECK-NEXT:    [[A_0_COPYLOAD:%.*]] = load <2 x float>, ptr [[X:%.*]], align 1, !freeze_bits [[FREEZE_BITS0]]
+; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <4 x float> poison
 ; CHECK-NEXT:    [[A_0_VEC_EXPAND:%.*]] = shufflevector <2 x float> [[A_0_COPYLOAD]], <2 x float> poison, <4 x i32> <i32 0, i32 1, i32 poison, i32 poison>
-; CHECK-NEXT:    [[A_0_VECBLEND:%.*]] = select <4 x i1> <i1 true, i1 true, i1 false, i1 false>, <4 x float> [[A_0_VEC_EXPAND]], <4 x float> undef
-; CHECK-NEXT:    [[A_4_COPYLOAD:%.*]] = load <2 x float>, ptr [[Y:%.*]], align 1
+; CHECK-NEXT:    [[A_0_VECBLEND:%.*]] = select <4 x i1> <i1 true, i1 true, i1 false, i1 false>, <4 x float> [[A_0_VEC_EXPAND]], <4 x float> [[FREEZE_LOAD]]
+; CHECK-NEXT:    [[A_4_COPYLOAD:%.*]] = load <2 x float>, ptr [[Y:%.*]], align 1, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    [[A_4_VEC_EXPAND:%.*]] = shufflevector <2 x float> [[A_4_COPYLOAD]], <2 x float> poison, <4 x i32> <i32 poison, i32 0, i32 1, i32 poison>
 ; CHECK-NEXT:    [[A_4_VECBLEND:%.*]] = select <4 x i1> <i1 false, i1 true, i1 true, i1 false>, <4 x float> [[A_4_VEC_EXPAND]], <4 x float> [[A_0_VECBLEND]]
-; CHECK-NEXT:    [[A_8_COPYLOAD:%.*]] = load <2 x float>, ptr [[Z:%.*]], align 1
+; CHECK-NEXT:    [[A_8_COPYLOAD:%.*]] = load <2 x float>, ptr [[Z:%.*]], align 1, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    [[A_8_VEC_EXPAND:%.*]] = shufflevector <2 x float> [[A_8_COPYLOAD]], <2 x float> poison, <4 x i32> <i32 poison, i32 poison, i32 0, i32 1>
 ; CHECK-NEXT:    [[A_8_VECBLEND:%.*]] = select <4 x i1> <i1 false, i1 false, i1 true, i1 true>, <4 x float> [[A_8_VEC_EXPAND]], <4 x float> [[A_4_VECBLEND]]
-; CHECK-NEXT:    [[A_12_COPYLOAD:%.*]] = load float, ptr [[F:%.*]], align 1
+; CHECK-NEXT:    [[A_12_COPYLOAD:%.*]] = load float, ptr [[F:%.*]], align 1, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    [[A_12_VEC_INSERT:%.*]] = insertelement <4 x float> [[A_8_VECBLEND]], float [[A_12_COPYLOAD]], i32 3
 ; CHECK-NEXT:    [[A_8_VEC_EXTRACT:%.*]] = shufflevector <4 x float> [[A_12_VEC_INSERT]], <4 x float> poison, <2 x i32> <i32 2, i32 3>
 ; CHECK-NEXT:    store <2 x float> [[A_8_VEC_EXTRACT]], ptr [[OUT:%.*]], align 1
-; CHECK-NEXT:    ret <4 x float> [[A_12_VEC_INSERT]]
+; CHECK-NEXT:    [[FREEZE_LOAD1:%.*]] = freeze <4 x float> [[A_12_VEC_INSERT]]
+; CHECK-NEXT:    ret <4 x float> [[FREEZE_LOAD1]]
 ;
 ; DEBUG-LABEL: @test_subvec_memcpy(
 ; DEBUG-NEXT:  entry:
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META232:![0-9]+]], metadata !DIExpression()), !dbg [[DBG237:![0-9]+]]
-; DEBUG-NEXT:    [[A_0_COPYLOAD:%.*]] = load <2 x float>, ptr [[X:%.*]], align 1, !dbg [[DBG238:![0-9]+]]
+; DEBUG-NEXT:    [[A_0_COPYLOAD:%.*]] = load <2 x float>, ptr [[X:%.*]], align 1, !dbg [[DBG238:![0-9]+]], !freeze_bits [[FREEZE_BITS7]]
+; DEBUG-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <4 x float> poison, !dbg [[DBG238]]
 ; DEBUG-NEXT:    [[A_0_VEC_EXPAND:%.*]] = shufflevector <2 x float> [[A_0_COPYLOAD]], <2 x float> poison, <4 x i32> <i32 0, i32 1, i32 poison, i32 poison>, !dbg [[DBG238]]
-; DEBUG-NEXT:    [[A_0_VECBLEND:%.*]] = select <4 x i1> <i1 true, i1 true, i1 false, i1 false>, <4 x float> [[A_0_VEC_EXPAND]], <4 x float> undef, !dbg [[DBG238]]
+; DEBUG-NEXT:    [[A_0_VECBLEND:%.*]] = select <4 x i1> <i1 true, i1 true, i1 false, i1 false>, <4 x float> [[A_0_VEC_EXPAND]], <4 x float> [[FREEZE_LOAD]], !dbg [[DBG238]]
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META233:![0-9]+]], metadata !DIExpression()), !dbg [[DBG239:![0-9]+]]
-; DEBUG-NEXT:    [[A_4_COPYLOAD:%.*]] = load <2 x float>, ptr [[Y:%.*]], align 1, !dbg [[DBG240:![0-9]+]]
+; DEBUG-NEXT:    [[A_4_COPYLOAD:%.*]] = load <2 x float>, ptr [[Y:%.*]], align 1, !dbg [[DBG240:![0-9]+]], !freeze_bits [[FREEZE_BITS7]]
 ; DEBUG-NEXT:    [[A_4_VEC_EXPAND:%.*]] = shufflevector <2 x float> [[A_4_COPYLOAD]], <2 x float> poison, <4 x i32> <i32 poison, i32 0, i32 1, i32 poison>, !dbg [[DBG240]]
 ; DEBUG-NEXT:    [[A_4_VECBLEND:%.*]] = select <4 x i1> <i1 false, i1 true, i1 true, i1 false>, <4 x float> [[A_4_VEC_EXPAND]], <4 x float> [[A_0_VECBLEND]], !dbg [[DBG240]]
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META234:![0-9]+]], metadata !DIExpression()), !dbg [[DBG241:![0-9]+]]
-; DEBUG-NEXT:    [[A_8_COPYLOAD:%.*]] = load <2 x float>, ptr [[Z:%.*]], align 1, !dbg [[DBG242:![0-9]+]]
+; DEBUG-NEXT:    [[A_8_COPYLOAD:%.*]] = load <2 x float>, ptr [[Z:%.*]], align 1, !dbg [[DBG242:![0-9]+]], !freeze_bits [[FREEZE_BITS7]]
 ; DEBUG-NEXT:    [[A_8_VEC_EXPAND:%.*]] = shufflevector <2 x float> [[A_8_COPYLOAD]], <2 x float> poison, <4 x i32> <i32 poison, i32 poison, i32 0, i32 1>, !dbg [[DBG242]]
 ; DEBUG-NEXT:    [[A_8_VECBLEND:%.*]] = select <4 x i1> <i1 false, i1 false, i1 true, i1 true>, <4 x float> [[A_8_VEC_EXPAND]], <4 x float> [[A_4_VECBLEND]], !dbg [[DBG242]]
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META235:![0-9]+]], metadata !DIExpression()), !dbg [[DBG243:![0-9]+]]
-; DEBUG-NEXT:    [[A_12_COPYLOAD:%.*]] = load float, ptr [[F:%.*]], align 1, !dbg [[DBG244:![0-9]+]]
+; DEBUG-NEXT:    [[A_12_COPYLOAD:%.*]] = load float, ptr [[F:%.*]], align 1, !dbg [[DBG244:![0-9]+]], !freeze_bits [[FREEZE_BITS7]]
 ; DEBUG-NEXT:    [[A_12_VEC_INSERT:%.*]] = insertelement <4 x float> [[A_8_VECBLEND]], float [[A_12_COPYLOAD]], i32 3, !dbg [[DBG244]]
 ; DEBUG-NEXT:    [[A_8_VEC_EXTRACT:%.*]] = shufflevector <4 x float> [[A_12_VEC_INSERT]], <4 x float> poison, <2 x i32> <i32 2, i32 3>, !dbg [[DBG245:![0-9]+]]
 ; DEBUG-NEXT:    store <2 x float> [[A_8_VEC_EXTRACT]], ptr [[OUT:%.*]], align 1, !dbg [[DBG245]]
-; DEBUG-NEXT:    call void @llvm.dbg.value(metadata <4 x float> [[A_12_VEC_INSERT]], metadata [[META236:![0-9]+]], metadata !DIExpression()), !dbg [[DBG246:![0-9]+]]
-; DEBUG-NEXT:    ret <4 x float> [[A_12_VEC_INSERT]], !dbg [[DBG247:![0-9]+]]
+; DEBUG-NEXT:    [[FREEZE_LOAD1:%.*]] = freeze <4 x float> [[A_12_VEC_INSERT]], !dbg [[DBG246:![0-9]+]]
+; DEBUG-NEXT:    call void @llvm.dbg.value(metadata <4 x float> [[FREEZE_LOAD1]], metadata [[META236:![0-9]+]], metadata !DIExpression()), !dbg [[DBG246]]
+; DEBUG-NEXT:    ret <4 x float> [[FREEZE_LOAD1]], !dbg [[DBG247:![0-9]+]]
 ;
 entry:
   %a = alloca <4 x float>
@@ -581,7 +593,8 @@ define i32 @PR14212(<3 x i8> %val) {
 ; CHECK-LABEL: @PR14212(
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    [[TMP0:%.*]] = bitcast <3 x i8> [[VAL:%.*]] to i24
-; CHECK-NEXT:    [[RETVAL_SROA_2_0_INSERT_EXT:%.*]] = zext i8 undef to i32
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i8 poison
+; CHECK-NEXT:    [[RETVAL_SROA_2_0_INSERT_EXT:%.*]] = zext i8 [[FREEZE]] to i32
 ; CHECK-NEXT:    [[RETVAL_SROA_2_0_INSERT_SHIFT:%.*]] = shl i32 [[RETVAL_SROA_2_0_INSERT_EXT]], 24
 ; CHECK-NEXT:    [[RETVAL_SROA_2_0_INSERT_MASK:%.*]] = and i32 undef, 16777215
 ; CHECK-NEXT:    [[RETVAL_SROA_2_0_INSERT_INSERT:%.*]] = or i32 [[RETVAL_SROA_2_0_INSERT_MASK]], [[RETVAL_SROA_2_0_INSERT_SHIFT]]
@@ -594,13 +607,14 @@ define i32 @PR14212(<3 x i8> %val) {
 ; DEBUG-NEXT:  entry:
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META250:![0-9]+]], metadata !DIExpression()), !dbg [[DBG252:![0-9]+]]
 ; DEBUG-NEXT:    [[TMP0:%.*]] = bitcast <3 x i8> [[VAL:%.*]] to i24, !dbg [[DBG253:![0-9]+]]
-; DEBUG-NEXT:    [[RETVAL_SROA_2_0_INSERT_EXT:%.*]] = zext i8 undef to i32, !dbg [[DBG254:![0-9]+]]
-; DEBUG-NEXT:    [[RETVAL_SROA_2_0_INSERT_SHIFT:%.*]] = shl i32 [[RETVAL_SROA_2_0_INSERT_EXT]], 24, !dbg [[DBG254]]
-; DEBUG-NEXT:    [[RETVAL_SROA_2_0_INSERT_MASK:%.*]] = and i32 undef, 16777215, !dbg [[DBG254]]
-; DEBUG-NEXT:    [[RETVAL_SROA_2_0_INSERT_INSERT:%.*]] = or i32 [[RETVAL_SROA_2_0_INSERT_MASK]], [[RETVAL_SROA_2_0_INSERT_SHIFT]], !dbg [[DBG254]]
-; DEBUG-NEXT:    [[RETVAL_0_INSERT_EXT:%.*]] = zext i24 [[TMP0]] to i32, !dbg [[DBG254]]
-; DEBUG-NEXT:    [[RETVAL_0_INSERT_MASK:%.*]] = and i32 [[RETVAL_SROA_2_0_INSERT_INSERT]], -16777216, !dbg [[DBG254]]
-; DEBUG-NEXT:    [[RETVAL_0_INSERT_INSERT:%.*]] = or i32 [[RETVAL_0_INSERT_MASK]], [[RETVAL_0_INSERT_EXT]], !dbg [[DBG254]]
+; DEBUG-NEXT:    [[FREEZE:%.*]] = freeze i8 poison, !dbg [[DBG253]]
+; DEBUG-NEXT:    [[RETVAL_SROA_2_0_INSERT_EXT:%.*]] = zext i8 [[FREEZE]] to i32, !dbg [[DBG253]]
+; DEBUG-NEXT:    [[RETVAL_SROA_2_0_INSERT_SHIFT:%.*]] = shl i32 [[RETVAL_SROA_2_0_INSERT_EXT]], 24, !dbg [[DBG253]]
+; DEBUG-NEXT:    [[RETVAL_SROA_2_0_INSERT_MASK:%.*]] = and i32 undef, 16777215, !dbg [[DBG253]]
+; DEBUG-NEXT:    [[RETVAL_SROA_2_0_INSERT_INSERT:%.*]] = or i32 [[RETVAL_SROA_2_0_INSERT_MASK]], [[RETVAL_SROA_2_0_INSERT_SHIFT]], !dbg [[DBG253]]
+; DEBUG-NEXT:    [[RETVAL_0_INSERT_EXT:%.*]] = zext i24 [[TMP0]] to i32, !dbg [[DBG253]]
+; DEBUG-NEXT:    [[RETVAL_0_INSERT_MASK:%.*]] = and i32 [[RETVAL_SROA_2_0_INSERT_INSERT]], -16777216, !dbg [[DBG253]]
+; DEBUG-NEXT:    [[RETVAL_0_INSERT_INSERT:%.*]] = or i32 [[RETVAL_0_INSERT_MASK]], [[RETVAL_0_INSERT_EXT]], !dbg [[DBG253]]
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata i32 [[RETVAL_0_INSERT_INSERT]], metadata [[META251:![0-9]+]], metadata !DIExpression()), !dbg [[DBG253]]
 ; DEBUG-NEXT:    ret i32 [[RETVAL_0_INSERT_INSERT]], !dbg [[DBG254]]
 ;
@@ -620,6 +634,7 @@ define <2 x i8> @PR14349.1(i32 %x) {
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    [[A_SROA_0_0_EXTRACT_TRUNC:%.*]] = trunc i32 [[X:%.*]] to i16
 ; CHECK-NEXT:    [[TMP0:%.*]] = bitcast i16 [[A_SROA_0_0_EXTRACT_TRUNC]] to <2 x i8>
+; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x i8> poison
 ; CHECK-NEXT:    [[A_SROA_2_0_EXTRACT_SHIFT:%.*]] = lshr i32 [[X]], 16
 ; CHECK-NEXT:    [[A_SROA_2_0_EXTRACT_TRUNC:%.*]] = trunc i32 [[A_SROA_2_0_EXTRACT_SHIFT]] to i16
 ; CHECK-NEXT:    ret <2 x i8> [[TMP0]]
@@ -629,6 +644,7 @@ define <2 x i8> @PR14349.1(i32 %x) {
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META257:![0-9]+]], metadata !DIExpression()), !dbg [[DBG260:![0-9]+]]
 ; DEBUG-NEXT:    [[A_SROA_0_0_EXTRACT_TRUNC:%.*]] = trunc i32 [[X:%.*]] to i16, !dbg [[DBG261:![0-9]+]]
 ; DEBUG-NEXT:    [[TMP0:%.*]] = bitcast i16 [[A_SROA_0_0_EXTRACT_TRUNC]] to <2 x i8>, !dbg [[DBG261]]
+; DEBUG-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x i8> poison, !dbg [[DBG261]]
 ; DEBUG-NEXT:    [[A_SROA_2_0_EXTRACT_SHIFT:%.*]] = lshr i32 [[X]], 16, !dbg [[DBG261]]
 ; DEBUG-NEXT:    [[A_SROA_2_0_EXTRACT_TRUNC:%.*]] = trunc i32 [[A_SROA_2_0_EXTRACT_SHIFT]] to i16, !dbg [[DBG261]]
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata <2 x i8> [[TMP0]], metadata [[META258:![0-9]+]], metadata !DIExpression()), !dbg [[DBG262:![0-9]+]]
@@ -651,7 +667,8 @@ define i32 @PR14349.2(<2 x i8> %x) {
 ; CHECK-LABEL: @PR14349.2(
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    [[TMP0:%.*]] = bitcast <2 x i8> [[X:%.*]] to i16
-; CHECK-NEXT:    [[A_SROA_2_0_INSERT_EXT:%.*]] = zext i16 undef to i32
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i16 poison
+; CHECK-NEXT:    [[A_SROA_2_0_INSERT_EXT:%.*]] = zext i16 [[FREEZE]] to i32
 ; CHECK-NEXT:    [[A_SROA_2_0_INSERT_SHIFT:%.*]] = shl i32 [[A_SROA_2_0_INSERT_EXT]], 16
 ; CHECK-NEXT:    [[A_SROA_2_0_INSERT_MASK:%.*]] = and i32 undef, 65535
 ; CHECK-NEXT:    [[A_SROA_2_0_INSERT_INSERT:%.*]] = or i32 [[A_SROA_2_0_INSERT_MASK]], [[A_SROA_2_0_INSERT_SHIFT]]
@@ -664,13 +681,14 @@ define i32 @PR14349.2(<2 x i8> %x) {
 ; DEBUG-NEXT:  entry:
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META266:![0-9]+]], metadata !DIExpression()), !dbg [[DBG268:![0-9]+]]
 ; DEBUG-NEXT:    [[TMP0:%.*]] = bitcast <2 x i8> [[X:%.*]] to i16, !dbg [[DBG269:![0-9]+]]
-; DEBUG-NEXT:    [[A_SROA_2_0_INSERT_EXT:%.*]] = zext i16 undef to i32, !dbg [[DBG270:![0-9]+]]
-; DEBUG-NEXT:    [[A_SROA_2_0_INSERT_SHIFT:%.*]] = shl i32 [[A_SROA_2_0_INSERT_EXT]], 16, !dbg [[DBG270]]
-; DEBUG-NEXT:    [[A_SROA_2_0_INSERT_MASK:%.*]] = and i32 undef, 65535, !dbg [[DBG270]]
-; DEBUG-NEXT:    [[A_SROA_2_0_INSERT_INSERT:%.*]] = or i32 [[A_SROA_2_0_INSERT_MASK]], [[A_SROA_2_0_INSERT_SHIFT]], !dbg [[DBG270]]
-; DEBUG-NEXT:    [[A_SROA_0_0_INSERT_EXT:%.*]] = zext i16 [[TMP0]] to i32, !dbg [[DBG270]]
-; DEBUG-NEXT:    [[A_SROA_0_0_INSERT_MASK:%.*]] = and i32 [[A_SROA_2_0_INSERT_INSERT]], -65536, !dbg [[DBG270]]
-; DEBUG-NEXT:    [[A_SROA_0_0_INSERT_INSERT:%.*]] = or i32 [[A_SROA_0_0_INSERT_MASK]], [[A_SROA_0_0_INSERT_EXT]], !dbg [[DBG270]]
+; DEBUG-NEXT:    [[FREEZE:%.*]] = freeze i16 poison, !dbg [[DBG269]]
+; DEBUG-NEXT:    [[A_SROA_2_0_INSERT_EXT:%.*]] = zext i16 [[FREEZE]] to i32, !dbg [[DBG269]]
+; DEBUG-NEXT:    [[A_SROA_2_0_INSERT_SHIFT:%.*]] = shl i32 [[A_SROA_2_0_INSERT_EXT]], 16, !dbg [[DBG269]]
+; DEBUG-NEXT:    [[A_SROA_2_0_INSERT_MASK:%.*]] = and i32 undef, 65535, !dbg [[DBG269]]
+; DEBUG-NEXT:    [[A_SROA_2_0_INSERT_INSERT:%.*]] = or i32 [[A_SROA_2_0_INSERT_MASK]], [[A_SROA_2_0_INSERT_SHIFT]], !dbg [[DBG269]]
+; DEBUG-NEXT:    [[A_SROA_0_0_INSERT_EXT:%.*]] = zext i16 [[TMP0]] to i32, !dbg [[DBG269]]
+; DEBUG-NEXT:    [[A_SROA_0_0_INSERT_MASK:%.*]] = and i32 [[A_SROA_2_0_INSERT_INSERT]], -65536, !dbg [[DBG269]]
+; DEBUG-NEXT:    [[A_SROA_0_0_INSERT_INSERT:%.*]] = or i32 [[A_SROA_0_0_INSERT_MASK]], [[A_SROA_0_0_INSERT_EXT]], !dbg [[DBG269]]
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata i32 [[A_SROA_0_0_INSERT_INSERT]], metadata [[META267:![0-9]+]], metadata !DIExpression()), !dbg [[DBG269]]
 ; DEBUG-NEXT:    ret i32 [[A_SROA_0_0_INSERT_INSERT]], !dbg [[DBG270]]
 ;
@@ -776,18 +794,22 @@ define <2 x i32> @test9(i32 %x, i32 %y) {
 ;
 ; CHECK-LABEL: @test9(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[A_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x i32> undef, i32 [[X:%.*]], i32 0
+; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x i32> poison
+; CHECK-NEXT:    [[A_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x i32> [[FREEZE_LOAD]], i32 [[X:%.*]], i32 0
 ; CHECK-NEXT:    [[A_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x i32> [[A_SROA_0_0_VEC_INSERT]], i32 [[Y:%.*]], i32 1
-; CHECK-NEXT:    ret <2 x i32> [[A_SROA_0_4_VEC_INSERT]]
+; CHECK-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x i32> [[A_SROA_0_4_VEC_INSERT]]
+; CHECK-NEXT:    ret <2 x i32> [[FREEZE_LOAD2]]
 ;
 ; DEBUG-LABEL: @test9(
 ; DEBUG-NEXT:  entry:
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META309:![0-9]+]], metadata !DIExpression()), !dbg [[DBG312:![0-9]+]]
-; DEBUG-NEXT:    [[A_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x i32> undef, i32 [[X:%.*]], i32 0, !dbg [[DBG313:![0-9]+]]
+; DEBUG-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x i32> poison, !dbg [[DBG313:![0-9]+]]
+; DEBUG-NEXT:    [[A_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x i32> [[FREEZE_LOAD]], i32 [[X:%.*]], i32 0, !dbg [[DBG313]]
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META310:![0-9]+]], metadata !DIExpression()), !dbg [[DBG314:![0-9]+]]
 ; DEBUG-NEXT:    [[A_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x i32> [[A_SROA_0_0_VEC_INSERT]], i32 [[Y:%.*]], i32 1, !dbg [[DBG315:![0-9]+]]
-; DEBUG-NEXT:    call void @llvm.dbg.value(metadata <2 x i32> [[A_SROA_0_4_VEC_INSERT]], metadata [[META311:![0-9]+]], metadata !DIExpression()), !dbg [[DBG316:![0-9]+]]
-; DEBUG-NEXT:    ret <2 x i32> [[A_SROA_0_4_VEC_INSERT]], !dbg [[DBG317:![0-9]+]]
+; DEBUG-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x i32> [[A_SROA_0_4_VEC_INSERT]], !dbg [[DBG316:![0-9]+]]
+; DEBUG-NEXT:    call void @llvm.dbg.value(metadata <2 x i32> [[FREEZE_LOAD2]], metadata [[META311:![0-9]+]], metadata !DIExpression()), !dbg [[DBG316]]
+; DEBUG-NEXT:    ret <2 x i32> [[FREEZE_LOAD2]], !dbg [[DBG317:![0-9]+]]
 ;
 entry:
   %a = alloca i64
@@ -808,6 +830,7 @@ define <2 x i32> @test10(<4 x i16> %x, i32 %y) {
 ; CHECK-LABEL: @test10(
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    [[TMP0:%.*]] = bitcast <4 x i16> [[X:%.*]] to <2 x i32>
+; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x i32> poison
 ; CHECK-NEXT:    [[A_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x i32> [[TMP0]], i32 [[Y:%.*]], i32 1
 ; CHECK-NEXT:    ret <2 x i32> [[A_SROA_0_4_VEC_INSERT]]
 ;
@@ -815,6 +838,7 @@ define <2 x i32> @test10(<4 x i16> %x, i32 %y) {
 ; DEBUG-NEXT:  entry:
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META320:![0-9]+]], metadata !DIExpression()), !dbg [[DBG323:![0-9]+]]
 ; DEBUG-NEXT:    [[TMP0:%.*]] = bitcast <4 x i16> [[X:%.*]] to <2 x i32>, !dbg [[DBG324:![0-9]+]]
+; DEBUG-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x i32> poison, !dbg [[DBG324]]
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META321:![0-9]+]], metadata !DIExpression()), !dbg [[DBG325:![0-9]+]]
 ; DEBUG-NEXT:    [[A_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x i32> [[TMP0]], i32 [[Y:%.*]], i32 1, !dbg [[DBG326:![0-9]+]]
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata <2 x i32> [[A_SROA_0_4_VEC_INSERT]], metadata [[META322:![0-9]+]], metadata !DIExpression()), !dbg [[DBG327:![0-9]+]]
@@ -840,6 +864,7 @@ define <2 x float> @test11(<4 x i16> %x, i32 %y) {
 ; CHECK-LABEL: @test11(
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    [[TMP0:%.*]] = bitcast <4 x i16> [[X:%.*]] to <2 x i32>
+; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x i32> poison
 ; CHECK-NEXT:    [[A_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x i32> [[TMP0]], i32 [[Y:%.*]], i32 1
 ; CHECK-NEXT:    [[TMP1:%.*]] = bitcast <2 x i32> [[A_SROA_0_4_VEC_INSERT]] to <2 x float>
 ; CHECK-NEXT:    ret <2 x float> [[TMP1]]
@@ -848,6 +873,7 @@ define <2 x float> @test11(<4 x i16> %x, i32 %y) {
 ; DEBUG-NEXT:  entry:
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META331:![0-9]+]], metadata !DIExpression()), !dbg [[DBG334:![0-9]+]]
 ; DEBUG-NEXT:    [[TMP0:%.*]] = bitcast <4 x i16> [[X:%.*]] to <2 x i32>, !dbg [[DBG335:![0-9]+]]
+; DEBUG-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x i32> poison, !dbg [[DBG335]]
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META332:![0-9]+]], metadata !DIExpression()), !dbg [[DBG336:![0-9]+]]
 ; DEBUG-NEXT:    [[A_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x i32> [[TMP0]], i32 [[Y:%.*]], i32 1, !dbg [[DBG337:![0-9]+]]
 ; DEBUG-NEXT:    [[TMP1:%.*]] = bitcast <2 x i32> [[A_SROA_0_4_VEC_INSERT]] to <2 x float>, !dbg [[DBG338:![0-9]+]]
@@ -891,24 +917,28 @@ define <2 x i64> @test13(i32 %a, i32 %b, i32 %c, i32 %d) {
 ; cast to a different vector type
 ; CHECK-LABEL: @test13(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[X_SROA_0_0_VEC_INSERT:%.*]] = insertelement <4 x i32> undef, i32 [[A:%.*]], i32 0
+; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <4 x i32> poison
+; CHECK-NEXT:    [[X_SROA_0_0_VEC_INSERT:%.*]] = insertelement <4 x i32> [[FREEZE_LOAD]], i32 [[A:%.*]], i32 0
 ; CHECK-NEXT:    [[X_SROA_0_4_VEC_INSERT:%.*]] = insertelement <4 x i32> [[X_SROA_0_0_VEC_INSERT]], i32 [[B:%.*]], i32 1
 ; CHECK-NEXT:    [[X_SROA_0_8_VEC_INSERT:%.*]] = insertelement <4 x i32> [[X_SROA_0_4_VEC_INSERT]], i32 [[C:%.*]], i32 2
 ; CHECK-NEXT:    [[X_SROA_0_12_VEC_INSERT:%.*]] = insertelement <4 x i32> [[X_SROA_0_8_VEC_INSERT]], i32 [[D:%.*]], i32 3
-; CHECK-NEXT:    [[TMP0:%.*]] = bitcast <4 x i32> [[X_SROA_0_12_VEC_INSERT]] to <2 x i64>
+; CHECK-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <4 x i32> [[X_SROA_0_12_VEC_INSERT]]
+; CHECK-NEXT:    [[TMP0:%.*]] = bitcast <4 x i32> [[FREEZE_LOAD2]] to <2 x i64>
 ; CHECK-NEXT:    ret <2 x i64> [[TMP0]]
 ;
 ; DEBUG-LABEL: @test13(
 ; DEBUG-NEXT:  entry:
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META349:![0-9]+]], metadata !DIExpression()), !dbg [[DBG354:![0-9]+]]
-; DEBUG-NEXT:    [[X_SROA_0_0_VEC_INSERT:%.*]] = insertelement <4 x i32> undef, i32 [[A:%.*]], i32 0, !dbg [[DBG355:![0-9]+]]
+; DEBUG-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <4 x i32> poison, !dbg [[DBG355:![0-9]+]]
+; DEBUG-NEXT:    [[X_SROA_0_0_VEC_INSERT:%.*]] = insertelement <4 x i32> [[FREEZE_LOAD]], i32 [[A:%.*]], i32 0, !dbg [[DBG355]]
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META350:![0-9]+]], metadata !DIExpression()), !dbg [[DBG356:![0-9]+]]
 ; DEBUG-NEXT:    [[X_SROA_0_4_VEC_INSERT:%.*]] = insertelement <4 x i32> [[X_SROA_0_0_VEC_INSERT]], i32 [[B:%.*]], i32 1, !dbg [[DBG357:![0-9]+]]
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META351:![0-9]+]], metadata !DIExpression()), !dbg [[DBG358:![0-9]+]]
 ; DEBUG-NEXT:    [[X_SROA_0_8_VEC_INSERT:%.*]] = insertelement <4 x i32> [[X_SROA_0_4_VEC_INSERT]], i32 [[C:%.*]], i32 2, !dbg [[DBG359:![0-9]+]]
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META352:![0-9]+]], metadata !DIExpression()), !dbg [[DBG360:![0-9]+]]
 ; DEBUG-NEXT:    [[X_SROA_0_12_VEC_INSERT:%.*]] = insertelement <4 x i32> [[X_SROA_0_8_VEC_INSERT]], i32 [[D:%.*]], i32 3, !dbg [[DBG361:![0-9]+]]
-; DEBUG-NEXT:    [[TMP0:%.*]] = bitcast <4 x i32> [[X_SROA_0_12_VEC_INSERT]] to <2 x i64>, !dbg [[DBG362:![0-9]+]]
+; DEBUG-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <4 x i32> [[X_SROA_0_12_VEC_INSERT]], !dbg [[DBG362:![0-9]+]]
+; DEBUG-NEXT:    [[TMP0:%.*]] = bitcast <4 x i32> [[FREEZE_LOAD2]] to <2 x i64>, !dbg [[DBG362]]
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata <2 x i64> [[TMP0]], metadata [[META353:![0-9]+]], metadata !DIExpression()), !dbg [[DBG362]]
 ; DEBUG-NEXT:    ret <2 x i64> [[TMP0]], !dbg [[DBG363:![0-9]+]]
 ;
@@ -931,6 +961,7 @@ define i32 @test14(<2 x i64> %x) {
 ; CHECK-LABEL: @test14(
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    [[TMP0:%.*]] = bitcast <2 x i64> [[X:%.*]] to <4 x i32>
+; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <4 x i32> poison
 ; CHECK-NEXT:    [[X_ADDR_SROA_0_0_VEC_EXTRACT:%.*]] = extractelement <4 x i32> [[TMP0]], i32 0
 ; CHECK-NEXT:    [[X_ADDR_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <4 x i32> [[TMP0]], i32 1
 ; CHECK-NEXT:    [[X_ADDR_SROA_0_8_VEC_EXTRACT:%.*]] = extractelement <4 x i32> [[TMP0]], i32 2
@@ -944,6 +975,7 @@ define i32 @test14(<2 x i64> %x) {
 ; DEBUG-NEXT:  entry:
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META366:![0-9]+]], metadata !DIExpression()), !dbg [[DBG378:![0-9]+]]
 ; DEBUG-NEXT:    [[TMP0:%.*]] = bitcast <2 x i64> [[X:%.*]] to <4 x i32>, !dbg [[DBG379:![0-9]+]]
+; DEBUG-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <4 x i32> poison, !dbg [[DBG379]]
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META367:![0-9]+]], metadata !DIExpression()), !dbg [[DBG380:![0-9]+]]
 ; DEBUG-NEXT:    [[X_ADDR_SROA_0_0_VEC_EXTRACT:%.*]] = extractelement <4 x i32> [[TMP0]], i32 0, !dbg [[DBG381:![0-9]+]]
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata i32 [[X_ADDR_SROA_0_0_VEC_EXTRACT]], metadata [[META368:![0-9]+]], metadata !DIExpression()), !dbg [[DBG381]]
@@ -992,7 +1024,7 @@ define <4 x ptr> @test15(i32 %a, i32 %b, i32 %c, i32 %d) {
 ; CHECK-NEXT:    store i32 [[C:%.*]], ptr [[X_SROA_0_8_X_TMP3_SROA_IDX2]], align 8
 ; CHECK-NEXT:    [[X_SROA_0_12_X_TMP4_SROA_IDX3:%.*]] = getelementptr inbounds i8, ptr [[X_SROA_0]], i64 12
 ; CHECK-NEXT:    store i32 [[D:%.*]], ptr [[X_SROA_0_12_X_TMP4_SROA_IDX3]], align 4
-; CHECK-NEXT:    [[X_SROA_0_0_X_SROA_0_0_RESULT:%.*]] = load <4 x ptr>, ptr [[X_SROA_0]], align 32
+; CHECK-NEXT:    [[X_SROA_0_0_X_SROA_0_0_RESULT:%.*]] = load <4 x ptr>, ptr [[X_SROA_0]], align 32, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    ret <4 x ptr> [[X_SROA_0_0_X_SROA_0_0_RESULT]]
 ;
 ; DEBUG-LABEL: @test15(
@@ -1009,7 +1041,7 @@ define <4 x ptr> @test15(i32 %a, i32 %b, i32 %c, i32 %d) {
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META397:![0-9]+]], metadata !DIExpression()), !dbg [[DBG406:![0-9]+]]
 ; DEBUG-NEXT:    [[X_SROA_0_12_X_TMP4_SROA_IDX3:%.*]] = getelementptr inbounds i8, ptr [[X_SROA_0]], i64 12, !dbg [[DBG407:![0-9]+]]
 ; DEBUG-NEXT:    store i32 [[D:%.*]], ptr [[X_SROA_0_12_X_TMP4_SROA_IDX3]], align 4, !dbg [[DBG407]]
-; DEBUG-NEXT:    [[X_SROA_0_0_X_SROA_0_0_RESULT:%.*]] = load <4 x ptr>, ptr [[X_SROA_0]], align 32, !dbg [[DBG408:![0-9]+]]
+; DEBUG-NEXT:    [[X_SROA_0_0_X_SROA_0_0_RESULT:%.*]] = load <4 x ptr>, ptr [[X_SROA_0]], align 32, !dbg [[DBG408:![0-9]+]], !freeze_bits [[FREEZE_BITS7]]
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata <4 x ptr> [[X_SROA_0_0_X_SROA_0_0_RESULT]], metadata [[META398:![0-9]+]], metadata !DIExpression()), !dbg [[DBG408]]
 ; DEBUG-NEXT:    ret <4 x ptr> [[X_SROA_0_0_X_SROA_0_0_RESULT]], !dbg [[DBG409:![0-9]+]]
 ;
@@ -1030,20 +1062,23 @@ define <4 x ptr> @test16(i64 %a, i64 %b, i64 %c, i64 %d) {
 ; CHECK-LABEL: @test16(
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    [[TMP0:%.*]] = inttoptr i64 [[A:%.*]] to ptr
-; CHECK-NEXT:    [[X_SROA_0_0_VEC_INSERT:%.*]] = insertelement <4 x ptr> undef, ptr [[TMP0]], i32 0
+; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <4 x ptr> poison
+; CHECK-NEXT:    [[X_SROA_0_0_VEC_INSERT:%.*]] = insertelement <4 x ptr> [[FREEZE_LOAD]], ptr [[TMP0]], i32 0
 ; CHECK-NEXT:    [[TMP1:%.*]] = inttoptr i64 [[B:%.*]] to ptr
 ; CHECK-NEXT:    [[X_SROA_0_8_VEC_INSERT:%.*]] = insertelement <4 x ptr> [[X_SROA_0_0_VEC_INSERT]], ptr [[TMP1]], i32 1
 ; CHECK-NEXT:    [[TMP2:%.*]] = inttoptr i64 [[C:%.*]] to ptr
 ; CHECK-NEXT:    [[X_SROA_0_16_VEC_INSERT:%.*]] = insertelement <4 x ptr> [[X_SROA_0_8_VEC_INSERT]], ptr [[TMP2]], i32 2
 ; CHECK-NEXT:    [[TMP3:%.*]] = inttoptr i64 [[D:%.*]] to ptr
 ; CHECK-NEXT:    [[X_SROA_0_24_VEC_INSERT:%.*]] = insertelement <4 x ptr> [[X_SROA_0_16_VEC_INSERT]], ptr [[TMP3]], i32 3
-; CHECK-NEXT:    ret <4 x ptr> [[X_SROA_0_24_VEC_INSERT]]
+; CHECK-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <4 x ptr> [[X_SROA_0_24_VEC_INSERT]]
+; CHECK-NEXT:    ret <4 x ptr> [[FREEZE_LOAD2]]
 ;
 ; DEBUG-LABEL: @test16(
 ; DEBUG-NEXT:  entry:
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META412:![0-9]+]], metadata !DIExpression()), !dbg [[DBG417:![0-9]+]]
 ; DEBUG-NEXT:    [[TMP0:%.*]] = inttoptr i64 [[A:%.*]] to ptr, !dbg [[DBG418:![0-9]+]]
-; DEBUG-NEXT:    [[X_SROA_0_0_VEC_INSERT:%.*]] = insertelement <4 x ptr> undef, ptr [[TMP0]], i32 0, !dbg [[DBG418]]
+; DEBUG-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <4 x ptr> poison, !dbg [[DBG418]]
+; DEBUG-NEXT:    [[X_SROA_0_0_VEC_INSERT:%.*]] = insertelement <4 x ptr> [[FREEZE_LOAD]], ptr [[TMP0]], i32 0, !dbg [[DBG418]]
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META413:![0-9]+]], metadata !DIExpression()), !dbg [[DBG419:![0-9]+]]
 ; DEBUG-NEXT:    [[TMP1:%.*]] = inttoptr i64 [[B:%.*]] to ptr, !dbg [[DBG420:![0-9]+]]
 ; DEBUG-NEXT:    [[X_SROA_0_8_VEC_INSERT:%.*]] = insertelement <4 x ptr> [[X_SROA_0_0_VEC_INSERT]], ptr [[TMP1]], i32 1, !dbg [[DBG420]]
@@ -1053,8 +1088,9 @@ define <4 x ptr> @test16(i64 %a, i64 %b, i64 %c, i64 %d) {
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META415:![0-9]+]], metadata !DIExpression()), !dbg [[DBG423:![0-9]+]]
 ; DEBUG-NEXT:    [[TMP3:%.*]] = inttoptr i64 [[D:%.*]] to ptr, !dbg [[DBG424:![0-9]+]]
 ; DEBUG-NEXT:    [[X_SROA_0_24_VEC_INSERT:%.*]] = insertelement <4 x ptr> [[X_SROA_0_16_VEC_INSERT]], ptr [[TMP3]], i32 3, !dbg [[DBG424]]
-; DEBUG-NEXT:    call void @llvm.dbg.value(metadata <4 x ptr> [[X_SROA_0_24_VEC_INSERT]], metadata [[META416:![0-9]+]], metadata !DIExpression()), !dbg [[DBG425:![0-9]+]]
-; DEBUG-NEXT:    ret <4 x ptr> [[X_SROA_0_24_VEC_INSERT]], !dbg [[DBG426:![0-9]+]]
+; DEBUG-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <4 x ptr> [[X_SROA_0_24_VEC_INSERT]], !dbg [[DBG425:![0-9]+]]
+; DEBUG-NEXT:    call void @llvm.dbg.value(metadata <4 x ptr> [[FREEZE_LOAD2]], metadata [[META416:![0-9]+]], metadata !DIExpression()), !dbg [[DBG425]]
+; DEBUG-NEXT:    ret <4 x ptr> [[FREEZE_LOAD2]], !dbg [[DBG426:![0-9]+]]
 ;
 entry:
   %x = alloca [4 x ptr]
@@ -1080,7 +1116,7 @@ define <4 x ptr> @test17(i32 %a, i32 %b, i64 %c, i64 %d) {
 ; CHECK-NEXT:    store i64 [[C:%.*]], ptr [[X_SROA_0_16_X_TMP3_SROA_IDX2]], align 16
 ; CHECK-NEXT:    [[X_SROA_0_24_X_TMP4_SROA_IDX3:%.*]] = getelementptr inbounds i8, ptr [[X_SROA_0]], i64 24
 ; CHECK-NEXT:    store i64 [[D:%.*]], ptr [[X_SROA_0_24_X_TMP4_SROA_IDX3]], align 8
-; CHECK-NEXT:    [[X_SROA_0_0_X_SROA_0_0_RESULT:%.*]] = load <4 x ptr>, ptr [[X_SROA_0]], align 32
+; CHECK-NEXT:    [[X_SROA_0_0_X_SROA_0_0_RESULT:%.*]] = load <4 x ptr>, ptr [[X_SROA_0]], align 32, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    ret <4 x ptr> [[X_SROA_0_0_X_SROA_0_0_RESULT]]
 ;
 ; DEBUG-LABEL: @test17(
@@ -1097,7 +1133,7 @@ define <4 x ptr> @test17(i32 %a, i32 %b, i64 %c, i64 %d) {
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META432:![0-9]+]], metadata !DIExpression()), !dbg [[DBG440:![0-9]+]]
 ; DEBUG-NEXT:    [[X_SROA_0_24_X_TMP4_SROA_IDX3:%.*]] = getelementptr inbounds i8, ptr [[X_SROA_0]], i64 24, !dbg [[DBG441:![0-9]+]]
 ; DEBUG-NEXT:    store i64 [[D:%.*]], ptr [[X_SROA_0_24_X_TMP4_SROA_IDX3]], align 8, !dbg [[DBG441]]
-; DEBUG-NEXT:    [[X_SROA_0_0_X_SROA_0_0_RESULT:%.*]] = load <4 x ptr>, ptr [[X_SROA_0]], align 32, !dbg [[DBG442:![0-9]+]]
+; DEBUG-NEXT:    [[X_SROA_0_0_X_SROA_0_0_RESULT:%.*]] = load <4 x ptr>, ptr [[X_SROA_0]], align 32, !dbg [[DBG442:![0-9]+]], !freeze_bits [[FREEZE_BITS7]]
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata <4 x ptr> [[X_SROA_0_0_X_SROA_0_0_RESULT]], metadata [[META433:![0-9]+]], metadata !DIExpression()), !dbg [[DBG442]]
 ; DEBUG-NEXT:    ret <4 x ptr> [[X_SROA_0_0_X_SROA_0_0_RESULT]], !dbg [[DBG443:![0-9]+]]
 ;
@@ -1120,14 +1156,14 @@ define i1 @test18() {
 ; CHECK-LABEL: @test18(
 ; CHECK-NEXT:    [[A_SROA_0:%.*]] = alloca <2 x i64>, align 32
 ; CHECK-NEXT:    store <2 x i64> <i64 0, i64 -1>, ptr [[A_SROA_0]], align 32
-; CHECK-NEXT:    [[A_SROA_0_0_A_SROA_0_0_L:%.*]] = load i1, ptr [[A_SROA_0]], align 32
+; CHECK-NEXT:    [[A_SROA_0_0_A_SROA_0_0_L:%.*]] = load i1, ptr [[A_SROA_0]], align 32, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    ret i1 [[A_SROA_0_0_A_SROA_0_0_L]]
 ;
 ; DEBUG-LABEL: @test18(
 ; DEBUG-NEXT:    [[A_SROA_0:%.*]] = alloca <2 x i64>, align 32, !dbg [[DBG449:![0-9]+]]
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META446:![0-9]+]], metadata !DIExpression()), !dbg [[DBG449]]
 ; DEBUG-NEXT:    store <2 x i64> <i64 0, i64 -1>, ptr [[A_SROA_0]], align 32, !dbg [[DBG450:![0-9]+]]
-; DEBUG-NEXT:    [[A_SROA_0_0_A_SROA_0_0_L:%.*]] = load i1, ptr [[A_SROA_0]], align 32, !dbg [[DBG451:![0-9]+]]
+; DEBUG-NEXT:    [[A_SROA_0_0_A_SROA_0_0_L:%.*]] = load i1, ptr [[A_SROA_0]], align 32, !dbg [[DBG451:![0-9]+]], !freeze_bits [[FREEZE_BITS7]]
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata i1 [[A_SROA_0_0_A_SROA_0_0_L]], metadata [[META447:![0-9]+]], metadata !DIExpression()), !dbg [[DBG451]]
 ; DEBUG-NEXT:    ret i1 [[A_SROA_0_0_A_SROA_0_0_L]], !dbg [[DBG452:![0-9]+]]
 ;
@@ -1139,14 +1175,14 @@ define i1 @test18() {
 
 define void @swap-8bytes(ptr %x, ptr %y) {
 ; CHECK-LABEL: @swap-8bytes(
-; CHECK-NEXT:    [[TMP_SROA_0_0_COPYLOAD:%.*]] = load i64, ptr [[X:%.*]], align 1
+; CHECK-NEXT:    [[TMP_SROA_0_0_COPYLOAD:%.*]] = load i64, ptr [[X:%.*]], align 1, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    tail call void @llvm.memcpy.p0.p0.i64(ptr [[X]], ptr [[Y:%.*]], i64 8, i1 false)
 ; CHECK-NEXT:    store i64 [[TMP_SROA_0_0_COPYLOAD]], ptr [[Y]], align 1
 ; CHECK-NEXT:    ret void
 ;
 ; DEBUG-LABEL: @swap-8bytes(
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META455:![0-9]+]], metadata !DIExpression()), !dbg [[DBG456:![0-9]+]]
-; DEBUG-NEXT:    [[TMP_SROA_0_0_COPYLOAD:%.*]] = load i64, ptr [[X:%.*]], align 1, !dbg [[DBG457:![0-9]+]]
+; DEBUG-NEXT:    [[TMP_SROA_0_0_COPYLOAD:%.*]] = load i64, ptr [[X:%.*]], align 1, !dbg [[DBG457:![0-9]+]], !freeze_bits [[FREEZE_BITS7]]
 ; DEBUG-NEXT:    tail call void @llvm.memcpy.p0.p0.i64(ptr [[X]], ptr [[Y:%.*]], i64 8, i1 false), !dbg [[DBG458:![0-9]+]]
 ; DEBUG-NEXT:    store i64 [[TMP_SROA_0_0_COPYLOAD]], ptr [[Y]], align 1, !dbg [[DBG459:![0-9]+]]
 ; DEBUG-NEXT:    ret void, !dbg [[DBG460:![0-9]+]]

@@ -12,7 +12,7 @@ declare void @llvm.memcpy.p1.p1.i32(ptr addrspace(1) nocapture, ptr addrspace(1)
 ; Make sure an illegal bitcast isn't introduced
 define void @test_address_space_1_1(ptr addrspace(1) %a, ptr addrspace(1) %b) {
 ; CHECK-LABEL: @test_address_space_1_1(
-; CHECK-NEXT:    [[AA_0_COPYLOAD:%.*]] = load <2 x i64>, ptr addrspace(1) [[A:%.*]], align 2
+; CHECK-NEXT:    [[AA_0_COPYLOAD:%.*]] = load <2 x i64>, ptr addrspace(1) [[A:%.*]], align 2, !freeze_bits [[FREEZE_BITS0:![0-9]+]]
 ; CHECK-NEXT:    store <2 x i64> [[AA_0_COPYLOAD]], ptr addrspace(1) [[B:%.*]], align 2
 ; CHECK-NEXT:    ret void
 ;
@@ -24,7 +24,7 @@ define void @test_address_space_1_1(ptr addrspace(1) %a, ptr addrspace(1) %b) {
 
 define void @test_address_space_1_0(ptr addrspace(1) %a, ptr %b) {
 ; CHECK-LABEL: @test_address_space_1_0(
-; CHECK-NEXT:    [[AA_0_COPYLOAD:%.*]] = load <2 x i64>, ptr addrspace(1) [[A:%.*]], align 2
+; CHECK-NEXT:    [[AA_0_COPYLOAD:%.*]] = load <2 x i64>, ptr addrspace(1) [[A:%.*]], align 2, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    store <2 x i64> [[AA_0_COPYLOAD]], ptr [[B:%.*]], align 2
 ; CHECK-NEXT:    ret void
 ;
@@ -36,7 +36,7 @@ define void @test_address_space_1_0(ptr addrspace(1) %a, ptr %b) {
 
 define void @test_address_space_0_1(ptr %a, ptr addrspace(1) %b) {
 ; CHECK-LABEL: @test_address_space_0_1(
-; CHECK-NEXT:    [[AA_0_COPYLOAD:%.*]] = load <2 x i64>, ptr [[A:%.*]], align 2
+; CHECK-NEXT:    [[AA_0_COPYLOAD:%.*]] = load <2 x i64>, ptr [[A:%.*]], align 2, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    store <2 x i64> [[AA_0_COPYLOAD]], ptr addrspace(1) [[B:%.*]], align 2
 ; CHECK-NEXT:    ret void
 ;
@@ -61,7 +61,8 @@ define void @copy_struct([5 x i64] %in.coerce, ptr addrspace(1) align 4 %ptr) {
 ; CHECK-NEXT:    [[IN_SROA_4_20_PTR_SROA_IDX:%.*]] = getelementptr inbounds i8, ptr addrspace(1) [[PTR]], i16 4
 ; CHECK-NEXT:    store i64 [[IN_COERCE_FCA_3_EXTRACT]], ptr addrspace(1) [[IN_SROA_4_20_PTR_SROA_IDX]], align 4
 ; CHECK-NEXT:    [[IN_SROA_5_20_PTR_SROA_IDX:%.*]] = getelementptr inbounds i8, ptr addrspace(1) [[PTR]], i16 12
-; CHECK-NEXT:    store i32 undef, ptr addrspace(1) [[IN_SROA_5_20_PTR_SROA_IDX]], align 4
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i32 poison
+; CHECK-NEXT:    store i32 [[FREEZE]], ptr addrspace(1) [[IN_SROA_5_20_PTR_SROA_IDX]], align 4
 ; CHECK-NEXT:    ret void
 ;
 for.end:
@@ -110,9 +111,9 @@ define ptr @pr27557.alt() {
 define float @presplit(ptr addrspace(1) %p) {
 ; CHECK-LABEL: @presplit(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[L1:%.*]] = load i32, ptr addrspace(1) [[P:%.*]], align 4
+; CHECK-NEXT:    [[L1:%.*]] = load i32, ptr addrspace(1) [[P:%.*]], align 4, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    [[P_SROA_IDX:%.*]] = getelementptr inbounds i8, ptr addrspace(1) [[P]], i16 4
-; CHECK-NEXT:    [[L2:%.*]] = load i32, ptr addrspace(1) [[P_SROA_IDX]], align 4
+; CHECK-NEXT:    [[L2:%.*]] = load i32, ptr addrspace(1) [[P_SROA_IDX]], align 4, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    [[TMP0:%.*]] = bitcast i32 [[L1]] to float
 ; CHECK-NEXT:    [[TMP1:%.*]] = bitcast i32 [[L2]] to float
 ; CHECK-NEXT:    [[RET:%.*]] = fadd float [[TMP0]], [[TMP1]]
@@ -132,9 +133,9 @@ entry:
 ; Test load from and store to non-zero address space.
 define void @test_load_store_diff_addr_space(ptr addrspace(1) %complex1, ptr addrspace(1) %complex2) {
 ; CHECK-LABEL: @test_load_store_diff_addr_space(
-; CHECK-NEXT:    [[V13:%.*]] = load i32, ptr addrspace(1) [[COMPLEX1:%.*]], align 4
+; CHECK-NEXT:    [[V13:%.*]] = load i32, ptr addrspace(1) [[COMPLEX1:%.*]], align 4, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    [[COMPLEX1_SROA_IDX:%.*]] = getelementptr inbounds i8, ptr addrspace(1) [[COMPLEX1]], i16 4
-; CHECK-NEXT:    [[V14:%.*]] = load i32, ptr addrspace(1) [[COMPLEX1_SROA_IDX]], align 4
+; CHECK-NEXT:    [[V14:%.*]] = load i32, ptr addrspace(1) [[COMPLEX1_SROA_IDX]], align 4, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    [[TMP1:%.*]] = bitcast i32 [[V13]] to float
 ; CHECK-NEXT:    [[TMP2:%.*]] = bitcast i32 [[V14]] to float
 ; CHECK-NEXT:    [[SUM:%.*]] = fadd float [[TMP1]], [[TMP2]]

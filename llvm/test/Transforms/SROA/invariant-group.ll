@@ -91,7 +91,8 @@ define void @store_and_launder() {
 
 define i32 @launder_and_load() {
 ; CHECK-LABEL: @launder_and_load(
-; CHECK-NEXT:    ret i32 undef
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i32 poison
+; CHECK-NEXT:    ret i32 [[FREEZE]]
 ;
   %valptr = alloca i32, align 4
   %barr = call ptr @llvm.launder.invariant.group.p0(ptr %valptr)
@@ -142,7 +143,7 @@ define void @partial_promotion_of_alloca() {
 ; CHECK-LABEL: @partial_promotion_of_alloca(
 ; CHECK-NEXT:    [[STRUCT_PTR_SROA_2:%.*]] = alloca i32, align 4
 ; CHECK-NEXT:    store volatile i32 0, ptr [[STRUCT_PTR_SROA_2]], align 4
-; CHECK-NEXT:    [[STRUCT_PTR_SROA_2_0_STRUCT_PTR_SROA_2_4_LOAD_VAL:%.*]] = load volatile i32, ptr [[STRUCT_PTR_SROA_2]], align 4
+; CHECK-NEXT:    [[STRUCT_PTR_SROA_2_0_STRUCT_PTR_SROA_2_4_LOAD_VAL:%.*]] = load volatile i32, ptr [[STRUCT_PTR_SROA_2]], align 4, !freeze_bits [[META0]]
 ; CHECK-NEXT:    ret void
 ;
   %struct_ptr = alloca %t, align 4

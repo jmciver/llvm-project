@@ -17,10 +17,10 @@ define void @no_split_on_non_byte_width(i32) {
 ; CHECK-NEXT:    [[ARG_SROA_3_0_EXTRACT_TRUNC:%.*]] = trunc i32 [[ARG_SROA_3_0_EXTRACT_SHIFT]] to i24
 ; CHECK-NEXT:    br label [[LOAD_I32:%.*]]
 ; CHECK:       load_i32:
-; CHECK-NEXT:    [[ARG_SROA_0_0_ARG_SROA_0_0_R01:%.*]] = load i8, ptr [[ARG_SROA_0]], align 8
+; CHECK-NEXT:    [[ARG_SROA_0_0_ARG_SROA_0_0_R01:%.*]] = load i8, ptr [[ARG_SROA_0]], align 8, !freeze_bits [[FREEZE_BITS0:![0-9]+]]
 ; CHECK-NEXT:    br label [[LOAD_I1:%.*]]
 ; CHECK:       load_i1:
-; CHECK-NEXT:    [[ARG_SROA_0_0_ARG_SROA_0_0_T1:%.*]] = load i1, ptr [[ARG_SROA_0]], align 8
+; CHECK-NEXT:    [[ARG_SROA_0_0_ARG_SROA_0_0_T1:%.*]] = load i1, ptr [[ARG_SROA_0]], align 8, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    ret void
 ;
   %arg = alloca i32 , align 8
@@ -49,8 +49,8 @@ define void @memcpy_fp80_padding() {
 ; CHECK-LABEL: @memcpy_fp80_padding(
 ; CHECK-NEXT:    [[X_SROA_0:%.*]] = alloca x86_fp80, align 16
 ; CHECK-NEXT:    call void @llvm.memcpy.p0.p0.i32(ptr align 16 [[X_SROA_0]], ptr align 16 @foo_copy_source, i32 16, i1 false)
-; CHECK-NEXT:    [[X_SROA_1_0_COPYLOAD:%.*]] = load i64, ptr getelementptr inbounds (i8, ptr @foo_copy_source, i64 16), align 16
-; CHECK-NEXT:    [[X_SROA_2_0_COPYLOAD:%.*]] = load i64, ptr getelementptr inbounds (i8, ptr @foo_copy_source, i64 24), align 8
+; CHECK-NEXT:    [[X_SROA_1_0_COPYLOAD:%.*]] = load i64, ptr getelementptr inbounds (i8, ptr @foo_copy_source, i64 16), align 16, !freeze_bits [[FREEZE_BITS0]]
+; CHECK-NEXT:    [[X_SROA_2_0_COPYLOAD:%.*]] = load i64, ptr getelementptr inbounds (i8, ptr @foo_copy_source, i64 24), align 8, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    store i64 [[X_SROA_1_0_COPYLOAD]], ptr @i64_sink, align 4
 ; CHECK-NEXT:    ret void
 ;
@@ -95,9 +95,9 @@ declare i32 @memcpy_vec3float_helper(ptr)
 define i32 @memcpy_vec3float_widening(ptr %x) {
 ; CHECK-LABEL: @memcpy_vec3float_widening(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[TMP1_SROA_0_0_COPYLOAD:%.*]] = load <3 x float>, ptr [[X:%.*]], align 4
+; CHECK-NEXT:    [[TMP1_SROA_0_0_COPYLOAD:%.*]] = load <3 x float>, ptr [[X:%.*]], align 4, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    [[TMP1_SROA_0_0_VEC_EXPAND:%.*]] = shufflevector <3 x float> [[TMP1_SROA_0_0_COPYLOAD]], <3 x float> poison, <4 x i32> <i32 0, i32 1, i32 2, i32 poison>
-; CHECK-NEXT:    [[TMP1_SROA_0_0_VECBLEND:%.*]] = select <4 x i1> <i1 true, i1 true, i1 true, i1 false>, <4 x float> [[TMP1_SROA_0_0_VEC_EXPAND]], <4 x float> undef
+; CHECK-NEXT:    [[TMP1_SROA_0_0_VECBLEND:%.*]] = select <4 x i1> <i1 true, i1 true, i1 true, i1 false>, <4 x float> [[TMP1_SROA_0_0_VEC_EXPAND]], <4 x float> poison
 ; CHECK-NEXT:    [[TMP2:%.*]] = alloca [[S_VEC3FLOAT:%.*]], align 4
 ; CHECK-NEXT:    [[TMP1_SROA_0_0_VEC_EXTRACT:%.*]] = shufflevector <4 x float> [[TMP1_SROA_0_0_VECBLEND]], <4 x float> poison, <3 x i32> <i32 0, i32 1, i32 2>
 ; CHECK-NEXT:    store <3 x float> [[TMP1_SROA_0_0_VEC_EXTRACT]], ptr [[TMP2]], align 4
@@ -149,8 +149,9 @@ define void @PR50910() {
 define i1 @presplit_overlarge_load() {
 ; CHECK-LABEL: @presplit_overlarge_load(
 ; CHECK-NEXT:    [[A_SROA_0:%.*]] = alloca i8, align 2
-; CHECK-NEXT:    [[A_SROA_0_0_A_SROA_0_0_L11:%.*]] = load i8, ptr [[A_SROA_0]], align 2
-; CHECK-NEXT:    [[A_SROA_0_0_A_SROA_0_0_L2:%.*]] = load i1, ptr [[A_SROA_0]], align 2
+; CHECK-NEXT:    [[A_SROA_0_0_A_SROA_0_0_L11:%.*]] = load i8, ptr [[A_SROA_0]], align 2, !freeze_bits [[FREEZE_BITS0]]
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i8 poison
+; CHECK-NEXT:    [[A_SROA_0_0_A_SROA_0_0_L2:%.*]] = load i1, ptr [[A_SROA_0]], align 2, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    ret i1 [[A_SROA_0_0_A_SROA_0_0_L2]]
 ;
   %A = alloca i16
