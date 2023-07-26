@@ -581,21 +581,27 @@ static bool promoteSingleBlockAlloca(
   using StoresByIndexTy = SmallVector<std::pair<unsigned, StoreInst *>, 64>;
   StoresByIndexTy StoresByIndex;
 
-  for (User *U : AI->users())
+  using PairIndexLoadInstTy = std::pair<unsigned, LoadInst *>;
+  using LoadsByIndexTy = SmallVector<PairIndexLoadInstTy, 64>;
+  LoadsByIndexTy LoadsByIndex;
+
+  for (User *U : AI->users()) {
     if (StoreInst *SI = dyn_cast<StoreInst>(U))
       StoresByIndex.push_back(std::make_pair(LBI.getInstructionIndex(SI), SI));
+    if (LoadInst *LI = dyn_cast<LoadInst>(U))
+      LoadsByIndex.push_back(std::make_pair(LBI.getInstructionIndex(LI), LI));
+  }
 
   // Sort the stores by their index, making it efficient to do a lookup with a
   // binary search.
   llvm::sort(StoresByIndex, less_first());
 
-  LoadInst *LLI {nullptr};
-  for (User *U: make_early_inc_range(AI->users())) {
-    if (isa<LoadInst>(U)) {
-      LLI = dyn_cast<LoadInst>(U);
-      break;
-    }
-  }
+  // Find the load instruction with the largest index.
+  auto MaxIndexLoadInst =
+      std::max_element(begin(LoadsByIndex), end(LoadsByIndex),
+                       [](PairIndexLoadInstTy &lhs, PairIndexLoadInstTy &rhs) {
+                         return lhs.first < rhs.first;
+                       });
 
   // Walk all of the loads from this alloca, replacing them with the nearest
   // store above them, if any.
@@ -640,7 +646,7 @@ static bool promoteSingleBlockAlloca(
     } else {
       // Otherwise, there was a store before this load, the load takes its
       // value.
-      if (Info.HasLoadingFreeze && LI == LLI) {
+      if (Info.HasLoadingFreeze && LI == MaxIndexLoadInst->second) {
         IRBuilder<> Builder(LI);
         ReplVal = Builder.CreateFreeze(std::prev(I)->second->getOperand(0), "freeze");
       } else

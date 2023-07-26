@@ -30,7 +30,8 @@ define void @test_loadfreeze_1(ptr %arg) {
 ; CHECK-NEXT:    [[ARG_DEREF:%.*]] = load i32, ptr [[ARG]], align 4
 ; CHECK-NEXT:    [[T2:%.*]] = add i32 [[ARG_DEREF]], 1
 ; CHECK-NEXT:    [[T4:%.*]] = add i32 [[T2]], 1
-; CHECK-NEXT:    store i32 [[T4]], ptr [[ARG]], align 4
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i32 [[T4]]
+; CHECK-NEXT:    store i32 [[FREEZE]], ptr [[ARG]], align 4
 ; CHECK-NEXT:    ret void
 ;
   %p = alloca i32
@@ -53,7 +54,8 @@ define void @test_loadfreeze_2(ptr %arg) {
 ; CHECK-NEXT:    [[ARG_DEREF:%.*]] = load i32, ptr [[ARG]], align 4
 ; CHECK-NEXT:    [[T2:%.*]] = add i32 [[ARG_DEREF]], 1
 ; CHECK-NEXT:    [[T4:%.*]] = add i32 [[T2]], 1
-; CHECK-NEXT:    store i32 [[T4]], ptr [[ARG]], align 4
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i32 [[T4]]
+; CHECK-NEXT:    store i32 [[FREEZE]], ptr [[ARG]], align 4
 ; CHECK-NEXT:    ret void
 ;
   %p = alloca i32
@@ -76,7 +78,8 @@ define void @test_loadfreeze_3(ptr %arg) {
 ; CHECK-NEXT:    [[ARG_DEREF:%.*]] = load i32, ptr [[ARG]], align 4
 ; CHECK-NEXT:    [[T2:%.*]] = add i32 [[ARG_DEREF]], 1
 ; CHECK-NEXT:    [[T4:%.*]] = add i32 [[T2]], 1
-; CHECK-NEXT:    store i32 [[T4]], ptr [[ARG]], align 4
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i32 [[T4]]
+; CHECK-NEXT:    store i32 [[FREEZE]], ptr [[ARG]], align 4
 ; CHECK-NEXT:    ret void
 ;
   %p = alloca i32
@@ -99,7 +102,8 @@ define void @test_loadfreeze_all(ptr %arg) {
 ; CHECK-NEXT:    [[ARG_DEREF:%.*]] = load i32, ptr [[ARG]], align 4
 ; CHECK-NEXT:    [[T2:%.*]] = add i32 [[ARG_DEREF]], 1
 ; CHECK-NEXT:    [[T4:%.*]] = add i32 [[T2]], 1
-; CHECK-NEXT:    store i32 [[T4]], ptr [[ARG]], align 4
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i32 [[T4]]
+; CHECK-NEXT:    store i32 [[FREEZE]], ptr [[ARG]], align 4
 ; CHECK-NEXT:    ret void
 ;
   %p = alloca i32
