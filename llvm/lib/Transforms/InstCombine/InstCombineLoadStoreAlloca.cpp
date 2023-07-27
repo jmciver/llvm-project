@@ -16,6 +16,7 @@
 #include "llvm/ADT/Statistic.h"
 #include "llvm/Analysis/AliasAnalysis.h"
 #include "llvm/Analysis/Loads.h"
+#include "llvm/Analysis/MemoryBuiltins.h"
 #include "llvm/IR/DataLayout.h"
 #include "llvm/IR/DebugInfoMetadata.h"
 #include "llvm/IR/IntrinsicInst.h"
@@ -1035,10 +1036,11 @@ Instruction *InstCombinerImpl::visitLoadInst(LoadInst &LI) {
   if (Value *AvailableVal = FindAvailableLoadedValue(&LI, *AA, &IsLoadCSE)) {
     if (IsLoadCSE)
       combineMetadataForCSE(cast<LoadInst>(AvailableVal), &LI, false);
-
-    return replaceInstUsesWith(
-        LI, Builder.CreateBitOrPointerCast(AvailableVal, LI.getType(),
-                                           LI.getName() + ".cast"));
+    if (loadHasFreezeBits(&LI))
+      AvailableVal = Builder.CreateFreeze(AvailableVal, "load.freeze");
+    auto V = Builder.CreateBitOrPointerCast(AvailableVal, LI.getType(),
+                                            LI.getName() + ".cast");
+    return replaceInstUsesWith(LI, V);
   }
 
   // None of the following transforms are legal for volatile/ordered atomic
