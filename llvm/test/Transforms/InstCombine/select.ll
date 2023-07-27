@@ -1130,7 +1130,7 @@ define float @test79(i1 %flag, ptr %x, ptr %y, ptr %z) {
   ret float %v
 }
 
-; Test that when we speculate the loads around the select they fold throug
+; Test that when we speculate the loads around the select they fold through
 ; load->load folding and load->store folding.
 define i32 @test80(i1 %flag) {
 ; CHECK-LABEL: @test80(
