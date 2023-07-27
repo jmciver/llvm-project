@@ -19,9 +19,11 @@ define void @_Z3foov() {
 ; CHECK-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [1000 x float], ptr @a, i64 0, i64 [[TMP0]]
 ; CHECK-NEXT:    [[ARRAYIDX2:%.*]] = getelementptr inbounds [1000 x float], ptr @b, i64 0, i64 [[TMP0]]
 ; CHECK-NEXT:    [[TMP1:%.*]] = load float, ptr [[ARRAYIDX]], align 4
+; CHECK-NEXT:    [[DOTFR1:%.*]] = freeze float [[TMP1]]
 ; CHECK-NEXT:    [[TMP2:%.*]] = load float, ptr [[ARRAYIDX2]], align 4
-; CHECK-NEXT:    [[CMP_I:%.*]] = fcmp fast olt float [[TMP1]], [[TMP2]]
-; CHECK-NEXT:    [[DOTV:%.*]] = select i1 [[CMP_I]], float [[TMP2]], float [[TMP1]]
+; CHECK-NEXT:    [[DOTFR:%.*]] = freeze float [[TMP2]]
+; CHECK-NEXT:    [[CMP_I:%.*]] = fcmp fast olt float [[DOTFR1]], [[DOTFR]]
+; CHECK-NEXT:    [[DOTV:%.*]] = select i1 [[CMP_I]], float [[DOTFR]], float [[DOTFR1]]
 ; CHECK-NEXT:    store float [[DOTV]], ptr [[ARRAYIDX]], align 4
 ; CHECK-NEXT:    [[INC]] = add nuw nsw i32 [[I_0]], 1
 ; CHECK-NEXT:    br label [[FOR_COND]]
@@ -78,9 +80,11 @@ define void @bitcasted_store(i1 %cond, ptr %loadaddr1, ptr %loadaddr2, ptr %stor
 define void @bitcasted_minmax_with_select_of_pointers(ptr %loadaddr1, ptr %loadaddr2, ptr %storeaddr) {
 ; CHECK-LABEL: @bitcasted_minmax_with_select_of_pointers(
 ; CHECK-NEXT:    [[LD1:%.*]] = load float, ptr [[LOADADDR1:%.*]], align 4
+; CHECK-NEXT:    [[LD1_FR:%.*]] = freeze float [[LD1]]
 ; CHECK-NEXT:    [[LD2:%.*]] = load float, ptr [[LOADADDR2:%.*]], align 4
-; CHECK-NEXT:    [[COND:%.*]] = fcmp ogt float [[LD1]], [[LD2]]
-; CHECK-NEXT:    [[LD_V:%.*]] = select i1 [[COND]], float [[LD1]], float [[LD2]]
+; CHECK-NEXT:    [[LD2_FR:%.*]] = freeze float [[LD2]]
+; CHECK-NEXT:    [[COND:%.*]] = fcmp ogt float [[LD1_FR]], [[LD2_FR]]
+; CHECK-NEXT:    [[LD_V:%.*]] = select i1 [[COND]], float [[LD1_FR]], float [[LD2_FR]]
 ; CHECK-NEXT:    store float [[LD_V]], ptr [[STOREADDR:%.*]], align 4
 ; CHECK-NEXT:    ret void
 ;

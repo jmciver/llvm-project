@@ -35,9 +35,9 @@ define i32 @test_simplify2(ptr %mem1, ptr %mem2) {
 
 define i32 @test_simplify3(ptr %mem1, ptr %mem2) {
 ; CHECK-LABEL: @test_simplify3(
-; CHECK-NEXT:    [[LHSC:%.*]] = load i8, ptr [[MEM1:%.*]], align 1
+; CHECK-NEXT:    [[LHSC:%.*]] = load i8, ptr [[MEM1:%.*]], align 1, !freeze_bits [[FREEZE_BITS0:![0-9]+]]
 ; CHECK-NEXT:    [[LHSV:%.*]] = zext i8 [[LHSC]] to i32
-; CHECK-NEXT:    [[RHSC:%.*]] = load i8, ptr [[MEM2:%.*]], align 1
+; CHECK-NEXT:    [[RHSC:%.*]] = load i8, ptr [[MEM2:%.*]], align 1, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    [[RHSV:%.*]] = zext i8 [[RHSC]] to i32
 ; CHECK-NEXT:    [[CHARDIFF:%.*]] = sub nsw i32 [[LHSV]], [[RHSV]]
 ; CHECK-NEXT:    ret i32 [[CHARDIFF]]
@@ -76,7 +76,9 @@ define i32 @test_simplify6() {
 
 define i1 @test_simplify7(i64 %x, i64 %y) {
 ; CHECK-LABEL: @test_simplify7(
-; CHECK-NEXT:    [[DOTNOT:%.*]] = icmp eq i64 [[X:%.*]], [[Y:%.*]]
+; CHECK-NEXT:    [[LOAD_FREEZE1:%.*]] = freeze i64 [[Y:%.*]]
+; CHECK-NEXT:    [[LOAD_FREEZE:%.*]] = freeze i64 [[X:%.*]]
+; CHECK-NEXT:    [[DOTNOT:%.*]] = icmp eq i64 [[LOAD_FREEZE]], [[LOAD_FREEZE1]]
 ; CHECK-NEXT:    ret i1 [[DOTNOT]]
 ;
   %x.addr = alloca i64, align 8
@@ -92,7 +94,9 @@ define i1 @test_simplify7(i64 %x, i64 %y) {
 
 define i1 @test_simplify8(i32 %x, i32 %y) {
 ; CHECK-LABEL: @test_simplify8(
-; CHECK-NEXT:    [[DOTNOT:%.*]] = icmp eq i32 [[X:%.*]], [[Y:%.*]]
+; CHECK-NEXT:    [[LOAD_FREEZE1:%.*]] = freeze i32 [[Y:%.*]]
+; CHECK-NEXT:    [[LOAD_FREEZE:%.*]] = freeze i32 [[X:%.*]]
+; CHECK-NEXT:    [[DOTNOT:%.*]] = icmp eq i32 [[LOAD_FREEZE]], [[LOAD_FREEZE1]]
 ; CHECK-NEXT:    ret i1 [[DOTNOT]]
 ;
   %x.addr = alloca i32, align 4
@@ -108,7 +112,9 @@ define i1 @test_simplify8(i32 %x, i32 %y) {
 
 define i1 @test_simplify9(i16 %x, i16 %y) {
 ; CHECK-LABEL: @test_simplify9(
-; CHECK-NEXT:    [[DOTNOT:%.*]] = icmp eq i16 [[X:%.*]], [[Y:%.*]]
+; CHECK-NEXT:    [[LOAD_FREEZE1:%.*]] = freeze i16 [[Y:%.*]]
+; CHECK-NEXT:    [[LOAD_FREEZE:%.*]] = freeze i16 [[X:%.*]]
+; CHECK-NEXT:    [[DOTNOT:%.*]] = icmp eq i16 [[LOAD_FREEZE]], [[LOAD_FREEZE1]]
 ; CHECK-NEXT:    ret i1 [[DOTNOT]]
 ;
   %x.addr = alloca i16, align 2

@@ -174,7 +174,8 @@ define %struct.half @one_elem_struct_merge(i1 %cond, %struct.half %a, half %b) {
 ; CHECK-NEXT:    br label [[SINK]]
 ; CHECK:       sink:
 ; CHECK-NEXT:    [[STOREMERGE:%.*]] = phi half [ [[TMP0]], [[BB0]] ], [ [[B:%.*]], [[BB1]] ]
-; CHECK-NEXT:    [[VAL1:%.*]] = insertvalue [[STRUCT_HALF]] poison, half [[STOREMERGE]], 0
+; CHECK-NEXT:    [[VAL_UNPACK:%.*]] = freeze half [[STOREMERGE]]
+; CHECK-NEXT:    [[VAL1:%.*]] = insertvalue [[STRUCT_HALF]] poison, half [[VAL_UNPACK]], 0
 ; CHECK-NEXT:    ret [[STRUCT_HALF]] [[VAL1]]
 ;
 entry:
