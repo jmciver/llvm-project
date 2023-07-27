@@ -1079,7 +1079,7 @@ Instruction *InstCombinerImpl::visitLoadInst(LoadInst &LI) {
     auto V = Builder.CreateBitOrPointerCast(AvailableVal, LI.getType(),
                                             LI.getName() + ".cast");
     if (loadHasFreezeBits(&LI)) {
-      V = Builder.CreateFreeze(V, "freeze");
+      return new FreezeInst(V, LI.getName() + ".freeze");
     }
     return replaceInstUsesWith(LI, V);
   }
