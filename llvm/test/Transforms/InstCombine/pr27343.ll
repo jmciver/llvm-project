@@ -4,7 +4,8 @@
 define i32 @__isnan(float %x) alwaysinline nounwind optsize {
 ; CHECK-LABEL: @__isnan(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[DOTCAST:%.*]] = bitcast float [[X:%.*]] to i32
+; CHECK-NEXT:    [[X_FR:%.*]] = freeze float [[X:%.*]]
+; CHECK-NEXT:    [[DOTCAST:%.*]] = bitcast float [[X_FR]] to i32
 ; CHECK-NEXT:    [[SHL:%.*]] = shl i32 [[DOTCAST]], 1
 ; CHECK-NEXT:    [[CMP:%.*]] = icmp ugt i32 [[SHL]], -16777216
 ; CHECK-NEXT:    [[CONV:%.*]] = zext i1 [[CMP]] to i32

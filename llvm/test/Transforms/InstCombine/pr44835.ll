@@ -7,8 +7,10 @@
 define void @test(ptr %p, ptr %p2) {
 ; CHECK-LABEL: @test(
 ; CHECK-NEXT:    [[V:%.*]] = load i32, ptr [[P:%.*]], align 4
+; CHECK-NEXT:    [[P_VAL:%.*]] = freeze i32 [[V]]
 ; CHECK-NEXT:    [[V2:%.*]] = load i32, ptr [[P2:%.*]], align 4
-; CHECK-NEXT:    [[TMP1:%.*]] = call i32 @llvm.umin.i32(i32 [[V2]], i32 [[V]])
+; CHECK-NEXT:    [[P2_VAL:%.*]] = freeze i32 [[V2]]
+; CHECK-NEXT:    [[TMP1:%.*]] = call i32 @llvm.umin.i32(i32 [[P2_VAL]], i32 [[P_VAL]])
 ; CHECK-NEXT:    store i32 [[TMP1]], ptr [[P]], align 4
 ; CHECK-NEXT:    ret void
 ;
