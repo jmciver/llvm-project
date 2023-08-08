@@ -42,6 +42,7 @@
 #include "llvm/Analysis/DomTreeUpdater.h"
 #include "llvm/Analysis/GlobalsModRef.h"
 #include "llvm/Analysis/Loads.h"
+#include "llvm/Analysis/MemoryBuiltins.h"
 #include "llvm/Analysis/PtrUseVisitor.h"
 #include "llvm/Analysis/ValueTracking.h"
 #include "llvm/Config/llvm-config.h"
@@ -2910,8 +2911,9 @@ private:
     unsigned EndIndex = getIndex(NewEndOffset);
     assert(EndIndex > BeginIndex && "Empty vector!");
 
-    LoadInst *Load = IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
-                                           NewAI.getAlign(), "load");
+    LoadInst *Load =
+        IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
+                              NewAI.getAlign(), "load", loadHasFreezeBits(&LI));
 
     Load->copyMetadata(LI, {LLVMContext::MD_mem_parallel_loop_access,
                             LLVMContext::MD_access_group});
@@ -2921,8 +2923,9 @@ private:
   Value *rewriteIntegerLoad(LoadInst &LI) {
     assert(IntTy && "We cannot insert an integer to the alloca");
     assert(!LI.isVolatile());
-    Value *V = IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
-                                     NewAI.getAlign(), "load");
+    Value *V =
+        IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
+                              NewAI.getAlign(), "load", loadHasFreezeBits(&LI));
     V = convertValue(DL, IRB, V, IntTy);
     assert(NewBeginOffset >= NewAllocaBeginOffset && "Out of bounds offset");
     uint64_t Offset = NewBeginOffset - NewAllocaBeginOffset;
@@ -3900,13 +3903,14 @@ private:
     // A vector to hold all the fake uses of the struct that we are splitting.
     // Usually there should only be one, but we are handling the general case.
     SmallVector<Instruction *, 1> FakeUses;
+    bool IsFreezing;
 
     LoadOpSplitter(Instruction *InsertionPoint, Value *Ptr, Type *BaseTy,
                    AAMDNodes AATags, Align BaseAlign, const DataLayout &DL,
-                   IRBuilderTy &IRB)
+                   IRBuilderTy &IRB, bool IsFreezing)
         : OpSplitter<LoadOpSplitter>(InsertionPoint, Ptr, BaseTy, BaseAlign, DL,
                                      IRB),
-          AATags(AATags) {}
+          AATags(AATags), IsFreezing(IsFreezing) {}
 
     /// Emit a leaf load of a single value. This is called at the leaves of the
     /// recursive emission to actually load values.
@@ -3916,7 +3920,7 @@ private:
       Value *GEP =
           IRB.CreateInBoundsGEP(BaseTy, Ptr, GEPIndices, Name + ".gep");
       LoadInst *Load =
-          IRB.CreateAlignedLoad(Ty, GEP, Alignment, Name + ".load");
+          IRB.CreateAlignedLoad(Ty, GEP, Alignment, Name + ".load", IsFreezing);
 
       APInt Offset(
           DL.getIndexSizeInBits(Ptr->getType()->getPointerAddressSpace()), 0);
@@ -3960,8 +3964,10 @@ private:
     // We have an aggregate being loaded, split it apart.
     LLVM_DEBUG(dbgs() << "    original: " << LI << "\n");
     LoadOpSplitter Splitter(&LI, *U, LI.getType(), LI.getAAMetadata(),
-                            getAdjustedAlignment(&LI, 0), DL, IRB);
+                            getAdjustedAlignment(&LI, 0), DL, IRB,
+                            loadHasFreezeBits(&LI));
     Splitter.recordFakeUses(LI);
+                            
     Value *V = PoisonValue::get(LI.getType());
     Splitter.emitSplitOps(LI.getType(), V, LI.getName() + ".fca");
     Splitter.emitFakeUses();
