@@ -647,9 +647,6 @@ define void @test14(...) nounwind uwtable {
 ;
 ; CHECK-LABEL: @test14(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i32 poison
-; CHECK-NEXT:    [[FREEZE2:%.*]] = freeze i32 poison
-; CHECK-NEXT:    [[FREEZE1:%.*]] = freeze i32 poison
 ; CHECK-NEXT:    ret void
 ;
 entry:
@@ -891,7 +888,6 @@ define void @PR13916.1() {
 ;
 ; CHECK-LABEL: @PR13916.1(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i8 poison
 ; CHECK-NEXT:    ret void
 ;
 entry:
@@ -912,7 +908,6 @@ define void @PR13916.2(i1 %c1) {
 ; CHECK:       if.then:
 ; CHECK-NEXT:    br label [[IF_END]]
 ; CHECK:       if.end:
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i8 poison
 ; CHECK-NEXT:    ret void
 ;
 entry:
@@ -1460,10 +1455,10 @@ define void @PR15805.1(i1 %a, i1 %b, i1 %c2) {
 ; CHECK-MODIFY-CFG-LABEL: @PR15805.1(
 ; CHECK-MODIFY-CFG-NEXT:    br label [[EXIT:%.*]]
 ; CHECK-MODIFY-CFG:       loop:
-; CHECK-MODIFY-CFG-NEXT:    [[C_0_LOAD:%.*]] = load i64, ptr poison, align 8, !freeze_bits [[FREEZE_BITS0]]
+; CHECK-MODIFY-CFG-NEXT:    [[C_0_LOAD:%.*]] = load i64, ptr poison, align 8
 ; CHECK-MODIFY-CFG-NEXT:    br i1 [[A:%.*]], label [[LOOP_CONT:%.*]], label [[LOOP_ELSE:%.*]]
 ; CHECK-MODIFY-CFG:       loop.else:
-; CHECK-MODIFY-CFG-NEXT:    [[C_0_LOAD1:%.*]] = load i64, ptr poison, align 8, !freeze_bits [[FREEZE_BITS0]]
+; CHECK-MODIFY-CFG-NEXT:    [[C_0_LOAD1:%.*]] = load i64, ptr poison, align 8
 ; CHECK-MODIFY-CFG-NEXT:    br label [[LOOP_CONT]]
 ; CHECK-MODIFY-CFG:       loop.cont:
 ; CHECK-MODIFY-CFG-NEXT:    [[COND:%.*]] = phi i64 [ [[C_0_LOAD]], [[LOOP:%.*]] ], [ [[C_0_LOAD1]], [[LOOP_ELSE]] ]
@@ -1855,7 +1850,6 @@ entry-block:
 define void @PR29139() {
 ; CHECK-LABEL: @PR29139(
 ; CHECK-NEXT:  bb1:
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i32 poison
 ; CHECK-NEXT:    ret void
 ;
 bb1:
@@ -1925,7 +1919,6 @@ define void @test29(i32 %num, i32 %tid) {
 ; CHECK:       bb1:
 ; CHECK-NEXT:    [[TOBOOL:%.*]] = icmp eq i32 [[TID:%.*]], 0
 ; CHECK-NEXT:    [[CONV_I:%.*]] = zext i32 [[TID]] to i64
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i32 poison
 ; CHECK-NEXT:    [[ARRAYIDX5:%.*]] = getelementptr inbounds [10 x float], ptr @array, i64 0, i64 [[CONV_I]]
 ; CHECK-NEXT:    br label [[BB2:%.*]]
 ; CHECK:       bb2:
@@ -1934,7 +1927,7 @@ define void @test29(i32 %num, i32 %tid) {
 ; CHECK:       bb3:
 ; CHECK-NEXT:    br label [[BB5]]
 ; CHECK:       bb4:
-; CHECK-NEXT:    store i32 [[FREEZE]], ptr [[ARRAYIDX5]], align 4
+; CHECK-NEXT:    store i32 poison, ptr [[ARRAYIDX5]], align 4
 ; CHECK-NEXT:    br label [[BB5]]
 ; CHECK:       bb5:
 ; CHECK-NEXT:    [[SUB]] = add i32 [[I_02]], -1

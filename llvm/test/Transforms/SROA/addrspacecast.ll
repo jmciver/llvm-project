@@ -277,7 +277,6 @@ entry:
 
 define void @select_addrspacecast(i1 %a, i1 %b) {
 ; CHECK-LABEL: @select_addrspacecast(
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i64 poison
 ; CHECK-NEXT:    ret void
 ;
   %c = alloca i64, align 8
@@ -298,13 +297,12 @@ define void @select_addrspacecast_const_op(i1 %a, i1 %b) {
 ; CHECK-PRESERVE-CFG-NEXT:    ret void
 ;
 ; CHECK-MODIFY-CFG-LABEL: @select_addrspacecast_const_op(
-; CHECK-MODIFY-CFG-NEXT:    [[FREEZE:%.*]] = freeze i64 poison
 ; CHECK-MODIFY-CFG-NEXT:    br i1 [[B:%.*]], label [[DOTCONT:%.*]], label [[DOTELSE:%.*]]
 ; CHECK-MODIFY-CFG:       .else:
 ; CHECK-MODIFY-CFG-NEXT:    [[COND_ELSE_VAL:%.*]] = load i64, ptr addrspace(1) null, align 8
 ; CHECK-MODIFY-CFG-NEXT:    br label [[DOTCONT]]
 ; CHECK-MODIFY-CFG:       .cont:
-; CHECK-MODIFY-CFG-NEXT:    [[COND:%.*]] = phi i64 [ [[FREEZE]], [[TMP0:%.*]] ], [ [[COND_ELSE_VAL]], [[DOTELSE]] ]
+; CHECK-MODIFY-CFG-NEXT:    [[COND:%.*]] = phi i64 [ poison, [[TMP0:%.*]] ], [ [[COND_ELSE_VAL]], [[DOTELSE]] ]
 ; CHECK-MODIFY-CFG-NEXT:    ret void
 ;
   %c = alloca i64, align 8
