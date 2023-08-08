@@ -2948,7 +2948,7 @@ private:
 
       // Mix in the existing elements.
       Value *Old = IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
-                                         NewAI.getAlign(), "load");
+                                         NewAI.getAlign(), "load", false);
       V = insertVector(IRB, Old, V, BeginIndex, "vec");
     }
     StoreInst *Store = IRB.CreateAlignedStore(V, &NewAI, NewAI.getAlign());
