@@ -18,7 +18,6 @@ define void @foo(i1 %c1, i1 %c2) {
 ; CHECK:       if.then.i.i.i.i.i237:
 ; CHECK-NEXT:    unreachable
 ; CHECK:       bb0.exit257:
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze <2 x ptr> poison
 ; CHECK-NEXT:    ret void
 ;
 entry:

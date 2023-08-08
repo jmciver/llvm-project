@@ -298,19 +298,19 @@ define void @test8() {
 ; CHECK-NEXT:    [[PTR:%.*]] = alloca [5 x i32], align 1
 ; CHECK-NEXT:    call void @populate(ptr [[PTR]])
 ; CHECK-NEXT:    [[VAL_FCA_0_GEP:%.*]] = getelementptr inbounds [5 x i32], ptr [[PTR]], i32 0, i32 0
-; CHECK-NEXT:    [[VAL_FCA_0_LOAD:%.*]] = load i32, ptr [[VAL_FCA_0_GEP]], align 1, !freeze_bits [[FREEZE_BITS0]]
+; CHECK-NEXT:    [[VAL_FCA_0_LOAD:%.*]] = load i32, ptr [[VAL_FCA_0_GEP]], align 1
 ; CHECK-NEXT:    [[VAL_FCA_0_INSERT:%.*]] = insertvalue [5 x i32] poison, i32 [[VAL_FCA_0_LOAD]], 0
 ; CHECK-NEXT:    [[VAL_FCA_1_GEP:%.*]] = getelementptr inbounds [5 x i32], ptr [[PTR]], i32 0, i32 1
-; CHECK-NEXT:    [[VAL_FCA_1_LOAD:%.*]] = load i32, ptr [[VAL_FCA_1_GEP]], align 1, !freeze_bits [[FREEZE_BITS0]]
+; CHECK-NEXT:    [[VAL_FCA_1_LOAD:%.*]] = load i32, ptr [[VAL_FCA_1_GEP]], align 1
 ; CHECK-NEXT:    [[VAL_FCA_1_INSERT:%.*]] = insertvalue [5 x i32] [[VAL_FCA_0_INSERT]], i32 [[VAL_FCA_1_LOAD]], 1
 ; CHECK-NEXT:    [[VAL_FCA_2_GEP:%.*]] = getelementptr inbounds [5 x i32], ptr [[PTR]], i32 0, i32 2
-; CHECK-NEXT:    [[VAL_FCA_2_LOAD:%.*]] = load i32, ptr [[VAL_FCA_2_GEP]], align 1, !freeze_bits [[FREEZE_BITS0]]
+; CHECK-NEXT:    [[VAL_FCA_2_LOAD:%.*]] = load i32, ptr [[VAL_FCA_2_GEP]], align 1
 ; CHECK-NEXT:    [[VAL_FCA_2_INSERT:%.*]] = insertvalue [5 x i32] [[VAL_FCA_1_INSERT]], i32 [[VAL_FCA_2_LOAD]], 2
 ; CHECK-NEXT:    [[VAL_FCA_3_GEP:%.*]] = getelementptr inbounds [5 x i32], ptr [[PTR]], i32 0, i32 3
-; CHECK-NEXT:    [[VAL_FCA_3_LOAD:%.*]] = load i32, ptr [[VAL_FCA_3_GEP]], align 1, !freeze_bits [[FREEZE_BITS0]]
+; CHECK-NEXT:    [[VAL_FCA_3_LOAD:%.*]] = load i32, ptr [[VAL_FCA_3_GEP]], align 1
 ; CHECK-NEXT:    [[VAL_FCA_3_INSERT:%.*]] = insertvalue [5 x i32] [[VAL_FCA_2_INSERT]], i32 [[VAL_FCA_3_LOAD]], 3
 ; CHECK-NEXT:    [[VAL_FCA_4_GEP:%.*]] = getelementptr inbounds [5 x i32], ptr [[PTR]], i32 0, i32 4
-; CHECK-NEXT:    [[VAL_FCA_4_LOAD:%.*]] = load i32, ptr [[VAL_FCA_4_GEP]], align 1, !freeze_bits [[FREEZE_BITS0]]
+; CHECK-NEXT:    [[VAL_FCA_4_LOAD:%.*]] = load i32, ptr [[VAL_FCA_4_GEP]], align 1
 ; CHECK-NEXT:    [[VAL_FCA_4_INSERT:%.*]] = insertvalue [5 x i32] [[VAL_FCA_3_INSERT]], i32 [[VAL_FCA_4_LOAD]], 4
 ; CHECK-NEXT:    ret void
 ;
@@ -319,19 +319,19 @@ define void @test8() {
 ; CHECK-DEBUGLOC-NEXT:    call void @llvm.dbg.value(metadata ptr [[PTR]], metadata [[META99:![0-9]+]], metadata !DIExpression()), !dbg [[DBG102]]
 ; CHECK-DEBUGLOC-NEXT:    call void @populate(ptr [[PTR]]), !dbg [[DBG103:![0-9]+]]
 ; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_0_GEP:%.*]] = getelementptr inbounds [5 x i32], ptr [[PTR]], i32 0, i32 0, !dbg [[DBG104:![0-9]+]]
-; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_0_LOAD:%.*]] = load i32, ptr [[VAL_FCA_0_GEP]], align 1, !dbg [[DBG104]], !freeze_bits [[FREEZE_BITS7]]
+; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_0_LOAD:%.*]] = load i32, ptr [[VAL_FCA_0_GEP]], align 1, !dbg [[DBG104]]
 ; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_0_INSERT:%.*]] = insertvalue [5 x i32] poison, i32 [[VAL_FCA_0_LOAD]], 0, !dbg [[DBG104]]
 ; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_1_GEP:%.*]] = getelementptr inbounds [5 x i32], ptr [[PTR]], i32 0, i32 1, !dbg [[DBG104]]
-; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_1_LOAD:%.*]] = load i32, ptr [[VAL_FCA_1_GEP]], align 1, !dbg [[DBG104]], !freeze_bits [[FREEZE_BITS7]]
+; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_1_LOAD:%.*]] = load i32, ptr [[VAL_FCA_1_GEP]], align 1, !dbg [[DBG104]]
 ; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_1_INSERT:%.*]] = insertvalue [5 x i32] [[VAL_FCA_0_INSERT]], i32 [[VAL_FCA_1_LOAD]], 1, !dbg [[DBG104]]
 ; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_2_GEP:%.*]] = getelementptr inbounds [5 x i32], ptr [[PTR]], i32 0, i32 2, !dbg [[DBG104]]
-; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_2_LOAD:%.*]] = load i32, ptr [[VAL_FCA_2_GEP]], align 1, !dbg [[DBG104]], !freeze_bits [[FREEZE_BITS7]]
+; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_2_LOAD:%.*]] = load i32, ptr [[VAL_FCA_2_GEP]], align 1, !dbg [[DBG104]]
 ; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_2_INSERT:%.*]] = insertvalue [5 x i32] [[VAL_FCA_1_INSERT]], i32 [[VAL_FCA_2_LOAD]], 2, !dbg [[DBG104]]
 ; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_3_GEP:%.*]] = getelementptr inbounds [5 x i32], ptr [[PTR]], i32 0, i32 3, !dbg [[DBG104]]
-; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_3_LOAD:%.*]] = load i32, ptr [[VAL_FCA_3_GEP]], align 1, !dbg [[DBG104]], !freeze_bits [[FREEZE_BITS7]]
+; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_3_LOAD:%.*]] = load i32, ptr [[VAL_FCA_3_GEP]], align 1, !dbg [[DBG104]]
 ; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_3_INSERT:%.*]] = insertvalue [5 x i32] [[VAL_FCA_2_INSERT]], i32 [[VAL_FCA_3_LOAD]], 3, !dbg [[DBG104]]
 ; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_4_GEP:%.*]] = getelementptr inbounds [5 x i32], ptr [[PTR]], i32 0, i32 4, !dbg [[DBG104]]
-; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_4_LOAD:%.*]] = load i32, ptr [[VAL_FCA_4_GEP]], align 1, !dbg [[DBG104]], !freeze_bits [[FREEZE_BITS7]]
+; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_4_LOAD:%.*]] = load i32, ptr [[VAL_FCA_4_GEP]], align 1, !dbg [[DBG104]]
 ; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_4_INSERT:%.*]] = insertvalue [5 x i32] [[VAL_FCA_3_INSERT]], i32 [[VAL_FCA_4_LOAD]], 4, !dbg [[DBG104]]
 ; CHECK-DEBUGLOC-NEXT:    call void @llvm.dbg.value(metadata [5 x i32] [[VAL_FCA_4_INSERT]], metadata [[META100:![0-9]+]], metadata !DIExpression()), !dbg [[DBG104]]
 ; CHECK-DEBUGLOC-NEXT:    ret void, !dbg [[DBG105:![0-9]+]]
@@ -347,19 +347,19 @@ define void @test9() {
 ; CHECK-NEXT:    [[PTR:%.*]] = alloca [5 x i32], align 8
 ; CHECK-NEXT:    call void @populate(ptr [[PTR]])
 ; CHECK-NEXT:    [[VAL_FCA_0_GEP:%.*]] = getelementptr inbounds [5 x i32], ptr [[PTR]], i32 0, i32 0
-; CHECK-NEXT:    [[VAL_FCA_0_LOAD:%.*]] = load i32, ptr [[VAL_FCA_0_GEP]], align 8, !freeze_bits [[FREEZE_BITS0]]
+; CHECK-NEXT:    [[VAL_FCA_0_LOAD:%.*]] = load i32, ptr [[VAL_FCA_0_GEP]], align 8
 ; CHECK-NEXT:    [[VAL_FCA_0_INSERT:%.*]] = insertvalue [5 x i32] poison, i32 [[VAL_FCA_0_LOAD]], 0
 ; CHECK-NEXT:    [[VAL_FCA_1_GEP:%.*]] = getelementptr inbounds [5 x i32], ptr [[PTR]], i32 0, i32 1
-; CHECK-NEXT:    [[VAL_FCA_1_LOAD:%.*]] = load i32, ptr [[VAL_FCA_1_GEP]], align 4, !freeze_bits [[FREEZE_BITS0]]
+; CHECK-NEXT:    [[VAL_FCA_1_LOAD:%.*]] = load i32, ptr [[VAL_FCA_1_GEP]], align 4
 ; CHECK-NEXT:    [[VAL_FCA_1_INSERT:%.*]] = insertvalue [5 x i32] [[VAL_FCA_0_INSERT]], i32 [[VAL_FCA_1_LOAD]], 1
 ; CHECK-NEXT:    [[VAL_FCA_2_GEP:%.*]] = getelementptr inbounds [5 x i32], ptr [[PTR]], i32 0, i32 2
-; CHECK-NEXT:    [[VAL_FCA_2_LOAD:%.*]] = load i32, ptr [[VAL_FCA_2_GEP]], align 8, !freeze_bits [[FREEZE_BITS0]]
+; CHECK-NEXT:    [[VAL_FCA_2_LOAD:%.*]] = load i32, ptr [[VAL_FCA_2_GEP]], align 8
 ; CHECK-NEXT:    [[VAL_FCA_2_INSERT:%.*]] = insertvalue [5 x i32] [[VAL_FCA_1_INSERT]], i32 [[VAL_FCA_2_LOAD]], 2
 ; CHECK-NEXT:    [[VAL_FCA_3_GEP:%.*]] = getelementptr inbounds [5 x i32], ptr [[PTR]], i32 0, i32 3
-; CHECK-NEXT:    [[VAL_FCA_3_LOAD:%.*]] = load i32, ptr [[VAL_FCA_3_GEP]], align 4, !freeze_bits [[FREEZE_BITS0]]
+; CHECK-NEXT:    [[VAL_FCA_3_LOAD:%.*]] = load i32, ptr [[VAL_FCA_3_GEP]], align 4
 ; CHECK-NEXT:    [[VAL_FCA_3_INSERT:%.*]] = insertvalue [5 x i32] [[VAL_FCA_2_INSERT]], i32 [[VAL_FCA_3_LOAD]], 3
 ; CHECK-NEXT:    [[VAL_FCA_4_GEP:%.*]] = getelementptr inbounds [5 x i32], ptr [[PTR]], i32 0, i32 4
-; CHECK-NEXT:    [[VAL_FCA_4_LOAD:%.*]] = load i32, ptr [[VAL_FCA_4_GEP]], align 8, !freeze_bits [[FREEZE_BITS0]]
+; CHECK-NEXT:    [[VAL_FCA_4_LOAD:%.*]] = load i32, ptr [[VAL_FCA_4_GEP]], align 8
 ; CHECK-NEXT:    [[VAL_FCA_4_INSERT:%.*]] = insertvalue [5 x i32] [[VAL_FCA_3_INSERT]], i32 [[VAL_FCA_4_LOAD]], 4
 ; CHECK-NEXT:    ret void
 ;
@@ -368,19 +368,19 @@ define void @test9() {
 ; CHECK-DEBUGLOC-NEXT:    call void @llvm.dbg.value(metadata ptr [[PTR]], metadata [[META108:![0-9]+]], metadata !DIExpression()), !dbg [[DBG110]]
 ; CHECK-DEBUGLOC-NEXT:    call void @populate(ptr [[PTR]]), !dbg [[DBG111:![0-9]+]]
 ; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_0_GEP:%.*]] = getelementptr inbounds [5 x i32], ptr [[PTR]], i32 0, i32 0, !dbg [[DBG112:![0-9]+]]
-; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_0_LOAD:%.*]] = load i32, ptr [[VAL_FCA_0_GEP]], align 8, !dbg [[DBG112]], !freeze_bits [[FREEZE_BITS7]]
+; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_0_LOAD:%.*]] = load i32, ptr [[VAL_FCA_0_GEP]], align 8, !dbg [[DBG112]]
 ; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_0_INSERT:%.*]] = insertvalue [5 x i32] poison, i32 [[VAL_FCA_0_LOAD]], 0, !dbg [[DBG112]]
 ; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_1_GEP:%.*]] = getelementptr inbounds [5 x i32], ptr [[PTR]], i32 0, i32 1, !dbg [[DBG112]]
-; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_1_LOAD:%.*]] = load i32, ptr [[VAL_FCA_1_GEP]], align 4, !dbg [[DBG112]], !freeze_bits [[FREEZE_BITS7]]
+; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_1_LOAD:%.*]] = load i32, ptr [[VAL_FCA_1_GEP]], align 4, !dbg [[DBG112]]
 ; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_1_INSERT:%.*]] = insertvalue [5 x i32] [[VAL_FCA_0_INSERT]], i32 [[VAL_FCA_1_LOAD]], 1, !dbg [[DBG112]]
 ; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_2_GEP:%.*]] = getelementptr inbounds [5 x i32], ptr [[PTR]], i32 0, i32 2, !dbg [[DBG112]]
-; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_2_LOAD:%.*]] = load i32, ptr [[VAL_FCA_2_GEP]], align 8, !dbg [[DBG112]], !freeze_bits [[FREEZE_BITS7]]
+; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_2_LOAD:%.*]] = load i32, ptr [[VAL_FCA_2_GEP]], align 8, !dbg [[DBG112]]
 ; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_2_INSERT:%.*]] = insertvalue [5 x i32] [[VAL_FCA_1_INSERT]], i32 [[VAL_FCA_2_LOAD]], 2, !dbg [[DBG112]]
 ; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_3_GEP:%.*]] = getelementptr inbounds [5 x i32], ptr [[PTR]], i32 0, i32 3, !dbg [[DBG112]]
-; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_3_LOAD:%.*]] = load i32, ptr [[VAL_FCA_3_GEP]], align 4, !dbg [[DBG112]], !freeze_bits [[FREEZE_BITS7]]
+; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_3_LOAD:%.*]] = load i32, ptr [[VAL_FCA_3_GEP]], align 4, !dbg [[DBG112]]
 ; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_3_INSERT:%.*]] = insertvalue [5 x i32] [[VAL_FCA_2_INSERT]], i32 [[VAL_FCA_3_LOAD]], 3, !dbg [[DBG112]]
 ; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_4_GEP:%.*]] = getelementptr inbounds [5 x i32], ptr [[PTR]], i32 0, i32 4, !dbg [[DBG112]]
-; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_4_LOAD:%.*]] = load i32, ptr [[VAL_FCA_4_GEP]], align 8, !dbg [[DBG112]], !freeze_bits [[FREEZE_BITS7]]
+; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_4_LOAD:%.*]] = load i32, ptr [[VAL_FCA_4_GEP]], align 8, !dbg [[DBG112]]
 ; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_4_INSERT:%.*]] = insertvalue [5 x i32] [[VAL_FCA_3_INSERT]], i32 [[VAL_FCA_4_LOAD]], 4, !dbg [[DBG112]]
 ; CHECK-DEBUGLOC-NEXT:    call void @llvm.dbg.value(metadata [5 x i32] [[VAL_FCA_4_INSERT]], metadata [[META109:![0-9]+]], metadata !DIExpression()), !dbg [[DBG112]]
 ; CHECK-DEBUGLOC-NEXT:    ret void, !dbg [[DBG113:![0-9]+]]
@@ -396,19 +396,19 @@ define void @test10() {
 ; CHECK-NEXT:    [[PTR:%.*]] = alloca { i32, i8, i8, { i8, i16 } }, align 2
 ; CHECK-NEXT:    call void @populate(ptr [[PTR]])
 ; CHECK-NEXT:    [[VAL_FCA_0_GEP:%.*]] = getelementptr inbounds { i32, i8, i8, { i8, i16 } }, ptr [[PTR]], i32 0, i32 0
-; CHECK-NEXT:    [[VAL_FCA_0_LOAD:%.*]] = load i32, ptr [[VAL_FCA_0_GEP]], align 2, !freeze_bits [[FREEZE_BITS0]]
+; CHECK-NEXT:    [[VAL_FCA_0_LOAD:%.*]] = load i32, ptr [[VAL_FCA_0_GEP]], align 2
 ; CHECK-NEXT:    [[VAL_FCA_0_INSERT:%.*]] = insertvalue { i32, i8, i8, { i8, i16 } } poison, i32 [[VAL_FCA_0_LOAD]], 0
 ; CHECK-NEXT:    [[VAL_FCA_1_GEP:%.*]] = getelementptr inbounds { i32, i8, i8, { i8, i16 } }, ptr [[PTR]], i32 0, i32 1
-; CHECK-NEXT:    [[VAL_FCA_1_LOAD:%.*]] = load i8, ptr [[VAL_FCA_1_GEP]], align 2, !freeze_bits [[FREEZE_BITS0]]
+; CHECK-NEXT:    [[VAL_FCA_1_LOAD:%.*]] = load i8, ptr [[VAL_FCA_1_GEP]], align 2
 ; CHECK-NEXT:    [[VAL_FCA_1_INSERT:%.*]] = insertvalue { i32, i8, i8, { i8, i16 } } [[VAL_FCA_0_INSERT]], i8 [[VAL_FCA_1_LOAD]], 1
 ; CHECK-NEXT:    [[VAL_FCA_2_GEP:%.*]] = getelementptr inbounds { i32, i8, i8, { i8, i16 } }, ptr [[PTR]], i32 0, i32 2
-; CHECK-NEXT:    [[VAL_FCA_2_LOAD:%.*]] = load i8, ptr [[VAL_FCA_2_GEP]], align 1, !freeze_bits [[FREEZE_BITS0]]
+; CHECK-NEXT:    [[VAL_FCA_2_LOAD:%.*]] = load i8, ptr [[VAL_FCA_2_GEP]], align 1
 ; CHECK-NEXT:    [[VAL_FCA_2_INSERT:%.*]] = insertvalue { i32, i8, i8, { i8, i16 } } [[VAL_FCA_1_INSERT]], i8 [[VAL_FCA_2_LOAD]], 2
 ; CHECK-NEXT:    [[VAL_FCA_3_0_GEP:%.*]] = getelementptr inbounds { i32, i8, i8, { i8, i16 } }, ptr [[PTR]], i32 0, i32 3, i32 0
-; CHECK-NEXT:    [[VAL_FCA_3_0_LOAD:%.*]] = load i8, ptr [[VAL_FCA_3_0_GEP]], align 2, !freeze_bits [[FREEZE_BITS0]]
+; CHECK-NEXT:    [[VAL_FCA_3_0_LOAD:%.*]] = load i8, ptr [[VAL_FCA_3_0_GEP]], align 2
 ; CHECK-NEXT:    [[VAL_FCA_3_0_INSERT:%.*]] = insertvalue { i32, i8, i8, { i8, i16 } } [[VAL_FCA_2_INSERT]], i8 [[VAL_FCA_3_0_LOAD]], 3, 0
 ; CHECK-NEXT:    [[VAL_FCA_3_1_GEP:%.*]] = getelementptr inbounds { i32, i8, i8, { i8, i16 } }, ptr [[PTR]], i32 0, i32 3, i32 1
-; CHECK-NEXT:    [[VAL_FCA_3_1_LOAD:%.*]] = load i16, ptr [[VAL_FCA_3_1_GEP]], align 2, !freeze_bits [[FREEZE_BITS0]]
+; CHECK-NEXT:    [[VAL_FCA_3_1_LOAD:%.*]] = load i16, ptr [[VAL_FCA_3_1_GEP]], align 2
 ; CHECK-NEXT:    [[VAL_FCA_3_1_INSERT:%.*]] = insertvalue { i32, i8, i8, { i8, i16 } } [[VAL_FCA_3_0_INSERT]], i16 [[VAL_FCA_3_1_LOAD]], 3, 1
 ; CHECK-NEXT:    ret void
 ;
@@ -417,19 +417,19 @@ define void @test10() {
 ; CHECK-DEBUGLOC-NEXT:    call void @llvm.dbg.value(metadata ptr [[PTR]], metadata [[META116:![0-9]+]], metadata !DIExpression()), !dbg [[DBG119]]
 ; CHECK-DEBUGLOC-NEXT:    call void @populate(ptr [[PTR]]), !dbg [[DBG120:![0-9]+]]
 ; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_0_GEP:%.*]] = getelementptr inbounds { i32, i8, i8, { i8, i16 } }, ptr [[PTR]], i32 0, i32 0, !dbg [[DBG121:![0-9]+]]
-; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_0_LOAD:%.*]] = load i32, ptr [[VAL_FCA_0_GEP]], align 2, !dbg [[DBG121]], !freeze_bits [[FREEZE_BITS7]]
+; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_0_LOAD:%.*]] = load i32, ptr [[VAL_FCA_0_GEP]], align 2, !dbg [[DBG121]]
 ; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_0_INSERT:%.*]] = insertvalue { i32, i8, i8, { i8, i16 } } poison, i32 [[VAL_FCA_0_LOAD]], 0, !dbg [[DBG121]]
 ; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_1_GEP:%.*]] = getelementptr inbounds { i32, i8, i8, { i8, i16 } }, ptr [[PTR]], i32 0, i32 1, !dbg [[DBG121]]
-; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_1_LOAD:%.*]] = load i8, ptr [[VAL_FCA_1_GEP]], align 2, !dbg [[DBG121]], !freeze_bits [[FREEZE_BITS7]]
+; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_1_LOAD:%.*]] = load i8, ptr [[VAL_FCA_1_GEP]], align 2, !dbg [[DBG121]]
 ; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_1_INSERT:%.*]] = insertvalue { i32, i8, i8, { i8, i16 } } [[VAL_FCA_0_INSERT]], i8 [[VAL_FCA_1_LOAD]], 1, !dbg [[DBG121]]
 ; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_2_GEP:%.*]] = getelementptr inbounds { i32, i8, i8, { i8, i16 } }, ptr [[PTR]], i32 0, i32 2, !dbg [[DBG121]]
-; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_2_LOAD:%.*]] = load i8, ptr [[VAL_FCA_2_GEP]], align 1, !dbg [[DBG121]], !freeze_bits [[FREEZE_BITS7]]
+; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_2_LOAD:%.*]] = load i8, ptr [[VAL_FCA_2_GEP]], align 1, !dbg [[DBG121]]
 ; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_2_INSERT:%.*]] = insertvalue { i32, i8, i8, { i8, i16 } } [[VAL_FCA_1_INSERT]], i8 [[VAL_FCA_2_LOAD]], 2, !dbg [[DBG121]]
 ; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_3_0_GEP:%.*]] = getelementptr inbounds { i32, i8, i8, { i8, i16 } }, ptr [[PTR]], i32 0, i32 3, i32 0, !dbg [[DBG121]]
-; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_3_0_LOAD:%.*]] = load i8, ptr [[VAL_FCA_3_0_GEP]], align 2, !dbg [[DBG121]], !freeze_bits [[FREEZE_BITS7]]
+; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_3_0_LOAD:%.*]] = load i8, ptr [[VAL_FCA_3_0_GEP]], align 2, !dbg [[DBG121]]
 ; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_3_0_INSERT:%.*]] = insertvalue { i32, i8, i8, { i8, i16 } } [[VAL_FCA_2_INSERT]], i8 [[VAL_FCA_3_0_LOAD]], 3, 0, !dbg [[DBG121]]
 ; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_3_1_GEP:%.*]] = getelementptr inbounds { i32, i8, i8, { i8, i16 } }, ptr [[PTR]], i32 0, i32 3, i32 1, !dbg [[DBG121]]
-; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_3_1_LOAD:%.*]] = load i16, ptr [[VAL_FCA_3_1_GEP]], align 2, !dbg [[DBG121]], !freeze_bits [[FREEZE_BITS7]]
+; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_3_1_LOAD:%.*]] = load i16, ptr [[VAL_FCA_3_1_GEP]], align 2, !dbg [[DBG121]]
 ; CHECK-DEBUGLOC-NEXT:    [[VAL_FCA_3_1_INSERT:%.*]] = insertvalue { i32, i8, i8, { i8, i16 } } [[VAL_FCA_3_0_INSERT]], i16 [[VAL_FCA_3_1_LOAD]], 3, 1, !dbg [[DBG121]]
 ; CHECK-DEBUGLOC-NEXT:    call void @llvm.dbg.value(metadata { i32, i8, i8, { i8, i16 } } [[VAL_FCA_3_1_INSERT]], metadata [[META117:![0-9]+]], metadata !DIExpression()), !dbg [[DBG121]]
 ; CHECK-DEBUGLOC-NEXT:    ret void, !dbg [[DBG122:![0-9]+]]
