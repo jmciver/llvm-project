@@ -42,6 +42,7 @@
 #include "llvm/Analysis/DomTreeUpdater.h"
 #include "llvm/Analysis/GlobalsModRef.h"
 #include "llvm/Analysis/Loads.h"
+#include "llvm/Analysis/MemoryBuiltins.h"
 #include "llvm/Analysis/PtrUseVisitor.h"
 #include "llvm/Analysis/ValueTracking.h"
 #include "llvm/Config/llvm-config.h"
@@ -1637,9 +1638,14 @@ static void speculatePHINodeLoads(IRBuilderTy &IRB, PHINode &PN) {
   AAMDNodes AATags = SomeLoad->getAAMetadata();
   Align Alignment = SomeLoad->getAlign();
 
+  // TODO: If any of the loads has a freeze_bits then the inserted loads should
+  // too.
+
   // Rewrite all loads of the PN to use the new PHI.
+  bool hasFreezingLoad {false};
   while (!PN.use_empty()) {
     LoadInst *LI = cast<LoadInst>(PN.user_back());
+    hasFreezingLoad = hasFreezingLoad || loadHasFreezeBits(LI);
     LI->replaceAllUsesWith(NewPN);
     LI->eraseFromParent();
   }
@@ -1664,7 +1670,8 @@ static void speculatePHINodeLoads(IRBuilderTy &IRB, PHINode &PN) {
 
     LoadInst *Load = IRB.CreateAlignedLoad(
         LoadTy, InVal, Alignment,
-        (PN.getName() + ".sroa.speculate.load." + Pred->getName()));
+        (PN.getName() + ".sroa.speculate.load." + Pred->getName()),
+        hasFreezingLoad);
     ++NumLoadsSpeculated;
     if (AATags)
       Load->setAAMetadata(AATags);
@@ -1778,12 +1785,12 @@ static void speculateSelectInstLoads(SelectInst &SI, LoadInst &LI,
 
   IRB.SetInsertPoint(&LI);
 
-  LoadInst *TL =
-      IRB.CreateAlignedLoad(LI.getType(), TV, LI.getAlign(),
-                            LI.getName() + ".sroa.speculate.load.true");
-  LoadInst *FL =
-      IRB.CreateAlignedLoad(LI.getType(), FV, LI.getAlign(),
-                            LI.getName() + ".sroa.speculate.load.false");
+  LoadInst *TL = IRB.CreateAlignedLoad(
+      LI.getType(), TV, LI.getAlign(),
+      LI.getName() + ".sroa.speculate.load.true", loadHasFreezeBits(&LI));
+  LoadInst *FL = IRB.CreateAlignedLoad(
+      LI.getType(), FV, LI.getAlign(),
+      LI.getName() + ".sroa.speculate.load.false", loadHasFreezeBits(&LI));
   NumLoadsSpeculated += 2;
 
   // Transfer alignment and AA info if present.
@@ -2910,19 +2917,27 @@ private:
     unsigned EndIndex = getIndex(NewEndOffset);
     assert(EndIndex > BeginIndex && "Empty vector!");
 
-    LoadInst *Load = IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
-                                           NewAI.getAlign(), "load");
+    LoadInst *Load =
+        IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
+                              NewAI.getAlign(), "load", loadHasFreezeBits(&LI));
 
     Load->copyMetadata(LI, {LLVMContext::MD_mem_parallel_loop_access,
-                            LLVMContext::MD_access_group});
+                            LLVMContext::MD_access_group,
+                            LLVMContext::MD_freeze_bits});
     return extractVector(IRB, Load, BeginIndex, EndIndex, "vec");
   }
 
   Value *rewriteIntegerLoad(LoadInst &LI) {
     assert(IntTy && "We cannot insert an integer to the alloca");
     assert(!LI.isVolatile());
+
+    bool isFreezingLoad{true};
+    if (NewAI.getAllocatedType() == LI.getType() ||
+        NewAI.getAllocatedType()->isPointerTy())
+      isFreezingLoad = loadHasFreezeBits(&LI);
     Value *V = IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
-                                     NewAI.getAlign(), "load");
+                                     NewAI.getAlign(), "load",
+                                     /* freeze_bits */ isFreezingLoad);
     V = convertValue(DL, IRB, V, IntTy);
     assert(NewBeginOffset >= NewAllocaBeginOffset && "Out of bounds offset");
     uint64_t Offset = NewBeginOffset - NewAllocaBeginOffset;
@@ -2937,8 +2952,11 @@ private:
     // integer.
     assert(cast<IntegerType>(LI.getType())->getBitWidth() >= SliceSize * 8 &&
            "Can only handle an extract for an overly wide load");
-    if (cast<IntegerType>(LI.getType())->getBitWidth() > SliceSize * 8)
+    if (cast<IntegerType>(LI.getType())->getBitWidth() > SliceSize * 8) {
       V = IRB.CreateZExt(V, LI.getType());
+      LLVM_DEBUG(dbgs() << "DEBUG: rewriteIntegrated: bitwitdth > slice * 8: "
+                        << *V << "\n");
+    }
     return V;
   }
 
@@ -2967,9 +2985,9 @@ private:
                  !LI.isVolatile()))) {
       Value *NewPtr =
           getPtrToNewAI(LI.getPointerAddressSpace(), LI.isVolatile());
-      LoadInst *NewLI = IRB.CreateAlignedLoad(NewAI.getAllocatedType(), NewPtr,
-                                              NewAI.getAlign(), LI.isVolatile(),
-                                              LI.getName());
+      LoadInst *NewLI = IRB.CreateAlignedLoad(
+          NewAI.getAllocatedType(), NewPtr, NewAI.getAlign(), LI.isVolatile(),
+          LI.getName(), loadHasFreezeBits(&LI));
       if (LI.isVolatile())
         NewLI->setAtomic(LI.getOrdering(), LI.getSyncScopeID());
       if (NewLI->isAtomic())
@@ -3001,10 +3019,9 @@ private:
           }
     } else {
       Type *LTy = IRB.getPtrTy(AS);
-      LoadInst *NewLI =
-          IRB.CreateAlignedLoad(TargetTy, getNewAllocaSlicePtr(IRB, LTy),
-                                getSliceAlign(), LI.isVolatile(), LI.getName());
-
+      LoadInst *NewLI = IRB.CreateAlignedLoad(
+          TargetTy, getNewAllocaSlicePtr(IRB, LTy), getSliceAlign(),
+          LI.isVolatile(), LI.getName(), loadHasFreezeBits(&LI));
       if (AATags)
         NewLI->setAAMetadata(AATags.adjustForAccess(
             NewBeginOffset - BeginOffset, NewLI->getType(), DL));
@@ -3041,7 +3058,8 @@ private:
       Value *Placeholder =
           new LoadInst(LI.getType(), PoisonValue::get(IRB.getPtrTy(AS)), "",
                        false, Align(1));
-      V = insertInteger(DL, IRB, Placeholder, V, NewBeginOffset - BeginOffset,
+      V = insertInteger(DL, IRB, IRB.CreateFreeze(Placeholder),
+                        IRB.CreateFreeze(V), NewBeginOffset - BeginOffset,
                         "insert");
       LI.replaceAllUsesWith(V);
       Placeholder->replaceAllUsesWith(&LI);
@@ -3074,9 +3092,14 @@ private:
       if (V->getType() != SliceTy)
         V = convertValue(DL, IRB, V, SliceTy);
 
+      // TODO: This load is created natively and is used to immediatly generate
+      // a vector. I believe the application of freeze_bits is not necessary
+      // from basic example testing, but further tests are required.
+
       // Mix in the existing elements.
       Value *Old = IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
-                                         NewAI.getAlign(), "load");
+                                         NewAI.getAlign(), "load",
+                                         /* freeze_bits */ true);
       V = insertVector(IRB, Old, V, BeginIndex, "vec");
     }
     StoreInst *Store = IRB.CreateAlignedStore(V, &NewAI, NewAI.getAlign());
@@ -3100,7 +3123,8 @@ private:
     if (DL.getTypeSizeInBits(V->getType()).getFixedValue() !=
         IntTy->getBitWidth()) {
       Value *Old = IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
-                                         NewAI.getAlign(), "oldload");
+                                         NewAI.getAlign(), "oldload",
+                                         /* freeze_bits */ true);
       Old = convertValue(DL, IRB, Old, IntTy);
       assert(BeginOffset >= NewAllocaBeginOffset && "Out of bounds offset");
       uint64_t Offset = BeginOffset - NewAllocaBeginOffset;
@@ -3315,8 +3339,11 @@ private:
       if (NumElements > 1)
         Splat = getVectorSplat(Splat, NumElements);
 
+      // TODO: This load is create natively so a previous load context does not
+      // exist. Set to false.
       Value *Old = IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
-                                         NewAI.getAlign(), "oldload");
+                                         NewAI.getAlign(), "oldload",
+                                         /* freeze_bits */ true);
       V = insertVector(IRB, Old, Splat, BeginIndex, "vec");
     } else if (IntTy) {
       // If this is a memset on an alloca where we can widen stores, insert the
@@ -3328,8 +3355,11 @@ private:
 
       if (IntTy && (BeginOffset != NewAllocaBeginOffset ||
                     EndOffset != NewAllocaBeginOffset)) {
+        // TODO: This load is create natively so a previous load context does
+        // not exist. Set to false.
         Value *Old = IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
-                                           NewAI.getAlign(), "oldload");
+                                           NewAI.getAlign(), "oldload",
+                                           /* freeze_bits */ true);
         Old = convertValue(DL, IRB, Old, IntTy);
         uint64_t Offset = NewBeginOffset - NewAllocaBeginOffset;
         V = insertInteger(DL, IRB, Old, V, Offset, "insert");
@@ -3550,17 +3580,22 @@ private:
     Value *Src;
     if (VecTy && !IsWholeAlloca && !IsDest) {
       Src = IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
-                                  NewAI.getAlign(), "load");
+                                  NewAI.getAlign(), "load",
+                                  /* freeze_bits */ true);
       Src = extractVector(IRB, Src, BeginIndex, EndIndex, "vec");
     } else if (IntTy && !IsWholeAlloca && !IsDest) {
+      // TODO: This load is create natively so a previous load context does not
+      // exist. Set to false.
       Src = IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
-                                  NewAI.getAlign(), "load");
+                                  NewAI.getAlign(), "load",
+                                  /* freeze_bits */ true);
       Src = convertValue(DL, IRB, Src, IntTy);
       uint64_t Offset = NewBeginOffset - NewAllocaBeginOffset;
       Src = extractInteger(DL, IRB, Src, SubIntTy, Offset, "extract");
     } else {
-      LoadInst *Load = IRB.CreateAlignedLoad(OtherTy, SrcPtr, SrcAlign,
-                                             II.isVolatile(), "copyload");
+      LoadInst *Load =
+          IRB.CreateAlignedLoad(OtherTy, SrcPtr, SrcAlign, II.isVolatile(),
+                                "copyload", /* freeze_bits */ true);
       Load->copyMetadata(II, {LLVMContext::MD_mem_parallel_loop_access,
                               LLVMContext::MD_access_group});
       if (AATags)
@@ -3571,11 +3606,13 @@ private:
 
     if (VecTy && !IsWholeAlloca && IsDest) {
       Value *Old = IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
-                                         NewAI.getAlign(), "oldload");
+                                         NewAI.getAlign(), "oldload",
+                                         /* freeze_bits */ true);
       Src = insertVector(IRB, Old, Src, BeginIndex, "vec");
     } else if (IntTy && !IsWholeAlloca && IsDest) {
       Value *Old = IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
-                                         NewAI.getAlign(), "oldload");
+                                         NewAI.getAlign(), "oldload",
+                                         /* freeze_bits */ true );
       Old = convertValue(DL, IRB, Old, IntTy);
       uint64_t Offset = NewBeginOffset - NewAllocaBeginOffset;
       Src = insertInteger(DL, IRB, Old, Src, Offset, "insert");
@@ -3900,13 +3937,14 @@ private:
     // A vector to hold all the fake uses of the struct that we are splitting.
     // Usually there should only be one, but we are handling the general case.
     SmallVector<Instruction *, 1> FakeUses;
+    bool IsFreezing;
 
     LoadOpSplitter(Instruction *InsertionPoint, Value *Ptr, Type *BaseTy,
                    AAMDNodes AATags, Align BaseAlign, const DataLayout &DL,
-                   IRBuilderTy &IRB)
+                   IRBuilderTy &IRB, bool IsFreezing)
         : OpSplitter<LoadOpSplitter>(InsertionPoint, Ptr, BaseTy, BaseAlign, DL,
                                      IRB),
-          AATags(AATags) {}
+          AATags(AATags), IsFreezing(IsFreezing) {}
 
     /// Emit a leaf load of a single value. This is called at the leaves of the
     /// recursive emission to actually load values.
@@ -3916,7 +3954,7 @@ private:
       Value *GEP =
           IRB.CreateInBoundsGEP(BaseTy, Ptr, GEPIndices, Name + ".gep");
       LoadInst *Load =
-          IRB.CreateAlignedLoad(Ty, GEP, Alignment, Name + ".load");
+          IRB.CreateAlignedLoad(Ty, GEP, Alignment, Name + ".load", IsFreezing);
 
       APInt Offset(
           DL.getIndexSizeInBits(Ptr->getType()->getPointerAddressSpace()), 0);
@@ -3960,8 +3998,10 @@ private:
     // We have an aggregate being loaded, split it apart.
     LLVM_DEBUG(dbgs() << "    original: " << LI << "\n");
     LoadOpSplitter Splitter(&LI, *U, LI.getType(), LI.getAAMetadata(),
-                            getAdjustedAlignment(&LI, 0), DL, IRB);
+                            getAdjustedAlignment(&LI, 0), DL, IRB,
+                            loadHasFreezeBits(&LI));
     Splitter.recordFakeUses(LI);
+                            
     Value *V = PoisonValue::get(LI.getType());
     Splitter.emitSplitOps(LI.getType(), V, LI.getName() + ".fca");
     Splitter.emitFakeUses();
@@ -4670,7 +4710,7 @@ bool SROA::presplitLoadsAndStores(AllocaInst &AI, AllocaSlices &AS) {
                          APInt(DL.getIndexSizeInBits(AS), PartOffset),
                          PartPtrTy, BasePtr->getName() + "."),
           getAdjustedAlignment(LI, PartOffset),
-          /*IsVolatile*/ false, LI->getName());
+          /*IsVolatile*/ false, LI->getName(), loadHasFreezeBits(LI));
       PLoad->copyMetadata(*LI, {LLVMContext::MD_mem_parallel_loop_access,
                                 LLVMContext::MD_access_group});
 
@@ -4819,7 +4859,7 @@ bool SROA::presplitLoadsAndStores(AllocaInst &AI, AllocaSlices &AS) {
                            APInt(DL.getIndexSizeInBits(AS), PartOffset),
                            LoadPartPtrTy, LoadBasePtr->getName() + "."),
             getAdjustedAlignment(LI, PartOffset),
-            /*IsVolatile*/ false, LI->getName());
+            /*IsVolatile*/ false, LI->getName(), loadHasFreezeBits(LI));
         PLoad->copyMetadata(*LI, {LLVMContext::MD_mem_parallel_loop_access,
                                   LLVMContext::MD_access_group});
       }
@@ -5491,7 +5531,7 @@ public:
   }
 
   Value *getValueToUseForAlloca(Instruction *I) const override {
-    return UndefValue::get(ZeroType);
+    return PoisonValue::get(ZeroType);
   }
 
 private:
@@ -5685,7 +5725,7 @@ bool SROA::deleteDeadInstructions(
     }
 
     at::deleteAssignmentMarkers(I);
-    I->replaceAllUsesWith(UndefValue::get(I->getType()));
+    I->replaceAllUsesWith(PoisonValue::get(I->getType()));
 
     for (Use &Operand : I->operands())
       if (Instruction *U = dyn_cast<Instruction>(Operand)) {
