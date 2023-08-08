@@ -5,10 +5,11 @@
 
 define void @swap(ptr %p1, ptr %p2) {
 ; CHECK-LABEL: @swap(
-; CHECK-NEXT:    [[TMP1:%.*]] = load i64, ptr [[P1:%.*]], align 1
-; CHECK-NEXT:    [[TMP2:%.*]] = load i64, ptr [[P2:%.*]], align 1
-; CHECK-NEXT:    store i64 [[TMP2]], ptr [[P1]], align 1
-; CHECK-NEXT:    store i64 [[TMP1]], ptr [[P2]], align 1
+; CHECK-NEXT:    [[TMP1:%.*]] = load i64, ptr [[P1:%.*]], align 1, !freeze_bits [[FREEZE_BITS0:![0-9]+]]
+; CHECK-NEXT:    [[TMP2:%.*]] = freeze i64 [[TMP1]]
+; CHECK-NEXT:    [[TMP3:%.*]] = load i64, ptr [[P2:%.*]], align 1, !freeze_bits [[FREEZE_BITS0]]
+; CHECK-NEXT:    store i64 [[TMP3]], ptr [[P1]], align 1
+; CHECK-NEXT:    store i64 [[TMP2]], ptr [[P2]], align 1
 ; CHECK-NEXT:    ret void
 ;
   %tmp = alloca [2 x i32]
@@ -29,7 +30,14 @@ define i32 @test(i32 %n) {
 ; CHECK-NEXT:    [[C:%.*]] = icmp eq i32 [[V1_INC]], [[N:%.*]]
 ; CHECK-NEXT:    br i1 [[C]], label [[EXIT:%.*]], label [[LOOP]]
 ; CHECK:       exit:
-; CHECK-NEXT:    ret i32 [[V2_NEXT]]
+; CHECK-NEXT:    [[P1_SROA_5_0_INSERT_EXT:%.*]] = zext i32 [[V2_NEXT]] to i64
+; CHECK-NEXT:    [[P1_SROA_5_0_INSERT_SHIFT:%.*]] = shl nuw i64 [[P1_SROA_5_0_INSERT_EXT]], 32
+; CHECK-NEXT:    [[P1_SROA_0_0_INSERT_EXT:%.*]] = zext i32 [[N]] to i64
+; CHECK-NEXT:    [[P1_SROA_0_0_INSERT_INSERT:%.*]] = or i64 [[P1_SROA_5_0_INSERT_SHIFT]], [[P1_SROA_0_0_INSERT_EXT]]
+; CHECK-NEXT:    [[TMP1:%.*]] = freeze i64 [[P1_SROA_0_0_INSERT_INSERT]]
+; CHECK-NEXT:    [[P2_SROA_2_0_EXTRACT_SHIFT:%.*]] = lshr i64 [[TMP1]], 32
+; CHECK-NEXT:    [[P2_SROA_2_0_EXTRACT_TRUNC:%.*]] = trunc i64 [[P2_SROA_2_0_EXTRACT_SHIFT]] to i32
+; CHECK-NEXT:    ret i32 [[P2_SROA_2_0_EXTRACT_TRUNC]]
 ;
   %p1 = alloca [2 x i32]
   %p2 = alloca [2 x i32]
