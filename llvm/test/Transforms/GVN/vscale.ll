@@ -213,11 +213,11 @@ define i32 @memset_clobber_load_nonconst_index(ptr %p, i64 %idx1, i64 %idx2) {
 
 ; Load elimination across BBs
 
-define ptr @load_from_alloc_replaced_with_undef() {
-; CHECK-LABEL: @load_from_alloc_replaced_with_undef(
+define ptr @load_from_alloc_replaced_with_poison() {
+; CHECK-LABEL: @load_from_alloc_replaced_with_poison(
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    [[A:%.*]] = alloca <vscale x 4 x i32>, align 16
-; CHECK-NEXT:    br i1 undef, label [[IF_END:%.*]], label [[IF_THEN:%.*]]
+; CHECK-NEXT:    br i1 poison, label [[IF_END:%.*]], label [[IF_THEN:%.*]]
 ; CHECK:       if.then:
 ; CHECK-NEXT:    store <vscale x 4 x i32> zeroinitializer, ptr [[A]], align 16
 ; CHECK-NEXT:    br label [[IF_END]]
@@ -387,3 +387,5 @@ if.then:
 if.else:
   ret void
 }
+
+!0 = !{}
