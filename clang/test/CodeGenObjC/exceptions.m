@@ -176,6 +176,7 @@ void f4(void) {
 
   // rethrow:
   // CHECK:      phi ptr
-  // CHECK-NEXT: call void @objc_exception_throw(ptr
+  // CHECK-NEXT: [[FREEZE:%.*]] = freeze ptr
+  // CHECK-NEXT: call void @objc_exception_throw(ptr [[FREEZE]])
   // CHECK-NEXT: unreachable
 }
