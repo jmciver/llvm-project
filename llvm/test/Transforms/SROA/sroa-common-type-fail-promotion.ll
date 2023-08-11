@@ -45,6 +45,7 @@ bb:
 define amdgpu_kernel void @test_memset() #0 {
 ; CHECK-LABEL: @test_memset(
 ; CHECK-NEXT:  entry:
+; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <8 x i16> poison
 ; CHECK-NEXT:    [[DATA:%.*]] = load <4 x float>, ptr undef, align 16
 ; CHECK-NEXT:    [[TMP0:%.*]] = bitcast <4 x float> [[DATA]] to <8 x i16>
 ; CHECK-NEXT:    br label [[BB:%.*]]
@@ -138,6 +139,10 @@ bb:
 define amdgpu_kernel void @test_struct_contain_multiple_types2() #0 {
 ; CHECK-LABEL: @test_struct_contain_multiple_types2(
 ; CHECK-NEXT:  entry:
+; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze i32 poison
+; CHECK-NEXT:    [[FREEZE_LOAD3:%.*]] = freeze i32 poison
+; CHECK-NEXT:    [[FREEZE_LOAD4:%.*]] = freeze i32 poison
+; CHECK-NEXT:    [[FREEZE_LOAD5:%.*]] = freeze i32 poison
 ; CHECK-NEXT:    [[DATA1:%.*]] = load [4 x i32], ptr undef, align 4
 ; CHECK-NEXT:    [[DATA1_FCA_0_EXTRACT:%.*]] = extractvalue [4 x i32] [[DATA1]], 0
 ; CHECK-NEXT:    [[DATA1_FCA_1_EXTRACT:%.*]] = extractvalue [4 x i32] [[DATA1]], 1
@@ -212,6 +217,8 @@ bb:
 define amdgpu_kernel void @test_struct_array_vector_i16() #0 {
 ; CHECK-LABEL: @test_struct_array_vector_i16(
 ; CHECK-NEXT:  entry:
+; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <8 x i16> poison
+; CHECK-NEXT:    [[FREEZE_LOAD3:%.*]] = freeze <8 x i16> poison
 ; CHECK-NEXT:    [[DATA:%.*]] = load <4 x i32>, ptr undef, align 16
 ; CHECK-NEXT:    [[TMP0:%.*]] = bitcast <4 x i32> [[DATA]] to <8 x i16>
 ; CHECK-NEXT:    [[DATA2:%.*]] = load <4 x i32>, ptr undef, align 16
@@ -249,8 +256,10 @@ define amdgpu_kernel void @test_half_array() #0 {
 ; CHECK-NEXT:    [[B_BLOCKWISE_COPY_SROA_4:%.*]] = alloca float, align 4
 ; CHECK-NEXT:    call void @llvm.memset.p0.i32(ptr align 16 [[B_BLOCKWISE_COPY_SROA_0]], i8 0, i32 4, i1 false)
 ; CHECK-NEXT:    call void @llvm.memset.p0.i32(ptr align 4 [[B_BLOCKWISE_COPY_SROA_4]], i8 0, i32 4, i1 false)
-; CHECK-NEXT:    [[TMP0:%.*]] = bitcast float poison to i32
-; CHECK-NEXT:    [[TMP1:%.*]] = bitcast float poison to i32
+; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze float poison
+; CHECK-NEXT:    [[TMP0:%.*]] = bitcast float [[FREEZE_LOAD]] to i32
+; CHECK-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze float poison
+; CHECK-NEXT:    [[TMP1:%.*]] = bitcast float [[FREEZE_LOAD2]] to i32
 ; CHECK-NEXT:    [[DATA:%.*]] = load [4 x float], ptr undef, align 4
 ; CHECK-NEXT:    [[DATA_FCA_0_EXTRACT:%.*]] = extractvalue [4 x float] [[DATA]], 0
 ; CHECK-NEXT:    store float [[DATA_FCA_0_EXTRACT]], ptr [[B_BLOCKWISE_COPY_SROA_0]], align 16
@@ -286,6 +295,7 @@ define amdgpu_kernel void @test_array_vector() #0 {
 ; CHECK-LABEL: @test_array_vector(
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    [[B_BLOCKWISE_COPY_SROA_5:%.*]] = alloca <8 x half>, align 16
+; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <8 x i16> poison
 ; CHECK-NEXT:    call void @llvm.memset.p0.i32(ptr align 16 [[B_BLOCKWISE_COPY_SROA_5]], i8 0, i32 16, i1 false)
 ; CHECK-NEXT:    [[DATA:%.*]] = load <4 x float>, ptr undef, align 16
 ; CHECK-NEXT:    [[TMP0:%.*]] = bitcast <4 x float> [[DATA]] to <8 x i16>
@@ -319,6 +329,7 @@ define amdgpu_kernel void @test_array_vector2() #0 {
 ; CHECK-LABEL: @test_array_vector2(
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    [[B_BLOCKWISE_COPY_SROA_5:%.*]] = alloca <8 x half>, align 16
+; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <8 x i16> poison
 ; CHECK-NEXT:    call void @llvm.memset.p0.i32(ptr align 16 [[B_BLOCKWISE_COPY_SROA_5]], i8 0, i32 16, i1 false)
 ; CHECK-NEXT:    [[DATA:%.*]] = load <4 x float>, ptr undef, align 16
 ; CHECK-NEXT:    [[TMP0:%.*]] = bitcast <4 x float> [[DATA]] to <8 x i16>

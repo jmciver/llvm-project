@@ -570,13 +570,18 @@ define i64 @PR14132(i1 %flag) {
 ; support this..
 ; CHECK-LABEL: @PR14132(
 ; CHECK-NEXT:  entry:
+; CHECK-NEXT:    [[A:%.*]] = alloca i64, align 8
+; CHECK-NEXT:    [[B:%.*]] = alloca i8, align 8
+; CHECK-NEXT:    store i64 0, ptr [[A]], align 8
+; CHECK-NEXT:    store i8 1, ptr [[B]], align 8
 ; CHECK-NEXT:    br i1 [[FLAG:%.*]], label [[IF_THEN:%.*]], label [[IF_END:%.*]]
 ; CHECK:       if.then:
-; CHECK-NEXT:    [[B_0_LOAD_EXT:%.*]] = zext i8 1 to i64
 ; CHECK-NEXT:    br label [[IF_END]]
 ; CHECK:       if.end:
-; CHECK-NEXT:    [[PTR_0_SROA_SPECULATED:%.*]] = phi i64 [ [[B_0_LOAD_EXT]], [[IF_THEN]] ], [ 0, [[ENTRY:%.*]] ]
-; CHECK-NEXT:    ret i64 [[PTR_0_SROA_SPECULATED]]
+; CHECK-NEXT:    [[PTR_0:%.*]] = phi ptr [ [[B]], [[IF_THEN]] ], [ [[A]], [[ENTRY:%.*]] ]
+; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze ptr [[PTR_0]]
+; CHECK-NEXT:    [[RESULT:%.*]] = load i64, ptr [[FREEZE_LOAD]], align 8
+; CHECK-NEXT:    ret i64 [[RESULT]]
 ;
 entry:
   %a = alloca i64, align 8
@@ -654,7 +659,8 @@ define float @simplify_phi_nodes_that_equal_slice(i1 %cond, ptr %temp) {
 ; CHECK:       merge:
 ; CHECK-NEXT:    [[ARR_SROA_0_0:%.*]] = phi float [ 1.000000e+00, [[THEN]] ], [ 2.000000e+00, [[ELSE]] ]
 ; CHECK-NEXT:    store float 0.000000e+00, ptr [[TEMP:%.*]], align 4
-; CHECK-NEXT:    ret float [[ARR_SROA_0_0]]
+; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze float [[ARR_SROA_0_0]]
+; CHECK-NEXT:    ret float [[FREEZE_LOAD]]
 ;
 entry:
   %arr = alloca [4 x float], align 4
@@ -696,7 +702,8 @@ define float @simplify_phi_nodes_that_equal_slice_2(i1 %cond, ptr %temp) {
 ; CHECK:       merge:
 ; CHECK-NEXT:    [[ARR_SROA_0_0:%.*]] = phi float [ 2.000000e+00, [[THEN2]] ], [ 3.000000e+00, [[ELSE]] ]
 ; CHECK-NEXT:    store float 0.000000e+00, ptr [[TEMP:%.*]], align 4
-; CHECK-NEXT:    ret float [[ARR_SROA_0_0]]
+; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze float [[ARR_SROA_0_0]]
+; CHECK-NEXT:    ret float [[FREEZE_LOAD]]
 ;
 entry:
   %arr = alloca [4 x float], align 4

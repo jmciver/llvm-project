@@ -1268,7 +1268,6 @@ define <3 x i8> @PR14572.1(i32 %x) {
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    [[A_0_EXTRACT_TRUNC:%.*]] = trunc i32 [[X:%.*]] to i24
 ; CHECK-NEXT:    [[TMP0:%.*]] = bitcast i24 [[A_0_EXTRACT_TRUNC]] to <3 x i8>
-; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <3 x i8> poison
 ; CHECK-NEXT:    [[A_SROA_2_0_EXTRACT_SHIFT:%.*]] = lshr i32 [[X]], 24
 ; CHECK-NEXT:    [[A_SROA_2_0_EXTRACT_TRUNC:%.*]] = trunc i32 [[A_SROA_2_0_EXTRACT_SHIFT]] to i8
 ; CHECK-NEXT:    ret <3 x i8> [[TMP0]]
@@ -1420,13 +1419,11 @@ define void @PR15805(i1 %a, i1 %b) {
 ; CHECK-PRESERVE-CFG-NEXT:    ret void
 ;
 ; CHECK-MODIFY-CFG-LABEL: @PR15805(
-; CHECK-MODIFY-CFG-NEXT:    [[FREEZE_LOAD:%.*]] = freeze i64 poison
 ; CHECK-MODIFY-CFG-NEXT:    br i1 [[B:%.*]], label [[DOTCONT:%.*]], label [[DOTELSE:%.*]]
 ; CHECK-MODIFY-CFG:       .else:
-; CHECK-MODIFY-CFG-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze i64 poison
 ; CHECK-MODIFY-CFG-NEXT:    br label [[DOTCONT]]
 ; CHECK-MODIFY-CFG:       .cont:
-; CHECK-MODIFY-CFG-NEXT:    [[COND:%.*]] = phi i64 [ [[FREEZE_LOAD]], [[TMP0:%.*]] ], [ [[FREEZE_LOAD2]], [[DOTELSE]] ]
+; CHECK-MODIFY-CFG-NEXT:    [[COND:%.*]] = phi i64 [ poison, [[TMP0:%.*]] ], [ poison, [[DOTELSE]] ]
 ; CHECK-MODIFY-CFG-NEXT:    ret void
 ;
   %c = alloca i64, align 8

@@ -478,11 +478,13 @@ define i32 @test_sroa_phi_gep_multiple_values_from_same_block(i32 %arg) {
 ; CHECK-NEXT:    i32 4, label [[BB_4]]
 ; CHECK-NEXT:    ]
 ; CHECK:       bb.2:
+; CHECK-NEXT:    [[FREEZE_LOAD3:%.*]] = freeze i32 poison
 ; CHECK-NEXT:    br label [[BB_4]]
 ; CHECK:       bb.3:
+; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze i32 poison
 ; CHECK-NEXT:    br label [[BB_4]]
 ; CHECK:       bb.4:
-; CHECK-NEXT:    [[PHI_SROA_PHI_SROA_SPECULATED:%.*]] = phi i32 [ poison, [[BB_3]] ], [ poison, [[BB_2]] ], [ [[FREEZE]], [[BB_1:%.*]] ], [ [[FREEZE]], [[BB_1]] ]
+; CHECK-NEXT:    [[PHI_SROA_PHI_SROA_SPECULATED:%.*]] = phi i32 [ [[FREEZE_LOAD]], [[BB_3]] ], [ [[FREEZE_LOAD3]], [[BB_2]] ], [ [[FREEZE]], [[BB_1:%.*]] ], [ [[FREEZE]], [[BB_1]] ]
 ; CHECK-NEXT:    ret i32 [[PHI_SROA_PHI_SROA_SPECULATED]]
 ;
 bb.1:
