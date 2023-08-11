@@ -11,8 +11,9 @@
 define dso_local zeroext i1 @is_not_empty_variant1(ptr %p) {
 ; ALL-LABEL: @is_not_empty_variant1(
 ; ALL-NEXT:  entry:
-; ALL-NEXT:    [[TOBOOL_NOT3_I:%.*]] = icmp ne ptr [[P:%.*]], null
-; ALL-NEXT:    ret i1 [[TOBOOL_NOT3_I]]
+; ALL-NEXT:    [[FREEZE_LOAD4_I:%.*]] = freeze ptr [[P:%.*]]
+; ALL-NEXT:    [[TOBOOL_NOT5_I:%.*]] = icmp ne ptr [[FREEZE_LOAD4_I]], null
+; ALL-NEXT:    ret i1 [[TOBOOL_NOT5_I]]
 ;
 entry:
   %p.addr = alloca ptr, align 8
@@ -53,8 +54,9 @@ while.end:
 define dso_local zeroext i1 @is_not_empty_variant2(ptr %p) {
 ; ALL-LABEL: @is_not_empty_variant2(
 ; ALL-NEXT:  entry:
-; ALL-NEXT:    [[TOBOOL_NOT4_I:%.*]] = icmp ne ptr [[P:%.*]], null
-; ALL-NEXT:    ret i1 [[TOBOOL_NOT4_I]]
+; ALL-NEXT:    [[FREEZE_LOAD5_I:%.*]] = freeze ptr [[P:%.*]]
+; ALL-NEXT:    [[TOBOOL_NOT6_I:%.*]] = icmp ne ptr [[FREEZE_LOAD5_I]], null
+; ALL-NEXT:    ret i1 [[TOBOOL_NOT6_I]]
 ;
 entry:
   %p.addr = alloca ptr, align 8
@@ -98,32 +100,36 @@ while.end:
 define dso_local zeroext i1 @is_not_empty_variant3(ptr %p) {
 ; O3-LABEL: @is_not_empty_variant3(
 ; O3-NEXT:  entry:
-; O3-NEXT:    [[TOBOOL_NOT4_I:%.*]] = icmp ne ptr [[P:%.*]], null
-; O3-NEXT:    ret i1 [[TOBOOL_NOT4_I]]
+; O3-NEXT:    [[FREEZE_LOAD5_I:%.*]] = freeze ptr [[P:%.*]]
+; O3-NEXT:    [[TOBOOL_NOT6_I:%.*]] = icmp ne ptr [[FREEZE_LOAD5_I]], null
+; O3-NEXT:    ret i1 [[TOBOOL_NOT6_I]]
 ;
 ; O2-LABEL: @is_not_empty_variant3(
 ; O2-NEXT:  entry:
-; O2-NEXT:    [[TOBOOL_NOT4_I:%.*]] = icmp ne ptr [[P:%.*]], null
-; O2-NEXT:    ret i1 [[TOBOOL_NOT4_I]]
+; O2-NEXT:    [[FREEZE_LOAD5_I:%.*]] = freeze ptr [[P:%.*]]
+; O2-NEXT:    [[TOBOOL_NOT6_I:%.*]] = icmp ne ptr [[FREEZE_LOAD5_I]], null
+; O2-NEXT:    ret i1 [[TOBOOL_NOT6_I]]
 ;
 ; O1-LABEL: @is_not_empty_variant3(
 ; O1-NEXT:  entry:
-; O1-NEXT:    [[TOBOOL_NOT4_I:%.*]] = icmp eq ptr [[P:%.*]], null
-; O1-NEXT:    br i1 [[TOBOOL_NOT4_I]], label [[COUNT_NODES_VARIANT3_EXIT:%.*]], label [[WHILE_BODY_I:%.*]]
+; O1-NEXT:    [[FREEZE_LOAD5_I:%.*]] = freeze ptr [[P:%.*]]
+; O1-NEXT:    [[TOBOOL_NOT6_I:%.*]] = icmp eq ptr [[FREEZE_LOAD5_I]], null
+; O1-NEXT:    br i1 [[TOBOOL_NOT6_I]], label [[COUNT_NODES_VARIANT3_EXIT:%.*]], label [[WHILE_BODY_I:%.*]]
 ; O1:       while.body.i:
-; O1-NEXT:    [[SIZE_06_I:%.*]] = phi i64 [ [[INC_I:%.*]], [[WHILE_BODY_I]] ], [ 0, [[ENTRY:%.*]] ]
-; O1-NEXT:    [[P_ADDR_05_I:%.*]] = phi ptr [ [[TMP0:%.*]], [[WHILE_BODY_I]] ], [ [[P]], [[ENTRY]] ]
-; O1-NEXT:    [[CMP_I:%.*]] = icmp ne i64 [[SIZE_06_I]], -1
-; O1-NEXT:    call void @llvm.assume(i1 [[CMP_I]])
-; O1-NEXT:    [[TMP0]] = load ptr, ptr [[P_ADDR_05_I]], align 8
-; O1-NEXT:    [[INC_I]] = add i64 [[SIZE_06_I]], 1
-; O1-NEXT:    [[TOBOOL_NOT_I:%.*]] = icmp eq ptr [[TMP0]], null
+; O1-NEXT:    [[FREEZE_LOAD8_I:%.*]] = phi ptr [ [[FREEZE_LOAD_I:%.*]], [[WHILE_BODY_I]] ], [ [[FREEZE_LOAD5_I]], [[ENTRY:%.*]] ]
+; O1-NEXT:    [[SIZE_07_I:%.*]] = phi i64 [ [[INC_I:%.*]], [[WHILE_BODY_I]] ], [ 0, [[ENTRY]] ]
+; O1-NEXT:    [[CMP_I:%.*]] = icmp ne i64 [[SIZE_07_I]], -1
+; O1-NEXT:    tail call void @llvm.assume(i1 [[CMP_I]])
+; O1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[FREEZE_LOAD8_I]], align 8
+; O1-NEXT:    [[INC_I]] = add i64 [[SIZE_07_I]], 1
+; O1-NEXT:    [[FREEZE_LOAD_I]] = freeze ptr [[TMP0]]
+; O1-NEXT:    [[TOBOOL_NOT_I:%.*]] = icmp eq ptr [[FREEZE_LOAD_I]], null
 ; O1-NEXT:    br i1 [[TOBOOL_NOT_I]], label [[COUNT_NODES_VARIANT3_EXIT_LOOPEXIT:%.*]], label [[WHILE_BODY_I]], !llvm.loop [[LOOP0:![0-9]+]]
 ; O1:       count_nodes_variant3.exit.loopexit:
-; O1-NEXT:    [[PHI_CMP:%.*]] = icmp ne i64 [[INC_I]], 0
+; O1-NEXT:    [[TMP1:%.*]] = icmp ne i64 [[INC_I]], 0
 ; O1-NEXT:    br label [[COUNT_NODES_VARIANT3_EXIT]]
 ; O1:       count_nodes_variant3.exit:
-; O1-NEXT:    [[SIZE_0_LCSSA_I:%.*]] = phi i1 [ false, [[ENTRY]] ], [ [[PHI_CMP]], [[COUNT_NODES_VARIANT3_EXIT_LOOPEXIT]] ]
+; O1-NEXT:    [[SIZE_0_LCSSA_I:%.*]] = phi i1 [ false, [[ENTRY]] ], [ [[TMP1]], [[COUNT_NODES_VARIANT3_EXIT_LOOPEXIT]] ]
 ; O1-NEXT:    ret i1 [[SIZE_0_LCSSA_I]]
 ;
 entry:
