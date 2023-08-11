@@ -40,7 +40,8 @@ define void @test1_withfreezebits() {
 ; CHECK-NEXT:    br label [[LOOP:%.*]]
 ; CHECK:       loop:
 ; CHECK-NEXT:    [[T_0:%.*]] = phi i32 [ poison, [[ENTRY:%.*]] ], [ [[N:%.*]], [[LOOP]] ]
-; CHECK-NEXT:    [[C:%.*]] = call i1 @use(i32 [[T_0]])
+; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze i32 [[T_0]]
+; CHECK-NEXT:    [[C:%.*]] = call i1 @use(i32 [[FREEZE_LOAD]])
 ; CHECK-NEXT:    [[N]] = call i32 @def(i32 7)
 ; CHECK-NEXT:    br i1 [[C]], label [[LOOP]], label [[EXIT:%.*]]
 ; CHECK:       exit:

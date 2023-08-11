@@ -328,13 +328,15 @@ define ptr @no_store_multiple_loads_freezebits(i1 %c) {
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    br i1 [[C:%.*]], label [[IF:%.*]], label [[ELSE:%.*]]
 ; CHECK:       if:
-; CHECK-NEXT:    [[TMP0:%.*]] = icmp ne ptr poison, null
+; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze ptr poison
+; CHECK-NEXT:    [[TMP0:%.*]] = icmp ne ptr [[FREEZE_LOAD]], null
 ; CHECK-NEXT:    call void @llvm.assume(i1 [[TMP0]])
-; CHECK-NEXT:    ret ptr poison
+; CHECK-NEXT:    ret ptr [[FREEZE_LOAD]]
 ; CHECK:       else:
-; CHECK-NEXT:    [[TMP1:%.*]] = icmp ne ptr poison, null
+; CHECK-NEXT:    [[FREEZE_LOAD1:%.*]] = freeze ptr poison
+; CHECK-NEXT:    [[TMP1:%.*]] = icmp ne ptr [[FREEZE_LOAD1]], null
 ; CHECK-NEXT:    call void @llvm.assume(i1 [[TMP1]])
-; CHECK-NEXT:    ret ptr poison
+; CHECK-NEXT:    ret ptr [[FREEZE_LOAD1]]
 ;
 entry:
   %buf = alloca ptr
