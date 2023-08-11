@@ -35,6 +35,7 @@
 ;; The memset has been split into [0, 96)[96, 128)[128, 224) bit slices. The
 ;; memset for the middle slice has been removed.
 ; CHECK: call void @llvm.memset{{.*}}(ptr align 8 %S.sroa.0, i8 0, i64 12, i1 false), !dbg !{{.+}}, !DIAssignID ![[ID_4:[0-9]+]]
+; CHECK-NEXT: .
 ; CHECK-NEXT: call void @llvm.memset{{.*}}(ptr align 8 %S.sroa.4, i8 0, i64 12, i1 false), !dbg !{{.+}}, !DIAssignID ![[ID_5:[0-9]+]]
 
 ; CHECK-NEXT: call void @llvm.dbg.assign(metadata i8 0, metadata ![[VAR]], metadata !DIExpression(DW_OP_LLVM_fragment, 0, 96), metadata ![[ID_4]], metadata ptr %S.sroa.0, metadata !DIExpression()), !dbg
