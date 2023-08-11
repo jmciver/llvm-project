@@ -1100,6 +1100,10 @@ NextIteration:
       convertMetadataToAssumes(LI, V, SQ.DL, AC, &DT);
 
       // Anything using the load now uses the current value.
+      if (loadHasFreezeBits(LI)) {
+        IRBuilder<> Builder(LI);
+        V = Builder.CreateFreeze(V, "freeze.load");
+      }
       LI->replaceAllUsesWith(V);
       LI->eraseFromParent();
     } else if (StoreInst *SI = dyn_cast<StoreInst>(I)) {
