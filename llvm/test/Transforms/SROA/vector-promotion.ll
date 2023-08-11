@@ -488,7 +488,8 @@ entry:
 define <4 x float> @test_subvec_memset() {
 ; CHECK-LABEL: @test_subvec_memset(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[A_0_VECBLEND:%.*]] = select <4 x i1> <i1 true, i1 true, i1 false, i1 false>, <4 x float> <float 0.000000e+00, float 0.000000e+00, float undef, float undef>, <4 x float> poison
+; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <4 x float> poison
+; CHECK-NEXT:    [[A_0_VECBLEND:%.*]] = select <4 x i1> <i1 true, i1 true, i1 false, i1 false>, <4 x float> <float 0.000000e+00, float 0.000000e+00, float undef, float undef>, <4 x float> [[FREEZE_LOAD]]
 ; CHECK-NEXT:    [[FREEZE2:%.*]] = freeze <4 x float> [[A_0_VECBLEND]]
 ; CHECK-NEXT:    [[A_4_VECBLEND:%.*]] = select <4 x i1> <i1 false, i1 true, i1 true, i1 false>, <4 x float> <float undef, float 0x3820202020000000, float 0x3820202020000000, float undef>, <4 x float> [[FREEZE2]]
 ; CHECK-NEXT:    [[FREEZE1:%.*]] = freeze <4 x float> [[A_4_VECBLEND]]
@@ -500,7 +501,8 @@ define <4 x float> @test_subvec_memset() {
 ; DEBUG-LABEL: @test_subvec_memset(
 ; DEBUG-NEXT:  entry:
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META216:![0-9]+]], metadata !DIExpression()), !dbg [[DBG221:![0-9]+]]
-; DEBUG-NEXT:    [[A_0_VECBLEND:%.*]] = select <4 x i1> <i1 true, i1 true, i1 false, i1 false>, <4 x float> <float 0.000000e+00, float 0.000000e+00, float undef, float undef>, <4 x float> poison, !dbg [[DBG222:![0-9]+]]
+; DEBUG-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <4 x float> poison, !dbg [[DBG222:![0-9]+]]
+; DEBUG-NEXT:    [[A_0_VECBLEND:%.*]] = select <4 x i1> <i1 true, i1 true, i1 false, i1 false>, <4 x float> <float 0.000000e+00, float 0.000000e+00, float undef, float undef>, <4 x float> [[FREEZE_LOAD]], !dbg [[DBG222]]
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META217:![0-9]+]], metadata !DIExpression()), !dbg [[DBG223:![0-9]+]]
 ; DEBUG-NEXT:    [[FREEZE2:%.*]] = freeze <4 x float> [[A_0_VECBLEND]], !dbg [[DBG224:![0-9]+]]
 ; DEBUG-NEXT:    [[A_4_VECBLEND:%.*]] = select <4 x i1> <i1 false, i1 true, i1 true, i1 false>, <4 x float> <float undef, float 0x3820202020000000, float 0x3820202020000000, float undef>, <4 x float> [[FREEZE2]], !dbg [[DBG224]]
@@ -536,8 +538,9 @@ define <4 x float> @test_subvec_memcpy(ptr %x, ptr %y, ptr %z, ptr %f, ptr %out)
 ; CHECK-LABEL: @test_subvec_memcpy(
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    [[A_0_COPYLOAD:%.*]] = load <2 x float>, ptr [[X:%.*]], align 1, !freeze_bits [[FREEZE_BITS0]]
+; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <4 x float> poison
 ; CHECK-NEXT:    [[A_0_VEC_EXPAND:%.*]] = shufflevector <2 x float> [[A_0_COPYLOAD]], <2 x float> poison, <4 x i32> <i32 0, i32 1, i32 poison, i32 poison>
-; CHECK-NEXT:    [[A_0_VECBLEND:%.*]] = select <4 x i1> <i1 true, i1 true, i1 false, i1 false>, <4 x float> [[A_0_VEC_EXPAND]], <4 x float> poison
+; CHECK-NEXT:    [[A_0_VECBLEND:%.*]] = select <4 x i1> <i1 true, i1 true, i1 false, i1 false>, <4 x float> [[A_0_VEC_EXPAND]], <4 x float> [[FREEZE_LOAD]]
 ; CHECK-NEXT:    [[A_4_COPYLOAD:%.*]] = load <2 x float>, ptr [[Y:%.*]], align 1, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    [[FREEZE3:%.*]] = freeze <4 x float> [[A_0_VECBLEND]]
 ; CHECK-NEXT:    [[A_4_VEC_EXPAND:%.*]] = shufflevector <2 x float> [[A_4_COPYLOAD]], <2 x float> poison, <4 x i32> <i32 poison, i32 0, i32 1, i32 poison>
@@ -558,8 +561,9 @@ define <4 x float> @test_subvec_memcpy(ptr %x, ptr %y, ptr %z, ptr %f, ptr %out)
 ; DEBUG-NEXT:  entry:
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META233:![0-9]+]], metadata !DIExpression()), !dbg [[DBG238:![0-9]+]]
 ; DEBUG-NEXT:    [[A_0_COPYLOAD:%.*]] = load <2 x float>, ptr [[X:%.*]], align 1, !dbg [[DBG239:![0-9]+]], !freeze_bits [[FREEZE_BITS7]]
+; DEBUG-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <4 x float> poison, !dbg [[DBG239]]
 ; DEBUG-NEXT:    [[A_0_VEC_EXPAND:%.*]] = shufflevector <2 x float> [[A_0_COPYLOAD]], <2 x float> poison, <4 x i32> <i32 0, i32 1, i32 poison, i32 poison>, !dbg [[DBG239]]
-; DEBUG-NEXT:    [[A_0_VECBLEND:%.*]] = select <4 x i1> <i1 true, i1 true, i1 false, i1 false>, <4 x float> [[A_0_VEC_EXPAND]], <4 x float> poison, !dbg [[DBG239]]
+; DEBUG-NEXT:    [[A_0_VECBLEND:%.*]] = select <4 x i1> <i1 true, i1 true, i1 false, i1 false>, <4 x float> [[A_0_VEC_EXPAND]], <4 x float> [[FREEZE_LOAD]], !dbg [[DBG239]]
 ; DEBUG-NEXT:    call void @llvm.dbg.value(metadata ptr undef, metadata [[META234:![0-9]+]], metadata !DIExpression()), !dbg [[DBG240:![0-9]+]]
 ; DEBUG-NEXT:    [[A_4_COPYLOAD:%.*]] = load <2 x float>, ptr [[Y:%.*]], align 1, !dbg [[DBG241:![0-9]+]], !freeze_bits [[FREEZE_BITS7]]
 ; DEBUG-NEXT:    [[FREEZE3:%.*]] = freeze <4 x float> [[A_0_VECBLEND]], !dbg [[DBG241]]

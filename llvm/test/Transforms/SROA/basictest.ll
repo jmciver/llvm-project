@@ -1082,7 +1082,8 @@ define void @PR14059.1(ptr %d) {
 ;
 ; CHECK-LABEL: @PR14059.1(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[TMP0:%.*]] = bitcast double poison to i64
+; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze double poison
+; CHECK-NEXT:    [[TMP0:%.*]] = bitcast double [[FREEZE_LOAD]] to i64
 ; CHECK-NEXT:    [[X_SROA_0_I_0_INSERT_MASK:%.*]] = and i64 [[TMP0]], -4294967296
 ; CHECK-NEXT:    [[X_SROA_0_I_0_INSERT_INSERT:%.*]] = or i64 [[X_SROA_0_I_0_INSERT_MASK]], 0
 ; CHECK-NEXT:    [[TMP1:%.*]] = bitcast i64 [[X_SROA_0_I_0_INSERT_INSERT]] to double
@@ -1106,8 +1107,9 @@ define void @PR14059.1(ptr %d) {
 ; CHECK-NEXT:    [[X_SROA_0_I_4_INSERT_MASK:%.*]] = and i64 [[TMP7]], 4294967295
 ; CHECK-NEXT:    [[X_SROA_0_I_4_INSERT_INSERT:%.*]] = or i64 [[X_SROA_0_I_4_INSERT_MASK]], 4607182418800017408
 ; CHECK-NEXT:    [[TMP8:%.*]] = bitcast i64 [[X_SROA_0_I_4_INSERT_INSERT]] to double
+; CHECK-NEXT:    [[FREEZE_LOAD8:%.*]] = freeze double [[TMP8]]
 ; CHECK-NEXT:    [[ACCUM_REAL_I:%.*]] = load double, ptr [[D]], align 8
-; CHECK-NEXT:    [[ADD_R_I:%.*]] = fadd double [[ACCUM_REAL_I]], [[TMP8]]
+; CHECK-NEXT:    [[ADD_R_I:%.*]] = fadd double [[ACCUM_REAL_I]], [[FREEZE_LOAD8]]
 ; CHECK-NEXT:    store double [[ADD_R_I]], ptr [[D]], align 8
 ; CHECK-NEXT:    ret void
 ;
@@ -1708,7 +1710,8 @@ define i32 @PR22093() {
 ; CHECK-NEXT:    [[A_SROA_0:%.*]] = alloca i16, align 4
 ; CHECK-NEXT:    store volatile i16 42, ptr [[A_SROA_0]], align 4
 ; CHECK-NEXT:    [[A_SROA_0_0_A_SROA_0_0_LOAD:%.*]] = load i16, ptr [[A_SROA_0]], align 4, !freeze_bits [[FREEZE_BITS0]]
-; CHECK-NEXT:    [[A_SROA_3_0_INSERT_EXT:%.*]] = zext i16 poison to i32
+; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze i16 poison
+; CHECK-NEXT:    [[A_SROA_3_0_INSERT_EXT:%.*]] = zext i16 [[FREEZE_LOAD]] to i32
 ; CHECK-NEXT:    [[A_SROA_3_0_INSERT_SHIFT:%.*]] = shl i32 [[A_SROA_3_0_INSERT_EXT]], 16
 ; CHECK-NEXT:    [[A_SROA_3_0_INSERT_MASK:%.*]] = and i32 undef, 65535
 ; CHECK-NEXT:    [[A_SROA_3_0_INSERT_INSERT:%.*]] = or i32 [[A_SROA_3_0_INSERT_MASK]], [[A_SROA_3_0_INSERT_SHIFT]]
@@ -1745,7 +1748,8 @@ define void @PR22093.2() {
 ; CHECK-NEXT:    [[A_SROA_31:%.*]] = alloca i8, align 4
 ; CHECK-NEXT:    store volatile i16 42, ptr [[A_SROA_0]], align 8
 ; CHECK-NEXT:    [[A_SROA_0_0_A_SROA_0_0_LOAD:%.*]] = load i16, ptr [[A_SROA_0]], align 8, !freeze_bits [[FREEZE_BITS0]]
-; CHECK-NEXT:    [[A_SROA_3_0_INSERT_EXT:%.*]] = zext i16 poison to i32
+; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze i16 poison
+; CHECK-NEXT:    [[A_SROA_3_0_INSERT_EXT:%.*]] = zext i16 [[FREEZE_LOAD]] to i32
 ; CHECK-NEXT:    [[A_SROA_3_0_INSERT_SHIFT:%.*]] = shl i32 [[A_SROA_3_0_INSERT_EXT]], 16
 ; CHECK-NEXT:    [[A_SROA_3_0_INSERT_MASK:%.*]] = and i32 undef, 65535
 ; CHECK-NEXT:    [[A_SROA_3_0_INSERT_INSERT:%.*]] = or i32 [[A_SROA_3_0_INSERT_MASK]], [[A_SROA_3_0_INSERT_SHIFT]]
