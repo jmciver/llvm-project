@@ -1013,6 +1013,16 @@ Value *AvailableValue::MaterializeAdjustedValue(LoadInst *Load,
     Res = getSimpleValue();
     if (Res->getType() != LoadTy) {
       Res = getValueForLoad(Res, Offset, LoadTy, InsertPt, DL);
+      if (loadHasFreezeBits(Load)) {
+        auto Inst = dyn_cast_or_null<Instruction>(Res);
+        if (Inst) {
+          IRBuilder<> Builder(Inst);
+          Res = Builder.CreateFreeze(Res, "freeze");
+        } else {
+          IRBuilder<> Builder(Load);
+          Res = Builder.CreateFreeze(Res, "freeze");
+        }
+      }
 
       LLVM_DEBUG(dbgs() << "GVN COERCED NONLOCAL VAL:\nOffset: " << Offset
                         << "  " << *getSimpleValue() << '\n'
