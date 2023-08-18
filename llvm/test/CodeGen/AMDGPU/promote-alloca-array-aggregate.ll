@@ -25,7 +25,7 @@ define amdgpu_vs void @promote_1d_aggr() #0 {
 ; CHECK-NEXT:    store float [[FOO3_FCA_0_EXTRACT]], ptr addrspace(5) [[FOO3_FCA_0_GEP]], align 4
 ; CHECK-NEXT:    [[FOO5:%.*]] = getelementptr [1 x float], ptr addrspace(5) [[F1]], i32 0, i32 [[FOO1]]
 ; CHECK-NEXT:    [[FOO6:%.*]] = load float, ptr addrspace(5) [[FOO5]], align 4
-; CHECK-NEXT:    [[FOO9:%.*]] = insertelement <4 x float> undef, float [[FOO6]], i32 0
+; CHECK-NEXT:    [[FOO9:%.*]] = insertelement <4 x float> poison, float [[FOO6]], i32 0
 ; CHECK-NEXT:    [[FOO10:%.*]] = insertelement <4 x float> [[FOO9]], float [[FOO6]], i32 1
 ; CHECK-NEXT:    [[FOO11:%.*]] = insertelement <4 x float> [[FOO10]], float [[FOO6]], i32 2
 ; CHECK-NEXT:    [[FOO12:%.*]] = insertelement <4 x float> [[FOO11]], float [[FOO6]], i32 3
@@ -91,11 +91,11 @@ define amdgpu_vs void @promote_load_from_store_aggr() #0 {
 ; CHECK-NEXT:    [[FOO1:%.*]] = load i32, ptr addrspace(1) [[FOO]], align 4
 ; CHECK-NEXT:    [[FOO3:%.*]] = load [2 x float], ptr addrspace(1) @block3, align 4
 ; CHECK-NEXT:    [[FOO3_FCA_0_EXTRACT:%.*]] = extractvalue [2 x float] [[FOO3]], 0
-; CHECK-NEXT:    [[TMP1:%.*]] = insertelement <2 x float> undef, float [[FOO3_FCA_0_EXTRACT]], i32 0
+; CHECK-NEXT:    [[TMP1:%.*]] = insertelement <2 x float> poison, float [[FOO3_FCA_0_EXTRACT]], i32 0
 ; CHECK-NEXT:    [[FOO3_FCA_1_EXTRACT:%.*]] = extractvalue [2 x float] [[FOO3]], 1
 ; CHECK-NEXT:    [[TMP2:%.*]] = insertelement <2 x float> [[TMP1]], float [[FOO3_FCA_1_EXTRACT]], i64 1
 ; CHECK-NEXT:    [[TMP3:%.*]] = extractelement <2 x float> [[TMP2]], i32 [[FOO1]]
-; CHECK-NEXT:    [[FOO9:%.*]] = insertelement <4 x float> undef, float [[TMP3]], i32 0
+; CHECK-NEXT:    [[FOO9:%.*]] = insertelement <4 x float> poison, float [[TMP3]], i32 0
 ; CHECK-NEXT:    [[FOO10:%.*]] = insertelement <4 x float> [[FOO9]], float [[TMP3]], i32 1
 ; CHECK-NEXT:    [[FOO11:%.*]] = insertelement <4 x float> [[FOO10]], float [[TMP3]], i32 2
 ; CHECK-NEXT:    [[FOO12:%.*]] = insertelement <4 x float> [[FOO11]], float [[TMP3]], i32 3
@@ -314,7 +314,8 @@ define amdgpu_ps void @promote_double_aggr() #0 {
 ; CHECK-NEXT:    [[FOO5_FCA_0_EXTRACT:%.*]] = extractvalue [2 x double] [[FOO5]], 0
 ; CHECK-NEXT:    [[FOO5_FCA_1_EXTRACT:%.*]] = extractvalue [2 x double] [[FOO5]], 1
 ; CHECK-NEXT:    [[FOO10:%.*]] = fadd double [[FOO5_FCA_1_EXTRACT]], [[FOO5_FCA_1_EXTRACT]]
-; CHECK-NEXT:    [[FOO16:%.*]] = fadd double [[FOO10]], [[FOO5_FCA_1_EXTRACT]]
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze double [[FOO10]]
+; CHECK-NEXT:    [[FOO16:%.*]] = fadd double [[FREEZE]], [[FOO5_FCA_1_EXTRACT]]
 ; CHECK-NEXT:    [[FOO17:%.*]] = fptrunc double [[FOO16]] to float
 ; CHECK-NEXT:    [[FOO18:%.*]] = insertelement <4 x float> undef, float [[FOO17]], i32 0
 ; CHECK-NEXT:    [[FOO19:%.*]] = insertelement <4 x float> [[FOO18]], float [[FOO17]], i32 1

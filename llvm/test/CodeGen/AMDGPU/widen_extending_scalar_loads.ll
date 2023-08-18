@@ -27,9 +27,9 @@ define amdgpu_kernel void @constant_load_i1_align2(ptr addrspace(1) %out, ptr ad
 
 define amdgpu_kernel void @constant_load_i1_align4(ptr addrspace(1) %out, ptr addrspace(4) %in) #0 {
 ; OPT-LABEL: @constant_load_i1_align4(
-; OPT-NEXT:    [[TMP2:%.*]] = load i32, ptr addrspace(4) [[IN:%.*]], align 4
-; OPT-NEXT:    [[TMP3:%.*]] = trunc i32 [[TMP2]] to i1
-; OPT-NEXT:    store i1 [[TMP3]], ptr addrspace(1) [[OUT:%.*]], align 4
+; OPT-NEXT:    [[TMP1:%.*]] = load i32, ptr addrspace(4) [[IN:%.*]], align 4, !freeze_bits [[FREEZE_BITS0:![0-9]+]]
+; OPT-NEXT:    [[TMP2:%.*]] = trunc i32 [[TMP1]] to i1
+; OPT-NEXT:    store i1 [[TMP2]], ptr addrspace(1) [[OUT:%.*]], align 4
 ; OPT-NEXT:    ret void
 ;
   %val = load i1, ptr addrspace(4) %in, align 4
@@ -61,9 +61,9 @@ define amdgpu_kernel void @constant_load_i8_align2(ptr addrspace(1) %out, ptr ad
 
 define amdgpu_kernel void @constant_load_i8align4(ptr addrspace(1) %out, ptr addrspace(4) %in) #0 {
 ; OPT-LABEL: @constant_load_i8align4(
-; OPT-NEXT:    [[TMP2:%.*]] = load i32, ptr addrspace(4) [[IN:%.*]], align 4
-; OPT-NEXT:    [[TMP3:%.*]] = trunc i32 [[TMP2]] to i8
-; OPT-NEXT:    store i8 [[TMP3]], ptr addrspace(1) [[OUT:%.*]], align 4
+; OPT-NEXT:    [[TMP1:%.*]] = load i32, ptr addrspace(4) [[IN:%.*]], align 4, !freeze_bits [[FREEZE_BITS0]]
+; OPT-NEXT:    [[TMP2:%.*]] = trunc i32 [[TMP1]] to i8
+; OPT-NEXT:    store i8 [[TMP2]], ptr addrspace(1) [[OUT:%.*]], align 4
 ; OPT-NEXT:    ret void
 ;
   %val = load i8, ptr addrspace(4) %in, align 4
@@ -84,10 +84,10 @@ define amdgpu_kernel void @constant_load_v2i8(ptr addrspace(1) %out, ptr addrspa
 
 define amdgpu_kernel void @constant_load_v2i8_align4(ptr addrspace(1) %out, ptr addrspace(4) %in) #0 {
 ; OPT-LABEL: @constant_load_v2i8_align4(
-; OPT-NEXT:    [[TMP2:%.*]] = load i32, ptr addrspace(4) [[IN:%.*]], align 4
-; OPT-NEXT:    [[TMP3:%.*]] = trunc i32 [[TMP2]] to i16
-; OPT-NEXT:    [[TMP4:%.*]] = bitcast i16 [[TMP3]] to <2 x i8>
-; OPT-NEXT:    store <2 x i8> [[TMP4]], ptr addrspace(1) [[OUT:%.*]], align 4
+; OPT-NEXT:    [[TMP1:%.*]] = load i32, ptr addrspace(4) [[IN:%.*]], align 4, !freeze_bits [[FREEZE_BITS0]]
+; OPT-NEXT:    [[TMP2:%.*]] = trunc i32 [[TMP1]] to i16
+; OPT-NEXT:    [[TMP3:%.*]] = bitcast i16 [[TMP2]] to <2 x i8>
+; OPT-NEXT:    store <2 x i8> [[TMP3]], ptr addrspace(1) [[OUT:%.*]], align 4
 ; OPT-NEXT:    ret void
 ;
   %ld = load <2 x i8>, ptr addrspace(4) %in, align 4
@@ -97,10 +97,10 @@ define amdgpu_kernel void @constant_load_v2i8_align4(ptr addrspace(1) %out, ptr 
 
 define amdgpu_kernel void @constant_load_v3i8(ptr addrspace(1) %out, ptr addrspace(4) %in) #0 {
 ; OPT-LABEL: @constant_load_v3i8(
-; OPT-NEXT:    [[TMP2:%.*]] = load i32, ptr addrspace(4) [[IN:%.*]], align 4
-; OPT-NEXT:    [[TMP3:%.*]] = trunc i32 [[TMP2]] to i24
-; OPT-NEXT:    [[TMP4:%.*]] = bitcast i24 [[TMP3]] to <3 x i8>
-; OPT-NEXT:    store <3 x i8> [[TMP4]], ptr addrspace(1) [[OUT:%.*]], align 4
+; OPT-NEXT:    [[TMP1:%.*]] = load i32, ptr addrspace(4) [[IN:%.*]], align 4, !freeze_bits [[FREEZE_BITS0]]
+; OPT-NEXT:    [[TMP2:%.*]] = trunc i32 [[TMP1]] to i24
+; OPT-NEXT:    [[TMP3:%.*]] = bitcast i24 [[TMP2]] to <3 x i8>
+; OPT-NEXT:    store <3 x i8> [[TMP3]], ptr addrspace(1) [[OUT:%.*]], align 4
 ; OPT-NEXT:    ret void
 ;
   %ld = load <3 x i8>, ptr addrspace(4) %in
@@ -110,10 +110,10 @@ define amdgpu_kernel void @constant_load_v3i8(ptr addrspace(1) %out, ptr addrspa
 
 define amdgpu_kernel void @constant_load_v3i8_align4(ptr addrspace(1) %out, ptr addrspace(4) %in) #0 {
 ; OPT-LABEL: @constant_load_v3i8_align4(
-; OPT-NEXT:    [[TMP2:%.*]] = load i32, ptr addrspace(4) [[IN:%.*]], align 4
-; OPT-NEXT:    [[TMP3:%.*]] = trunc i32 [[TMP2]] to i24
-; OPT-NEXT:    [[TMP4:%.*]] = bitcast i24 [[TMP3]] to <3 x i8>
-; OPT-NEXT:    store <3 x i8> [[TMP4]], ptr addrspace(1) [[OUT:%.*]], align 4
+; OPT-NEXT:    [[TMP1:%.*]] = load i32, ptr addrspace(4) [[IN:%.*]], align 4, !freeze_bits [[FREEZE_BITS0]]
+; OPT-NEXT:    [[TMP2:%.*]] = trunc i32 [[TMP1]] to i24
+; OPT-NEXT:    [[TMP3:%.*]] = bitcast i24 [[TMP2]] to <3 x i8>
+; OPT-NEXT:    store <3 x i8> [[TMP3]], ptr addrspace(1) [[OUT:%.*]], align 4
 ; OPT-NEXT:    ret void
 ;
   %ld = load <3 x i8>, ptr addrspace(4) %in, align 4
@@ -136,9 +136,9 @@ define amdgpu_kernel void @constant_load_i16(ptr addrspace(1) %out, ptr addrspac
 
 define amdgpu_kernel void @constant_load_i16_align4(ptr addrspace(1) %out, ptr addrspace(4) %in) #0 {
 ; OPT-LABEL: @constant_load_i16_align4(
-; OPT-NEXT:    [[TMP2:%.*]] = load i32, ptr addrspace(4) [[IN:%.*]], align 4
-; OPT-NEXT:    [[TMP3:%.*]] = trunc i32 [[TMP2]] to i16
-; OPT-NEXT:    [[EXT:%.*]] = sext i16 [[TMP3]] to i32
+; OPT-NEXT:    [[TMP1:%.*]] = load i32, ptr addrspace(4) [[IN:%.*]], align 4, !freeze_bits [[FREEZE_BITS0]]
+; OPT-NEXT:    [[TMP2:%.*]] = trunc i32 [[TMP1]] to i16
+; OPT-NEXT:    [[EXT:%.*]] = sext i16 [[TMP2]] to i32
 ; OPT-NEXT:    store i32 [[EXT]], ptr addrspace(1) [[OUT:%.*]], align 4
 ; OPT-NEXT:    ret void
 ;
@@ -206,9 +206,9 @@ define amdgpu_kernel void @constant_load_v2i8_addrspace1(ptr addrspace(1) %out, 
 define amdgpu_kernel void @use_dispatch_ptr(ptr addrspace(1) %ptr) #1 {
 ; OPT-LABEL: @use_dispatch_ptr(
 ; OPT-NEXT:    [[DISPATCH_PTR:%.*]] = call ptr addrspace(4) @llvm.amdgcn.dispatch.ptr()
-; OPT-NEXT:    [[TMP2:%.*]] = load i32, ptr addrspace(4) [[DISPATCH_PTR]], align 4
-; OPT-NEXT:    [[TMP3:%.*]] = trunc i32 [[TMP2]] to i8
-; OPT-NEXT:    [[LD:%.*]] = zext i8 [[TMP3]] to i32
+; OPT-NEXT:    [[TMP1:%.*]] = load i32, ptr addrspace(4) [[DISPATCH_PTR]], align 4, !freeze_bits [[FREEZE_BITS0]]
+; OPT-NEXT:    [[TMP2:%.*]] = trunc i32 [[TMP1]] to i8
+; OPT-NEXT:    [[LD:%.*]] = zext i8 [[TMP2]] to i32
 ; OPT-NEXT:    store i32 [[LD]], ptr addrspace(1) [[PTR:%.*]], align 4
 ; OPT-NEXT:    ret void
 ;
@@ -221,9 +221,9 @@ define amdgpu_kernel void @use_dispatch_ptr(ptr addrspace(1) %ptr) #1 {
 
 define amdgpu_kernel void @constant_load_i16_align4_range(ptr addrspace(1) %out, ptr addrspace(4) %in) #0 {
 ; OPT-LABEL: @constant_load_i16_align4_range(
-; OPT-NEXT:    [[TMP2:%.*]] = load i32, ptr addrspace(4) [[IN:%.*]], align 4, !range [[RNG0:![0-9]+]]
-; OPT-NEXT:    [[TMP3:%.*]] = trunc i32 [[TMP2]] to i16
-; OPT-NEXT:    [[EXT:%.*]] = sext i16 [[TMP3]] to i32
+; OPT-NEXT:    [[TMP1:%.*]] = load i32, ptr addrspace(4) [[IN:%.*]], align 4, !range [[RNG1:![0-9]+]], !freeze_bits [[FREEZE_BITS0]]
+; OPT-NEXT:    [[TMP2:%.*]] = trunc i32 [[TMP1]] to i16
+; OPT-NEXT:    [[EXT:%.*]] = sext i16 [[TMP2]] to i32
 ; OPT-NEXT:    store i32 [[EXT]], ptr addrspace(1) [[OUT:%.*]], align 4
 ; OPT-NEXT:    ret void
 ;
@@ -235,9 +235,9 @@ define amdgpu_kernel void @constant_load_i16_align4_range(ptr addrspace(1) %out,
 
 define amdgpu_kernel void @constant_load_i16_align4_range_max(ptr addrspace(1) %out, ptr addrspace(4) %in) #0 {
 ; OPT-LABEL: @constant_load_i16_align4_range_max(
-; OPT-NEXT:    [[TMP2:%.*]] = load i32, ptr addrspace(4) [[IN:%.*]], align 4, !range [[RNG0]]
-; OPT-NEXT:    [[TMP3:%.*]] = trunc i32 [[TMP2]] to i16
-; OPT-NEXT:    [[EXT:%.*]] = sext i16 [[TMP3]] to i32
+; OPT-NEXT:    [[TMP1:%.*]] = load i32, ptr addrspace(4) [[IN:%.*]], align 4, !range [[RNG1]], !freeze_bits [[FREEZE_BITS0]]
+; OPT-NEXT:    [[TMP2:%.*]] = trunc i32 [[TMP1]] to i16
+; OPT-NEXT:    [[EXT:%.*]] = sext i16 [[TMP2]] to i32
 ; OPT-NEXT:    store i32 [[EXT]], ptr addrspace(1) [[OUT:%.*]], align 4
 ; OPT-NEXT:    ret void
 ;
@@ -249,9 +249,9 @@ define amdgpu_kernel void @constant_load_i16_align4_range_max(ptr addrspace(1) %
 
 define amdgpu_kernel void @constant_load_i16_align4_complex_range(ptr addrspace(1) %out, ptr addrspace(4) %in) #0 {
 ; OPT-LABEL: @constant_load_i16_align4_complex_range(
-; OPT-NEXT:    [[TMP2:%.*]] = load i32, ptr addrspace(4) [[IN:%.*]], align 4, !range [[RNG1:![0-9]+]]
-; OPT-NEXT:    [[TMP3:%.*]] = trunc i32 [[TMP2]] to i16
-; OPT-NEXT:    [[EXT:%.*]] = sext i16 [[TMP3]] to i32
+; OPT-NEXT:    [[TMP1:%.*]] = load i32, ptr addrspace(4) [[IN:%.*]], align 4, !range [[RNG2:![0-9]+]], !freeze_bits [[FREEZE_BITS0]]
+; OPT-NEXT:    [[TMP2:%.*]] = trunc i32 [[TMP1]] to i16
+; OPT-NEXT:    [[EXT:%.*]] = sext i16 [[TMP2]] to i32
 ; OPT-NEXT:    store i32 [[EXT]], ptr addrspace(1) [[OUT:%.*]], align 4
 ; OPT-NEXT:    ret void
 ;
@@ -263,9 +263,9 @@ define amdgpu_kernel void @constant_load_i16_align4_complex_range(ptr addrspace(
 
 define amdgpu_kernel void @constant_load_i16_align4_range_from_0(ptr addrspace(1) %out, ptr addrspace(4) %in) #0 {
 ; OPT-LABEL: @constant_load_i16_align4_range_from_0(
-; OPT-NEXT:    [[TMP2:%.*]] = load i32, ptr addrspace(4) [[IN:%.*]], align 4
-; OPT-NEXT:    [[TMP3:%.*]] = trunc i32 [[TMP2]] to i16
-; OPT-NEXT:    [[EXT:%.*]] = sext i16 [[TMP3]] to i32
+; OPT-NEXT:    [[TMP1:%.*]] = load i32, ptr addrspace(4) [[IN:%.*]], align 4, !freeze_bits [[FREEZE_BITS0]]
+; OPT-NEXT:    [[TMP2:%.*]] = trunc i32 [[TMP1]] to i16
+; OPT-NEXT:    [[EXT:%.*]] = sext i16 [[TMP2]] to i32
 ; OPT-NEXT:    store i32 [[EXT]], ptr addrspace(1) [[OUT:%.*]], align 4
 ; OPT-NEXT:    ret void
 ;
@@ -277,9 +277,9 @@ define amdgpu_kernel void @constant_load_i16_align4_range_from_0(ptr addrspace(1
 
 define amdgpu_kernel void @constant_load_i16_align4_range_from_neg(ptr addrspace(1) %out, ptr addrspace(4) %in) #0 {
 ; OPT-LABEL: @constant_load_i16_align4_range_from_neg(
-; OPT-NEXT:    [[TMP2:%.*]] = load i32, ptr addrspace(4) [[IN:%.*]], align 4, !range [[RNG2:![0-9]+]]
-; OPT-NEXT:    [[TMP3:%.*]] = trunc i32 [[TMP2]] to i16
-; OPT-NEXT:    [[EXT:%.*]] = sext i16 [[TMP3]] to i32
+; OPT-NEXT:    [[TMP1:%.*]] = load i32, ptr addrspace(4) [[IN:%.*]], align 4, !range [[RNG3:![0-9]+]], !freeze_bits [[FREEZE_BITS0]]
+; OPT-NEXT:    [[TMP2:%.*]] = trunc i32 [[TMP1]] to i16
+; OPT-NEXT:    [[EXT:%.*]] = sext i16 [[TMP2]] to i32
 ; OPT-NEXT:    store i32 [[EXT]], ptr addrspace(1) [[OUT:%.*]], align 4
 ; OPT-NEXT:    ret void
 ;
@@ -291,9 +291,9 @@ define amdgpu_kernel void @constant_load_i16_align4_range_from_neg(ptr addrspace
 
 define amdgpu_kernel void @constant_load_i16_align4_range_from_neg_to_0(ptr addrspace(1) %out, ptr addrspace(4) %in) #0 {
 ; OPT-LABEL: @constant_load_i16_align4_range_from_neg_to_0(
-; OPT-NEXT:    [[TMP2:%.*]] = load i32, ptr addrspace(4) [[IN:%.*]], align 4, !range [[RNG2]]
-; OPT-NEXT:    [[TMP3:%.*]] = trunc i32 [[TMP2]] to i16
-; OPT-NEXT:    [[EXT:%.*]] = sext i16 [[TMP3]] to i32
+; OPT-NEXT:    [[TMP1:%.*]] = load i32, ptr addrspace(4) [[IN:%.*]], align 4, !range [[RNG3]], !freeze_bits [[FREEZE_BITS0]]
+; OPT-NEXT:    [[TMP2:%.*]] = trunc i32 [[TMP1]] to i16
+; OPT-NEXT:    [[EXT:%.*]] = sext i16 [[TMP2]] to i32
 ; OPT-NEXT:    store i32 [[EXT]], ptr addrspace(1) [[OUT:%.*]], align 4
 ; OPT-NEXT:    ret void
 ;
@@ -305,9 +305,9 @@ define amdgpu_kernel void @constant_load_i16_align4_range_from_neg_to_0(ptr addr
 
 define amdgpu_kernel void @constant_load_i16_align4_invariant(ptr addrspace(1) %out, ptr addrspace(4) %in) #0 {
 ; OPT-LABEL: @constant_load_i16_align4_invariant(
-; OPT-NEXT:    [[TMP2:%.*]] = load i32, ptr addrspace(4) [[IN:%.*]], align 4, !invariant.load !3
-; OPT-NEXT:    [[TMP3:%.*]] = trunc i32 [[TMP2]] to i16
-; OPT-NEXT:    [[EXT:%.*]] = sext i16 [[TMP3]] to i32
+; OPT-NEXT:    [[TMP1:%.*]] = load i32, ptr addrspace(4) [[IN:%.*]], align 4, !invariant.load !0, !freeze_bits [[FREEZE_BITS0]]
+; OPT-NEXT:    [[TMP2:%.*]] = trunc i32 [[TMP1]] to i16
+; OPT-NEXT:    [[EXT:%.*]] = sext i16 [[TMP2]] to i32
 ; OPT-NEXT:    store i32 [[EXT]], ptr addrspace(1) [[OUT:%.*]], align 4
 ; OPT-NEXT:    ret void
 ;

@@ -4,7 +4,7 @@
 target datalayout = "e-p:64:64-p1:64:64-p2:32:32-p3:32:32-p4:64:64-p5:32:32-p6:32:32-p7:160:256:256:32-p8:128:128-i64:64-v16:16-v24:32-v32:32-v48:64-v96:128-v192:256-v256:256-v512:512-v1024:1024-v2048:2048-n32:64-S32-A5"
 
 ; CHECK-LABEL: @interleave
-; CHECK: load <2 x double>, ptr addrspace(1) %{{.}}, align 8{{$}}
+; CHECK: load <2 x double>, ptr addrspace(1) %{{.}}, align 8, !freeze_bits !{{[0-9]+}}{{$}}
 ; CHECK: store <2 x double> zeroinitializer
 ; CHECK: store double %add
 define amdgpu_kernel void @interleave(ptr addrspace(1) nocapture %a, ptr addrspace(1) nocapture %b, ptr addrspace(1) nocapture readonly %c) #0 {

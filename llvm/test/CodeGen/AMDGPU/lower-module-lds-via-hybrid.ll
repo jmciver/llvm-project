@@ -293,18 +293,19 @@ define amdgpu_kernel void @k123() {
 ; OPT: !0 = !{i64 0, i64 1}
 ; OPT: !1 = !{i64 4, i64 5}
 ; OPT: !2 = !{i64 8, i64 9}
-; OPT: !3 = !{i32 1}
-; OPT: !4 = !{!5}
-; OPT: !5 = distinct !{!5, !6}
-; OPT: !6 = distinct !{!6}
-; OPT: !7 = !{!8}
-; OPT: !8 = distinct !{!8, !6}
-; OPT: !9 = !{i32 0}
-; OPT: !10 = !{!11}
-; OPT: !11 = distinct !{!11, !12}
-; OPT: !12 = distinct !{!12}
-; OPT: !13 = !{!14}
-; OPT: !14 = distinct !{!14, !12}
+; OPT: !3 = !{}
+; OPT: !4 = !{i32 1}
+; OPT: !5 = !{!6}
+; OPT: !6 = distinct !{!6, !7}
+; OPT: !7 = distinct !{!7}
+; OPT: !8 = !{!9}
+; OPT: !9 = distinct !{!9, !7}
+; OPT: !10 = !{i32 0}
+; OPT: !11 = !{!12}
+; OPT: !12 = distinct !{!12, !13}
+; OPT: !13 = distinct !{!13}
+; OPT: !14 = !{!15}
+; OPT: !15 = distinct !{!15, !13}
 
 ; Table size length number-kernels * number-variables * sizeof(uint16_t)
 ; GCN:      .type	llvm.amdgcn.lds.offset.table,@object

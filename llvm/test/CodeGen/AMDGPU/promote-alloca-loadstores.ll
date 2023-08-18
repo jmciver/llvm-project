@@ -9,14 +9,14 @@ define amdgpu_kernel void @test_overwrite(i64 %val, i1 %cond) {
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    br i1 [[COND]], label [[LOOP:%.*]], label [[END:%.*]]
 ; CHECK:       loop:
-; CHECK-NEXT:    [[PROMOTEALLOCA:%.*]] = phi <3 x i64> [ [[TMP2:%.*]], [[LOOP]] ], [ <i64 43, i64 undef, i64 undef>, [[ENTRY:%.*]] ]
+; CHECK-NEXT:    [[PROMOTEALLOCA:%.*]] = phi <3 x i64> [ [[TMP2:%.*]], [[LOOP]] ], [ <i64 43, i64 poison, i64 poison>, [[ENTRY:%.*]] ]
 ; CHECK-NEXT:    [[TMP0:%.*]] = extractelement <3 x i64> [[PROMOTEALLOCA]], i32 0
 ; CHECK-NEXT:    [[TMP1:%.*]] = insertelement <3 x i64> [[PROMOTEALLOCA]], i64 68, i32 0
 ; CHECK-NEXT:    [[TMP2]] = insertelement <3 x i64> [[TMP1]], i64 32, i32 0
 ; CHECK-NEXT:    [[LOOP_CC:%.*]] = icmp ne i64 [[TMP0]], 68
 ; CHECK-NEXT:    br i1 [[LOOP_CC]], label [[LOOP]], label [[END]]
 ; CHECK:       end:
-; CHECK-NEXT:    [[PROMOTEALLOCA1:%.*]] = phi <3 x i64> [ [[TMP2]], [[LOOP]] ], [ <i64 43, i64 undef, i64 undef>, [[ENTRY]] ]
+; CHECK-NEXT:    [[PROMOTEALLOCA1:%.*]] = phi <3 x i64> [ [[TMP2]], [[LOOP]] ], [ <i64 43, i64 poison, i64 poison>, [[ENTRY]] ]
 ; CHECK-NEXT:    [[TMP3:%.*]] = extractelement <3 x i64> [[PROMOTEALLOCA1]], i32 0
 ; CHECK-NEXT:    ret void
 ;
@@ -43,8 +43,8 @@ define <4 x i64> @test_fullvec_out_of_bounds(<4 x i64> %arg) {
 ; CHECK-SAME: (<4 x i64> [[ARG:%.*]]) {
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    [[TMP0:%.*]] = extractelement <4 x i64> [[ARG]], i64 0
-; CHECK-NEXT:    [[TMP1:%.*]] = insertelement <4 x i64> undef, i64 [[TMP0]], i64 3
-; CHECK-NEXT:    [[TMP2:%.*]] = insertelement <4 x i64> <i64 undef, i64 poison, i64 poison, i64 poison>, i64 [[TMP0]], i64 1
+; CHECK-NEXT:    [[TMP1:%.*]] = insertelement <4 x i64> poison, i64 [[TMP0]], i64 3
+; CHECK-NEXT:    [[TMP2:%.*]] = insertelement <4 x i64> poison, i64 [[TMP0]], i64 1
 ; CHECK-NEXT:    ret <4 x i64> [[TMP2]]
 ;
 entry:
@@ -62,13 +62,13 @@ define amdgpu_kernel void @test_no_overwrite(i64 %val, i1 %cond) {
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    br i1 [[COND]], label [[LOOP:%.*]], label [[END:%.*]]
 ; CHECK:       loop:
-; CHECK-NEXT:    [[PROMOTEALLOCA:%.*]] = phi <3 x i64> [ [[TMP1:%.*]], [[LOOP]] ], [ <i64 43, i64 undef, i64 undef>, [[ENTRY:%.*]] ]
+; CHECK-NEXT:    [[PROMOTEALLOCA:%.*]] = phi <3 x i64> [ [[TMP1:%.*]], [[LOOP]] ], [ <i64 43, i64 poison, i64 poison>, [[ENTRY:%.*]] ]
 ; CHECK-NEXT:    [[TMP0:%.*]] = extractelement <3 x i64> [[PROMOTEALLOCA]], i32 0
 ; CHECK-NEXT:    [[TMP1]] = insertelement <3 x i64> [[PROMOTEALLOCA]], i64 32, i32 1
 ; CHECK-NEXT:    [[LOOP_CC:%.*]] = icmp ne i64 [[TMP0]], 32
 ; CHECK-NEXT:    br i1 [[LOOP_CC]], label [[LOOP]], label [[END]]
 ; CHECK:       end:
-; CHECK-NEXT:    [[PROMOTEALLOCA1:%.*]] = phi <3 x i64> [ [[TMP1]], [[LOOP]] ], [ <i64 43, i64 undef, i64 undef>, [[ENTRY]] ]
+; CHECK-NEXT:    [[PROMOTEALLOCA1:%.*]] = phi <3 x i64> [ [[TMP1]], [[LOOP]] ], [ <i64 43, i64 poison, i64 poison>, [[ENTRY]] ]
 ; CHECK-NEXT:    [[TMP2:%.*]] = extractelement <3 x i64> [[PROMOTEALLOCA1]], i32 0
 ; CHECK-NEXT:    [[TMP3:%.*]] = extractelement <3 x i64> [[PROMOTEALLOCA1]], i32 1
 ; CHECK-NEXT:    ret void
@@ -164,7 +164,7 @@ define void @alloca_load_store_ptr_mixed_ptrvec(<2 x ptr addrspace(3)> %arg) {
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    [[TMP0:%.*]] = ptrtoint <2 x ptr addrspace(3)> [[ARG]] to <2 x i32>
 ; CHECK-NEXT:    [[TMP1:%.*]] = extractelement <2 x i32> [[TMP0]], i64 0
-; CHECK-NEXT:    [[TMP2:%.*]] = insertelement <8 x i32> undef, i32 [[TMP1]], i64 0
+; CHECK-NEXT:    [[TMP2:%.*]] = insertelement <8 x i32> poison, i32 [[TMP1]], i64 0
 ; CHECK-NEXT:    [[TMP3:%.*]] = extractelement <2 x i32> [[TMP0]], i64 1
 ; CHECK-NEXT:    [[TMP4:%.*]] = insertelement <8 x i32> [[TMP2]], i32 [[TMP3]], i64 1
 ; CHECK-NEXT:    [[TMP5:%.*]] = insertelement <2 x i32> poison, i32 [[TMP1]], i64 0
@@ -172,9 +172,7 @@ define void @alloca_load_store_ptr_mixed_ptrvec(<2 x ptr addrspace(3)> %arg) {
 ; CHECK-NEXT:    [[TMP7:%.*]] = inttoptr <2 x i32> [[TMP6]] to <2 x ptr addrspace(3)>
 ; CHECK-NEXT:    [[TMP8:%.*]] = insertelement <4 x i32> poison, i32 [[TMP1]], i64 0
 ; CHECK-NEXT:    [[TMP9:%.*]] = insertelement <4 x i32> [[TMP8]], i32 [[TMP3]], i64 1
-; CHECK-NEXT:    [[TMP10:%.*]] = insertelement <4 x i32> [[TMP9]], i32 undef, i64 2
-; CHECK-NEXT:    [[TMP11:%.*]] = insertelement <4 x i32> [[TMP10]], i32 undef, i64 3
-; CHECK-NEXT:    [[TMP12:%.*]] = inttoptr <4 x i32> [[TMP11]] to <4 x ptr addrspace(3)>
+; CHECK-NEXT:    [[TMP10:%.*]] = inttoptr <4 x i32> [[TMP9]] to <4 x ptr addrspace(3)>
 ; CHECK-NEXT:    ret void
 ;
 entry:

@@ -33,7 +33,7 @@
 
 
 define amdgpu_kernel void @kernel_only() {
-; CHECK-LABEL: @kernel_only() {
+; CHECK-LABEL: @kernel_only(
 ; CHECK-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [0 x double], ptr addrspace(3) @dynamic_kernel_only, i32 0, i32 0
 ; CHECK-NEXT:    store double 3.140000e+00, ptr addrspace(3) [[ARRAYIDX]], align 8
 ; CHECK-NEXT:    ret void
@@ -45,10 +45,10 @@ define amdgpu_kernel void @kernel_only() {
 
 ; The accesses from functions are rewritten to go through the llvm.amdgcn.dynlds.offset.table
 define void @use_shared1() {
-; CHECK-LABEL: @use_shared1() {
+; CHECK-LABEL: @use_shared1(
 ; CHECK-NEXT:    [[TMP1:%.*]] = call i32 @llvm.amdgcn.lds.kernel.id()
 ; CHECK-NEXT:    [[DYNAMIC_SHARED1:%.*]] = getelementptr inbounds [5 x i32], ptr addrspace(4) @llvm.amdgcn.dynlds.offset.table, i32 0, i32 [[TMP1]]
-; CHECK-NEXT:    [[TMP2:%.*]] = load i32, ptr addrspace(4) [[DYNAMIC_SHARED1]], align 4
+; CHECK-NEXT:    [[TMP2:%.*]] = load i32, ptr addrspace(4) [[DYNAMIC_SHARED1]], align 4, !freeze_bits [[FREEZE_BITS2:![0-9]+]]
 ; CHECK-NEXT:    [[DYNAMIC_SHARED11:%.*]] = inttoptr i32 [[TMP2]] to ptr addrspace(3)
 ; CHECK-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [0 x i8], ptr addrspace(3) [[DYNAMIC_SHARED11]], i32 0, i32 1
 ; CHECK-NEXT:    store i8 0, ptr addrspace(3) [[ARRAYIDX]], align 1
@@ -60,10 +60,10 @@ define void @use_shared1() {
 }
 
 define void @use_shared2() #0 {
-; CHECK-LABEL: @use_shared2() #0 {
+; CHECK-LABEL: @use_shared2(
 ; CHECK-NEXT:    [[TMP1:%.*]] = call i32 @llvm.amdgcn.lds.kernel.id()
 ; CHECK-NEXT:    [[DYNAMIC_SHARED2:%.*]] = getelementptr inbounds [5 x i32], ptr addrspace(4) @llvm.amdgcn.dynlds.offset.table, i32 0, i32 [[TMP1]]
-; CHECK-NEXT:    [[TMP2:%.*]] = load i32, ptr addrspace(4) [[DYNAMIC_SHARED2]], align 4
+; CHECK-NEXT:    [[TMP2:%.*]] = load i32, ptr addrspace(4) [[DYNAMIC_SHARED2]], align 4, !freeze_bits [[FREEZE_BITS2]]
 ; CHECK-NEXT:    [[DYNAMIC_SHARED21:%.*]] = inttoptr i32 [[TMP2]] to ptr addrspace(3)
 ; CHECK-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [0 x i16], ptr addrspace(3) [[DYNAMIC_SHARED21]], i32 0, i32 3
 ; CHECK-NEXT:    store i16 1, ptr addrspace(3) [[ARRAYIDX]], align 2
@@ -77,11 +77,11 @@ define void @use_shared2() #0 {
 ; Include a normal variable so that the new variables aren't all at the same absolute_symbol
 @static_shared = addrspace(3) global i32 undef
 define void @use_shared4() #0 {
-; CHECK-LABEL: @use_shared4() #0 {
+; CHECK-LABEL: @use_shared4(
 ; CHECK-NEXT:    [[TMP1:%.*]] = call i32 @llvm.amdgcn.lds.kernel.id()
 ; CHECK-NEXT:    store i32 4, ptr addrspace(3) @llvm.amdgcn.module.lds, align 4
 ; CHECK-NEXT:    [[DYNAMIC_SHARED4:%.*]] = getelementptr inbounds [5 x i32], ptr addrspace(4) @llvm.amdgcn.dynlds.offset.table, i32 0, i32 [[TMP1]]
-; CHECK-NEXT:    [[TMP2:%.*]] = load i32, ptr addrspace(4) [[DYNAMIC_SHARED4]], align 4
+; CHECK-NEXT:    [[TMP2:%.*]] = load i32, ptr addrspace(4) [[DYNAMIC_SHARED4]], align 4, !freeze_bits [[FREEZE_BITS2]]
 ; CHECK-NEXT:    [[DYNAMIC_SHARED41:%.*]] = inttoptr i32 [[TMP2]] to ptr addrspace(3)
 ; CHECK-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [0 x i32], ptr addrspace(3) [[DYNAMIC_SHARED41]], i32 0, i32 5
 ; CHECK-NEXT:    store i32 2, ptr addrspace(3) [[ARRAYIDX]], align 4
@@ -94,10 +94,10 @@ define void @use_shared4() #0 {
 }
 
 define void @use_shared8() #0 {
-; CHECK-LABEL: @use_shared8() #0 {
+; CHECK-LABEL: @use_shared8(
 ; CHECK-NEXT:    [[TMP1:%.*]] = call i32 @llvm.amdgcn.lds.kernel.id()
 ; CHECK-NEXT:    [[DYNAMIC_SHARED8:%.*]] = getelementptr inbounds [5 x i32], ptr addrspace(4) @llvm.amdgcn.dynlds.offset.table, i32 0, i32 [[TMP1]]
-; CHECK-NEXT:    [[TMP2:%.*]] = load i32, ptr addrspace(4) [[DYNAMIC_SHARED8]], align 4
+; CHECK-NEXT:    [[TMP2:%.*]] = load i32, ptr addrspace(4) [[DYNAMIC_SHARED8]], align 4, !freeze_bits [[FREEZE_BITS2]]
 ; CHECK-NEXT:    [[DYNAMIC_SHARED81:%.*]] = inttoptr i32 [[TMP2]] to ptr addrspace(3)
 ; CHECK-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [0 x i64], ptr addrspace(3) [[DYNAMIC_SHARED81]], i32 0, i32 7
 ; CHECK-NEXT:    store i64 3, ptr addrspace(3) [[ARRAYIDX]], align 4
@@ -110,7 +110,7 @@ define void @use_shared8() #0 {
 
 ; The kernels are annotated with kernel.id and llvm.donothing use of the corresponding variable
 define amdgpu_kernel void @expect_align1() {
-; CHECK-LABEL: @expect_align1() !llvm.amdgcn.lds.kernel.id !2
+; CHECK-LABEL: @expect_align1(
 ; CHECK-NEXT:    call void @llvm.donothing() [ "ExplicitUse"(ptr addrspace(3) @llvm.amdgcn.expect_align1.dynlds) ]
 ; CHECK-NEXT:    call void @use_shared1()
 ; CHECK-NEXT:    ret void
@@ -120,7 +120,7 @@ define amdgpu_kernel void @expect_align1() {
 }
 
 define amdgpu_kernel void @expect_align2() {
-; CHECK-LABEL: @expect_align2() !llvm.amdgcn.lds.kernel.id !3
+; CHECK-LABEL: @expect_align2(
 ; CHECK-NEXT:    call void @llvm.donothing() [ "ExplicitUse"(ptr addrspace(3) @llvm.amdgcn.expect_align2.dynlds) ]
 ; CHECK-NEXT:    call void @use_shared2()
 ; CHECK-NEXT:    ret void
@@ -130,7 +130,7 @@ define amdgpu_kernel void @expect_align2() {
 }
 
 define amdgpu_kernel void @expect_align4() {
-; CHECK-LABEL: @expect_align4() #1 !llvm.amdgcn.lds.kernel.id !4 {
+; CHECK-LABEL: @expect_align4(
 ; CHECK-NEXT:    call void @llvm.donothing() [ "ExplicitUse"(ptr addrspace(3) @llvm.amdgcn.expect_align4.dynlds) ]
 ; CHECK-NEXT:    call void @llvm.donothing() [ "ExplicitUse"(ptr addrspace(3) @llvm.amdgcn.module.lds) ]
 ; CHECK-NEXT:    call void @use_shared4()
@@ -142,7 +142,7 @@ define amdgpu_kernel void @expect_align4() {
 
 ; Use dynamic_shared directly too.
 define amdgpu_kernel void @expect_align8() {
-; CHECK-LABEL: @expect_align8() !llvm.amdgcn.lds.kernel.id !5 {
+; CHECK-LABEL: @expect_align8(
 ; CHECK-NEXT:    call void @llvm.donothing() [ "ExplicitUse"(ptr addrspace(3) @llvm.amdgcn.expect_align8.dynlds) ]
 ; CHECK-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [0 x i64], ptr addrspace(3) @dynamic_shared8, i32 0, i32 9
 ; CHECK-NEXT:    store i64 3, ptr addrspace(3) [[ARRAYIDX]], align 4
@@ -157,7 +157,7 @@ define amdgpu_kernel void @expect_align8() {
 
 ; Note: use_shared4 uses module.lds so this will allocate at offset 4
 define amdgpu_kernel void @expect_max_of_2_and_4() {
-; CHECK-LABEL: @expect_max_of_2_and_4() #1 !llvm.amdgcn.lds.kernel.id !6 {
+; CHECK-LABEL: @expect_max_of_2_and_4(
 ; CHECK-NEXT:    call void @llvm.donothing() [ "ExplicitUse"(ptr addrspace(3) @llvm.amdgcn.expect_max_of_2_and_4.dynlds) ]
 ; CHECK-NEXT:    call void @llvm.donothing() [ "ExplicitUse"(ptr addrspace(3) @llvm.amdgcn.module.lds) ]
 ; CHECK-NEXT:    call void @use_shared2()
@@ -185,8 +185,9 @@ attributes #0 = { noinline }
 
 ; CHECK: !0 = !{i64 0, i64 1}
 ; CHECK: !1 = !{i64 4, i64 5}
-; CHECK: !2 = !{i32 0}
-; CHECK: !3 = !{i32 1}
-; CHECK: !4 = !{i32 2}
-; CHECK: !5 = !{i32 3}
-; CHECK: !6 = !{i32 4}
+; CHECK: !2 = !{}
+; CHECK: !3 = !{i32 0}
+; CHECK: !4 = !{i32 1}
+; CHECK: !5 = !{i32 2}
+; CHECK: !6 = !{i32 3}
+; CHECK: !7 = !{i32 4}
