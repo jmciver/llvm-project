@@ -213,7 +213,8 @@ define void @test3(ptr %dst, ptr align 8 %src) {
 ; CHECK-NEXT:    call void @llvm.memcpy.p0.p0.i32(ptr align 1 [[A_SROA_31]], ptr align 1 [[A_SROA_31_210_SRC_SROA_IDX]], i32 3, i1 false), !tbaa [[TBAA58]]
 ; CHECK-NEXT:    call void @llvm.memcpy.p0.p0.i32(ptr align 1 [[DST:%.*]], ptr align 1 [[A_SROA_0]], i32 42, i1 false), !tbaa [[TBAA60:![0-9]+]]
 ; CHECK-NEXT:    [[A_SROA_2_0_DST_SROA_IDX:%.*]] = getelementptr inbounds i8, ptr [[DST]], i64 42
-; CHECK-NEXT:    store i8 0, ptr [[A_SROA_2_0_DST_SROA_IDX]], align 1, !tbaa [[TBAA60]]
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i8 0
+; CHECK-NEXT:    store i8 [[FREEZE]], ptr [[A_SROA_2_0_DST_SROA_IDX]], align 1, !tbaa [[TBAA60]]
 ; CHECK-NEXT:    [[A_SROA_3_0_DST_SROA_IDX:%.*]] = getelementptr inbounds i8, ptr [[DST]], i64 43
 ; CHECK-NEXT:    call void @llvm.memcpy.p0.p0.i32(ptr align 1 [[A_SROA_3_0_DST_SROA_IDX]], ptr align 1 [[A_SROA_3]], i32 99, i1 false), !tbaa [[TBAA60]]
 ; CHECK-NEXT:    [[A_SROA_32_0_DST_SROA_IDX:%.*]] = getelementptr inbounds i8, ptr [[DST]], i64 142
@@ -223,7 +224,8 @@ define void @test3(ptr %dst, ptr align 8 %src) {
 ; CHECK-NEXT:    [[A_SROA_16_0_DST_SROA_IDX:%.*]] = getelementptr inbounds i8, ptr [[DST]], i64 200
 ; CHECK-NEXT:    call void @llvm.memcpy.p0.p0.i32(ptr align 1 [[A_SROA_16_0_DST_SROA_IDX]], ptr align 1 [[A_SROA_16]], i32 7, i1 false), !tbaa [[TBAA60]]
 ; CHECK-NEXT:    [[A_SROA_23_0_DST_SROA_IDX:%.*]] = getelementptr inbounds i8, ptr [[DST]], i64 207
-; CHECK-NEXT:    store i8 42, ptr [[A_SROA_23_0_DST_SROA_IDX]], align 1, !tbaa [[TBAA60]]
+; CHECK-NEXT:    [[FREEZE13:%.*]] = freeze i8 42
+; CHECK-NEXT:    store i8 [[FREEZE13]], ptr [[A_SROA_23_0_DST_SROA_IDX]], align 1, !tbaa [[TBAA60]]
 ; CHECK-NEXT:    [[A_SROA_235_0_DST_SROA_IDX:%.*]] = getelementptr inbounds i8, ptr [[DST]], i64 208
 ; CHECK-NEXT:    call void @llvm.memcpy.p0.p0.i32(ptr align 1 [[A_SROA_235_0_DST_SROA_IDX]], ptr align 1 [[A_SROA_235]], i32 7, i1 false), !tbaa [[TBAA60]]
 ; CHECK-NEXT:    [[A_SROA_31_0_DST_SROA_IDX:%.*]] = getelementptr inbounds i8, ptr [[DST]], i64 215
@@ -713,7 +715,8 @@ define void @test16(ptr %src, ptr %dst) {
 ; CHECK-LABEL: @test16(
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    [[A_SROA_0_0_COPYLOAD:%.*]] = load i24, ptr [[SRC:%.*]], align 1, !tbaa [[TBAA1]], !freeze_bits [[FREEZE_BITS0]]
-; CHECK-NEXT:    store i24 0, ptr [[DST:%.*]], align 1, !tbaa [[TBAA6]]
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i24 0
+; CHECK-NEXT:    store i24 [[FREEZE]], ptr [[DST:%.*]], align 1, !tbaa [[TBAA6]]
 ; CHECK-NEXT:    ret void
 ;
 entry:
@@ -755,7 +758,8 @@ define void @test18(ptr %src, ptr %dst, i32 %size) {
 ; CHECK-NEXT:    [[A_SROA_3_0_COPYLOAD:%.*]] = load i32, ptr [[A_SROA_3_0_SRC_SROA_IDX]], align 1, !tbaa [[TBAA1]], !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    call void @llvm.memcpy.p0.p0.i32(ptr align 1 [[A_SROA_33]], ptr [[SRC]], i32 [[SIZE:%.*]], i1 false), !tbaa [[TBAA4]]
 ; CHECK-NEXT:    call void @llvm.memset.p0.i32(ptr align 1 [[A_SROA_33]], i8 42, i32 [[SIZE]], i1 false), !tbaa [[TBAA6]]
-; CHECK-NEXT:    store i32 42, ptr [[DST:%.*]], align 1, !tbaa [[TBAA10]]
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i32 42
+; CHECK-NEXT:    store i32 [[FREEZE]], ptr [[DST:%.*]], align 1, !tbaa [[TBAA10]]
 ; CHECK-NEXT:    [[A_SROA_3_0_DST_SROA_IDX:%.*]] = getelementptr inbounds i8, ptr [[DST]], i64 4
 ; CHECK-NEXT:    store i32 [[A_SROA_3_0_COPYLOAD]], ptr [[A_SROA_3_0_DST_SROA_IDX]], align 1, !tbaa [[TBAA10]]
 ; CHECK-NEXT:    call void @llvm.memcpy.p0.p0.i32(ptr [[DST]], ptr align 1 [[A_SROA_33]], i32 [[SIZE]], i1 false), !tbaa [[TBAA12]]
@@ -1080,25 +1084,29 @@ define void @PR14059.1(ptr %d) {
 ; CHECK-NEXT:    [[X_SROA_0_I_0_INSERT_MASK:%.*]] = and i64 [[TMP0]], -4294967296
 ; CHECK-NEXT:    [[X_SROA_0_I_0_INSERT_INSERT:%.*]] = or i64 [[X_SROA_0_I_0_INSERT_MASK]], 0
 ; CHECK-NEXT:    [[TMP1:%.*]] = bitcast i64 [[X_SROA_0_I_0_INSERT_INSERT]] to double
-; CHECK-NEXT:    [[TMP2:%.*]] = bitcast double [[TMP1]] to i64
+; CHECK-NEXT:    [[FREEZE6:%.*]] = freeze double [[TMP1]]
+; CHECK-NEXT:    [[TMP2:%.*]] = bitcast double [[FREEZE6]] to i64
 ; CHECK-NEXT:    [[X_SROA_0_I_2_INSERT_MASK:%.*]] = and i64 [[TMP2]], -281474976645121
 ; CHECK-NEXT:    [[X_SROA_0_I_2_INSERT_INSERT:%.*]] = or i64 [[X_SROA_0_I_2_INSERT_MASK]], 0
 ; CHECK-NEXT:    [[TMP3:%.*]] = bitcast i64 [[X_SROA_0_I_2_INSERT_INSERT]] to double
-; CHECK-NEXT:    [[TMP4:%.*]] = bitcast double [[TMP3]] to i64
+; CHECK-NEXT:    [[FREEZE7:%.*]] = freeze double [[TMP3]]
+; CHECK-NEXT:    [[TMP4:%.*]] = bitcast double [[FREEZE7]] to i64
 ; CHECK-NEXT:    [[X_SROA_0_I_4_COPYLOAD:%.*]] = load i32, ptr [[D:%.*]], align 1, !freeze_bits [[FREEZE_BITS0]]
-; CHECK-NEXT:    [[TMP5:%.*]] = bitcast double 0.000000e+00 to i64
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze double 0.000000e+00
+; CHECK-NEXT:    [[TMP5:%.*]] = bitcast double [[FREEZE]] to i64
 ; CHECK-NEXT:    [[X_SROA_0_I_4_INSERT_EXT:%.*]] = zext i32 [[X_SROA_0_I_4_COPYLOAD]] to i64
 ; CHECK-NEXT:    [[X_SROA_0_I_4_INSERT_SHIFT:%.*]] = shl i64 [[X_SROA_0_I_4_INSERT_EXT]], 32
 ; CHECK-NEXT:    [[X_SROA_0_I_4_INSERT_MASK3:%.*]] = and i64 [[TMP5]], 4294967295
 ; CHECK-NEXT:    [[X_SROA_0_I_4_INSERT_INSERT4:%.*]] = or i64 [[X_SROA_0_I_4_INSERT_MASK3]], [[X_SROA_0_I_4_INSERT_SHIFT]]
 ; CHECK-NEXT:    [[TMP6:%.*]] = bitcast i64 [[X_SROA_0_I_4_INSERT_INSERT4]] to double
-; CHECK-NEXT:    [[TMP7:%.*]] = bitcast double [[TMP6]] to i64
+; CHECK-NEXT:    [[FREEZE5:%.*]] = freeze double [[TMP6]]
+; CHECK-NEXT:    [[TMP7:%.*]] = bitcast double [[FREEZE5]] to i64
 ; CHECK-NEXT:    [[X_SROA_0_I_4_INSERT_MASK:%.*]] = and i64 [[TMP7]], 4294967295
 ; CHECK-NEXT:    [[X_SROA_0_I_4_INSERT_INSERT:%.*]] = or i64 [[X_SROA_0_I_4_INSERT_MASK]], 4607182418800017408
 ; CHECK-NEXT:    [[TMP8:%.*]] = bitcast i64 [[X_SROA_0_I_4_INSERT_INSERT]] to double
-; CHECK-NEXT:    [[FREEZE_LOAD5:%.*]] = freeze double [[TMP8]]
+; CHECK-NEXT:    [[FREEZE_LOAD8:%.*]] = freeze double [[TMP8]]
 ; CHECK-NEXT:    [[ACCUM_REAL_I:%.*]] = load double, ptr [[D]], align 8
-; CHECK-NEXT:    [[ADD_R_I:%.*]] = fadd double [[ACCUM_REAL_I]], [[FREEZE_LOAD5]]
+; CHECK-NEXT:    [[ADD_R_I:%.*]] = fadd double [[ACCUM_REAL_I]], [[FREEZE_LOAD8]]
 ; CHECK-NEXT:    store double [[ADD_R_I]], ptr [[D]], align 8
 ; CHECK-NEXT:    ret void
 ;
@@ -1144,8 +1152,10 @@ define i64 @PR14059.2(ptr %phi) {
 ; CHECK-NEXT:    [[PHI_REAL:%.*]] = load float, ptr [[PHI_REALP]], align 4
 ; CHECK-NEXT:    [[PHI_IMAGP:%.*]] = getelementptr inbounds { float, float }, ptr [[PHI]], i32 0, i32 1
 ; CHECK-NEXT:    [[PHI_IMAG:%.*]] = load float, ptr [[PHI_IMAGP]], align 4
-; CHECK-NEXT:    [[TMP0:%.*]] = bitcast float [[PHI_REAL]] to i32
-; CHECK-NEXT:    [[TMP1:%.*]] = bitcast float [[PHI_IMAG]] to i32
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze float [[PHI_REAL]]
+; CHECK-NEXT:    [[TMP0:%.*]] = bitcast float [[FREEZE]] to i32
+; CHECK-NEXT:    [[FREEZE1:%.*]] = freeze float [[PHI_IMAG]]
+; CHECK-NEXT:    [[TMP1:%.*]] = bitcast float [[FREEZE1]] to i32
 ; CHECK-NEXT:    [[RETVAL_SROA_3_0_INSERT_EXT:%.*]] = zext i32 [[TMP1]] to i64
 ; CHECK-NEXT:    [[RETVAL_SROA_3_0_INSERT_SHIFT:%.*]] = shl i64 [[RETVAL_SROA_3_0_INSERT_EXT]], 32
 ; CHECK-NEXT:    [[RETVAL_SROA_3_0_INSERT_MASK:%.*]] = and i64 undef, 4294967295
@@ -1631,8 +1641,10 @@ define void @test26() {
 ; CHECK-NEXT:    [[SUM:%.*]] = fadd float [[TMP0]], [[TMP1]]
 ; CHECK-NEXT:    [[TMP2:%.*]] = bitcast float [[SUM]] to i32
 ; CHECK-NEXT:    [[TMP3:%.*]] = bitcast float [[SUM]] to i32
-; CHECK-NEXT:    store i32 [[TMP2]], ptr @complex2, align 4
-; CHECK-NEXT:    store i32 [[TMP3]], ptr getelementptr inbounds (i8, ptr @complex2, i64 4), align 4
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i32 [[TMP2]]
+; CHECK-NEXT:    [[FREEZE6:%.*]] = freeze i32 [[TMP3]]
+; CHECK-NEXT:    store i32 [[FREEZE]], ptr @complex2, align 4
+; CHECK-NEXT:    store i32 [[FREEZE6]], ptr getelementptr inbounds (i8, ptr @complex2, i64 4), align 4
 ; CHECK-NEXT:    ret void
 ;
 entry:
@@ -1658,8 +1670,10 @@ define float @test27() {
 ;
 ; CHECK-LABEL: @test27(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[TMP0:%.*]] = bitcast i32 0 to float
-; CHECK-NEXT:    [[TMP1:%.*]] = bitcast i32 1065353216 to float
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i32 1065353216
+; CHECK-NEXT:    [[FREEZE3:%.*]] = freeze i32 0
+; CHECK-NEXT:    [[TMP0:%.*]] = bitcast i32 [[FREEZE3]] to float
+; CHECK-NEXT:    [[TMP1:%.*]] = bitcast i32 [[FREEZE]] to float
 ; CHECK-NEXT:    [[RET:%.*]] = fadd float [[TMP0]], [[TMP1]]
 ; CHECK-NEXT:    ret float [[RET]]
 ;
