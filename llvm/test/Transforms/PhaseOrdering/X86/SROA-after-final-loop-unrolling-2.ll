@@ -32,9 +32,10 @@ define dso_local void @foo(i32 noundef %arg, ptr noundef nonnull align 4 derefer
 ; CHECK-NEXT:    [[I3_SROA_8_0_INSERT_SHIFT:%.*]] = shl nuw i64 [[I3_SROA_8_0_INSERT_EXT]], 32
 ; CHECK-NEXT:    [[I3_SROA_0_0_INSERT_EXT:%.*]] = zext i32 [[I21_2:%.*]] to i64
 ; CHECK-NEXT:    [[I3_SROA_0_0_INSERT_INSERT:%.*]] = or i64 [[I3_SROA_8_0_INSERT_SHIFT]], [[I3_SROA_0_0_INSERT_EXT]]
+; CHECK-NEXT:    [[FREEZE6:%.*]] = freeze i64 [[I3_SROA_0_0_INSERT_INSERT]]
 ; CHECK-NEXT:    br label [[BB12]]
 ; CHECK:       bb12:
-; CHECK-NEXT:    [[TMP0:%.*]] = phi i64 [ [[I3_SROA_0_0_INSERT_INSERT]], [[BB12_LOOPEXIT:%.*]] ], [ 180388626456, [[BB:%.*]] ]
+; CHECK-NEXT:    [[TMP0:%.*]] = phi i64 [ [[FREEZE6]], [[BB12_LOOPEXIT:%.*]] ], [ 180388626456, [[BB:%.*]] ]
 ; CHECK-NEXT:    store i64 [[TMP0]], ptr [[ARG1:%.*]], align 4, !tbaa [[TBAA5:![0-9]+]]
 ; CHECK-NEXT:    ret void
 ; CHECK:       bb13:
@@ -45,11 +46,11 @@ define dso_local void @foo(i32 noundef %arg, ptr noundef nonnull align 4 derefer
 ; CHECK-NEXT:    [[I24:%.*]] = or i32 [[I4_05]], 1
 ; CHECK-NEXT:    [[I21_1:%.*]] = mul nsw i32 [[I3_SROA_8_0]], [[I24]]
 ; CHECK-NEXT:    [[I24_1:%.*]] = or i32 [[I4_05]], 2
-; CHECK-NEXT:    [[FREEZE_LOAD13:%.*]] = freeze i32 [[I21]]
-; CHECK-NEXT:    [[I21_2]] = mul i32 [[FREEZE_LOAD13]], [[I24_1]]
+; CHECK-NEXT:    [[FREEZE_LOAD14:%.*]] = freeze i32 [[I21]]
+; CHECK-NEXT:    [[I21_2]] = mul i32 [[FREEZE_LOAD14]], [[I24_1]]
 ; CHECK-NEXT:    [[I24_2:%.*]] = or i32 [[I4_05]], 3
-; CHECK-NEXT:    [[FREEZE_LOAD14:%.*]] = freeze i32 [[I21_1]]
-; CHECK-NEXT:    [[I21_3]] = mul i32 [[FREEZE_LOAD14]], [[I24_2]]
+; CHECK-NEXT:    [[FREEZE_LOAD15:%.*]] = freeze i32 [[I21_1]]
+; CHECK-NEXT:    [[I21_3]] = mul i32 [[FREEZE_LOAD15]], [[I24_2]]
 ; CHECK-NEXT:    [[I24_3]] = add i32 [[I4_05]], 4
 ; CHECK-NEXT:    [[I11_NOT_3:%.*]] = icmp eq i32 [[I24_3]], [[I10]]
 ; CHECK-NEXT:    br i1 [[I11_NOT_3]], label [[BB12_LOOPEXIT]], label [[BB13]], !llvm.loop [[LOOP8:![0-9]+]]

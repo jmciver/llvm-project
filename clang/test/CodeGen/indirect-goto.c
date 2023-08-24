@@ -16,8 +16,8 @@ int main(void) { return foo(3) + foo2(4); }
 // CHECK-LABEL: define internal fastcc i32 @foo
 // CHECK-SAME: (i32 [[I:%.*]]) #[[ATTR0]] {
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    br label [[L3:%.*]]
-// CHECK:       L3:
+// CHECK-NEXT:    br label [[L1:%.*]]
+// CHECK:       L1:
 // CHECK-NEXT:    ret i32 210
 //
 int foo(unsigned i) {

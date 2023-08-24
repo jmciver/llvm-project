@@ -2,15 +2,15 @@
 
 ; CHECK-LABEL: @test
 ; CHECK-LABEL: vector.body:
-; CHECK: br i1 %{{[0-9]+}}, label %middle.block, label %vector.body, !llvm.loop !0
+; CHECK: br i1 %{{[0-9]+}}, label %middle.block, label %vector.body, !llvm.loop !1
 ; CHECK-LABEL: middle.block:
 ; CHECK-LABEL: scalar.ph:
 ; CHECK-LABEL: loop.body:
-; CHECK: br i1 %cond, label %exit, label %loop.body, !llvm.loop !2
-; CHECK: !0 = distinct !{!0, !1}
-; CHECK: !1 = !{!"llvm.loop.isvectorized", i32 1}
-; CHECK: !2 = distinct !{!2, !3, !1}
-; CHECK: !3 = !{!"llvm.loop.unroll.runtime.disable"}
+; CHECK: br i1 %cond, label %exit, label %loop.body, !llvm.loop !3
+; CHECK: !1 = distinct !{!1, !2}
+; CHECK: !2 = !{!"llvm.loop.isvectorized", i32 1}
+; CHECK: !3 = distinct !{!3, !4, !2}
+; CHECK: !4 = !{!"llvm.loop.unroll.runtime.disable"}
 
 
 define amdgpu_kernel void @test(ptr addrspace(1) %out, ptr addrspace(3) %lds, i32 %n) {

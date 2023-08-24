@@ -319,10 +319,10 @@ define amdgpu_kernel void @constant_load_i16_align4_invariant(ptr addrspace(1) %
 
 attributes #0 = { nounwind }
 
-; OPT: !0 = !{i32 5, i32 0}
-; OPT: !1 = !{i32 8, i32 0}
-; OPT: !2 = !{i32 65520, i32 0}
-; OPT: !3 = !{}
+; OPT: !0 = !{}
+; OPT: !1 = !{i32 5, i32 0}
+; OPT: !2 = !{i32 8, i32 0}
+; OPT: !3 = !{i32 65520, i32 0}
 
 !0 = !{i16 5, i16 500}
 !1 = !{i16 5, i16 -1}

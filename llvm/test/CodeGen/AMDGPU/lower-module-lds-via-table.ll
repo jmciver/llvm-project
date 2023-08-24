@@ -218,7 +218,7 @@ define amdgpu_kernel void @kernel_no_table() {
 
 ; Access two variables, will allocate those two
 define amdgpu_kernel void @k01() {
-; OPT-LABEL: @k01() #0 !llvm.amdgcn.lds.kernel.id !1 {
+; OPT-LABEL: @k01() #0 !llvm.amdgcn.lds.kernel.id !2 {
 ; OPT-NEXT:    call void @llvm.donothing() [ "ExplicitUse"(ptr addrspace(3) @llvm.amdgcn.kernel.k01.lds) ]
 ; OPT-NEXT:    call void @f0()
 ; OPT-NEXT:    call void @f1()
@@ -256,7 +256,7 @@ define amdgpu_kernel void @k01() {
 }
 
 define amdgpu_kernel void @k23() {
-; OPT-LABEL: @k23() #1 !llvm.amdgcn.lds.kernel.id !7 {
+; OPT-LABEL: @k23() #1 !llvm.amdgcn.lds.kernel.id !8 {
 ; OPT-NEXT:    call void @llvm.donothing() [ "ExplicitUse"(ptr addrspace(3) @llvm.amdgcn.kernel.k23.lds) ]
 ; OPT-NEXT:    call void @f2()
 ; OPT-NEXT:    call void @f3()
@@ -295,12 +295,12 @@ define amdgpu_kernel void @k23() {
 
 ; Access and allocate three variables
 define amdgpu_kernel void @k123() {
-; OPT-LABEL: @k123() #2 !llvm.amdgcn.lds.kernel.id !13 {
+; OPT-LABEL: @k123() #2 !llvm.amdgcn.lds.kernel.id !14 {
 ; OPT-NEXT:    call void @llvm.donothing() [ "ExplicitUse"(ptr addrspace(3) @llvm.amdgcn.kernel.k123.lds) ]
 ; OPT-NEXT:    call void @f1()
-; OPT-NEXT:    [[LD:%.*]] = load i8, ptr addrspace(3) getelementptr inbounds ([[LLVM_AMDGCN_KERNEL_K123_LDS_T:%.*]], ptr addrspace(3) @llvm.amdgcn.kernel.k123.lds, i32 0, i32 1), align 2, !alias.scope !20, !noalias !21
+; OPT-NEXT:    [[LD:%.*]] = load i8, ptr addrspace(3) getelementptr inbounds ([[LLVM_AMDGCN_KERNEL_K123_LDS_T:%.*]], ptr addrspace(3) @llvm.amdgcn.kernel.k123.lds, i32 0, i32 1), align 2, !alias.scope !21, !noalias !22
 ; OPT-NEXT:    [[MUL:%.*]] = mul i8 [[LD]], 8
-; OPT-NEXT:    store i8 [[MUL]], ptr addrspace(3) getelementptr inbounds ([[LLVM_AMDGCN_KERNEL_K123_LDS_T]], ptr addrspace(3) @llvm.amdgcn.kernel.k123.lds, i32 0, i32 1), align 2, !alias.scope !20, !noalias !21
+; OPT-NEXT:    store i8 [[MUL]], ptr addrspace(3) getelementptr inbounds ([[LLVM_AMDGCN_KERNEL_K123_LDS_T]], ptr addrspace(3) @llvm.amdgcn.kernel.k123.lds, i32 0, i32 1), align 2, !alias.scope !21, !noalias !22
 ; OPT-NEXT:    call void @f2()
 ; OPT-NEXT:    ret void
 ;

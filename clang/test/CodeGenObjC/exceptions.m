@@ -56,7 +56,7 @@ int f2(void) {
     // CHECK:      call void asm sideeffect "", "=*m,=*m"(ptr nonnull elementtype(i32) [[X]]
     // CHECK-NEXT: call ptr @objc_exception_extract
     // CHECK-NEXT: [[T1:%.*]] = load i32, ptr [[X]]
-    // CHECK-NEXT: [[T2:%.*]] = add nsw i32 [[T1]], -1
+    // CHECK-NEXT: [[T2:%.*]] = add i32 [[T1]], -1
 
     // CHECK: store i32 6, ptr [[X]]
     x++;

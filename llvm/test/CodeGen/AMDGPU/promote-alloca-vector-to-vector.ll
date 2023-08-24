@@ -43,7 +43,7 @@ entry:
 ; GCN:     v_mov_b32_e32 v{{[0-9]+}}, [[ONE]]
 ; GCN:     store_dwordx4 v{{.+}},
 
-; OPT: %0 = insertelement <4 x float> undef, float 1.000000e+00, i32 %sel2
+; OPT: %0 = insertelement <4 x float> poison, float 1.000000e+00, i32 %sel2
 ; OPT: store <4 x float> %0, ptr addrspace(1) %out, align 4
 
 define amdgpu_kernel void @float4_alloca_load4(ptr addrspace(1) %out, ptr addrspace(3) %dummy_lds) {
@@ -95,7 +95,7 @@ entry:
 ; GCN-NOT: buffer_
 ; GCN:     s_mov_b64 s[{{[0-9:]+}}], 0xffff
 
-; OPT: %0 = insertelement <4 x half> undef, half 0xH3C00, i32 %sel2
+; OPT: %0 = insertelement <4 x half> poison, half 0xH3C00, i32 %sel2
 ; OPT: store <4 x half> %0, ptr addrspace(1) %out, align 2
 
 define amdgpu_kernel void @half4_alloca_load4(ptr addrspace(1) %out, ptr addrspace(3) %dummy_lds) {
@@ -147,7 +147,7 @@ entry:
 ; GCN-NOT: buffer_
 ; GCN:     s_mov_b64 s[{{[0-9:]+}}], 0xffff
 
-; OPT: %0 = insertelement <4 x i16> undef, i16 1, i32 %sel2
+; OPT: %0 = insertelement <4 x i16> poison, i16 1, i32 %sel2
 ; OPT: store <4 x i16> %0, ptr addrspace(1) %out, align 2
 
 define amdgpu_kernel void @short4_alloca_load4(ptr addrspace(1) %out, ptr addrspace(3) %dummy_lds) {
@@ -172,7 +172,7 @@ entry:
 ; GCN-NOT: buffer_
 ; GCN: v_mov_b32_e32 v1, 0
 
-; OPT: ret i64 undef
+; OPT: ret i64 poison
 
 define i64 @ptr_alloca_bitcast() {
 entry:
