@@ -1261,9 +1261,9 @@ GVNPass::AnalyzeLoadAvailability(LoadInst *Load, MemDepResult DepInfo,
   }
   assert(DepInfo.isDef() && "follows from above");
 
-  // Loading immediately after lifetime begin -> undef.
+  // Loading immediately after lifetime begin -> poison.
   if (isLifetimeStart(DepInst))
-    return AvailableValue::get(UndefValue::get(Load->getType()));
+    return AvailableValue::get(PoisonValue::get(Load->getType()));
 
   // In addition to allocator function calls this includes loading the alloca ->
   // undef.
