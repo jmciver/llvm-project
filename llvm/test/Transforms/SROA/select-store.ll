@@ -13,7 +13,7 @@ define i8 @store(i8 %init, i1 %cond, ptr dereferenceable(4) %escape) {
 ; CHECK-PRESERVE-CFG-NEXT:    [[REINIT:%.*]] = call i8 @gen.i8()
 ; CHECK-PRESERVE-CFG-NEXT:    [[ADDR:%.*]] = select i1 [[COND:%.*]], ptr [[TMP]], ptr [[ESCAPE:%.*]]
 ; CHECK-PRESERVE-CFG-NEXT:    store i8 [[REINIT]], ptr [[ADDR]], align 4
-; CHECK-PRESERVE-CFG-NEXT:    [[TMP_0_RES:%.*]] = load i8, ptr [[TMP]], align 4
+; CHECK-PRESERVE-CFG-NEXT:    [[TMP_0_RES:%.*]] = load i8, ptr [[TMP]], align 4, !freeze_bits [[FREEZE_BITS0:![0-9]+]]
 ; CHECK-PRESERVE-CFG-NEXT:    ret i8 [[TMP_0_RES]]
 ;
 ; CHECK-MODIFY-CFG-LABEL: @store(
@@ -27,7 +27,8 @@ define i8 @store(i8 %init, i1 %cond, ptr dereferenceable(4) %escape) {
 ; CHECK-MODIFY-CFG-NEXT:    br label [[ENTRY_CONT]]
 ; CHECK-MODIFY-CFG:       entry.cont:
 ; CHECK-MODIFY-CFG-NEXT:    [[TMP_0:%.*]] = phi i8 [ [[REINIT]], [[ENTRY_THEN]] ], [ [[INIT:%.*]], [[ENTRY_ELSE]] ]
-; CHECK-MODIFY-CFG-NEXT:    ret i8 [[TMP_0]]
+; CHECK-MODIFY-CFG-NEXT:    [[FREEZE_LOAD:%.*]] = freeze i8 [[TMP_0]]
+; CHECK-MODIFY-CFG-NEXT:    ret i8 [[FREEZE_LOAD]]
 ;
 entry:
   %tmp = alloca i8, align 4
@@ -68,7 +69,7 @@ define i8 @store_atomic_unord(i8 %init, i1 %cond, ptr dereferenceable(4) %escape
 ; CHECK-PRESERVE-CFG-NEXT:    [[REINIT:%.*]] = call i8 @gen.i8()
 ; CHECK-PRESERVE-CFG-NEXT:    [[ADDR:%.*]] = select i1 [[COND:%.*]], ptr [[TMP]], ptr [[ESCAPE:%.*]]
 ; CHECK-PRESERVE-CFG-NEXT:    store atomic i8 [[REINIT]], ptr [[ADDR]] unordered, align 4
-; CHECK-PRESERVE-CFG-NEXT:    [[TMP_0_RES:%.*]] = load i8, ptr [[TMP]], align 4
+; CHECK-PRESERVE-CFG-NEXT:    [[TMP_0_RES:%.*]] = load i8, ptr [[TMP]], align 4, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-PRESERVE-CFG-NEXT:    ret i8 [[TMP_0_RES]]
 ;
 ; CHECK-MODIFY-CFG-LABEL: @store_atomic_unord(
@@ -82,7 +83,8 @@ define i8 @store_atomic_unord(i8 %init, i1 %cond, ptr dereferenceable(4) %escape
 ; CHECK-MODIFY-CFG-NEXT:    br label [[ENTRY_CONT]]
 ; CHECK-MODIFY-CFG:       entry.cont:
 ; CHECK-MODIFY-CFG-NEXT:    [[TMP_0:%.*]] = phi i8 [ [[REINIT]], [[ENTRY_THEN]] ], [ [[INIT:%.*]], [[ENTRY_ELSE]] ]
-; CHECK-MODIFY-CFG-NEXT:    ret i8 [[TMP_0]]
+; CHECK-MODIFY-CFG-NEXT:    [[FREEZE_LOAD:%.*]] = freeze i8 [[TMP_0]]
+; CHECK-MODIFY-CFG-NEXT:    ret i8 [[FREEZE_LOAD]]
 ;
 entry:
   %tmp = alloca i8, align 4
@@ -102,7 +104,7 @@ define i8 @store_volatile(i8 %init, i1 %cond, ptr dereferenceable(4) %escape) {
 ; CHECK-NEXT:    [[REINIT:%.*]] = call i8 @gen.i8()
 ; CHECK-NEXT:    [[ADDR:%.*]] = select i1 [[COND:%.*]], ptr [[TMP]], ptr [[ESCAPE:%.*]]
 ; CHECK-NEXT:    store volatile i8 [[REINIT]], ptr [[ADDR]], align 4
-; CHECK-NEXT:    [[TMP_0_RES:%.*]] = load i8, ptr [[TMP]], align 4
+; CHECK-NEXT:    [[TMP_0_RES:%.*]] = load i8, ptr [[TMP]], align 4, !freeze_bits [[FREEZE_BITS0:![0-9]+]]
 ; CHECK-NEXT:    ret i8 [[TMP_0_RES]]
 ;
 entry:

@@ -114,13 +114,13 @@ define i32 @test3(i32 %x) {
 ; CHECK-LABEL: @test3(
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    switch i32 [[X:%.*]], label [[BB0:%.*]] [
-; CHECK-NEXT:    i32 1, label [[BB1:%.*]]
-; CHECK-NEXT:    i32 2, label [[BB2:%.*]]
-; CHECK-NEXT:    i32 3, label [[BB3:%.*]]
-; CHECK-NEXT:    i32 4, label [[BB4:%.*]]
-; CHECK-NEXT:    i32 5, label [[BB5:%.*]]
-; CHECK-NEXT:    i32 6, label [[BB6:%.*]]
-; CHECK-NEXT:    i32 7, label [[BB7:%.*]]
+; CHECK-NEXT:      i32 1, label [[BB1:%.*]]
+; CHECK-NEXT:      i32 2, label [[BB2:%.*]]
+; CHECK-NEXT:      i32 3, label [[BB3:%.*]]
+; CHECK-NEXT:      i32 4, label [[BB4:%.*]]
+; CHECK-NEXT:      i32 5, label [[BB5:%.*]]
+; CHECK-NEXT:      i32 6, label [[BB6:%.*]]
+; CHECK-NEXT:      i32 7, label [[BB7:%.*]]
 ; CHECK-NEXT:    ]
 ; CHECK:       bb0:
 ; CHECK-NEXT:    br label [[EXIT:%.*]]
@@ -571,13 +571,18 @@ define i64 @PR14132(i1 %flag) {
 ; support this..
 ; CHECK-LABEL: @PR14132(
 ; CHECK-NEXT:  entry:
+; CHECK-NEXT:    [[A:%.*]] = alloca i64, align 8
+; CHECK-NEXT:    [[B:%.*]] = alloca i8, align 8
+; CHECK-NEXT:    store i64 0, ptr [[A]], align 8
+; CHECK-NEXT:    store i8 1, ptr [[B]], align 8
 ; CHECK-NEXT:    br i1 [[FLAG:%.*]], label [[IF_THEN:%.*]], label [[IF_END:%.*]]
 ; CHECK:       if.then:
-; CHECK-NEXT:    [[B_0_LOAD_EXT:%.*]] = zext i8 1 to i64
 ; CHECK-NEXT:    br label [[IF_END]]
 ; CHECK:       if.end:
-; CHECK-NEXT:    [[PTR_0_SROA_SPECULATED:%.*]] = phi i64 [ [[B_0_LOAD_EXT]], [[IF_THEN]] ], [ 0, [[ENTRY:%.*]] ]
-; CHECK-NEXT:    ret i64 [[PTR_0_SROA_SPECULATED]]
+; CHECK-NEXT:    [[PTR_0:%.*]] = phi ptr [ [[B]], [[IF_THEN]] ], [ [[A]], [[ENTRY:%.*]] ]
+; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze ptr [[PTR_0]]
+; CHECK-NEXT:    [[RESULT:%.*]] = load i64, ptr [[FREEZE_LOAD]], align 8
+; CHECK-NEXT:    ret i64 [[RESULT]]
 ;
 entry:
   %a = alloca i64, align 8
@@ -655,7 +660,8 @@ define float @simplify_phi_nodes_that_equal_slice(i1 %cond, ptr %temp) {
 ; CHECK:       merge:
 ; CHECK-NEXT:    [[ARR_SROA_0_0:%.*]] = phi float [ 1.000000e+00, [[THEN]] ], [ 2.000000e+00, [[ELSE]] ]
 ; CHECK-NEXT:    store float 0.000000e+00, ptr [[TEMP:%.*]], align 4
-; CHECK-NEXT:    ret float [[ARR_SROA_0_0]]
+; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze float [[ARR_SROA_0_0]]
+; CHECK-NEXT:    ret float [[FREEZE_LOAD]]
 ;
 entry:
   %arr = alloca [4 x float], align 4
@@ -697,7 +703,8 @@ define float @simplify_phi_nodes_that_equal_slice_2(i1 %cond, ptr %temp) {
 ; CHECK:       merge:
 ; CHECK-NEXT:    [[ARR_SROA_0_0:%.*]] = phi float [ 2.000000e+00, [[THEN2]] ], [ 3.000000e+00, [[ELSE]] ]
 ; CHECK-NEXT:    store float 0.000000e+00, ptr [[TEMP:%.*]], align 4
-; CHECK-NEXT:    ret float [[ARR_SROA_0_0]]
+; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze float [[ARR_SROA_0_0]]
+; CHECK-NEXT:    ret float [[FREEZE_LOAD]]
 ;
 entry:
   %arr = alloca [4 x float], align 4
@@ -775,19 +782,19 @@ define i32 @phi_align(ptr %z) {
 ; CHECK-LABEL: @phi_align(
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    [[A_SROA_0:%.*]] = alloca [7 x i8], align 1
-; CHECK-NEXT:    [[A_SROA_0_3_A1X_SROA_IDX:%.*]] = getelementptr inbounds i8, ptr [[A_SROA_0]], i64 3
+; CHECK-NEXT:    [[A_SROA_0_3_SROA_IDX:%.*]] = getelementptr inbounds i8, ptr [[A_SROA_0]], i64 3
 ; CHECK-NEXT:    store i32 0, ptr [[A_SROA_0]], align 1
-; CHECK-NEXT:    [[A_SROA_0_3_A1X_SROA_IDX3:%.*]] = getelementptr inbounds i8, ptr [[A_SROA_0]], i64 3
-; CHECK-NEXT:    store i32 1, ptr [[A_SROA_0_3_A1X_SROA_IDX3]], align 1
+; CHECK-NEXT:    [[A_SROA_0_3_SROA_IDX3:%.*]] = getelementptr inbounds i8, ptr [[A_SROA_0]], i64 3
+; CHECK-NEXT:    store i32 1, ptr [[A_SROA_0_3_SROA_IDX3]], align 1
 ; CHECK-NEXT:    [[A_SROA_0_0_A_SROA_0_1_V0:%.*]] = load i32, ptr [[A_SROA_0]], align 1, !freeze_bits [[FREEZE_BITS0]]
-; CHECK-NEXT:    [[A_SROA_0_3_A1X_SROA_IDX4:%.*]] = getelementptr inbounds i8, ptr [[A_SROA_0]], i64 3
-; CHECK-NEXT:    [[A_SROA_0_3_A_SROA_0_4_V1:%.*]] = load i32, ptr [[A_SROA_0_3_A1X_SROA_IDX4]], align 1, !freeze_bits [[FREEZE_BITS0]]
+; CHECK-NEXT:    [[A_SROA_0_3_SROA_IDX4:%.*]] = getelementptr inbounds i8, ptr [[A_SROA_0]], i64 3
+; CHECK-NEXT:    [[A_SROA_0_3_A_SROA_0_4_V1:%.*]] = load i32, ptr [[A_SROA_0_3_SROA_IDX4]], align 1, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    [[COND:%.*]] = icmp sle i32 [[A_SROA_0_0_A_SROA_0_1_V0]], [[A_SROA_0_3_A_SROA_0_4_V1]]
 ; CHECK-NEXT:    br i1 [[COND]], label [[THEN:%.*]], label [[EXIT:%.*]]
 ; CHECK:       then:
 ; CHECK-NEXT:    br label [[EXIT]]
 ; CHECK:       exit:
-; CHECK-NEXT:    [[PHI:%.*]] = phi ptr [ [[A_SROA_0_3_A1X_SROA_IDX]], [[THEN]] ], [ [[Z:%.*]], [[ENTRY:%.*]] ]
+; CHECK-NEXT:    [[PHI:%.*]] = phi ptr [ [[A_SROA_0_3_SROA_IDX]], [[THEN]] ], [ [[Z:%.*]], [[ENTRY:%.*]] ]
 ; CHECK-NEXT:    [[RESULT:%.*]] = load i32, ptr [[PHI]], align 1
 ; CHECK-NEXT:    ret i32 [[RESULT]]
 ;
