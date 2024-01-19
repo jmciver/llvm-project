@@ -4,8 +4,9 @@
 define i64 @PR36760(i64 %a) {
 ; CHECK-LABEL: @PR36760(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[TMP0:%.*]] = tail call i64 @llvm.smax.i64(i64 [[A:%.*]], i64 0)
-; CHECK-NEXT:    ret i64 [[TMP0]]
+; CHECK-NEXT:    [[TMP0:%.*]] = freeze i64 [[A:%.*]]
+; CHECK-NEXT:    [[DOT:%.*]] = tail call i64 @llvm.smax.i64(i64 [[TMP0]], i64 0)
+; CHECK-NEXT:    ret i64 [[DOT]]
 ;
 entry:
   %retval = alloca i64, align 8
@@ -35,9 +36,10 @@ return:
 define i64 @PR36760_2(i64 %a) #0 {
 ; CHECK-LABEL: @PR36760_2(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[TMP0:%.*]] = tail call i64 @llvm.smin.i64(i64 [[A:%.*]], i64 -1)
-; CHECK-NEXT:    [[TMP1:%.*]] = xor i64 [[TMP0]], -1
-; CHECK-NEXT:    ret i64 [[TMP1]]
+; CHECK-NEXT:    [[A_FR:%.*]] = freeze i64 [[A:%.*]]
+; CHECK-NEXT:    [[TMP0:%.*]] = tail call i64 @llvm.smin.i64(i64 [[A_FR]], i64 -1)
+; CHECK-NEXT:    [[RETVAL_0:%.*]] = xor i64 [[TMP0]], -1
+; CHECK-NEXT:    ret i64 [[RETVAL_0]]
 ;
 entry:
   %retval = alloca i64, align 8
