@@ -245,7 +245,7 @@ define i32 @test_sroa_invoke_phi_gep(i1 %cond) personality ptr @__gxx_personalit
 ; CHECK-NEXT:    br i1 [[COND:%.*]], label [[CALL:%.*]], label [[END:%.*]]
 ; CHECK:       call:
 ; CHECK-NEXT:    [[B:%.*]] = invoke ptr @foo()
-; CHECK-NEXT:    to label [[END]] unwind label [[INVOKE_CATCH:%.*]]
+; CHECK-NEXT:            to label [[END]] unwind label [[INVOKE_CATCH:%.*]]
 ; CHECK:       end:
 ; CHECK-NEXT:    [[PHI:%.*]] = phi ptr [ [[A]], [[ENTRY:%.*]] ], [ [[B]], [[CALL]] ]
 ; CHECK-NEXT:    [[GEP:%.*]] = getelementptr inbounds [[PAIR]], ptr [[PHI]], i32 0, i32 1
@@ -253,7 +253,7 @@ define i32 @test_sroa_invoke_phi_gep(i1 %cond) personality ptr @__gxx_personalit
 ; CHECK-NEXT:    ret i32 [[LOAD]]
 ; CHECK:       invoke_catch:
 ; CHECK-NEXT:    [[RES:%.*]] = landingpad { ptr, i32 }
-; CHECK-NEXT:    catch ptr null
+; CHECK-NEXT:            catch ptr null
 ; CHECK-NEXT:    ret i32 0
 ;
 entry:
@@ -472,17 +472,19 @@ define i32 @test_sroa_phi_gep_multiple_values_from_same_block(i32 %arg) {
 ; CHECK-NEXT:  bb.1:
 ; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i32 poison
 ; CHECK-NEXT:    switch i32 [[ARG:%.*]], label [[BB_3:%.*]] [
-; CHECK-NEXT:    i32 1, label [[BB_2:%.*]]
-; CHECK-NEXT:    i32 2, label [[BB_2]]
-; CHECK-NEXT:    i32 3, label [[BB_4:%.*]]
-; CHECK-NEXT:    i32 4, label [[BB_4]]
+; CHECK-NEXT:      i32 1, label [[BB_2:%.*]]
+; CHECK-NEXT:      i32 2, label [[BB_2]]
+; CHECK-NEXT:      i32 3, label [[BB_4:%.*]]
+; CHECK-NEXT:      i32 4, label [[BB_4]]
 ; CHECK-NEXT:    ]
 ; CHECK:       bb.2:
+; CHECK-NEXT:    [[FREEZE_LOAD3:%.*]] = freeze i32 poison
 ; CHECK-NEXT:    br label [[BB_4]]
 ; CHECK:       bb.3:
+; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze i32 poison
 ; CHECK-NEXT:    br label [[BB_4]]
 ; CHECK:       bb.4:
-; CHECK-NEXT:    [[PHI_SROA_PHI_SROA_SPECULATED:%.*]] = phi i32 [ poison, [[BB_3]] ], [ poison, [[BB_2]] ], [ [[FREEZE]], [[BB_1:%.*]] ], [ [[FREEZE]], [[BB_1]] ]
+; CHECK-NEXT:    [[PHI_SROA_PHI_SROA_SPECULATED:%.*]] = phi i32 [ [[FREEZE_LOAD]], [[BB_3]] ], [ [[FREEZE_LOAD3]], [[BB_2]] ], [ [[FREEZE]], [[BB_1:%.*]] ], [ [[FREEZE]], [[BB_1]] ]
 ; CHECK-NEXT:    ret i32 [[PHI_SROA_PHI_SROA_SPECULATED]]
 ;
 bb.1:
