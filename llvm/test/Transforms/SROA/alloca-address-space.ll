@@ -117,9 +117,11 @@ define void @test_load_store_diff_addr_space(ptr addrspace(1) %complex1, ptr add
 ; CHECK-NEXT:    [[SUM:%.*]] = fadd float [[TMP1]], [[TMP2]]
 ; CHECK-NEXT:    [[TMP3:%.*]] = bitcast float [[SUM]] to i32
 ; CHECK-NEXT:    [[TMP4:%.*]] = bitcast float [[SUM]] to i32
-; CHECK-NEXT:    store i32 [[TMP3]], ptr addrspace(1) [[COMPLEX2:%.*]], align 4
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i32 [[TMP3]]
+; CHECK-NEXT:    [[FREEZE6:%.*]] = freeze i32 [[TMP4]]
+; CHECK-NEXT:    store i32 [[FREEZE]], ptr addrspace(1) [[COMPLEX2:%.*]], align 4
 ; CHECK-NEXT:    [[COMPLEX2_SROA_IDX:%.*]] = getelementptr inbounds i8, ptr addrspace(1) [[COMPLEX2]], i16 4
-; CHECK-NEXT:    store i32 [[TMP4]], ptr addrspace(1) [[COMPLEX2_SROA_IDX]], align 4
+; CHECK-NEXT:    store i32 [[FREEZE6]], ptr addrspace(1) [[COMPLEX2_SROA_IDX]], align 4
 ; CHECK-NEXT:    ret void
 ;
   %a0 = alloca [2 x i64], align 8, addrspace(2)
