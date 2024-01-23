@@ -1278,7 +1278,6 @@ define <3 x i8> @PR14572.1(i32 %x) {
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    [[A_0_EXTRACT_TRUNC:%.*]] = trunc i32 [[X:%.*]] to i24
 ; CHECK-NEXT:    [[TMP0:%.*]] = bitcast i24 [[A_0_EXTRACT_TRUNC]] to <3 x i8>
-; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <3 x i8> poison
 ; CHECK-NEXT:    [[A_SROA_2_0_EXTRACT_SHIFT:%.*]] = lshr i32 [[X]], 24
 ; CHECK-NEXT:    [[A_SROA_2_0_EXTRACT_TRUNC:%.*]] = trunc i32 [[A_SROA_2_0_EXTRACT_SHIFT]] to i8
 ; CHECK-NEXT:    ret <3 x i8> [[TMP0]]
