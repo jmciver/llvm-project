@@ -9,10 +9,8 @@ define { i32, i32 } @test0(i32 %x, i32 %y, { i32, i32 } %v) {
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    [[V_FCA_0_EXTRACT:%.*]] = extractvalue { i32, i32 } [[V:%.*]], 0
 ; CHECK-NEXT:    [[V_FCA_1_EXTRACT:%.*]] = extractvalue { i32, i32 } [[V]], 1
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i32 [[X:%.*]]
-; CHECK-NEXT:    [[RESULT_FCA_0_INSERT:%.*]] = insertvalue { i32, i32 } poison, i32 [[FREEZE]], 0
-; CHECK-NEXT:    [[FREEZE1:%.*]] = freeze i32 [[Y:%.*]]
-; CHECK-NEXT:    [[RESULT_FCA_1_INSERT:%.*]] = insertvalue { i32, i32 } [[RESULT_FCA_0_INSERT]], i32 [[FREEZE1]], 1
+; CHECK-NEXT:    [[RESULT_FCA_0_INSERT:%.*]] = insertvalue { i32, i32 } poison, i32 [[X:%.*]], 0
+; CHECK-NEXT:    [[RESULT_FCA_1_INSERT:%.*]] = insertvalue { i32, i32 } [[RESULT_FCA_0_INSERT]], i32 [[Y:%.*]], 1
 ; CHECK-NEXT:    ret { i32, i32 } [[RESULT_FCA_1_INSERT]]
 ;
 entry:
@@ -38,8 +36,8 @@ define { i32, i32 } @test1(i32 %x, i32 %y) {
 ; CHECK-NEXT:    [[A:%.*]] = alloca { i32, i32 }, align 8
 ; CHECK-NEXT:    [[B:%.*]] = alloca { i32, i32 }, align 8
 ; CHECK-NEXT:    store i32 [[X:%.*]], ptr [[A]], align 8
-; CHECK-NEXT:    [[A_4_GEP2_SROA_IDX:%.*]] = getelementptr inbounds i8, ptr [[A]], i64 4
-; CHECK-NEXT:    store i32 [[Y:%.*]], ptr [[A_4_GEP2_SROA_IDX]], align 4
+; CHECK-NEXT:    [[A_4_SROA_IDX:%.*]] = getelementptr inbounds i8, ptr [[A]], i64 4
+; CHECK-NEXT:    store i32 [[Y:%.*]], ptr [[A_4_SROA_IDX]], align 4
 ; CHECK-NEXT:    [[A_0_RESULT:%.*]] = load volatile { i32, i32 }, ptr [[A]], align 8, !freeze_bits [[FREEZE_BITS0:![0-9]+]]
 ; CHECK-NEXT:    store volatile { i32, i32 } [[A_0_RESULT]], ptr [[B]], align 8
 ; CHECK-NEXT:    ret { i32, i32 } [[A_0_RESULT]]

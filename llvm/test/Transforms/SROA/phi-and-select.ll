@@ -233,7 +233,6 @@ define i32 @test6(ptr %b) {
 ; CHECK-NEXT:    [[SELECT2:%.*]] = select i1 false, ptr poison, ptr [[B:%.*]]
 ; CHECK-NEXT:    [[SELECT3:%.*]] = select i1 false, ptr poison, ptr [[B]]
 ; CHECK-NEXT:    call void @f(ptr [[SELECT2]], ptr [[SELECT3]])
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i32 poison
 ; CHECK-NEXT:    ret i32 1
 ;
 entry:

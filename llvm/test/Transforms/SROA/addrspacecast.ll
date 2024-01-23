@@ -171,8 +171,8 @@ define i65 @volatile_store_addrspacecast_slice(i65 %X, i16 %idx) {
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    [[A_SROA_0:%.*]] = alloca [9 x i8], align 4
 ; CHECK-NEXT:    [[A_SROA_1:%.*]] = alloca [9 x i8], align 8
-; CHECK-NEXT:    [[A_SROA_1_0_GEPB_SROA_CAST:%.*]] = addrspacecast ptr [[A_SROA_1]] to ptr addrspace(1)
-; CHECK-NEXT:    store volatile i65 [[X:%.*]], ptr addrspace(1) [[A_SROA_1_0_GEPB_SROA_CAST]], align 8
+; CHECK-NEXT:    [[A_SROA_1_0_SROA_CAST:%.*]] = addrspacecast ptr [[A_SROA_1]] to ptr addrspace(1)
+; CHECK-NEXT:    store volatile i65 [[X:%.*]], ptr addrspace(1) [[A_SROA_1_0_SROA_CAST]], align 8
 ; CHECK-NEXT:    br label [[L2:%.*]]
 ; CHECK:       L2:
 ; CHECK-NEXT:    [[A_SROA_0_0_A_SROA_0_20_Z:%.*]] = load i65, ptr [[A_SROA_0]], align 4, !freeze_bits [[FREEZE_BITS0]]
@@ -216,8 +216,8 @@ define i65 @volatile_load_addrspacecast_slice(i65 %X, i16 %idx) {
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    [[A_SROA_0:%.*]] = alloca [9 x i8], align 4
 ; CHECK-NEXT:    [[A_SROA_1:%.*]] = alloca [9 x i8], align 8
-; CHECK-NEXT:    [[A_SROA_1_0_GEPB_SROA_CAST:%.*]] = addrspacecast ptr [[A_SROA_1]] to ptr addrspace(1)
-; CHECK-NEXT:    store i65 [[X:%.*]], ptr addrspace(1) [[A_SROA_1_0_GEPB_SROA_CAST]], align 8
+; CHECK-NEXT:    [[A_SROA_1_0_SROA_CAST:%.*]] = addrspacecast ptr [[A_SROA_1]] to ptr addrspace(1)
+; CHECK-NEXT:    store i65 [[X:%.*]], ptr addrspace(1) [[A_SROA_1_0_SROA_CAST]], align 8
 ; CHECK-NEXT:    br label [[L2:%.*]]
 ; CHECK:       L2:
 ; CHECK-NEXT:    [[A_SROA_0_0_A_SROA_0_20_Z:%.*]] = load volatile i65, ptr [[A_SROA_0]], align 4, !freeze_bits [[FREEZE_BITS0]]
@@ -277,7 +277,6 @@ entry:
 
 define void @select_addrspacecast(i1 %a, i1 %b) {
 ; CHECK-LABEL: @select_addrspacecast(
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i64 poison
 ; CHECK-NEXT:    ret void
 ;
   %c = alloca i64, align 8
@@ -292,19 +291,18 @@ define void @select_addrspacecast(i1 %a, i1 %b) {
 define void @select_addrspacecast_const_op(i1 %a, i1 %b) {
 ; CHECK-PRESERVE-CFG-LABEL: @select_addrspacecast_const_op(
 ; CHECK-PRESERVE-CFG-NEXT:    [[C:%.*]] = alloca i64, align 8
-; CHECK-PRESERVE-CFG-NEXT:    [[C_0_ASC_SROA_CAST:%.*]] = addrspacecast ptr [[C]] to ptr addrspace(1)
-; CHECK-PRESERVE-CFG-NEXT:    [[COND_IN:%.*]] = select i1 [[B:%.*]], ptr addrspace(1) [[C_0_ASC_SROA_CAST]], ptr addrspace(1) null
+; CHECK-PRESERVE-CFG-NEXT:    [[C_0_SROA_CAST:%.*]] = addrspacecast ptr [[C]] to ptr addrspace(1)
+; CHECK-PRESERVE-CFG-NEXT:    [[COND_IN:%.*]] = select i1 [[B:%.*]], ptr addrspace(1) [[C_0_SROA_CAST]], ptr addrspace(1) null
 ; CHECK-PRESERVE-CFG-NEXT:    [[COND:%.*]] = load i64, ptr addrspace(1) [[COND_IN]], align 8
 ; CHECK-PRESERVE-CFG-NEXT:    ret void
 ;
 ; CHECK-MODIFY-CFG-LABEL: @select_addrspacecast_const_op(
-; CHECK-MODIFY-CFG-NEXT:    [[FREEZE:%.*]] = freeze i64 poison
 ; CHECK-MODIFY-CFG-NEXT:    br i1 [[B:%.*]], label [[DOTCONT:%.*]], label [[DOTELSE:%.*]]
 ; CHECK-MODIFY-CFG:       .else:
 ; CHECK-MODIFY-CFG-NEXT:    [[COND_ELSE_VAL:%.*]] = load i64, ptr addrspace(1) null, align 8
 ; CHECK-MODIFY-CFG-NEXT:    br label [[DOTCONT]]
 ; CHECK-MODIFY-CFG:       .cont:
-; CHECK-MODIFY-CFG-NEXT:    [[COND:%.*]] = phi i64 [ [[FREEZE]], [[TMP0:%.*]] ], [ [[COND_ELSE_VAL]], [[DOTELSE]] ]
+; CHECK-MODIFY-CFG-NEXT:    [[COND:%.*]] = phi i64 [ poison, [[TMP0:%.*]] ], [ [[COND_ELSE_VAL]], [[DOTELSE]] ]
 ; CHECK-MODIFY-CFG-NEXT:    ret void
 ;
   %c = alloca i64, align 8
