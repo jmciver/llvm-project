@@ -5,10 +5,11 @@
 
 define void @swap(ptr %p1, ptr %p2) {
 ; CHECK-LABEL: @swap(
-; CHECK-NEXT:    [[TMP1:%.*]] = load i64, ptr [[P1:%.*]], align 1
-; CHECK-NEXT:    [[TMP2:%.*]] = load i64, ptr [[P2:%.*]], align 1
+; CHECK-NEXT:    [[TMP1:%.*]] = load i64, ptr [[P1:%.*]], align 1, !freeze_bits [[FREEZE_BITS0:![0-9]+]]
+; CHECK-NEXT:    [[LOAD_FREEZE:%.*]] = freeze i64 [[TMP1]]
+; CHECK-NEXT:    [[TMP2:%.*]] = load i64, ptr [[P2:%.*]], align 1, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    store i64 [[TMP2]], ptr [[P1]], align 1
-; CHECK-NEXT:    store i64 [[TMP1]], ptr [[P2]], align 1
+; CHECK-NEXT:    store i64 [[LOAD_FREEZE]], ptr [[P2]], align 1
 ; CHECK-NEXT:    ret void
 ;
   %tmp = alloca [2 x i32]
