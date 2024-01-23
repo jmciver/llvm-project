@@ -5,7 +5,7 @@
 ; RUN: opt < %s -O3 -S -mtriple=x86_64-- -mcpu=x86-64-v4 | FileCheck %s
 
 define <2 x i64> @PR61061(<2 x i64> noundef %vect) {
-; CHECK-LABEL: define noundef <2 x i64> @PR61061
+; CHECK-LABEL: define <2 x i64> @PR61061
 ; CHECK-SAME: (<2 x i64> noundef [[VECT:%.*]]) local_unnamed_addr #[[ATTR0:[0-9]+]] {
 ; CHECK-NEXT:    [[BC0:%.*]] = bitcast <2 x i64> [[VECT]] to <16 x i8>
 ; CHECK-NEXT:    [[PTR_SROA_0_3_VEC_INSERT:%.*]] = shufflevector <16 x i8> [[BC0]], <16 x i8> <i8 poison, i8 poison, i8 poison, i8 poison, i8 poison, i8 poison, i8 poison, i8 poison, i8 0, i8 0, i8 0, i8 0, i8 0, i8 0, i8 0, i8 0>, <16 x i32> <i32 0, i32 1, i32 2, i32 3, i32 poison, i32 poison, i32 poison, i32 poison, i32 24, i32 25, i32 26, i32 27, i32 28, i32 29, i32 30, i32 31>
@@ -13,8 +13,7 @@ define <2 x i64> @PR61061(<2 x i64> noundef %vect) {
 ; CHECK-NEXT:    [[PTR_SROA_0_7_VEC_INSERT:%.*]] = shufflevector <16 x i8> [[PTR_SROA_0_3_VEC_INSERT_FR]], <16 x i8> [[BC0]], <16 x i32> <i32 0, i32 1, i32 2, i32 3, i32 16, i32 17, i32 18, i32 19, i32 poison, i32 poison, i32 poison, i32 poison, i32 12, i32 13, i32 14, i32 15>
 ; CHECK-NEXT:    [[PTR_SROA_0_7_VEC_INSERT_FR:%.*]] = freeze <16 x i8> [[PTR_SROA_0_7_VEC_INSERT]]
 ; CHECK-NEXT:    [[PTR_SROA_0_11_VEC_INSERT:%.*]] = shufflevector <16 x i8> [[PTR_SROA_0_7_VEC_INSERT_FR]], <16 x i8> [[BC0]], <16 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7, i32 20, i32 21, i32 22, i32 23, i32 poison, i32 poison, i32 poison, i32 poison>
-; CHECK-NEXT:    [[PTR_SROA_0_11_VEC_INSERT_FR:%.*]] = freeze <16 x i8> [[PTR_SROA_0_11_VEC_INSERT]]
-; CHECK-NEXT:    [[PTR_SROA_0_15_VEC_INSERT:%.*]] = shufflevector <16 x i8> [[PTR_SROA_0_11_VEC_INSERT_FR]], <16 x i8> [[BC0]], <16 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7, i32 8, i32 9, i32 10, i32 11, i32 16, i32 17, i32 18, i32 19>
+; CHECK-NEXT:    [[PTR_SROA_0_15_VEC_INSERT:%.*]] = shufflevector <16 x i8> [[PTR_SROA_0_11_VEC_INSERT]], <16 x i8> [[BC0]], <16 x i32> <i32 0, i32 1, i32 2, i32 3, i32 4, i32 5, i32 6, i32 7, i32 8, i32 9, i32 10, i32 11, i32 16, i32 17, i32 18, i32 19>
 ; CHECK-NEXT:    [[TMP1:%.*]] = bitcast <16 x i8> [[PTR_SROA_0_15_VEC_INSERT]] to <2 x i64>
 ; CHECK-NEXT:    ret <2 x i64> [[TMP1]]
 ;

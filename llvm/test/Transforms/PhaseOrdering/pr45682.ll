@@ -5,17 +5,8 @@
 define void @PR45682(i32 %x, i32 %y) {
 ; CHECK-LABEL: @PR45682(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[Y_FR:%.*]] = freeze i32 [[Y:%.*]]
-; CHECK-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[Y_FR]], 0
+; CHECK-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[Y:%.*]], 0
 ; CHECK-NEXT:    tail call void @llvm.assume(i1 [[CMP]])
-; CHECK-NEXT:    [[FREEZE3:%.*]] = freeze i32 [[X:%.*]]
-; CHECK-NEXT:    [[ADD:%.*]] = add i32 [[Y_FR]], [[FREEZE3]]
-; CHECK-NEXT:    [[CMP1:%.*]] = icmp eq i32 [[ADD]], -2147483648
-; CHECK-NEXT:    br i1 [[CMP1]], label [[IF_THEN:%.*]], label [[IF_END:%.*]]
-; CHECK:       if.then:
-; CHECK-NEXT:    tail call void @v()
-; CHECK-NEXT:    br label [[IF_END]]
-; CHECK:       if.end:
 ; CHECK-NEXT:    ret void
 ;
 entry:
