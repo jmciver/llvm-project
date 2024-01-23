@@ -127,7 +127,8 @@ long double test_f128(long double f, long double g) {
 // CHECK: %f = load fp128, ptr %0
 // CHECK: %g = load fp128, ptr %1
 // CHECK: [[RESULT:%.*]] = tail call fp128 asm "axbr $0, $2", "=f,0,f"(fp128 %f, fp128 %g)
-// CHECK: store fp128 [[RESULT]], ptr [[DEST]]
+// CHECK: [[FREEZE_RESULT:%.*]] = freeze fp128 [[RESULT]]
+// CHECK: store fp128 [[FREEZE_RESULT]], ptr [[DEST]]
 }
 
 // Test that there are no tied physreg uses. TwoAddress pass cannot deal with them.
