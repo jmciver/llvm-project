@@ -32,8 +32,9 @@ void loop(int n) {
 // CHECK:       omp.inner.for.end:
 // CHECK-NEXT:    [[ADD11:%.*]] = add i32 [[TMP0]], 1
 // CHECK-NEXT:    [[INC_LE:%.*]] = add i32 [[ADD11]], [[DOTOMP_IV_026]]
-// CHECK-NEXT:    store i32 [[INC_LE]], ptr [[J]], align 4, !tbaa [[TBAA2]]
-// CHECK-NEXT:    store i32 [[INC_LE]], ptr @j, align 4, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[LOAD_FREEZE:%.*]] = freeze i32 [[INC_LE]]
+// CHECK-NEXT:    store i32 [[LOAD_FREEZE]], ptr [[J]], align 4, !tbaa [[TBAA2]]
+// CHECK-NEXT:    store i32 [[LOAD_FREEZE]], ptr @j, align 4, !tbaa [[TBAA2]]
 // CHECK-NEXT:    call void @llvm.lifetime.end.p0(i64 4, ptr nonnull [[J]]) #[[ATTR2]]
 // CHECK-NEXT:    br label [[SIMD_IF_END]]
 // CHECK:       simd.if.end:
