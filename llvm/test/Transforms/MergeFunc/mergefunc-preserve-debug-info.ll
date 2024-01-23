@@ -75,7 +75,7 @@ define i32 @maxA(i32 %x, i32 %y) !dbg !6 {
 ; OPTIMIZATION_LEVEL_0-NEXT:    [[TMP4:%.*]] = load i32, ptr [[M]], align 4, !dbg [[DBG31:![0-9]+]]
 ; OPTIMIZATION_LEVEL_0-NEXT:    ret i32 [[TMP4]], !dbg [[DBG32:![0-9]+]]
 ;
-; OPTIMIZATION_LEVEL_2-LABEL: define noundef i32 @maxA
+; OPTIMIZATION_LEVEL_2-LABEL: define i32 @maxA
 ; OPTIMIZATION_LEVEL_2-SAME: (i32 [[X:%.*]], i32 [[Y:%.*]]) local_unnamed_addr #[[ATTR0:[0-9]+]] !dbg [[DBG6:![0-9]+]] {
 ; OPTIMIZATION_LEVEL_2-NEXT:  entry:
 ; OPTIMIZATION_LEVEL_2-NEXT:    tail call void @llvm.dbg.value(metadata i32 [[X]], metadata [[META11:![0-9]+]], metadata !DIExpression()), !dbg [[DBG12:![0-9]+]]
@@ -84,8 +84,7 @@ define i32 @maxA(i32 %x, i32 %y) !dbg !6 {
 ; OPTIMIZATION_LEVEL_2-NEXT:    call void @llvm.dbg.declare(metadata ptr undef, metadata [[META16:![0-9]+]], metadata !DIExpression()), !dbg [[DBG17:![0-9]+]]
 ; OPTIMIZATION_LEVEL_2-NEXT:    [[X_Y:%.*]] = tail call i32 @llvm.smax.i32(i32 [[X]], i32 [[Y]])
 ; OPTIMIZATION_LEVEL_2-NEXT:    tail call void @llvm.dbg.value(metadata i32 [[X_Y]], metadata [[META18:![0-9]+]], metadata !DIExpression()), !dbg [[DBG12]]
-; OPTIMIZATION_LEVEL_2-NEXT:    [[FREEZE_LOAD:%.*]] = freeze i32 [[X_Y]], !dbg [[DBG19:![0-9]+]]
-; OPTIMIZATION_LEVEL_2-NEXT:    ret i32 [[FREEZE_LOAD]], !dbg [[DBG20:![0-9]+]]
+; OPTIMIZATION_LEVEL_2-NEXT:    ret i32 [[X_Y]], !dbg [[DBG19:![0-9]+]]
 ;
 entry:
   %x.addr = alloca i32, align 4
@@ -137,13 +136,13 @@ define i32 @maxB(i32 %x, i32 %y) !dbg !34 {
 ; OPTIMIZATION_LEVEL_0-NEXT:    [[TMP0:%.*]] = tail call i32 @maxA(i32 [[X]], i32 [[Y]]), !dbg [[DBG38:![0-9]+]]
 ; OPTIMIZATION_LEVEL_0-NEXT:    ret i32 [[TMP0]], !dbg [[DBG38]]
 ;
-; OPTIMIZATION_LEVEL_2-LABEL: define noundef i32 @maxB
-; OPTIMIZATION_LEVEL_2-SAME: (i32 [[X:%.*]], i32 [[Y:%.*]]) local_unnamed_addr #[[ATTR0]] !dbg [[DBG21:![0-9]+]] {
+; OPTIMIZATION_LEVEL_2-LABEL: define i32 @maxB
+; OPTIMIZATION_LEVEL_2-SAME: (i32 [[X:%.*]], i32 [[Y:%.*]]) local_unnamed_addr #[[ATTR0]] !dbg [[DBG20:![0-9]+]] {
 ; OPTIMIZATION_LEVEL_2-NEXT:  entry:
-; OPTIMIZATION_LEVEL_2-NEXT:    tail call void @llvm.dbg.value(metadata i32 [[X]], metadata [[META22:![0-9]+]], metadata !DIExpression()), !dbg [[DBG23:![0-9]+]]
-; OPTIMIZATION_LEVEL_2-NEXT:    tail call void @llvm.dbg.value(metadata i32 [[Y]], metadata [[META24:![0-9]+]], metadata !DIExpression()), !dbg [[DBG23]]
-; OPTIMIZATION_LEVEL_2-NEXT:    [[TMP0:%.*]] = tail call noundef i32 @maxA(i32 [[X]], i32 [[Y]]) #[[ATTR0]], !dbg [[DBG25:![0-9]+]]
-; OPTIMIZATION_LEVEL_2-NEXT:    ret i32 [[TMP0]], !dbg [[DBG25]]
+; OPTIMIZATION_LEVEL_2-NEXT:    tail call void @llvm.dbg.value(metadata i32 [[X]], metadata [[META21:![0-9]+]], metadata !DIExpression()), !dbg [[DBG22:![0-9]+]]
+; OPTIMIZATION_LEVEL_2-NEXT:    tail call void @llvm.dbg.value(metadata i32 [[Y]], metadata [[META23:![0-9]+]], metadata !DIExpression()), !dbg [[DBG22]]
+; OPTIMIZATION_LEVEL_2-NEXT:    [[TMP0:%.*]] = tail call i32 @maxA(i32 [[X]], i32 [[Y]]) #[[ATTR0]], !dbg [[DBG24:![0-9]+]]
+; OPTIMIZATION_LEVEL_2-NEXT:    ret i32 [[TMP0]], !dbg [[DBG24]]
 ;
 
 
@@ -190,9 +189,9 @@ define void @f() !dbg !57 {
 ; OPTIMIZATION_LEVEL_0-NEXT:    ret void, !dbg [[DBG44:![0-9]+]]
 ;
 ; OPTIMIZATION_LEVEL_2-LABEL: define void @f
-; OPTIMIZATION_LEVEL_2-SAME: () local_unnamed_addr #[[ATTR0]] !dbg [[DBG26:![0-9]+]] {
+; OPTIMIZATION_LEVEL_2-SAME: () local_unnamed_addr #[[ATTR0]] !dbg [[DBG25:![0-9]+]] {
 ; OPTIMIZATION_LEVEL_2-NEXT:  entry:
-; OPTIMIZATION_LEVEL_2-NEXT:    ret void, !dbg [[DBG29:![0-9]+]]
+; OPTIMIZATION_LEVEL_2-NEXT:    ret void, !dbg [[DBG28:![0-9]+]]
 ;
 entry:
   %call = call i32 @maxA(i32 3, i32 4), !dbg !60
