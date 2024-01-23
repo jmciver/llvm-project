@@ -20,7 +20,7 @@ void test1(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsi
 
 // CHECK-LABEL: @test2(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !freeze_bits [[FREEZE_BITS6:![0-9]+]]
 // CHECK-NEXT:    [[TMP1:%.*]] = tail call { <16 x i8>, <16 x i8>, <16 x i8>, <16 x i8> } @llvm.ppc.mma.disassemble.acc(<512 x i1> [[TMP0]])
 // CHECK-NEXT:    [[TMP2:%.*]] = extractvalue { <16 x i8>, <16 x i8>, <16 x i8>, <16 x i8> } [[TMP1]], 0
 // CHECK-NEXT:    store <16 x i8> [[TMP2]], ptr [[RESP:%.*]], align 16
@@ -42,7 +42,7 @@ void test2(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsi
 // CHECK-LABEL: @test3(
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[TMP0:%.*]] = tail call <256 x i1> @llvm.ppc.vsx.assemble.pair(<16 x i8> [[VC:%.*]], <16 x i8> [[VC]])
-// CHECK-NEXT:    store <256 x i1> [[TMP0]], ptr [[RESP:%.*]], align 32, !tbaa [[TBAA6:![0-9]+]]
+// CHECK-NEXT:    store <256 x i1> [[TMP0]], ptr [[RESP:%.*]], align 32, !tbaa [[TBAA7:![0-9]+]]
 // CHECK-NEXT:    ret void
 //
 void test3(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -55,7 +55,7 @@ void test3(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsi
 
 // CHECK-LABEL: @test4(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <256 x i1>, ptr [[VPP:%.*]], align 32
+// CHECK-NEXT:    [[TMP0:%.*]] = load <256 x i1>, ptr [[VPP:%.*]], align 32, !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = tail call { <16 x i8>, <16 x i8> } @llvm.ppc.vsx.disassemble.pair(<256 x i1> [[TMP0]])
 // CHECK-NEXT:    [[TMP2:%.*]] = extractvalue { <16 x i8>, <16 x i8> } [[TMP1]], 0
 // CHECK-NEXT:    store <16 x i8> [[TMP2]], ptr [[RESP:%.*]], align 16
@@ -70,9 +70,10 @@ void test4(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsi
 
 // CHECK-LABEL: @test5(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = tail call <512 x i1> @llvm.ppc.mma.xxmtacc(<512 x i1> [[TMP0]])
-// CHECK-NEXT:    store <512 x i1> [[TMP1]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP1]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test5(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -84,9 +85,10 @@ void test5(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsi
 
 // CHECK-LABEL: @test6(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = tail call <512 x i1> @llvm.ppc.mma.xxmfacc(<512 x i1> [[TMP0]])
-// CHECK-NEXT:    store <512 x i1> [[TMP1]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP1]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test6(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -99,7 +101,8 @@ void test6(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsi
 // CHECK-LABEL: @test7(
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[TMP0:%.*]] = tail call <512 x i1> @llvm.ppc.mma.xxsetaccz()
-// CHECK-NEXT:    store <512 x i1> [[TMP0]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP0]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test7(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -112,7 +115,8 @@ void test7(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsi
 // CHECK-LABEL: @test8(
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[TMP0:%.*]] = tail call <512 x i1> @llvm.ppc.mma.xvi4ger8(<16 x i8> [[VC:%.*]], <16 x i8> [[VC]])
-// CHECK-NEXT:    store <512 x i1> [[TMP0]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP0]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test8(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -125,7 +129,8 @@ void test8(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsi
 // CHECK-LABEL: @test9(
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[TMP0:%.*]] = tail call <512 x i1> @llvm.ppc.mma.xvi8ger4(<16 x i8> [[VC:%.*]], <16 x i8> [[VC]])
-// CHECK-NEXT:    store <512 x i1> [[TMP0]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP0]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test9(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -138,7 +143,8 @@ void test9(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsi
 // CHECK-LABEL: @test10(
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[TMP0:%.*]] = tail call <512 x i1> @llvm.ppc.mma.xvi16ger2(<16 x i8> [[VC:%.*]], <16 x i8> [[VC]])
-// CHECK-NEXT:    store <512 x i1> [[TMP0]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP0]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test10(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -151,7 +157,8 @@ void test10(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 // CHECK-LABEL: @test11(
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[TMP0:%.*]] = tail call <512 x i1> @llvm.ppc.mma.xvi16ger2s(<16 x i8> [[VC:%.*]], <16 x i8> [[VC]])
-// CHECK-NEXT:    store <512 x i1> [[TMP0]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP0]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test11(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -164,7 +171,8 @@ void test11(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 // CHECK-LABEL: @test12(
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[TMP0:%.*]] = tail call <512 x i1> @llvm.ppc.mma.xvf16ger2(<16 x i8> [[VC:%.*]], <16 x i8> [[VC]])
-// CHECK-NEXT:    store <512 x i1> [[TMP0]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP0]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test12(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -177,7 +185,8 @@ void test12(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 // CHECK-LABEL: @test13(
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[TMP0:%.*]] = tail call <512 x i1> @llvm.ppc.mma.xvf32ger(<16 x i8> [[VC:%.*]], <16 x i8> [[VC]])
-// CHECK-NEXT:    store <512 x i1> [[TMP0]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP0]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test13(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -189,9 +198,10 @@ void test13(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test14(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <256 x i1>, ptr [[VPP:%.*]], align 32, !tbaa [[TBAA6]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <256 x i1>, ptr [[VPP:%.*]], align 32, !tbaa [[TBAA7]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = tail call <512 x i1> @llvm.ppc.mma.xvf64ger(<256 x i1> [[TMP0]], <16 x i8> [[VC:%.*]])
-// CHECK-NEXT:    store <512 x i1> [[TMP1]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP1]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test14(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -204,7 +214,8 @@ void test14(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 // CHECK-LABEL: @test15(
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[TMP0:%.*]] = tail call <512 x i1> @llvm.ppc.mma.pmxvi4ger8(<16 x i8> [[VC:%.*]], <16 x i8> [[VC]], i32 0, i32 0, i32 0)
-// CHECK-NEXT:    store <512 x i1> [[TMP0]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP0]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test15(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -217,7 +228,8 @@ void test15(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 // CHECK-LABEL: @test16(
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[TMP0:%.*]] = tail call <512 x i1> @llvm.ppc.mma.pmxvi8ger4(<16 x i8> [[VC:%.*]], <16 x i8> [[VC]], i32 0, i32 0, i32 0)
-// CHECK-NEXT:    store <512 x i1> [[TMP0]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP0]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test16(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -230,7 +242,8 @@ void test16(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 // CHECK-LABEL: @test17(
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[TMP0:%.*]] = tail call <512 x i1> @llvm.ppc.mma.pmxvi16ger2(<16 x i8> [[VC:%.*]], <16 x i8> [[VC]], i32 0, i32 0, i32 0)
-// CHECK-NEXT:    store <512 x i1> [[TMP0]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP0]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test17(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -243,7 +256,8 @@ void test17(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 // CHECK-LABEL: @test18(
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[TMP0:%.*]] = tail call <512 x i1> @llvm.ppc.mma.pmxvi16ger2s(<16 x i8> [[VC:%.*]], <16 x i8> [[VC]], i32 0, i32 0, i32 0)
-// CHECK-NEXT:    store <512 x i1> [[TMP0]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP0]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test18(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -256,7 +270,8 @@ void test18(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 // CHECK-LABEL: @test19(
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[TMP0:%.*]] = tail call <512 x i1> @llvm.ppc.mma.pmxvf16ger2(<16 x i8> [[VC:%.*]], <16 x i8> [[VC]], i32 0, i32 0, i32 0)
-// CHECK-NEXT:    store <512 x i1> [[TMP0]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP0]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test19(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -269,7 +284,8 @@ void test19(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 // CHECK-LABEL: @test20(
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[TMP0:%.*]] = tail call <512 x i1> @llvm.ppc.mma.pmxvf32ger(<16 x i8> [[VC:%.*]], <16 x i8> [[VC]], i32 0, i32 0)
-// CHECK-NEXT:    store <512 x i1> [[TMP0]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP0]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test20(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -281,9 +297,10 @@ void test20(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test21(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <256 x i1>, ptr [[VPP:%.*]], align 32, !tbaa [[TBAA6]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <256 x i1>, ptr [[VPP:%.*]], align 32, !tbaa [[TBAA7]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = tail call <512 x i1> @llvm.ppc.mma.pmxvf64ger(<256 x i1> [[TMP0]], <16 x i8> [[VC:%.*]], i32 0, i32 0)
-// CHECK-NEXT:    store <512 x i1> [[TMP1]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP1]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test21(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -295,9 +312,10 @@ void test21(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test22(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = tail call <512 x i1> @llvm.ppc.mma.xvi4ger8pp(<512 x i1> [[TMP0]], <16 x i8> [[VC:%.*]], <16 x i8> [[VC]])
-// CHECK-NEXT:    store <512 x i1> [[TMP1]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP1]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test22(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -309,9 +327,10 @@ void test22(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test23(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = tail call <512 x i1> @llvm.ppc.mma.xvi8ger4pp(<512 x i1> [[TMP0]], <16 x i8> [[VC:%.*]], <16 x i8> [[VC]])
-// CHECK-NEXT:    store <512 x i1> [[TMP1]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP1]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test23(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -323,9 +342,10 @@ void test23(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test24(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = tail call <512 x i1> @llvm.ppc.mma.xvi8ger4spp(<512 x i1> [[TMP0]], <16 x i8> [[VC:%.*]], <16 x i8> [[VC]])
-// CHECK-NEXT:    store <512 x i1> [[TMP1]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP1]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test24(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -337,9 +357,10 @@ void test24(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test25(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = tail call <512 x i1> @llvm.ppc.mma.xvi16ger2pp(<512 x i1> [[TMP0]], <16 x i8> [[VC:%.*]], <16 x i8> [[VC]])
-// CHECK-NEXT:    store <512 x i1> [[TMP1]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP1]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test25(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -351,9 +372,10 @@ void test25(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test26(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = tail call <512 x i1> @llvm.ppc.mma.xvi16ger2spp(<512 x i1> [[TMP0]], <16 x i8> [[VC:%.*]], <16 x i8> [[VC]])
-// CHECK-NEXT:    store <512 x i1> [[TMP1]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP1]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test26(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -365,9 +387,10 @@ void test26(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test27(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = tail call <512 x i1> @llvm.ppc.mma.pmxvi4ger8pp(<512 x i1> [[TMP0]], <16 x i8> [[VC:%.*]], <16 x i8> [[VC]], i32 0, i32 0, i32 0)
-// CHECK-NEXT:    store <512 x i1> [[TMP1]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP1]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test27(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -379,9 +402,10 @@ void test27(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test28(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = tail call <512 x i1> @llvm.ppc.mma.pmxvi8ger4pp(<512 x i1> [[TMP0]], <16 x i8> [[VC:%.*]], <16 x i8> [[VC]], i32 0, i32 0, i32 0)
-// CHECK-NEXT:    store <512 x i1> [[TMP1]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP1]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test28(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -393,9 +417,10 @@ void test28(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test29(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = tail call <512 x i1> @llvm.ppc.mma.pmxvi8ger4spp(<512 x i1> [[TMP0]], <16 x i8> [[VC:%.*]], <16 x i8> [[VC]], i32 0, i32 0, i32 0)
-// CHECK-NEXT:    store <512 x i1> [[TMP1]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP1]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test29(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -407,9 +432,10 @@ void test29(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test30(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = tail call <512 x i1> @llvm.ppc.mma.pmxvi16ger2pp(<512 x i1> [[TMP0]], <16 x i8> [[VC:%.*]], <16 x i8> [[VC]], i32 0, i32 0, i32 0)
-// CHECK-NEXT:    store <512 x i1> [[TMP1]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP1]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test30(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -421,9 +447,10 @@ void test30(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test31(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = tail call <512 x i1> @llvm.ppc.mma.pmxvi16ger2spp(<512 x i1> [[TMP0]], <16 x i8> [[VC:%.*]], <16 x i8> [[VC]], i32 0, i32 0, i32 0)
-// CHECK-NEXT:    store <512 x i1> [[TMP1]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP1]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test31(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -435,9 +462,10 @@ void test31(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test32(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = tail call <512 x i1> @llvm.ppc.mma.xvf16ger2pp(<512 x i1> [[TMP0]], <16 x i8> [[VC:%.*]], <16 x i8> [[VC]])
-// CHECK-NEXT:    store <512 x i1> [[TMP1]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP1]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test32(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -449,9 +477,10 @@ void test32(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test33(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = tail call <512 x i1> @llvm.ppc.mma.xvf16ger2pn(<512 x i1> [[TMP0]], <16 x i8> [[VC:%.*]], <16 x i8> [[VC]])
-// CHECK-NEXT:    store <512 x i1> [[TMP1]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP1]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test33(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -463,9 +492,10 @@ void test33(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test34(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = tail call <512 x i1> @llvm.ppc.mma.xvf16ger2np(<512 x i1> [[TMP0]], <16 x i8> [[VC:%.*]], <16 x i8> [[VC]])
-// CHECK-NEXT:    store <512 x i1> [[TMP1]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP1]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test34(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -477,9 +507,10 @@ void test34(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test35(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = tail call <512 x i1> @llvm.ppc.mma.xvf16ger2nn(<512 x i1> [[TMP0]], <16 x i8> [[VC:%.*]], <16 x i8> [[VC]])
-// CHECK-NEXT:    store <512 x i1> [[TMP1]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP1]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test35(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -491,9 +522,10 @@ void test35(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test36(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = tail call <512 x i1> @llvm.ppc.mma.pmxvf16ger2pp(<512 x i1> [[TMP0]], <16 x i8> [[VC:%.*]], <16 x i8> [[VC]], i32 0, i32 0, i32 0)
-// CHECK-NEXT:    store <512 x i1> [[TMP1]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP1]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test36(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -505,9 +537,10 @@ void test36(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test37(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = tail call <512 x i1> @llvm.ppc.mma.pmxvf16ger2pn(<512 x i1> [[TMP0]], <16 x i8> [[VC:%.*]], <16 x i8> [[VC]], i32 0, i32 0, i32 0)
-// CHECK-NEXT:    store <512 x i1> [[TMP1]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP1]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test37(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -519,9 +552,10 @@ void test37(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test38(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = tail call <512 x i1> @llvm.ppc.mma.pmxvf16ger2np(<512 x i1> [[TMP0]], <16 x i8> [[VC:%.*]], <16 x i8> [[VC]], i32 0, i32 0, i32 0)
-// CHECK-NEXT:    store <512 x i1> [[TMP1]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP1]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test38(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -533,9 +567,10 @@ void test38(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test39(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = tail call <512 x i1> @llvm.ppc.mma.pmxvf16ger2nn(<512 x i1> [[TMP0]], <16 x i8> [[VC:%.*]], <16 x i8> [[VC]], i32 0, i32 0, i32 0)
-// CHECK-NEXT:    store <512 x i1> [[TMP1]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP1]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test39(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -547,9 +582,10 @@ void test39(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test40(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = tail call <512 x i1> @llvm.ppc.mma.xvf32gerpp(<512 x i1> [[TMP0]], <16 x i8> [[VC:%.*]], <16 x i8> [[VC]])
-// CHECK-NEXT:    store <512 x i1> [[TMP1]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP1]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test40(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -561,9 +597,10 @@ void test40(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test41(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = tail call <512 x i1> @llvm.ppc.mma.xvf32gerpn(<512 x i1> [[TMP0]], <16 x i8> [[VC:%.*]], <16 x i8> [[VC]])
-// CHECK-NEXT:    store <512 x i1> [[TMP1]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP1]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test41(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -575,9 +612,10 @@ void test41(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test42(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = tail call <512 x i1> @llvm.ppc.mma.xvf32gernp(<512 x i1> [[TMP0]], <16 x i8> [[VC:%.*]], <16 x i8> [[VC]])
-// CHECK-NEXT:    store <512 x i1> [[TMP1]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP1]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test42(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -589,9 +627,10 @@ void test42(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test43(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = tail call <512 x i1> @llvm.ppc.mma.xvf32gernn(<512 x i1> [[TMP0]], <16 x i8> [[VC:%.*]], <16 x i8> [[VC]])
-// CHECK-NEXT:    store <512 x i1> [[TMP1]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP1]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test43(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -603,9 +642,10 @@ void test43(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test44(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = tail call <512 x i1> @llvm.ppc.mma.pmxvf32gerpp(<512 x i1> [[TMP0]], <16 x i8> [[VC:%.*]], <16 x i8> [[VC]], i32 0, i32 0)
-// CHECK-NEXT:    store <512 x i1> [[TMP1]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP1]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test44(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -617,9 +657,10 @@ void test44(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test45(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = tail call <512 x i1> @llvm.ppc.mma.pmxvf32gerpn(<512 x i1> [[TMP0]], <16 x i8> [[VC:%.*]], <16 x i8> [[VC]], i32 0, i32 0)
-// CHECK-NEXT:    store <512 x i1> [[TMP1]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP1]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test45(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -631,9 +672,10 @@ void test45(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test46(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = tail call <512 x i1> @llvm.ppc.mma.pmxvf32gernp(<512 x i1> [[TMP0]], <16 x i8> [[VC:%.*]], <16 x i8> [[VC]], i32 0, i32 0)
-// CHECK-NEXT:    store <512 x i1> [[TMP1]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP1]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test46(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -645,9 +687,10 @@ void test46(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test47(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = tail call <512 x i1> @llvm.ppc.mma.pmxvf32gernn(<512 x i1> [[TMP0]], <16 x i8> [[VC:%.*]], <16 x i8> [[VC]], i32 0, i32 0)
-// CHECK-NEXT:    store <512 x i1> [[TMP1]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP1]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test47(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -659,10 +702,11 @@ void test47(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test48(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
-// CHECK-NEXT:    [[TMP1:%.*]] = load <256 x i1>, ptr [[VPP:%.*]], align 32, !tbaa [[TBAA6]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
+// CHECK-NEXT:    [[TMP1:%.*]] = load <256 x i1>, ptr [[VPP:%.*]], align 32, !tbaa [[TBAA7]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP2:%.*]] = tail call <512 x i1> @llvm.ppc.mma.xvf64gerpp(<512 x i1> [[TMP0]], <256 x i1> [[TMP1]], <16 x i8> [[VC:%.*]])
-// CHECK-NEXT:    store <512 x i1> [[TMP2]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP2]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test48(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -674,10 +718,11 @@ void test48(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test49(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
-// CHECK-NEXT:    [[TMP1:%.*]] = load <256 x i1>, ptr [[VPP:%.*]], align 32, !tbaa [[TBAA6]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
+// CHECK-NEXT:    [[TMP1:%.*]] = load <256 x i1>, ptr [[VPP:%.*]], align 32, !tbaa [[TBAA7]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP2:%.*]] = tail call <512 x i1> @llvm.ppc.mma.xvf64gerpn(<512 x i1> [[TMP0]], <256 x i1> [[TMP1]], <16 x i8> [[VC:%.*]])
-// CHECK-NEXT:    store <512 x i1> [[TMP2]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP2]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test49(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -689,10 +734,11 @@ void test49(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test50(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
-// CHECK-NEXT:    [[TMP1:%.*]] = load <256 x i1>, ptr [[VPP:%.*]], align 32, !tbaa [[TBAA6]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
+// CHECK-NEXT:    [[TMP1:%.*]] = load <256 x i1>, ptr [[VPP:%.*]], align 32, !tbaa [[TBAA7]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP2:%.*]] = tail call <512 x i1> @llvm.ppc.mma.xvf64gernp(<512 x i1> [[TMP0]], <256 x i1> [[TMP1]], <16 x i8> [[VC:%.*]])
-// CHECK-NEXT:    store <512 x i1> [[TMP2]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP2]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test50(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -704,10 +750,11 @@ void test50(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test51(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
-// CHECK-NEXT:    [[TMP1:%.*]] = load <256 x i1>, ptr [[VPP:%.*]], align 32, !tbaa [[TBAA6]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
+// CHECK-NEXT:    [[TMP1:%.*]] = load <256 x i1>, ptr [[VPP:%.*]], align 32, !tbaa [[TBAA7]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP2:%.*]] = tail call <512 x i1> @llvm.ppc.mma.xvf64gernn(<512 x i1> [[TMP0]], <256 x i1> [[TMP1]], <16 x i8> [[VC:%.*]])
-// CHECK-NEXT:    store <512 x i1> [[TMP2]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP2]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test51(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -719,10 +766,11 @@ void test51(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test52(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
-// CHECK-NEXT:    [[TMP1:%.*]] = load <256 x i1>, ptr [[VPP:%.*]], align 32, !tbaa [[TBAA6]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
+// CHECK-NEXT:    [[TMP1:%.*]] = load <256 x i1>, ptr [[VPP:%.*]], align 32, !tbaa [[TBAA7]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP2:%.*]] = tail call <512 x i1> @llvm.ppc.mma.pmxvf64gerpp(<512 x i1> [[TMP0]], <256 x i1> [[TMP1]], <16 x i8> [[VC:%.*]], i32 0, i32 0)
-// CHECK-NEXT:    store <512 x i1> [[TMP2]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP2]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test52(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -734,10 +782,11 @@ void test52(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test53(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
-// CHECK-NEXT:    [[TMP1:%.*]] = load <256 x i1>, ptr [[VPP:%.*]], align 32, !tbaa [[TBAA6]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
+// CHECK-NEXT:    [[TMP1:%.*]] = load <256 x i1>, ptr [[VPP:%.*]], align 32, !tbaa [[TBAA7]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP2:%.*]] = tail call <512 x i1> @llvm.ppc.mma.pmxvf64gerpn(<512 x i1> [[TMP0]], <256 x i1> [[TMP1]], <16 x i8> [[VC:%.*]], i32 0, i32 0)
-// CHECK-NEXT:    store <512 x i1> [[TMP2]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP2]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test53(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -749,10 +798,11 @@ void test53(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test54(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
-// CHECK-NEXT:    [[TMP1:%.*]] = load <256 x i1>, ptr [[VPP:%.*]], align 32, !tbaa [[TBAA6]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
+// CHECK-NEXT:    [[TMP1:%.*]] = load <256 x i1>, ptr [[VPP:%.*]], align 32, !tbaa [[TBAA7]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP2:%.*]] = tail call <512 x i1> @llvm.ppc.mma.pmxvf64gernp(<512 x i1> [[TMP0]], <256 x i1> [[TMP1]], <16 x i8> [[VC:%.*]], i32 0, i32 0)
-// CHECK-NEXT:    store <512 x i1> [[TMP2]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP2]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test54(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -764,10 +814,11 @@ void test54(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test55(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
-// CHECK-NEXT:    [[TMP1:%.*]] = load <256 x i1>, ptr [[VPP:%.*]], align 32, !tbaa [[TBAA6]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
+// CHECK-NEXT:    [[TMP1:%.*]] = load <256 x i1>, ptr [[VPP:%.*]], align 32, !tbaa [[TBAA7]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP2:%.*]] = tail call <512 x i1> @llvm.ppc.mma.pmxvf64gernn(<512 x i1> [[TMP0]], <256 x i1> [[TMP1]], <16 x i8> [[VC:%.*]], i32 0, i32 0)
-// CHECK-NEXT:    store <512 x i1> [[TMP2]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP2]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test55(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -780,7 +831,8 @@ void test55(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 // CHECK-LABEL: @test56(
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[TMP0:%.*]] = tail call <512 x i1> @llvm.ppc.mma.xvbf16ger2(<16 x i8> [[VC:%.*]], <16 x i8> [[VC]])
-// CHECK-NEXT:    store <512 x i1> [[TMP0]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP0]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test56(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -793,7 +845,8 @@ void test56(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 // CHECK-LABEL: @test57(
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[TMP0:%.*]] = tail call <512 x i1> @llvm.ppc.mma.pmxvbf16ger2(<16 x i8> [[VC:%.*]], <16 x i8> [[VC]], i32 0, i32 0, i32 0)
-// CHECK-NEXT:    store <512 x i1> [[TMP0]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP0]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test57(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -805,9 +858,10 @@ void test57(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test58(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = tail call <512 x i1> @llvm.ppc.mma.xvbf16ger2pp(<512 x i1> [[TMP0]], <16 x i8> [[VC:%.*]], <16 x i8> [[VC]])
-// CHECK-NEXT:    store <512 x i1> [[TMP1]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP1]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test58(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -819,9 +873,10 @@ void test58(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test59(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = tail call <512 x i1> @llvm.ppc.mma.xvbf16ger2pn(<512 x i1> [[TMP0]], <16 x i8> [[VC:%.*]], <16 x i8> [[VC]])
-// CHECK-NEXT:    store <512 x i1> [[TMP1]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP1]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test59(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -833,9 +888,10 @@ void test59(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test60(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = tail call <512 x i1> @llvm.ppc.mma.xvbf16ger2np(<512 x i1> [[TMP0]], <16 x i8> [[VC:%.*]], <16 x i8> [[VC]])
-// CHECK-NEXT:    store <512 x i1> [[TMP1]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP1]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test60(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -847,9 +903,10 @@ void test60(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test61(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = tail call <512 x i1> @llvm.ppc.mma.xvbf16ger2nn(<512 x i1> [[TMP0]], <16 x i8> [[VC:%.*]], <16 x i8> [[VC]])
-// CHECK-NEXT:    store <512 x i1> [[TMP1]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP1]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test61(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -861,9 +918,10 @@ void test61(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test62(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = tail call <512 x i1> @llvm.ppc.mma.pmxvbf16ger2pp(<512 x i1> [[TMP0]], <16 x i8> [[VC:%.*]], <16 x i8> [[VC]], i32 0, i32 0, i32 0)
-// CHECK-NEXT:    store <512 x i1> [[TMP1]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP1]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test62(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -875,9 +933,10 @@ void test62(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test63(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = tail call <512 x i1> @llvm.ppc.mma.pmxvbf16ger2pn(<512 x i1> [[TMP0]], <16 x i8> [[VC:%.*]], <16 x i8> [[VC]], i32 0, i32 0, i32 0)
-// CHECK-NEXT:    store <512 x i1> [[TMP1]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP1]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test63(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -889,9 +948,10 @@ void test63(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test64(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = tail call <512 x i1> @llvm.ppc.mma.pmxvbf16ger2np(<512 x i1> [[TMP0]], <16 x i8> [[VC:%.*]], <16 x i8> [[VC]], i32 0, i32 0, i32 0)
-// CHECK-NEXT:    store <512 x i1> [[TMP1]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP1]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test64(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -903,9 +963,10 @@ void test64(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test65(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = tail call <512 x i1> @llvm.ppc.mma.pmxvbf16ger2nn(<512 x i1> [[TMP0]], <16 x i8> [[VC:%.*]], <16 x i8> [[VC]], i32 0, i32 0, i32 0)
-// CHECK-NEXT:    store <512 x i1> [[TMP1]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP1]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test65(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -1006,11 +1067,12 @@ void test72(const __vector_pair *vpp, __vector_pair *vp2) {
 
 // CHECK-LABEL: @test73(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = getelementptr i8, ptr [[VPP:%.*]], i64 8
 // CHECK-NEXT:    [[TMP2:%.*]] = tail call <256 x i1> @llvm.ppc.vsx.lxvp(ptr [[TMP1]])
 // CHECK-NEXT:    [[TMP3:%.*]] = tail call <512 x i1> @llvm.ppc.mma.pmxvf64gernn(<512 x i1> [[TMP0]], <256 x i1> [[TMP2]], <16 x i8> [[VC:%.*]], i32 0, i32 0)
-// CHECK-NEXT:    store <512 x i1> [[TMP3]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP3]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test73(unsigned char *vqp, const __vector_pair *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -1022,10 +1084,11 @@ void test73(unsigned char *vqp, const __vector_pair *vpp, vector unsigned char v
 
 // CHECK-LABEL: @test74(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = tail call <256 x i1> @llvm.ppc.vsx.lxvp(ptr [[VPP:%.*]])
 // CHECK-NEXT:    [[TMP2:%.*]] = tail call <512 x i1> @llvm.ppc.mma.xvf64gernp(<512 x i1> [[TMP0]], <256 x i1> [[TMP1]], <16 x i8> [[VC:%.*]])
-// CHECK-NEXT:    store <512 x i1> [[TMP2]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP2]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test74(unsigned char *vqp, const __vector_pair *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -1037,11 +1100,12 @@ void test74(unsigned char *vqp, const __vector_pair *vpp, vector unsigned char v
 
 // CHECK-LABEL: @test75(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = getelementptr i8, ptr [[VPP:%.*]], i64 [[OFFS:%.*]]
 // CHECK-NEXT:    [[TMP2:%.*]] = tail call <256 x i1> @llvm.ppc.vsx.lxvp(ptr [[TMP1]])
 // CHECK-NEXT:    [[TMP3:%.*]] = tail call <512 x i1> @llvm.ppc.mma.xvf64gernp(<512 x i1> [[TMP0]], <256 x i1> [[TMP2]], <16 x i8> [[VC:%.*]])
-// CHECK-NEXT:    store <512 x i1> [[TMP3]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP3]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test75(unsigned char *vqp, signed long offs, const __vector_pair *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -1054,7 +1118,7 @@ void test75(unsigned char *vqp, signed long offs, const __vector_pair *vpp, vect
 // CHECK-LABEL: @test76(
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[TMP0:%.*]] = tail call <256 x i1> @llvm.ppc.vsx.assemble.pair(<16 x i8> [[VC:%.*]], <16 x i8> [[VC]])
-// CHECK-NEXT:    store <256 x i1> [[TMP0]], ptr [[RESP:%.*]], align 32, !tbaa [[TBAA6]]
+// CHECK-NEXT:    store <256 x i1> [[TMP0]], ptr [[RESP:%.*]], align 32, !tbaa [[TBAA7]]
 // CHECK-NEXT:    ret void
 //
 void test76(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -1067,7 +1131,7 @@ void test76(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc, uns
 
 // CHECK-LABEL: @test77(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <256 x i1>, ptr [[VPP:%.*]], align 32
+// CHECK-NEXT:    [[TMP0:%.*]] = load <256 x i1>, ptr [[VPP:%.*]], align 32, !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = tail call { <16 x i8>, <16 x i8> } @llvm.ppc.vsx.disassemble.pair(<256 x i1> [[TMP0]])
 // CHECK-NEXT:    [[TMP2:%.*]] = extractvalue { <16 x i8>, <16 x i8> } [[TMP1]], 0
 // CHECK-NEXT:    store <16 x i8> [[TMP2]], ptr [[RESP:%.*]], align 16
@@ -1171,11 +1235,12 @@ void test84(const __vector_pair *vpp, __vector_pair *vp2) {
 
 // CHECK-LABEL: @test85(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = getelementptr i8, ptr [[VPP:%.*]], i64 8
 // CHECK-NEXT:    [[TMP2:%.*]] = tail call <256 x i1> @llvm.ppc.vsx.lxvp(ptr [[TMP1]])
 // CHECK-NEXT:    [[TMP3:%.*]] = tail call <512 x i1> @llvm.ppc.mma.pmxvf64gernn(<512 x i1> [[TMP0]], <256 x i1> [[TMP2]], <16 x i8> [[VC:%.*]], i32 0, i32 0)
-// CHECK-NEXT:    store <512 x i1> [[TMP3]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP3]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test85(unsigned char *vqp, const __vector_pair *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -1187,10 +1252,11 @@ void test85(unsigned char *vqp, const __vector_pair *vpp, vector unsigned char v
 
 // CHECK-LABEL: @test86(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = tail call <256 x i1> @llvm.ppc.vsx.lxvp(ptr [[VPP:%.*]])
 // CHECK-NEXT:    [[TMP2:%.*]] = tail call <512 x i1> @llvm.ppc.mma.xvf64gernp(<512 x i1> [[TMP0]], <256 x i1> [[TMP1]], <16 x i8> [[VC:%.*]])
-// CHECK-NEXT:    store <512 x i1> [[TMP2]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP2]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test86(unsigned char *vqp, const __vector_pair *vpp, vector unsigned char vc, unsigned char *resp) {
@@ -1202,11 +1268,12 @@ void test86(unsigned char *vqp, const __vector_pair *vpp, vector unsigned char v
 
 // CHECK-LABEL: @test87(
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load <512 x i1>, ptr [[VQP:%.*]], align 64, !tbaa [[TBAA2]], !freeze_bits [[FREEZE_BITS6]]
 // CHECK-NEXT:    [[TMP1:%.*]] = getelementptr i8, ptr [[VPP:%.*]], i64 [[OFFS:%.*]]
 // CHECK-NEXT:    [[TMP2:%.*]] = tail call <256 x i1> @llvm.ppc.vsx.lxvp(ptr [[TMP1]])
 // CHECK-NEXT:    [[TMP3:%.*]] = tail call <512 x i1> @llvm.ppc.mma.xvf64gernp(<512 x i1> [[TMP0]], <256 x i1> [[TMP2]], <16 x i8> [[VC:%.*]])
-// CHECK-NEXT:    store <512 x i1> [[TMP3]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[FREEZE:%.*]] = freeze <512 x i1> [[TMP3]]
+// CHECK-NEXT:    store <512 x i1> [[FREEZE]], ptr [[RESP:%.*]], align 64, !tbaa [[TBAA2]]
 // CHECK-NEXT:    ret void
 //
 void test87(unsigned char *vqp, signed long offs, const __vector_pair *vpp, vector unsigned char vc, unsigned char *resp) {
