@@ -9,9 +9,10 @@ define ptr @f(ptr %buffer, i32 %n, ptr swifterror %errorslot) {
 ; CHECK-NEXT:    tail call void @print(i32 [[N]])
 ; CHECK-NEXT:    store ptr null, ptr [[ERRORSLOT:%.*]], align 4
 ; CHECK-NEXT:    tail call void @maybeThrow(ptr nonnull swifterror [[ERRORSLOT]])
-; CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[ERRORSLOT]], align 4
-; CHECK-NEXT:    tail call void @logError(ptr [[TMP0]])
-; CHECK-NEXT:    store ptr [[TMP0]], ptr [[ERRORSLOT]], align 4
+; CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[ERRORSLOT]], align 4, !freeze_bits [[FREEZE_BITS0:![0-9]+]]
+; CHECK-NEXT:    [[FREEZE_LOAD1:%.*]] = freeze ptr [[TMP0]]
+; CHECK-NEXT:    tail call void @logError(ptr [[FREEZE_LOAD1]])
+; CHECK-NEXT:    store ptr [[FREEZE_LOAD1]], ptr [[ERRORSLOT]], align 4
 ; CHECK-NEXT:    ret ptr @f.resume.0
 ;
 entry:
@@ -49,7 +50,7 @@ define ptr @g(ptr %buffer, i32 %n) {
 ; CHECK-NEXT:    tail call void @print(i32 [[N]])
 ; CHECK-NEXT:    store ptr null, ptr [[TMP0]], align 4
 ; CHECK-NEXT:    call void @maybeThrow(ptr nonnull swifterror [[TMP0]])
-; CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[TMP0]], align 4
+; CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[TMP0]], align 4, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    [[DOTSPILL_ADDR:%.*]] = getelementptr inbounds [[G_FRAME:%.*]], ptr [[BUFFER]], i32 0, i32 1
 ; CHECK-NEXT:    store ptr [[TMP1]], ptr [[DOTSPILL_ADDR]], align 4
 ; CHECK-NEXT:    call void @logError(ptr [[TMP1]])
