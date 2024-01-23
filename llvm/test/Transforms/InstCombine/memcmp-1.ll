@@ -35,9 +35,9 @@ define i32 @test_simplify2(ptr %mem1, ptr %mem2) {
 
 define i32 @test_simplify3(ptr %mem1, ptr %mem2) {
 ; CHECK-LABEL: @test_simplify3(
-; CHECK-NEXT:    [[LHSC:%.*]] = load i8, ptr %mem1, align 1
+; CHECK-NEXT:    [[LHSC:%.*]] = load i8, ptr %mem1, align 1, !freeze_bits ![[FREEZE_BITS:[0-9]+]]
 ; CHECK-NEXT:    [[LHSV:%.*]] = zext i8 [[LHSC]] to i32
-; CHECK-NEXT:    [[RHSC:%.*]] = load i8, ptr %mem2, align 1
+; CHECK-NEXT:    [[RHSC:%.*]] = load i8, ptr %mem2, align 1, !freeze_bits ![[FREEZE_BITS]]
 ; CHECK-NEXT:    [[RHSV:%.*]] = zext i8 [[RHSC]] to i32
 ; CHECK-NEXT:    [[CHARDIFF:%.*]] = sub nsw i32 [[LHSV]], [[RHSV]]
 ; CHECK-NEXT:    ret i32 [[CHARDIFF]]
@@ -76,7 +76,9 @@ define i32 @test_simplify6() {
 
 define i1 @test_simplify7(i64 %x, i64 %y) {
 ; CHECK-LABEL: @test_simplify7(
-; CHECK-NEXT:    [[CMP:%.*]] = icmp eq i64 %x, %y
+; CHECK-NEXT:    [[RHSV:%.*]] = freeze i64 %y
+; CHECK-NEXT:    [[LHSV:%.*]] = freeze i64 %x
+; CHECK-NEXT:    [[CMP:%.*]] = icmp eq i64 [[LHSV]], [[RHSV]]
 ; CHECK-NEXT:    ret i1 [[CMP]]
 ;
   %x.addr = alloca i64, align 8
@@ -92,7 +94,9 @@ define i1 @test_simplify7(i64 %x, i64 %y) {
 
 define i1 @test_simplify8(i32 %x, i32 %y) {
 ; CHECK-LABEL: @test_simplify8(
-; CHECK-NEXT:    [[CMP:%.*]] = icmp eq i32 %x, %y
+; CHECK-NEXT:    [[RHSV:%.*]] = freeze i32 %y
+; CHECK-NEXT:    [[LHSV:%.*]] = freeze i32 %x
+; CHECK-NEXT:    [[CMP:%.*]] = icmp eq i32 [[LHSV]], [[RHSV]]
 ; CHECK-NEXT:    ret i1 [[CMP]]
 ;
   %x.addr = alloca i32, align 4
@@ -108,7 +112,9 @@ define i1 @test_simplify8(i32 %x, i32 %y) {
 
 define i1 @test_simplify9(i16 %x, i16 %y) {
 ; CHECK-LABEL: @test_simplify9(
-; CHECK-NEXT:    [[CMP:%.*]] = icmp eq i16 %x, %y
+; CHECK-NEXT:    [[RHSV:%.*]] = freeze i16 %y
+; CHECK-NEXT:    [[LHSV:%.*]] = freeze i16 %x
+; CHECK-NEXT:    [[CMP:%.*]] = icmp eq i16 [[LHSV]], [[RHSV]]
 ; CHECK-NEXT:    ret i1 [[CMP]]
 ;
   %x.addr = alloca i16, align 2
