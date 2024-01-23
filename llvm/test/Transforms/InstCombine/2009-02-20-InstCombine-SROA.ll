@@ -25,8 +25,8 @@ define ptr @_Z3fooRSt6vectorIiSaIiEE(ptr %X) {
 ; IC-NEXT:    [[TMP0:%.*]] = alloca i32, align 4
 ; IC-NEXT:    store i32 42, ptr [[TMP0]], align 4
 ; IC-NEXT:    [[TMP1:%.*]] = getelementptr %"struct.std::_Vector_base<int,std::allocator<int> >::_Vector_impl", ptr [[X:%.*]], i32 0, i32 1
-; IC-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[TMP1]], align 4
-; IC-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[X]], align 4
+; IC-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[TMP1]], align 4, !freeze_bits [[FREEZE_BITS0:![0-9]+]]
+; IC-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[X]], align 4, !freeze_bits [[FREEZE_BITS0]]
 ; IC-NEXT:    store ptr [[TMP3]], ptr [[__FIRST_ADDR_I_I]], align 4
 ; IC-NEXT:    store ptr [[TMP2]], ptr [[__LAST_ADDR_I_I]], align 4
 ; IC-NEXT:    [[TMP4:%.*]] = ptrtoint ptr [[TMP2]] to i32
@@ -152,42 +152,51 @@ define ptr @_Z3fooRSt6vectorIiSaIiEE(ptr %X) {
 ; IC_SROA-LABEL: @_Z3fooRSt6vectorIiSaIiEE(
 ; IC_SROA-NEXT:  entry:
 ; IC_SROA-NEXT:    [[TMP0:%.*]] = getelementptr %"struct.std::_Vector_base<int,std::allocator<int> >::_Vector_impl", ptr [[X:%.*]], i32 0, i32 1
-; IC_SROA-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[TMP0]], align 4
-; IC_SROA-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[X]], align 4
+; IC_SROA-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[TMP0]], align 4, !freeze_bits [[FREEZE_BITS0:![0-9]+]]
+; IC_SROA-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[X]], align 4, !freeze_bits [[FREEZE_BITS0]]
 ; IC_SROA-NEXT:    [[TMP3:%.*]] = ptrtoint ptr [[TMP1]] to i32
 ; IC_SROA-NEXT:    [[TMP4:%.*]] = ptrtoint ptr [[TMP2]] to i32
 ; IC_SROA-NEXT:    [[TMP5:%.*]] = sub i32 [[TMP3]], [[TMP4]]
 ; IC_SROA-NEXT:    [[TMP6:%.*]] = ashr i32 [[TMP5]], 4
 ; IC_SROA-NEXT:    br label [[BB12_I_I:%.*]]
 ; IC_SROA:       bb.i.i:
-; IC_SROA-NEXT:    [[TMP7:%.*]] = load i32, ptr [[__FIRST_ADDR_I_I_SROA_0_0:%.*]], align 4
+; IC_SROA-NEXT:    [[FREEZE_LOAD:%.*]] = freeze ptr [[__FIRST_ADDR_I_I_SROA_0_0:%.*]]
+; IC_SROA-NEXT:    [[TMP7:%.*]] = load i32, ptr [[FREEZE_LOAD]], align 4
 ; IC_SROA-NEXT:    [[TMP8:%.*]] = icmp eq i32 [[TMP7]], 42
 ; IC_SROA-NEXT:    br i1 [[TMP8]], label [[BB1_I_I:%.*]], label [[BB2_I_I:%.*]]
 ; IC_SROA:       bb1.i.i:
+; IC_SROA-NEXT:    [[FREEZE_LOAD26:%.*]] = freeze ptr [[__FIRST_ADDR_I_I_SROA_0_0]]
 ; IC_SROA-NEXT:    br label [[_ZST4FINDIN9__GNU_CXX17__NORMAL_ITERATORIPIST6VECTORIISAIIEEEEIET_S7_S7_RKT0__EXIT:%.*]]
 ; IC_SROA:       bb2.i.i:
-; IC_SROA-NEXT:    [[TMP9:%.*]] = getelementptr i32, ptr [[__FIRST_ADDR_I_I_SROA_0_0]], i32 1
+; IC_SROA-NEXT:    [[FREEZE_LOAD27:%.*]] = freeze ptr [[__FIRST_ADDR_I_I_SROA_0_0]]
+; IC_SROA-NEXT:    [[TMP9:%.*]] = getelementptr i32, ptr [[FREEZE_LOAD27]], i32 1
 ; IC_SROA-NEXT:    [[TMP10:%.*]] = load i32, ptr [[TMP9]], align 4
 ; IC_SROA-NEXT:    [[TMP11:%.*]] = icmp eq i32 [[TMP10]], 42
 ; IC_SROA-NEXT:    br i1 [[TMP11]], label [[BB4_I_I:%.*]], label [[BB5_I_I:%.*]]
 ; IC_SROA:       bb4.i.i:
+; IC_SROA-NEXT:    [[FREEZE_LOAD28:%.*]] = freeze ptr [[TMP9]]
 ; IC_SROA-NEXT:    br label [[_ZST4FINDIN9__GNU_CXX17__NORMAL_ITERATORIPIST6VECTORIISAIIEEEEIET_S7_S7_RKT0__EXIT]]
 ; IC_SROA:       bb5.i.i:
-; IC_SROA-NEXT:    [[TMP12:%.*]] = getelementptr i32, ptr [[TMP9]], i32 1
+; IC_SROA-NEXT:    [[FREEZE_LOAD29:%.*]] = freeze ptr [[TMP9]]
+; IC_SROA-NEXT:    [[TMP12:%.*]] = getelementptr i32, ptr [[FREEZE_LOAD29]], i32 1
 ; IC_SROA-NEXT:    [[TMP13:%.*]] = load i32, ptr [[TMP12]], align 4
 ; IC_SROA-NEXT:    [[TMP14:%.*]] = icmp eq i32 [[TMP13]], 42
 ; IC_SROA-NEXT:    br i1 [[TMP14]], label [[BB7_I_I:%.*]], label [[BB8_I_I:%.*]]
 ; IC_SROA:       bb7.i.i:
+; IC_SROA-NEXT:    [[FREEZE_LOAD30:%.*]] = freeze ptr [[TMP12]]
 ; IC_SROA-NEXT:    br label [[_ZST4FINDIN9__GNU_CXX17__NORMAL_ITERATORIPIST6VECTORIISAIIEEEEIET_S7_S7_RKT0__EXIT]]
 ; IC_SROA:       bb8.i.i:
-; IC_SROA-NEXT:    [[TMP15:%.*]] = getelementptr i32, ptr [[TMP12]], i32 1
+; IC_SROA-NEXT:    [[FREEZE_LOAD31:%.*]] = freeze ptr [[TMP12]]
+; IC_SROA-NEXT:    [[TMP15:%.*]] = getelementptr i32, ptr [[FREEZE_LOAD31]], i32 1
 ; IC_SROA-NEXT:    [[TMP16:%.*]] = load i32, ptr [[TMP15]], align 4
 ; IC_SROA-NEXT:    [[TMP17:%.*]] = icmp eq i32 [[TMP16]], 42
 ; IC_SROA-NEXT:    br i1 [[TMP17]], label [[BB10_I_I:%.*]], label [[BB11_I_I:%.*]]
 ; IC_SROA:       bb10.i.i:
+; IC_SROA-NEXT:    [[FREEZE_LOAD32:%.*]] = freeze ptr [[TMP15]]
 ; IC_SROA-NEXT:    br label [[_ZST4FINDIN9__GNU_CXX17__NORMAL_ITERATORIPIST6VECTORIISAIIEEEEIET_S7_S7_RKT0__EXIT]]
 ; IC_SROA:       bb11.i.i:
-; IC_SROA-NEXT:    [[TMP18:%.*]] = getelementptr i32, ptr [[TMP15]], i32 1
+; IC_SROA-NEXT:    [[FREEZE_LOAD33:%.*]] = freeze ptr [[TMP15]]
+; IC_SROA-NEXT:    [[TMP18:%.*]] = getelementptr i32, ptr [[FREEZE_LOAD33]], i32 1
 ; IC_SROA-NEXT:    [[TMP19:%.*]] = add nsw i32 [[__TRIP_COUNT_0_I_I:%.*]], -1
 ; IC_SROA-NEXT:    br label [[BB12_I_I]]
 ; IC_SROA:       bb12.i.i:
@@ -197,7 +206,8 @@ define ptr @_Z3fooRSt6vectorIiSaIiEE(ptr %X) {
 ; IC_SROA-NEXT:    br i1 [[TMP20]], label [[BB_I_I:%.*]], label [[BB13_I_I:%.*]]
 ; IC_SROA:       bb13.i.i:
 ; IC_SROA-NEXT:    [[TMP21:%.*]] = ptrtoint ptr [[TMP1]] to i32
-; IC_SROA-NEXT:    [[TMP22:%.*]] = ptrtoint ptr [[__FIRST_ADDR_I_I_SROA_0_0]] to i32
+; IC_SROA-NEXT:    [[FREEZE_LOAD34:%.*]] = freeze ptr [[__FIRST_ADDR_I_I_SROA_0_0]]
+; IC_SROA-NEXT:    [[TMP22:%.*]] = ptrtoint ptr [[FREEZE_LOAD34]] to i32
 ; IC_SROA-NEXT:    [[TMP23:%.*]] = sub i32 [[TMP21]], [[TMP22]]
 ; IC_SROA-NEXT:    [[TMP24:%.*]] = ashr i32 [[TMP23]], 2
 ; IC_SROA-NEXT:    switch i32 [[TMP24]], label [[BB26_I_I:%.*]] [
@@ -206,38 +216,47 @@ define ptr @_Z3fooRSt6vectorIiSaIiEE(ptr %X) {
 ; IC_SROA-NEXT:      i32 3, label [[BB14_I_I:%.*]]
 ; IC_SROA-NEXT:    ]
 ; IC_SROA:       bb14.i.i:
-; IC_SROA-NEXT:    [[TMP25:%.*]] = load i32, ptr [[__FIRST_ADDR_I_I_SROA_0_0]], align 4
+; IC_SROA-NEXT:    [[FREEZE_LOAD35:%.*]] = freeze ptr [[__FIRST_ADDR_I_I_SROA_0_0]]
+; IC_SROA-NEXT:    [[TMP25:%.*]] = load i32, ptr [[FREEZE_LOAD35]], align 4
 ; IC_SROA-NEXT:    [[TMP26:%.*]] = icmp eq i32 [[TMP25]], 42
 ; IC_SROA-NEXT:    br i1 [[TMP26]], label [[BB16_I_I:%.*]], label [[BB17_I_I:%.*]]
 ; IC_SROA:       bb16.i.i:
+; IC_SROA-NEXT:    [[FREEZE_LOAD36:%.*]] = freeze ptr [[__FIRST_ADDR_I_I_SROA_0_0]]
 ; IC_SROA-NEXT:    br label [[_ZST4FINDIN9__GNU_CXX17__NORMAL_ITERATORIPIST6VECTORIISAIIEEEEIET_S7_S7_RKT0__EXIT]]
 ; IC_SROA:       bb17.i.i:
-; IC_SROA-NEXT:    [[TMP27:%.*]] = getelementptr i32, ptr [[__FIRST_ADDR_I_I_SROA_0_0]], i32 1
+; IC_SROA-NEXT:    [[FREEZE_LOAD37:%.*]] = freeze ptr [[__FIRST_ADDR_I_I_SROA_0_0]]
+; IC_SROA-NEXT:    [[TMP27:%.*]] = getelementptr i32, ptr [[FREEZE_LOAD37]], i32 1
 ; IC_SROA-NEXT:    br label [[BB18_I_I]]
 ; IC_SROA:       bb18.i.i:
 ; IC_SROA-NEXT:    [[__FIRST_ADDR_I_I_SROA_0_1:%.*]] = phi ptr [ [[TMP27]], [[BB17_I_I]] ], [ [[__FIRST_ADDR_I_I_SROA_0_0]], [[BB13_I_I]] ]
-; IC_SROA-NEXT:    [[TMP28:%.*]] = load i32, ptr [[__FIRST_ADDR_I_I_SROA_0_1]], align 4
+; IC_SROA-NEXT:    [[FREEZE_LOAD38:%.*]] = freeze ptr [[__FIRST_ADDR_I_I_SROA_0_1]]
+; IC_SROA-NEXT:    [[TMP28:%.*]] = load i32, ptr [[FREEZE_LOAD38]], align 4
 ; IC_SROA-NEXT:    [[TMP29:%.*]] = icmp eq i32 [[TMP28]], 42
 ; IC_SROA-NEXT:    br i1 [[TMP29]], label [[BB20_I_I:%.*]], label [[BB21_I_I:%.*]]
 ; IC_SROA:       bb20.i.i:
+; IC_SROA-NEXT:    [[FREEZE_LOAD39:%.*]] = freeze ptr [[__FIRST_ADDR_I_I_SROA_0_1]]
 ; IC_SROA-NEXT:    br label [[_ZST4FINDIN9__GNU_CXX17__NORMAL_ITERATORIPIST6VECTORIISAIIEEEEIET_S7_S7_RKT0__EXIT]]
 ; IC_SROA:       bb21.i.i:
-; IC_SROA-NEXT:    [[TMP30:%.*]] = getelementptr i32, ptr [[__FIRST_ADDR_I_I_SROA_0_1]], i32 1
+; IC_SROA-NEXT:    [[FREEZE_LOAD40:%.*]] = freeze ptr [[__FIRST_ADDR_I_I_SROA_0_1]]
+; IC_SROA-NEXT:    [[TMP30:%.*]] = getelementptr i32, ptr [[FREEZE_LOAD40]], i32 1
 ; IC_SROA-NEXT:    br label [[BB22_I_I]]
 ; IC_SROA:       bb22.i.i:
 ; IC_SROA-NEXT:    [[__FIRST_ADDR_I_I_SROA_0_2:%.*]] = phi ptr [ [[TMP30]], [[BB21_I_I]] ], [ [[__FIRST_ADDR_I_I_SROA_0_0]], [[BB13_I_I]] ]
-; IC_SROA-NEXT:    [[TMP31:%.*]] = load i32, ptr [[__FIRST_ADDR_I_I_SROA_0_2]], align 4
+; IC_SROA-NEXT:    [[FREEZE_LOAD41:%.*]] = freeze ptr [[__FIRST_ADDR_I_I_SROA_0_2]]
+; IC_SROA-NEXT:    [[TMP31:%.*]] = load i32, ptr [[FREEZE_LOAD41]], align 4
 ; IC_SROA-NEXT:    [[TMP32:%.*]] = icmp eq i32 [[TMP31]], 42
 ; IC_SROA-NEXT:    br i1 [[TMP32]], label [[BB24_I_I:%.*]], label [[BB25_I_I:%.*]]
 ; IC_SROA:       bb24.i.i:
+; IC_SROA-NEXT:    [[FREEZE_LOAD42:%.*]] = freeze ptr [[__FIRST_ADDR_I_I_SROA_0_2]]
 ; IC_SROA-NEXT:    br label [[_ZST4FINDIN9__GNU_CXX17__NORMAL_ITERATORIPIST6VECTORIISAIIEEEEIET_S7_S7_RKT0__EXIT]]
 ; IC_SROA:       bb25.i.i:
-; IC_SROA-NEXT:    [[TMP33:%.*]] = getelementptr i32, ptr [[__FIRST_ADDR_I_I_SROA_0_2]], i32 1
+; IC_SROA-NEXT:    [[FREEZE_LOAD43:%.*]] = freeze ptr [[__FIRST_ADDR_I_I_SROA_0_2]]
+; IC_SROA-NEXT:    [[TMP33:%.*]] = getelementptr i32, ptr [[FREEZE_LOAD43]], i32 1
 ; IC_SROA-NEXT:    br label [[BB26_I_I]]
 ; IC_SROA:       bb26.i.i:
 ; IC_SROA-NEXT:    br label [[_ZST4FINDIN9__GNU_CXX17__NORMAL_ITERATORIPIST6VECTORIISAIIEEEEIET_S7_S7_RKT0__EXIT]]
 ; IC_SROA:       _ZSt4findIN9__gnu_cxx17__normal_iteratorIPiSt6vectorIiSaIiEEEEiET_S7_S7_RKT0_.exit:
-; IC_SROA-NEXT:    [[DOT0_0_I_I:%.*]] = phi ptr [ [[TMP1]], [[BB26_I_I]] ], [ [[__FIRST_ADDR_I_I_SROA_0_2]], [[BB24_I_I]] ], [ [[__FIRST_ADDR_I_I_SROA_0_1]], [[BB20_I_I]] ], [ [[__FIRST_ADDR_I_I_SROA_0_0]], [[BB16_I_I]] ], [ [[TMP15]], [[BB10_I_I]] ], [ [[TMP12]], [[BB7_I_I]] ], [ [[TMP9]], [[BB4_I_I]] ], [ [[__FIRST_ADDR_I_I_SROA_0_0]], [[BB1_I_I]] ]
+; IC_SROA-NEXT:    [[DOT0_0_I_I:%.*]] = phi ptr [ [[TMP1]], [[BB26_I_I]] ], [ [[FREEZE_LOAD42]], [[BB24_I_I]] ], [ [[FREEZE_LOAD39]], [[BB20_I_I]] ], [ [[FREEZE_LOAD36]], [[BB16_I_I]] ], [ [[FREEZE_LOAD32]], [[BB10_I_I]] ], [ [[FREEZE_LOAD30]], [[BB7_I_I]] ], [ [[FREEZE_LOAD28]], [[BB4_I_I]] ], [ [[FREEZE_LOAD26]], [[BB1_I_I]] ]
 ; IC_SROA-NEXT:    br label [[RETURN:%.*]]
 ; IC_SROA:       return:
 ; IC_SROA-NEXT:    ret ptr [[DOT0_0_I_I]]
