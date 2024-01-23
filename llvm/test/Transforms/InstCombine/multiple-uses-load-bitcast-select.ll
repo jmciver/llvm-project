@@ -6,9 +6,11 @@ define void @PR35618(ptr %st1, ptr %st2) {
 ; CHECK-NEXT:    [[Y1:%.*]] = alloca double, align 8
 ; CHECK-NEXT:    [[Z1:%.*]] = alloca double, align 8
 ; CHECK-NEXT:    [[LD1:%.*]] = load double, ptr [[Y1]], align 8
+; CHECK-NEXT:    [[LOAD_FREEZE:%.*]] = freeze double [[LD1]]
 ; CHECK-NEXT:    [[LD2:%.*]] = load double, ptr [[Z1]], align 8
-; CHECK-NEXT:    [[TMP10:%.*]] = fcmp olt double [[LD1]], [[LD2]]
-; CHECK-NEXT:    [[TMP12_V:%.*]] = select i1 [[TMP10]], double [[LD1]], double [[LD2]]
+; CHECK-NEXT:    [[LOAD_FREEZE1:%.*]] = freeze double [[LD2]]
+; CHECK-NEXT:    [[TMP10:%.*]] = fcmp olt double [[LOAD_FREEZE]], [[LOAD_FREEZE1]]
+; CHECK-NEXT:    [[TMP12_V:%.*]] = select i1 [[TMP10]], double [[LOAD_FREEZE]], double [[LOAD_FREEZE1]]
 ; CHECK-NEXT:    store double [[TMP12_V]], ptr [[ST1:%.*]], align 8
 ; CHECK-NEXT:    store double [[TMP12_V]], ptr [[ST2:%.*]], align 8
 ; CHECK-NEXT:    ret void

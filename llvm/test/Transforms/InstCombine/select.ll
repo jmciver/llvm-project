@@ -1047,8 +1047,8 @@ define i32 @test78(i1 %flag, ptr %x, ptr %y, ptr %z) {
 ; CHECK-NEXT:    store i32 0, ptr [[X:%.*]], align 4
 ; CHECK-NEXT:    store i32 0, ptr [[Y:%.*]], align 4
 ; CHECK-NEXT:    store i32 42, ptr [[Z:%.*]], align 4
-; CHECK-NEXT:    [[X_VAL:%.*]] = load i32, ptr [[X]], align 4
-; CHECK-NEXT:    [[Y_VAL:%.*]] = load i32, ptr [[Y]], align 4
+; CHECK-NEXT:    [[X_VAL:%.*]] = load i32, ptr [[X]], align 4, !freeze_bits [[FREEZE_BITS0:![0-9]+]]
+; CHECK-NEXT:    [[Y_VAL:%.*]] = load i32, ptr [[Y]], align 4, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    [[V:%.*]] = select i1 [[FLAG:%.*]], i32 [[X_VAL]], i32 [[Y_VAL]]
 ; CHECK-NEXT:    ret i32 [[V]]
 ;
@@ -1066,8 +1066,8 @@ entry:
 ; fold the load completely away.
 define i32 @test78_deref(i1 %flag, ptr dereferenceable(4) align 4 %x, ptr dereferenceable(4) align 4 %y, ptr %z) nofree nosync {
 ; CHECK-LABEL: @test78_deref(
-; CHECK-NEXT:    [[X_VAL:%.*]] = load i32, ptr [[X:%.*]], align 4
-; CHECK-NEXT:    [[Y_VAL:%.*]] = load i32, ptr [[Y:%.*]], align 4
+; CHECK-NEXT:    [[X_VAL:%.*]] = load i32, ptr [[X:%.*]], align 4, !freeze_bits [[FREEZE_BITS0]]
+; CHECK-NEXT:    [[Y_VAL:%.*]] = load i32, ptr [[Y:%.*]], align 4, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    [[V:%.*]] = select i1 [[FLAG:%.*]], i32 [[X_VAL]], i32 [[Y_VAL]]
 ; CHECK-NEXT:    ret i32 [[V]]
 ;
@@ -1116,8 +1116,8 @@ define float @test79(i1 %flag, ptr %x, ptr %y, ptr %z) {
 ; CHECK-NEXT:    store i32 0, ptr [[X:%.*]], align 4
 ; CHECK-NEXT:    store i32 0, ptr [[Y:%.*]], align 4
 ; CHECK-NEXT:    store i32 42, ptr [[Z:%.*]], align 4
-; CHECK-NEXT:    [[X_VAL:%.*]] = load float, ptr [[X]], align 4
-; CHECK-NEXT:    [[Y_VAL:%.*]] = load float, ptr [[Y]], align 4
+; CHECK-NEXT:    [[X_VAL:%.*]] = load float, ptr [[X]], align 4, !freeze_bits [[FREEZE_BITS0]]
+; CHECK-NEXT:    [[Y_VAL:%.*]] = load float, ptr [[Y]], align 4, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    [[V:%.*]] = select i1 [[FLAG:%.*]], float [[X_VAL]], float [[Y_VAL]]
 ; CHECK-NEXT:    ret float [[V]]
 ;
@@ -1139,8 +1139,9 @@ define i32 @test80(i1 %flag) {
 ; CHECK-NEXT:    call void @scribble_on_i32(ptr nonnull [[X]])
 ; CHECK-NEXT:    call void @scribble_on_i32(ptr nonnull [[Y]])
 ; CHECK-NEXT:    [[T:%.*]] = load i32, ptr [[X]], align 4
-; CHECK-NEXT:    store i32 [[T]], ptr [[Y]], align 4
-; CHECK-NEXT:    ret i32 [[T]]
+; CHECK-NEXT:    [[LOAD_FREEZE:%.*]] = freeze i32 [[T]]
+; CHECK-NEXT:    store i32 [[LOAD_FREEZE]], ptr [[Y]], align 4
+; CHECK-NEXT:    ret i32 [[LOAD_FREEZE]]
 ;
   %x = alloca i32
   %y = alloca i32
@@ -1162,8 +1163,9 @@ define float @test81(i1 %flag) {
 ; CHECK-NEXT:    call void @scribble_on_i32(ptr nonnull [[X]])
 ; CHECK-NEXT:    call void @scribble_on_i32(ptr nonnull [[Y]])
 ; CHECK-NEXT:    [[T:%.*]] = load i32, ptr [[X]], align 4
-; CHECK-NEXT:    store i32 [[T]], ptr [[Y]], align 4
-; CHECK-NEXT:    [[V:%.*]] = bitcast i32 [[T]] to float
+; CHECK-NEXT:    [[LOAD_FREEZE:%.*]] = freeze i32 [[T]]
+; CHECK-NEXT:    store i32 [[LOAD_FREEZE]], ptr [[Y]], align 4
+; CHECK-NEXT:    [[V:%.*]] = bitcast i32 [[LOAD_FREEZE]] to float
 ; CHECK-NEXT:    ret float [[V]]
 ;
   %x = alloca float
@@ -1186,8 +1188,9 @@ define i32 @test82(i1 %flag) {
 ; CHECK-NEXT:    call void @scribble_on_i32(ptr nonnull [[X]])
 ; CHECK-NEXT:    call void @scribble_on_i32(ptr nonnull [[Y]])
 ; CHECK-NEXT:    [[T:%.*]] = load float, ptr [[X]], align 4
-; CHECK-NEXT:    store float [[T]], ptr [[Y]], align 4
-; CHECK-NEXT:    [[V:%.*]] = bitcast float [[T]] to i32
+; CHECK-NEXT:    [[LOAD_FREEZE:%.*]] = freeze float [[T]]
+; CHECK-NEXT:    store float [[LOAD_FREEZE]], ptr [[Y]], align 4
+; CHECK-NEXT:    [[V:%.*]] = bitcast float [[LOAD_FREEZE]] to i32
 ; CHECK-NEXT:    ret i32 [[V]]
 ;
   %x = alloca float
@@ -1213,8 +1216,9 @@ define ptr @test83(i1 %flag) {
 ; CHECK-NEXT:    call void @scribble_on_i64(ptr nonnull [[X]])
 ; CHECK-NEXT:    call void @scribble_on_i64(ptr nonnull [[Y]])
 ; CHECK-NEXT:    [[T:%.*]] = load i64, ptr [[X]], align 4
-; CHECK-NEXT:    store i64 [[T]], ptr [[Y]], align 4
-; CHECK-NEXT:    [[V:%.*]] = inttoptr i64 [[T]] to ptr
+; CHECK-NEXT:    [[LOAD_FREEZE:%.*]] = freeze i64 [[T]]
+; CHECK-NEXT:    store i64 [[LOAD_FREEZE]], ptr [[Y]], align 4
+; CHECK-NEXT:    [[V:%.*]] = inttoptr i64 [[LOAD_FREEZE]] to ptr
 ; CHECK-NEXT:    ret ptr [[V]]
 ;
   %x = alloca ptr
@@ -1237,8 +1241,9 @@ define i64 @test84(i1 %flag) {
 ; CHECK-NEXT:    call void @scribble_on_i64(ptr nonnull [[X]])
 ; CHECK-NEXT:    call void @scribble_on_i64(ptr nonnull [[Y]])
 ; CHECK-NEXT:    [[T:%.*]] = load ptr, ptr [[X]], align 8
-; CHECK-NEXT:    store ptr [[T]], ptr [[Y]], align 8
-; CHECK-NEXT:    [[V:%.*]] = ptrtoint ptr [[T]] to i64
+; CHECK-NEXT:    [[LOAD_FREEZE:%.*]] = freeze ptr [[T]]
+; CHECK-NEXT:    store ptr [[LOAD_FREEZE]], ptr [[Y]], align 8
+; CHECK-NEXT:    [[V:%.*]] = ptrtoint ptr [[LOAD_FREEZE]] to i64
 ; CHECK-NEXT:    ret i64 [[V]]
 ;
   %x = alloca ptr
@@ -1263,8 +1268,8 @@ define ptr @test85(i1 %flag) {
 ; CHECK-NEXT:    call void @scribble_on_i128(ptr nonnull [[Y]])
 ; CHECK-NEXT:    [[T:%.*]] = load i128, ptr [[X]], align 4
 ; CHECK-NEXT:    store i128 [[T]], ptr [[Y]], align 4
-; CHECK-NEXT:    [[X_VAL:%.*]] = load ptr, ptr [[X]], align 8
-; CHECK-NEXT:    [[Y_VAL:%.*]] = load ptr, ptr [[Y]], align 8
+; CHECK-NEXT:    [[X_VAL:%.*]] = load ptr, ptr [[X]], align 8, !freeze_bits [[FREEZE_BITS0]]
+; CHECK-NEXT:    [[Y_VAL:%.*]] = load ptr, ptr [[Y]], align 8, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    [[V:%.*]] = select i1 [[FLAG:%.*]], ptr [[X_VAL]], ptr [[Y_VAL]]
 ; CHECK-NEXT:    ret ptr [[V]]
 ;
@@ -1290,8 +1295,8 @@ define i128 @test86(i1 %flag) {
 ; CHECK-NEXT:    call void @scribble_on_i128(ptr nonnull [[Y]])
 ; CHECK-NEXT:    [[T:%.*]] = load ptr, ptr [[X]], align 8
 ; CHECK-NEXT:    store ptr [[T]], ptr [[Y]], align 8
-; CHECK-NEXT:    [[X_VAL:%.*]] = load i128, ptr [[X]], align 4
-; CHECK-NEXT:    [[Y_VAL:%.*]] = load i128, ptr [[Y]], align 4
+; CHECK-NEXT:    [[X_VAL:%.*]] = load i128, ptr [[X]], align 4, !freeze_bits [[FREEZE_BITS0]]
+; CHECK-NEXT:    [[Y_VAL:%.*]] = load i128, ptr [[Y]], align 4, !freeze_bits [[FREEZE_BITS0]]
 ; CHECK-NEXT:    [[V:%.*]] = select i1 [[FLAG:%.*]], i128 [[X_VAL]], i128 [[Y_VAL]]
 ; CHECK-NEXT:    ret i128 [[V]]
 ;
@@ -2736,7 +2741,7 @@ define void @select_freeze_icmp_multuses(i32 %x, i32 %y) {
 define i32 @pr47322_more_poisonous_replacement(i32 %arg) {
 ; CHECK-LABEL: @pr47322_more_poisonous_replacement(
 ; CHECK-NEXT:    [[CMP:%.*]] = icmp eq i32 [[ARG:%.*]], 0
-; CHECK-NEXT:    [[TRAILING:%.*]] = call i32 @llvm.cttz.i32(i32 [[ARG]], i1 immarg true), !range [[RNG0:![0-9]+]]
+; CHECK-NEXT:    [[TRAILING:%.*]] = call i32 @llvm.cttz.i32(i32 [[ARG]], i1 immarg true), !range [[RNG1:![0-9]+]]
 ; CHECK-NEXT:    [[SHIFTED:%.*]] = lshr i32 [[ARG]], [[TRAILING]]
 ; CHECK-NEXT:    [[R1_SROA_0_1:%.*]] = select i1 [[CMP]], i32 0, i32 [[SHIFTED]]
 ; CHECK-NEXT:    ret i32 [[R1_SROA_0_1]]
