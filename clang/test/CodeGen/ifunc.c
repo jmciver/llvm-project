@@ -51,8 +51,8 @@ void* goo_ifunc(void) {
 // CHECK: call i32 @foo(i32
 // CHECK: call void @goo()
 
-// SAN: define internal nonnull {{(noundef )?}}ptr @foo_ifunc() #[[#FOO_IFUNC:]] {
-// MACSAN: define internal nonnull {{(noundef )?}}ptr @foo_ifunc() #[[#FOO_IFUNC:]] {
+// SAN: define internal {{(noundef )?}}nonnull ptr @foo_ifunc() #[[#FOO_IFUNC:]] {
+// MACSAN: define internal {{(noundef )?}}nonnull ptr @foo_ifunc() #[[#FOO_IFUNC:]] {
 
 // SAN: define dso_local noalias {{(noundef )?}}ptr @goo_ifunc() #[[#GOO_IFUNC:]] {
 // MACSAN: define noalias {{(noundef )?}}ptr @goo_ifunc() #[[#GOO_IFUNC:]] {

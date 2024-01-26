@@ -12,7 +12,7 @@ void t1(__fp16 a) { g = a; }
 
 __fp16 t2(void) { return g; }
 // SOFT: define{{.*}} half @t2()
-// HARD: define{{.*}} arm_aapcs_vfpcc half @t2()
+// HARD: define{{.*}} arm_aapcs_vfpcc noundef half @t2()
 // NATIVE: define{{.*}} half @t2()
 // CHECK: [[LOAD:%.*]] = load half, ptr @g
 // CHECK: ret half [[LOAD]]
@@ -27,7 +27,7 @@ void t3(_Float16 a) { h = a; }
 
 _Float16 t4(void) { return h; }
 // SOFT: define{{.*}} half @t4()
-// HARD: define{{.*}} arm_aapcs_vfpcc half @t4()
+// HARD: define{{.*}} arm_aapcs_vfpcc noundef half @t4()
 // NATIVE: define{{.*}} half @t4()
 // CHECK: [[LOAD:%.*]] = load half, ptr @h
 // CHECK: ret half [[LOAD]]
