@@ -193,8 +193,28 @@ enum Kind {
   kw_sync,
   kw_async,
 #define GET_ATTR_NAMES
+
+// The freeze token aready exists to support the associated instruction.
+// Suppress the freeze attribute generatating the same keyword Kind by detecting
+// the token at preprocess time.
+#define PRIMITIVE_CAT(a, b) a##b
+#define CAT(a, b) PRIMITIVE_CAT(a, b)
+
+#define PROBE() ~, 1
+#define IS_FREEZE(x) CAT(IS_FREEZE_, x)
+#define IS_FREEZE_freeze PROBE()
+
+#define CHECK_N(a, b, ...) b
+#define CHECK(...) CHECK_N(__VA_ARGS__, 0,)
+#define IS_FREEZE_P(x) CHECK(IS_FREEZE(x))
+
+#define IF_NOT_FREEZE(x) CAT(IF_NOT_FREEZE_, IS_FREEZE_P(x))
+#define IF_NOT_FREEZE_0(...) __VA_ARGS__
+#define IF_NOT_FREEZE_1(...)
+
 #define ATTRIBUTE_ENUM(ENUM_NAME, DISPLAY_NAME) \
-  kw_##DISPLAY_NAME,
+  IF_NOT_FREEZE(DISPLAY_NAME)(kw_##DISPLAY_NAME,)
+
 #include "llvm/IR/Attributes.inc"
 
   // Memory attribute:

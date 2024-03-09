@@ -5490,6 +5490,13 @@ void Verifier::visitInstruction(Instruction &I) {
     Check(MD->getNumOperands() == 0, "nonnull metadata must be empty", &I);
   }
 
+  if (MDNode *MD = I.getMetadata(LLVMContext::MD_freeze)) {
+    Check(isa<LoadInst>(I), "freeze applies only to load instructions",
+          &I);
+    Check(MD->getNumOperands() == 0, "freeze metadata must be empty",
+          &I);
+  }
+
   if (MDNode *MD = I.getMetadata(LLVMContext::MD_dereferenceable))
     visitDereferenceableMetadata(I, MD);
 

@@ -1713,7 +1713,7 @@ bool LLParser::parseFnAttributeValuePairs(AttrBuilder &B,
     }
 
     Attribute::AttrKind Attr = tokenToAttribute(Token);
-    if (Attr == Attribute::None) {
+    if (Attr == Attribute::None || Attr == Attribute::Freeze) {
       if (!InAttrGrp)
         break;
       return error(Lex.getLoc(), "unterminated attribute group");
