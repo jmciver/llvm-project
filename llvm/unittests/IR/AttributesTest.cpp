@@ -475,7 +475,7 @@ TEST(Attributes, SetIntersect) {
 
     AS0 = AttributeSet::get(C0, AB0);
     Res = AS0.intersectWith(C0, AS1);
-    ASSERT_EQ(Res.has_value(), CanDrop);
+    ASSERT_EQ(Res.has_value(), CanDrop || Attribute::intersectWithOr(Kind));
     if (CanDrop)
       ASSERT_FALSE(Res->hasAttributes());
 
@@ -486,14 +486,40 @@ TEST(Attributes, SetIntersect) {
 
     AS1 = AttributeSet::get(C1, AB1);
     Res = AS0.intersectWith(C0, AS1);
-    if (!CanDrop) {
+    if (Attribute::intersectMustPreserve(Kind)) {
       ASSERT_FALSE(Res.has_value());
       continue;
-    }
-    if (Attribute::intersectWithAnd(Kind)) {
+    } else if (Attribute::intersectWithAnd(Kind)) {
       ASSERT_TRUE(Res.has_value());
       ASSERT_FALSE(Res->hasAttributes());
 
+      AS1 = AS1.addAttribute(C1, Kind);
+      Res = AS0.intersectWith(C0, AS1);
+      ASSERT_TRUE(Res.has_value());
+      ASSERT_TRUE(Res->hasAttributes());
+      ASSERT_TRUE(Res->hasAttribute(Kind));
+      ASSERT_FALSE(Res->hasAttribute(Other));
+    } else if (Attribute::intersectWithOr(Kind)) {
+      // AS0 has attribute while AS1 does not.
+      ASSERT_TRUE(Res.has_value());
+      ASSERT_TRUE(Res->hasAttributes());
+      ASSERT_TRUE(Res->hasAttribute(Kind));
+      ASSERT_FALSE(Res->hasAttribute(Other));
+      // AS1 does not have the attribute while AS0 does.
+      Res = AS1.intersectWith(C1, AS0);
+      ASSERT_TRUE(Res.has_value());
+      ASSERT_TRUE(Res->hasAttributes());
+      ASSERT_TRUE(Res->hasAttribute(Kind));
+      ASSERT_FALSE(Res->hasAttribute(Other));
+      // Both AS0 and AS1 do not have the attribute.
+      AS0 = AS0.removeAttribute(C0, Kind);
+      Res = AS0.intersectWith(C0, AS1);
+      ASSERT_TRUE(Res.has_value());
+      ASSERT_FALSE(Res->hasAttributes());
+      ASSERT_FALSE(Res->hasAttribute(Kind));
+      ASSERT_FALSE(Res->hasAttribute(Other));
+      // Both AS0 and AS1 have the attribute.
+      AS0 = AS0.addAttribute(C0, Kind);
       AS1 = AS1.addAttribute(C1, Kind);
       Res = AS0.intersectWith(C0, AS1);
       ASSERT_TRUE(Res.has_value());
