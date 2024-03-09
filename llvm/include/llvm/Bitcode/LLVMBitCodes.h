@@ -561,9 +561,9 @@ enum FunctionCodes {
   FUNC_CODE_INST_PHI = 16, // PHI:        [ty, val0,bb0, ...]
   // 17 is unused.
   // 18 is unused.
-  FUNC_CODE_INST_ALLOCA = 19, // ALLOCA:     [instty, opty, op, align]
-  FUNC_CODE_INST_LOAD = 20,   // LOAD:       [opty, op, align, vol]
-  // 21 is unused.
+  FUNC_CODE_INST_ALLOCA = 19,   // ALLOCA:     [instty, opty, op, align]
+  FUNC_CODE_INST_LOAD_OLD = 20, // LOAD:       [opty, op, align, vol]
+  FUNC_CODE_INST_LOAD = 21,     // LOAD:       [opty, op, align, vol]
   // 22 is unused.
   FUNC_CODE_INST_VAARG = 23, // VAARG:      [valistty, valist, instty]
   // This store code encodes the pointer type, rather than the value type
@@ -596,8 +596,8 @@ enum FunctionCodes {
   FUNC_CODE_INST_RESUME = 39,        // RESUME:     [opval]
   FUNC_CODE_INST_LANDINGPAD_OLD =
       40,                         // LANDINGPAD: [ty,val,val,num,id0,val0...]
-  FUNC_CODE_INST_LOADATOMIC = 41, // LOAD: [opty, op, align, vol,
-                                  //        ordering, synchscope]
+  FUNC_CODE_INST_LOADATOMIC_OLD = 41,  // LOAD: [opty, op, align, vol,
+                                       //        ordering, synchscope]
   FUNC_CODE_INST_STOREATOMIC_OLD = 42, // STORE: [ptrty,ptr,val, align, vol
                                        //         ordering, synchscope]
   FUNC_CODE_INST_GEP = 43,             // GEP:  [inbounds, n x operands]
@@ -613,7 +613,8 @@ enum FunctionCodes {
   FUNC_CODE_INST_CLEANUPPAD = 51,  // CLEANUPPAD: [num,args...]
   FUNC_CODE_INST_CATCHSWITCH =
       52, // CATCHSWITCH: [num,args...] or [num,args...,bb]
-  // 53 is unused.
+  FUNC_CODE_INST_LOADATOMIC = 53,  // LOAD: [opty, op, align, vol,
+                                   //        ordering, synchscope]
   // 54 is unused.
   FUNC_CODE_OPERAND_BUNDLE = 55,  // OPERAND_BUNDLE: [tag#, value...]
   FUNC_CODE_INST_UNOP = 56,       // UNOP:       [opcode, ty, opval]
@@ -724,6 +725,7 @@ enum AttributeKindCodes {
   ATTR_KIND_WRITABLE = 89,
   ATTR_KIND_CORO_ONLY_DESTROY_WHEN_COMPLETE = 90,
   ATTR_KIND_DEAD_ON_UNWIND = 91,
+  ATTR_KIND_FREEZE_BITS = 92,
 };
 
 enum ComdatSelectionKindCodes {
