@@ -765,7 +765,8 @@ enum AttributeProperty {
   IntersectAnd = (1 << 3),
   IntersectMin = (2 << 3),
   IntersectCustom = (3 << 3),
-  IntersectPropertyMask = (3 << 3),
+  IntersectOr = (4 << 3),
+  IntersectPropertyMask = (7 << 3),
 };
 
 #define GET_ATTR_PROP_TABLE
@@ -798,6 +799,7 @@ static bool hasIntersectProperty(Attribute::AttrKind Kind,
                                  AttributeProperty Prop) {
   assert((Prop == AttributeProperty::IntersectPreserve ||
           Prop == AttributeProperty::IntersectAnd ||
+          Prop == AttributeProperty::IntersectOr ||
           Prop == AttributeProperty::IntersectMin ||
           Prop == AttributeProperty::IntersectCustom) &&
          "Unknown intersect property");
@@ -810,6 +812,9 @@ bool Attribute::intersectMustPreserve(AttrKind Kind) {
 }
 bool Attribute::intersectWithAnd(AttrKind Kind) {
   return hasIntersectProperty(Kind, AttributeProperty::IntersectAnd);
+}
+bool Attribute::intersectWithOr(AttrKind Kind) {
+  return hasIntersectProperty(Kind, AttributeProperty::IntersectOr);
 }
 bool Attribute::intersectWithMin(AttrKind Kind) {
   return hasIntersectProperty(Kind, AttributeProperty::IntersectMin);
@@ -1032,6 +1037,14 @@ AttributeSet::intersectWith(LLVMContext &C, AttributeSet Other) const {
     }
 
     Attribute::AttrKind Kind = Attr0.getKindAsEnum();
+
+    if (Attribute::intersectWithOr(Kind)) {
+      assert(Attribute::isEnumAttrKind(Kind) &&
+             "Invalid attr type of intersectOr");
+      Intersected.addAttribute(Kind);
+      continue;
+    }
+
     // If we don't have both attributes, then fail if the attribute is
     // must-preserve or drop it otherwise.
     if (!Attr1.isValid()) {
