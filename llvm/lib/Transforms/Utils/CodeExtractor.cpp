@@ -991,6 +991,7 @@ Function *CodeExtractor::constructFunctionDeclaration(
       case Attribute::Dereferenceable:
       case Attribute::DereferenceableOrNull:
       case Attribute::ElementType:
+      case Attribute::FreezeBits:
       case Attribute::InAlloca:
       case Attribute::InReg:
       case Attribute::Nest:

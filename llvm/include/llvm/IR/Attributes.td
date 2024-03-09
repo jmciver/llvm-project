@@ -38,6 +38,10 @@ def IntersectPreserve : AttrProperty;
 /// Only valid for Enum attrs.
 def IntersectAnd : AttrProperty;
 
+/// When intersecting take the OR of the two attrs.
+/// Only valid for Enum attrs.
+def IntersectOr : AttrProperty;
+
 /// When intersecting take the min value of the two attrs.
 /// Only valid for Int attrs.
 def IntersectMin : AttrProperty;
@@ -140,6 +144,9 @@ def FnRetThunkExtern : EnumAttr<"fn_ret_thunk_extern", IntersectPreserve, [FnAtt
 
 /// Function has a hybrid patchable thunk.
 def HybridPatchable : EnumAttr<"hybrid_patchable", IntersectPreserve, [FnAttr]>;
+
+/// Convert unitialized memory per byte to a non-deterministic value.
+def FreezeBits : EnumAttr<"freeze_bits", IntersectOr, [ParamAttr]>;
 
 /// Pass structure in an alloca.
 def InAlloca : TypeAttr<"inalloca", IntersectPreserve, [ParamAttr]>;

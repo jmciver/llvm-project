@@ -4689,7 +4689,12 @@ LLVM_C_ABI LLVMValueRef LLVMBuildArrayAlloca(LLVMBuilderRef, LLVMTypeRef Ty,
                                              LLVMValueRef Val,
                                              const char *Name);
 LLVM_C_ABI LLVMValueRef LLVMBuildFree(LLVMBuilderRef, LLVMValueRef PointerVal);
-LLVM_C_ABI LLVMValueRef LLVMBuildLoad2(LLVMBuilderRef, LLVMTypeRef Ty,
+LLVM_C_ABI LLVM_ATTRIBUTE_C_DEPRECATED(
+    LLVMValueRef LLVMBuildLoad2(LLVMBuilderRef, LLVMTypeRef Ty,
+                                LLVMValueRef PointerVal, const char *Name),
+    "Use LLVMBuildLoad3 instead to support "
+    "uninitialized memory loads as poison");
+LLVM_C_ABI LLVMValueRef LLVMBuildLoad3(LLVMBuilderRef, LLVMTypeRef Ty,
                                        LLVMValueRef PointerVal,
                                        const char *Name);
 LLVM_C_ABI LLVMValueRef LLVMBuildStore(LLVMBuilderRef, LLVMValueRef Val,
