@@ -15,7 +15,7 @@ target datalayout = "e-p:64:64:64"
 
 define i32 @signbit(double %x) nounwind {
 ; BASICAA: ret i32 %tmp5.lobit
-; CHECK:   ret i32 poison
+; CHECK:   ret i32 0
 entry:
   %u = alloca %union.anon, align 8
   store double %x, ptr %u, align 8, !tbaa !0
