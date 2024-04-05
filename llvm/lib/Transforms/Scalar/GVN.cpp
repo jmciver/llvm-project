@@ -1248,7 +1248,7 @@ GVNPass::AnalyzeLoadAvailability(LoadInst *Load, MemDepResult DepInfo,
   // In addition to allocator function calls this includes loading the alloca ->
   // undef.
   if (Constant *InitVal =
-          getInitialValueOfAllocation(DepInst, TLI, Load->getType()).second)
+          getInitialValueOfAllocationOLD(DepInst, TLI, Load->getType()))
     return AvailableValue::get(InitVal);
 
   if (StoreInst *S = dyn_cast<StoreInst>(DepInst)) {
