@@ -472,6 +472,29 @@ llvm::getInitialValueOfAllocation(const Value *V, const TargetLibraryInfo *TLI,
   return {InitializationCategory::Unknown, nullptr};
 }
 
+Constant *llvm::getInitialValueOfAllocationOLD(const Value *V,
+                                               const TargetLibraryInfo *TLI,
+                                               Type *Ty) {
+  if (isa<AllocaInst>(V))
+    return UndefValue::get(Ty);
+
+  auto *Alloc = dyn_cast<CallBase>(V);
+  if (!Alloc)
+    return nullptr;
+
+  // malloc are uninitialized (undef)
+  if (getAllocationData(Alloc, MallocOrOpNewLike, TLI).has_value())
+    return UndefValue::get(Ty);
+
+  AllocFnKind AK = getAllocFnKind(Alloc);
+  if ((AK & AllocFnKind::Uninitialized) != AllocFnKind::Unknown)
+    return UndefValue::get(Ty);
+  if ((AK & AllocFnKind::Zeroed) != AllocFnKind::Unknown)
+    return Constant::getNullValue(Ty);
+
+  return nullptr;
+}
+
 struct FreeFnsTy {
   unsigned NumParams;
   // Name of default allocator function to group malloc/free calls by family
