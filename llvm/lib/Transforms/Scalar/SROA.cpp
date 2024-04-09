@@ -2850,9 +2850,9 @@ private:
                  TargetTy->isIntegerTy() && !LI.isVolatile()))) {
       Value *NewPtr =
           getPtrToNewAI(LI.getPointerAddressSpace(), LI.isVolatile());
-      LoadInst *NewLI = IRB.CreateAlignedLoad(NewAI.getAllocatedType(), NewPtr,
-                                              NewAI.getAlign(), LI.isVolatile(),
-                                              LI.getName());
+      LoadInst *NewLI = IRB.CreateAlignedLoad(
+          NewAI.getAllocatedType(), NewPtr, NewAI.getAlign(), LI.isVolatile(),
+          LI.getName(), loadHasFreezeBits(&LI));
       if (LI.isVolatile())
         NewLI->setAtomic(LI.getOrdering(), LI.getSyncScopeID());
       if (NewLI->isAtomic())
@@ -2883,15 +2883,16 @@ private:
           }
     } else {
       Type *LTy = IRB.getPtrTy(AS);
-      LoadInst *NewLI =
-          IRB.CreateAlignedLoad(TargetTy, getNewAllocaSlicePtr(IRB, LTy),
-                                getSliceAlign(), LI.isVolatile(), LI.getName());
+      LoadInst *NewLI = IRB.CreateAlignedLoad(
+          TargetTy, getNewAllocaSlicePtr(IRB, LTy), getSliceAlign(),
+          LI.isVolatile(), LI.getName(), loadHasFreezeBits(&LI));
       if (AATags)
         NewLI->setAAMetadata(AATags.shift(NewBeginOffset - BeginOffset));
       if (LI.isVolatile())
         NewLI->setAtomic(LI.getOrdering(), LI.getSyncScopeID());
       NewLI->copyMetadata(LI, {LLVMContext::MD_mem_parallel_loop_access,
-                               LLVMContext::MD_access_group});
+                               LLVMContext::MD_access_group,
+                               LLVMContext::MD_freeze_bits});
 
       V = NewLI;
       IsPtrAdjusted = true;
@@ -2950,7 +2951,7 @@ private:
 
       // Mix in the existing elements.
       Value *Old = IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
-                                         NewAI.getAlign(), "load");
+                                         NewAI.getAlign(), "load", false);
       V = insertVector(IRB, Old, V, BeginIndex, "vec");
     }
     StoreInst *Store = IRB.CreateAlignedStore(V, &NewAI, NewAI.getAlign());
@@ -2973,7 +2974,7 @@ private:
     if (DL.getTypeSizeInBits(V->getType()).getFixedValue() !=
         IntTy->getBitWidth()) {
       Value *Old = IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
-                                         NewAI.getAlign(), "oldload");
+                                         NewAI.getAlign(), "oldload", false);
       Old = convertValue(DL, IRB, Old, IntTy);
       assert(BeginOffset >= NewAllocaBeginOffset && "Out of bounds offset");
       uint64_t Offset = BeginOffset - NewAllocaBeginOffset;
