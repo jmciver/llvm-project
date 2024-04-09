@@ -2793,7 +2793,8 @@ private:
                               NewAI.getAlign(), "load", loadHasFreezeBits(&LI));
 
     Load->copyMetadata(LI, {LLVMContext::MD_mem_parallel_loop_access,
-                            LLVMContext::MD_access_group});
+                            LLVMContext::MD_access_group,
+                            LLVMContext::MD_freeze_bits});
     return extractVector(IRB, Load, BeginIndex, EndIndex, "vec");
   }
 
