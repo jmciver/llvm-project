@@ -2804,6 +2804,7 @@ private:
     Value *V =
         IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
                               NewAI.getAlign(), "load", loadHasFreezeBits(&LI));
+    dyn_cast<LoadInst>(V)->copyMetadata(LI, {LLVMContext::MD_freeze_bits});
     V = convertValue(DL, IRB, V, IntTy);
     assert(NewBeginOffset >= NewAllocaBeginOffset && "Out of bounds offset");
     uint64_t Offset = NewBeginOffset - NewAllocaBeginOffset;
