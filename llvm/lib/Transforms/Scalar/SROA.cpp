@@ -1660,7 +1660,7 @@ static void speculatePHINodeLoads(IRBuilderTy &IRB, PHINode &PN) {
     LoadInst *Load = IRB.CreateAlignedLoad(
         LoadTy, InVal, Alignment,
         (PN.getName() + ".sroa.speculate.load." + Pred->getName()),
-        false);
+        true);
     ++NumLoadsSpeculated;
     if (AATags)
       Load->setAAMetadata(AATags);
@@ -1776,10 +1776,10 @@ static void speculateSelectInstLoads(SelectInst &SI, LoadInst &LI,
 
   LoadInst *TL = IRB.CreateAlignedLoad(
       LI.getType(), TV, LI.getAlign(),
-      LI.getName() + ".sroa.speculate.load.true", false);
+      LI.getName() + ".sroa.speculate.load.true", true);
   LoadInst *FL = IRB.CreateAlignedLoad(
       LI.getType(), FV, LI.getAlign(),
-      LI.getName() + ".sroa.speculate.load.false", false);
+      LI.getName() + ".sroa.speculate.load.false", true);
   NumLoadsSpeculated += 2;
 
   // Transfer alignment and AA info if present.
@@ -2791,7 +2791,7 @@ private:
 
     LoadInst *Load =
         IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
-                              NewAI.getAlign(), "load", false);
+                              NewAI.getAlign(), "load", true);
 
     Load->copyMetadata(LI, {LLVMContext::MD_mem_parallel_loop_access,
                             LLVMContext::MD_access_group});
@@ -2804,7 +2804,7 @@ private:
     assert(!LI.isVolatile());
     Value *V =
         IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
-                              NewAI.getAlign(), "load", false);
+                              NewAI.getAlign(), "load", true);
     // dyn_cast<LoadInst>(V)->copyMetadata(LI, {LLVMContext::MD_freeze_bits});
     V = convertValue(DL, IRB, V, IntTy);
     assert(NewBeginOffset >= NewAllocaBeginOffset && "Out of bounds offset");
@@ -2853,7 +2853,7 @@ private:
           getPtrToNewAI(LI.getPointerAddressSpace(), LI.isVolatile());
       LoadInst *NewLI = IRB.CreateAlignedLoad(
           NewAI.getAllocatedType(), NewPtr, NewAI.getAlign(), LI.isVolatile(),
-          LI.getName(), false);
+          LI.getName(), true);
       if (LI.isVolatile())
         NewLI->setAtomic(LI.getOrdering(), LI.getSyncScopeID());
       if (NewLI->isAtomic())
@@ -2886,7 +2886,7 @@ private:
       Type *LTy = IRB.getPtrTy(AS);
       LoadInst *NewLI = IRB.CreateAlignedLoad(
           TargetTy, getNewAllocaSlicePtr(IRB, LTy), getSliceAlign(),
-          LI.isVolatile(), LI.getName(), false);
+          LI.isVolatile(), LI.getName(), true);
       if (AATags)
         NewLI->setAAMetadata(AATags.shift(NewBeginOffset - BeginOffset));
       if (LI.isVolatile())
@@ -2952,7 +2952,7 @@ private:
 
       // Mix in the existing elements.
       Value *Old = IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
-                                         NewAI.getAlign(), "load", false);
+                                         NewAI.getAlign(), "load", true);
       V = insertVector(IRB, Old, V, BeginIndex, "vec");
     }
     StoreInst *Store = IRB.CreateAlignedStore(V, &NewAI, NewAI.getAlign());
@@ -2975,7 +2975,7 @@ private:
     if (DL.getTypeSizeInBits(V->getType()).getFixedValue() !=
         IntTy->getBitWidth()) {
       Value *Old = IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
-                                         NewAI.getAlign(), "oldload", false);
+                                         NewAI.getAlign(), "oldload", true);
       Old = convertValue(DL, IRB, Old, IntTy);
       assert(BeginOffset >= NewAllocaBeginOffset && "Out of bounds offset");
       uint64_t Offset = BeginOffset - NewAllocaBeginOffset;
@@ -3186,7 +3186,7 @@ private:
         Splat = getVectorSplat(Splat, NumElements);
 
       Value *Old = IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
-                                         NewAI.getAlign(), "oldload", false);
+                                         NewAI.getAlign(), "oldload", true);
       V = insertVector(IRB, Old, Splat, BeginIndex, "vec");
     } else if (IntTy) {
       // If this is a memset on an alloca where we can widen stores, insert the
@@ -3199,7 +3199,7 @@ private:
       if (IntTy && (BeginOffset != NewAllocaBeginOffset ||
                     EndOffset != NewAllocaBeginOffset)) {
         Value *Old = IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
-                                           NewAI.getAlign(), "oldload", false);
+                                           NewAI.getAlign(), "oldload", true);
         Old = convertValue(DL, IRB, Old, IntTy);
         uint64_t Offset = NewBeginOffset - NewAllocaBeginOffset;
         V = insertInteger(DL, IRB, Old, V, Offset, "insert");
@@ -3417,17 +3417,17 @@ private:
     Value *Src;
     if (VecTy && !IsWholeAlloca && !IsDest) {
       Src = IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
-                                  NewAI.getAlign(), "load", false);
+                                  NewAI.getAlign(), "load", true);
       Src = extractVector(IRB, Src, BeginIndex, EndIndex, "vec");
     } else if (IntTy && !IsWholeAlloca && !IsDest) {
       Src = IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
-                                  NewAI.getAlign(), "load", false);
+                                  NewAI.getAlign(), "load", true);
       Src = convertValue(DL, IRB, Src, IntTy);
       uint64_t Offset = NewBeginOffset - NewAllocaBeginOffset;
       Src = extractInteger(DL, IRB, Src, SubIntTy, Offset, "extract");
     } else {
       LoadInst *Load = IRB.CreateAlignedLoad(OtherTy, SrcPtr, SrcAlign,
-                                             II.isVolatile(), "copyload", false);
+                                             II.isVolatile(), "copyload", true);
       Load->copyMetadata(II, {LLVMContext::MD_mem_parallel_loop_access,
                               LLVMContext::MD_access_group});
       if (AATags)
@@ -3437,11 +3437,11 @@ private:
 
     if (VecTy && !IsWholeAlloca && IsDest) {
       Value *Old = IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
-                                         NewAI.getAlign(), "oldload", false);
+                                         NewAI.getAlign(), "oldload", true);
       Src = insertVector(IRB, Old, Src, BeginIndex, "vec");
     } else if (IntTy && !IsWholeAlloca && IsDest) {
       Value *Old = IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
-                                         NewAI.getAlign(), "oldload", false);
+                                         NewAI.getAlign(), "oldload", true);
       Old = convertValue(DL, IRB, Old, IntTy);
       uint64_t Offset = NewBeginOffset - NewAllocaBeginOffset;
       Src = insertInteger(DL, IRB, Old, Src, Offset, "insert");
@@ -3776,7 +3776,7 @@ private:
       Value *GEP =
           IRB.CreateInBoundsGEP(BaseTy, Ptr, GEPIndices, Name + ".gep");
       LoadInst *Load =
-          IRB.CreateAlignedLoad(Ty, GEP, Alignment, Name + ".load", false);
+          IRB.CreateAlignedLoad(Ty, GEP, Alignment, Name + ".load", true);
 
       APInt Offset(
           DL.getIndexSizeInBits(Ptr->getType()->getPointerAddressSpace()), 0);
@@ -4415,7 +4415,7 @@ bool SROA::presplitLoadsAndStores(AllocaInst &AI, AllocaSlices &AS) {
                          APInt(DL.getIndexSizeInBits(AS), PartOffset),
                          PartPtrTy, BasePtr->getName() + "."),
           getAdjustedAlignment(LI, PartOffset),
-          /*IsVolatile*/ false, LI->getName(), false);
+          /*IsVolatile*/ false, LI->getName(), true);
       PLoad->copyMetadata(*LI, {LLVMContext::MD_mem_parallel_loop_access,
                                 LLVMContext::MD_access_group});
                                 // LLVMContext::MD_freeze_bits});
@@ -4560,7 +4560,7 @@ bool SROA::presplitLoadsAndStores(AllocaInst &AI, AllocaSlices &AS) {
                            APInt(DL.getIndexSizeInBits(AS), PartOffset),
                            LoadPartPtrTy, LoadBasePtr->getName() + "."),
             getAdjustedAlignment(LI, PartOffset),
-            /*IsVolatile*/ false, LI->getName(), false);
+            /*IsVolatile*/ false, LI->getName(), true);
         PLoad->copyMetadata(*LI, {LLVMContext::MD_mem_parallel_loop_access,
                                   LLVMContext::MD_access_group});
                                   // LLVMContext::MD_freeze_bits});
