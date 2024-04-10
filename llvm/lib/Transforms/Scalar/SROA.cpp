@@ -4414,9 +4414,10 @@ bool SROA::presplitLoadsAndStores(AllocaInst &AI, AllocaSlices &AS) {
                          APInt(DL.getIndexSizeInBits(AS), PartOffset),
                          PartPtrTy, BasePtr->getName() + "."),
           getAdjustedAlignment(LI, PartOffset),
-          /*IsVolatile*/ false, LI->getName());
+          /*IsVolatile*/ false, LI->getName(), loadHasFreezeBits(LI));
       PLoad->copyMetadata(*LI, {LLVMContext::MD_mem_parallel_loop_access,
-                                LLVMContext::MD_access_group});
+                                LLVMContext::MD_access_group,
+                                LLVMContext::MD_freeze_bits});
 
       // Append this load onto the list of split loads so we can find it later
       // to rewrite the stores.
@@ -4558,9 +4559,10 @@ bool SROA::presplitLoadsAndStores(AllocaInst &AI, AllocaSlices &AS) {
                            APInt(DL.getIndexSizeInBits(AS), PartOffset),
                            LoadPartPtrTy, LoadBasePtr->getName() + "."),
             getAdjustedAlignment(LI, PartOffset),
-            /*IsVolatile*/ false, LI->getName());
+            /*IsVolatile*/ false, LI->getName(), loadHasFreezeBits(LI));
         PLoad->copyMetadata(*LI, {LLVMContext::MD_mem_parallel_loop_access,
-                                  LLVMContext::MD_access_group});
+                                  LLVMContext::MD_access_group,
+                                  LLVMContext::MD_freeze_bits});
       }
 
       // And store this partition.
