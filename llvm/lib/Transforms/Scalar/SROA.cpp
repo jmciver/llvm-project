@@ -1659,7 +1659,8 @@ static void speculatePHINodeLoads(IRBuilderTy &IRB, PHINode &PN) {
 
     LoadInst *Load = IRB.CreateAlignedLoad(
         LoadTy, InVal, Alignment,
-        (PN.getName() + ".sroa.speculate.load." + Pred->getName()));
+        (PN.getName() + ".sroa.speculate.load." + Pred->getName()),
+        loadHasFreezeBits(SomeLoad));
     ++NumLoadsSpeculated;
     if (AATags)
       Load->setAAMetadata(AATags);
