@@ -1774,12 +1774,12 @@ static void speculateSelectInstLoads(SelectInst &SI, LoadInst &LI,
 
   IRB.SetInsertPoint(&LI);
 
-  LoadInst *TL =
-      IRB.CreateAlignedLoad(LI.getType(), TV, LI.getAlign(),
-                            LI.getName() + ".sroa.speculate.load.true");
-  LoadInst *FL =
-      IRB.CreateAlignedLoad(LI.getType(), FV, LI.getAlign(),
-                            LI.getName() + ".sroa.speculate.load.false");
+  LoadInst *TL = IRB.CreateAlignedLoad(
+      LI.getType(), TV, LI.getAlign(),
+      LI.getName() + ".sroa.speculate.load.true", loadHasFreezeBits(&LI));
+  LoadInst *FL = IRB.CreateAlignedLoad(
+      LI.getType(), FV, LI.getAlign(),
+      LI.getName() + ".sroa.speculate.load.false", loadHasFreezeBits(&LI));
   NumLoadsSpeculated += 2;
 
   // Transfer alignment and AA info if present.
