@@ -80,6 +80,7 @@
 #include "llvm/Support/Compiler.h"
 #include "llvm/Support/Debug.h"
 #include "llvm/Support/ErrorHandling.h"
+#include "llvm/Support/Process.h"
 #include "llvm/Support/raw_ostream.h"
 #include "llvm/Transforms/Scalar.h"
 #include "llvm/Transforms/Utils/BasicBlockUtils.h"
@@ -235,11 +236,22 @@ class SROA {
   static std::optional<RewriteableMemOps>
   isSafeSelectToSpeculate(SelectInst &SI, bool PreserveCFG);
 
+  int NumberOfReplacments;
+  int MaxNumberOfReplacements;
+
 public:
   SROA(LLVMContext *C, DomTreeUpdater *DTU, AssumptionCache *AC,
        SROAOptions PreserveCFG_)
       : C(C), DTU(DTU), AC(AC),
-        PreserveCFG(PreserveCFG_ == SROAOptions::PreserveCFG) {}
+        PreserveCFG(PreserveCFG_ == SROAOptions::PreserveCFG),
+        NumberOfReplacments(0) {
+
+    if (auto sroaReplaceMaximum =
+            sys::Process::GetEnv("DEV_SROA_REPLACE_MAXIMUM"))
+      MaxNumberOfReplacements = std::stoi(*sroaReplaceMaximum);
+    else
+      MaxNumberOfReplacements = -1;
+  }
 
   /// Main run method used by both the SROAPass and by the legacy pass.
   std::pair<bool /*Changed*/, bool /*CFGChanged*/> runSROA(Function &F);
@@ -2639,6 +2651,9 @@ class AllocaSliceRewriter : public InstVisitor<AllocaSliceRewriter, bool> {
     return IRB.CreateAddrSpaceCast(&NewAI, AccessTy);
   }
 
+  int &NumberOfReplacements;
+  const int &MaxNumberOfReplacements;
+
 public:
   AllocaSliceRewriter(const DataLayout &DL, AllocaSlices &AS, SROA &Pass,
                       AllocaInst &OldAI, AllocaInst &NewAI,
@@ -2646,7 +2661,9 @@ public:
                       uint64_t NewAllocaEndOffset, bool IsIntegerPromotable,
                       VectorType *PromotableVecTy,
                       SmallSetVector<PHINode *, 8> &PHIUsers,
-                      SmallSetVector<SelectInst *, 8> &SelectUsers)
+                      SmallSetVector<SelectInst *, 8> &SelectUsers,
+                      int &numberOfReplacements,
+                      const int &maxNumberOfReplacements)
       : DL(DL), AS(AS), Pass(Pass), OldAI(OldAI), NewAI(NewAI),
         NewAllocaBeginOffset(NewAllocaBeginOffset),
         NewAllocaEndOffset(NewAllocaEndOffset),
@@ -2662,7 +2679,9 @@ public:
         ElementSize(VecTy ? DL.getTypeSizeInBits(ElementTy).getFixedValue() / 8
                           : 0),
         PHIUsers(PHIUsers), SelectUsers(SelectUsers),
-        IRB(NewAI.getContext(), ConstantFolder()) {
+        IRB(NewAI.getContext(), ConstantFolder()),
+        NumberOfReplacements(numberOfReplacements),
+        MaxNumberOfReplacements(maxNumberOfReplacements) {
     if (VecTy) {
       assert((DL.getTypeSizeInBits(ElementTy).getFixedValue() % 8) == 0 &&
              "Only multiple-of-8 sized vector elements are viable");
@@ -4760,7 +4779,8 @@ AllocaInst *SROA::rewritePartition(AllocaInst &AI, AllocaSlices &AS,
 
   AllocaSliceRewriter Rewriter(DL, AS, *this, AI, *NewAI, P.beginOffset(),
                                P.endOffset(), IsIntegerPromotable, VecTy,
-                               PHIUsers, SelectUsers);
+                               PHIUsers, SelectUsers, NumberOfReplacments,
+                               MaxNumberOfReplacements);
   bool Promotable = true;
   for (Slice *S : P.splitSliceTails()) {
     Promotable &= Rewriter.visit(S);
