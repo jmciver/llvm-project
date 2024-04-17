@@ -250,7 +250,7 @@ public:
             sys::Process::GetEnv("DEV_SROA_REPLACE_MAXIMUM"))
       MaxNumberOfReplacements = std::stoi(*sroaReplaceMaximum);
     else
-      MaxNumberOfReplacements = -1;
+      MaxNumberOfReplacements = -3;
   }
 
   /// Main run method used by both the SROAPass and by the legacy pass.
@@ -2818,13 +2818,34 @@ private:
     return extractVector(IRB, Load, BeginIndex, EndIndex, "vec");
   }
 
+  bool useFreezeBits(const LoadInst *const LI) {
+    bool useFreezeBits;
+    if (MaxNumberOfReplacements == -1) {
+      useFreezeBits = true;
+      ++NumberOfReplacements;
+    } else if (MaxNumberOfReplacements == -2) {
+      useFreezeBits = false;
+    } else if (MaxNumberOfReplacements == -3) {
+      useFreezeBits = loadHasFreezeBits(LI);
+      if (useFreezeBits)
+        ++NumberOfReplacements;
+    } else if (NumberOfReplacements < MaxNumberOfReplacements) {
+      useFreezeBits = true;
+      ++NumberOfReplacements;
+    } else {
+      useFreezeBits = false;
+    }
+    return useFreezeBits;
+  }
+
   Value *rewriteIntegerLoad(LoadInst &LI) {
     assert(IntTy && "We cannot insert an integer to the alloca");
     assert(!LI.isVolatile());
     Value *V =
         IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
-                              NewAI.getAlign(), "load", loadHasFreezeBits(&LI));
-    dyn_cast<LoadInst>(V)->copyMetadata(LI, {LLVMContext::MD_freeze_bits});
+                              NewAI.getAlign(), "load", useFreezeBits(&LI));
+    // NOTE U2P: This is currently commented out for experementation.
+    // dyn_cast<LoadInst>(V)->copyMetadata(LI, {LLVMContext::MD_freeze_bits});
     V = convertValue(DL, IRB, V, IntTy);
     assert(NewBeginOffset >= NewAllocaBeginOffset && "Out of bounds offset");
     uint64_t Offset = NewBeginOffset - NewAllocaBeginOffset;
