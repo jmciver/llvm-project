@@ -1660,7 +1660,7 @@ static void speculatePHINodeLoads(IRBuilderTy &IRB, PHINode &PN) {
     LoadInst *Load = IRB.CreateAlignedLoad(
         LoadTy, InVal, Alignment,
         (PN.getName() + ".sroa.speculate.load." + Pred->getName()),
-        false);
+        loadHasFreezeBits(SomeLoad));
     ++NumLoadsSpeculated;
     if (AATags)
       Load->setAAMetadata(AATags);
@@ -1776,10 +1776,10 @@ static void speculateSelectInstLoads(SelectInst &SI, LoadInst &LI,
 
   LoadInst *TL = IRB.CreateAlignedLoad(
       LI.getType(), TV, LI.getAlign(),
-      LI.getName() + ".sroa.speculate.load.true", false);
+      LI.getName() + ".sroa.speculate.load.true", loadHasFreezeBits(&LI));
   LoadInst *FL = IRB.CreateAlignedLoad(
       LI.getType(), FV, LI.getAlign(),
-      LI.getName() + ".sroa.speculate.load.false", false);
+      LI.getName() + ".sroa.speculate.load.false", loadHasFreezeBits(&LI));
   NumLoadsSpeculated += 2;
 
   // Transfer alignment and AA info if present.
@@ -2791,11 +2791,11 @@ private:
 
     LoadInst *Load =
         IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
-                              NewAI.getAlign(), "load", false);
+                              NewAI.getAlign(), "load", loadHasFreezeBits(&LI));
 
     Load->copyMetadata(LI, {LLVMContext::MD_mem_parallel_loop_access,
-                            LLVMContext::MD_access_group});
-                            // LLVMContext::MD_freeze_bits});
+                            LLVMContext::MD_access_group,
+                            LLVMContext::MD_freeze_bits});
     return extractVector(IRB, Load, BeginIndex, EndIndex, "vec");
   }
 
@@ -2804,8 +2804,8 @@ private:
     assert(!LI.isVolatile());
     Value *V =
         IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
-                              NewAI.getAlign(), "load", false);
-    // dyn_cast<LoadInst>(V)->copyMetadata(LI, {LLVMContext::MD_freeze_bits});
+                              NewAI.getAlign(), "load", loadHasFreezeBits(&LI));
+    dyn_cast<LoadInst>(V)->copyMetadata(LI, {LLVMContext::MD_freeze_bits});
     V = convertValue(DL, IRB, V, IntTy);
     assert(NewBeginOffset >= NewAllocaBeginOffset && "Out of bounds offset");
     uint64_t Offset = NewBeginOffset - NewAllocaBeginOffset;
@@ -2853,7 +2853,7 @@ private:
           getPtrToNewAI(LI.getPointerAddressSpace(), LI.isVolatile());
       LoadInst *NewLI = IRB.CreateAlignedLoad(
           NewAI.getAllocatedType(), NewPtr, NewAI.getAlign(), LI.isVolatile(),
-          LI.getName(), false);
+          LI.getName(), loadHasFreezeBits(&LI));
       if (LI.isVolatile())
         NewLI->setAtomic(LI.getOrdering(), LI.getSyncScopeID());
       if (NewLI->isAtomic())
@@ -2886,14 +2886,14 @@ private:
       Type *LTy = IRB.getPtrTy(AS);
       LoadInst *NewLI = IRB.CreateAlignedLoad(
           TargetTy, getNewAllocaSlicePtr(IRB, LTy), getSliceAlign(),
-          LI.isVolatile(), LI.getName(), false);
+          LI.isVolatile(), LI.getName(), loadHasFreezeBits(&LI));
       if (AATags)
         NewLI->setAAMetadata(AATags.shift(NewBeginOffset - BeginOffset));
       if (LI.isVolatile())
         NewLI->setAtomic(LI.getOrdering(), LI.getSyncScopeID());
       NewLI->copyMetadata(LI, {LLVMContext::MD_mem_parallel_loop_access,
-                               LLVMContext::MD_access_group});
-                              //  LLVMContext::MD_freeze_bits});
+                               LLVMContext::MD_access_group,
+                               LLVMContext::MD_freeze_bits});
 
       V = NewLI;
       IsPtrAdjusted = true;
@@ -3776,7 +3776,7 @@ private:
       Value *GEP =
           IRB.CreateInBoundsGEP(BaseTy, Ptr, GEPIndices, Name + ".gep");
       LoadInst *Load =
-          IRB.CreateAlignedLoad(Ty, GEP, Alignment, Name + ".load", false);
+          IRB.CreateAlignedLoad(Ty, GEP, Alignment, Name + ".load", IsFreezing);
 
       APInt Offset(
           DL.getIndexSizeInBits(Ptr->getType()->getPointerAddressSpace()), 0);
@@ -4415,10 +4415,10 @@ bool SROA::presplitLoadsAndStores(AllocaInst &AI, AllocaSlices &AS) {
                          APInt(DL.getIndexSizeInBits(AS), PartOffset),
                          PartPtrTy, BasePtr->getName() + "."),
           getAdjustedAlignment(LI, PartOffset),
-          /*IsVolatile*/ false, LI->getName(), false);
+          /*IsVolatile*/ false, LI->getName(), loadHasFreezeBits(LI));
       PLoad->copyMetadata(*LI, {LLVMContext::MD_mem_parallel_loop_access,
-                                LLVMContext::MD_access_group});
-                                // LLVMContext::MD_freeze_bits});
+                                LLVMContext::MD_access_group,
+                                LLVMContext::MD_freeze_bits});
 
       // Append this load onto the list of split loads so we can find it later
       // to rewrite the stores.
@@ -4560,10 +4560,10 @@ bool SROA::presplitLoadsAndStores(AllocaInst &AI, AllocaSlices &AS) {
                            APInt(DL.getIndexSizeInBits(AS), PartOffset),
                            LoadPartPtrTy, LoadBasePtr->getName() + "."),
             getAdjustedAlignment(LI, PartOffset),
-            /*IsVolatile*/ false, LI->getName(), false);
+            /*IsVolatile*/ false, LI->getName(), loadHasFreezeBits(LI));
         PLoad->copyMetadata(*LI, {LLVMContext::MD_mem_parallel_loop_access,
-                                  LLVMContext::MD_access_group});
-                                  // LLVMContext::MD_freeze_bits});
+                                  LLVMContext::MD_access_group,
+                                  LLVMContext::MD_freeze_bits});
       }
 
       // And store this partition.
