@@ -246,7 +246,7 @@ public:
             sys::Process::GetEnv("DEV_SROA_REPLACE_MAXIMUM"))
       MaxNumberOfReplacements = std::stoi(*sroaReplaceMaximum);
     else
-      MaxNumberOfReplacements = -3;
+      MaxNumberOfReplacements = 123;
   }
 
   /// Main run method used by both the SROAPass and by the legacy pass.
@@ -2864,7 +2864,8 @@ private:
       useFreezeBits = true;
       ++NumberOfReplacements;
     } else {
-      useFreezeBits = false;
+      useFreezeBits = loadHasFreezeBits(LI);
+      // useFreezeBits = false;
     }
     return useFreezeBits;
   }
