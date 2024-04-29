@@ -236,21 +236,23 @@ class SROA {
   static std::optional<RewriteableMemOps>
   isSafeSelectToSpeculate(SelectInst &SI, bool PreserveCFG);
 
-  int NumberOfReplacments;
+  int NumberOfReplacements;
   int MaxNumberOfReplacements;
+
+  Function* FN;
 
 public:
   SROA(LLVMContext *C, DomTreeUpdater *DTU, AssumptionCache *AC,
        SROAOptions PreserveCFG_)
       : C(C), DTU(DTU), AC(AC),
         PreserveCFG(PreserveCFG_ == SROAOptions::PreserveCFG),
-        NumberOfReplacments(0) {
+        NumberOfReplacements(0), FN(nullptr) {
 
     if (auto sroaReplaceMaximum =
             sys::Process::GetEnv("DEV_SROA_REPLACE_MAXIMUM"))
       MaxNumberOfReplacements = std::stoi(*sroaReplaceMaximum);
     else
-      MaxNumberOfReplacements = 123;
+      MaxNumberOfReplacements = 2;
   }
 
   /// Main run method used by both the SROAPass and by the legacy pass.
@@ -2833,6 +2835,7 @@ private:
       ++NumberOfReplacements;
     } else {
       useFreezeBits = loadHasFreezeBits(LI);
+      ++NumberOfReplacements;
       // useFreezeBits = false;
     }
     return useFreezeBits;
@@ -4801,7 +4804,7 @@ AllocaInst *SROA::rewritePartition(AllocaInst &AI, AllocaSlices &AS,
 
   AllocaSliceRewriter Rewriter(DL, AS, *this, AI, *NewAI, P.beginOffset(),
                                P.endOffset(), IsIntegerPromotable, VecTy,
-                               PHIUsers, SelectUsers, NumberOfReplacments,
+                               PHIUsers, SelectUsers, NumberOfReplacements,
                                MaxNumberOfReplacements);
   bool Promotable = true;
   for (Slice *S : P.splitSliceTails()) {
@@ -4812,6 +4815,10 @@ AllocaInst *SROA::rewritePartition(AllocaInst &AI, AllocaSlices &AS,
     Promotable &= Rewriter.visit(&S);
     ++NumUses;
   }
+
+  if (FN && NumberOfReplacements > MaxNumberOfReplacements)
+    dbgs() << "\nINFO: " << FN->getParent()->getSourceFileName() << ", "
+           << FN->getName() << "\n";
 
   NumAllocaPartitionUses += NumUses;
   MaxUsesPerAllocaPartition.updateMax(NumUses);
@@ -5260,6 +5267,8 @@ bool SROA::promoteAllocas(Function &F) {
 
 std::pair<bool /*Changed*/, bool /*CFGChanged*/> SROA::runSROA(Function &F) {
   LLVM_DEBUG(dbgs() << "SROA function: " << F.getName() << "\n");
+
+  FN = &F;
 
   const DataLayout &DL = F.getParent()->getDataLayout();
   BasicBlock &EntryBB = F.getEntryBlock();
