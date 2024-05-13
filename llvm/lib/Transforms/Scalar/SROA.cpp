@@ -124,6 +124,8 @@ static cl::opt<bool> SROASkipMem2Reg("sroa-skip-mem2reg", cl::init(false),
                                      cl::Hidden);
 namespace {
 
+constexpr bool kEnablePrint {false};
+
 class AllocaSliceRewriter;
 class AllocaSlices;
 class Partition;
@@ -2778,6 +2780,7 @@ class AllocaSliceRewriter : public InstVisitor<AllocaSliceRewriter, bool> {
 
   int &NumberOfReplacements;
   const int &MaxNumberOfReplacements;
+  Function *FN;
 
 public:
   AllocaSliceRewriter(const DataLayout &DL, AllocaSlices &AS, SROA &Pass,
@@ -2788,7 +2791,8 @@ public:
                       SmallSetVector<PHINode *, 8> &PHIUsers,
                       SmallSetVector<SelectInst *, 8> &SelectUsers,
                       int &numberOfReplacements,
-                      const int &maxNumberOfReplacements)
+                      const int &maxNumberOfReplacements,
+                      Function* FN)
       : DL(DL), AS(AS), Pass(Pass), OldAI(OldAI), NewAI(NewAI),
         NewAllocaBeginOffset(NewAllocaBeginOffset),
         NewAllocaEndOffset(NewAllocaEndOffset),
@@ -2806,7 +2810,8 @@ public:
         PHIUsers(PHIUsers), SelectUsers(SelectUsers),
         IRB(NewAI.getContext(), ConstantFolder()),
         NumberOfReplacements(numberOfReplacements),
-        MaxNumberOfReplacements(maxNumberOfReplacements) {
+        MaxNumberOfReplacements(maxNumberOfReplacements),
+        FN(FN) {
     if (VecTy) {
       assert((DL.getTypeSizeInBits(ElementTy).getFixedValue() % 8) == 0 &&
              "Only multiple-of-8 sized vector elements are viable");
@@ -2944,7 +2949,13 @@ private:
 
   bool useFreezeBits(const LoadInst *const LI) {
     bool useFreezeBits;
-    if (MaxNumberOfReplacements == -1) {
+    std::string name {"_ZSt10__invoke_rIN4llvm8ExpectedIPNS0_7ELFYAML5ChunkEEERZZN12_GLOBAL__N_19ELFDumperINS0_6object7ELFTypeILNS0_10endiannessE1ELb1EEEE12dumpSectionsEvENKUljE_clEjEUlPKNS8_13Elf_Shdr_ImplISB_EEE7_JSH_EENSt9enable_ifIX16is_invocable_r_vIT_T0_DpT1_EESL_E4typeEOSM_DpOSN_"};
+    if ((FN->getParent()->getSourceFileName()).rfind("elf2yaml.cpp") !=
+            std::string::npos &&
+        FN->getName().compare(name) == 0) {
+      useFreezeBits = true;
+      // ++NumberOfReplacements;
+    } else if (MaxNumberOfReplacements == -1) {
       useFreezeBits = true;
       ++NumberOfReplacements;
     } else if (MaxNumberOfReplacements == -2) {
@@ -5077,7 +5088,7 @@ AllocaInst *SROA::rewritePartition(AllocaInst &AI, AllocaSlices &AS,
   AllocaSliceRewriter Rewriter(DL, AS, *this, AI, *NewAI, P.beginOffset(),
                                P.endOffset(), IsIntegerPromotable, VecTy,
                                PHIUsers, SelectUsers, NumberOfReplacements,
-                               MaxNumberOfReplacements);
+                               MaxNumberOfReplacements, FN);
   bool Promotable = true;
   for (Slice *S : P.splitSliceTails()) {
     Promotable &= Rewriter.visit(S);
@@ -5088,9 +5099,10 @@ AllocaInst *SROA::rewritePartition(AllocaInst &AI, AllocaSlices &AS,
     ++NumUses;
   }
 
-  if (FN && NumberOfReplacements > MaxNumberOfReplacements)
-    dbgs() << "\nINFO: " << FN->getParent()->getSourceFileName() << ", "
-           << FN->getName() << "\n";
+  if (kEnablePrint)
+    if (FN && NumberOfReplacements > MaxNumberOfReplacements)
+      dbgs() << "\nINFO: " << FN->getParent()->getSourceFileName() << ", "
+             << FN->getName() << "\n";
 
   NumAllocaPartitionUses += NumUses;
   MaxUsesPerAllocaPartition.updateMax(NumUses);
