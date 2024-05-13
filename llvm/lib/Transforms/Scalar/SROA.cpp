@@ -124,6 +124,7 @@ static cl::opt<bool> SROASkipMem2Reg("sroa-skip-mem2reg", cl::init(false),
                                      cl::Hidden);
 namespace {
 
+constexpr bool kEnableTranslational {false};
 constexpr bool kEnablePrint {false};
 
 class AllocaSliceRewriter;
@@ -2950,7 +2951,8 @@ private:
   bool useFreezeBits(const LoadInst *const LI) {
     bool useFreezeBits;
     std::string name {"_ZSt10__invoke_rIN4llvm8ExpectedIPNS0_7ELFYAML5ChunkEEERZZN12_GLOBAL__N_19ELFDumperINS0_6object7ELFTypeILNS0_10endiannessE1ELb1EEEE12dumpSectionsEvENKUljE_clEjEUlPKNS8_13Elf_Shdr_ImplISB_EEE7_JSH_EENSt9enable_ifIX16is_invocable_r_vIT_T0_DpT1_EESL_E4typeEOSM_DpOSN_"};
-    if ((FN->getParent()->getSourceFileName()).rfind("elf2yaml.cpp") !=
+    if (kEnableTranslational &&
+        (FN->getParent()->getSourceFileName()).rfind("elf2yaml.cpp") !=
             std::string::npos &&
         FN->getName().compare(name) == 0) {
       useFreezeBits = true;
