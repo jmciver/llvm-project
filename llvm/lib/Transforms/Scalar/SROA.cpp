@@ -254,7 +254,7 @@ public:
             sys::Process::GetEnv("DEV_SROA_REPLACE_MAXIMUM"))
       MaxNumberOfReplacements = std::stoi(*sroaReplaceMaximum);
     else
-      MaxNumberOfReplacements = 2;
+      MaxNumberOfReplacements = -3;
   }
 
   /// Main run method used by both the SROAPass and by the legacy pass.
@@ -2988,9 +2988,7 @@ private:
     assert(!LI.isVolatile());
     Value *V =
         IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
-                              NewAI.getAlign(), "load", useFreezeBits(&LI));
-    // NOTE U2P: This is currently commented out for experementation.
-    // dyn_cast<LoadInst>(V)->copyMetadata(LI, {LLVMContext::MD_freeze_bits});
+                              NewAI.getAlign(), "load", true);
     V = convertValue(DL, IRB, V, IntTy);
     assert(NewBeginOffset >= NewAllocaBeginOffset && "Out of bounds offset");
     uint64_t Offset = NewBeginOffset - NewAllocaBeginOffset;
@@ -3147,7 +3145,8 @@ private:
 
       // Mix in the existing elements.
       Value *Old = IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
-                                         NewAI.getAlign(), "load", false);
+                                         NewAI.getAlign(), "load",
+                                         /* freeze_bits */ true);
       V = insertVector(IRB, Old, V, BeginIndex, "vec");
     }
     StoreInst *Store = IRB.CreateAlignedStore(V, &NewAI, NewAI.getAlign());
@@ -3170,13 +3169,9 @@ private:
     assert(!SI.isVolatile());
     if (DL.getTypeSizeInBits(V->getType()).getFixedValue() !=
         IntTy->getBitWidth()) {
-      // TODO: This load is create natively so a previous load context does not
-      // exist. Set to false.
-      //
-      // However, if you do we segmentation fault during the build of intrinsics
-      // parsing when using llvm-min-tlbgen.
       Value *Old = IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
-                                         NewAI.getAlign(), "oldload", true);
+                                         NewAI.getAlign(), "oldload",
+                                         /* freeze_bits */ true);
       Old = convertValue(DL, IRB, Old, IntTy);
       assert(BeginOffset >= NewAllocaBeginOffset && "Out of bounds offset");
       uint64_t Offset = BeginOffset - NewAllocaBeginOffset;
@@ -3394,7 +3389,8 @@ private:
       // TODO: This load is create natively so a previous load context does not
       // exist. Set to false.
       Value *Old = IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
-                                         NewAI.getAlign(), "oldload", false);
+                                         NewAI.getAlign(), "oldload",
+                                         /* freeze_bits */ true);
       V = insertVector(IRB, Old, Splat, BeginIndex, "vec");
     } else if (IntTy) {
       // If this is a memset on an alloca where we can widen stores, insert the
@@ -3409,7 +3405,8 @@ private:
         // TODO: This load is create natively so a previous load context does
         // not exist. Set to false.
         Value *Old = IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
-                                           NewAI.getAlign(), "oldload", false);
+                                           NewAI.getAlign(), "oldload",
+                                           /* freeze_bits */ true);
         Old = convertValue(DL, IRB, Old, IntTy);
         uint64_t Offset = NewBeginOffset - NewAllocaBeginOffset;
         V = insertInteger(DL, IRB, Old, V, Offset, "insert");
@@ -3629,24 +3626,23 @@ private:
 
     Value *Src;
     if (VecTy && !IsWholeAlloca && !IsDest) {
-      // TODO: This load is create natively so a previous load context does not
-      // exist. Set to false.
       Src = IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
-                                  NewAI.getAlign(), "load", false);
+                                  NewAI.getAlign(), "load",
+                                  /* freeze_bits */ true);
       Src = extractVector(IRB, Src, BeginIndex, EndIndex, "vec");
     } else if (IntTy && !IsWholeAlloca && !IsDest) {
       // TODO: This load is create natively so a previous load context does not
       // exist. Set to false.
       Src = IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
-                                  NewAI.getAlign(), "load", false);
+                                  NewAI.getAlign(), "load",
+                                  /* freeze_bits */ true);
       Src = convertValue(DL, IRB, Src, IntTy);
       uint64_t Offset = NewBeginOffset - NewAllocaBeginOffset;
       Src = extractInteger(DL, IRB, Src, SubIntTy, Offset, "extract");
     } else {
-      // TODO: This load is create natively so a previous load context does not
-      // exist. Set to false.
-      LoadInst *Load = IRB.CreateAlignedLoad(
-          OtherTy, SrcPtr, SrcAlign, II.isVolatile(), "copyload", false);
+      LoadInst *Load =
+          IRB.CreateAlignedLoad(OtherTy, SrcPtr, SrcAlign, II.isVolatile(),
+                                "copyload", /* freeze_bits */ true);
       Load->copyMetadata(II, {LLVMContext::MD_mem_parallel_loop_access,
                               LLVMContext::MD_access_group});
       if (AATags)
@@ -3657,11 +3653,13 @@ private:
 
     if (VecTy && !IsWholeAlloca && IsDest) {
       Value *Old = IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
-                                         NewAI.getAlign(), "oldload", false);
+                                         NewAI.getAlign(), "oldload",
+                                         /* freeze_bits */ true);
       Src = insertVector(IRB, Old, Src, BeginIndex, "vec");
     } else if (IntTy && !IsWholeAlloca && IsDest) {
       Value *Old = IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
-                                         NewAI.getAlign(), "oldload", false);
+                                         NewAI.getAlign(), "oldload",
+                                         /* freeze_bits */ true );
       Old = convertValue(DL, IRB, Old, IntTy);
       uint64_t Offset = NewBeginOffset - NewAllocaBeginOffset;
       Src = insertInteger(DL, IRB, Old, Src, Offset, "insert");
