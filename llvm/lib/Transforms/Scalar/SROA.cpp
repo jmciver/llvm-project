@@ -2991,10 +2991,13 @@ private:
                               NewAI.getAlign(), "load", true);
     V = convertValue(DL, IRB, V, IntTy);
     assert(NewBeginOffset >= NewAllocaBeginOffset && "Out of bounds offset");
+    LLVM_DEBUG(dbgs() << "DEBUG: rewriteIntegerLoad: " << *V << "\n");
     uint64_t Offset = NewBeginOffset - NewAllocaBeginOffset;
     if (Offset > 0 || NewEndOffset < NewAllocaEndOffset) {
       IntegerType *ExtractTy = Type::getIntNTy(LI.getContext(), SliceSize * 8);
       V = extractInteger(DL, IRB, V, ExtractTy, Offset, "extract");
+      LLVM_DEBUG(dbgs() << "DEBUG: rewriteIntegerLoad: offset > 0: " << *V
+                        << "\n");
     }
     // It is possible that the extracted type is not the load type. This
     // happens if there is a load past the end of the alloca, and as
@@ -3003,8 +3006,11 @@ private:
     // integer.
     assert(cast<IntegerType>(LI.getType())->getBitWidth() >= SliceSize * 8 &&
            "Can only handle an extract for an overly wide load");
-    if (cast<IntegerType>(LI.getType())->getBitWidth() > SliceSize * 8)
+    if (cast<IntegerType>(LI.getType())->getBitWidth() > SliceSize * 8) {
       V = IRB.CreateZExt(V, LI.getType());
+      LLVM_DEBUG(dbgs() << "DEBUG: rewriteIntegrated: bitwitdth > slice * 8: "
+                        << *V << "\n");
+    }
     return V;
   }
 
