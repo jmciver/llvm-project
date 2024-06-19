@@ -143,9 +143,9 @@ fin:
 define ptr @no_store_single_load() {
 ; CHECK-LABEL: @no_store_single_load(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[TMP0:%.*]] = icmp ne ptr undef, null
+; CHECK-NEXT:    [[TMP0:%.*]] = icmp ne ptr poison, null
 ; CHECK-NEXT:    call void @llvm.assume(i1 [[TMP0]])
-; CHECK-NEXT:    ret ptr undef
+; CHECK-NEXT:    ret ptr poison
 ;
 entry:
   %buf = alloca ptr
@@ -158,13 +158,13 @@ define ptr @no_store_multiple_loads(i1 %c) {
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    br i1 [[C:%.*]], label [[IF:%.*]], label [[ELSE:%.*]]
 ; CHECK:       if:
-; CHECK-NEXT:    [[TMP0:%.*]] = icmp ne ptr undef, null
+; CHECK-NEXT:    [[TMP0:%.*]] = icmp ne ptr poison, null
 ; CHECK-NEXT:    call void @llvm.assume(i1 [[TMP0]])
-; CHECK-NEXT:    ret ptr undef
+; CHECK-NEXT:    ret ptr poison
 ; CHECK:       else:
-; CHECK-NEXT:    [[TMP1:%.*]] = icmp ne ptr undef, null
+; CHECK-NEXT:    [[TMP1:%.*]] = icmp ne ptr poison, null
 ; CHECK-NEXT:    call void @llvm.assume(i1 [[TMP1]])
-; CHECK-NEXT:    ret ptr undef
+; CHECK-NEXT:    ret ptr poison
 ;
 entry:
   %buf = alloca ptr
