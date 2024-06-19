@@ -24,18 +24,19 @@ target triple = "x86_64-unknown-linux-gnu"
 define dso_local void @_Z3fooi(i32 %cnt) {
 ; CHECK-LABEL: @_Z3fooi(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[INC:%.*]] = add nsw i32 [[CNT:%.*]], 1
-; CHECK-NEXT:    [[INC_1:%.*]] = add nsw i32 [[CNT]], 2
-; CHECK-NEXT:    [[INC_2:%.*]] = add nsw i32 [[CNT]], 3
-; CHECK-NEXT:    [[INC_3:%.*]] = add nsw i32 [[CNT]], 4
-; CHECK-NEXT:    [[INC_4:%.*]] = add nsw i32 [[CNT]], 5
-; CHECK-NEXT:    [[INC_5:%.*]] = add nsw i32 [[CNT]], 6
-; CHECK-NEXT:    call void @_Z3usei(i32 [[INC]])
-; CHECK-NEXT:    call void @_Z3usei(i32 [[INC_1]])
-; CHECK-NEXT:    call void @_Z3usei(i32 [[INC_2]])
-; CHECK-NEXT:    call void @_Z3usei(i32 [[INC_3]])
-; CHECK-NEXT:    call void @_Z3usei(i32 [[INC_4]])
-; CHECK-NEXT:    call void @_Z3usei(i32 [[INC_5]])
+; CHECK-NEXT:    [[CNT_FR:%.*]] = freeze i32 [[CNT:%.*]]
+; CHECK-NEXT:    [[INC:%.*]] = add i32 [[CNT_FR]], 1
+; CHECK-NEXT:    [[INC_1:%.*]] = add i32 [[CNT_FR]], 2
+; CHECK-NEXT:    [[INC_2:%.*]] = add i32 [[CNT_FR]], 3
+; CHECK-NEXT:    [[INC_3:%.*]] = add i32 [[CNT_FR]], 4
+; CHECK-NEXT:    [[INC_4:%.*]] = add i32 [[CNT_FR]], 5
+; CHECK-NEXT:    [[INC_5:%.*]] = add i32 [[CNT_FR]], 6
+; CHECK-NEXT:    tail call void @_Z3usei(i32 [[INC]])
+; CHECK-NEXT:    tail call void @_Z3usei(i32 [[INC_1]])
+; CHECK-NEXT:    tail call void @_Z3usei(i32 [[INC_2]])
+; CHECK-NEXT:    tail call void @_Z3usei(i32 [[INC_3]])
+; CHECK-NEXT:    tail call void @_Z3usei(i32 [[INC_4]])
+; CHECK-NEXT:    tail call void @_Z3usei(i32 [[INC_5]])
 ; CHECK-NEXT:    ret void
 ;
 entry:

@@ -42,7 +42,7 @@ define i32 @main() {
 ; CHECK-NEXT:    store volatile i32 2147228864, ptr @var, align 4
 ; CHECK-NEXT:    store volatile i32 2147228864, ptr @var, align 4
 ; CHECK-NEXT:    store volatile i32 2147228864, ptr @var, align 4
-; CHECK-NEXT:    ret i32 undef
+; CHECK-NEXT:    ret i32 0
 ;
 entry:
   %retval = alloca i32, align 4
