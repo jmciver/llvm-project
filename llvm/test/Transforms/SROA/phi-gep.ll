@@ -65,12 +65,13 @@ end:
 define i32 @test_sroa_phi_gep_poison(i1 %cond) {
 ; CHECK-LABEL: @test_sroa_phi_gep_poison(
 ; CHECK-NEXT:  entry:
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i32 poison
 ; CHECK-NEXT:    br i1 [[COND:%.*]], label [[IF_THEN:%.*]], label [[END:%.*]]
 ; CHECK:       if.then:
-; CHECK-NEXT:    [[PHI_SROA_PHI_SROA_SPECULATE_LOAD_IF_THEN:%.*]] = load i32, ptr poison, align 4
+; CHECK-NEXT:    [[PHI_SROA_PHI_SROA_SPECULATE_LOAD_IF_THEN:%.*]] = load i32, ptr poison, align 4, !freeze_bits [[META0:![0-9]+]]
 ; CHECK-NEXT:    br label [[END]]
 ; CHECK:       end:
-; CHECK-NEXT:    [[PHI_SROA_PHI_SROA_SPECULATED:%.*]] = phi i32 [ undef, [[ENTRY:%.*]] ], [ [[PHI_SROA_PHI_SROA_SPECULATE_LOAD_IF_THEN]], [[IF_THEN]] ]
+; CHECK-NEXT:    [[PHI_SROA_PHI_SROA_SPECULATED:%.*]] = phi i32 [ [[FREEZE]], [[ENTRY:%.*]] ], [ [[PHI_SROA_PHI_SROA_SPECULATE_LOAD_IF_THEN]], [[IF_THEN]] ]
 ; CHECK-NEXT:    ret i32 [[PHI_SROA_PHI_SROA_SPECULATED]]
 ;
 entry:
@@ -94,7 +95,7 @@ define i32 @test_sroa_phi_gep_global(i1 %cond) {
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    br i1 [[COND:%.*]], label [[IF_THEN:%.*]], label [[END:%.*]]
 ; CHECK:       if.then:
-; CHECK-NEXT:    [[PHI_SROA_PHI_SROA_SPECULATE_LOAD_IF_THEN:%.*]] = load i32, ptr getelementptr inbounds ([[PAIR:%.*]], ptr @g, i32 0, i32 1), align 4
+; CHECK-NEXT:    [[PHI_SROA_PHI_SROA_SPECULATE_LOAD_IF_THEN:%.*]] = load i32, ptr getelementptr inbounds ([[PAIR:%.*]], ptr @g, i32 0, i32 1), align 4, !freeze_bits [[META0]]
 ; CHECK-NEXT:    br label [[END]]
 ; CHECK:       end:
 ; CHECK-NEXT:    [[PHI_SROA_PHI_SROA_SPECULATED:%.*]] = phi i32 [ 1, [[ENTRY:%.*]] ], [ [[PHI_SROA_PHI_SROA_SPECULATE_LOAD_IF_THEN]], [[IF_THEN]] ]
@@ -441,6 +442,9 @@ define void @constant_value_phi(i1 %c1) {
 ; CHECK:       land.lhs.true.i:
 ; CHECK-NEXT:    br i1 [[C1:%.*]], label [[COND_END_I:%.*]], label [[COND_END_I]]
 ; CHECK:       cond.end.i:
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i16 poison
+; CHECK-NEXT:    [[FREEZE2:%.*]] = freeze i8 poison
+; CHECK-NEXT:    [[FREEZE1:%.*]] = freeze i16 poison
 ; CHECK-NEXT:    unreachable
 ;
 entry:
@@ -461,6 +465,7 @@ cond.end.i:                                       ; preds = %land.lhs.true.i, %l
 define i32 @test_sroa_phi_gep_multiple_values_from_same_block(i32 %arg) {
 ; CHECK-LABEL: @test_sroa_phi_gep_multiple_values_from_same_block(
 ; CHECK-NEXT:  bb.1:
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i32 poison
 ; CHECK-NEXT:    switch i32 [[ARG:%.*]], label [[BB_3:%.*]] [
 ; CHECK-NEXT:      i32 1, label [[BB_2:%.*]]
 ; CHECK-NEXT:      i32 2, label [[BB_2]]
@@ -468,11 +473,13 @@ define i32 @test_sroa_phi_gep_multiple_values_from_same_block(i32 %arg) {
 ; CHECK-NEXT:      i32 4, label [[BB_4]]
 ; CHECK-NEXT:    ]
 ; CHECK:       bb.2:
+; CHECK-NEXT:    [[FREEZE_LOAD4:%.*]] = freeze i32 poison
 ; CHECK-NEXT:    br label [[BB_4]]
 ; CHECK:       bb.3:
+; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze i32 poison
 ; CHECK-NEXT:    br label [[BB_4]]
 ; CHECK:       bb.4:
-; CHECK-NEXT:    [[PHI_SROA_PHI_SROA_SPECULATED:%.*]] = phi i32 [ undef, [[BB_3]] ], [ undef, [[BB_2]] ], [ undef, [[BB_1:%.*]] ], [ undef, [[BB_1]] ]
+; CHECK-NEXT:    [[PHI_SROA_PHI_SROA_SPECULATED:%.*]] = phi i32 [ [[FREEZE_LOAD]], [[BB_3]] ], [ [[FREEZE_LOAD4]], [[BB_2]] ], [ [[FREEZE]], [[BB_1:%.*]] ], [ [[FREEZE]], [[BB_1]] ]
 ; CHECK-NEXT:    ret i32 [[PHI_SROA_PHI_SROA_SPECULATED]]
 ;
 bb.1:

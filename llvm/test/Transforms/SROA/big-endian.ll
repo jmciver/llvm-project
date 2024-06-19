@@ -61,14 +61,16 @@ define i64 @test2() {
 ;
 ; CHECK-LABEL: @test2(
 ; CHECK-NEXT:  entry:
+; CHECK-NEXT:    [[FREEZE1:%.*]] = freeze i8 0
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i24 0
 ; CHECK-NEXT:    [[A_SROA_2_SROA_4_0_INSERT_EXT:%.*]] = zext i8 1 to i40
 ; CHECK-NEXT:    [[A_SROA_2_SROA_4_0_INSERT_MASK:%.*]] = and i40 undef, -256
 ; CHECK-NEXT:    [[A_SROA_2_SROA_4_0_INSERT_INSERT:%.*]] = or i40 [[A_SROA_2_SROA_4_0_INSERT_MASK]], [[A_SROA_2_SROA_4_0_INSERT_EXT]]
-; CHECK-NEXT:    [[A_SROA_2_SROA_3_0_INSERT_EXT:%.*]] = zext i24 0 to i40
+; CHECK-NEXT:    [[A_SROA_2_SROA_3_0_INSERT_EXT:%.*]] = zext i24 [[FREEZE]] to i40
 ; CHECK-NEXT:    [[A_SROA_2_SROA_3_0_INSERT_SHIFT:%.*]] = shl i40 [[A_SROA_2_SROA_3_0_INSERT_EXT]], 8
 ; CHECK-NEXT:    [[A_SROA_2_SROA_3_0_INSERT_MASK:%.*]] = and i40 [[A_SROA_2_SROA_4_0_INSERT_INSERT]], -4294967041
 ; CHECK-NEXT:    [[A_SROA_2_SROA_3_0_INSERT_INSERT:%.*]] = or i40 [[A_SROA_2_SROA_3_0_INSERT_MASK]], [[A_SROA_2_SROA_3_0_INSERT_SHIFT]]
-; CHECK-NEXT:    [[A_SROA_2_SROA_0_0_INSERT_EXT:%.*]] = zext i8 0 to i40
+; CHECK-NEXT:    [[A_SROA_2_SROA_0_0_INSERT_EXT:%.*]] = zext i8 [[FREEZE1]] to i40
 ; CHECK-NEXT:    [[A_SROA_2_SROA_0_0_INSERT_SHIFT:%.*]] = shl i40 [[A_SROA_2_SROA_0_0_INSERT_EXT]], 32
 ; CHECK-NEXT:    [[A_SROA_2_SROA_0_0_INSERT_MASK:%.*]] = and i40 [[A_SROA_2_SROA_3_0_INSERT_INSERT]], 4294967295
 ; CHECK-NEXT:    [[A_SROA_2_SROA_0_0_INSERT_INSERT:%.*]] = or i40 [[A_SROA_2_SROA_0_0_INSERT_MASK]], [[A_SROA_2_SROA_0_0_INSERT_SHIFT]]
@@ -124,14 +126,18 @@ define i64 @PR14132(i1 %flag) {
 ; a load of an i64 from an i8 alloca is dependent on endianness.
 ; CHECK-LABEL: @PR14132(
 ; CHECK-NEXT:  entry:
+; CHECK-NEXT:    [[A:%.*]] = alloca i64, align 8
+; CHECK-NEXT:    [[B:%.*]] = alloca i8, align 8
+; CHECK-NEXT:    store i64 0, ptr [[A]], align 4
+; CHECK-NEXT:    store i8 1, ptr [[B]], align 1
 ; CHECK-NEXT:    br i1 [[FLAG:%.*]], label [[IF_THEN:%.*]], label [[IF_END:%.*]]
 ; CHECK:       if.then:
-; CHECK-NEXT:    [[B_0_LOAD_EXT:%.*]] = zext i8 1 to i64
-; CHECK-NEXT:    [[B_0_ENDIAN_SHIFT:%.*]] = shl i64 [[B_0_LOAD_EXT]], 56
 ; CHECK-NEXT:    br label [[IF_END]]
 ; CHECK:       if.end:
-; CHECK-NEXT:    [[PTR_0_SROA_SPECULATED:%.*]] = phi i64 [ [[B_0_ENDIAN_SHIFT]], [[IF_THEN]] ], [ 0, [[ENTRY:%.*]] ]
-; CHECK-NEXT:    ret i64 [[PTR_0_SROA_SPECULATED]]
+; CHECK-NEXT:    [[PTR_0:%.*]] = phi ptr [ [[B]], [[IF_THEN]] ], [ [[A]], [[ENTRY:%.*]] ]
+; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze ptr [[PTR_0]]
+; CHECK-NEXT:    [[RESULT:%.*]] = load i64, ptr [[FREEZE_LOAD]], align 4
+; CHECK-NEXT:    ret i64 [[RESULT]]
 ;
 entry:
   %a = alloca i64, align 8
