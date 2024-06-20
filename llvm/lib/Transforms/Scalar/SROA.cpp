@@ -2954,13 +2954,21 @@ private:
     return extractVector(IRB, Load, BeginIndex, EndIndex, "vec");
   }
 
+  bool nameMatch() {
+    std::string name{
+        "_ZSt10__invoke_rIN4llvm8ExpectedIPNS0_7ELFYAML5ChunkEEERZZN12_GLOBAL__"
+        "N_19ELFDumperINS0_6object7ELFTypeILNS0_"
+        "10endiannessE1ELb1EEEE12dumpSectionsEvENKUljE_clEjEUlPKNS8_13Elf_Shdr_"
+        "ImplISB_EEE7_JSH_EENSt9enable_ifIX16is_invocable_r_vIT_T0_DpT1_EESL_"
+        "E4typeEOSM_DpOSN_"};
+    return (FN->getParent()->getSourceFileName()).rfind("elf2yaml.cpp") !=
+               std::string::npos &&
+           FN->getName().compare(name) == 0;
+  }
+
   bool useFreezeBits(const LoadInst *const LI) {
     bool useFreezeBits;
-    std::string name {"_ZSt10__invoke_rIN4llvm8ExpectedIPNS0_7ELFYAML5ChunkEEERZZN12_GLOBAL__N_19ELFDumperINS0_6object7ELFTypeILNS0_10endiannessE1ELb1EEEE12dumpSectionsEvENKUljE_clEjEUlPKNS8_13Elf_Shdr_ImplISB_EEE7_JSH_EENSt9enable_ifIX16is_invocable_r_vIT_T0_DpT1_EESL_E4typeEOSM_DpOSN_"};
-    if (kEnableTranslational &&
-        (FN->getParent()->getSourceFileName()).rfind("elf2yaml.cpp") !=
-            std::string::npos &&
-        FN->getName().compare(name) == 0) {
+    if (kEnableTranslational && nameMatch()) {
       useFreezeBits = true;
       // ++NumberOfReplacements;
     } else if (MaxNumberOfReplacements == -1) {
@@ -2986,18 +2994,26 @@ private:
   Value *rewriteIntegerLoad(LoadInst &LI) {
     assert(IntTy && "We cannot insert an integer to the alloca");
     assert(!LI.isVolatile());
+
+    LLVM_DEBUG(if (nameMatch()) dbgs()
+                   << "SROA: Function seen <-------------------------\n";);
+
     Value *V =
         IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
-                              NewAI.getAlign(), "load", true);
+                              NewAI.getAlign(), "load", useFreezeBits(&LI));
+    LLVM_DEBUG(if (nameMatch()) dbgs()
+                   << "      rewriteIntegerLoad value: " << *V << "\n";);
     V = convertValue(DL, IRB, V, IntTy);
     assert(NewBeginOffset >= NewAllocaBeginOffset && "Out of bounds offset");
-    LLVM_DEBUG(dbgs() << "DEBUG: rewriteIntegerLoad: " << *V << "\n");
+    LLVM_DEBUG(if (nameMatch()) dbgs()
+                   << "      rewriteIntegerLoad convert: " << *V << "\n";);
     uint64_t Offset = NewBeginOffset - NewAllocaBeginOffset;
     if (Offset > 0 || NewEndOffset < NewAllocaEndOffset) {
       IntegerType *ExtractTy = Type::getIntNTy(LI.getContext(), SliceSize * 8);
       V = extractInteger(DL, IRB, V, ExtractTy, Offset, "extract");
-      LLVM_DEBUG(dbgs() << "DEBUG: rewriteIntegerLoad: offset > 0: " << *V
-                        << "\n");
+      LLVM_DEBUG(if (nameMatch()) dbgs()
+                     << "       rewriteIntegerLoad: offset > 0: " << *V
+                     << "\n";);
     }
     // It is possible that the extracted type is not the load type. This
     // happens if there is a load past the end of the alloca, and as
