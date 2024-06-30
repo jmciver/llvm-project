@@ -111,9 +111,9 @@ define ptr @pr27557.alt() {
 define float @presplit(ptr addrspace(1) %p) {
 ; CHECK-LABEL: @presplit(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[L1:%.*]] = load i32, ptr addrspace(1) [[P:%.*]], align 4, !freeze_bits [[META0]]
+; CHECK-NEXT:    [[L1:%.*]] = load i32, ptr addrspace(1) [[P:%.*]], align 4
 ; CHECK-NEXT:    [[P_SROA_IDX:%.*]] = getelementptr inbounds i8, ptr addrspace(1) [[P]], i16 4
-; CHECK-NEXT:    [[L2:%.*]] = load i32, ptr addrspace(1) [[P_SROA_IDX]], align 4, !freeze_bits [[META0]]
+; CHECK-NEXT:    [[L2:%.*]] = load i32, ptr addrspace(1) [[P_SROA_IDX]], align 4
 ; CHECK-NEXT:    [[TMP0:%.*]] = bitcast i32 [[L1]] to float
 ; CHECK-NEXT:    [[TMP1:%.*]] = bitcast i32 [[L2]] to float
 ; CHECK-NEXT:    [[RET:%.*]] = fadd float [[TMP0]], [[TMP1]]
@@ -133,9 +133,9 @@ entry:
 ; Test load from and store to non-zero address space.
 define void @test_load_store_diff_addr_space(ptr addrspace(1) %complex1, ptr addrspace(1) %complex2) {
 ; CHECK-LABEL: @test_load_store_diff_addr_space(
-; CHECK-NEXT:    [[V13:%.*]] = load i32, ptr addrspace(1) [[COMPLEX1:%.*]], align 4, !freeze_bits [[META0]]
+; CHECK-NEXT:    [[V13:%.*]] = load i32, ptr addrspace(1) [[COMPLEX1:%.*]], align 4
 ; CHECK-NEXT:    [[COMPLEX1_SROA_IDX:%.*]] = getelementptr inbounds i8, ptr addrspace(1) [[COMPLEX1]], i16 4
-; CHECK-NEXT:    [[V14:%.*]] = load i32, ptr addrspace(1) [[COMPLEX1_SROA_IDX]], align 4, !freeze_bits [[META0]]
+; CHECK-NEXT:    [[V14:%.*]] = load i32, ptr addrspace(1) [[COMPLEX1_SROA_IDX]], align 4
 ; CHECK-NEXT:    [[TMP1:%.*]] = bitcast i32 [[V13]] to float
 ; CHECK-NEXT:    [[TMP2:%.*]] = bitcast i32 [[V14]] to float
 ; CHECK-NEXT:    [[SUM:%.*]] = fadd float [[TMP1]], [[TMP2]]

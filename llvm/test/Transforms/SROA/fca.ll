@@ -40,7 +40,7 @@ define { i32, i32 } @test1(i32 %x, i32 %y) {
 ; CHECK-NEXT:    store i32 [[X:%.*]], ptr [[A]], align 8
 ; CHECK-NEXT:    [[A_4_GEP2_SROA_IDX:%.*]] = getelementptr inbounds i8, ptr [[A]], i64 4
 ; CHECK-NEXT:    store i32 [[Y:%.*]], ptr [[A_4_GEP2_SROA_IDX]], align 4
-; CHECK-NEXT:    [[A_0_RESULT:%.*]] = load volatile { i32, i32 }, ptr [[A]], align 8, !freeze_bits [[META0:![0-9]+]]
+; CHECK-NEXT:    [[A_0_RESULT:%.*]] = load volatile { i32, i32 }, ptr [[A]], align 8
 ; CHECK-NEXT:    store volatile { i32, i32 } [[A_0_RESULT]], ptr [[B]], align 8
 ; CHECK-NEXT:    ret { i32, i32 } [[A_0_RESULT]]
 ;

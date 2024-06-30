@@ -14,7 +14,7 @@ define void @f2(i1 %c1) {
 ; CHECK:       if.then:
 ; CHECK-NEXT:    br label [[CLEANUP:%.*]]
 ; CHECK:       cleanup:
-; CHECK-NEXT:    [[G_0_SROA_SPECULATE_LOAD_CLEANUP:%.*]] = load i16, ptr @a, align 1, !freeze_bits [[META0:![0-9]+]]
+; CHECK-NEXT:    [[G_0_SROA_SPECULATE_LOAD_CLEANUP:%.*]] = load i16, ptr @a, align 1
 ; CHECK-NEXT:    switch i32 2, label [[CLEANUP7:%.*]] [
 ; CHECK-NEXT:      i32 0, label [[LBL1:%.*]]
 ; CHECK-NEXT:      i32 2, label [[LBL1]]

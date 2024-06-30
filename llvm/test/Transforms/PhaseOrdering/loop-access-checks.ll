@@ -21,25 +21,24 @@ define void @test_fill_with_foreach([2 x i64] %elems.coerce) {
 ; CHECK-LABEL: define void @test_fill_with_foreach
 ; CHECK-SAME: ([2 x i64] [[ELEMS_COERCE:%.*]]) local_unnamed_addr {
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[ELEMS_COERCE_FR:%.*]] = freeze [2 x i64] [[ELEMS_COERCE]]
-; CHECK-NEXT:    [[ELEMS_COERCE_FCA_0_EXTRACT:%.*]] = extractvalue [2 x i64] [[ELEMS_COERCE_FR]], 0
+; CHECK-NEXT:    [[ELEMS_COERCE_FCA_0_EXTRACT:%.*]] = extractvalue [2 x i64] [[ELEMS_COERCE]], 0
 ; CHECK-NEXT:    [[TMP0:%.*]] = inttoptr i64 [[ELEMS_COERCE_FCA_0_EXTRACT]] to ptr
-; CHECK-NEXT:    [[ELEMS_COERCE_FCA_1_EXTRACT:%.*]] = extractvalue [2 x i64] [[ELEMS_COERCE_FR]], 1
+; CHECK-NEXT:    [[ELEMS_COERCE_FCA_1_EXTRACT:%.*]] = extractvalue [2 x i64] [[ELEMS_COERCE]], 1
 ; CHECK-NEXT:    [[ADD_PTR_I:%.*]] = getelementptr inbounds i32, ptr [[TMP0]], i64 [[ELEMS_COERCE_FCA_1_EXTRACT]]
 ; CHECK-NEXT:    [[CMP_NOT_I_I_I_I:%.*]] = icmp slt i64 [[ELEMS_COERCE_FCA_1_EXTRACT]], 0
 ; CHECK-NEXT:    br i1 [[CMP_NOT_I_I_I_I]], label [[ERROR:%.*]], label [[FOR_COND_PREHEADER_SPLIT:%.*]]
 ; CHECK:       for.cond.preheader.split:
-; CHECK-NEXT:    [[CMP_I_NOT4:%.*]] = icmp eq i64 [[ELEMS_COERCE_FCA_1_EXTRACT]], 0
-; CHECK-NEXT:    br i1 [[CMP_I_NOT4]], label [[COMMON_RET:%.*]], label [[FOR_BODY:%.*]]
+; CHECK-NEXT:    [[CMP_I_NOT2:%.*]] = icmp eq i64 [[ELEMS_COERCE_FCA_1_EXTRACT]], 0
+; CHECK-NEXT:    br i1 [[CMP_I_NOT2]], label [[COMMON_RET:%.*]], label [[FOR_BODY:%.*]]
 ; CHECK:       common.ret:
 ; CHECK-NEXT:    ret void
 ; CHECK:       error:
 ; CHECK-NEXT:    tail call void @error()
 ; CHECK-NEXT:    br label [[COMMON_RET]]
 ; CHECK:       for.body:
-; CHECK-NEXT:    [[__BEGIN1_SROA_0_05:%.*]] = phi ptr [ [[INCDEC_PTR_I:%.*]], [[FOR_BODY]] ], [ [[TMP0]], [[FOR_COND_PREHEADER_SPLIT]] ]
-; CHECK-NEXT:    tail call void @use(ptr noundef nonnull align 4 dereferenceable(4) [[__BEGIN1_SROA_0_05]])
-; CHECK-NEXT:    [[INCDEC_PTR_I]] = getelementptr i8, ptr [[__BEGIN1_SROA_0_05]], i64 4
+; CHECK-NEXT:    [[__BEGIN1_SROA_0_03:%.*]] = phi ptr [ [[INCDEC_PTR_I:%.*]], [[FOR_BODY]] ], [ [[TMP0]], [[FOR_COND_PREHEADER_SPLIT]] ]
+; CHECK-NEXT:    tail call void @use(ptr noundef nonnull align 4 dereferenceable(4) [[__BEGIN1_SROA_0_03]])
+; CHECK-NEXT:    [[INCDEC_PTR_I]] = getelementptr inbounds i8, ptr [[__BEGIN1_SROA_0_03]], i64 4
 ; CHECK-NEXT:    [[CMP_I_NOT:%.*]] = icmp eq ptr [[INCDEC_PTR_I]], [[ADD_PTR_I]]
 ; CHECK-NEXT:    br i1 [[CMP_I_NOT]], label [[COMMON_RET]], label [[FOR_BODY]]
 ;

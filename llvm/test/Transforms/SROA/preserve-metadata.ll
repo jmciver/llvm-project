@@ -13,7 +13,7 @@ define ptr @propagate_nonnull(ptr %v) {
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    [[A_SROA_1:%.*]] = alloca ptr, align 8
 ; CHECK-NEXT:    store ptr [[V:%.*]], ptr [[A_SROA_1]], align 8
-; CHECK-NEXT:    [[A_SROA_1_0_A_SROA_1_8_LOAD:%.*]] = load volatile ptr, ptr [[A_SROA_1]], align 8, !nonnull [[META0:![0-9]+]], !freeze_bits [[META0]]
+; CHECK-NEXT:    [[A_SROA_1_0_A_SROA_1_8_LOAD:%.*]] = load volatile ptr, ptr [[A_SROA_1]], align 8, !nonnull [[META0:![0-9]+]]
 ; CHECK-NEXT:    ret ptr [[A_SROA_1_0_A_SROA_1_8_LOAD]]
 ;
 entry:
@@ -30,7 +30,7 @@ define i32 @propagate_range(i32 %v) {
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    [[A_SROA_1:%.*]] = alloca i32, align 4
 ; CHECK-NEXT:    store i32 [[V:%.*]], ptr [[A_SROA_1]], align 4
-; CHECK-NEXT:    [[A_SROA_1_0_A_SROA_1_4_LOAD:%.*]] = load volatile i32, ptr [[A_SROA_1]], align 4, !range [[RNG1:![0-9]+]], !freeze_bits [[META0]]
+; CHECK-NEXT:    [[A_SROA_1_0_A_SROA_1_4_LOAD:%.*]] = load volatile i32, ptr [[A_SROA_1]], align 4, !range [[RNG1:![0-9]+]]
 ; CHECK-NEXT:    ret i32 [[A_SROA_1_0_A_SROA_1_4_LOAD]]
 ;
 entry:
@@ -47,7 +47,7 @@ define ptr @propagate_noundef(ptr %v) {
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    [[A_SROA_1:%.*]] = alloca ptr, align 8
 ; CHECK-NEXT:    store ptr [[V:%.*]], ptr [[A_SROA_1]], align 8
-; CHECK-NEXT:    [[A_SROA_1_0_A_SROA_1_8_LOAD:%.*]] = load volatile ptr, ptr [[A_SROA_1]], align 8, !noundef [[META0]], !freeze_bits [[META0]]
+; CHECK-NEXT:    [[A_SROA_1_0_A_SROA_1_8_LOAD:%.*]] = load volatile ptr, ptr [[A_SROA_1]], align 8, !noundef [[META0]]
 ; CHECK-NEXT:    ret ptr [[A_SROA_1_0_A_SROA_1_8_LOAD]]
 ;
 entry:
@@ -98,7 +98,7 @@ define ptr @propagate_nonnull_to_int() {
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    [[A_SROA_1:%.*]] = alloca ptr, align 8
 ; CHECK-NEXT:    store ptr inttoptr (i64 42 to ptr), ptr [[A_SROA_1]], align 8
-; CHECK-NEXT:    [[A_SROA_1_0_A_SROA_1_8_LOAD:%.*]] = load volatile ptr, ptr [[A_SROA_1]], align 8, !nonnull [[META0]], !freeze_bits [[META0]]
+; CHECK-NEXT:    [[A_SROA_1_0_A_SROA_1_8_LOAD:%.*]] = load volatile ptr, ptr [[A_SROA_1]], align 8, !nonnull [[META0]]
 ; CHECK-NEXT:    ret ptr [[A_SROA_1_0_A_SROA_1_8_LOAD]]
 ;
 entry:

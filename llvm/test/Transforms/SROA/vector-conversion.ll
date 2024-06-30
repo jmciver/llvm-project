@@ -15,8 +15,7 @@ define <4 x i64> @vector_ptrtoint({<2 x ptr>, <2 x ptr>} %x) {
 ; CHECK-NEXT:    [[FREEZE:%.*]] = freeze <4 x i64> [[A_SROA_0_0_VECBLEND]]
 ; CHECK-NEXT:    [[A_SROA_0_16_VEC_EXPAND:%.*]] = shufflevector <2 x i64> [[TMP2]], <2 x i64> poison, <4 x i32> <i32 poison, i32 poison, i32 0, i32 1>
 ; CHECK-NEXT:    [[A_SROA_0_16_VECBLEND:%.*]] = select <4 x i1> <i1 false, i1 false, i1 true, i1 true>, <4 x i64> [[A_SROA_0_16_VEC_EXPAND]], <4 x i64> [[FREEZE]]
-; CHECK-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <4 x i64> [[A_SROA_0_16_VECBLEND]]
-; CHECK-NEXT:    ret <4 x i64> [[FREEZE_LOAD2]]
+; CHECK-NEXT:    ret <4 x i64> [[A_SROA_0_16_VECBLEND]]
 ;
   %a = alloca {<2 x ptr>, <2 x ptr>}
 
@@ -39,8 +38,7 @@ define <4 x ptr> @vector_inttoptr({<2 x i64>, <2 x i64>} %x) {
 ; CHECK-NEXT:    [[FREEZE:%.*]] = freeze <4 x ptr> [[A_SROA_0_0_VECBLEND]]
 ; CHECK-NEXT:    [[A_SROA_0_16_VEC_EXPAND:%.*]] = shufflevector <2 x ptr> [[TMP2]], <2 x ptr> poison, <4 x i32> <i32 poison, i32 poison, i32 0, i32 1>
 ; CHECK-NEXT:    [[A_SROA_0_16_VECBLEND:%.*]] = select <4 x i1> <i1 false, i1 false, i1 true, i1 true>, <4 x ptr> [[A_SROA_0_16_VEC_EXPAND]], <4 x ptr> [[FREEZE]]
-; CHECK-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <4 x ptr> [[A_SROA_0_16_VECBLEND]]
-; CHECK-NEXT:    ret <4 x ptr> [[FREEZE_LOAD2]]
+; CHECK-NEXT:    ret <4 x ptr> [[A_SROA_0_16_VECBLEND]]
 ;
   %a = alloca {<2 x i64>, <2 x i64>}
 
@@ -63,8 +61,7 @@ define <2 x i64> @vector_ptrtointbitcast({<1 x ptr>, <1 x ptr>} %x) {
 ; CHECK-NEXT:    [[TMP4:%.*]] = bitcast <1 x i64> [[TMP3]] to i64
 ; CHECK-NEXT:    [[FREEZE:%.*]] = freeze <2 x i64> [[A_SROA_0_0_VEC_INSERT]]
 ; CHECK-NEXT:    [[A_SROA_0_8_VEC_INSERT:%.*]] = insertelement <2 x i64> [[FREEZE]], i64 [[TMP4]], i32 1
-; CHECK-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x i64> [[A_SROA_0_8_VEC_INSERT]]
-; CHECK-NEXT:    ret <2 x i64> [[FREEZE_LOAD2]]
+; CHECK-NEXT:    ret <2 x i64> [[A_SROA_0_8_VEC_INSERT]]
 ;
   %a = alloca {<1 x ptr>, <1 x ptr>}
 

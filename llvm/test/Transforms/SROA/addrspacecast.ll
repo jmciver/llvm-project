@@ -153,7 +153,7 @@ define i64 @alloca_addrspacecast_bitcast_volatile_store(i64 %X) {
 ; CHECK-NEXT:    [[A_SROA_0:%.*]] = alloca i64, align 8
 ; CHECK-NEXT:    [[TMP0:%.*]] = addrspacecast ptr [[A_SROA_0]] to ptr addrspace(1)
 ; CHECK-NEXT:    store volatile i64 [[X:%.*]], ptr addrspace(1) [[TMP0]], align 8
-; CHECK-NEXT:    [[A_SROA_0_0_A_SROA_0_0_Z:%.*]] = load i64, ptr [[A_SROA_0]], align 8, !freeze_bits [[META0]]
+; CHECK-NEXT:    [[A_SROA_0_0_A_SROA_0_0_Z:%.*]] = load i64, ptr [[A_SROA_0]], align 8
 ; CHECK-NEXT:    ret i64 [[A_SROA_0_0_A_SROA_0_0_Z]]
 ;
 entry:
@@ -175,7 +175,7 @@ define i65 @volatile_store_addrspacecast_slice(i65 %X, i16 %idx) {
 ; CHECK-NEXT:    store volatile i65 [[X:%.*]], ptr addrspace(1) [[A_SROA_1_0_GEPB_SROA_CAST]], align 8
 ; CHECK-NEXT:    br label [[L2:%.*]]
 ; CHECK:       L2:
-; CHECK-NEXT:    [[A_SROA_0_0_A_SROA_0_20_Z:%.*]] = load i65, ptr [[A_SROA_0]], align 4, !freeze_bits [[META0]]
+; CHECK-NEXT:    [[A_SROA_0_0_A_SROA_0_20_Z:%.*]] = load i65, ptr [[A_SROA_0]], align 4
 ; CHECK-NEXT:    ret i65 [[A_SROA_0_0_A_SROA_0_20_Z]]
 ;
 entry:
@@ -198,7 +198,7 @@ define i64 @alloca_addrspacecast_bitcast_volatile_load(i64 %X) {
 ; CHECK-NEXT:    [[A_SROA_0:%.*]] = alloca i64, align 8
 ; CHECK-NEXT:    store i64 [[X:%.*]], ptr [[A_SROA_0]], align 8
 ; CHECK-NEXT:    [[TMP0:%.*]] = addrspacecast ptr [[A_SROA_0]] to ptr addrspace(1)
-; CHECK-NEXT:    [[A_SROA_0_0_A_SROA_0_0_Z:%.*]] = load volatile i64, ptr addrspace(1) [[TMP0]], align 8, !freeze_bits [[META0]]
+; CHECK-NEXT:    [[A_SROA_0_0_A_SROA_0_0_Z:%.*]] = load volatile i64, ptr addrspace(1) [[TMP0]], align 8
 ; CHECK-NEXT:    ret i64 [[A_SROA_0_0_A_SROA_0_0_Z]]
 ;
 entry:
@@ -220,7 +220,7 @@ define i65 @volatile_load_addrspacecast_slice(i65 %X, i16 %idx) {
 ; CHECK-NEXT:    store i65 [[X:%.*]], ptr addrspace(1) [[A_SROA_1_0_GEPB_SROA_CAST]], align 8
 ; CHECK-NEXT:    br label [[L2:%.*]]
 ; CHECK:       L2:
-; CHECK-NEXT:    [[A_SROA_0_0_A_SROA_0_20_Z:%.*]] = load volatile i65, ptr [[A_SROA_0]], align 4, !freeze_bits [[META0]]
+; CHECK-NEXT:    [[A_SROA_0_0_A_SROA_0_20_Z:%.*]] = load volatile i65, ptr [[A_SROA_0]], align 4
 ; CHECK-NEXT:    ret i65 [[A_SROA_0_0_A_SROA_0_20_Z]]
 ;
 entry:
@@ -243,7 +243,7 @@ define i32 @volatile_memset() {
 ; CHECK-NEXT:    [[A_SROA_0:%.*]] = alloca i32, align 4
 ; CHECK-NEXT:    [[TMP0:%.*]] = addrspacecast ptr [[A_SROA_0]] to ptr addrspace(1)
 ; CHECK-NEXT:    store volatile i32 707406378, ptr addrspace(1) [[TMP0]], align 4
-; CHECK-NEXT:    [[A_SROA_0_0_A_SROA_0_0_VAL:%.*]] = load i32, ptr [[A_SROA_0]], align 4, !freeze_bits [[META0]]
+; CHECK-NEXT:    [[A_SROA_0_0_A_SROA_0_0_VAL:%.*]] = load i32, ptr [[A_SROA_0]], align 4
 ; CHECK-NEXT:    ret i32 [[A_SROA_0_0_A_SROA_0_0_VAL]]
 ;
 entry:
@@ -323,7 +323,7 @@ define void @select_addrspacecast_const_op(i1 %a, i1 %b) {
 define void @select_addrspacecast_gv(i1 %a, i1 %b) {
 ; CHECK-LABEL: @select_addrspacecast_gv(
 ; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i64 poison
-; CHECK-NEXT:    [[COND_SROA_SPECULATE_LOAD_FALSE:%.*]] = load i64, ptr addrspace(1) @gv, align 8, !freeze_bits [[META0]]
+; CHECK-NEXT:    [[COND_SROA_SPECULATE_LOAD_FALSE:%.*]] = load i64, ptr addrspace(1) @gv, align 8
 ; CHECK-NEXT:    [[COND_SROA_SPECULATED:%.*]] = select i1 [[B:%.*]], i64 [[FREEZE]], i64 [[COND_SROA_SPECULATE_LOAD_FALSE]]
 ; CHECK-NEXT:    ret void
 ;
@@ -339,7 +339,7 @@ define void @select_addrspacecast_gv(i1 %a, i1 %b) {
 define void @select_addrspacecast_gv_constexpr(i1 %a, i1 %b) {
 ; CHECK-LABEL: @select_addrspacecast_gv_constexpr(
 ; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i64 poison
-; CHECK-NEXT:    [[COND_SROA_SPECULATE_LOAD_FALSE:%.*]] = load i64, ptr addrspace(2) addrspacecast (ptr addrspace(1) @gv to ptr addrspace(2)), align 8, !freeze_bits [[META0]]
+; CHECK-NEXT:    [[COND_SROA_SPECULATE_LOAD_FALSE:%.*]] = load i64, ptr addrspace(2) addrspacecast (ptr addrspace(1) @gv to ptr addrspace(2)), align 8
 ; CHECK-NEXT:    [[COND_SROA_SPECULATED:%.*]] = select i1 [[B:%.*]], i64 [[FREEZE]], i64 [[COND_SROA_SPECULATE_LOAD_FALSE]]
 ; CHECK-NEXT:    ret void
 ;
