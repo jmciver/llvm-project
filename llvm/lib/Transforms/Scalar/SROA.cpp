@@ -124,9 +124,6 @@ static cl::opt<bool> SROASkipMem2Reg("sroa-skip-mem2reg", cl::init(false),
                                      cl::Hidden);
 namespace {
 
-constexpr bool kEnableTranslational {false};
-constexpr bool kEnablePrint {false};
-
 class AllocaSliceRewriter;
 class AllocaSlices;
 class Partition;
@@ -238,24 +235,13 @@ class SROA {
   static std::optional<RewriteableMemOps>
   isSafeSelectToSpeculate(SelectInst &SI, bool PreserveCFG);
 
-  int NumberOfReplacements;
-  int MaxNumberOfReplacements;
-
   Function* FN;
 
 public:
   SROA(LLVMContext *C, DomTreeUpdater *DTU, AssumptionCache *AC,
        SROAOptions PreserveCFG_)
       : C(C), DTU(DTU), AC(AC),
-        PreserveCFG(PreserveCFG_ == SROAOptions::PreserveCFG),
-        NumberOfReplacements(0), FN(nullptr) {
-
-    if (auto sroaReplaceMaximum =
-            sys::Process::GetEnv("DEV_SROA_REPLACE_MAXIMUM"))
-      MaxNumberOfReplacements = std::stoi(*sroaReplaceMaximum);
-    else
-      MaxNumberOfReplacements = -3;
-  }
+        PreserveCFG(PreserveCFG_ == SROAOptions::PreserveCFG), FN(nullptr) {}
 
   /// Main run method used by both the SROAPass and by the legacy pass.
   std::pair<bool /*Changed*/, bool /*CFGChanged*/> runSROA(Function &F);
@@ -2785,8 +2771,6 @@ class AllocaSliceRewriter : public InstVisitor<AllocaSliceRewriter, bool> {
     return IRB.CreateAddrSpaceCast(&NewAI, AccessTy);
   }
 
-  int &NumberOfReplacements;
-  const int &MaxNumberOfReplacements;
   Function *FN;
 
 public:
@@ -2797,9 +2781,7 @@ public:
                       VectorType *PromotableVecTy,
                       SmallSetVector<PHINode *, 8> &PHIUsers,
                       SmallSetVector<SelectInst *, 8> &SelectUsers,
-                      int &numberOfReplacements,
-                      const int &maxNumberOfReplacements,
-                      Function* FN)
+                      Function *FN)
       : DL(DL), AS(AS), Pass(Pass), OldAI(OldAI), NewAI(NewAI),
         NewAllocaBeginOffset(NewAllocaBeginOffset),
         NewAllocaEndOffset(NewAllocaEndOffset),
@@ -2815,10 +2797,7 @@ public:
         ElementSize(VecTy ? DL.getTypeSizeInBits(ElementTy).getFixedValue() / 8
                           : 0),
         PHIUsers(PHIUsers), SelectUsers(SelectUsers),
-        IRB(NewAI.getContext(), ConstantFolder()),
-        NumberOfReplacements(numberOfReplacements),
-        MaxNumberOfReplacements(maxNumberOfReplacements),
-        FN(FN) {
+        IRB(NewAI.getContext(), ConstantFolder()), FN(FN) {
     if (VecTy) {
       assert((DL.getTypeSizeInBits(ElementTy).getFixedValue() % 8) == 0 &&
              "Only multiple-of-8 sized vector elements are viable");
@@ -2966,31 +2945,6 @@ private:
            FN->getName().compare(name) == 0;
   }
 
-  bool useFreezeBits(const LoadInst *const LI) {
-    bool useFreezeBits;
-    if (kEnableTranslational && nameMatch()) {
-      useFreezeBits = true;
-      // ++NumberOfReplacements;
-    } else if (MaxNumberOfReplacements == -1) {
-      useFreezeBits = true;
-      ++NumberOfReplacements;
-    } else if (MaxNumberOfReplacements == -2) {
-      useFreezeBits = false;
-    } else if (MaxNumberOfReplacements == -3) {
-      useFreezeBits = loadHasFreezeBits(LI);
-      if (useFreezeBits)
-        ++NumberOfReplacements;
-    } else if (NumberOfReplacements < MaxNumberOfReplacements) {
-      useFreezeBits = true;
-      ++NumberOfReplacements;
-    } else {
-      useFreezeBits = loadHasFreezeBits(LI);
-      ++NumberOfReplacements;
-      // useFreezeBits = false;
-    }
-    return useFreezeBits;
-  }
-
   Value *rewriteIntegerLoad(LoadInst &LI) {
     assert(IntTy && "We cannot insert an integer to the alloca");
     assert(!LI.isVolatile());
@@ -3000,7 +2954,7 @@ private:
 
     Value *V =
         IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
-                              NewAI.getAlign(), "load", useFreezeBits(&LI));
+                              NewAI.getAlign(), "load", /* freeze_bits */ true);
     LLVM_DEBUG(if (nameMatch()) dbgs()
                    << "      rewriteIntegerLoad value: " << *V << "\n";);
     V = convertValue(DL, IRB, V, IntTy);
@@ -5133,8 +5087,7 @@ AllocaInst *SROA::rewritePartition(AllocaInst &AI, AllocaSlices &AS,
 
   AllocaSliceRewriter Rewriter(DL, AS, *this, AI, *NewAI, P.beginOffset(),
                                P.endOffset(), IsIntegerPromotable, VecTy,
-                               PHIUsers, SelectUsers, NumberOfReplacements,
-                               MaxNumberOfReplacements, FN);
+                               PHIUsers, SelectUsers, FN);
   bool Promotable = true;
   for (Slice *S : P.splitSliceTails()) {
     Promotable &= Rewriter.visit(S);
@@ -5144,11 +5097,6 @@ AllocaInst *SROA::rewritePartition(AllocaInst &AI, AllocaSlices &AS,
     Promotable &= Rewriter.visit(&S);
     ++NumUses;
   }
-
-  if (kEnablePrint)
-    if (FN && NumberOfReplacements > MaxNumberOfReplacements)
-      dbgs() << "\nINFO: " << FN->getParent()->getSourceFileName() << ", "
-             << FN->getName() << "\n";
 
   NumAllocaPartitionUses += NumUses;
   MaxUsesPerAllocaPartition.updateMax(NumUses);
