@@ -1181,7 +1181,8 @@ Value *AvailableValue::MaterializeAdjustedValue(LoadInst *Load,
         CoercedLoad->dropUnknownNonDebugMetadata(
             {LLVMContext::MD_dereferenceable,
              LLVMContext::MD_dereferenceable_or_null,
-             LLVMContext::MD_invariant_load, LLVMContext::MD_invariant_group});
+             LLVMContext::MD_invariant_load, LLVMContext::MD_invariant_group,
+             LLVMContext::MD_freeze_bits});
       LLVM_DEBUG(dbgs() << "GVN COERCED NONLOCAL LOAD:\nOffset: " << Offset
                         << "  " << *getCoercedLoadValue() << '\n'
                         << *Res << '\n'
@@ -1400,15 +1401,34 @@ GVNPass::AnalyzeLoadAvailability(LoadInst *Load, MemDepResult DepInfo,
   }
   assert(DepInfo.isDef() && "follows from above");
 
-  // Loading immediately after lifetime begin -> undef.
-  if (isLifetimeStart(DepInst))
-    return AvailableValue::get(UndefValue::get(Load->getType()));
+  // Loading immediately after lifetime begin -> poison.
+  // NOTE: the is a AllocaInst case is now handled in getInitialValueOfAllocation.
+  // if (isa<AllocaInst>(DepInst) || isLifetimeStart(DepInst))
+  //    return AvailableValue::get(UndefValue::get(Load->getType()));
+  if (isLifetimeStart(DepInst)) {
+    if (!loadHasFreezeBits(Load))
+      return AvailableValue::get(PoisonValue::get(Load->getType()));
+    else
+      return std::nullopt;
+  }
 
   // In addition to allocator function calls this includes loading the alloca ->
-  // undef.
-  if (Constant *InitVal =
-          getInitialValueOfAllocation(DepInst, TLI, Load->getType()).second)
-    return AvailableValue::get(InitVal);
+  // poison.
+  // if (Constant *InitVal =
+  //         getInitialValueOfAllocationOLD(DepInst, TLI, Load->getType()))
+  //   return AvailableValue::get(InitVal);
+  auto [QueryEnum, QueryReplVal] =
+      getInitialValueOfAllocation(DepInst, TLI, Load->getType(), Load);
+  switch (QueryEnum) {
+  case InitializationCategory::Unknown:
+    break;
+  case InitializationCategory::Constant:
+    return AvailableValue::get(QueryReplVal);
+    break;
+  case InitializationCategory::FreezePoison:
+    return std::nullopt;
+    break;
+  }
 
   if (StoreInst *S = dyn_cast<StoreInst>(DepInst)) {
     // Reject loads and stores that are to the same address but are of
@@ -1601,6 +1621,8 @@ void GVNPass::eliminatePartiallyRedundantLoad(
     if (auto *AccessMD = Load->getMetadata(LLVMContext::MD_access_group))
       if (LI->getLoopFor(Load->getParent()) == LI->getLoopFor(UnavailableBlock))
         NewLoad->setMetadata(LLVMContext::MD_access_group, AccessMD);
+    if (auto *MD = Load->getMetadata(LLVMContext::MD_freeze_bits))
+      NewLoad->setMetadata(LLVMContext::MD_freeze_bits, MD);
 
     // We do not propagate the old load's debug location, because the new
     // load now lives in a different BB, and we want to avoid a jumpy line
