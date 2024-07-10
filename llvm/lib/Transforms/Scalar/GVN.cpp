@@ -2639,7 +2639,7 @@ bool GVNPass::processInstruction(Instruction *I) {
   // Ignore dbg info intrinsics.
   if (isa<DbgInfoIntrinsic>(I))
     return false;
-
+  LLVM_DEBUG(dbgs() << "DEBUG: instruction = " << *I << "\n");
   // If the instruction can be easily simplified then do so now in preference
   // to value numbering it.  Value numbering often exposes redundancies, for
   // example if it determines that %y is equal to %x then the instruction
