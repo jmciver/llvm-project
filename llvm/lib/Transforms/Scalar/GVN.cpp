@@ -1312,9 +1312,11 @@ GVNPass::AnalyzeLoadAvailability(LoadInst *Load, MemDepResult DepInfo,
   // if (isa<AllocaInst>(DepInst) || isLifetimeStart(DepInst))
   //    return AvailableValue::get(UndefValue::get(Load->getType()));
   const std::string matchFilename{"DependencyScanningFilesystem.cpp"};
+  const std::string functionName{"_ZN5clang7tooling12dependencies39DependencyScanningFilesystemSharedCache10CacheShard28getOrEmplaceEntryForFilenameEN4llvm9StringRefENS4_7ErrorOrINS4_3vfs6StatusEEE"};
   const auto filename =
       Load->getParent()->getParent()->getParent()->getSourceFileName();
-  if (filename.rfind(matchFilename) < filename.size()) {
+  if (filename.rfind(matchFilename) < filename.size() &&
+      functionName == Load->getParent()->getParent()->getName()) {
     return std::nullopt;
   } else {
     if (isLifetimeStart(DepInst)) {
