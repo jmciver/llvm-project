@@ -1311,36 +1311,29 @@ GVNPass::AnalyzeLoadAvailability(LoadInst *Load, MemDepResult DepInfo,
   // NOTE: the is a AllocaInst case is now handled in getInitialValueOfAllocation.
   // if (isa<AllocaInst>(DepInst) || isLifetimeStart(DepInst))
   //    return AvailableValue::get(UndefValue::get(Load->getType()));
-  const std::string matchFilename{"DependencyScanningFilesystem.cpp"};
-  const auto filename =
-      Load->getParent()->getParent()->getParent()->getSourceFileName();
-  if (filename.rfind(matchFilename) < filename.size()) {
-    return std::nullopt;
-  } else {
-    if (isLifetimeStart(DepInst)) {
-      if (!loadHasFreezeBits(Load))
-        return AvailableValue::get(PoisonValue::get(Load->getType()));
-      else
-        return std::nullopt;
-    }
-
-    // In addition to allocator function calls this includes loading the alloca
-    // -> poison.
-    // if (Constant *InitVal =
-    //         getInitialValueOfAllocationOLD(DepInst, TLI, Load->getType()))
-    //   return AvailableValue::get(InitVal);
-    auto [QueryEnum, QueryReplVal] =
-        getInitialValueOfAllocation(DepInst, TLI, Load->getType(), Load);
-    switch (QueryEnum) {
-    case InitializationCategory::Unknown:
-      break;
-    case InitializationCategory::Constant:
-      return AvailableValue::get(QueryReplVal);
-      break;
-    case InitializationCategory::FreezePoison:
+  if (isLifetimeStart(DepInst)) {
+    if (!loadHasFreezeBits(Load))
+      return AvailableValue::get(PoisonValue::get(Load->getType()));
+    else
       return std::nullopt;
-      break;
-    }
+  }
+
+  // In addition to allocator function calls this includes loading the alloca ->
+  // poison.
+  // if (Constant *InitVal =
+  //         getInitialValueOfAllocationOLD(DepInst, TLI, Load->getType()))
+  //   return AvailableValue::get(InitVal);
+  auto [QueryEnum, QueryReplVal] =
+      getInitialValueOfAllocation(DepInst, TLI, Load->getType(), Load);
+  switch (QueryEnum) {
+  case InitializationCategory::Unknown:
+    break;
+  case InitializationCategory::Constant:
+    return AvailableValue::get(QueryReplVal);
+    break;
+  case InitializationCategory::FreezePoison:
+    return std::nullopt;
+    break;
   }
 
   if (StoreInst *S = dyn_cast<StoreInst>(DepInst)) {
