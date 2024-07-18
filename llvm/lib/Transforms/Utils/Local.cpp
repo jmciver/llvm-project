@@ -3360,7 +3360,8 @@ void llvm::combineMetadataForCSE(Instruction *K, const Instruction *J,
                          LLVMContext::MD_prof,
                          LLVMContext::MD_nontemporal,
                          LLVMContext::MD_noundef,
-                         LLVMContext::MD_mmra};
+                         LLVMContext::MD_mmra,
+                         LLVMContext::MD_freeze_bits};
   combineMetadata(K, J, KnownIDs, KDominatesJ);
 }
 
