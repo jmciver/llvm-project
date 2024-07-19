@@ -3003,6 +3003,7 @@ static void combineMetadata(Instruction *K, const Instruction *J,
       case LLVMContext::MD_preserve_access_index:
         // Preserve !preserve.access.index in K.
         break;
+      case LLVMContext::MD_freeze_bits:
       case LLVMContext::MD_noundef:
         // If K does move, keep noundef if it is present in both instructions.
         if (!AAOnly && DoesKMove)
