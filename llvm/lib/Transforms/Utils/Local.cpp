@@ -3029,8 +3029,8 @@ static void combineMetadata(Instruction *K, const Instruction *J,
   // If K is a load instruction and does not have freeze_bits and J does then
   // set K.
   if (isa<LoadInst>(K) && !K->hasMetadata(LLVMContext::MD_freeze_bits))
-    if (auto *JFreezeBits = J->getMetadata(LLVMContext::MD_freeze_bits))
-      K->setMetadata(LLVMContext::MD_freeze_bits, JFreezeBits);
+    K->setMetadata(LLVMContext::MD_freeze_bits,
+                   J->getMetadata(LLVMContext::MD_freeze_bits));
 
   // Set !invariant.group from J if J has it. If both instructions have it
   // then we will just pick it from J - even when they are different.
