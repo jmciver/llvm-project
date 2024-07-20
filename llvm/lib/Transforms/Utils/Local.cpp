@@ -3306,7 +3306,6 @@ void llvm::combineMetadata(Instruction *K, const Instruction *J,
       case LLVMContext::MD_preserve_access_index:
         // Preserve !preserve.access.index in K.
         break;
-      case LLVMContext::MD_freeze_bits:
       case LLVMContext::MD_noundef:
         // If K does move, keep noundef if it is present in both instructions.
         if (DoesKMove)
@@ -3320,8 +3319,18 @@ void llvm::combineMetadata(Instruction *K, const Instruction *J,
         if (DoesKMove)
           K->setMetadata(Kind, MDNode::getMergedProfMetadata(KMD, JMD, K, J));
         break;
+      case LLVMContext::MD_freeze_bits:
+        // If K has freeze_bits then keep it regardless of J.
+        break;
     }
   }
+
+  // If K is a load instruction and does not have freeze_bits and J does then
+  // set K.
+  if (isa<LoadInst>(K) && !K->hasMetadata(LLVMContext::MD_freeze_bits))
+    if (auto *JFreezeBits = J->getMetadata(LLVMContext::MD_freeze_bits))
+      K->setMetadata(LLVMContext::MD_freeze_bits, JFreezeBits);
+
   // Set !invariant.group from J if J has it. If both instructions have it
   // then we will just pick it from J - even when they are different.
   // Also make sure that K is load or store - f.e. combining bitcast with load
