@@ -2975,13 +2975,14 @@ static void combineMetadata(Instruction *K, const Instruction *J,
       case LLVMContext::MD_invariant_group:
         // Preserve !invariant.group in K.
         break;
-      // Keep empty cases for prof, mmra, memprof, and callsite to prevent them
-      // from being removed as unknown metadata. The actual merging is handled
-      // separately below.
+      // Keep empty cases for prof, mmra, memprof, callsite, and freeze_bits to
+      // prevent them from being removed as unknown metadata. The actual merging
+      // is handled separately below.
       case LLVMContext::MD_prof:
       case LLVMContext::MD_mmra:
       case LLVMContext::MD_memprof:
       case LLVMContext::MD_callsite:
+      case LLVMContext::MD_freeze_bits:
         break;
       case LLVMContext::MD_callee_type:
         if (!AAOnly) {
@@ -3003,7 +3004,6 @@ static void combineMetadata(Instruction *K, const Instruction *J,
       case LLVMContext::MD_preserve_access_index:
         // Preserve !preserve.access.index in K.
         break;
-      case LLVMContext::MD_freeze_bits:
       case LLVMContext::MD_noundef:
         // If K does move, keep noundef if it is present in both instructions.
         if (!AAOnly && DoesKMove)
@@ -3025,6 +3025,13 @@ static void combineMetadata(Instruction *K, const Instruction *J,
         break;
       }
   }
+
+  // If K is a load instruction and does not have freeze_bits and J does then
+  // set K.
+  if (isa<LoadInst>(K) && !K->hasMetadata(LLVMContext::MD_freeze_bits))
+    if (auto *JFreezeBits = J->getMetadata(LLVMContext::MD_freeze_bits))
+      K->setMetadata(LLVMContext::MD_freeze_bits, JFreezeBits);
+
   // Set !invariant.group from J if J has it. If both instructions have it
   // then we will just pick it from J - even when they are different.
   // Also make sure that K is load or store - f.e. combining bitcast with load
