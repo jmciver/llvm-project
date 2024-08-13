@@ -2861,9 +2861,12 @@ private:
     LLVM_DEBUG(if (nameMatch()) dbgs()
                    << "SROA: Function seen <-------------------------\n";);
 
-    Value *V =
-        IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
-                              NewAI.getAlign(), "load", /* freeze_bits */ true);
+    bool isFreezingLoad{true};
+    if (NewAI.getAllocatedType() == LI.getType())
+      isFreezingLoad = loadHasFreezeBits(&LI);
+    Value *V = IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
+                                     NewAI.getAlign(), "load",
+                                     /* freeze_bits */ isFreezingLoad);
     LLVM_DEBUG(if (nameMatch()) dbgs()
                    << "      rewriteIntegerLoad value: " << *V << "\n";);
     V = convertValue(DL, IRB, V, IntTy);
