@@ -131,8 +131,7 @@ entry:
 define i128 @load_i128_to_load_ptr() {
 ; CHECK-LABEL: @load_i128_to_load_ptr(
 ; CHECK-NEXT:    [[TMP1:%.*]] = ptrtoint ptr null to i64
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i64 poison
-; CHECK-NEXT:    [[A_SROA_2_0_INSERT_EXT:%.*]] = zext i64 [[FREEZE]] to i128
+; CHECK-NEXT:    [[A_SROA_2_0_INSERT_EXT:%.*]] = zext i64 poison to i128
 ; CHECK-NEXT:    [[A_SROA_2_0_INSERT_SHIFT:%.*]] = shl i128 [[A_SROA_2_0_INSERT_EXT]], 64
 ; CHECK-NEXT:    [[A_SROA_2_0_INSERT_MASK:%.*]] = and i128 undef, 18446744073709551615
 ; CHECK-NEXT:    [[A_SROA_2_0_INSERT_INSERT:%.*]] = or i128 [[A_SROA_2_0_INSERT_MASK]], [[A_SROA_2_0_INSERT_SHIFT]]

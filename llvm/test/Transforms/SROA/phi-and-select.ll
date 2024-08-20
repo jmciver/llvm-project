@@ -233,7 +233,6 @@ define i32 @test6(ptr %b) {
 ; CHECK-NEXT:    [[SELECT2:%.*]] = select i1 false, ptr poison, ptr [[B:%.*]]
 ; CHECK-NEXT:    [[SELECT3:%.*]] = select i1 false, ptr poison, ptr [[B]]
 ; CHECK-NEXT:    call void @f(ptr [[SELECT2]], ptr [[SELECT3]])
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i32 poison
 ; CHECK-NEXT:    ret i32 1
 ;
 entry:
@@ -303,10 +302,9 @@ define i32 @test8(i32 %b, ptr %ptr) {
 ; CHECK-NEXT:    [[PHI_SROA_SPECULATE_LOAD_THEN:%.*]] = load i32, ptr [[PTR:%.*]], align 4
 ; CHECK-NEXT:    br label [[EXIT:%.*]]
 ; CHECK:       else:
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i32 poison
 ; CHECK-NEXT:    br label [[EXIT]]
 ; CHECK:       exit:
-; CHECK-NEXT:    [[PHI_SROA_SPECULATED:%.*]] = phi i32 [ [[FREEZE]], [[ELSE]] ], [ [[PHI_SROA_SPECULATE_LOAD_THEN]], [[THEN]] ]
+; CHECK-NEXT:    [[PHI_SROA_SPECULATED:%.*]] = phi i32 [ poison, [[ELSE]] ], [ [[PHI_SROA_SPECULATE_LOAD_THEN]], [[THEN]] ]
 ; CHECK-NEXT:    ret i32 [[PHI_SROA_SPECULATED]]
 ;
 entry:
@@ -333,9 +331,8 @@ define i32 @test9(i32 %b, ptr %ptr) {
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    store i32 0, ptr [[PTR:%.*]], align 4
 ; CHECK-NEXT:    [[TEST:%.*]] = icmp ne i32 [[B:%.*]], 0
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i32 poison
 ; CHECK-NEXT:    [[LOADED_SROA_SPECULATE_LOAD_FALSE:%.*]] = load i32, ptr [[PTR]], align 4
-; CHECK-NEXT:    [[LOADED_SROA_SPECULATED:%.*]] = select i1 [[TEST]], i32 [[FREEZE]], i32 [[LOADED_SROA_SPECULATE_LOAD_FALSE]]
+; CHECK-NEXT:    [[LOADED_SROA_SPECULATED:%.*]] = select i1 [[TEST]], i32 poison, i32 [[LOADED_SROA_SPECULATE_LOAD_FALSE]]
 ; CHECK-NEXT:    ret i32 [[LOADED_SROA_SPECULATED]]
 ;
 entry:

@@ -140,17 +140,17 @@ define void @foo(ptr noundef nonnull align 8 dereferenceable(24) noalias %vec) #
 ; CHECK-NEXT:    [[SUB_PTR_RHS_CAST_I_I:%.*]] = ptrtoint ptr [[TMP1]] to i64
 ; CHECK-NEXT:    [[SUB_PTR_SUB_I_I:%.*]] = sub i64 [[SUB_PTR_LHS_CAST_I_I]], [[SUB_PTR_RHS_CAST_I_I]]
 ; CHECK-NEXT:    [[SUB_PTR_DIV_I_I:%.*]] = ashr exact i64 [[SUB_PTR_SUB_I_I]], 3
-; CHECK-NEXT:    [[CMP_NOT11:%.*]] = icmp eq ptr [[TMP0]], [[TMP1]]
-; CHECK-NEXT:    br i1 [[CMP_NOT11]], label [[FOR_COND_CLEANUP:%.*]], label [[FOR_BODY:%.*]]
+; CHECK-NEXT:    [[CMP_NOT9:%.*]] = icmp eq ptr [[TMP0]], [[TMP1]]
+; CHECK-NEXT:    br i1 [[CMP_NOT9]], label [[FOR_COND_CLEANUP:%.*]], label [[FOR_BODY:%.*]]
 ; CHECK:       for.cond.cleanup:
 ; CHECK-NEXT:    ret void
 ; CHECK:       for.body:
-; CHECK-NEXT:    [[I_012:%.*]] = phi i64 [ [[INC:%.*]], [[FOR_BODY]] ], [ 0, [[ENTRY:%.*]] ]
-; CHECK-NEXT:    [[ADD_PTR_I:%.*]] = getelementptr inbounds double, ptr [[TMP1]], i64 [[I_012]]
+; CHECK-NEXT:    [[I_010:%.*]] = phi i64 [ [[INC:%.*]], [[FOR_BODY]] ], [ 0, [[ENTRY:%.*]] ]
+; CHECK-NEXT:    [[ADD_PTR_I:%.*]] = getelementptr inbounds double, ptr [[TMP1]], i64 [[I_010]]
 ; CHECK-NEXT:    [[TMP2:%.*]] = load double, ptr [[ADD_PTR_I]], align 8
 ; CHECK-NEXT:    [[ADD:%.*]] = fadd double [[TMP2]], 1.000000e+00
 ; CHECK-NEXT:    store double [[ADD]], ptr [[ADD_PTR_I]], align 8
-; CHECK-NEXT:    [[INC]] = add nuw i64 [[I_012]], 1
+; CHECK-NEXT:    [[INC]] = add nuw i64 [[I_010]], 1
 ; CHECK-NEXT:    [[CMP_NOT:%.*]] = icmp eq i64 [[INC]], [[SUB_PTR_DIV_I_I]]
 ; CHECK-NEXT:    br i1 [[CMP_NOT]], label [[FOR_COND_CLEANUP]], label [[FOR_BODY]]
 ;
@@ -279,19 +279,19 @@ define void @loop_with_signed_induction(ptr noundef nonnull align 8 dereferencea
 ; CHECK-NEXT:    [[SUB_PTR_RHS_CAST_I_I:%.*]] = ptrtoint ptr [[TMP1]] to i64
 ; CHECK-NEXT:    [[SUB_PTR_SUB_I_I:%.*]] = sub i64 [[SUB_PTR_LHS_CAST_I_I]], [[SUB_PTR_RHS_CAST_I_I]]
 ; CHECK-NEXT:    [[SUB_PTR_DIV_I_I:%.*]] = ashr exact i64 [[SUB_PTR_SUB_I_I]], 3
-; CHECK-NEXT:    [[CMP11:%.*]] = icmp sgt i64 [[SUB_PTR_DIV_I_I]], 0
-; CHECK-NEXT:    br i1 [[CMP11]], label [[OPERATOR_ACC_EXIT:%.*]], label [[FOR_COND_CLEANUP:%.*]]
+; CHECK-NEXT:    [[CMP9:%.*]] = icmp sgt i64 [[SUB_PTR_DIV_I_I]], 0
+; CHECK-NEXT:    br i1 [[CMP9]], label [[FOR_BODY:%.*]], label [[FOR_COND_CLEANUP:%.*]]
 ; CHECK:       for.cond.cleanup:
 ; CHECK-NEXT:    ret void
-; CHECK:       operator_acc.exit:
-; CHECK-NEXT:    [[I_012:%.*]] = phi i64 [ [[INC:%.*]], [[OPERATOR_ACC_EXIT]] ], [ 0, [[ENTRY:%.*]] ]
-; CHECK-NEXT:    [[ADD_PTR_I:%.*]] = getelementptr inbounds double, ptr [[TMP1]], i64 [[I_012]]
+; CHECK:       for.body:
+; CHECK-NEXT:    [[I_010:%.*]] = phi i64 [ [[INC:%.*]], [[FOR_BODY]] ], [ 0, [[ENTRY:%.*]] ]
+; CHECK-NEXT:    [[ADD_PTR_I:%.*]] = getelementptr inbounds double, ptr [[TMP1]], i64 [[I_010]]
 ; CHECK-NEXT:    [[TMP2:%.*]] = load double, ptr [[ADD_PTR_I]], align 8, !tbaa [[TBAA6:![0-9]+]]
 ; CHECK-NEXT:    [[ADD:%.*]] = fadd double [[TMP2]], 1.000000e+00
 ; CHECK-NEXT:    store double [[ADD]], ptr [[ADD_PTR_I]], align 8, !tbaa [[TBAA6]]
-; CHECK-NEXT:    [[INC]] = add nuw nsw i64 [[I_012]], 1
+; CHECK-NEXT:    [[INC]] = add nuw nsw i64 [[I_010]], 1
 ; CHECK-NEXT:    [[CMP:%.*]] = icmp slt i64 [[INC]], [[SUB_PTR_DIV_I_I]]
-; CHECK-NEXT:    br i1 [[CMP]], label [[OPERATOR_ACC_EXIT]], label [[FOR_COND_CLEANUP]]
+; CHECK-NEXT:    br i1 [[CMP]], label [[FOR_BODY]], label [[FOR_COND_CLEANUP]]
 ;
 entry:
   %vec.addr = alloca ptr, align 8
@@ -345,25 +345,25 @@ define void @monkey(ptr noundef %arr, i32 noundef %len) {
 ; CHECK-LABEL: define void @monkey
 ; CHECK-SAME: (ptr nocapture noundef [[ARR:%.*]], i32 noundef [[LEN:%.*]]) local_unnamed_addr #[[ATTR1:[0-9]+]] {
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[CMP13:%.*]] = icmp ugt i32 [[LEN]], 1
-; CHECK-NEXT:    br i1 [[CMP13]], label [[FOR_BODY4_PREHEADER:%.*]], label [[FOR_COND_CLEANUP:%.*]]
+; CHECK-NEXT:    [[CMP8:%.*]] = icmp ugt i32 [[LEN]], 1
+; CHECK-NEXT:    br i1 [[CMP8]], label [[FOR_BODY4_PREHEADER:%.*]], label [[FOR_COND_CLEANUP:%.*]]
 ; CHECK:       for.body4.preheader:
-; CHECK-NEXT:    [[I_014:%.*]] = phi i32 [ [[INC:%.*]], [[FOR_COND_CLEANUP3:%.*]] ], [ 1, [[ENTRY:%.*]] ]
+; CHECK-NEXT:    [[I_09:%.*]] = phi i32 [ [[INC:%.*]], [[FOR_COND_CLEANUP3:%.*]] ], [ 1, [[ENTRY:%.*]] ]
 ; CHECK-NEXT:    br label [[FOR_BODY4:%.*]]
 ; CHECK:       for.cond.cleanup:
 ; CHECK-NEXT:    ret void
 ; CHECK:       for.cond.cleanup3:
-; CHECK-NEXT:    [[INC]] = add nuw i32 [[I_014]], 1
+; CHECK-NEXT:    [[INC]] = add nuw i32 [[I_09]], 1
 ; CHECK-NEXT:    [[CMP:%.*]] = icmp ult i32 [[INC]], [[LEN]]
 ; CHECK-NEXT:    br i1 [[CMP]], label [[FOR_BODY4_PREHEADER]], label [[FOR_COND_CLEANUP]]
 ; CHECK:       for.body4:
-; CHECK-NEXT:    [[K_012:%.*]] = phi i32 [ [[DEC:%.*]], [[FOR_BODY4]] ], [ [[I_014]], [[FOR_BODY4_PREHEADER]] ]
-; CHECK-NEXT:    [[IDX_EXT_I:%.*]] = zext i32 [[K_012]] to i64
+; CHECK-NEXT:    [[K_07:%.*]] = phi i32 [ [[DEC:%.*]], [[FOR_BODY4]] ], [ [[I_09]], [[FOR_BODY4_PREHEADER]] ]
+; CHECK-NEXT:    [[IDX_EXT_I:%.*]] = zext i32 [[K_07]] to i64
 ; CHECK-NEXT:    [[ADD_PTR_I:%.*]] = getelementptr inbounds i32, ptr [[ARR]], i64 [[IDX_EXT_I]]
 ; CHECK-NEXT:    [[TMP0:%.*]] = load i32, ptr [[ADD_PTR_I]], align 4
 ; CHECK-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP0]], 1
 ; CHECK-NEXT:    store i32 [[ADD]], ptr [[ADD_PTR_I]], align 4
-; CHECK-NEXT:    [[DEC]] = add i32 [[K_012]], -1
+; CHECK-NEXT:    [[DEC]] = add i32 [[K_07]], -1
 ; CHECK-NEXT:    [[CMP2_NOT:%.*]] = icmp eq i32 [[DEC]], 0
 ; CHECK-NEXT:    br i1 [[CMP2_NOT]], label [[FOR_COND_CLEANUP3]], label [[FOR_BODY4]]
 ;

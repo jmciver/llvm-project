@@ -27,8 +27,7 @@ define i8 @store(i8 %init, i1 %cond, ptr dereferenceable(4) %escape) {
 ; CHECK-MODIFY-CFG-NEXT:    br label [[ENTRY_CONT]]
 ; CHECK-MODIFY-CFG:       entry.cont:
 ; CHECK-MODIFY-CFG-NEXT:    [[TMP_0:%.*]] = phi i8 [ [[REINIT]], [[ENTRY_THEN]] ], [ [[INIT:%.*]], [[ENTRY_ELSE]] ]
-; CHECK-MODIFY-CFG-NEXT:    [[FREEZE_LOAD:%.*]] = freeze i8 [[TMP_0]]
-; CHECK-MODIFY-CFG-NEXT:    ret i8 [[FREEZE_LOAD]]
+; CHECK-MODIFY-CFG-NEXT:    ret i8 [[TMP_0]]
 ;
 entry:
   %tmp = alloca i8, align 4
@@ -83,8 +82,7 @@ define i8 @store_atomic_unord(i8 %init, i1 %cond, ptr dereferenceable(4) %escape
 ; CHECK-MODIFY-CFG-NEXT:    br label [[ENTRY_CONT]]
 ; CHECK-MODIFY-CFG:       entry.cont:
 ; CHECK-MODIFY-CFG-NEXT:    [[TMP_0:%.*]] = phi i8 [ [[REINIT]], [[ENTRY_THEN]] ], [ [[INIT:%.*]], [[ENTRY_ELSE]] ]
-; CHECK-MODIFY-CFG-NEXT:    [[FREEZE_LOAD:%.*]] = freeze i8 [[TMP_0]]
-; CHECK-MODIFY-CFG-NEXT:    ret i8 [[FREEZE_LOAD]]
+; CHECK-MODIFY-CFG-NEXT:    ret i8 [[TMP_0]]
 ;
 entry:
   %tmp = alloca i8, align 4

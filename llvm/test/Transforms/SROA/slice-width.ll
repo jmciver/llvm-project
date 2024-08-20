@@ -151,7 +151,6 @@ define i1 @presplit_overlarge_load() {
 ; CHECK-LABEL: @presplit_overlarge_load(
 ; CHECK-NEXT:    [[A_SROA_0:%.*]] = alloca i8, align 2
 ; CHECK-NEXT:    [[A_SROA_0_0_A_SROA_0_0_L11:%.*]] = load i8, ptr [[A_SROA_0]], align 2
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i8 poison
 ; CHECK-NEXT:    [[A_SROA_0_0_A_SROA_0_0_L2:%.*]] = load i1, ptr [[A_SROA_0]], align 2
 ; CHECK-NEXT:    ret i1 [[A_SROA_0_0_A_SROA_0_0_L2]]
 ;
