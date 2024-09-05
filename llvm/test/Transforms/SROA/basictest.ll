@@ -158,6 +158,7 @@ define void @test3(ptr %dst, ptr align 8 %src) {
 ; CHECK-NEXT:    call void @llvm.memcpy.p0.p0.i32(ptr align 1 [[A_SROA_235]], ptr align 8 [[A_SROA_235_0_SRC_SROA_IDX]], i32 7, i1 false), !tbaa [[TBAA0]]
 ; CHECK-NEXT:    [[A_SROA_31_0_SRC_SROA_IDX:%.*]] = getelementptr inbounds i8, ptr [[SRC]], i64 215
 ; CHECK-NEXT:    call void @llvm.memcpy.p0.p0.i32(ptr align 1 [[A_SROA_31]], ptr align 1 [[A_SROA_31_0_SRC_SROA_IDX]], i32 85, i1 false), !tbaa [[TBAA0]]
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i8 0
 ; CHECK-NEXT:    store i8 1, ptr [[A_SROA_32]], align 1, !tbaa [[TBAA4:![0-9]+]]
 ; CHECK-NEXT:    store i16 1, ptr [[A_SROA_32]], align 1, !tbaa [[TBAA6:![0-9]+]]
 ; CHECK-NEXT:    store i32 1, ptr [[A_SROA_32]], align 1, !tbaa [[TBAA8:![0-9]+]]
@@ -204,6 +205,7 @@ define void @test3(ptr %dst, ptr align 8 %src) {
 ; CHECK-NEXT:    call void @llvm.memcpy.p0.p0.i32(ptr align 1 [[A_SROA_16]], ptr align 1 [[A_SROA_16_197_SRC_SROA_IDX]], i32 5, i1 false), !tbaa [[TBAA52]]
 ; CHECK-NEXT:    [[A_SROA_16_2_OVERLAP2_1_2_I8_SROA_IDX12:%.*]] = getelementptr inbounds i8, ptr [[A_SROA_16]], i64 2
 ; CHECK-NEXT:    call void @llvm.memset.p0.i32(ptr align 1 [[A_SROA_16_2_OVERLAP2_1_2_I8_SROA_IDX12]], i8 42, i32 5, i1 false), !tbaa [[TBAA54:![0-9]+]]
+; CHECK-NEXT:    [[FREEZE13:%.*]] = freeze i8 42
 ; CHECK-NEXT:    call void @llvm.memset.p0.i32(ptr align 1 [[A_SROA_235]], i8 42, i32 2, i1 false), !tbaa [[TBAA54]]
 ; CHECK-NEXT:    [[A_SROA_235_209_OVERLAP2_2_1_I8_SROA_IDX8:%.*]] = getelementptr inbounds i8, ptr [[A_SROA_235]], i64 1
 ; CHECK-NEXT:    call void @llvm.memcpy.p0.p0.i32(ptr align 1 [[A_SROA_235_209_OVERLAP2_2_1_I8_SROA_IDX8]], ptr align 1 [[SRC]], i32 5, i1 false), !tbaa [[TBAA56:![0-9]+]]
@@ -213,7 +215,6 @@ define void @test3(ptr %dst, ptr align 8 %src) {
 ; CHECK-NEXT:    call void @llvm.memcpy.p0.p0.i32(ptr align 1 [[A_SROA_31]], ptr align 1 [[A_SROA_31_210_SRC_SROA_IDX]], i32 3, i1 false), !tbaa [[TBAA58]]
 ; CHECK-NEXT:    call void @llvm.memcpy.p0.p0.i32(ptr align 1 [[DST:%.*]], ptr align 1 [[A_SROA_0]], i32 42, i1 false), !tbaa [[TBAA60:![0-9]+]]
 ; CHECK-NEXT:    [[A_SROA_2_0_DST_SROA_IDX:%.*]] = getelementptr inbounds i8, ptr [[DST]], i64 42
-; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i8 0
 ; CHECK-NEXT:    store i8 [[FREEZE]], ptr [[A_SROA_2_0_DST_SROA_IDX]], align 1, !tbaa [[TBAA60]]
 ; CHECK-NEXT:    [[A_SROA_3_0_DST_SROA_IDX:%.*]] = getelementptr inbounds i8, ptr [[DST]], i64 43
 ; CHECK-NEXT:    call void @llvm.memcpy.p0.p0.i32(ptr align 1 [[A_SROA_3_0_DST_SROA_IDX]], ptr align 1 [[A_SROA_3]], i32 99, i1 false), !tbaa [[TBAA60]]
@@ -224,7 +225,6 @@ define void @test3(ptr %dst, ptr align 8 %src) {
 ; CHECK-NEXT:    [[A_SROA_16_0_DST_SROA_IDX:%.*]] = getelementptr inbounds i8, ptr [[DST]], i64 200
 ; CHECK-NEXT:    call void @llvm.memcpy.p0.p0.i32(ptr align 1 [[A_SROA_16_0_DST_SROA_IDX]], ptr align 1 [[A_SROA_16]], i32 7, i1 false), !tbaa [[TBAA60]]
 ; CHECK-NEXT:    [[A_SROA_23_0_DST_SROA_IDX:%.*]] = getelementptr inbounds i8, ptr [[DST]], i64 207
-; CHECK-NEXT:    [[FREEZE13:%.*]] = freeze i8 42
 ; CHECK-NEXT:    store i8 [[FREEZE13]], ptr [[A_SROA_23_0_DST_SROA_IDX]], align 1, !tbaa [[TBAA60]]
 ; CHECK-NEXT:    [[A_SROA_235_0_DST_SROA_IDX:%.*]] = getelementptr inbounds i8, ptr [[DST]], i64 208
 ; CHECK-NEXT:    call void @llvm.memcpy.p0.p0.i32(ptr align 1 [[A_SROA_235_0_DST_SROA_IDX]], ptr align 1 [[A_SROA_235]], i32 7, i1 false), !tbaa [[TBAA60]]
@@ -1091,8 +1091,8 @@ define void @PR14059.1(ptr %d) {
 ; CHECK-NEXT:    [[TMP3:%.*]] = bitcast i64 [[X_SROA_0_I_2_INSERT_INSERT]] to double
 ; CHECK-NEXT:    [[FREEZE7:%.*]] = freeze double [[TMP3]]
 ; CHECK-NEXT:    [[TMP4:%.*]] = bitcast double [[FREEZE7]] to i64
-; CHECK-NEXT:    [[X_SROA_0_I_4_COPYLOAD:%.*]] = load i32, ptr [[D:%.*]], align 1, !freeze_bits [[META3]]
 ; CHECK-NEXT:    [[FREEZE:%.*]] = freeze double 0.000000e+00
+; CHECK-NEXT:    [[X_SROA_0_I_4_COPYLOAD:%.*]] = load i32, ptr [[D:%.*]], align 1, !freeze_bits [[META3]]
 ; CHECK-NEXT:    [[TMP5:%.*]] = bitcast double [[FREEZE]] to i64
 ; CHECK-NEXT:    [[X_SROA_0_I_4_INSERT_EXT:%.*]] = zext i32 [[X_SROA_0_I_4_COPYLOAD]] to i64
 ; CHECK-NEXT:    [[X_SROA_0_I_4_INSERT_SHIFT:%.*]] = shl i64 [[X_SROA_0_I_4_INSERT_EXT]], 32
