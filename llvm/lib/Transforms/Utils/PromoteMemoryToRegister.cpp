@@ -218,7 +218,6 @@ struct AllocaInfo {
   StoreInst *OnlyStore;
   BasicBlock *OnlyBlock;
   bool OnlyUsedInOneBlock;
-  bool HasFreezingLoad;
 
   /// Debug users of the alloca - does not include dbg.assign intrinsics.
   DbgUserVec DbgUsers;
@@ -232,7 +231,6 @@ struct AllocaInfo {
     OnlyStore = nullptr;
     OnlyBlock = nullptr;
     OnlyUsedInOneBlock = true;
-    HasFreezingLoad = false;
     DbgUsers.clear();
     DPUsers.clear();
     AssignmentTracking.clear();
@@ -258,7 +256,6 @@ struct AllocaInfo {
         // Otherwise it must be a load instruction, keep track of variable
         // reads.
         UsingBlocks.push_back(LI->getParent());
-        HasFreezingLoad |= loadHasFreezeBits(LI);
       }
 
       if (OnlyUsedInOneBlock) {
@@ -360,8 +357,6 @@ struct PromoteMem2Reg {
 
   /// Reverse mapping of Allocas.
   DenseMap<AllocaInst *, unsigned> AllocaLookup;
-
-  DenseMap<AllocaInst *, bool> AllocaHasFreezingLoad;
 
   /// The PhiNodes we're adding.
   ///
@@ -565,11 +560,6 @@ rewriteSingleStoreAlloca(AllocaInst *AI, AllocaInfo &Info, LargeBlockInfo &LBI,
     if (ReplVal == LI)
       ReplVal = PoisonValue::get(LI->getType());
 
-    if (Info.HasFreezingLoad && !isa<FreezeInst>(ReplVal)) {
-      IRBuilder Builder(OnlyStore);
-      ReplVal = Builder.CreateFreeze(ReplVal);
-    }
-
     convertMetadataToAssumes(LI, ReplVal, DL, AC, &DT);
     LI->replaceAllUsesWith(ReplVal);
     LI->eraseFromParent();
@@ -641,19 +631,14 @@ promoteSingleBlockAlloca(AllocaInst *AI, const AllocaInfo &Info,
   // Walk the use-def list of the alloca, getting the locations of all stores.
   using StoresByIndexTy = SmallVector<std::pair<unsigned, StoreInst *>, 64>;
   StoresByIndexTy StoresByIndex;
-  using FreezeByIndexTy = SmallVector<std::pair<unsigned, Value *>, 64>;
-  FreezeByIndexTy FreezeByIndex;
 
   for (User *U : AI->users())
-    if (StoreInst *SI = dyn_cast<StoreInst>(U)) {
+    if (StoreInst *SI = dyn_cast<StoreInst>(U))
       StoresByIndex.push_back(std::make_pair(LBI.getInstructionIndex(SI), SI));
-      FreezeByIndex.push_back(std::make_pair(LBI.getInstructionIndex(SI), nullptr));
-    }
 
   // Sort the stores by their index, making it efficient to do a lookup with a
   // binary search.
   llvm::sort(StoresByIndex, less_first());
-  llvm::sort(FreezeByIndex, less_first());
 
   // Walk all of the loads from this alloca, replacing them with the nearest
   // store above them, if any.
@@ -698,19 +683,10 @@ promoteSingleBlockAlloca(AllocaInst *AI, const AllocaInfo &Info,
       // Otherwise, there was a store before this load, the load takes its
       // value.
       ReplVal = std::prev(I)->second->getOperand(0);
-      if (Info.HasFreezingLoad) {
-        // if (!loadHasFreezeBits(dyn_cast<LoadInst>(ReplVal)) &&
-        //     loadHasFreezeBits(LI)) {
-        auto FreezeItem = llvm::lower_bound(
-            FreezeByIndex,
-            std::make_pair(std::prev(I)->first, static_cast<Value *>(nullptr)),
-            less_first());
-        if (FreezeItem->second == nullptr) {
-          IRBuilder<> Builder(std::prev(I)->second);
-          ReplVal = Builder.CreateFreeze(ReplVal, "freeze");
-          FreezeItem->second = ReplVal;
-        } else
-          ReplVal = FreezeItem->second;
+      if (!loadHasFreezeBits(dyn_cast<LoadInst>(ReplVal)) &&
+          loadHasFreezeBits(LI)) {
+        IRBuilder<> Builder(LI);
+        ReplVal = Builder.CreateFreeze(ReplVal, "freeze");
       }
     }
 
@@ -799,7 +775,6 @@ void PromoteMem2Reg::run() {
     // Calculate the set of read and write-locations for each alloca.  This is
     // analogous to finding the 'uses' and 'definitions' of each variable.
     Info.AnalyzeAlloca(AI);
-    AllocaHasFreezingLoad[AI] = Info.HasFreezingLoad;
 
     // If there is only a single store to this value, replace any loads of
     // it that are directly dominated by the definition with the value stored.
@@ -1204,7 +1179,7 @@ NextIteration:
       convertMetadataToAssumes(LI, V, SQ.DL, AC, &DT);
 
       // Anything using the load now uses the current value.
-      if (loadHasFreezeBits(LI) && !isa<FreezeInst>(V)) {
+      if (loadHasFreezeBits(LI)) {
         IRBuilder<> Builder(LI);
         V = Builder.CreateFreeze(V, "freeze.load");
       }
@@ -1223,13 +1198,7 @@ NextIteration:
 
       // what value were we writing?
       unsigned AllocaNo = ai->second;
-
-      if (AllocaHasFreezingLoad[ai->first]) {
-        IRBuilder<> Builder(SI);
-        IncomingVals[AllocaNo] =
-            Builder.CreateFreeze(SI->getOperand(0), "freeze");
-      } else
-        IncomingVals[AllocaNo] = SI->getOperand(0);
+      IncomingVals[AllocaNo] = SI->getOperand(0);
 
       // Record debuginfo for the store before removing it.
       IncomingLocs[AllocaNo] = SI->getDebugLoc();
