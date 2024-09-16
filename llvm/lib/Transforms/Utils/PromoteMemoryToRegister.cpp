@@ -523,8 +523,6 @@ rewriteSingleStoreAlloca(AllocaInst *AI, AllocaInfo &Info, LargeBlockInfo &LBI,
   BasicBlock *StoreBB = OnlyStore->getParent();
   int StoreIndex = -1;
 
-  Value *GlobalFreezeInst{nullptr};
-
   // Clear out UsingBlocks.  We will reconstruct it here if needed.
   Info.UsingBlocks.clear();
 
@@ -568,16 +566,8 @@ rewriteSingleStoreAlloca(AllocaInst *AI, AllocaInfo &Info, LargeBlockInfo &LBI,
       ReplVal = PoisonValue::get(LI->getType());
 
     if (Info.HasFreezingLoad && !isa<FreezeInst>(ReplVal)) {
-      if (StoringGlobalVal) {
-        if (!GlobalFreezeInst) {
-          IRBuilder Builder(AI);
-          GlobalFreezeInst = Builder.CreateFreeze(ReplVal);
-        }
-        ReplVal = GlobalFreezeInst;
-      } else {
-        IRBuilder Builder(OnlyStore);
-        ReplVal = Builder.CreateFreeze(ReplVal);
-      }
+      IRBuilder Builder(OnlyStore);
+      ReplVal = Builder.CreateFreeze(ReplVal);
     }
 
     convertMetadataToAssumes(LI, ReplVal, DL, AC, &DT);
