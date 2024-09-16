@@ -49,7 +49,6 @@
 ;; The load from global+store becomes a load.
 ;; FIXME: In reality it is actually stored again later on.
 ; CHECK-NEXT: %0 = load i32, ptr @Glob, align 4, !dbg !{{.+}}
-; CHECK-NEXT: %freeze = freeze i32 %0, !dbg !{{.+}}
 ; CHECK-NEXT: call void @llvm.dbg.value(metadata i32 %0, metadata ![[VAR]], metadata !DIExpression(DW_OP_LLVM_fragment, 96, 32))
 
 
