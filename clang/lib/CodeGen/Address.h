@@ -121,6 +121,8 @@ class Address {
 
   CharUnits Alignment;
 
+  bool IsInitByFreezePoison;
+
   /// Offset from the base pointer.
   llvm::Value *Offset = nullptr;
 
@@ -131,9 +133,10 @@ protected:
 
 public:
   Address(llvm::Value *pointer, llvm::Type *elementType, CharUnits alignment,
-          KnownNonNull_t IsKnownNonNull = NotKnownNonNull)
+          KnownNonNull_t IsKnownNonNull = NotKnownNonNull,
+          bool UseInitFreezePoison = false)
       : Pointer(pointer, IsKnownNonNull), ElementType(elementType),
-        Alignment(alignment) {
+        Alignment(alignment), IsInitByFreezePoison(UseInitFreezePoison) {
     assert(pointer != nullptr && "Pointer cannot be null");
     assert(elementType != nullptr && "Element type cannot be null");
     assert(!alignment.isZero() && "Alignment cannot be zero");
@@ -166,6 +169,9 @@ public:
   CharUnits getAlignment() const { return Alignment; }
 
   void setAlignment(CharUnits Value) { Alignment = Value; }
+
+  bool isInitByFreezePoison() const { return IsInitByFreezePoison; }
+  void setIsInitByFreezePoison(bool Value) { IsInitByFreezePoison = Value; }
 
   llvm::Value *getBasePointer() const {
     assert(isValid() && "pointer isn't valid");
