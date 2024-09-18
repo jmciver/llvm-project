@@ -41,6 +41,7 @@
 #include "llvm/IR/MatrixBuilder.h"
 #include "llvm/Passes/OptimizationLevel.h"
 #include "llvm/Support/ConvertUTF.h"
+#include "llvm/Support/Debug.h"
 #include "llvm/Support/MathExtras.h"
 #include "llvm/Support/Path.h"
 #include "llvm/Support/SaveAndRestore.h"
@@ -49,6 +50,8 @@
 
 #include <optional>
 #include <string>
+
+#define DEBUG_TYPE "CGExpr"
 
 using namespace clang;
 using namespace CodeGen;
@@ -115,12 +118,21 @@ RawAddress CodeGenFunction::CreateTempAlloca(llvm::Type *Ty, CharUnits Align,
 llvm::AllocaInst *CodeGenFunction::CreateTempAlloca(llvm::Type *Ty,
                                                     const Twine &Name,
                                                     llvm::Value *ArraySize) {
+  LLVM_DEBUG(llvm::dbgs() << "DEBUG: " << Name << "\n";);
   llvm::AllocaInst *Alloca;
   if (ArraySize)
     Alloca = Builder.CreateAlloca(Ty, ArraySize, Name);
-  else
+  else {
     Alloca = new llvm::AllocaInst(Ty, CGM.getDataLayout().getAllocaAddrSpace(),
                                   ArraySize, Name, AllocaInsertPt);
+    if (Ty->isIntegerTy()) {
+      llvm::IRBuilder<> StoreFreezePoisonBuilder(Alloca->getContext());
+      StoreFreezePoisonBuilder.SetInsertPoint(getPostAllocaInsertPoint());
+      auto FreezePoison = StoreFreezePoisonBuilder.CreateFreeze(
+          llvm::PoisonValue::get(Ty), "freeze");
+      StoreFreezePoisonBuilder.CreateStore(FreezePoison, Alloca);
+    }
+  }
   if (Allocas) {
     Allocas->Add(Alloca);
   }
