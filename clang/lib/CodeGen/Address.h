@@ -145,7 +145,7 @@ class Address {
   /// pointer is signed.
   llvm::Value *Offset = nullptr;
 
-  bool IsNondeterministicInit;
+  bool IsNondeterministicInit = false;
 
   llvm::Value *emitRawPointerSlow(CodeGenFunction &CGF) const;
 
