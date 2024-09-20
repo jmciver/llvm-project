@@ -2803,14 +2803,17 @@ public:
   /// The cast is not performaed in CreateTempAllocaWithoutCast. This is
   /// more efficient if the caller knows that the address will not be exposed.
   llvm::AllocaInst *CreateTempAlloca(llvm::Type *Ty, const Twine &Name = "tmp",
-                                     llvm::Value *ArraySize = nullptr);
+                                     llvm::Value *ArraySize = nullptr,
+                                     bool UseNondeterministicInit = false);
   RawAddress CreateTempAlloca(llvm::Type *Ty, CharUnits align,
                               const Twine &Name = "tmp",
                               llvm::Value *ArraySize = nullptr,
-                              RawAddress *Alloca = nullptr);
+                              RawAddress *Alloca = nullptr,
+                              bool UseNondeterministicInit = false);
   RawAddress CreateTempAllocaWithoutCast(llvm::Type *Ty, CharUnits align,
                                          const Twine &Name = "tmp",
-                                         llvm::Value *ArraySize = nullptr);
+                                         llvm::Value *ArraySize = nullptr,
+                                         bool UseNondeterministicInit = false);
 
   /// CreateDefaultAlignedTempAlloca - This creates an alloca with the
   /// default ABI alignment of the given LLVM type.
@@ -2839,10 +2842,12 @@ public:
   /// appropriate alignmen and cast it to the default address space. Returns
   /// the original alloca instruction by \p Alloca if it is not nullptr.
   RawAddress CreateMemTemp(QualType T, const Twine &Name = "tmp",
-                           RawAddress *Alloca = nullptr);
+                           RawAddress *Alloca = nullptr,
+                           bool UseNondeterministicInit = false);
   RawAddress CreateMemTemp(QualType T, CharUnits Align,
                            const Twine &Name = "tmp",
-                           RawAddress *Alloca = nullptr);
+                           RawAddress *Alloca = nullptr,
+                           bool UseNondeterministicInit = false);
 
   /// CreateMemTemp - Create a temporary memory object of the given type, with
   /// appropriate alignmen without casting it to the default address space.
