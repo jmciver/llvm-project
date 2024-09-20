@@ -109,30 +109,34 @@ public:
 
   // Note that we intentionally hide the CreateLoad APIs that don't
   // take an alignment.
-  llvm::LoadInst *CreateLoad(Address Addr, const llvm::Twine &Name = "") {
-    return CreateAlignedLoad(Addr.getElementType(),
-                             emitRawPointerFromAddress(Addr),
-                             Addr.getAlignment().getAsAlign(), Name);
-  }
-  llvm::LoadInst *CreateLoad(Address Addr, const char *Name) {
-    // This overload is required to prevent string literals from
-    // ending up in the IsVolatile overload.
-    return CreateAlignedLoad(Addr.getElementType(),
-                             emitRawPointerFromAddress(Addr),
-                             Addr.getAlignment().getAsAlign(), Name);
-  }
-  llvm::LoadInst *CreateLoad(Address Addr, bool IsVolatile,
-                             const llvm::Twine &Name = "") {
+  llvm::LoadInst *CreateLoad(Address Addr, const llvm::Twine &Name = "",
+                             bool isFreezing = false) {
     return CreateAlignedLoad(
         Addr.getElementType(), emitRawPointerFromAddress(Addr),
-        Addr.getAlignment().getAsAlign(), IsVolatile, Name);
+        Addr.getAlignment().getAsAlign(), Name, isFreezing);
+  }
+  llvm::LoadInst *CreateLoad(Address Addr, const char *Name,
+                             bool isFreezing = false) {
+    // This overload is required to prevent string literals from
+    // ending up in the IsVolatile overload.
+    return CreateAlignedLoad(
+        Addr.getElementType(), emitRawPointerFromAddress(Addr),
+        Addr.getAlignment().getAsAlign(), Name, isFreezing);
+  }
+  llvm::LoadInst *CreateLoad(Address Addr, bool IsVolatile,
+                             const llvm::Twine &Name = "",
+                             bool isFreezing = false) {
+    return CreateAlignedLoad(
+        Addr.getElementType(), emitRawPointerFromAddress(Addr),
+        Addr.getAlignment().getAsAlign(), IsVolatile, Name, isFreezing);
   }
 
   using CGBuilderBaseTy::CreateAlignedLoad;
   llvm::LoadInst *CreateAlignedLoad(llvm::Type *Ty, llvm::Value *Addr,
                                     CharUnits Align,
-                                    const llvm::Twine &Name = "") {
-    return CreateAlignedLoad(Ty, Addr, Align.getAsAlign(), Name);
+                                    const llvm::Twine &Name = "",
+                                    bool isFreezing = false) {
+    return CreateAlignedLoad(Ty, Addr, Align.getAsAlign(), Name, isFreezing);
   }
 
   // Note that we intentionally hide the CreateStore APIs that don't
