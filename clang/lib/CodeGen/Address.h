@@ -121,7 +121,7 @@ class Address {
 
   CharUnits Alignment;
 
-  bool IsNondeterministicInit;
+  bool IsNondeterministicInit = false;
 
   /// Offset from the base pointer.
   llvm::Value *Offset = nullptr;
