@@ -76,8 +76,9 @@ static llvm::cl::opt<bool> ClSanitizeGuardChecks(
 RawAddress
 CodeGenFunction::CreateTempAllocaWithoutCast(llvm::Type *Ty, CharUnits Align,
                                              const Twine &Name,
-                                             llvm::Value *ArraySize) {
-  auto Alloca = CreateTempAlloca(Ty, Name, ArraySize);
+                                             llvm::Value *ArraySize,
+                                             bool UseNondeterministicInit) {
+  auto Alloca = CreateTempAlloca(Ty, Name, ArraySize, UseNondeterministicInit);
   Alloca->setAlignment(Align.getAsAlign());
   return RawAddress(Alloca, Ty, Align, KnownNonNull);
 }
@@ -87,8 +88,10 @@ CodeGenFunction::CreateTempAllocaWithoutCast(llvm::Type *Ty, CharUnits Align,
 RawAddress CodeGenFunction::CreateTempAlloca(llvm::Type *Ty, CharUnits Align,
                                              const Twine &Name,
                                              llvm::Value *ArraySize,
-                                             RawAddress *AllocaAddr) {
-  auto Alloca = CreateTempAllocaWithoutCast(Ty, Align, Name, ArraySize);
+                                             RawAddress *AllocaAddr,
+                                             bool UseNondeterministicInit) {
+  auto Alloca = CreateTempAllocaWithoutCast(Ty, Align, Name, ArraySize,
+                                            UseNondeterministicInit);
   if (AllocaAddr)
     *AllocaAddr = Alloca;
   llvm::Value *V = Alloca.getPointer();
@@ -115,22 +118,20 @@ RawAddress CodeGenFunction::CreateTempAlloca(llvm::Type *Ty, CharUnits Align,
 /// CreateTempAlloca - This creates an alloca and inserts it into the entry
 /// block if \p ArraySize is nullptr, otherwise inserts it at the current
 /// insertion point of the builder.
-llvm::AllocaInst *CodeGenFunction::CreateTempAlloca(llvm::Type *Ty,
-                                                    const Twine &Name,
-                                                    llvm::Value *ArraySize) {
-  LLVM_DEBUG(llvm::dbgs() << "DEBUG: " << Name << "\n";);
+llvm::AllocaInst *
+CodeGenFunction::CreateTempAlloca(llvm::Type *Ty, const Twine &Name,
+                                  llvm::Value *ArraySize,
+                                  bool UseNondeterministicInit) {
   llvm::AllocaInst *Alloca;
   if (ArraySize)
     Alloca = Builder.CreateAlloca(Ty, ArraySize, Name);
   else {
     Alloca = new llvm::AllocaInst(Ty, CGM.getDataLayout().getAllocaAddrSpace(),
                                   ArraySize, Name, AllocaInsertPt);
-    if (Ty->isIntegerTy()) {
-      llvm::IRBuilder<> StoreFreezePoisonBuilder(Alloca->getContext());
-      StoreFreezePoisonBuilder.SetInsertPoint(getPostAllocaInsertPoint());
-      auto FreezePoison = StoreFreezePoisonBuilder.CreateFreeze(
-          llvm::PoisonValue::get(Ty), "freeze");
-      StoreFreezePoisonBuilder.CreateStore(FreezePoison, Alloca);
+    if (UseNondeterministicInit) {
+      auto Freeze = new llvm::FreezeInst(llvm::PoisonValue::get(Ty),
+                                         "freeze.poison", AllocaInsertPt);
+      new llvm::StoreInst(Freeze, Alloca, AllocaInsertPt);
     }
   }
   if (Allocas) {
@@ -156,16 +157,19 @@ RawAddress CodeGenFunction::CreateIRTemp(QualType Ty, const Twine &Name) {
 }
 
 RawAddress CodeGenFunction::CreateMemTemp(QualType Ty, const Twine &Name,
-                                          RawAddress *Alloca) {
+                                          RawAddress *Alloca,
+                                          bool UseNondeterministicInit) {
   // FIXME: Should we prefer the preferred type alignment here?
-  return CreateMemTemp(Ty, getContext().getTypeAlignInChars(Ty), Name, Alloca);
+  return CreateMemTemp(Ty, getContext().getTypeAlignInChars(Ty), Name, Alloca,
+                       UseNondeterministicInit);
 }
 
 RawAddress CodeGenFunction::CreateMemTemp(QualType Ty, CharUnits Align,
-                                          const Twine &Name,
-                                          RawAddress *Alloca) {
-  RawAddress Result = CreateTempAlloca(ConvertTypeForMem(Ty), Align, Name,
-                                       /*ArraySize=*/nullptr, Alloca);
+                                          const Twine &Name, RawAddress *Alloca,
+                                          bool UseNondeterministicInit) {
+  RawAddress Result =
+      CreateTempAlloca(ConvertTypeForMem(Ty), Align, Name,
+                       /*ArraySize=*/nullptr, Alloca, UseNondeterministicInit);
 
   if (Ty->isConstantMatrixType()) {
     auto *ArrayTy = cast<llvm::ArrayType>(Result.getElementType());
