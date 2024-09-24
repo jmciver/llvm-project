@@ -6,6 +6,7 @@ struct x {
   long a;
 };
 
+
 // CHECK-LABEL: define spir_func void @testva(
 // CHECK-SAME: i32 noundef [[N:%.*]], ...) #[[ATTR0:[0-9]+]] {
 // CHECK-NEXT:  entry:
@@ -14,6 +15,8 @@ struct x {
 // CHECK-NEXT:    [[T:%.*]] = alloca [[STRUCT_X:%.*]], align 8
 // CHECK-NEXT:    [[AP2:%.*]] = alloca ptr addrspace(4), align 8
 // CHECK-NEXT:    [[V:%.*]] = alloca i32, align 4
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[V]], align 4
 // CHECK-NEXT:    [[VARET:%.*]] = alloca i32, align 4
 // CHECK-NEXT:    [[N_ADDR_ASCAST:%.*]] = addrspacecast ptr [[N_ADDR]] to ptr addrspace(4)
 // CHECK-NEXT:    [[AP_ASCAST:%.*]] = addrspacecast ptr [[AP]] to ptr addrspace(4)
@@ -28,12 +31,12 @@ struct x {
 // CHECK-NEXT:    call void @llvm.va_copy.p4(ptr addrspace(4) [[AP2_ASCAST]], ptr addrspace(4) [[AP_ASCAST]])
 // CHECK-NEXT:    [[TMP1:%.*]] = va_arg ptr addrspace(4) [[AP2_ASCAST]], i32
 // CHECK-NEXT:    store i32 [[TMP1]], ptr addrspace(4) [[VARET_ASCAST]], align 4
-// CHECK-NEXT:    [[TMP2:%.*]] = load i32, ptr addrspace(4) [[VARET_ASCAST]], align 4
+// CHECK-NEXT:    [[TMP2:%.*]] = load i32, ptr addrspace(4) [[VARET_ASCAST]], align 4, !freeze_bits [[META3:![0-9]+]]
 // CHECK-NEXT:    store i32 [[TMP2]], ptr addrspace(4) [[V_ASCAST]], align 4
 // CHECK-NEXT:    call void @llvm.va_end.p4(ptr addrspace(4) [[AP2_ASCAST]])
 // CHECK-NEXT:    call void @llvm.va_end.p4(ptr addrspace(4) [[AP_ASCAST]])
 // CHECK-NEXT:    ret void
-
+//
 void testva(int n, ...) {
   __builtin_va_list ap;
   __builtin_va_start(ap, n);
@@ -44,3 +47,6 @@ void testva(int n, ...) {
   __builtin_va_end(ap2);
   __builtin_va_end(ap);
 }
+//.
+// CHECK: [[META3]] = !{}
+//.

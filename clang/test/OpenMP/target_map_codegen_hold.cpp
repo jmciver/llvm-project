@@ -166,6 +166,8 @@ void ST::test_present_members() {
 // CHECK-USE-PPC64LE-NEXT:  entry:
 // CHECK-USE-PPC64LE-NEXT:    [[II_ADDR:%.*]] = alloca i32, align 4
 // CHECK-USE-PPC64LE-NEXT:    [[A:%.*]] = alloca i32, align 4
+// CHECK-USE-PPC64LE-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-USE-PPC64LE-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
 // CHECK-USE-PPC64LE-NEXT:    [[ST1:%.*]] = alloca [[STRUCT_ST:%.*]], align 4
 // CHECK-USE-PPC64LE-NEXT:    [[ST2:%.*]] = alloca [[STRUCT_ST]], align 4
 // CHECK-USE-PPC64LE-NEXT:    [[DOTOFFLOAD_BASEPTRS:%.*]] = alloca [7 x ptr], align 8
@@ -334,22 +336,22 @@ void ST::test_present_members() {
 // CHECK-USE-PPC64LE-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[A_ADDR]], align 8
 // CHECK-USE-PPC64LE-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[ST2_ADDR]], align 8
 // CHECK-USE-PPC64LE-NEXT:    [[I:%.*]] = getelementptr inbounds [[STRUCT_ST:%.*]], ptr [[TMP0]], i32 0, i32 0
-// CHECK-USE-PPC64LE-NEXT:    [[TMP3:%.*]] = load i32, ptr [[I]], align 4
+// CHECK-USE-PPC64LE-NEXT:    [[TMP3:%.*]] = load i32, ptr [[I]], align 4, !freeze_bits [[META6:![0-9]+]]
 // CHECK-USE-PPC64LE-NEXT:    [[INC:%.*]] = add nsw i32 [[TMP3]], 1
 // CHECK-USE-PPC64LE-NEXT:    store i32 [[INC]], ptr [[I]], align 4
-// CHECK-USE-PPC64LE-NEXT:    [[TMP4:%.*]] = load i32, ptr [[TMP1]], align 4
+// CHECK-USE-PPC64LE-NEXT:    [[TMP4:%.*]] = load i32, ptr [[TMP1]], align 4, !freeze_bits [[META6]]
 // CHECK-USE-PPC64LE-NEXT:    [[INC1:%.*]] = add nsw i32 [[TMP4]], 1
 // CHECK-USE-PPC64LE-NEXT:    store i32 [[INC1]], ptr [[TMP1]], align 4
 // CHECK-USE-PPC64LE-NEXT:    [[J:%.*]] = getelementptr inbounds [[STRUCT_ST]], ptr [[TMP0]], i32 0, i32 1
-// CHECK-USE-PPC64LE-NEXT:    [[TMP5:%.*]] = load i32, ptr [[J]], align 4
+// CHECK-USE-PPC64LE-NEXT:    [[TMP5:%.*]] = load i32, ptr [[J]], align 4, !freeze_bits [[META6]]
 // CHECK-USE-PPC64LE-NEXT:    [[INC2:%.*]] = add nsw i32 [[TMP5]], 1
 // CHECK-USE-PPC64LE-NEXT:    store i32 [[INC2]], ptr [[J]], align 4
 // CHECK-USE-PPC64LE-NEXT:    [[I3:%.*]] = getelementptr inbounds [[STRUCT_ST]], ptr [[TMP2]], i32 0, i32 0
-// CHECK-USE-PPC64LE-NEXT:    [[TMP6:%.*]] = load i32, ptr [[I3]], align 4
+// CHECK-USE-PPC64LE-NEXT:    [[TMP6:%.*]] = load i32, ptr [[I3]], align 4, !freeze_bits [[META6]]
 // CHECK-USE-PPC64LE-NEXT:    [[INC4:%.*]] = add nsw i32 [[TMP6]], 1
 // CHECK-USE-PPC64LE-NEXT:    store i32 [[INC4]], ptr [[I3]], align 4
 // CHECK-USE-PPC64LE-NEXT:    [[J5:%.*]] = getelementptr inbounds [[STRUCT_ST]], ptr [[TMP2]], i32 0, i32 1
-// CHECK-USE-PPC64LE-NEXT:    [[TMP7:%.*]] = load i32, ptr [[J5]], align 4
+// CHECK-USE-PPC64LE-NEXT:    [[TMP7:%.*]] = load i32, ptr [[J5]], align 4, !freeze_bits [[META6]]
 // CHECK-USE-PPC64LE-NEXT:    [[INC6:%.*]] = add nsw i32 [[TMP7]], 1
 // CHECK-USE-PPC64LE-NEXT:    store i32 [[INC6]], ptr [[J5]], align 4
 // CHECK-USE-PPC64LE-NEXT:    ret void
@@ -361,7 +363,7 @@ void ST::test_present_members() {
 // CHECK-USE-PPC64LE-NEXT:    [[A_ADDR:%.*]] = alloca ptr, align 8
 // CHECK-USE-PPC64LE-NEXT:    store ptr [[A]], ptr [[A_ADDR]], align 8
 // CHECK-USE-PPC64LE-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[A_ADDR]], align 8
-// CHECK-USE-PPC64LE-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-USE-PPC64LE-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META6]]
 // CHECK-USE-PPC64LE-NEXT:    [[INC:%.*]] = add nsw i32 [[TMP1]], 1
 // CHECK-USE-PPC64LE-NEXT:    store i32 [[INC]], ptr [[TMP0]], align 4
 // CHECK-USE-PPC64LE-NEXT:    ret void
@@ -452,11 +454,11 @@ void ST::test_present_members() {
 // CHECK-USE-PPC64LE-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-USE-PPC64LE-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK-USE-PPC64LE-NEXT:    [[I:%.*]] = getelementptr inbounds [[STRUCT_ST:%.*]], ptr [[TMP0]], i32 0, i32 0
-// CHECK-USE-PPC64LE-NEXT:    [[TMP1:%.*]] = load i32, ptr [[I]], align 4
+// CHECK-USE-PPC64LE-NEXT:    [[TMP1:%.*]] = load i32, ptr [[I]], align 4, !freeze_bits [[META6]]
 // CHECK-USE-PPC64LE-NEXT:    [[INC:%.*]] = add nsw i32 [[TMP1]], 1
 // CHECK-USE-PPC64LE-NEXT:    store i32 [[INC]], ptr [[I]], align 4
 // CHECK-USE-PPC64LE-NEXT:    [[J:%.*]] = getelementptr inbounds [[STRUCT_ST]], ptr [[TMP0]], i32 0, i32 1
-// CHECK-USE-PPC64LE-NEXT:    [[TMP2:%.*]] = load i32, ptr [[J]], align 4
+// CHECK-USE-PPC64LE-NEXT:    [[TMP2:%.*]] = load i32, ptr [[J]], align 4, !freeze_bits [[META6]]
 // CHECK-USE-PPC64LE-NEXT:    [[INC1:%.*]] = add nsw i32 [[TMP2]], 1
 // CHECK-USE-PPC64LE-NEXT:    store i32 [[INC1]], ptr [[J]], align 4
 // CHECK-USE-PPC64LE-NEXT:    ret void
@@ -467,6 +469,8 @@ void ST::test_present_members() {
 // CHECK-USE-I386-NEXT:  entry:
 // CHECK-USE-I386-NEXT:    [[II_ADDR:%.*]] = alloca i32, align 4
 // CHECK-USE-I386-NEXT:    [[A:%.*]] = alloca i32, align 4
+// CHECK-USE-I386-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-USE-I386-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
 // CHECK-USE-I386-NEXT:    [[ST1:%.*]] = alloca [[STRUCT_ST:%.*]], align 4
 // CHECK-USE-I386-NEXT:    [[ST2:%.*]] = alloca [[STRUCT_ST]], align 4
 // CHECK-USE-I386-NEXT:    [[DOTOFFLOAD_BASEPTRS:%.*]] = alloca [7 x ptr], align 4
@@ -635,22 +639,22 @@ void ST::test_present_members() {
 // CHECK-USE-I386-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[A_ADDR]], align 4
 // CHECK-USE-I386-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[ST2_ADDR]], align 4
 // CHECK-USE-I386-NEXT:    [[I:%.*]] = getelementptr inbounds [[STRUCT_ST:%.*]], ptr [[TMP0]], i32 0, i32 0
-// CHECK-USE-I386-NEXT:    [[TMP3:%.*]] = load i32, ptr [[I]], align 4
+// CHECK-USE-I386-NEXT:    [[TMP3:%.*]] = load i32, ptr [[I]], align 4, !freeze_bits [[META7:![0-9]+]]
 // CHECK-USE-I386-NEXT:    [[INC:%.*]] = add nsw i32 [[TMP3]], 1
 // CHECK-USE-I386-NEXT:    store i32 [[INC]], ptr [[I]], align 4
-// CHECK-USE-I386-NEXT:    [[TMP4:%.*]] = load i32, ptr [[TMP1]], align 4
+// CHECK-USE-I386-NEXT:    [[TMP4:%.*]] = load i32, ptr [[TMP1]], align 4, !freeze_bits [[META7]]
 // CHECK-USE-I386-NEXT:    [[INC1:%.*]] = add nsw i32 [[TMP4]], 1
 // CHECK-USE-I386-NEXT:    store i32 [[INC1]], ptr [[TMP1]], align 4
 // CHECK-USE-I386-NEXT:    [[J:%.*]] = getelementptr inbounds [[STRUCT_ST]], ptr [[TMP0]], i32 0, i32 1
-// CHECK-USE-I386-NEXT:    [[TMP5:%.*]] = load i32, ptr [[J]], align 4
+// CHECK-USE-I386-NEXT:    [[TMP5:%.*]] = load i32, ptr [[J]], align 4, !freeze_bits [[META7]]
 // CHECK-USE-I386-NEXT:    [[INC2:%.*]] = add nsw i32 [[TMP5]], 1
 // CHECK-USE-I386-NEXT:    store i32 [[INC2]], ptr [[J]], align 4
 // CHECK-USE-I386-NEXT:    [[I3:%.*]] = getelementptr inbounds [[STRUCT_ST]], ptr [[TMP2]], i32 0, i32 0
-// CHECK-USE-I386-NEXT:    [[TMP6:%.*]] = load i32, ptr [[I3]], align 4
+// CHECK-USE-I386-NEXT:    [[TMP6:%.*]] = load i32, ptr [[I3]], align 4, !freeze_bits [[META7]]
 // CHECK-USE-I386-NEXT:    [[INC4:%.*]] = add nsw i32 [[TMP6]], 1
 // CHECK-USE-I386-NEXT:    store i32 [[INC4]], ptr [[I3]], align 4
 // CHECK-USE-I386-NEXT:    [[J5:%.*]] = getelementptr inbounds [[STRUCT_ST]], ptr [[TMP2]], i32 0, i32 1
-// CHECK-USE-I386-NEXT:    [[TMP7:%.*]] = load i32, ptr [[J5]], align 4
+// CHECK-USE-I386-NEXT:    [[TMP7:%.*]] = load i32, ptr [[J5]], align 4, !freeze_bits [[META7]]
 // CHECK-USE-I386-NEXT:    [[INC6:%.*]] = add nsw i32 [[TMP7]], 1
 // CHECK-USE-I386-NEXT:    store i32 [[INC6]], ptr [[J5]], align 4
 // CHECK-USE-I386-NEXT:    ret void
@@ -662,7 +666,7 @@ void ST::test_present_members() {
 // CHECK-USE-I386-NEXT:    [[A_ADDR:%.*]] = alloca ptr, align 4
 // CHECK-USE-I386-NEXT:    store ptr [[A]], ptr [[A_ADDR]], align 4
 // CHECK-USE-I386-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[A_ADDR]], align 4
-// CHECK-USE-I386-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-USE-I386-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META7]]
 // CHECK-USE-I386-NEXT:    [[INC:%.*]] = add nsw i32 [[TMP1]], 1
 // CHECK-USE-I386-NEXT:    store i32 [[INC]], ptr [[TMP0]], align 4
 // CHECK-USE-I386-NEXT:    ret void
@@ -753,11 +757,11 @@ void ST::test_present_members() {
 // CHECK-USE-I386-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 4
 // CHECK-USE-I386-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[THIS_ADDR]], align 4
 // CHECK-USE-I386-NEXT:    [[I:%.*]] = getelementptr inbounds [[STRUCT_ST:%.*]], ptr [[TMP0]], i32 0, i32 0
-// CHECK-USE-I386-NEXT:    [[TMP1:%.*]] = load i32, ptr [[I]], align 4
+// CHECK-USE-I386-NEXT:    [[TMP1:%.*]] = load i32, ptr [[I]], align 4, !freeze_bits [[META7]]
 // CHECK-USE-I386-NEXT:    [[INC:%.*]] = add nsw i32 [[TMP1]], 1
 // CHECK-USE-I386-NEXT:    store i32 [[INC]], ptr [[I]], align 4
 // CHECK-USE-I386-NEXT:    [[J:%.*]] = getelementptr inbounds [[STRUCT_ST]], ptr [[TMP0]], i32 0, i32 1
-// CHECK-USE-I386-NEXT:    [[TMP2:%.*]] = load i32, ptr [[J]], align 4
+// CHECK-USE-I386-NEXT:    [[TMP2:%.*]] = load i32, ptr [[J]], align 4, !freeze_bits [[META7]]
 // CHECK-USE-I386-NEXT:    [[INC1:%.*]] = add nsw i32 [[TMP2]], 1
 // CHECK-USE-I386-NEXT:    store i32 [[INC1]], ptr [[J]], align 4
 // CHECK-USE-I386-NEXT:    ret void
@@ -768,6 +772,8 @@ void ST::test_present_members() {
 // CHECK-NOUSE-PPC64LE-NEXT:  entry:
 // CHECK-NOUSE-PPC64LE-NEXT:    [[II_ADDR:%.*]] = alloca i32, align 4
 // CHECK-NOUSE-PPC64LE-NEXT:    [[A:%.*]] = alloca i32, align 4
+// CHECK-NOUSE-PPC64LE-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NOUSE-PPC64LE-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
 // CHECK-NOUSE-PPC64LE-NEXT:    [[ST1:%.*]] = alloca [[STRUCT_ST:%.*]], align 4
 // CHECK-NOUSE-PPC64LE-NEXT:    [[ST2:%.*]] = alloca [[STRUCT_ST]], align 4
 // CHECK-NOUSE-PPC64LE-NEXT:    [[DOTOFFLOAD_BASEPTRS:%.*]] = alloca [7 x ptr], align 8
@@ -1024,6 +1030,8 @@ void ST::test_present_members() {
 // CHECK-NOUSE-I386-NEXT:  entry:
 // CHECK-NOUSE-I386-NEXT:    [[II_ADDR:%.*]] = alloca i32, align 4
 // CHECK-NOUSE-I386-NEXT:    [[A:%.*]] = alloca i32, align 4
+// CHECK-NOUSE-I386-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NOUSE-I386-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
 // CHECK-NOUSE-I386-NEXT:    [[ST1:%.*]] = alloca [[STRUCT_ST:%.*]], align 4
 // CHECK-NOUSE-I386-NEXT:    [[ST2:%.*]] = alloca [[STRUCT_ST]], align 4
 // CHECK-NOUSE-I386-NEXT:    [[DOTOFFLOAD_BASEPTRS:%.*]] = alloca [7 x ptr], align 4

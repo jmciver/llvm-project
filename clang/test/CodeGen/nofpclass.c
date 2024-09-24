@@ -36,9 +36,9 @@ extern dx5x5_t extern_matrix(dx5x5_t);
 // CFINITEONLY-NEXT:    store float [[A]], ptr [[A_ADDR]], align 4
 // CFINITEONLY-NEXT:    store float [[B]], ptr [[B_ADDR]], align 4
 // CFINITEONLY-NEXT:    store float [[C]], ptr [[C_ADDR]], align 4
-// CFINITEONLY-NEXT:    [[TMP0:%.*]] = load float, ptr [[A_ADDR]], align 4, !freeze_bits [[META2:![0-9]+]]
-// CFINITEONLY-NEXT:    [[TMP1:%.*]] = load float, ptr [[B_ADDR]], align 4, !freeze_bits [[META2]]
-// CFINITEONLY-NEXT:    [[TMP2:%.*]] = load float, ptr [[C_ADDR]], align 4, !freeze_bits [[META2]]
+// CFINITEONLY-NEXT:    [[TMP0:%.*]] = load float, ptr [[A_ADDR]], align 4
+// CFINITEONLY-NEXT:    [[TMP1:%.*]] = load float, ptr [[B_ADDR]], align 4
+// CFINITEONLY-NEXT:    [[TMP2:%.*]] = load float, ptr [[C_ADDR]], align 4
 // CFINITEONLY-NEXT:    [[TMP3:%.*]] = call nnan ninf float @llvm.fma.f32(float [[TMP0]], float [[TMP1]], float [[TMP2]])
 // CFINITEONLY-NEXT:    [[ADD:%.*]] = fadd nnan ninf float [[TMP3]], 4.000000e+00
 // CFINITEONLY-NEXT:    ret float [[ADD]]
@@ -61,9 +61,9 @@ extern dx5x5_t extern_matrix(dx5x5_t);
 // NONANS-NEXT:    store float [[A]], ptr [[A_ADDR]], align 4
 // NONANS-NEXT:    store float [[B]], ptr [[B_ADDR]], align 4
 // NONANS-NEXT:    store float [[C]], ptr [[C_ADDR]], align 4
-// NONANS-NEXT:    [[TMP0:%.*]] = load float, ptr [[A_ADDR]], align 4, !freeze_bits [[META2:![0-9]+]]
-// NONANS-NEXT:    [[TMP1:%.*]] = load float, ptr [[B_ADDR]], align 4, !freeze_bits [[META2]]
-// NONANS-NEXT:    [[TMP2:%.*]] = load float, ptr [[C_ADDR]], align 4, !freeze_bits [[META2]]
+// NONANS-NEXT:    [[TMP0:%.*]] = load float, ptr [[A_ADDR]], align 4
+// NONANS-NEXT:    [[TMP1:%.*]] = load float, ptr [[B_ADDR]], align 4
+// NONANS-NEXT:    [[TMP2:%.*]] = load float, ptr [[C_ADDR]], align 4
 // NONANS-NEXT:    [[TMP3:%.*]] = call nnan float @llvm.fma.f32(float [[TMP0]], float [[TMP1]], float [[TMP2]])
 // NONANS-NEXT:    [[ADD:%.*]] = fadd nnan float [[TMP3]], 4.000000e+00
 // NONANS-NEXT:    ret float [[ADD]]
@@ -78,9 +78,9 @@ extern dx5x5_t extern_matrix(dx5x5_t);
 // NOINFS-NEXT:    store float [[A]], ptr [[A_ADDR]], align 4
 // NOINFS-NEXT:    store float [[B]], ptr [[B_ADDR]], align 4
 // NOINFS-NEXT:    store float [[C]], ptr [[C_ADDR]], align 4
-// NOINFS-NEXT:    [[TMP0:%.*]] = load float, ptr [[A_ADDR]], align 4, !freeze_bits [[META2:![0-9]+]]
-// NOINFS-NEXT:    [[TMP1:%.*]] = load float, ptr [[B_ADDR]], align 4, !freeze_bits [[META2]]
-// NOINFS-NEXT:    [[TMP2:%.*]] = load float, ptr [[C_ADDR]], align 4, !freeze_bits [[META2]]
+// NOINFS-NEXT:    [[TMP0:%.*]] = load float, ptr [[A_ADDR]], align 4
+// NOINFS-NEXT:    [[TMP1:%.*]] = load float, ptr [[B_ADDR]], align 4
+// NOINFS-NEXT:    [[TMP2:%.*]] = load float, ptr [[C_ADDR]], align 4
 // NOINFS-NEXT:    [[TMP3:%.*]] = call ninf float @llvm.fma.f32(float [[TMP0]], float [[TMP1]], float [[TMP2]])
 // NOINFS-NEXT:    [[ADD:%.*]] = fadd ninf float [[TMP3]], 4.000000e+00
 // NOINFS-NEXT:    ret float [[ADD]]
@@ -99,9 +99,9 @@ float defined_func_f32(float a, float b, float c) {
 // CFINITEONLY-NEXT:    store <2 x double> [[A]], ptr [[A_ADDR]], align 16
 // CFINITEONLY-NEXT:    store <2 x double> [[B]], ptr [[B_ADDR]], align 16
 // CFINITEONLY-NEXT:    store <2 x double> [[C]], ptr [[C_ADDR]], align 16
-// CFINITEONLY-NEXT:    [[TMP0:%.*]] = load <2 x double>, ptr [[A_ADDR]], align 16, !freeze_bits [[META2]]
-// CFINITEONLY-NEXT:    [[TMP1:%.*]] = load <2 x double>, ptr [[B_ADDR]], align 16, !freeze_bits [[META2]]
-// CFINITEONLY-NEXT:    [[TMP2:%.*]] = load <2 x double>, ptr [[C_ADDR]], align 16, !freeze_bits [[META2]]
+// CFINITEONLY-NEXT:    [[TMP0:%.*]] = load <2 x double>, ptr [[A_ADDR]], align 16
+// CFINITEONLY-NEXT:    [[TMP1:%.*]] = load <2 x double>, ptr [[B_ADDR]], align 16
+// CFINITEONLY-NEXT:    [[TMP2:%.*]] = load <2 x double>, ptr [[C_ADDR]], align 16
 // CFINITEONLY-NEXT:    [[TMP3:%.*]] = call nnan ninf <2 x double> @llvm.fma.v2f64(<2 x double> [[TMP0]], <2 x double> [[TMP1]], <2 x double> [[TMP2]])
 // CFINITEONLY-NEXT:    [[ADD:%.*]] = fadd nnan ninf <2 x double> [[TMP3]], <double 4.000000e+00, double 4.000000e+00>
 // CFINITEONLY-NEXT:    ret <2 x double> [[ADD]]
@@ -124,9 +124,9 @@ float defined_func_f32(float a, float b, float c) {
 // NONANS-NEXT:    store <2 x double> [[A]], ptr [[A_ADDR]], align 16
 // NONANS-NEXT:    store <2 x double> [[B]], ptr [[B_ADDR]], align 16
 // NONANS-NEXT:    store <2 x double> [[C]], ptr [[C_ADDR]], align 16
-// NONANS-NEXT:    [[TMP0:%.*]] = load <2 x double>, ptr [[A_ADDR]], align 16, !freeze_bits [[META2]]
-// NONANS-NEXT:    [[TMP1:%.*]] = load <2 x double>, ptr [[B_ADDR]], align 16, !freeze_bits [[META2]]
-// NONANS-NEXT:    [[TMP2:%.*]] = load <2 x double>, ptr [[C_ADDR]], align 16, !freeze_bits [[META2]]
+// NONANS-NEXT:    [[TMP0:%.*]] = load <2 x double>, ptr [[A_ADDR]], align 16
+// NONANS-NEXT:    [[TMP1:%.*]] = load <2 x double>, ptr [[B_ADDR]], align 16
+// NONANS-NEXT:    [[TMP2:%.*]] = load <2 x double>, ptr [[C_ADDR]], align 16
 // NONANS-NEXT:    [[TMP3:%.*]] = call nnan <2 x double> @llvm.fma.v2f64(<2 x double> [[TMP0]], <2 x double> [[TMP1]], <2 x double> [[TMP2]])
 // NONANS-NEXT:    [[ADD:%.*]] = fadd nnan <2 x double> [[TMP3]], <double 4.000000e+00, double 4.000000e+00>
 // NONANS-NEXT:    ret <2 x double> [[ADD]]
@@ -141,9 +141,9 @@ float defined_func_f32(float a, float b, float c) {
 // NOINFS-NEXT:    store <2 x double> [[A]], ptr [[A_ADDR]], align 16
 // NOINFS-NEXT:    store <2 x double> [[B]], ptr [[B_ADDR]], align 16
 // NOINFS-NEXT:    store <2 x double> [[C]], ptr [[C_ADDR]], align 16
-// NOINFS-NEXT:    [[TMP0:%.*]] = load <2 x double>, ptr [[A_ADDR]], align 16, !freeze_bits [[META2]]
-// NOINFS-NEXT:    [[TMP1:%.*]] = load <2 x double>, ptr [[B_ADDR]], align 16, !freeze_bits [[META2]]
-// NOINFS-NEXT:    [[TMP2:%.*]] = load <2 x double>, ptr [[C_ADDR]], align 16, !freeze_bits [[META2]]
+// NOINFS-NEXT:    [[TMP0:%.*]] = load <2 x double>, ptr [[A_ADDR]], align 16
+// NOINFS-NEXT:    [[TMP1:%.*]] = load <2 x double>, ptr [[B_ADDR]], align 16
+// NOINFS-NEXT:    [[TMP2:%.*]] = load <2 x double>, ptr [[C_ADDR]], align 16
 // NOINFS-NEXT:    [[TMP3:%.*]] = call ninf <2 x double> @llvm.fma.v2f64(<2 x double> [[TMP0]], <2 x double> [[TMP1]], <2 x double> [[TMP2]])
 // NOINFS-NEXT:    [[ADD:%.*]] = fadd ninf <2 x double> [[TMP3]], <double 4.000000e+00, double 4.000000e+00>
 // NOINFS-NEXT:    ret <2 x double> [[ADD]]
@@ -162,9 +162,9 @@ double2 defined_func_v2f64(double2 a, double2 b, double2 c) {
 // CFINITEONLY-NEXT:    store float [[A]], ptr [[A_ADDR]], align 4
 // CFINITEONLY-NEXT:    store double [[B]], ptr [[B_ADDR]], align 8
 // CFINITEONLY-NEXT:    store half [[C]], ptr [[C_ADDR]], align 2
-// CFINITEONLY-NEXT:    [[TMP0:%.*]] = load float, ptr [[A_ADDR]], align 4, !freeze_bits [[META2]]
-// CFINITEONLY-NEXT:    [[TMP1:%.*]] = load double, ptr [[B_ADDR]], align 8, !freeze_bits [[META2]]
-// CFINITEONLY-NEXT:    [[TMP2:%.*]] = load half, ptr [[C_ADDR]], align 2, !freeze_bits [[META2]]
+// CFINITEONLY-NEXT:    [[TMP0:%.*]] = load float, ptr [[A_ADDR]], align 4
+// CFINITEONLY-NEXT:    [[TMP1:%.*]] = load double, ptr [[B_ADDR]], align 8
+// CFINITEONLY-NEXT:    [[TMP2:%.*]] = load half, ptr [[C_ADDR]], align 2
 // CFINITEONLY-NEXT:    [[CALL:%.*]] = call nnan ninf nofpclass(nan inf) float @extern_func(float noundef nofpclass(nan inf) [[TMP0]], double noundef nofpclass(nan inf) [[TMP1]], half noundef nofpclass(nan inf) [[TMP2]])
 // CFINITEONLY-NEXT:    ret float [[CALL]]
 //
@@ -185,9 +185,9 @@ double2 defined_func_v2f64(double2 a, double2 b, double2 c) {
 // NONANS-NEXT:    store float [[A]], ptr [[A_ADDR]], align 4
 // NONANS-NEXT:    store double [[B]], ptr [[B_ADDR]], align 8
 // NONANS-NEXT:    store half [[C]], ptr [[C_ADDR]], align 2
-// NONANS-NEXT:    [[TMP0:%.*]] = load float, ptr [[A_ADDR]], align 4, !freeze_bits [[META2]]
-// NONANS-NEXT:    [[TMP1:%.*]] = load double, ptr [[B_ADDR]], align 8, !freeze_bits [[META2]]
-// NONANS-NEXT:    [[TMP2:%.*]] = load half, ptr [[C_ADDR]], align 2, !freeze_bits [[META2]]
+// NONANS-NEXT:    [[TMP0:%.*]] = load float, ptr [[A_ADDR]], align 4
+// NONANS-NEXT:    [[TMP1:%.*]] = load double, ptr [[B_ADDR]], align 8
+// NONANS-NEXT:    [[TMP2:%.*]] = load half, ptr [[C_ADDR]], align 2
 // NONANS-NEXT:    [[CALL:%.*]] = call nnan nofpclass(nan) float @extern_func(float noundef nofpclass(nan) [[TMP0]], double noundef nofpclass(nan) [[TMP1]], half noundef nofpclass(nan) [[TMP2]])
 // NONANS-NEXT:    ret float [[CALL]]
 //
@@ -201,9 +201,9 @@ double2 defined_func_v2f64(double2 a, double2 b, double2 c) {
 // NOINFS-NEXT:    store float [[A]], ptr [[A_ADDR]], align 4
 // NOINFS-NEXT:    store double [[B]], ptr [[B_ADDR]], align 8
 // NOINFS-NEXT:    store half [[C]], ptr [[C_ADDR]], align 2
-// NOINFS-NEXT:    [[TMP0:%.*]] = load float, ptr [[A_ADDR]], align 4, !freeze_bits [[META2]]
-// NOINFS-NEXT:    [[TMP1:%.*]] = load double, ptr [[B_ADDR]], align 8, !freeze_bits [[META2]]
-// NOINFS-NEXT:    [[TMP2:%.*]] = load half, ptr [[C_ADDR]], align 2, !freeze_bits [[META2]]
+// NOINFS-NEXT:    [[TMP0:%.*]] = load float, ptr [[A_ADDR]], align 4
+// NOINFS-NEXT:    [[TMP1:%.*]] = load double, ptr [[B_ADDR]], align 8
+// NOINFS-NEXT:    [[TMP2:%.*]] = load half, ptr [[C_ADDR]], align 2
 // NOINFS-NEXT:    [[CALL:%.*]] = call ninf nofpclass(inf) float @extern_func(float noundef nofpclass(inf) [[TMP0]], double noundef nofpclass(inf) [[TMP1]], half noundef nofpclass(inf) [[TMP2]])
 // NOINFS-NEXT:    ret float [[CALL]]
 //
@@ -225,15 +225,15 @@ float call_extern_func(float a, double b, _Float16 c) {
 // CFINITEONLY-NEXT:    [[COERCE3:%.*]] = alloca <2 x half>, align 4
 // CFINITEONLY-NEXT:    [[COERCE4:%.*]] = alloca <2 x float>, align 8
 // CFINITEONLY-NEXT:    store double [[A_COERCE]], ptr [[A]], align 8
-// CFINITEONLY-NEXT:    [[A1:%.*]] = load <2 x float>, ptr [[A]], align 8, !freeze_bits [[META2]]
+// CFINITEONLY-NEXT:    [[A1:%.*]] = load <2 x float>, ptr [[A]], align 8, !freeze_bits [[META2:![0-9]+]]
 // CFINITEONLY-NEXT:    store i32 [[C_COERCE]], ptr [[C]], align 4
 // CFINITEONLY-NEXT:    [[C2:%.*]] = load <2 x half>, ptr [[C]], align 4, !freeze_bits [[META2]]
 // CFINITEONLY-NEXT:    store <2 x float> [[A1]], ptr [[A_ADDR]], align 8
 // CFINITEONLY-NEXT:    store <2 x double> [[B]], ptr [[B_ADDR]], align 16
 // CFINITEONLY-NEXT:    store <2 x half> [[C2]], ptr [[C_ADDR]], align 4
-// CFINITEONLY-NEXT:    [[TMP0:%.*]] = load <2 x float>, ptr [[A_ADDR]], align 8, !freeze_bits [[META2]]
-// CFINITEONLY-NEXT:    [[TMP1:%.*]] = load <2 x double>, ptr [[B_ADDR]], align 16, !freeze_bits [[META2]]
-// CFINITEONLY-NEXT:    [[TMP2:%.*]] = load <2 x half>, ptr [[C_ADDR]], align 4, !freeze_bits [[META2]]
+// CFINITEONLY-NEXT:    [[TMP0:%.*]] = load <2 x float>, ptr [[A_ADDR]], align 8
+// CFINITEONLY-NEXT:    [[TMP1:%.*]] = load <2 x double>, ptr [[B_ADDR]], align 16
+// CFINITEONLY-NEXT:    [[TMP2:%.*]] = load <2 x half>, ptr [[C_ADDR]], align 4
 // CFINITEONLY-NEXT:    store <2 x float> [[TMP0]], ptr [[COERCE]], align 8
 // CFINITEONLY-NEXT:    [[TMP3:%.*]] = load double, ptr [[COERCE]], align 8, !freeze_bits [[META2]]
 // CFINITEONLY-NEXT:    store <2 x half> [[TMP2]], ptr [[COERCE3]], align 4
@@ -266,15 +266,15 @@ float call_extern_func(float a, double b, _Float16 c) {
 // NONANS-NEXT:    [[COERCE3:%.*]] = alloca <2 x half>, align 4
 // NONANS-NEXT:    [[COERCE4:%.*]] = alloca <2 x float>, align 8
 // NONANS-NEXT:    store double [[A_COERCE]], ptr [[A]], align 8
-// NONANS-NEXT:    [[A1:%.*]] = load <2 x float>, ptr [[A]], align 8, !freeze_bits [[META2]]
+// NONANS-NEXT:    [[A1:%.*]] = load <2 x float>, ptr [[A]], align 8, !freeze_bits [[META2:![0-9]+]]
 // NONANS-NEXT:    store i32 [[C_COERCE]], ptr [[C]], align 4
 // NONANS-NEXT:    [[C2:%.*]] = load <2 x half>, ptr [[C]], align 4, !freeze_bits [[META2]]
 // NONANS-NEXT:    store <2 x float> [[A1]], ptr [[A_ADDR]], align 8
 // NONANS-NEXT:    store <2 x double> [[B]], ptr [[B_ADDR]], align 16
 // NONANS-NEXT:    store <2 x half> [[C2]], ptr [[C_ADDR]], align 4
-// NONANS-NEXT:    [[TMP0:%.*]] = load <2 x float>, ptr [[A_ADDR]], align 8, !freeze_bits [[META2]]
-// NONANS-NEXT:    [[TMP1:%.*]] = load <2 x double>, ptr [[B_ADDR]], align 16, !freeze_bits [[META2]]
-// NONANS-NEXT:    [[TMP2:%.*]] = load <2 x half>, ptr [[C_ADDR]], align 4, !freeze_bits [[META2]]
+// NONANS-NEXT:    [[TMP0:%.*]] = load <2 x float>, ptr [[A_ADDR]], align 8
+// NONANS-NEXT:    [[TMP1:%.*]] = load <2 x double>, ptr [[B_ADDR]], align 16
+// NONANS-NEXT:    [[TMP2:%.*]] = load <2 x half>, ptr [[C_ADDR]], align 4
 // NONANS-NEXT:    store <2 x float> [[TMP0]], ptr [[COERCE]], align 8
 // NONANS-NEXT:    [[TMP3:%.*]] = load double, ptr [[COERCE]], align 8, !freeze_bits [[META2]]
 // NONANS-NEXT:    store <2 x half> [[TMP2]], ptr [[COERCE3]], align 4
@@ -300,15 +300,15 @@ float call_extern_func(float a, double b, _Float16 c) {
 // NOINFS-NEXT:    [[COERCE3:%.*]] = alloca <2 x half>, align 4
 // NOINFS-NEXT:    [[COERCE4:%.*]] = alloca <2 x float>, align 8
 // NOINFS-NEXT:    store double [[A_COERCE]], ptr [[A]], align 8
-// NOINFS-NEXT:    [[A1:%.*]] = load <2 x float>, ptr [[A]], align 8, !freeze_bits [[META2]]
+// NOINFS-NEXT:    [[A1:%.*]] = load <2 x float>, ptr [[A]], align 8, !freeze_bits [[META2:![0-9]+]]
 // NOINFS-NEXT:    store i32 [[C_COERCE]], ptr [[C]], align 4
 // NOINFS-NEXT:    [[C2:%.*]] = load <2 x half>, ptr [[C]], align 4, !freeze_bits [[META2]]
 // NOINFS-NEXT:    store <2 x float> [[A1]], ptr [[A_ADDR]], align 8
 // NOINFS-NEXT:    store <2 x double> [[B]], ptr [[B_ADDR]], align 16
 // NOINFS-NEXT:    store <2 x half> [[C2]], ptr [[C_ADDR]], align 4
-// NOINFS-NEXT:    [[TMP0:%.*]] = load <2 x float>, ptr [[A_ADDR]], align 8, !freeze_bits [[META2]]
-// NOINFS-NEXT:    [[TMP1:%.*]] = load <2 x double>, ptr [[B_ADDR]], align 16, !freeze_bits [[META2]]
-// NOINFS-NEXT:    [[TMP2:%.*]] = load <2 x half>, ptr [[C_ADDR]], align 4, !freeze_bits [[META2]]
+// NOINFS-NEXT:    [[TMP0:%.*]] = load <2 x float>, ptr [[A_ADDR]], align 8
+// NOINFS-NEXT:    [[TMP1:%.*]] = load <2 x double>, ptr [[B_ADDR]], align 16
+// NOINFS-NEXT:    [[TMP2:%.*]] = load <2 x half>, ptr [[C_ADDR]], align 4
 // NOINFS-NEXT:    store <2 x float> [[TMP0]], ptr [[COERCE]], align 8
 // NOINFS-NEXT:    [[TMP3:%.*]] = load double, ptr [[COERCE]], align 8, !freeze_bits [[META2]]
 // NOINFS-NEXT:    store <2 x half> [[TMP2]], ptr [[COERCE3]], align 4
@@ -880,14 +880,14 @@ _Complex _Float16 defined_complex_func_f16_ret(_Complex _Float16 c) {
 // CFINITEONLY-NEXT:    store <2 x float> [[V2F321]], ptr [[V2F32_ADDR]], align 8
 // CFINITEONLY-NEXT:    store <2 x double> [[V2F64]], ptr [[V2F64_ADDR]], align 16
 // CFINITEONLY-NEXT:    store <2 x half> [[V2F162]], ptr [[V2F16_ADDR]], align 4
-// CFINITEONLY-NEXT:    [[TMP2:%.*]] = load float, ptr [[F32_ADDR]], align 4, !freeze_bits [[META2]]
-// CFINITEONLY-NEXT:    [[TMP3:%.*]] = load float, ptr [[F32_ADDR]], align 4, !freeze_bits [[META2]]
+// CFINITEONLY-NEXT:    [[TMP2:%.*]] = load float, ptr [[F32_ADDR]], align 4
+// CFINITEONLY-NEXT:    [[TMP3:%.*]] = load float, ptr [[F32_ADDR]], align 4
 // CFINITEONLY-NEXT:    [[CONV:%.*]] = fpext float [[TMP3]] to double
-// CFINITEONLY-NEXT:    [[TMP4:%.*]] = load double, ptr [[F64_ADDR]], align 8, !freeze_bits [[META2]]
-// CFINITEONLY-NEXT:    [[TMP5:%.*]] = load half, ptr [[F16_ADDR]], align 2, !freeze_bits [[META2]]
-// CFINITEONLY-NEXT:    [[TMP6:%.*]] = load <2 x float>, ptr [[V2F32_ADDR]], align 8, !freeze_bits [[META2]]
-// CFINITEONLY-NEXT:    [[TMP7:%.*]] = load <2 x double>, ptr [[V2F64_ADDR]], align 16, !freeze_bits [[META2]]
-// CFINITEONLY-NEXT:    [[TMP8:%.*]] = load <2 x half>, ptr [[V2F16_ADDR]], align 4, !freeze_bits [[META2]]
+// CFINITEONLY-NEXT:    [[TMP4:%.*]] = load double, ptr [[F64_ADDR]], align 8
+// CFINITEONLY-NEXT:    [[TMP5:%.*]] = load half, ptr [[F16_ADDR]], align 2
+// CFINITEONLY-NEXT:    [[TMP6:%.*]] = load <2 x float>, ptr [[V2F32_ADDR]], align 8
+// CFINITEONLY-NEXT:    [[TMP7:%.*]] = load <2 x double>, ptr [[V2F64_ADDR]], align 16
+// CFINITEONLY-NEXT:    [[TMP8:%.*]] = load <2 x half>, ptr [[V2F16_ADDR]], align 4
 // CFINITEONLY-NEXT:    [[CF32_REALP:%.*]] = getelementptr inbounds { float, float }, ptr [[CF32]], i32 0, i32 0
 // CFINITEONLY-NEXT:    [[CF32_REAL:%.*]] = load float, ptr [[CF32_REALP]], align 4, !freeze_bits [[META2]]
 // CFINITEONLY-NEXT:    [[CF32_IMAGP:%.*]] = getelementptr inbounds { float, float }, ptr [[CF32]], i32 0, i32 1
@@ -976,14 +976,14 @@ _Complex _Float16 defined_complex_func_f16_ret(_Complex _Float16 c) {
 // NONANS-NEXT:    store <2 x float> [[V2F321]], ptr [[V2F32_ADDR]], align 8
 // NONANS-NEXT:    store <2 x double> [[V2F64]], ptr [[V2F64_ADDR]], align 16
 // NONANS-NEXT:    store <2 x half> [[V2F162]], ptr [[V2F16_ADDR]], align 4
-// NONANS-NEXT:    [[TMP2:%.*]] = load float, ptr [[F32_ADDR]], align 4, !freeze_bits [[META2]]
-// NONANS-NEXT:    [[TMP3:%.*]] = load float, ptr [[F32_ADDR]], align 4, !freeze_bits [[META2]]
+// NONANS-NEXT:    [[TMP2:%.*]] = load float, ptr [[F32_ADDR]], align 4
+// NONANS-NEXT:    [[TMP3:%.*]] = load float, ptr [[F32_ADDR]], align 4
 // NONANS-NEXT:    [[CONV:%.*]] = fpext float [[TMP3]] to double
-// NONANS-NEXT:    [[TMP4:%.*]] = load double, ptr [[F64_ADDR]], align 8, !freeze_bits [[META2]]
-// NONANS-NEXT:    [[TMP5:%.*]] = load half, ptr [[F16_ADDR]], align 2, !freeze_bits [[META2]]
-// NONANS-NEXT:    [[TMP6:%.*]] = load <2 x float>, ptr [[V2F32_ADDR]], align 8, !freeze_bits [[META2]]
-// NONANS-NEXT:    [[TMP7:%.*]] = load <2 x double>, ptr [[V2F64_ADDR]], align 16, !freeze_bits [[META2]]
-// NONANS-NEXT:    [[TMP8:%.*]] = load <2 x half>, ptr [[V2F16_ADDR]], align 4, !freeze_bits [[META2]]
+// NONANS-NEXT:    [[TMP4:%.*]] = load double, ptr [[F64_ADDR]], align 8
+// NONANS-NEXT:    [[TMP5:%.*]] = load half, ptr [[F16_ADDR]], align 2
+// NONANS-NEXT:    [[TMP6:%.*]] = load <2 x float>, ptr [[V2F32_ADDR]], align 8
+// NONANS-NEXT:    [[TMP7:%.*]] = load <2 x double>, ptr [[V2F64_ADDR]], align 16
+// NONANS-NEXT:    [[TMP8:%.*]] = load <2 x half>, ptr [[V2F16_ADDR]], align 4
 // NONANS-NEXT:    [[CF32_REALP:%.*]] = getelementptr inbounds { float, float }, ptr [[CF32]], i32 0, i32 0
 // NONANS-NEXT:    [[CF32_REAL:%.*]] = load float, ptr [[CF32_REALP]], align 4, !freeze_bits [[META2]]
 // NONANS-NEXT:    [[CF32_IMAGP:%.*]] = getelementptr inbounds { float, float }, ptr [[CF32]], i32 0, i32 1
@@ -1051,14 +1051,14 @@ _Complex _Float16 defined_complex_func_f16_ret(_Complex _Float16 c) {
 // NOINFS-NEXT:    store <2 x float> [[V2F321]], ptr [[V2F32_ADDR]], align 8
 // NOINFS-NEXT:    store <2 x double> [[V2F64]], ptr [[V2F64_ADDR]], align 16
 // NOINFS-NEXT:    store <2 x half> [[V2F162]], ptr [[V2F16_ADDR]], align 4
-// NOINFS-NEXT:    [[TMP2:%.*]] = load float, ptr [[F32_ADDR]], align 4, !freeze_bits [[META2]]
-// NOINFS-NEXT:    [[TMP3:%.*]] = load float, ptr [[F32_ADDR]], align 4, !freeze_bits [[META2]]
+// NOINFS-NEXT:    [[TMP2:%.*]] = load float, ptr [[F32_ADDR]], align 4
+// NOINFS-NEXT:    [[TMP3:%.*]] = load float, ptr [[F32_ADDR]], align 4
 // NOINFS-NEXT:    [[CONV:%.*]] = fpext float [[TMP3]] to double
-// NOINFS-NEXT:    [[TMP4:%.*]] = load double, ptr [[F64_ADDR]], align 8, !freeze_bits [[META2]]
-// NOINFS-NEXT:    [[TMP5:%.*]] = load half, ptr [[F16_ADDR]], align 2, !freeze_bits [[META2]]
-// NOINFS-NEXT:    [[TMP6:%.*]] = load <2 x float>, ptr [[V2F32_ADDR]], align 8, !freeze_bits [[META2]]
-// NOINFS-NEXT:    [[TMP7:%.*]] = load <2 x double>, ptr [[V2F64_ADDR]], align 16, !freeze_bits [[META2]]
-// NOINFS-NEXT:    [[TMP8:%.*]] = load <2 x half>, ptr [[V2F16_ADDR]], align 4, !freeze_bits [[META2]]
+// NOINFS-NEXT:    [[TMP4:%.*]] = load double, ptr [[F64_ADDR]], align 8
+// NOINFS-NEXT:    [[TMP5:%.*]] = load half, ptr [[F16_ADDR]], align 2
+// NOINFS-NEXT:    [[TMP6:%.*]] = load <2 x float>, ptr [[V2F32_ADDR]], align 8
+// NOINFS-NEXT:    [[TMP7:%.*]] = load <2 x double>, ptr [[V2F64_ADDR]], align 16
+// NOINFS-NEXT:    [[TMP8:%.*]] = load <2 x half>, ptr [[V2F16_ADDR]], align 4
 // NOINFS-NEXT:    [[CF32_REALP:%.*]] = getelementptr inbounds { float, float }, ptr [[CF32]], i32 0, i32 0
 // NOINFS-NEXT:    [[CF32_REAL:%.*]] = load float, ptr [[CF32_REALP]], align 4, !freeze_bits [[META2]]
 // NOINFS-NEXT:    [[CF32_IMAGP:%.*]] = getelementptr inbounds { float, float }, ptr [[CF32]], i32 0, i32 1
@@ -1134,15 +1134,15 @@ float call_variadic(float f32, double f64, _Float16 f16,
 // CFINITEONLY-NEXT:    store <2 x float> [[V2F321]], ptr [[V2F32_ADDR]], align 8
 // CFINITEONLY-NEXT:    store <2 x double> [[V2F64]], ptr [[V2F64_ADDR]], align 16
 // CFINITEONLY-NEXT:    store <2 x half> [[V2F162]], ptr [[V2F16_ADDR]], align 4
-// CFINITEONLY-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[FPTR_ADDR]], align 8, !freeze_bits [[META2]]
-// CFINITEONLY-NEXT:    [[TMP3:%.*]] = load float, ptr [[F32_ADDR]], align 4, !freeze_bits [[META2]]
-// CFINITEONLY-NEXT:    [[TMP4:%.*]] = load float, ptr [[F32_ADDR]], align 4, !freeze_bits [[META2]]
+// CFINITEONLY-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[FPTR_ADDR]], align 8
+// CFINITEONLY-NEXT:    [[TMP3:%.*]] = load float, ptr [[F32_ADDR]], align 4
+// CFINITEONLY-NEXT:    [[TMP4:%.*]] = load float, ptr [[F32_ADDR]], align 4
 // CFINITEONLY-NEXT:    [[CONV:%.*]] = fpext float [[TMP4]] to double
-// CFINITEONLY-NEXT:    [[TMP5:%.*]] = load double, ptr [[F64_ADDR]], align 8, !freeze_bits [[META2]]
-// CFINITEONLY-NEXT:    [[TMP6:%.*]] = load half, ptr [[F16_ADDR]], align 2, !freeze_bits [[META2]]
-// CFINITEONLY-NEXT:    [[TMP7:%.*]] = load <2 x float>, ptr [[V2F32_ADDR]], align 8, !freeze_bits [[META2]]
-// CFINITEONLY-NEXT:    [[TMP8:%.*]] = load <2 x double>, ptr [[V2F64_ADDR]], align 16, !freeze_bits [[META2]]
-// CFINITEONLY-NEXT:    [[TMP9:%.*]] = load <2 x half>, ptr [[V2F16_ADDR]], align 4, !freeze_bits [[META2]]
+// CFINITEONLY-NEXT:    [[TMP5:%.*]] = load double, ptr [[F64_ADDR]], align 8
+// CFINITEONLY-NEXT:    [[TMP6:%.*]] = load half, ptr [[F16_ADDR]], align 2
+// CFINITEONLY-NEXT:    [[TMP7:%.*]] = load <2 x float>, ptr [[V2F32_ADDR]], align 8
+// CFINITEONLY-NEXT:    [[TMP8:%.*]] = load <2 x double>, ptr [[V2F64_ADDR]], align 16
+// CFINITEONLY-NEXT:    [[TMP9:%.*]] = load <2 x half>, ptr [[V2F16_ADDR]], align 4
 // CFINITEONLY-NEXT:    [[CF32_REALP:%.*]] = getelementptr inbounds { float, float }, ptr [[CF32]], i32 0, i32 0
 // CFINITEONLY-NEXT:    [[CF32_REAL:%.*]] = load float, ptr [[CF32_REALP]], align 4, !freeze_bits [[META2]]
 // CFINITEONLY-NEXT:    [[CF32_IMAGP:%.*]] = getelementptr inbounds { float, float }, ptr [[CF32]], i32 0, i32 1
@@ -1233,15 +1233,15 @@ float call_variadic(float f32, double f64, _Float16 f16,
 // NONANS-NEXT:    store <2 x float> [[V2F321]], ptr [[V2F32_ADDR]], align 8
 // NONANS-NEXT:    store <2 x double> [[V2F64]], ptr [[V2F64_ADDR]], align 16
 // NONANS-NEXT:    store <2 x half> [[V2F162]], ptr [[V2F16_ADDR]], align 4
-// NONANS-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[FPTR_ADDR]], align 8, !freeze_bits [[META2]]
-// NONANS-NEXT:    [[TMP3:%.*]] = load float, ptr [[F32_ADDR]], align 4, !freeze_bits [[META2]]
-// NONANS-NEXT:    [[TMP4:%.*]] = load float, ptr [[F32_ADDR]], align 4, !freeze_bits [[META2]]
+// NONANS-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[FPTR_ADDR]], align 8
+// NONANS-NEXT:    [[TMP3:%.*]] = load float, ptr [[F32_ADDR]], align 4
+// NONANS-NEXT:    [[TMP4:%.*]] = load float, ptr [[F32_ADDR]], align 4
 // NONANS-NEXT:    [[CONV:%.*]] = fpext float [[TMP4]] to double
-// NONANS-NEXT:    [[TMP5:%.*]] = load double, ptr [[F64_ADDR]], align 8, !freeze_bits [[META2]]
-// NONANS-NEXT:    [[TMP6:%.*]] = load half, ptr [[F16_ADDR]], align 2, !freeze_bits [[META2]]
-// NONANS-NEXT:    [[TMP7:%.*]] = load <2 x float>, ptr [[V2F32_ADDR]], align 8, !freeze_bits [[META2]]
-// NONANS-NEXT:    [[TMP8:%.*]] = load <2 x double>, ptr [[V2F64_ADDR]], align 16, !freeze_bits [[META2]]
-// NONANS-NEXT:    [[TMP9:%.*]] = load <2 x half>, ptr [[V2F16_ADDR]], align 4, !freeze_bits [[META2]]
+// NONANS-NEXT:    [[TMP5:%.*]] = load double, ptr [[F64_ADDR]], align 8
+// NONANS-NEXT:    [[TMP6:%.*]] = load half, ptr [[F16_ADDR]], align 2
+// NONANS-NEXT:    [[TMP7:%.*]] = load <2 x float>, ptr [[V2F32_ADDR]], align 8
+// NONANS-NEXT:    [[TMP8:%.*]] = load <2 x double>, ptr [[V2F64_ADDR]], align 16
+// NONANS-NEXT:    [[TMP9:%.*]] = load <2 x half>, ptr [[V2F16_ADDR]], align 4
 // NONANS-NEXT:    [[CF32_REALP:%.*]] = getelementptr inbounds { float, float }, ptr [[CF32]], i32 0, i32 0
 // NONANS-NEXT:    [[CF32_REAL:%.*]] = load float, ptr [[CF32_REALP]], align 4, !freeze_bits [[META2]]
 // NONANS-NEXT:    [[CF32_IMAGP:%.*]] = getelementptr inbounds { float, float }, ptr [[CF32]], i32 0, i32 1
@@ -1311,15 +1311,15 @@ float call_variadic(float f32, double f64, _Float16 f16,
 // NOINFS-NEXT:    store <2 x float> [[V2F321]], ptr [[V2F32_ADDR]], align 8
 // NOINFS-NEXT:    store <2 x double> [[V2F64]], ptr [[V2F64_ADDR]], align 16
 // NOINFS-NEXT:    store <2 x half> [[V2F162]], ptr [[V2F16_ADDR]], align 4
-// NOINFS-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[FPTR_ADDR]], align 8, !freeze_bits [[META2]]
-// NOINFS-NEXT:    [[TMP3:%.*]] = load float, ptr [[F32_ADDR]], align 4, !freeze_bits [[META2]]
-// NOINFS-NEXT:    [[TMP4:%.*]] = load float, ptr [[F32_ADDR]], align 4, !freeze_bits [[META2]]
+// NOINFS-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[FPTR_ADDR]], align 8
+// NOINFS-NEXT:    [[TMP3:%.*]] = load float, ptr [[F32_ADDR]], align 4
+// NOINFS-NEXT:    [[TMP4:%.*]] = load float, ptr [[F32_ADDR]], align 4
 // NOINFS-NEXT:    [[CONV:%.*]] = fpext float [[TMP4]] to double
-// NOINFS-NEXT:    [[TMP5:%.*]] = load double, ptr [[F64_ADDR]], align 8, !freeze_bits [[META2]]
-// NOINFS-NEXT:    [[TMP6:%.*]] = load half, ptr [[F16_ADDR]], align 2, !freeze_bits [[META2]]
-// NOINFS-NEXT:    [[TMP7:%.*]] = load <2 x float>, ptr [[V2F32_ADDR]], align 8, !freeze_bits [[META2]]
-// NOINFS-NEXT:    [[TMP8:%.*]] = load <2 x double>, ptr [[V2F64_ADDR]], align 16, !freeze_bits [[META2]]
-// NOINFS-NEXT:    [[TMP9:%.*]] = load <2 x half>, ptr [[V2F16_ADDR]], align 4, !freeze_bits [[META2]]
+// NOINFS-NEXT:    [[TMP5:%.*]] = load double, ptr [[F64_ADDR]], align 8
+// NOINFS-NEXT:    [[TMP6:%.*]] = load half, ptr [[F16_ADDR]], align 2
+// NOINFS-NEXT:    [[TMP7:%.*]] = load <2 x float>, ptr [[V2F32_ADDR]], align 8
+// NOINFS-NEXT:    [[TMP8:%.*]] = load <2 x double>, ptr [[V2F64_ADDR]], align 16
+// NOINFS-NEXT:    [[TMP9:%.*]] = load <2 x half>, ptr [[V2F16_ADDR]], align 4
 // NOINFS-NEXT:    [[CF32_REALP:%.*]] = getelementptr inbounds { float, float }, ptr [[CF32]], i32 0, i32 0
 // NOINFS-NEXT:    [[CF32_REAL:%.*]] = load float, ptr [[CF32_REALP]], align 4, !freeze_bits [[META2]]
 // NOINFS-NEXT:    [[CF32_IMAGP:%.*]] = getelementptr inbounds { float, float }, ptr [[CF32]], i32 0, i32 1
@@ -1368,8 +1368,8 @@ extern __m256d extern_m256d(__m256d, ...);
 // CFINITEONLY-NEXT:  entry:
 // CFINITEONLY-NEXT:    [[X_ADDR:%.*]] = alloca <4 x double>, align 32
 // CFINITEONLY-NEXT:    store <4 x double> [[X]], ptr [[X_ADDR]], align 32
-// CFINITEONLY-NEXT:    [[TMP0:%.*]] = load <4 x double>, ptr [[X_ADDR]], align 32, !freeze_bits [[META2]]
-// CFINITEONLY-NEXT:    [[TMP1:%.*]] = load <4 x double>, ptr [[X_ADDR]], align 32, !freeze_bits [[META2]]
+// CFINITEONLY-NEXT:    [[TMP0:%.*]] = load <4 x double>, ptr [[X_ADDR]], align 32
+// CFINITEONLY-NEXT:    [[TMP1:%.*]] = load <4 x double>, ptr [[X_ADDR]], align 32
 // CFINITEONLY-NEXT:    [[CALL:%.*]] = call nnan ninf nofpclass(nan inf) <4 x double> (<4 x double>, ...) @extern_m256d(<4 x double> noundef nofpclass(nan inf) [[TMP0]], <4 x double> noundef nofpclass(nan inf) [[TMP1]])
 // CFINITEONLY-NEXT:    ret <4 x double> [[CALL]]
 //
@@ -1386,8 +1386,8 @@ extern __m256d extern_m256d(__m256d, ...);
 // NONANS-NEXT:  entry:
 // NONANS-NEXT:    [[X_ADDR:%.*]] = alloca <4 x double>, align 32
 // NONANS-NEXT:    store <4 x double> [[X]], ptr [[X_ADDR]], align 32
-// NONANS-NEXT:    [[TMP0:%.*]] = load <4 x double>, ptr [[X_ADDR]], align 32, !freeze_bits [[META2]]
-// NONANS-NEXT:    [[TMP1:%.*]] = load <4 x double>, ptr [[X_ADDR]], align 32, !freeze_bits [[META2]]
+// NONANS-NEXT:    [[TMP0:%.*]] = load <4 x double>, ptr [[X_ADDR]], align 32
+// NONANS-NEXT:    [[TMP1:%.*]] = load <4 x double>, ptr [[X_ADDR]], align 32
 // NONANS-NEXT:    [[CALL:%.*]] = call nnan nofpclass(nan) <4 x double> (<4 x double>, ...) @extern_m256d(<4 x double> noundef nofpclass(nan) [[TMP0]], <4 x double> noundef nofpclass(nan) [[TMP1]])
 // NONANS-NEXT:    ret <4 x double> [[CALL]]
 //
@@ -1397,8 +1397,8 @@ extern __m256d extern_m256d(__m256d, ...);
 // NOINFS-NEXT:  entry:
 // NOINFS-NEXT:    [[X_ADDR:%.*]] = alloca <4 x double>, align 32
 // NOINFS-NEXT:    store <4 x double> [[X]], ptr [[X_ADDR]], align 32
-// NOINFS-NEXT:    [[TMP0:%.*]] = load <4 x double>, ptr [[X_ADDR]], align 32, !freeze_bits [[META2]]
-// NOINFS-NEXT:    [[TMP1:%.*]] = load <4 x double>, ptr [[X_ADDR]], align 32, !freeze_bits [[META2]]
+// NOINFS-NEXT:    [[TMP0:%.*]] = load <4 x double>, ptr [[X_ADDR]], align 32
+// NOINFS-NEXT:    [[TMP1:%.*]] = load <4 x double>, ptr [[X_ADDR]], align 32
 // NOINFS-NEXT:    [[CALL:%.*]] = call ninf nofpclass(inf) <4 x double> (<4 x double>, ...) @extern_m256d(<4 x double> noundef nofpclass(inf) [[TMP0]], <4 x double> noundef nofpclass(inf) [[TMP1]])
 // NOINFS-NEXT:    ret <4 x double> [[CALL]]
 //

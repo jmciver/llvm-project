@@ -133,7 +133,7 @@ int bar(int n){
 // CHECK-64-NEXT:    store ptr [[E]], ptr [[E_ADDR]], align 8
 // CHECK-64-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[E_ADDR]], align 8
 // CHECK-64-NEXT:    store double 0.000000e+00, ptr [[E1]], align 8
-// CHECK-64-NEXT:    [[TMP1:%.*]] = load double, ptr [[E1]], align 8
+// CHECK-64-NEXT:    [[TMP1:%.*]] = load double, ptr [[E1]], align 8, !freeze_bits [[META16:![0-9]+]]
 // CHECK-64-NEXT:    [[ADD:%.*]] = fadd double [[TMP1]], 5.000000e+00
 // CHECK-64-NEXT:    store double [[ADD]], ptr [[E1]], align 8
 // CHECK-64-NEXT:    [[TMP2:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOMP_REDUCTION_RED_LIST]], i64 0, i64 0
@@ -142,8 +142,8 @@ int bar(int n){
 // CHECK-64-NEXT:    [[TMP4:%.*]] = icmp eq i32 [[TMP3]], 1
 // CHECK-64-NEXT:    br i1 [[TMP4]], label [[DOTOMP_REDUCTION_THEN:%.*]], label [[DOTOMP_REDUCTION_DONE:%.*]]
 // CHECK-64:       .omp.reduction.then:
-// CHECK-64-NEXT:    [[TMP5:%.*]] = load double, ptr [[TMP0]], align 8
-// CHECK-64-NEXT:    [[TMP6:%.*]] = load double, ptr [[E1]], align 8
+// CHECK-64-NEXT:    [[TMP5:%.*]] = load double, ptr [[TMP0]], align 8, !freeze_bits [[META16]]
+// CHECK-64-NEXT:    [[TMP6:%.*]] = load double, ptr [[E1]], align 8, !freeze_bits [[META16]]
 // CHECK-64-NEXT:    [[ADD2:%.*]] = fadd double [[TMP5]], [[TMP6]]
 // CHECK-64-NEXT:    store double [[ADD2]], ptr [[TMP0]], align 8
 // CHECK-64-NEXT:    br label [[DOTOMP_REDUCTION_DONE]]
@@ -169,10 +169,10 @@ int bar(int n){
 // CHECK-64-NEXT:    [[TMP6:%.*]] = load i16, ptr [[DOTADDR2]], align 2
 // CHECK-64-NEXT:    [[TMP7:%.*]] = load i16, ptr [[DOTADDR3]], align 2
 // CHECK-64-NEXT:    [[TMP8:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP4]], i64 0, i64 0
-// CHECK-64-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 8
+// CHECK-64-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 8, !freeze_bits [[META16]]
 // CHECK-64-NEXT:    [[TMP10:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOMP_REDUCTION_REMOTE_REDUCE_LIST]], i64 0, i64 0
 // CHECK-64-NEXT:    [[TMP11:%.*]] = getelementptr double, ptr [[TMP9]], i64 1
-// CHECK-64-NEXT:    [[TMP12:%.*]] = load i64, ptr [[TMP9]], align 8
+// CHECK-64-NEXT:    [[TMP12:%.*]] = load i64, ptr [[TMP9]], align 8, !freeze_bits [[META16]]
 // CHECK-64-NEXT:    [[TMP13:%.*]] = call i32 @__kmpc_get_warp_size()
 // CHECK-64-NEXT:    [[TMP14:%.*]] = trunc i32 [[TMP13]] to i16
 // CHECK-64-NEXT:    [[TMP15:%.*]] = call i64 @__kmpc_shuffle_int64(i64 [[TMP12]], i16 [[TMP6]], i16 [[TMP14]])
@@ -205,10 +205,10 @@ int bar(int n){
 // CHECK-64-NEXT:    br i1 [[TMP32]], label [[THEN4:%.*]], label [[ELSE5:%.*]]
 // CHECK-64:       then4:
 // CHECK-64-NEXT:    [[TMP33:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOMP_REDUCTION_REMOTE_REDUCE_LIST]], i64 0, i64 0
-// CHECK-64-NEXT:    [[TMP34:%.*]] = load ptr, ptr [[TMP33]], align 8
+// CHECK-64-NEXT:    [[TMP34:%.*]] = load ptr, ptr [[TMP33]], align 8, !freeze_bits [[META16]]
 // CHECK-64-NEXT:    [[TMP35:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP4]], i64 0, i64 0
-// CHECK-64-NEXT:    [[TMP36:%.*]] = load ptr, ptr [[TMP35]], align 8
-// CHECK-64-NEXT:    [[TMP37:%.*]] = load double, ptr [[TMP34]], align 8
+// CHECK-64-NEXT:    [[TMP36:%.*]] = load ptr, ptr [[TMP35]], align 8, !freeze_bits [[META16]]
+// CHECK-64-NEXT:    [[TMP37:%.*]] = load double, ptr [[TMP34]], align 8, !freeze_bits [[META16]]
 // CHECK-64-NEXT:    store double [[TMP37]], ptr [[TMP36]], align 8
 // CHECK-64-NEXT:    br label [[IFCONT6:%.*]]
 // CHECK-64:       else5:
@@ -235,7 +235,7 @@ int bar(int n){
 // CHECK-64-NEXT:    store i32 0, ptr [[DOTCNT_ADDR]], align 4
 // CHECK-64-NEXT:    br label [[PRECOND:%.*]]
 // CHECK-64:       precond:
-// CHECK-64-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTCNT_ADDR]], align 4
+// CHECK-64-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTCNT_ADDR]], align 4, !freeze_bits [[META16]]
 // CHECK-64-NEXT:    [[TMP8:%.*]] = icmp ult i32 [[TMP7]], 2
 // CHECK-64-NEXT:    br i1 [[TMP8]], label [[BODY:%.*]], label [[EXIT:%.*]]
 // CHECK-64:       body:
@@ -244,10 +244,10 @@ int bar(int n){
 // CHECK-64-NEXT:    br i1 [[WARP_MASTER]], label [[THEN:%.*]], label [[ELSE:%.*]]
 // CHECK-64:       then:
 // CHECK-64-NEXT:    [[TMP9:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP6]], i64 0, i64 0
-// CHECK-64-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[TMP9]], align 8
+// CHECK-64-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[TMP9]], align 8, !freeze_bits [[META16]]
 // CHECK-64-NEXT:    [[TMP11:%.*]] = getelementptr i32, ptr [[TMP10]], i32 [[TMP7]]
 // CHECK-64-NEXT:    [[TMP12:%.*]] = getelementptr inbounds [32 x i32], ptr addrspace(3) @__openmp_nvptx_data_transfer_temporary_storage, i64 0, i32 [[NVPTX_WARP_ID]]
-// CHECK-64-NEXT:    [[TMP13:%.*]] = load i32, ptr [[TMP11]], align 4
+// CHECK-64-NEXT:    [[TMP13:%.*]] = load i32, ptr [[TMP11]], align 4, !freeze_bits [[META16]]
 // CHECK-64-NEXT:    store volatile i32 [[TMP13]], ptr addrspace(3) [[TMP12]], align 4
 // CHECK-64-NEXT:    br label [[IFCONT:%.*]]
 // CHECK-64:       else:
@@ -260,9 +260,9 @@ int bar(int n){
 // CHECK-64:       then2:
 // CHECK-64-NEXT:    [[TMP15:%.*]] = getelementptr inbounds [32 x i32], ptr addrspace(3) @__openmp_nvptx_data_transfer_temporary_storage, i64 0, i32 [[TMP3]]
 // CHECK-64-NEXT:    [[TMP16:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP6]], i64 0, i64 0
-// CHECK-64-NEXT:    [[TMP17:%.*]] = load ptr, ptr [[TMP16]], align 8
+// CHECK-64-NEXT:    [[TMP17:%.*]] = load ptr, ptr [[TMP16]], align 8, !freeze_bits [[META16]]
 // CHECK-64-NEXT:    [[TMP18:%.*]] = getelementptr i32, ptr [[TMP17]], i32 [[TMP7]]
-// CHECK-64-NEXT:    [[TMP19:%.*]] = load volatile i32, ptr addrspace(3) [[TMP15]], align 4
+// CHECK-64-NEXT:    [[TMP19:%.*]] = load volatile i32, ptr addrspace(3) [[TMP15]], align 4, !freeze_bits [[META16]]
 // CHECK-64-NEXT:    store i32 [[TMP19]], ptr [[TMP18]], align 4
 // CHECK-64-NEXT:    br label [[IFCONT4:%.*]]
 // CHECK-64:       else3:
@@ -311,6 +311,8 @@ int bar(int n){
 // CHECK-64-NEXT:    [[C_ADDR:%.*]] = alloca ptr, align 8
 // CHECK-64-NEXT:    [[D_ADDR:%.*]] = alloca ptr, align 8
 // CHECK-64-NEXT:    [[C1:%.*]] = alloca i8, align 1
+// CHECK-64-NEXT:    [[FREEZE_POISON:%.*]] = freeze i8 poison
+// CHECK-64-NEXT:    store i8 [[FREEZE_POISON]], ptr [[C1]], align 1
 // CHECK-64-NEXT:    [[D2:%.*]] = alloca float, align 4
 // CHECK-64-NEXT:    [[DOTOMP_REDUCTION_RED_LIST:%.*]] = alloca [2 x ptr], align 8
 // CHECK-64-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
@@ -326,7 +328,7 @@ int bar(int n){
 // CHECK-64-NEXT:    [[XOR:%.*]] = xor i32 [[CONV]], 2
 // CHECK-64-NEXT:    [[CONV3:%.*]] = trunc i32 [[XOR]] to i8
 // CHECK-64-NEXT:    store i8 [[CONV3]], ptr [[C1]], align 1
-// CHECK-64-NEXT:    [[TMP3:%.*]] = load float, ptr [[D2]], align 4
+// CHECK-64-NEXT:    [[TMP3:%.*]] = load float, ptr [[D2]], align 4, !freeze_bits [[META16]]
 // CHECK-64-NEXT:    [[MUL:%.*]] = fmul float [[TMP3]], 3.300000e+01
 // CHECK-64-NEXT:    store float [[MUL]], ptr [[D2]], align 4
 // CHECK-64-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOMP_REDUCTION_RED_LIST]], i64 0, i64 0
@@ -337,15 +339,15 @@ int bar(int n){
 // CHECK-64-NEXT:    [[TMP7:%.*]] = icmp eq i32 [[TMP6]], 1
 // CHECK-64-NEXT:    br i1 [[TMP7]], label [[DOTOMP_REDUCTION_THEN:%.*]], label [[DOTOMP_REDUCTION_DONE:%.*]]
 // CHECK-64:       .omp.reduction.then:
-// CHECK-64-NEXT:    [[TMP8:%.*]] = load i8, ptr [[TMP0]], align 1
+// CHECK-64-NEXT:    [[TMP8:%.*]] = load i8, ptr [[TMP0]], align 1, !freeze_bits [[META16]]
 // CHECK-64-NEXT:    [[CONV4:%.*]] = sext i8 [[TMP8]] to i32
 // CHECK-64-NEXT:    [[TMP9:%.*]] = load i8, ptr [[C1]], align 1
 // CHECK-64-NEXT:    [[CONV5:%.*]] = sext i8 [[TMP9]] to i32
 // CHECK-64-NEXT:    [[XOR6:%.*]] = xor i32 [[CONV4]], [[CONV5]]
 // CHECK-64-NEXT:    [[CONV7:%.*]] = trunc i32 [[XOR6]] to i8
 // CHECK-64-NEXT:    store i8 [[CONV7]], ptr [[TMP0]], align 1
-// CHECK-64-NEXT:    [[TMP10:%.*]] = load float, ptr [[TMP1]], align 4
-// CHECK-64-NEXT:    [[TMP11:%.*]] = load float, ptr [[D2]], align 4
+// CHECK-64-NEXT:    [[TMP10:%.*]] = load float, ptr [[TMP1]], align 4, !freeze_bits [[META16]]
+// CHECK-64-NEXT:    [[TMP11:%.*]] = load float, ptr [[D2]], align 4, !freeze_bits [[META16]]
 // CHECK-64-NEXT:    [[MUL8:%.*]] = fmul float [[TMP10]], [[TMP11]]
 // CHECK-64-NEXT:    store float [[MUL8]], ptr [[TMP1]], align 4
 // CHECK-64-NEXT:    br label [[DOTOMP_REDUCTION_DONE]]
@@ -372,10 +374,10 @@ int bar(int n){
 // CHECK-64-NEXT:    [[TMP6:%.*]] = load i16, ptr [[DOTADDR2]], align 2
 // CHECK-64-NEXT:    [[TMP7:%.*]] = load i16, ptr [[DOTADDR3]], align 2
 // CHECK-64-NEXT:    [[TMP8:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP4]], i64 0, i64 0
-// CHECK-64-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 8
+// CHECK-64-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 8, !freeze_bits [[META16]]
 // CHECK-64-NEXT:    [[TMP10:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOMP_REDUCTION_REMOTE_REDUCE_LIST]], i64 0, i64 0
 // CHECK-64-NEXT:    [[TMP11:%.*]] = getelementptr i8, ptr [[TMP9]], i64 1
-// CHECK-64-NEXT:    [[TMP12:%.*]] = load i8, ptr [[TMP9]], align 1
+// CHECK-64-NEXT:    [[TMP12:%.*]] = load i8, ptr [[TMP9]], align 1, !freeze_bits [[META16]]
 // CHECK-64-NEXT:    [[TMP13:%.*]] = sext i8 [[TMP12]] to i32
 // CHECK-64-NEXT:    [[TMP14:%.*]] = call i32 @__kmpc_get_warp_size()
 // CHECK-64-NEXT:    [[TMP15:%.*]] = trunc i32 [[TMP14]] to i16
@@ -386,10 +388,10 @@ int bar(int n){
 // CHECK-64-NEXT:    [[TMP19:%.*]] = getelementptr i8, ptr [[DOTOMP_REDUCTION_ELEMENT]], i64 1
 // CHECK-64-NEXT:    store ptr [[DOTOMP_REDUCTION_ELEMENT]], ptr [[TMP10]], align 8
 // CHECK-64-NEXT:    [[TMP20:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP4]], i64 0, i64 1
-// CHECK-64-NEXT:    [[TMP21:%.*]] = load ptr, ptr [[TMP20]], align 8
+// CHECK-64-NEXT:    [[TMP21:%.*]] = load ptr, ptr [[TMP20]], align 8, !freeze_bits [[META16]]
 // CHECK-64-NEXT:    [[TMP22:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOMP_REDUCTION_REMOTE_REDUCE_LIST]], i64 0, i64 1
 // CHECK-64-NEXT:    [[TMP23:%.*]] = getelementptr float, ptr [[TMP21]], i64 1
-// CHECK-64-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP21]], align 4
+// CHECK-64-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP21]], align 4, !freeze_bits [[META16]]
 // CHECK-64-NEXT:    [[TMP25:%.*]] = call i32 @__kmpc_get_warp_size()
 // CHECK-64-NEXT:    [[TMP26:%.*]] = trunc i32 [[TMP25]] to i16
 // CHECK-64-NEXT:    [[TMP27:%.*]] = call i32 @__kmpc_shuffle_int32(i32 [[TMP24]], i16 [[TMP6]], i16 [[TMP26]])
@@ -422,16 +424,16 @@ int bar(int n){
 // CHECK-64-NEXT:    br i1 [[TMP44]], label [[THEN5:%.*]], label [[ELSE6:%.*]]
 // CHECK-64:       then5:
 // CHECK-64-NEXT:    [[TMP45:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOMP_REDUCTION_REMOTE_REDUCE_LIST]], i64 0, i64 0
-// CHECK-64-NEXT:    [[TMP46:%.*]] = load ptr, ptr [[TMP45]], align 8
+// CHECK-64-NEXT:    [[TMP46:%.*]] = load ptr, ptr [[TMP45]], align 8, !freeze_bits [[META16]]
 // CHECK-64-NEXT:    [[TMP47:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP4]], i64 0, i64 0
-// CHECK-64-NEXT:    [[TMP48:%.*]] = load ptr, ptr [[TMP47]], align 8
-// CHECK-64-NEXT:    [[TMP49:%.*]] = load i8, ptr [[TMP46]], align 1
+// CHECK-64-NEXT:    [[TMP48:%.*]] = load ptr, ptr [[TMP47]], align 8, !freeze_bits [[META16]]
+// CHECK-64-NEXT:    [[TMP49:%.*]] = load i8, ptr [[TMP46]], align 1, !freeze_bits [[META16]]
 // CHECK-64-NEXT:    store i8 [[TMP49]], ptr [[TMP48]], align 1
 // CHECK-64-NEXT:    [[TMP50:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOMP_REDUCTION_REMOTE_REDUCE_LIST]], i64 0, i64 1
-// CHECK-64-NEXT:    [[TMP51:%.*]] = load ptr, ptr [[TMP50]], align 8
+// CHECK-64-NEXT:    [[TMP51:%.*]] = load ptr, ptr [[TMP50]], align 8, !freeze_bits [[META16]]
 // CHECK-64-NEXT:    [[TMP52:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP4]], i64 0, i64 1
-// CHECK-64-NEXT:    [[TMP53:%.*]] = load ptr, ptr [[TMP52]], align 8
-// CHECK-64-NEXT:    [[TMP54:%.*]] = load float, ptr [[TMP51]], align 4
+// CHECK-64-NEXT:    [[TMP53:%.*]] = load ptr, ptr [[TMP52]], align 8, !freeze_bits [[META16]]
+// CHECK-64-NEXT:    [[TMP54:%.*]] = load float, ptr [[TMP51]], align 4, !freeze_bits [[META16]]
 // CHECK-64-NEXT:    store float [[TMP54]], ptr [[TMP53]], align 4
 // CHECK-64-NEXT:    br label [[IFCONT7:%.*]]
 // CHECK-64:       else6:
@@ -459,9 +461,9 @@ int bar(int n){
 // CHECK-64-NEXT:    br i1 [[WARP_MASTER]], label [[THEN:%.*]], label [[ELSE:%.*]]
 // CHECK-64:       then:
 // CHECK-64-NEXT:    [[TMP7:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP6]], i64 0, i64 0
-// CHECK-64-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[TMP7]], align 8
+// CHECK-64-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[TMP7]], align 8, !freeze_bits [[META16]]
 // CHECK-64-NEXT:    [[TMP9:%.*]] = getelementptr inbounds [32 x i32], ptr addrspace(3) @__openmp_nvptx_data_transfer_temporary_storage, i64 0, i32 [[NVPTX_WARP_ID]]
-// CHECK-64-NEXT:    [[TMP10:%.*]] = load i8, ptr [[TMP8]], align 1
+// CHECK-64-NEXT:    [[TMP10:%.*]] = load i8, ptr [[TMP8]], align 1, !freeze_bits [[META16]]
 // CHECK-64-NEXT:    store volatile i8 [[TMP10]], ptr addrspace(3) [[TMP9]], align 1
 // CHECK-64-NEXT:    br label [[IFCONT:%.*]]
 // CHECK-64:       else:
@@ -474,8 +476,8 @@ int bar(int n){
 // CHECK-64:       then2:
 // CHECK-64-NEXT:    [[TMP12:%.*]] = getelementptr inbounds [32 x i32], ptr addrspace(3) @__openmp_nvptx_data_transfer_temporary_storage, i64 0, i32 [[TMP3]]
 // CHECK-64-NEXT:    [[TMP13:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP6]], i64 0, i64 0
-// CHECK-64-NEXT:    [[TMP14:%.*]] = load ptr, ptr [[TMP13]], align 8
-// CHECK-64-NEXT:    [[TMP15:%.*]] = load volatile i8, ptr addrspace(3) [[TMP12]], align 1
+// CHECK-64-NEXT:    [[TMP14:%.*]] = load ptr, ptr [[TMP13]], align 8, !freeze_bits [[META16]]
+// CHECK-64-NEXT:    [[TMP15:%.*]] = load volatile i8, ptr addrspace(3) [[TMP12]], align 1, !freeze_bits [[META16]]
 // CHECK-64-NEXT:    store i8 [[TMP15]], ptr [[TMP14]], align 1
 // CHECK-64-NEXT:    br label [[IFCONT4:%.*]]
 // CHECK-64:       else3:
@@ -486,9 +488,9 @@ int bar(int n){
 // CHECK-64-NEXT:    br i1 [[WARP_MASTER5]], label [[THEN6:%.*]], label [[ELSE7:%.*]]
 // CHECK-64:       then6:
 // CHECK-64-NEXT:    [[TMP16:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP6]], i64 0, i64 1
-// CHECK-64-NEXT:    [[TMP17:%.*]] = load ptr, ptr [[TMP16]], align 8
+// CHECK-64-NEXT:    [[TMP17:%.*]] = load ptr, ptr [[TMP16]], align 8, !freeze_bits [[META16]]
 // CHECK-64-NEXT:    [[TMP18:%.*]] = getelementptr inbounds [32 x i32], ptr addrspace(3) @__openmp_nvptx_data_transfer_temporary_storage, i64 0, i32 [[NVPTX_WARP_ID]]
-// CHECK-64-NEXT:    [[TMP19:%.*]] = load i32, ptr [[TMP17]], align 4
+// CHECK-64-NEXT:    [[TMP19:%.*]] = load i32, ptr [[TMP17]], align 4, !freeze_bits [[META16]]
 // CHECK-64-NEXT:    store volatile i32 [[TMP19]], ptr addrspace(3) [[TMP18]], align 4
 // CHECK-64-NEXT:    br label [[IFCONT8:%.*]]
 // CHECK-64:       else7:
@@ -501,8 +503,8 @@ int bar(int n){
 // CHECK-64:       then10:
 // CHECK-64-NEXT:    [[TMP21:%.*]] = getelementptr inbounds [32 x i32], ptr addrspace(3) @__openmp_nvptx_data_transfer_temporary_storage, i64 0, i32 [[TMP3]]
 // CHECK-64-NEXT:    [[TMP22:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP6]], i64 0, i64 1
-// CHECK-64-NEXT:    [[TMP23:%.*]] = load ptr, ptr [[TMP22]], align 8
-// CHECK-64-NEXT:    [[TMP24:%.*]] = load volatile i32, ptr addrspace(3) [[TMP21]], align 4
+// CHECK-64-NEXT:    [[TMP23:%.*]] = load ptr, ptr [[TMP22]], align 8, !freeze_bits [[META16]]
+// CHECK-64-NEXT:    [[TMP24:%.*]] = load volatile i32, ptr addrspace(3) [[TMP21]], align 4, !freeze_bits [[META16]]
 // CHECK-64-NEXT:    store i32 [[TMP24]], ptr [[TMP23]], align 4
 // CHECK-64-NEXT:    br label [[IFCONT12:%.*]]
 // CHECK-64:       else11:
@@ -547,7 +549,11 @@ int bar(int n){
 // CHECK-64-NEXT:    [[A_ADDR:%.*]] = alloca ptr, align 8
 // CHECK-64-NEXT:    [[B_ADDR:%.*]] = alloca ptr, align 8
 // CHECK-64-NEXT:    [[A1:%.*]] = alloca i32, align 4
+// CHECK-64-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-64-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A1]], align 4
 // CHECK-64-NEXT:    [[B2:%.*]] = alloca i16, align 2
+// CHECK-64-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i16 poison
+// CHECK-64-NEXT:    store i16 [[FREEZE_POISON3]], ptr [[B2]], align 2
 // CHECK-64-NEXT:    [[DOTOMP_REDUCTION_RED_LIST:%.*]] = alloca [2 x ptr], align 8
 // CHECK-64-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK-64-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
@@ -568,12 +574,12 @@ int bar(int n){
 // CHECK-64-NEXT:    br label [[COND_END:%.*]]
 // CHECK-64:       cond.false:
 // CHECK-64-NEXT:    [[TMP4:%.*]] = load i16, ptr [[B2]], align 2
-// CHECK-64-NEXT:    [[CONV3:%.*]] = sext i16 [[TMP4]] to i32
+// CHECK-64-NEXT:    [[CONV4:%.*]] = sext i16 [[TMP4]] to i32
 // CHECK-64-NEXT:    br label [[COND_END]]
 // CHECK-64:       cond.end:
-// CHECK-64-NEXT:    [[COND:%.*]] = phi i32 [ 99, [[COND_TRUE]] ], [ [[CONV3]], [[COND_FALSE]] ]
-// CHECK-64-NEXT:    [[CONV4:%.*]] = trunc i32 [[COND]] to i16
-// CHECK-64-NEXT:    store i16 [[CONV4]], ptr [[B2]], align 2
+// CHECK-64-NEXT:    [[COND:%.*]] = phi i32 [ 99, [[COND_TRUE]] ], [ [[CONV4]], [[COND_FALSE]] ]
+// CHECK-64-NEXT:    [[CONV5:%.*]] = trunc i32 [[COND]] to i16
+// CHECK-64-NEXT:    store i16 [[CONV5]], ptr [[B2]], align 2
 // CHECK-64-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOMP_REDUCTION_RED_LIST]], i64 0, i64 0
 // CHECK-64-NEXT:    store ptr [[A1]], ptr [[TMP5]], align 8
 // CHECK-64-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOMP_REDUCTION_RED_LIST]], i64 0, i64 1
@@ -582,25 +588,25 @@ int bar(int n){
 // CHECK-64-NEXT:    [[TMP8:%.*]] = icmp eq i32 [[TMP7]], 1
 // CHECK-64-NEXT:    br i1 [[TMP8]], label [[DOTOMP_REDUCTION_THEN:%.*]], label [[DOTOMP_REDUCTION_DONE:%.*]]
 // CHECK-64:       .omp.reduction.then:
-// CHECK-64-NEXT:    [[TMP9:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-64-NEXT:    [[TMP9:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META16]]
 // CHECK-64-NEXT:    [[TMP10:%.*]] = load i32, ptr [[A1]], align 4
-// CHECK-64-NEXT:    [[OR5:%.*]] = or i32 [[TMP9]], [[TMP10]]
-// CHECK-64-NEXT:    store i32 [[OR5]], ptr [[TMP0]], align 4
-// CHECK-64-NEXT:    [[TMP11:%.*]] = load i16, ptr [[TMP1]], align 2
-// CHECK-64-NEXT:    [[CONV6:%.*]] = sext i16 [[TMP11]] to i32
+// CHECK-64-NEXT:    [[OR6:%.*]] = or i32 [[TMP9]], [[TMP10]]
+// CHECK-64-NEXT:    store i32 [[OR6]], ptr [[TMP0]], align 4
+// CHECK-64-NEXT:    [[TMP11:%.*]] = load i16, ptr [[TMP1]], align 2, !freeze_bits [[META16]]
+// CHECK-64-NEXT:    [[CONV7:%.*]] = sext i16 [[TMP11]] to i32
 // CHECK-64-NEXT:    [[TMP12:%.*]] = load i16, ptr [[B2]], align 2
-// CHECK-64-NEXT:    [[CONV7:%.*]] = sext i16 [[TMP12]] to i32
-// CHECK-64-NEXT:    [[CMP8:%.*]] = icmp sgt i32 [[CONV6]], [[CONV7]]
-// CHECK-64-NEXT:    br i1 [[CMP8]], label [[COND_TRUE9:%.*]], label [[COND_FALSE10:%.*]]
-// CHECK-64:       cond.true9:
-// CHECK-64-NEXT:    [[TMP13:%.*]] = load i16, ptr [[TMP1]], align 2
-// CHECK-64-NEXT:    br label [[COND_END11:%.*]]
-// CHECK-64:       cond.false10:
+// CHECK-64-NEXT:    [[CONV8:%.*]] = sext i16 [[TMP12]] to i32
+// CHECK-64-NEXT:    [[CMP9:%.*]] = icmp sgt i32 [[CONV7]], [[CONV8]]
+// CHECK-64-NEXT:    br i1 [[CMP9]], label [[COND_TRUE10:%.*]], label [[COND_FALSE11:%.*]]
+// CHECK-64:       cond.true10:
+// CHECK-64-NEXT:    [[TMP13:%.*]] = load i16, ptr [[TMP1]], align 2, !freeze_bits [[META16]]
+// CHECK-64-NEXT:    br label [[COND_END12:%.*]]
+// CHECK-64:       cond.false11:
 // CHECK-64-NEXT:    [[TMP14:%.*]] = load i16, ptr [[B2]], align 2
-// CHECK-64-NEXT:    br label [[COND_END11]]
-// CHECK-64:       cond.end11:
-// CHECK-64-NEXT:    [[COND12:%.*]] = phi i16 [ [[TMP13]], [[COND_TRUE9]] ], [ [[TMP14]], [[COND_FALSE10]] ]
-// CHECK-64-NEXT:    store i16 [[COND12]], ptr [[TMP1]], align 2
+// CHECK-64-NEXT:    br label [[COND_END12]]
+// CHECK-64:       cond.end12:
+// CHECK-64-NEXT:    [[COND13:%.*]] = phi i16 [ [[TMP13]], [[COND_TRUE10]] ], [ [[TMP14]], [[COND_FALSE11]] ]
+// CHECK-64-NEXT:    store i16 [[COND13]], ptr [[TMP1]], align 2
 // CHECK-64-NEXT:    br label [[DOTOMP_REDUCTION_DONE]]
 // CHECK-64:       .omp.reduction.done:
 // CHECK-64-NEXT:    ret void
@@ -625,10 +631,10 @@ int bar(int n){
 // CHECK-64-NEXT:    [[TMP6:%.*]] = load i16, ptr [[DOTADDR2]], align 2
 // CHECK-64-NEXT:    [[TMP7:%.*]] = load i16, ptr [[DOTADDR3]], align 2
 // CHECK-64-NEXT:    [[TMP8:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP4]], i64 0, i64 0
-// CHECK-64-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 8
+// CHECK-64-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 8, !freeze_bits [[META16]]
 // CHECK-64-NEXT:    [[TMP10:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOMP_REDUCTION_REMOTE_REDUCE_LIST]], i64 0, i64 0
 // CHECK-64-NEXT:    [[TMP11:%.*]] = getelementptr i32, ptr [[TMP9]], i64 1
-// CHECK-64-NEXT:    [[TMP12:%.*]] = load i32, ptr [[TMP9]], align 4
+// CHECK-64-NEXT:    [[TMP12:%.*]] = load i32, ptr [[TMP9]], align 4, !freeze_bits [[META16]]
 // CHECK-64-NEXT:    [[TMP13:%.*]] = call i32 @__kmpc_get_warp_size()
 // CHECK-64-NEXT:    [[TMP14:%.*]] = trunc i32 [[TMP13]] to i16
 // CHECK-64-NEXT:    [[TMP15:%.*]] = call i32 @__kmpc_shuffle_int32(i32 [[TMP12]], i16 [[TMP6]], i16 [[TMP14]])
@@ -637,10 +643,10 @@ int bar(int n){
 // CHECK-64-NEXT:    [[TMP17:%.*]] = getelementptr i32, ptr [[DOTOMP_REDUCTION_ELEMENT]], i64 1
 // CHECK-64-NEXT:    store ptr [[DOTOMP_REDUCTION_ELEMENT]], ptr [[TMP10]], align 8
 // CHECK-64-NEXT:    [[TMP18:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP4]], i64 0, i64 1
-// CHECK-64-NEXT:    [[TMP19:%.*]] = load ptr, ptr [[TMP18]], align 8
+// CHECK-64-NEXT:    [[TMP19:%.*]] = load ptr, ptr [[TMP18]], align 8, !freeze_bits [[META16]]
 // CHECK-64-NEXT:    [[TMP20:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOMP_REDUCTION_REMOTE_REDUCE_LIST]], i64 0, i64 1
 // CHECK-64-NEXT:    [[TMP21:%.*]] = getelementptr i16, ptr [[TMP19]], i64 1
-// CHECK-64-NEXT:    [[TMP22:%.*]] = load i16, ptr [[TMP19]], align 2
+// CHECK-64-NEXT:    [[TMP22:%.*]] = load i16, ptr [[TMP19]], align 2, !freeze_bits [[META16]]
 // CHECK-64-NEXT:    [[TMP23:%.*]] = sext i16 [[TMP22]] to i32
 // CHECK-64-NEXT:    [[TMP24:%.*]] = call i32 @__kmpc_get_warp_size()
 // CHECK-64-NEXT:    [[TMP25:%.*]] = trunc i32 [[TMP24]] to i16
@@ -675,16 +681,16 @@ int bar(int n){
 // CHECK-64-NEXT:    br i1 [[TMP44]], label [[THEN5:%.*]], label [[ELSE6:%.*]]
 // CHECK-64:       then5:
 // CHECK-64-NEXT:    [[TMP45:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOMP_REDUCTION_REMOTE_REDUCE_LIST]], i64 0, i64 0
-// CHECK-64-NEXT:    [[TMP46:%.*]] = load ptr, ptr [[TMP45]], align 8
+// CHECK-64-NEXT:    [[TMP46:%.*]] = load ptr, ptr [[TMP45]], align 8, !freeze_bits [[META16]]
 // CHECK-64-NEXT:    [[TMP47:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP4]], i64 0, i64 0
-// CHECK-64-NEXT:    [[TMP48:%.*]] = load ptr, ptr [[TMP47]], align 8
-// CHECK-64-NEXT:    [[TMP49:%.*]] = load i32, ptr [[TMP46]], align 4
+// CHECK-64-NEXT:    [[TMP48:%.*]] = load ptr, ptr [[TMP47]], align 8, !freeze_bits [[META16]]
+// CHECK-64-NEXT:    [[TMP49:%.*]] = load i32, ptr [[TMP46]], align 4, !freeze_bits [[META16]]
 // CHECK-64-NEXT:    store i32 [[TMP49]], ptr [[TMP48]], align 4
 // CHECK-64-NEXT:    [[TMP50:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOMP_REDUCTION_REMOTE_REDUCE_LIST]], i64 0, i64 1
-// CHECK-64-NEXT:    [[TMP51:%.*]] = load ptr, ptr [[TMP50]], align 8
+// CHECK-64-NEXT:    [[TMP51:%.*]] = load ptr, ptr [[TMP50]], align 8, !freeze_bits [[META16]]
 // CHECK-64-NEXT:    [[TMP52:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP4]], i64 0, i64 1
-// CHECK-64-NEXT:    [[TMP53:%.*]] = load ptr, ptr [[TMP52]], align 8
-// CHECK-64-NEXT:    [[TMP54:%.*]] = load i16, ptr [[TMP51]], align 2
+// CHECK-64-NEXT:    [[TMP53:%.*]] = load ptr, ptr [[TMP52]], align 8, !freeze_bits [[META16]]
+// CHECK-64-NEXT:    [[TMP54:%.*]] = load i16, ptr [[TMP51]], align 2, !freeze_bits [[META16]]
 // CHECK-64-NEXT:    store i16 [[TMP54]], ptr [[TMP53]], align 2
 // CHECK-64-NEXT:    br label [[IFCONT7:%.*]]
 // CHECK-64:       else6:
@@ -712,9 +718,9 @@ int bar(int n){
 // CHECK-64-NEXT:    br i1 [[WARP_MASTER]], label [[THEN:%.*]], label [[ELSE:%.*]]
 // CHECK-64:       then:
 // CHECK-64-NEXT:    [[TMP7:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP6]], i64 0, i64 0
-// CHECK-64-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[TMP7]], align 8
+// CHECK-64-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[TMP7]], align 8, !freeze_bits [[META16]]
 // CHECK-64-NEXT:    [[TMP9:%.*]] = getelementptr inbounds [32 x i32], ptr addrspace(3) @__openmp_nvptx_data_transfer_temporary_storage, i64 0, i32 [[NVPTX_WARP_ID]]
-// CHECK-64-NEXT:    [[TMP10:%.*]] = load i32, ptr [[TMP8]], align 4
+// CHECK-64-NEXT:    [[TMP10:%.*]] = load i32, ptr [[TMP8]], align 4, !freeze_bits [[META16]]
 // CHECK-64-NEXT:    store volatile i32 [[TMP10]], ptr addrspace(3) [[TMP9]], align 4
 // CHECK-64-NEXT:    br label [[IFCONT:%.*]]
 // CHECK-64:       else:
@@ -727,8 +733,8 @@ int bar(int n){
 // CHECK-64:       then2:
 // CHECK-64-NEXT:    [[TMP12:%.*]] = getelementptr inbounds [32 x i32], ptr addrspace(3) @__openmp_nvptx_data_transfer_temporary_storage, i64 0, i32 [[TMP3]]
 // CHECK-64-NEXT:    [[TMP13:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP6]], i64 0, i64 0
-// CHECK-64-NEXT:    [[TMP14:%.*]] = load ptr, ptr [[TMP13]], align 8
-// CHECK-64-NEXT:    [[TMP15:%.*]] = load volatile i32, ptr addrspace(3) [[TMP12]], align 4
+// CHECK-64-NEXT:    [[TMP14:%.*]] = load ptr, ptr [[TMP13]], align 8, !freeze_bits [[META16]]
+// CHECK-64-NEXT:    [[TMP15:%.*]] = load volatile i32, ptr addrspace(3) [[TMP12]], align 4, !freeze_bits [[META16]]
 // CHECK-64-NEXT:    store i32 [[TMP15]], ptr [[TMP14]], align 4
 // CHECK-64-NEXT:    br label [[IFCONT4:%.*]]
 // CHECK-64:       else3:
@@ -739,9 +745,9 @@ int bar(int n){
 // CHECK-64-NEXT:    br i1 [[WARP_MASTER5]], label [[THEN6:%.*]], label [[ELSE7:%.*]]
 // CHECK-64:       then6:
 // CHECK-64-NEXT:    [[TMP16:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP6]], i64 0, i64 1
-// CHECK-64-NEXT:    [[TMP17:%.*]] = load ptr, ptr [[TMP16]], align 8
+// CHECK-64-NEXT:    [[TMP17:%.*]] = load ptr, ptr [[TMP16]], align 8, !freeze_bits [[META16]]
 // CHECK-64-NEXT:    [[TMP18:%.*]] = getelementptr inbounds [32 x i32], ptr addrspace(3) @__openmp_nvptx_data_transfer_temporary_storage, i64 0, i32 [[NVPTX_WARP_ID]]
-// CHECK-64-NEXT:    [[TMP19:%.*]] = load i16, ptr [[TMP17]], align 2
+// CHECK-64-NEXT:    [[TMP19:%.*]] = load i16, ptr [[TMP17]], align 2, !freeze_bits [[META16]]
 // CHECK-64-NEXT:    store volatile i16 [[TMP19]], ptr addrspace(3) [[TMP18]], align 2
 // CHECK-64-NEXT:    br label [[IFCONT8:%.*]]
 // CHECK-64:       else7:
@@ -754,8 +760,8 @@ int bar(int n){
 // CHECK-64:       then10:
 // CHECK-64-NEXT:    [[TMP21:%.*]] = getelementptr inbounds [32 x i32], ptr addrspace(3) @__openmp_nvptx_data_transfer_temporary_storage, i64 0, i32 [[TMP3]]
 // CHECK-64-NEXT:    [[TMP22:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP6]], i64 0, i64 1
-// CHECK-64-NEXT:    [[TMP23:%.*]] = load ptr, ptr [[TMP22]], align 8
-// CHECK-64-NEXT:    [[TMP24:%.*]] = load volatile i16, ptr addrspace(3) [[TMP21]], align 2
+// CHECK-64-NEXT:    [[TMP23:%.*]] = load ptr, ptr [[TMP22]], align 8, !freeze_bits [[META16]]
+// CHECK-64-NEXT:    [[TMP24:%.*]] = load volatile i16, ptr addrspace(3) [[TMP21]], align 2, !freeze_bits [[META16]]
 // CHECK-64-NEXT:    store i16 [[TMP24]], ptr [[TMP23]], align 2
 // CHECK-64-NEXT:    br label [[IFCONT12:%.*]]
 // CHECK-64:       else11:
@@ -800,7 +806,7 @@ int bar(int n){
 // CHECK-32-NEXT:    store ptr [[E]], ptr [[E_ADDR]], align 4
 // CHECK-32-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[E_ADDR]], align 4
 // CHECK-32-NEXT:    store double 0.000000e+00, ptr [[E1]], align 8
-// CHECK-32-NEXT:    [[TMP1:%.*]] = load double, ptr [[E1]], align 8
+// CHECK-32-NEXT:    [[TMP1:%.*]] = load double, ptr [[E1]], align 8, !freeze_bits [[META16:![0-9]+]]
 // CHECK-32-NEXT:    [[ADD:%.*]] = fadd double [[TMP1]], 5.000000e+00
 // CHECK-32-NEXT:    store double [[ADD]], ptr [[E1]], align 8
 // CHECK-32-NEXT:    [[TMP2:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOMP_REDUCTION_RED_LIST]], i32 0, i32 0
@@ -809,8 +815,8 @@ int bar(int n){
 // CHECK-32-NEXT:    [[TMP4:%.*]] = icmp eq i32 [[TMP3]], 1
 // CHECK-32-NEXT:    br i1 [[TMP4]], label [[DOTOMP_REDUCTION_THEN:%.*]], label [[DOTOMP_REDUCTION_DONE:%.*]]
 // CHECK-32:       .omp.reduction.then:
-// CHECK-32-NEXT:    [[TMP5:%.*]] = load double, ptr [[TMP0]], align 8
-// CHECK-32-NEXT:    [[TMP6:%.*]] = load double, ptr [[E1]], align 8
+// CHECK-32-NEXT:    [[TMP5:%.*]] = load double, ptr [[TMP0]], align 8, !freeze_bits [[META16]]
+// CHECK-32-NEXT:    [[TMP6:%.*]] = load double, ptr [[E1]], align 8, !freeze_bits [[META16]]
 // CHECK-32-NEXT:    [[ADD2:%.*]] = fadd double [[TMP5]], [[TMP6]]
 // CHECK-32-NEXT:    store double [[ADD2]], ptr [[TMP0]], align 8
 // CHECK-32-NEXT:    br label [[DOTOMP_REDUCTION_DONE]]
@@ -836,10 +842,10 @@ int bar(int n){
 // CHECK-32-NEXT:    [[TMP6:%.*]] = load i16, ptr [[DOTADDR2]], align 2
 // CHECK-32-NEXT:    [[TMP7:%.*]] = load i16, ptr [[DOTADDR3]], align 2
 // CHECK-32-NEXT:    [[TMP8:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP4]], i32 0, i32 0
-// CHECK-32-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 4
+// CHECK-32-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 4, !freeze_bits [[META16]]
 // CHECK-32-NEXT:    [[TMP10:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOMP_REDUCTION_REMOTE_REDUCE_LIST]], i32 0, i32 0
 // CHECK-32-NEXT:    [[TMP11:%.*]] = getelementptr double, ptr [[TMP9]], i32 1
-// CHECK-32-NEXT:    [[TMP12:%.*]] = load i64, ptr [[TMP9]], align 8
+// CHECK-32-NEXT:    [[TMP12:%.*]] = load i64, ptr [[TMP9]], align 8, !freeze_bits [[META16]]
 // CHECK-32-NEXT:    [[TMP13:%.*]] = call i32 @__kmpc_get_warp_size()
 // CHECK-32-NEXT:    [[TMP14:%.*]] = trunc i32 [[TMP13]] to i16
 // CHECK-32-NEXT:    [[TMP15:%.*]] = call i64 @__kmpc_shuffle_int64(i64 [[TMP12]], i16 [[TMP6]], i16 [[TMP14]])
@@ -872,10 +878,10 @@ int bar(int n){
 // CHECK-32-NEXT:    br i1 [[TMP32]], label [[THEN4:%.*]], label [[ELSE5:%.*]]
 // CHECK-32:       then4:
 // CHECK-32-NEXT:    [[TMP33:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOMP_REDUCTION_REMOTE_REDUCE_LIST]], i32 0, i32 0
-// CHECK-32-NEXT:    [[TMP34:%.*]] = load ptr, ptr [[TMP33]], align 4
+// CHECK-32-NEXT:    [[TMP34:%.*]] = load ptr, ptr [[TMP33]], align 4, !freeze_bits [[META16]]
 // CHECK-32-NEXT:    [[TMP35:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP4]], i32 0, i32 0
-// CHECK-32-NEXT:    [[TMP36:%.*]] = load ptr, ptr [[TMP35]], align 4
-// CHECK-32-NEXT:    [[TMP37:%.*]] = load double, ptr [[TMP34]], align 8
+// CHECK-32-NEXT:    [[TMP36:%.*]] = load ptr, ptr [[TMP35]], align 4, !freeze_bits [[META16]]
+// CHECK-32-NEXT:    [[TMP37:%.*]] = load double, ptr [[TMP34]], align 8, !freeze_bits [[META16]]
 // CHECK-32-NEXT:    store double [[TMP37]], ptr [[TMP36]], align 8
 // CHECK-32-NEXT:    br label [[IFCONT6:%.*]]
 // CHECK-32:       else5:
@@ -902,7 +908,7 @@ int bar(int n){
 // CHECK-32-NEXT:    store i32 0, ptr [[DOTCNT_ADDR]], align 4
 // CHECK-32-NEXT:    br label [[PRECOND:%.*]]
 // CHECK-32:       precond:
-// CHECK-32-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTCNT_ADDR]], align 4
+// CHECK-32-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTCNT_ADDR]], align 4, !freeze_bits [[META16]]
 // CHECK-32-NEXT:    [[TMP8:%.*]] = icmp ult i32 [[TMP7]], 2
 // CHECK-32-NEXT:    br i1 [[TMP8]], label [[BODY:%.*]], label [[EXIT:%.*]]
 // CHECK-32:       body:
@@ -911,10 +917,10 @@ int bar(int n){
 // CHECK-32-NEXT:    br i1 [[WARP_MASTER]], label [[THEN:%.*]], label [[ELSE:%.*]]
 // CHECK-32:       then:
 // CHECK-32-NEXT:    [[TMP9:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP6]], i32 0, i32 0
-// CHECK-32-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[TMP9]], align 4
+// CHECK-32-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[TMP9]], align 4, !freeze_bits [[META16]]
 // CHECK-32-NEXT:    [[TMP11:%.*]] = getelementptr i32, ptr [[TMP10]], i32 [[TMP7]]
 // CHECK-32-NEXT:    [[TMP12:%.*]] = getelementptr inbounds [32 x i32], ptr addrspace(3) @__openmp_nvptx_data_transfer_temporary_storage, i64 0, i32 [[NVPTX_WARP_ID]]
-// CHECK-32-NEXT:    [[TMP13:%.*]] = load i32, ptr [[TMP11]], align 4
+// CHECK-32-NEXT:    [[TMP13:%.*]] = load i32, ptr [[TMP11]], align 4, !freeze_bits [[META16]]
 // CHECK-32-NEXT:    store volatile i32 [[TMP13]], ptr addrspace(3) [[TMP12]], align 4
 // CHECK-32-NEXT:    br label [[IFCONT:%.*]]
 // CHECK-32:       else:
@@ -927,9 +933,9 @@ int bar(int n){
 // CHECK-32:       then2:
 // CHECK-32-NEXT:    [[TMP15:%.*]] = getelementptr inbounds [32 x i32], ptr addrspace(3) @__openmp_nvptx_data_transfer_temporary_storage, i64 0, i32 [[TMP3]]
 // CHECK-32-NEXT:    [[TMP16:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP6]], i32 0, i32 0
-// CHECK-32-NEXT:    [[TMP17:%.*]] = load ptr, ptr [[TMP16]], align 4
+// CHECK-32-NEXT:    [[TMP17:%.*]] = load ptr, ptr [[TMP16]], align 4, !freeze_bits [[META16]]
 // CHECK-32-NEXT:    [[TMP18:%.*]] = getelementptr i32, ptr [[TMP17]], i32 [[TMP7]]
-// CHECK-32-NEXT:    [[TMP19:%.*]] = load volatile i32, ptr addrspace(3) [[TMP15]], align 4
+// CHECK-32-NEXT:    [[TMP19:%.*]] = load volatile i32, ptr addrspace(3) [[TMP15]], align 4, !freeze_bits [[META16]]
 // CHECK-32-NEXT:    store i32 [[TMP19]], ptr [[TMP18]], align 4
 // CHECK-32-NEXT:    br label [[IFCONT4:%.*]]
 // CHECK-32:       else3:
@@ -978,6 +984,8 @@ int bar(int n){
 // CHECK-32-NEXT:    [[C_ADDR:%.*]] = alloca ptr, align 4
 // CHECK-32-NEXT:    [[D_ADDR:%.*]] = alloca ptr, align 4
 // CHECK-32-NEXT:    [[C1:%.*]] = alloca i8, align 1
+// CHECK-32-NEXT:    [[FREEZE_POISON:%.*]] = freeze i8 poison
+// CHECK-32-NEXT:    store i8 [[FREEZE_POISON]], ptr [[C1]], align 1
 // CHECK-32-NEXT:    [[D2:%.*]] = alloca float, align 4
 // CHECK-32-NEXT:    [[DOTOMP_REDUCTION_RED_LIST:%.*]] = alloca [2 x ptr], align 4
 // CHECK-32-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 4
@@ -993,7 +1001,7 @@ int bar(int n){
 // CHECK-32-NEXT:    [[XOR:%.*]] = xor i32 [[CONV]], 2
 // CHECK-32-NEXT:    [[CONV3:%.*]] = trunc i32 [[XOR]] to i8
 // CHECK-32-NEXT:    store i8 [[CONV3]], ptr [[C1]], align 1
-// CHECK-32-NEXT:    [[TMP3:%.*]] = load float, ptr [[D2]], align 4
+// CHECK-32-NEXT:    [[TMP3:%.*]] = load float, ptr [[D2]], align 4, !freeze_bits [[META16]]
 // CHECK-32-NEXT:    [[MUL:%.*]] = fmul float [[TMP3]], 3.300000e+01
 // CHECK-32-NEXT:    store float [[MUL]], ptr [[D2]], align 4
 // CHECK-32-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOMP_REDUCTION_RED_LIST]], i32 0, i32 0
@@ -1004,15 +1012,15 @@ int bar(int n){
 // CHECK-32-NEXT:    [[TMP7:%.*]] = icmp eq i32 [[TMP6]], 1
 // CHECK-32-NEXT:    br i1 [[TMP7]], label [[DOTOMP_REDUCTION_THEN:%.*]], label [[DOTOMP_REDUCTION_DONE:%.*]]
 // CHECK-32:       .omp.reduction.then:
-// CHECK-32-NEXT:    [[TMP8:%.*]] = load i8, ptr [[TMP0]], align 1
+// CHECK-32-NEXT:    [[TMP8:%.*]] = load i8, ptr [[TMP0]], align 1, !freeze_bits [[META16]]
 // CHECK-32-NEXT:    [[CONV4:%.*]] = sext i8 [[TMP8]] to i32
 // CHECK-32-NEXT:    [[TMP9:%.*]] = load i8, ptr [[C1]], align 1
 // CHECK-32-NEXT:    [[CONV5:%.*]] = sext i8 [[TMP9]] to i32
 // CHECK-32-NEXT:    [[XOR6:%.*]] = xor i32 [[CONV4]], [[CONV5]]
 // CHECK-32-NEXT:    [[CONV7:%.*]] = trunc i32 [[XOR6]] to i8
 // CHECK-32-NEXT:    store i8 [[CONV7]], ptr [[TMP0]], align 1
-// CHECK-32-NEXT:    [[TMP10:%.*]] = load float, ptr [[TMP1]], align 4
-// CHECK-32-NEXT:    [[TMP11:%.*]] = load float, ptr [[D2]], align 4
+// CHECK-32-NEXT:    [[TMP10:%.*]] = load float, ptr [[TMP1]], align 4, !freeze_bits [[META16]]
+// CHECK-32-NEXT:    [[TMP11:%.*]] = load float, ptr [[D2]], align 4, !freeze_bits [[META16]]
 // CHECK-32-NEXT:    [[MUL8:%.*]] = fmul float [[TMP10]], [[TMP11]]
 // CHECK-32-NEXT:    store float [[MUL8]], ptr [[TMP1]], align 4
 // CHECK-32-NEXT:    br label [[DOTOMP_REDUCTION_DONE]]
@@ -1039,10 +1047,10 @@ int bar(int n){
 // CHECK-32-NEXT:    [[TMP6:%.*]] = load i16, ptr [[DOTADDR2]], align 2
 // CHECK-32-NEXT:    [[TMP7:%.*]] = load i16, ptr [[DOTADDR3]], align 2
 // CHECK-32-NEXT:    [[TMP8:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP4]], i32 0, i32 0
-// CHECK-32-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 4
+// CHECK-32-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 4, !freeze_bits [[META16]]
 // CHECK-32-NEXT:    [[TMP10:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOMP_REDUCTION_REMOTE_REDUCE_LIST]], i32 0, i32 0
 // CHECK-32-NEXT:    [[TMP11:%.*]] = getelementptr i8, ptr [[TMP9]], i32 1
-// CHECK-32-NEXT:    [[TMP12:%.*]] = load i8, ptr [[TMP9]], align 1
+// CHECK-32-NEXT:    [[TMP12:%.*]] = load i8, ptr [[TMP9]], align 1, !freeze_bits [[META16]]
 // CHECK-32-NEXT:    [[TMP13:%.*]] = sext i8 [[TMP12]] to i32
 // CHECK-32-NEXT:    [[TMP14:%.*]] = call i32 @__kmpc_get_warp_size()
 // CHECK-32-NEXT:    [[TMP15:%.*]] = trunc i32 [[TMP14]] to i16
@@ -1053,10 +1061,10 @@ int bar(int n){
 // CHECK-32-NEXT:    [[TMP19:%.*]] = getelementptr i8, ptr [[DOTOMP_REDUCTION_ELEMENT]], i32 1
 // CHECK-32-NEXT:    store ptr [[DOTOMP_REDUCTION_ELEMENT]], ptr [[TMP10]], align 4
 // CHECK-32-NEXT:    [[TMP20:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP4]], i32 0, i32 1
-// CHECK-32-NEXT:    [[TMP21:%.*]] = load ptr, ptr [[TMP20]], align 4
+// CHECK-32-NEXT:    [[TMP21:%.*]] = load ptr, ptr [[TMP20]], align 4, !freeze_bits [[META16]]
 // CHECK-32-NEXT:    [[TMP22:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOMP_REDUCTION_REMOTE_REDUCE_LIST]], i32 0, i32 1
 // CHECK-32-NEXT:    [[TMP23:%.*]] = getelementptr float, ptr [[TMP21]], i32 1
-// CHECK-32-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP21]], align 4
+// CHECK-32-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP21]], align 4, !freeze_bits [[META16]]
 // CHECK-32-NEXT:    [[TMP25:%.*]] = call i32 @__kmpc_get_warp_size()
 // CHECK-32-NEXT:    [[TMP26:%.*]] = trunc i32 [[TMP25]] to i16
 // CHECK-32-NEXT:    [[TMP27:%.*]] = call i32 @__kmpc_shuffle_int32(i32 [[TMP24]], i16 [[TMP6]], i16 [[TMP26]])
@@ -1089,16 +1097,16 @@ int bar(int n){
 // CHECK-32-NEXT:    br i1 [[TMP44]], label [[THEN5:%.*]], label [[ELSE6:%.*]]
 // CHECK-32:       then5:
 // CHECK-32-NEXT:    [[TMP45:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOMP_REDUCTION_REMOTE_REDUCE_LIST]], i32 0, i32 0
-// CHECK-32-NEXT:    [[TMP46:%.*]] = load ptr, ptr [[TMP45]], align 4
+// CHECK-32-NEXT:    [[TMP46:%.*]] = load ptr, ptr [[TMP45]], align 4, !freeze_bits [[META16]]
 // CHECK-32-NEXT:    [[TMP47:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP4]], i32 0, i32 0
-// CHECK-32-NEXT:    [[TMP48:%.*]] = load ptr, ptr [[TMP47]], align 4
-// CHECK-32-NEXT:    [[TMP49:%.*]] = load i8, ptr [[TMP46]], align 1
+// CHECK-32-NEXT:    [[TMP48:%.*]] = load ptr, ptr [[TMP47]], align 4, !freeze_bits [[META16]]
+// CHECK-32-NEXT:    [[TMP49:%.*]] = load i8, ptr [[TMP46]], align 1, !freeze_bits [[META16]]
 // CHECK-32-NEXT:    store i8 [[TMP49]], ptr [[TMP48]], align 1
 // CHECK-32-NEXT:    [[TMP50:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOMP_REDUCTION_REMOTE_REDUCE_LIST]], i32 0, i32 1
-// CHECK-32-NEXT:    [[TMP51:%.*]] = load ptr, ptr [[TMP50]], align 4
+// CHECK-32-NEXT:    [[TMP51:%.*]] = load ptr, ptr [[TMP50]], align 4, !freeze_bits [[META16]]
 // CHECK-32-NEXT:    [[TMP52:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP4]], i32 0, i32 1
-// CHECK-32-NEXT:    [[TMP53:%.*]] = load ptr, ptr [[TMP52]], align 4
-// CHECK-32-NEXT:    [[TMP54:%.*]] = load float, ptr [[TMP51]], align 4
+// CHECK-32-NEXT:    [[TMP53:%.*]] = load ptr, ptr [[TMP52]], align 4, !freeze_bits [[META16]]
+// CHECK-32-NEXT:    [[TMP54:%.*]] = load float, ptr [[TMP51]], align 4, !freeze_bits [[META16]]
 // CHECK-32-NEXT:    store float [[TMP54]], ptr [[TMP53]], align 4
 // CHECK-32-NEXT:    br label [[IFCONT7:%.*]]
 // CHECK-32:       else6:
@@ -1126,9 +1134,9 @@ int bar(int n){
 // CHECK-32-NEXT:    br i1 [[WARP_MASTER]], label [[THEN:%.*]], label [[ELSE:%.*]]
 // CHECK-32:       then:
 // CHECK-32-NEXT:    [[TMP7:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP6]], i32 0, i32 0
-// CHECK-32-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[TMP7]], align 4
+// CHECK-32-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[TMP7]], align 4, !freeze_bits [[META16]]
 // CHECK-32-NEXT:    [[TMP9:%.*]] = getelementptr inbounds [32 x i32], ptr addrspace(3) @__openmp_nvptx_data_transfer_temporary_storage, i64 0, i32 [[NVPTX_WARP_ID]]
-// CHECK-32-NEXT:    [[TMP10:%.*]] = load i8, ptr [[TMP8]], align 1
+// CHECK-32-NEXT:    [[TMP10:%.*]] = load i8, ptr [[TMP8]], align 1, !freeze_bits [[META16]]
 // CHECK-32-NEXT:    store volatile i8 [[TMP10]], ptr addrspace(3) [[TMP9]], align 1
 // CHECK-32-NEXT:    br label [[IFCONT:%.*]]
 // CHECK-32:       else:
@@ -1141,8 +1149,8 @@ int bar(int n){
 // CHECK-32:       then2:
 // CHECK-32-NEXT:    [[TMP12:%.*]] = getelementptr inbounds [32 x i32], ptr addrspace(3) @__openmp_nvptx_data_transfer_temporary_storage, i64 0, i32 [[TMP3]]
 // CHECK-32-NEXT:    [[TMP13:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP6]], i32 0, i32 0
-// CHECK-32-NEXT:    [[TMP14:%.*]] = load ptr, ptr [[TMP13]], align 4
-// CHECK-32-NEXT:    [[TMP15:%.*]] = load volatile i8, ptr addrspace(3) [[TMP12]], align 1
+// CHECK-32-NEXT:    [[TMP14:%.*]] = load ptr, ptr [[TMP13]], align 4, !freeze_bits [[META16]]
+// CHECK-32-NEXT:    [[TMP15:%.*]] = load volatile i8, ptr addrspace(3) [[TMP12]], align 1, !freeze_bits [[META16]]
 // CHECK-32-NEXT:    store i8 [[TMP15]], ptr [[TMP14]], align 1
 // CHECK-32-NEXT:    br label [[IFCONT4:%.*]]
 // CHECK-32:       else3:
@@ -1153,9 +1161,9 @@ int bar(int n){
 // CHECK-32-NEXT:    br i1 [[WARP_MASTER5]], label [[THEN6:%.*]], label [[ELSE7:%.*]]
 // CHECK-32:       then6:
 // CHECK-32-NEXT:    [[TMP16:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP6]], i32 0, i32 1
-// CHECK-32-NEXT:    [[TMP17:%.*]] = load ptr, ptr [[TMP16]], align 4
+// CHECK-32-NEXT:    [[TMP17:%.*]] = load ptr, ptr [[TMP16]], align 4, !freeze_bits [[META16]]
 // CHECK-32-NEXT:    [[TMP18:%.*]] = getelementptr inbounds [32 x i32], ptr addrspace(3) @__openmp_nvptx_data_transfer_temporary_storage, i64 0, i32 [[NVPTX_WARP_ID]]
-// CHECK-32-NEXT:    [[TMP19:%.*]] = load i32, ptr [[TMP17]], align 4
+// CHECK-32-NEXT:    [[TMP19:%.*]] = load i32, ptr [[TMP17]], align 4, !freeze_bits [[META16]]
 // CHECK-32-NEXT:    store volatile i32 [[TMP19]], ptr addrspace(3) [[TMP18]], align 4
 // CHECK-32-NEXT:    br label [[IFCONT8:%.*]]
 // CHECK-32:       else7:
@@ -1168,8 +1176,8 @@ int bar(int n){
 // CHECK-32:       then10:
 // CHECK-32-NEXT:    [[TMP21:%.*]] = getelementptr inbounds [32 x i32], ptr addrspace(3) @__openmp_nvptx_data_transfer_temporary_storage, i64 0, i32 [[TMP3]]
 // CHECK-32-NEXT:    [[TMP22:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP6]], i32 0, i32 1
-// CHECK-32-NEXT:    [[TMP23:%.*]] = load ptr, ptr [[TMP22]], align 4
-// CHECK-32-NEXT:    [[TMP24:%.*]] = load volatile i32, ptr addrspace(3) [[TMP21]], align 4
+// CHECK-32-NEXT:    [[TMP23:%.*]] = load ptr, ptr [[TMP22]], align 4, !freeze_bits [[META16]]
+// CHECK-32-NEXT:    [[TMP24:%.*]] = load volatile i32, ptr addrspace(3) [[TMP21]], align 4, !freeze_bits [[META16]]
 // CHECK-32-NEXT:    store i32 [[TMP24]], ptr [[TMP23]], align 4
 // CHECK-32-NEXT:    br label [[IFCONT12:%.*]]
 // CHECK-32:       else11:
@@ -1214,7 +1222,11 @@ int bar(int n){
 // CHECK-32-NEXT:    [[A_ADDR:%.*]] = alloca ptr, align 4
 // CHECK-32-NEXT:    [[B_ADDR:%.*]] = alloca ptr, align 4
 // CHECK-32-NEXT:    [[A1:%.*]] = alloca i32, align 4
+// CHECK-32-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-32-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A1]], align 4
 // CHECK-32-NEXT:    [[B2:%.*]] = alloca i16, align 2
+// CHECK-32-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i16 poison
+// CHECK-32-NEXT:    store i16 [[FREEZE_POISON3]], ptr [[B2]], align 2
 // CHECK-32-NEXT:    [[DOTOMP_REDUCTION_RED_LIST:%.*]] = alloca [2 x ptr], align 4
 // CHECK-32-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 4
 // CHECK-32-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 4
@@ -1235,12 +1247,12 @@ int bar(int n){
 // CHECK-32-NEXT:    br label [[COND_END:%.*]]
 // CHECK-32:       cond.false:
 // CHECK-32-NEXT:    [[TMP4:%.*]] = load i16, ptr [[B2]], align 2
-// CHECK-32-NEXT:    [[CONV3:%.*]] = sext i16 [[TMP4]] to i32
+// CHECK-32-NEXT:    [[CONV4:%.*]] = sext i16 [[TMP4]] to i32
 // CHECK-32-NEXT:    br label [[COND_END]]
 // CHECK-32:       cond.end:
-// CHECK-32-NEXT:    [[COND:%.*]] = phi i32 [ 99, [[COND_TRUE]] ], [ [[CONV3]], [[COND_FALSE]] ]
-// CHECK-32-NEXT:    [[CONV4:%.*]] = trunc i32 [[COND]] to i16
-// CHECK-32-NEXT:    store i16 [[CONV4]], ptr [[B2]], align 2
+// CHECK-32-NEXT:    [[COND:%.*]] = phi i32 [ 99, [[COND_TRUE]] ], [ [[CONV4]], [[COND_FALSE]] ]
+// CHECK-32-NEXT:    [[CONV5:%.*]] = trunc i32 [[COND]] to i16
+// CHECK-32-NEXT:    store i16 [[CONV5]], ptr [[B2]], align 2
 // CHECK-32-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOMP_REDUCTION_RED_LIST]], i32 0, i32 0
 // CHECK-32-NEXT:    store ptr [[A1]], ptr [[TMP5]], align 4
 // CHECK-32-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOMP_REDUCTION_RED_LIST]], i32 0, i32 1
@@ -1249,25 +1261,25 @@ int bar(int n){
 // CHECK-32-NEXT:    [[TMP8:%.*]] = icmp eq i32 [[TMP7]], 1
 // CHECK-32-NEXT:    br i1 [[TMP8]], label [[DOTOMP_REDUCTION_THEN:%.*]], label [[DOTOMP_REDUCTION_DONE:%.*]]
 // CHECK-32:       .omp.reduction.then:
-// CHECK-32-NEXT:    [[TMP9:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-32-NEXT:    [[TMP9:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META16]]
 // CHECK-32-NEXT:    [[TMP10:%.*]] = load i32, ptr [[A1]], align 4
-// CHECK-32-NEXT:    [[OR5:%.*]] = or i32 [[TMP9]], [[TMP10]]
-// CHECK-32-NEXT:    store i32 [[OR5]], ptr [[TMP0]], align 4
-// CHECK-32-NEXT:    [[TMP11:%.*]] = load i16, ptr [[TMP1]], align 2
-// CHECK-32-NEXT:    [[CONV6:%.*]] = sext i16 [[TMP11]] to i32
+// CHECK-32-NEXT:    [[OR6:%.*]] = or i32 [[TMP9]], [[TMP10]]
+// CHECK-32-NEXT:    store i32 [[OR6]], ptr [[TMP0]], align 4
+// CHECK-32-NEXT:    [[TMP11:%.*]] = load i16, ptr [[TMP1]], align 2, !freeze_bits [[META16]]
+// CHECK-32-NEXT:    [[CONV7:%.*]] = sext i16 [[TMP11]] to i32
 // CHECK-32-NEXT:    [[TMP12:%.*]] = load i16, ptr [[B2]], align 2
-// CHECK-32-NEXT:    [[CONV7:%.*]] = sext i16 [[TMP12]] to i32
-// CHECK-32-NEXT:    [[CMP8:%.*]] = icmp sgt i32 [[CONV6]], [[CONV7]]
-// CHECK-32-NEXT:    br i1 [[CMP8]], label [[COND_TRUE9:%.*]], label [[COND_FALSE10:%.*]]
-// CHECK-32:       cond.true9:
-// CHECK-32-NEXT:    [[TMP13:%.*]] = load i16, ptr [[TMP1]], align 2
-// CHECK-32-NEXT:    br label [[COND_END11:%.*]]
-// CHECK-32:       cond.false10:
+// CHECK-32-NEXT:    [[CONV8:%.*]] = sext i16 [[TMP12]] to i32
+// CHECK-32-NEXT:    [[CMP9:%.*]] = icmp sgt i32 [[CONV7]], [[CONV8]]
+// CHECK-32-NEXT:    br i1 [[CMP9]], label [[COND_TRUE10:%.*]], label [[COND_FALSE11:%.*]]
+// CHECK-32:       cond.true10:
+// CHECK-32-NEXT:    [[TMP13:%.*]] = load i16, ptr [[TMP1]], align 2, !freeze_bits [[META16]]
+// CHECK-32-NEXT:    br label [[COND_END12:%.*]]
+// CHECK-32:       cond.false11:
 // CHECK-32-NEXT:    [[TMP14:%.*]] = load i16, ptr [[B2]], align 2
-// CHECK-32-NEXT:    br label [[COND_END11]]
-// CHECK-32:       cond.end11:
-// CHECK-32-NEXT:    [[COND12:%.*]] = phi i16 [ [[TMP13]], [[COND_TRUE9]] ], [ [[TMP14]], [[COND_FALSE10]] ]
-// CHECK-32-NEXT:    store i16 [[COND12]], ptr [[TMP1]], align 2
+// CHECK-32-NEXT:    br label [[COND_END12]]
+// CHECK-32:       cond.end12:
+// CHECK-32-NEXT:    [[COND13:%.*]] = phi i16 [ [[TMP13]], [[COND_TRUE10]] ], [ [[TMP14]], [[COND_FALSE11]] ]
+// CHECK-32-NEXT:    store i16 [[COND13]], ptr [[TMP1]], align 2
 // CHECK-32-NEXT:    br label [[DOTOMP_REDUCTION_DONE]]
 // CHECK-32:       .omp.reduction.done:
 // CHECK-32-NEXT:    ret void
@@ -1292,10 +1304,10 @@ int bar(int n){
 // CHECK-32-NEXT:    [[TMP6:%.*]] = load i16, ptr [[DOTADDR2]], align 2
 // CHECK-32-NEXT:    [[TMP7:%.*]] = load i16, ptr [[DOTADDR3]], align 2
 // CHECK-32-NEXT:    [[TMP8:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP4]], i32 0, i32 0
-// CHECK-32-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 4
+// CHECK-32-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 4, !freeze_bits [[META16]]
 // CHECK-32-NEXT:    [[TMP10:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOMP_REDUCTION_REMOTE_REDUCE_LIST]], i32 0, i32 0
 // CHECK-32-NEXT:    [[TMP11:%.*]] = getelementptr i32, ptr [[TMP9]], i32 1
-// CHECK-32-NEXT:    [[TMP12:%.*]] = load i32, ptr [[TMP9]], align 4
+// CHECK-32-NEXT:    [[TMP12:%.*]] = load i32, ptr [[TMP9]], align 4, !freeze_bits [[META16]]
 // CHECK-32-NEXT:    [[TMP13:%.*]] = call i32 @__kmpc_get_warp_size()
 // CHECK-32-NEXT:    [[TMP14:%.*]] = trunc i32 [[TMP13]] to i16
 // CHECK-32-NEXT:    [[TMP15:%.*]] = call i32 @__kmpc_shuffle_int32(i32 [[TMP12]], i16 [[TMP6]], i16 [[TMP14]])
@@ -1304,10 +1316,10 @@ int bar(int n){
 // CHECK-32-NEXT:    [[TMP17:%.*]] = getelementptr i32, ptr [[DOTOMP_REDUCTION_ELEMENT]], i32 1
 // CHECK-32-NEXT:    store ptr [[DOTOMP_REDUCTION_ELEMENT]], ptr [[TMP10]], align 4
 // CHECK-32-NEXT:    [[TMP18:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP4]], i32 0, i32 1
-// CHECK-32-NEXT:    [[TMP19:%.*]] = load ptr, ptr [[TMP18]], align 4
+// CHECK-32-NEXT:    [[TMP19:%.*]] = load ptr, ptr [[TMP18]], align 4, !freeze_bits [[META16]]
 // CHECK-32-NEXT:    [[TMP20:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOMP_REDUCTION_REMOTE_REDUCE_LIST]], i32 0, i32 1
 // CHECK-32-NEXT:    [[TMP21:%.*]] = getelementptr i16, ptr [[TMP19]], i32 1
-// CHECK-32-NEXT:    [[TMP22:%.*]] = load i16, ptr [[TMP19]], align 2
+// CHECK-32-NEXT:    [[TMP22:%.*]] = load i16, ptr [[TMP19]], align 2, !freeze_bits [[META16]]
 // CHECK-32-NEXT:    [[TMP23:%.*]] = sext i16 [[TMP22]] to i32
 // CHECK-32-NEXT:    [[TMP24:%.*]] = call i32 @__kmpc_get_warp_size()
 // CHECK-32-NEXT:    [[TMP25:%.*]] = trunc i32 [[TMP24]] to i16
@@ -1342,16 +1354,16 @@ int bar(int n){
 // CHECK-32-NEXT:    br i1 [[TMP44]], label [[THEN5:%.*]], label [[ELSE6:%.*]]
 // CHECK-32:       then5:
 // CHECK-32-NEXT:    [[TMP45:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOMP_REDUCTION_REMOTE_REDUCE_LIST]], i32 0, i32 0
-// CHECK-32-NEXT:    [[TMP46:%.*]] = load ptr, ptr [[TMP45]], align 4
+// CHECK-32-NEXT:    [[TMP46:%.*]] = load ptr, ptr [[TMP45]], align 4, !freeze_bits [[META16]]
 // CHECK-32-NEXT:    [[TMP47:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP4]], i32 0, i32 0
-// CHECK-32-NEXT:    [[TMP48:%.*]] = load ptr, ptr [[TMP47]], align 4
-// CHECK-32-NEXT:    [[TMP49:%.*]] = load i32, ptr [[TMP46]], align 4
+// CHECK-32-NEXT:    [[TMP48:%.*]] = load ptr, ptr [[TMP47]], align 4, !freeze_bits [[META16]]
+// CHECK-32-NEXT:    [[TMP49:%.*]] = load i32, ptr [[TMP46]], align 4, !freeze_bits [[META16]]
 // CHECK-32-NEXT:    store i32 [[TMP49]], ptr [[TMP48]], align 4
 // CHECK-32-NEXT:    [[TMP50:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOMP_REDUCTION_REMOTE_REDUCE_LIST]], i32 0, i32 1
-// CHECK-32-NEXT:    [[TMP51:%.*]] = load ptr, ptr [[TMP50]], align 4
+// CHECK-32-NEXT:    [[TMP51:%.*]] = load ptr, ptr [[TMP50]], align 4, !freeze_bits [[META16]]
 // CHECK-32-NEXT:    [[TMP52:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP4]], i32 0, i32 1
-// CHECK-32-NEXT:    [[TMP53:%.*]] = load ptr, ptr [[TMP52]], align 4
-// CHECK-32-NEXT:    [[TMP54:%.*]] = load i16, ptr [[TMP51]], align 2
+// CHECK-32-NEXT:    [[TMP53:%.*]] = load ptr, ptr [[TMP52]], align 4, !freeze_bits [[META16]]
+// CHECK-32-NEXT:    [[TMP54:%.*]] = load i16, ptr [[TMP51]], align 2, !freeze_bits [[META16]]
 // CHECK-32-NEXT:    store i16 [[TMP54]], ptr [[TMP53]], align 2
 // CHECK-32-NEXT:    br label [[IFCONT7:%.*]]
 // CHECK-32:       else6:
@@ -1379,9 +1391,9 @@ int bar(int n){
 // CHECK-32-NEXT:    br i1 [[WARP_MASTER]], label [[THEN:%.*]], label [[ELSE:%.*]]
 // CHECK-32:       then:
 // CHECK-32-NEXT:    [[TMP7:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP6]], i32 0, i32 0
-// CHECK-32-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[TMP7]], align 4
+// CHECK-32-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[TMP7]], align 4, !freeze_bits [[META16]]
 // CHECK-32-NEXT:    [[TMP9:%.*]] = getelementptr inbounds [32 x i32], ptr addrspace(3) @__openmp_nvptx_data_transfer_temporary_storage, i64 0, i32 [[NVPTX_WARP_ID]]
-// CHECK-32-NEXT:    [[TMP10:%.*]] = load i32, ptr [[TMP8]], align 4
+// CHECK-32-NEXT:    [[TMP10:%.*]] = load i32, ptr [[TMP8]], align 4, !freeze_bits [[META16]]
 // CHECK-32-NEXT:    store volatile i32 [[TMP10]], ptr addrspace(3) [[TMP9]], align 4
 // CHECK-32-NEXT:    br label [[IFCONT:%.*]]
 // CHECK-32:       else:
@@ -1394,8 +1406,8 @@ int bar(int n){
 // CHECK-32:       then2:
 // CHECK-32-NEXT:    [[TMP12:%.*]] = getelementptr inbounds [32 x i32], ptr addrspace(3) @__openmp_nvptx_data_transfer_temporary_storage, i64 0, i32 [[TMP3]]
 // CHECK-32-NEXT:    [[TMP13:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP6]], i32 0, i32 0
-// CHECK-32-NEXT:    [[TMP14:%.*]] = load ptr, ptr [[TMP13]], align 4
-// CHECK-32-NEXT:    [[TMP15:%.*]] = load volatile i32, ptr addrspace(3) [[TMP12]], align 4
+// CHECK-32-NEXT:    [[TMP14:%.*]] = load ptr, ptr [[TMP13]], align 4, !freeze_bits [[META16]]
+// CHECK-32-NEXT:    [[TMP15:%.*]] = load volatile i32, ptr addrspace(3) [[TMP12]], align 4, !freeze_bits [[META16]]
 // CHECK-32-NEXT:    store i32 [[TMP15]], ptr [[TMP14]], align 4
 // CHECK-32-NEXT:    br label [[IFCONT4:%.*]]
 // CHECK-32:       else3:
@@ -1406,9 +1418,9 @@ int bar(int n){
 // CHECK-32-NEXT:    br i1 [[WARP_MASTER5]], label [[THEN6:%.*]], label [[ELSE7:%.*]]
 // CHECK-32:       then6:
 // CHECK-32-NEXT:    [[TMP16:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP6]], i32 0, i32 1
-// CHECK-32-NEXT:    [[TMP17:%.*]] = load ptr, ptr [[TMP16]], align 4
+// CHECK-32-NEXT:    [[TMP17:%.*]] = load ptr, ptr [[TMP16]], align 4, !freeze_bits [[META16]]
 // CHECK-32-NEXT:    [[TMP18:%.*]] = getelementptr inbounds [32 x i32], ptr addrspace(3) @__openmp_nvptx_data_transfer_temporary_storage, i64 0, i32 [[NVPTX_WARP_ID]]
-// CHECK-32-NEXT:    [[TMP19:%.*]] = load i16, ptr [[TMP17]], align 2
+// CHECK-32-NEXT:    [[TMP19:%.*]] = load i16, ptr [[TMP17]], align 2, !freeze_bits [[META16]]
 // CHECK-32-NEXT:    store volatile i16 [[TMP19]], ptr addrspace(3) [[TMP18]], align 2
 // CHECK-32-NEXT:    br label [[IFCONT8:%.*]]
 // CHECK-32:       else7:
@@ -1421,8 +1433,8 @@ int bar(int n){
 // CHECK-32:       then10:
 // CHECK-32-NEXT:    [[TMP21:%.*]] = getelementptr inbounds [32 x i32], ptr addrspace(3) @__openmp_nvptx_data_transfer_temporary_storage, i64 0, i32 [[TMP3]]
 // CHECK-32-NEXT:    [[TMP22:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP6]], i32 0, i32 1
-// CHECK-32-NEXT:    [[TMP23:%.*]] = load ptr, ptr [[TMP22]], align 4
-// CHECK-32-NEXT:    [[TMP24:%.*]] = load volatile i16, ptr addrspace(3) [[TMP21]], align 2
+// CHECK-32-NEXT:    [[TMP23:%.*]] = load ptr, ptr [[TMP22]], align 4, !freeze_bits [[META16]]
+// CHECK-32-NEXT:    [[TMP24:%.*]] = load volatile i16, ptr addrspace(3) [[TMP21]], align 2, !freeze_bits [[META16]]
 // CHECK-32-NEXT:    store i16 [[TMP24]], ptr [[TMP23]], align 2
 // CHECK-32-NEXT:    br label [[IFCONT12:%.*]]
 // CHECK-32:       else11:
@@ -1467,7 +1479,7 @@ int bar(int n){
 // CHECK-32-EX-NEXT:    store ptr [[E]], ptr [[E_ADDR]], align 4
 // CHECK-32-EX-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[E_ADDR]], align 4
 // CHECK-32-EX-NEXT:    store double 0.000000e+00, ptr [[E1]], align 8
-// CHECK-32-EX-NEXT:    [[TMP1:%.*]] = load double, ptr [[E1]], align 8
+// CHECK-32-EX-NEXT:    [[TMP1:%.*]] = load double, ptr [[E1]], align 8, !freeze_bits [[META16:![0-9]+]]
 // CHECK-32-EX-NEXT:    [[ADD:%.*]] = fadd double [[TMP1]], 5.000000e+00
 // CHECK-32-EX-NEXT:    store double [[ADD]], ptr [[E1]], align 8
 // CHECK-32-EX-NEXT:    [[TMP2:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOMP_REDUCTION_RED_LIST]], i32 0, i32 0
@@ -1476,8 +1488,8 @@ int bar(int n){
 // CHECK-32-EX-NEXT:    [[TMP4:%.*]] = icmp eq i32 [[TMP3]], 1
 // CHECK-32-EX-NEXT:    br i1 [[TMP4]], label [[DOTOMP_REDUCTION_THEN:%.*]], label [[DOTOMP_REDUCTION_DONE:%.*]]
 // CHECK-32-EX:       .omp.reduction.then:
-// CHECK-32-EX-NEXT:    [[TMP5:%.*]] = load double, ptr [[TMP0]], align 8
-// CHECK-32-EX-NEXT:    [[TMP6:%.*]] = load double, ptr [[E1]], align 8
+// CHECK-32-EX-NEXT:    [[TMP5:%.*]] = load double, ptr [[TMP0]], align 8, !freeze_bits [[META16]]
+// CHECK-32-EX-NEXT:    [[TMP6:%.*]] = load double, ptr [[E1]], align 8, !freeze_bits [[META16]]
 // CHECK-32-EX-NEXT:    [[ADD2:%.*]] = fadd double [[TMP5]], [[TMP6]]
 // CHECK-32-EX-NEXT:    store double [[ADD2]], ptr [[TMP0]], align 8
 // CHECK-32-EX-NEXT:    br label [[DOTOMP_REDUCTION_DONE]]
@@ -1503,10 +1515,10 @@ int bar(int n){
 // CHECK-32-EX-NEXT:    [[TMP6:%.*]] = load i16, ptr [[DOTADDR2]], align 2
 // CHECK-32-EX-NEXT:    [[TMP7:%.*]] = load i16, ptr [[DOTADDR3]], align 2
 // CHECK-32-EX-NEXT:    [[TMP8:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP4]], i32 0, i32 0
-// CHECK-32-EX-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 4
+// CHECK-32-EX-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 4, !freeze_bits [[META16]]
 // CHECK-32-EX-NEXT:    [[TMP10:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOMP_REDUCTION_REMOTE_REDUCE_LIST]], i32 0, i32 0
 // CHECK-32-EX-NEXT:    [[TMP11:%.*]] = getelementptr double, ptr [[TMP9]], i32 1
-// CHECK-32-EX-NEXT:    [[TMP12:%.*]] = load i64, ptr [[TMP9]], align 8
+// CHECK-32-EX-NEXT:    [[TMP12:%.*]] = load i64, ptr [[TMP9]], align 8, !freeze_bits [[META16]]
 // CHECK-32-EX-NEXT:    [[TMP13:%.*]] = call i32 @__kmpc_get_warp_size()
 // CHECK-32-EX-NEXT:    [[TMP14:%.*]] = trunc i32 [[TMP13]] to i16
 // CHECK-32-EX-NEXT:    [[TMP15:%.*]] = call i64 @__kmpc_shuffle_int64(i64 [[TMP12]], i16 [[TMP6]], i16 [[TMP14]])
@@ -1539,10 +1551,10 @@ int bar(int n){
 // CHECK-32-EX-NEXT:    br i1 [[TMP32]], label [[THEN4:%.*]], label [[ELSE5:%.*]]
 // CHECK-32-EX:       then4:
 // CHECK-32-EX-NEXT:    [[TMP33:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOMP_REDUCTION_REMOTE_REDUCE_LIST]], i32 0, i32 0
-// CHECK-32-EX-NEXT:    [[TMP34:%.*]] = load ptr, ptr [[TMP33]], align 4
+// CHECK-32-EX-NEXT:    [[TMP34:%.*]] = load ptr, ptr [[TMP33]], align 4, !freeze_bits [[META16]]
 // CHECK-32-EX-NEXT:    [[TMP35:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP4]], i32 0, i32 0
-// CHECK-32-EX-NEXT:    [[TMP36:%.*]] = load ptr, ptr [[TMP35]], align 4
-// CHECK-32-EX-NEXT:    [[TMP37:%.*]] = load double, ptr [[TMP34]], align 8
+// CHECK-32-EX-NEXT:    [[TMP36:%.*]] = load ptr, ptr [[TMP35]], align 4, !freeze_bits [[META16]]
+// CHECK-32-EX-NEXT:    [[TMP37:%.*]] = load double, ptr [[TMP34]], align 8, !freeze_bits [[META16]]
 // CHECK-32-EX-NEXT:    store double [[TMP37]], ptr [[TMP36]], align 8
 // CHECK-32-EX-NEXT:    br label [[IFCONT6:%.*]]
 // CHECK-32-EX:       else5:
@@ -1569,7 +1581,7 @@ int bar(int n){
 // CHECK-32-EX-NEXT:    store i32 0, ptr [[DOTCNT_ADDR]], align 4
 // CHECK-32-EX-NEXT:    br label [[PRECOND:%.*]]
 // CHECK-32-EX:       precond:
-// CHECK-32-EX-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTCNT_ADDR]], align 4
+// CHECK-32-EX-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTCNT_ADDR]], align 4, !freeze_bits [[META16]]
 // CHECK-32-EX-NEXT:    [[TMP8:%.*]] = icmp ult i32 [[TMP7]], 2
 // CHECK-32-EX-NEXT:    br i1 [[TMP8]], label [[BODY:%.*]], label [[EXIT:%.*]]
 // CHECK-32-EX:       body:
@@ -1578,10 +1590,10 @@ int bar(int n){
 // CHECK-32-EX-NEXT:    br i1 [[WARP_MASTER]], label [[THEN:%.*]], label [[ELSE:%.*]]
 // CHECK-32-EX:       then:
 // CHECK-32-EX-NEXT:    [[TMP9:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP6]], i32 0, i32 0
-// CHECK-32-EX-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[TMP9]], align 4
+// CHECK-32-EX-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[TMP9]], align 4, !freeze_bits [[META16]]
 // CHECK-32-EX-NEXT:    [[TMP11:%.*]] = getelementptr i32, ptr [[TMP10]], i32 [[TMP7]]
 // CHECK-32-EX-NEXT:    [[TMP12:%.*]] = getelementptr inbounds [32 x i32], ptr addrspace(3) @__openmp_nvptx_data_transfer_temporary_storage, i64 0, i32 [[NVPTX_WARP_ID]]
-// CHECK-32-EX-NEXT:    [[TMP13:%.*]] = load i32, ptr [[TMP11]], align 4
+// CHECK-32-EX-NEXT:    [[TMP13:%.*]] = load i32, ptr [[TMP11]], align 4, !freeze_bits [[META16]]
 // CHECK-32-EX-NEXT:    store volatile i32 [[TMP13]], ptr addrspace(3) [[TMP12]], align 4
 // CHECK-32-EX-NEXT:    br label [[IFCONT:%.*]]
 // CHECK-32-EX:       else:
@@ -1594,9 +1606,9 @@ int bar(int n){
 // CHECK-32-EX:       then2:
 // CHECK-32-EX-NEXT:    [[TMP15:%.*]] = getelementptr inbounds [32 x i32], ptr addrspace(3) @__openmp_nvptx_data_transfer_temporary_storage, i64 0, i32 [[TMP3]]
 // CHECK-32-EX-NEXT:    [[TMP16:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP6]], i32 0, i32 0
-// CHECK-32-EX-NEXT:    [[TMP17:%.*]] = load ptr, ptr [[TMP16]], align 4
+// CHECK-32-EX-NEXT:    [[TMP17:%.*]] = load ptr, ptr [[TMP16]], align 4, !freeze_bits [[META16]]
 // CHECK-32-EX-NEXT:    [[TMP18:%.*]] = getelementptr i32, ptr [[TMP17]], i32 [[TMP7]]
-// CHECK-32-EX-NEXT:    [[TMP19:%.*]] = load volatile i32, ptr addrspace(3) [[TMP15]], align 4
+// CHECK-32-EX-NEXT:    [[TMP19:%.*]] = load volatile i32, ptr addrspace(3) [[TMP15]], align 4, !freeze_bits [[META16]]
 // CHECK-32-EX-NEXT:    store i32 [[TMP19]], ptr [[TMP18]], align 4
 // CHECK-32-EX-NEXT:    br label [[IFCONT4:%.*]]
 // CHECK-32-EX:       else3:
@@ -1645,6 +1657,8 @@ int bar(int n){
 // CHECK-32-EX-NEXT:    [[C_ADDR:%.*]] = alloca ptr, align 4
 // CHECK-32-EX-NEXT:    [[D_ADDR:%.*]] = alloca ptr, align 4
 // CHECK-32-EX-NEXT:    [[C1:%.*]] = alloca i8, align 1
+// CHECK-32-EX-NEXT:    [[FREEZE_POISON:%.*]] = freeze i8 poison
+// CHECK-32-EX-NEXT:    store i8 [[FREEZE_POISON]], ptr [[C1]], align 1
 // CHECK-32-EX-NEXT:    [[D2:%.*]] = alloca float, align 4
 // CHECK-32-EX-NEXT:    [[DOTOMP_REDUCTION_RED_LIST:%.*]] = alloca [2 x ptr], align 4
 // CHECK-32-EX-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 4
@@ -1660,7 +1674,7 @@ int bar(int n){
 // CHECK-32-EX-NEXT:    [[XOR:%.*]] = xor i32 [[CONV]], 2
 // CHECK-32-EX-NEXT:    [[CONV3:%.*]] = trunc i32 [[XOR]] to i8
 // CHECK-32-EX-NEXT:    store i8 [[CONV3]], ptr [[C1]], align 1
-// CHECK-32-EX-NEXT:    [[TMP3:%.*]] = load float, ptr [[D2]], align 4
+// CHECK-32-EX-NEXT:    [[TMP3:%.*]] = load float, ptr [[D2]], align 4, !freeze_bits [[META16]]
 // CHECK-32-EX-NEXT:    [[MUL:%.*]] = fmul float [[TMP3]], 3.300000e+01
 // CHECK-32-EX-NEXT:    store float [[MUL]], ptr [[D2]], align 4
 // CHECK-32-EX-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOMP_REDUCTION_RED_LIST]], i32 0, i32 0
@@ -1671,15 +1685,15 @@ int bar(int n){
 // CHECK-32-EX-NEXT:    [[TMP7:%.*]] = icmp eq i32 [[TMP6]], 1
 // CHECK-32-EX-NEXT:    br i1 [[TMP7]], label [[DOTOMP_REDUCTION_THEN:%.*]], label [[DOTOMP_REDUCTION_DONE:%.*]]
 // CHECK-32-EX:       .omp.reduction.then:
-// CHECK-32-EX-NEXT:    [[TMP8:%.*]] = load i8, ptr [[TMP0]], align 1
+// CHECK-32-EX-NEXT:    [[TMP8:%.*]] = load i8, ptr [[TMP0]], align 1, !freeze_bits [[META16]]
 // CHECK-32-EX-NEXT:    [[CONV4:%.*]] = sext i8 [[TMP8]] to i32
 // CHECK-32-EX-NEXT:    [[TMP9:%.*]] = load i8, ptr [[C1]], align 1
 // CHECK-32-EX-NEXT:    [[CONV5:%.*]] = sext i8 [[TMP9]] to i32
 // CHECK-32-EX-NEXT:    [[XOR6:%.*]] = xor i32 [[CONV4]], [[CONV5]]
 // CHECK-32-EX-NEXT:    [[CONV7:%.*]] = trunc i32 [[XOR6]] to i8
 // CHECK-32-EX-NEXT:    store i8 [[CONV7]], ptr [[TMP0]], align 1
-// CHECK-32-EX-NEXT:    [[TMP10:%.*]] = load float, ptr [[TMP1]], align 4
-// CHECK-32-EX-NEXT:    [[TMP11:%.*]] = load float, ptr [[D2]], align 4
+// CHECK-32-EX-NEXT:    [[TMP10:%.*]] = load float, ptr [[TMP1]], align 4, !freeze_bits [[META16]]
+// CHECK-32-EX-NEXT:    [[TMP11:%.*]] = load float, ptr [[D2]], align 4, !freeze_bits [[META16]]
 // CHECK-32-EX-NEXT:    [[MUL8:%.*]] = fmul float [[TMP10]], [[TMP11]]
 // CHECK-32-EX-NEXT:    store float [[MUL8]], ptr [[TMP1]], align 4
 // CHECK-32-EX-NEXT:    br label [[DOTOMP_REDUCTION_DONE]]
@@ -1706,10 +1720,10 @@ int bar(int n){
 // CHECK-32-EX-NEXT:    [[TMP6:%.*]] = load i16, ptr [[DOTADDR2]], align 2
 // CHECK-32-EX-NEXT:    [[TMP7:%.*]] = load i16, ptr [[DOTADDR3]], align 2
 // CHECK-32-EX-NEXT:    [[TMP8:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP4]], i32 0, i32 0
-// CHECK-32-EX-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 4
+// CHECK-32-EX-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 4, !freeze_bits [[META16]]
 // CHECK-32-EX-NEXT:    [[TMP10:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOMP_REDUCTION_REMOTE_REDUCE_LIST]], i32 0, i32 0
 // CHECK-32-EX-NEXT:    [[TMP11:%.*]] = getelementptr i8, ptr [[TMP9]], i32 1
-// CHECK-32-EX-NEXT:    [[TMP12:%.*]] = load i8, ptr [[TMP9]], align 1
+// CHECK-32-EX-NEXT:    [[TMP12:%.*]] = load i8, ptr [[TMP9]], align 1, !freeze_bits [[META16]]
 // CHECK-32-EX-NEXT:    [[TMP13:%.*]] = sext i8 [[TMP12]] to i32
 // CHECK-32-EX-NEXT:    [[TMP14:%.*]] = call i32 @__kmpc_get_warp_size()
 // CHECK-32-EX-NEXT:    [[TMP15:%.*]] = trunc i32 [[TMP14]] to i16
@@ -1720,10 +1734,10 @@ int bar(int n){
 // CHECK-32-EX-NEXT:    [[TMP19:%.*]] = getelementptr i8, ptr [[DOTOMP_REDUCTION_ELEMENT]], i32 1
 // CHECK-32-EX-NEXT:    store ptr [[DOTOMP_REDUCTION_ELEMENT]], ptr [[TMP10]], align 4
 // CHECK-32-EX-NEXT:    [[TMP20:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP4]], i32 0, i32 1
-// CHECK-32-EX-NEXT:    [[TMP21:%.*]] = load ptr, ptr [[TMP20]], align 4
+// CHECK-32-EX-NEXT:    [[TMP21:%.*]] = load ptr, ptr [[TMP20]], align 4, !freeze_bits [[META16]]
 // CHECK-32-EX-NEXT:    [[TMP22:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOMP_REDUCTION_REMOTE_REDUCE_LIST]], i32 0, i32 1
 // CHECK-32-EX-NEXT:    [[TMP23:%.*]] = getelementptr float, ptr [[TMP21]], i32 1
-// CHECK-32-EX-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP21]], align 4
+// CHECK-32-EX-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP21]], align 4, !freeze_bits [[META16]]
 // CHECK-32-EX-NEXT:    [[TMP25:%.*]] = call i32 @__kmpc_get_warp_size()
 // CHECK-32-EX-NEXT:    [[TMP26:%.*]] = trunc i32 [[TMP25]] to i16
 // CHECK-32-EX-NEXT:    [[TMP27:%.*]] = call i32 @__kmpc_shuffle_int32(i32 [[TMP24]], i16 [[TMP6]], i16 [[TMP26]])
@@ -1756,16 +1770,16 @@ int bar(int n){
 // CHECK-32-EX-NEXT:    br i1 [[TMP44]], label [[THEN5:%.*]], label [[ELSE6:%.*]]
 // CHECK-32-EX:       then5:
 // CHECK-32-EX-NEXT:    [[TMP45:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOMP_REDUCTION_REMOTE_REDUCE_LIST]], i32 0, i32 0
-// CHECK-32-EX-NEXT:    [[TMP46:%.*]] = load ptr, ptr [[TMP45]], align 4
+// CHECK-32-EX-NEXT:    [[TMP46:%.*]] = load ptr, ptr [[TMP45]], align 4, !freeze_bits [[META16]]
 // CHECK-32-EX-NEXT:    [[TMP47:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP4]], i32 0, i32 0
-// CHECK-32-EX-NEXT:    [[TMP48:%.*]] = load ptr, ptr [[TMP47]], align 4
-// CHECK-32-EX-NEXT:    [[TMP49:%.*]] = load i8, ptr [[TMP46]], align 1
+// CHECK-32-EX-NEXT:    [[TMP48:%.*]] = load ptr, ptr [[TMP47]], align 4, !freeze_bits [[META16]]
+// CHECK-32-EX-NEXT:    [[TMP49:%.*]] = load i8, ptr [[TMP46]], align 1, !freeze_bits [[META16]]
 // CHECK-32-EX-NEXT:    store i8 [[TMP49]], ptr [[TMP48]], align 1
 // CHECK-32-EX-NEXT:    [[TMP50:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOMP_REDUCTION_REMOTE_REDUCE_LIST]], i32 0, i32 1
-// CHECK-32-EX-NEXT:    [[TMP51:%.*]] = load ptr, ptr [[TMP50]], align 4
+// CHECK-32-EX-NEXT:    [[TMP51:%.*]] = load ptr, ptr [[TMP50]], align 4, !freeze_bits [[META16]]
 // CHECK-32-EX-NEXT:    [[TMP52:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP4]], i32 0, i32 1
-// CHECK-32-EX-NEXT:    [[TMP53:%.*]] = load ptr, ptr [[TMP52]], align 4
-// CHECK-32-EX-NEXT:    [[TMP54:%.*]] = load float, ptr [[TMP51]], align 4
+// CHECK-32-EX-NEXT:    [[TMP53:%.*]] = load ptr, ptr [[TMP52]], align 4, !freeze_bits [[META16]]
+// CHECK-32-EX-NEXT:    [[TMP54:%.*]] = load float, ptr [[TMP51]], align 4, !freeze_bits [[META16]]
 // CHECK-32-EX-NEXT:    store float [[TMP54]], ptr [[TMP53]], align 4
 // CHECK-32-EX-NEXT:    br label [[IFCONT7:%.*]]
 // CHECK-32-EX:       else6:
@@ -1793,9 +1807,9 @@ int bar(int n){
 // CHECK-32-EX-NEXT:    br i1 [[WARP_MASTER]], label [[THEN:%.*]], label [[ELSE:%.*]]
 // CHECK-32-EX:       then:
 // CHECK-32-EX-NEXT:    [[TMP7:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP6]], i32 0, i32 0
-// CHECK-32-EX-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[TMP7]], align 4
+// CHECK-32-EX-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[TMP7]], align 4, !freeze_bits [[META16]]
 // CHECK-32-EX-NEXT:    [[TMP9:%.*]] = getelementptr inbounds [32 x i32], ptr addrspace(3) @__openmp_nvptx_data_transfer_temporary_storage, i64 0, i32 [[NVPTX_WARP_ID]]
-// CHECK-32-EX-NEXT:    [[TMP10:%.*]] = load i8, ptr [[TMP8]], align 1
+// CHECK-32-EX-NEXT:    [[TMP10:%.*]] = load i8, ptr [[TMP8]], align 1, !freeze_bits [[META16]]
 // CHECK-32-EX-NEXT:    store volatile i8 [[TMP10]], ptr addrspace(3) [[TMP9]], align 1
 // CHECK-32-EX-NEXT:    br label [[IFCONT:%.*]]
 // CHECK-32-EX:       else:
@@ -1808,8 +1822,8 @@ int bar(int n){
 // CHECK-32-EX:       then2:
 // CHECK-32-EX-NEXT:    [[TMP12:%.*]] = getelementptr inbounds [32 x i32], ptr addrspace(3) @__openmp_nvptx_data_transfer_temporary_storage, i64 0, i32 [[TMP3]]
 // CHECK-32-EX-NEXT:    [[TMP13:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP6]], i32 0, i32 0
-// CHECK-32-EX-NEXT:    [[TMP14:%.*]] = load ptr, ptr [[TMP13]], align 4
-// CHECK-32-EX-NEXT:    [[TMP15:%.*]] = load volatile i8, ptr addrspace(3) [[TMP12]], align 1
+// CHECK-32-EX-NEXT:    [[TMP14:%.*]] = load ptr, ptr [[TMP13]], align 4, !freeze_bits [[META16]]
+// CHECK-32-EX-NEXT:    [[TMP15:%.*]] = load volatile i8, ptr addrspace(3) [[TMP12]], align 1, !freeze_bits [[META16]]
 // CHECK-32-EX-NEXT:    store i8 [[TMP15]], ptr [[TMP14]], align 1
 // CHECK-32-EX-NEXT:    br label [[IFCONT4:%.*]]
 // CHECK-32-EX:       else3:
@@ -1820,9 +1834,9 @@ int bar(int n){
 // CHECK-32-EX-NEXT:    br i1 [[WARP_MASTER5]], label [[THEN6:%.*]], label [[ELSE7:%.*]]
 // CHECK-32-EX:       then6:
 // CHECK-32-EX-NEXT:    [[TMP16:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP6]], i32 0, i32 1
-// CHECK-32-EX-NEXT:    [[TMP17:%.*]] = load ptr, ptr [[TMP16]], align 4
+// CHECK-32-EX-NEXT:    [[TMP17:%.*]] = load ptr, ptr [[TMP16]], align 4, !freeze_bits [[META16]]
 // CHECK-32-EX-NEXT:    [[TMP18:%.*]] = getelementptr inbounds [32 x i32], ptr addrspace(3) @__openmp_nvptx_data_transfer_temporary_storage, i64 0, i32 [[NVPTX_WARP_ID]]
-// CHECK-32-EX-NEXT:    [[TMP19:%.*]] = load i32, ptr [[TMP17]], align 4
+// CHECK-32-EX-NEXT:    [[TMP19:%.*]] = load i32, ptr [[TMP17]], align 4, !freeze_bits [[META16]]
 // CHECK-32-EX-NEXT:    store volatile i32 [[TMP19]], ptr addrspace(3) [[TMP18]], align 4
 // CHECK-32-EX-NEXT:    br label [[IFCONT8:%.*]]
 // CHECK-32-EX:       else7:
@@ -1835,8 +1849,8 @@ int bar(int n){
 // CHECK-32-EX:       then10:
 // CHECK-32-EX-NEXT:    [[TMP21:%.*]] = getelementptr inbounds [32 x i32], ptr addrspace(3) @__openmp_nvptx_data_transfer_temporary_storage, i64 0, i32 [[TMP3]]
 // CHECK-32-EX-NEXT:    [[TMP22:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP6]], i32 0, i32 1
-// CHECK-32-EX-NEXT:    [[TMP23:%.*]] = load ptr, ptr [[TMP22]], align 4
-// CHECK-32-EX-NEXT:    [[TMP24:%.*]] = load volatile i32, ptr addrspace(3) [[TMP21]], align 4
+// CHECK-32-EX-NEXT:    [[TMP23:%.*]] = load ptr, ptr [[TMP22]], align 4, !freeze_bits [[META16]]
+// CHECK-32-EX-NEXT:    [[TMP24:%.*]] = load volatile i32, ptr addrspace(3) [[TMP21]], align 4, !freeze_bits [[META16]]
 // CHECK-32-EX-NEXT:    store i32 [[TMP24]], ptr [[TMP23]], align 4
 // CHECK-32-EX-NEXT:    br label [[IFCONT12:%.*]]
 // CHECK-32-EX:       else11:
@@ -1881,7 +1895,11 @@ int bar(int n){
 // CHECK-32-EX-NEXT:    [[A_ADDR:%.*]] = alloca ptr, align 4
 // CHECK-32-EX-NEXT:    [[B_ADDR:%.*]] = alloca ptr, align 4
 // CHECK-32-EX-NEXT:    [[A1:%.*]] = alloca i32, align 4
+// CHECK-32-EX-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-32-EX-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A1]], align 4
 // CHECK-32-EX-NEXT:    [[B2:%.*]] = alloca i16, align 2
+// CHECK-32-EX-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i16 poison
+// CHECK-32-EX-NEXT:    store i16 [[FREEZE_POISON3]], ptr [[B2]], align 2
 // CHECK-32-EX-NEXT:    [[DOTOMP_REDUCTION_RED_LIST:%.*]] = alloca [2 x ptr], align 4
 // CHECK-32-EX-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 4
 // CHECK-32-EX-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 4
@@ -1902,12 +1920,12 @@ int bar(int n){
 // CHECK-32-EX-NEXT:    br label [[COND_END:%.*]]
 // CHECK-32-EX:       cond.false:
 // CHECK-32-EX-NEXT:    [[TMP4:%.*]] = load i16, ptr [[B2]], align 2
-// CHECK-32-EX-NEXT:    [[CONV3:%.*]] = sext i16 [[TMP4]] to i32
+// CHECK-32-EX-NEXT:    [[CONV4:%.*]] = sext i16 [[TMP4]] to i32
 // CHECK-32-EX-NEXT:    br label [[COND_END]]
 // CHECK-32-EX:       cond.end:
-// CHECK-32-EX-NEXT:    [[COND:%.*]] = phi i32 [ 99, [[COND_TRUE]] ], [ [[CONV3]], [[COND_FALSE]] ]
-// CHECK-32-EX-NEXT:    [[CONV4:%.*]] = trunc i32 [[COND]] to i16
-// CHECK-32-EX-NEXT:    store i16 [[CONV4]], ptr [[B2]], align 2
+// CHECK-32-EX-NEXT:    [[COND:%.*]] = phi i32 [ 99, [[COND_TRUE]] ], [ [[CONV4]], [[COND_FALSE]] ]
+// CHECK-32-EX-NEXT:    [[CONV5:%.*]] = trunc i32 [[COND]] to i16
+// CHECK-32-EX-NEXT:    store i16 [[CONV5]], ptr [[B2]], align 2
 // CHECK-32-EX-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOMP_REDUCTION_RED_LIST]], i32 0, i32 0
 // CHECK-32-EX-NEXT:    store ptr [[A1]], ptr [[TMP5]], align 4
 // CHECK-32-EX-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOMP_REDUCTION_RED_LIST]], i32 0, i32 1
@@ -1916,25 +1934,25 @@ int bar(int n){
 // CHECK-32-EX-NEXT:    [[TMP8:%.*]] = icmp eq i32 [[TMP7]], 1
 // CHECK-32-EX-NEXT:    br i1 [[TMP8]], label [[DOTOMP_REDUCTION_THEN:%.*]], label [[DOTOMP_REDUCTION_DONE:%.*]]
 // CHECK-32-EX:       .omp.reduction.then:
-// CHECK-32-EX-NEXT:    [[TMP9:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-32-EX-NEXT:    [[TMP9:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META16]]
 // CHECK-32-EX-NEXT:    [[TMP10:%.*]] = load i32, ptr [[A1]], align 4
-// CHECK-32-EX-NEXT:    [[OR5:%.*]] = or i32 [[TMP9]], [[TMP10]]
-// CHECK-32-EX-NEXT:    store i32 [[OR5]], ptr [[TMP0]], align 4
-// CHECK-32-EX-NEXT:    [[TMP11:%.*]] = load i16, ptr [[TMP1]], align 2
-// CHECK-32-EX-NEXT:    [[CONV6:%.*]] = sext i16 [[TMP11]] to i32
+// CHECK-32-EX-NEXT:    [[OR6:%.*]] = or i32 [[TMP9]], [[TMP10]]
+// CHECK-32-EX-NEXT:    store i32 [[OR6]], ptr [[TMP0]], align 4
+// CHECK-32-EX-NEXT:    [[TMP11:%.*]] = load i16, ptr [[TMP1]], align 2, !freeze_bits [[META16]]
+// CHECK-32-EX-NEXT:    [[CONV7:%.*]] = sext i16 [[TMP11]] to i32
 // CHECK-32-EX-NEXT:    [[TMP12:%.*]] = load i16, ptr [[B2]], align 2
-// CHECK-32-EX-NEXT:    [[CONV7:%.*]] = sext i16 [[TMP12]] to i32
-// CHECK-32-EX-NEXT:    [[CMP8:%.*]] = icmp sgt i32 [[CONV6]], [[CONV7]]
-// CHECK-32-EX-NEXT:    br i1 [[CMP8]], label [[COND_TRUE9:%.*]], label [[COND_FALSE10:%.*]]
-// CHECK-32-EX:       cond.true9:
-// CHECK-32-EX-NEXT:    [[TMP13:%.*]] = load i16, ptr [[TMP1]], align 2
-// CHECK-32-EX-NEXT:    br label [[COND_END11:%.*]]
-// CHECK-32-EX:       cond.false10:
+// CHECK-32-EX-NEXT:    [[CONV8:%.*]] = sext i16 [[TMP12]] to i32
+// CHECK-32-EX-NEXT:    [[CMP9:%.*]] = icmp sgt i32 [[CONV7]], [[CONV8]]
+// CHECK-32-EX-NEXT:    br i1 [[CMP9]], label [[COND_TRUE10:%.*]], label [[COND_FALSE11:%.*]]
+// CHECK-32-EX:       cond.true10:
+// CHECK-32-EX-NEXT:    [[TMP13:%.*]] = load i16, ptr [[TMP1]], align 2, !freeze_bits [[META16]]
+// CHECK-32-EX-NEXT:    br label [[COND_END12:%.*]]
+// CHECK-32-EX:       cond.false11:
 // CHECK-32-EX-NEXT:    [[TMP14:%.*]] = load i16, ptr [[B2]], align 2
-// CHECK-32-EX-NEXT:    br label [[COND_END11]]
-// CHECK-32-EX:       cond.end11:
-// CHECK-32-EX-NEXT:    [[COND12:%.*]] = phi i16 [ [[TMP13]], [[COND_TRUE9]] ], [ [[TMP14]], [[COND_FALSE10]] ]
-// CHECK-32-EX-NEXT:    store i16 [[COND12]], ptr [[TMP1]], align 2
+// CHECK-32-EX-NEXT:    br label [[COND_END12]]
+// CHECK-32-EX:       cond.end12:
+// CHECK-32-EX-NEXT:    [[COND13:%.*]] = phi i16 [ [[TMP13]], [[COND_TRUE10]] ], [ [[TMP14]], [[COND_FALSE11]] ]
+// CHECK-32-EX-NEXT:    store i16 [[COND13]], ptr [[TMP1]], align 2
 // CHECK-32-EX-NEXT:    br label [[DOTOMP_REDUCTION_DONE]]
 // CHECK-32-EX:       .omp.reduction.done:
 // CHECK-32-EX-NEXT:    ret void
@@ -1959,10 +1977,10 @@ int bar(int n){
 // CHECK-32-EX-NEXT:    [[TMP6:%.*]] = load i16, ptr [[DOTADDR2]], align 2
 // CHECK-32-EX-NEXT:    [[TMP7:%.*]] = load i16, ptr [[DOTADDR3]], align 2
 // CHECK-32-EX-NEXT:    [[TMP8:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP4]], i32 0, i32 0
-// CHECK-32-EX-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 4
+// CHECK-32-EX-NEXT:    [[TMP9:%.*]] = load ptr, ptr [[TMP8]], align 4, !freeze_bits [[META16]]
 // CHECK-32-EX-NEXT:    [[TMP10:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOMP_REDUCTION_REMOTE_REDUCE_LIST]], i32 0, i32 0
 // CHECK-32-EX-NEXT:    [[TMP11:%.*]] = getelementptr i32, ptr [[TMP9]], i32 1
-// CHECK-32-EX-NEXT:    [[TMP12:%.*]] = load i32, ptr [[TMP9]], align 4
+// CHECK-32-EX-NEXT:    [[TMP12:%.*]] = load i32, ptr [[TMP9]], align 4, !freeze_bits [[META16]]
 // CHECK-32-EX-NEXT:    [[TMP13:%.*]] = call i32 @__kmpc_get_warp_size()
 // CHECK-32-EX-NEXT:    [[TMP14:%.*]] = trunc i32 [[TMP13]] to i16
 // CHECK-32-EX-NEXT:    [[TMP15:%.*]] = call i32 @__kmpc_shuffle_int32(i32 [[TMP12]], i16 [[TMP6]], i16 [[TMP14]])
@@ -1971,10 +1989,10 @@ int bar(int n){
 // CHECK-32-EX-NEXT:    [[TMP17:%.*]] = getelementptr i32, ptr [[DOTOMP_REDUCTION_ELEMENT]], i32 1
 // CHECK-32-EX-NEXT:    store ptr [[DOTOMP_REDUCTION_ELEMENT]], ptr [[TMP10]], align 4
 // CHECK-32-EX-NEXT:    [[TMP18:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP4]], i32 0, i32 1
-// CHECK-32-EX-NEXT:    [[TMP19:%.*]] = load ptr, ptr [[TMP18]], align 4
+// CHECK-32-EX-NEXT:    [[TMP19:%.*]] = load ptr, ptr [[TMP18]], align 4, !freeze_bits [[META16]]
 // CHECK-32-EX-NEXT:    [[TMP20:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOMP_REDUCTION_REMOTE_REDUCE_LIST]], i32 0, i32 1
 // CHECK-32-EX-NEXT:    [[TMP21:%.*]] = getelementptr i16, ptr [[TMP19]], i32 1
-// CHECK-32-EX-NEXT:    [[TMP22:%.*]] = load i16, ptr [[TMP19]], align 2
+// CHECK-32-EX-NEXT:    [[TMP22:%.*]] = load i16, ptr [[TMP19]], align 2, !freeze_bits [[META16]]
 // CHECK-32-EX-NEXT:    [[TMP23:%.*]] = sext i16 [[TMP22]] to i32
 // CHECK-32-EX-NEXT:    [[TMP24:%.*]] = call i32 @__kmpc_get_warp_size()
 // CHECK-32-EX-NEXT:    [[TMP25:%.*]] = trunc i32 [[TMP24]] to i16
@@ -2009,16 +2027,16 @@ int bar(int n){
 // CHECK-32-EX-NEXT:    br i1 [[TMP44]], label [[THEN5:%.*]], label [[ELSE6:%.*]]
 // CHECK-32-EX:       then5:
 // CHECK-32-EX-NEXT:    [[TMP45:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOMP_REDUCTION_REMOTE_REDUCE_LIST]], i32 0, i32 0
-// CHECK-32-EX-NEXT:    [[TMP46:%.*]] = load ptr, ptr [[TMP45]], align 4
+// CHECK-32-EX-NEXT:    [[TMP46:%.*]] = load ptr, ptr [[TMP45]], align 4, !freeze_bits [[META16]]
 // CHECK-32-EX-NEXT:    [[TMP47:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP4]], i32 0, i32 0
-// CHECK-32-EX-NEXT:    [[TMP48:%.*]] = load ptr, ptr [[TMP47]], align 4
-// CHECK-32-EX-NEXT:    [[TMP49:%.*]] = load i32, ptr [[TMP46]], align 4
+// CHECK-32-EX-NEXT:    [[TMP48:%.*]] = load ptr, ptr [[TMP47]], align 4, !freeze_bits [[META16]]
+// CHECK-32-EX-NEXT:    [[TMP49:%.*]] = load i32, ptr [[TMP46]], align 4, !freeze_bits [[META16]]
 // CHECK-32-EX-NEXT:    store i32 [[TMP49]], ptr [[TMP48]], align 4
 // CHECK-32-EX-NEXT:    [[TMP50:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOMP_REDUCTION_REMOTE_REDUCE_LIST]], i32 0, i32 1
-// CHECK-32-EX-NEXT:    [[TMP51:%.*]] = load ptr, ptr [[TMP50]], align 4
+// CHECK-32-EX-NEXT:    [[TMP51:%.*]] = load ptr, ptr [[TMP50]], align 4, !freeze_bits [[META16]]
 // CHECK-32-EX-NEXT:    [[TMP52:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP4]], i32 0, i32 1
-// CHECK-32-EX-NEXT:    [[TMP53:%.*]] = load ptr, ptr [[TMP52]], align 4
-// CHECK-32-EX-NEXT:    [[TMP54:%.*]] = load i16, ptr [[TMP51]], align 2
+// CHECK-32-EX-NEXT:    [[TMP53:%.*]] = load ptr, ptr [[TMP52]], align 4, !freeze_bits [[META16]]
+// CHECK-32-EX-NEXT:    [[TMP54:%.*]] = load i16, ptr [[TMP51]], align 2, !freeze_bits [[META16]]
 // CHECK-32-EX-NEXT:    store i16 [[TMP54]], ptr [[TMP53]], align 2
 // CHECK-32-EX-NEXT:    br label [[IFCONT7:%.*]]
 // CHECK-32-EX:       else6:
@@ -2046,9 +2064,9 @@ int bar(int n){
 // CHECK-32-EX-NEXT:    br i1 [[WARP_MASTER]], label [[THEN:%.*]], label [[ELSE:%.*]]
 // CHECK-32-EX:       then:
 // CHECK-32-EX-NEXT:    [[TMP7:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP6]], i32 0, i32 0
-// CHECK-32-EX-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[TMP7]], align 4
+// CHECK-32-EX-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[TMP7]], align 4, !freeze_bits [[META16]]
 // CHECK-32-EX-NEXT:    [[TMP9:%.*]] = getelementptr inbounds [32 x i32], ptr addrspace(3) @__openmp_nvptx_data_transfer_temporary_storage, i64 0, i32 [[NVPTX_WARP_ID]]
-// CHECK-32-EX-NEXT:    [[TMP10:%.*]] = load i32, ptr [[TMP8]], align 4
+// CHECK-32-EX-NEXT:    [[TMP10:%.*]] = load i32, ptr [[TMP8]], align 4, !freeze_bits [[META16]]
 // CHECK-32-EX-NEXT:    store volatile i32 [[TMP10]], ptr addrspace(3) [[TMP9]], align 4
 // CHECK-32-EX-NEXT:    br label [[IFCONT:%.*]]
 // CHECK-32-EX:       else:
@@ -2061,8 +2079,8 @@ int bar(int n){
 // CHECK-32-EX:       then2:
 // CHECK-32-EX-NEXT:    [[TMP12:%.*]] = getelementptr inbounds [32 x i32], ptr addrspace(3) @__openmp_nvptx_data_transfer_temporary_storage, i64 0, i32 [[TMP3]]
 // CHECK-32-EX-NEXT:    [[TMP13:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP6]], i32 0, i32 0
-// CHECK-32-EX-NEXT:    [[TMP14:%.*]] = load ptr, ptr [[TMP13]], align 4
-// CHECK-32-EX-NEXT:    [[TMP15:%.*]] = load volatile i32, ptr addrspace(3) [[TMP12]], align 4
+// CHECK-32-EX-NEXT:    [[TMP14:%.*]] = load ptr, ptr [[TMP13]], align 4, !freeze_bits [[META16]]
+// CHECK-32-EX-NEXT:    [[TMP15:%.*]] = load volatile i32, ptr addrspace(3) [[TMP12]], align 4, !freeze_bits [[META16]]
 // CHECK-32-EX-NEXT:    store i32 [[TMP15]], ptr [[TMP14]], align 4
 // CHECK-32-EX-NEXT:    br label [[IFCONT4:%.*]]
 // CHECK-32-EX:       else3:
@@ -2073,9 +2091,9 @@ int bar(int n){
 // CHECK-32-EX-NEXT:    br i1 [[WARP_MASTER5]], label [[THEN6:%.*]], label [[ELSE7:%.*]]
 // CHECK-32-EX:       then6:
 // CHECK-32-EX-NEXT:    [[TMP16:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP6]], i32 0, i32 1
-// CHECK-32-EX-NEXT:    [[TMP17:%.*]] = load ptr, ptr [[TMP16]], align 4
+// CHECK-32-EX-NEXT:    [[TMP17:%.*]] = load ptr, ptr [[TMP16]], align 4, !freeze_bits [[META16]]
 // CHECK-32-EX-NEXT:    [[TMP18:%.*]] = getelementptr inbounds [32 x i32], ptr addrspace(3) @__openmp_nvptx_data_transfer_temporary_storage, i64 0, i32 [[NVPTX_WARP_ID]]
-// CHECK-32-EX-NEXT:    [[TMP19:%.*]] = load i16, ptr [[TMP17]], align 2
+// CHECK-32-EX-NEXT:    [[TMP19:%.*]] = load i16, ptr [[TMP17]], align 2, !freeze_bits [[META16]]
 // CHECK-32-EX-NEXT:    store volatile i16 [[TMP19]], ptr addrspace(3) [[TMP18]], align 2
 // CHECK-32-EX-NEXT:    br label [[IFCONT8:%.*]]
 // CHECK-32-EX:       else7:
@@ -2088,8 +2106,8 @@ int bar(int n){
 // CHECK-32-EX:       then10:
 // CHECK-32-EX-NEXT:    [[TMP21:%.*]] = getelementptr inbounds [32 x i32], ptr addrspace(3) @__openmp_nvptx_data_transfer_temporary_storage, i64 0, i32 [[TMP3]]
 // CHECK-32-EX-NEXT:    [[TMP22:%.*]] = getelementptr inbounds [2 x ptr], ptr [[TMP6]], i32 0, i32 1
-// CHECK-32-EX-NEXT:    [[TMP23:%.*]] = load ptr, ptr [[TMP22]], align 4
-// CHECK-32-EX-NEXT:    [[TMP24:%.*]] = load volatile i16, ptr addrspace(3) [[TMP21]], align 2
+// CHECK-32-EX-NEXT:    [[TMP23:%.*]] = load ptr, ptr [[TMP22]], align 4, !freeze_bits [[META16]]
+// CHECK-32-EX-NEXT:    [[TMP24:%.*]] = load volatile i16, ptr addrspace(3) [[TMP21]], align 2, !freeze_bits [[META16]]
 // CHECK-32-EX-NEXT:    store i16 [[TMP24]], ptr [[TMP23]], align 2
 // CHECK-32-EX-NEXT:    br label [[IFCONT12:%.*]]
 // CHECK-32-EX:       else11:

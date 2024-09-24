@@ -21,6 +21,8 @@ consteval int ret7() {
 // EVAL-FN-LABEL: @_Z9test_ret7v(
 // EVAL-FN-NEXT:  entry:
 // EVAL-FN-NEXT:    [[I:%.*]] = alloca i32, align 4
+// EVAL-FN-NEXT:    [[FREEZE:%.*]] = freeze i32 poison
+// EVAL-FN-NEXT:    store i32 [[FREEZE]], ptr [[I]], align 4
 // EVAL-FN-NEXT:    store i32 7, ptr [[I]], align 4
 // EVAL-FN-NEXT:    [[TMP0:%.*]] = load i32, ptr [[I]], align 4
 // EVAL-FN-NEXT:    ret i32 [[TMP0]]
@@ -117,6 +119,8 @@ consteval Agg retAgg() {
 // EVAL-FN-LABEL: @_Z11test_retAggv(
 // EVAL-FN-NEXT:  entry:
 // EVAL-FN-NEXT:    [[B:%.*]] = alloca i64, align 8
+// EVAL-FN-NEXT:    [[FREEZE:%.*]] = freeze i64 poison
+// EVAL-FN-NEXT:    store i64 [[FREEZE]], ptr [[B]], align 8
 // EVAL-FN-NEXT:    [[REF_TMP:%.*]] = alloca [[STRUCT_AGG:%.*]], align 8
 // EVAL-FN-NEXT:    [[TMP0:%.*]] = getelementptr inbounds [[STRUCT_AGG]], ptr [[REF_TMP]], i32 0, i32 0
 // EVAL-FN-NEXT:    store i32 13, ptr [[TMP0]], align 8
@@ -144,6 +148,8 @@ consteval const Agg &retRefAgg() {
 // EVAL-FN-LABEL: @_Z14test_retRefAggv(
 // EVAL-FN-NEXT:  entry:
 // EVAL-FN-NEXT:    [[B:%.*]] = alloca i64, align 8
+// EVAL-FN-NEXT:    [[FREEZE:%.*]] = freeze i64 poison
+// EVAL-FN-NEXT:    store i64 [[FREEZE]], ptr [[B]], align 8
 // EVAL-FN-NEXT:    [[REF_TMP:%.*]] = alloca [[STRUCT_AGG:%.*]], align 8
 // EVAL-FN-NEXT:    [[TMP0:%.*]] = getelementptr inbounds [[STRUCT_AGG]], ptr [[REF_TMP]], i32 0, i32 0
 // EVAL-FN-NEXT:    store i32 13, ptr [[TMP0]], align 8
@@ -167,6 +173,8 @@ consteval Agg is_const() {
 // EVAL-FN-LABEL: @_Z13test_is_constv(
 // EVAL-FN-NEXT:  entry:
 // EVAL-FN-NEXT:    [[B:%.*]] = alloca i64, align 8
+// EVAL-FN-NEXT:    [[FREEZE:%.*]] = freeze i64 poison
+// EVAL-FN-NEXT:    store i64 [[FREEZE]], ptr [[B]], align 8
 // EVAL-FN-NEXT:    [[REF_TMP:%.*]] = alloca [[STRUCT_AGG:%.*]], align 8
 // EVAL-FN-NEXT:    [[TMP0:%.*]] = getelementptr inbounds [[STRUCT_AGG]], ptr [[REF_TMP]], i32 0, i32 0
 // EVAL-FN-NEXT:    store i32 5, ptr [[TMP0]], align 8
@@ -192,6 +200,8 @@ struct AggCtor {
 // EVAL-FN-LABEL: @_Z12test_AggCtorv(
 // EVAL-FN-NEXT:  entry:
 // EVAL-FN-NEXT:    [[I:%.*]] = alloca i32, align 4
+// EVAL-FN-NEXT:    [[FREEZE:%.*]] = freeze i32 poison
+// EVAL-FN-NEXT:    store i32 [[FREEZE]], ptr [[I]], align 4
 // EVAL-FN-NEXT:    [[C:%.*]] = alloca [[STRUCT_AGGCTOR:%.*]], align 8
 // EVAL-FN-NEXT:    store i32 2, ptr [[I]], align 4
 // EVAL-FN-NEXT:    [[TMP0:%.*]] = getelementptr inbounds [[STRUCT_AGGCTOR]], ptr [[C]], i32 0, i32 0

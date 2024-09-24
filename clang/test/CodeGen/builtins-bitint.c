@@ -9,6 +9,8 @@
 // CHECK-O0-SAME: ) #[[ATTR0:[0-9]+]] {
 // CHECK-O0-NEXT:  entry:
 // CHECK-O0-NEXT:    [[A:%.*]] = alloca i1, align 1
+// CHECK-O0-NEXT:    [[FREEZE_POISON:%.*]] = freeze i1 poison
+// CHECK-O0-NEXT:    store i1 [[FREEZE_POISON]], ptr [[A]], align 1
 // CHECK-O0-NEXT:    store i1 true, ptr [[A]], align 1
 // CHECK-O0-NEXT:    [[TMP0:%.*]] = load i1, ptr [[A]], align 1
 // CHECK-O0-NEXT:    [[TMP1:%.*]] = call i1 @llvm.ctpop.i1(i1 [[TMP0]])
@@ -29,6 +31,8 @@ int test_popcountg_ubi1() {
 // CHECK-O0-SAME: ) #[[ATTR0]] {
 // CHECK-O0-NEXT:  entry:
 // CHECK-O0-NEXT:    [[A:%.*]] = alloca i2, align 1
+// CHECK-O0-NEXT:    [[FREEZE_POISON:%.*]] = freeze i2 poison
+// CHECK-O0-NEXT:    store i2 [[FREEZE_POISON]], ptr [[A]], align 1
 // CHECK-O0-NEXT:    store i2 -1, ptr [[A]], align 1
 // CHECK-O0-NEXT:    [[TMP0:%.*]] = load i2, ptr [[A]], align 1
 // CHECK-O0-NEXT:    [[TMP1:%.*]] = call i2 @llvm.ctpop.i2(i2 [[TMP0]])
@@ -49,6 +53,8 @@ int test_popcountg_ubi2() {
 // CHECK-O0-SAME: ) #[[ATTR0]] {
 // CHECK-O0-NEXT:  entry:
 // CHECK-O0-NEXT:    [[A:%.*]] = alloca i1, align 1
+// CHECK-O0-NEXT:    [[FREEZE_POISON:%.*]] = freeze i1 poison
+// CHECK-O0-NEXT:    store i1 [[FREEZE_POISON]], ptr [[A]], align 1
 // CHECK-O0-NEXT:    store i1 false, ptr [[A]], align 1
 // CHECK-O0-NEXT:    [[TMP0:%.*]] = load i1, ptr [[A]], align 1
 // CHECK-O0-NEXT:    [[TMP1:%.*]] = call i1 @llvm.cttz.i1(i1 [[TMP0]], i1 false)
@@ -69,6 +75,8 @@ int test_ctzg_ubi1() {
 // CHECK-O0-SAME: ) #[[ATTR0]] {
 // CHECK-O0-NEXT:  entry:
 // CHECK-O0-NEXT:    [[A:%.*]] = alloca i2, align 1
+// CHECK-O0-NEXT:    [[FREEZE_POISON:%.*]] = freeze i2 poison
+// CHECK-O0-NEXT:    store i2 [[FREEZE_POISON]], ptr [[A]], align 1
 // CHECK-O0-NEXT:    store i2 0, ptr [[A]], align 1
 // CHECK-O0-NEXT:    [[TMP0:%.*]] = load i2, ptr [[A]], align 1
 // CHECK-O0-NEXT:    [[TMP1:%.*]] = call i2 @llvm.cttz.i2(i2 [[TMP0]], i1 false)
@@ -89,6 +97,8 @@ int test_ctzg_ubi2() {
 // CHECK-O0-SAME: ) #[[ATTR0]] {
 // CHECK-O0-NEXT:  entry:
 // CHECK-O0-NEXT:    [[A:%.*]] = alloca i1, align 1
+// CHECK-O0-NEXT:    [[FREEZE_POISON:%.*]] = freeze i1 poison
+// CHECK-O0-NEXT:    store i1 [[FREEZE_POISON]], ptr [[A]], align 1
 // CHECK-O0-NEXT:    store i1 false, ptr [[A]], align 1
 // CHECK-O0-NEXT:    [[TMP0:%.*]] = load i1, ptr [[A]], align 1
 // CHECK-O0-NEXT:    [[TMP1:%.*]] = call i1 @llvm.ctlz.i1(i1 [[TMP0]], i1 false)
@@ -109,6 +119,8 @@ int test_clzg_ubi1() {
 // CHECK-O0-SAME: ) #[[ATTR0]] {
 // CHECK-O0-NEXT:  entry:
 // CHECK-O0-NEXT:    [[A:%.*]] = alloca i2, align 1
+// CHECK-O0-NEXT:    [[FREEZE_POISON:%.*]] = freeze i2 poison
+// CHECK-O0-NEXT:    store i2 [[FREEZE_POISON]], ptr [[A]], align 1
 // CHECK-O0-NEXT:    store i2 0, ptr [[A]], align 1
 // CHECK-O0-NEXT:    [[TMP0:%.*]] = load i2, ptr [[A]], align 1
 // CHECK-O0-NEXT:    [[TMP1:%.*]] = call i2 @llvm.ctlz.i2(i2 [[TMP0]], i1 false)

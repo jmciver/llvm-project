@@ -59,7 +59,11 @@ enum my_bool {
 // CHECK-C-NEXT:    [[RETVAL:%.*]] = alloca i32, align 4, addrspace(5)
 // CHECK-C-NEXT:    [[B_ADDR:%.*]] = alloca i32, align 4, addrspace(5)
 // CHECK-C-NEXT:    [[T:%.*]] = alloca i32, align 4, addrspace(5)
+// CHECK-C-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-C-NEXT:    store i32 [[FREEZE_POISON]], ptr addrspace(5) [[T]], align 4
 // CHECK-C-NEXT:    [[F:%.*]] = alloca i32, align 4, addrspace(5)
+// CHECK-C-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-C-NEXT:    store i32 [[FREEZE_POISON1]], ptr addrspace(5) [[F]], align 4
 // CHECK-C-NEXT:    [[RETVAL_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[RETVAL]] to ptr
 // CHECK-C-NEXT:    [[B_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[B_ADDR]] to ptr
 // CHECK-C-NEXT:    [[T_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[T]] to ptr

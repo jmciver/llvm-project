@@ -38,6 +38,8 @@ extern "C" void workshareloop_iterator(float *a, float *b, float *c) {
 // CHECK-NEXT:    [[AGG_CAPTURED1:%.*]] = alloca [[STRUCT_ANON_0:%.*]], align 1
 // CHECK-NEXT:    [[DOTCOUNT_ADDR:%.*]] = alloca i64, align 8
 // CHECK-NEXT:    [[I:%.*]] = alloca i32, align 4
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[I]], align 4
 // CHECK-NEXT:    [[P_LASTITER:%.*]] = alloca i32, align 4
 // CHECK-NEXT:    [[P_LOWERBOUND:%.*]] = alloca i64, align 8
 // CHECK-NEXT:    [[P_UPPERBOUND:%.*]] = alloca i64, align 8
@@ -51,7 +53,7 @@ extern "C" void workshareloop_iterator(float *a, float *b, float *c) {
 // CHECK-NEXT:    [[TMP1:%.*]] = getelementptr inbounds [[STRUCT_ANON_0]], ptr [[AGG_CAPTURED1]], i32 0, i32 0
 // CHECK-NEXT:    call void @_ZN10MyIteratorC1ERKS_(ptr noundef nonnull align 1 dereferenceable(1) [[TMP1]], ptr noundef nonnull align 1 dereferenceable(1) [[IT]])
 // CHECK-NEXT:    call void @__captured_stmt(ptr [[DOTCOUNT_ADDR]], ptr [[AGG_CAPTURED]])
-// CHECK-NEXT:    [[DOTCOUNT:%.*]] = load i64, ptr [[DOTCOUNT_ADDR]], align 8
+// CHECK-NEXT:    [[DOTCOUNT:%.*]] = load i64, ptr [[DOTCOUNT_ADDR]], align 8, !freeze_bits [[META3:![0-9]+]]
 // CHECK-NEXT:    br label [[OMP_LOOP_PREHEADER:%.*]]
 // CHECK:       omp_loop.preheader:
 // CHECK-NEXT:    store i64 0, ptr [[P_LOWERBOUND]], align 8
@@ -60,8 +62,8 @@ extern "C" void workshareloop_iterator(float *a, float *b, float *c) {
 // CHECK-NEXT:    store i64 1, ptr [[P_STRIDE]], align 8
 // CHECK-NEXT:    [[OMP_GLOBAL_THREAD_NUM:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1:[0-9]+]])
 // CHECK-NEXT:    call void @__kmpc_for_static_init_8u(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM]], i32 34, ptr [[P_LASTITER]], ptr [[P_LOWERBOUND]], ptr [[P_UPPERBOUND]], ptr [[P_STRIDE]], i64 1, i64 0)
-// CHECK-NEXT:    [[TMP3:%.*]] = load i64, ptr [[P_LOWERBOUND]], align 8
-// CHECK-NEXT:    [[TMP4:%.*]] = load i64, ptr [[P_UPPERBOUND]], align 8
+// CHECK-NEXT:    [[TMP3:%.*]] = load i64, ptr [[P_LOWERBOUND]], align 8, !freeze_bits [[META3]]
+// CHECK-NEXT:    [[TMP4:%.*]] = load i64, ptr [[P_UPPERBOUND]], align 8, !freeze_bits [[META3]]
 // CHECK-NEXT:    [[TMP5:%.*]] = sub i64 [[TMP4]], [[TMP3]]
 // CHECK-NEXT:    [[TMP6:%.*]] = add i64 [[TMP5]], 1
 // CHECK-NEXT:    br label [[OMP_LOOP_HEADER:%.*]]
@@ -80,12 +82,12 @@ extern "C" void workshareloop_iterator(float *a, float *b, float *c) {
 // CHECK-NEXT:    [[TMP9:%.*]] = load i32, ptr [[I]], align 4
 // CHECK-NEXT:    [[IDXPROM:%.*]] = zext i32 [[TMP9]] to i64
 // CHECK-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds float, ptr [[TMP8]], i64 [[IDXPROM]]
-// CHECK-NEXT:    [[TMP10:%.*]] = load float, ptr [[ARRAYIDX]], align 4
+// CHECK-NEXT:    [[TMP10:%.*]] = load float, ptr [[ARRAYIDX]], align 4, !freeze_bits [[META3]]
 // CHECK-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[C_ADDR]], align 8
 // CHECK-NEXT:    [[TMP12:%.*]] = load i32, ptr [[I]], align 4
 // CHECK-NEXT:    [[IDXPROM2:%.*]] = zext i32 [[TMP12]] to i64
 // CHECK-NEXT:    [[ARRAYIDX3:%.*]] = getelementptr inbounds float, ptr [[TMP11]], i64 [[IDXPROM2]]
-// CHECK-NEXT:    [[TMP13:%.*]] = load float, ptr [[ARRAYIDX3]], align 4
+// CHECK-NEXT:    [[TMP13:%.*]] = load float, ptr [[ARRAYIDX3]], align 4, !freeze_bits [[META3]]
 // CHECK-NEXT:    [[MUL:%.*]] = fmul float [[TMP10]], [[TMP13]]
 // CHECK-NEXT:    [[TMP14:%.*]] = load ptr, ptr [[A_ADDR]], align 8
 // CHECK-NEXT:    [[TMP15:%.*]] = load i32, ptr [[I]], align 4
@@ -113,11 +115,13 @@ extern "C" void workshareloop_iterator(float *a, float *b, float *c) {
 // CHECK-NEXT:    [[DOTSTART:%.*]] = alloca [[STRUCT_MYITERATOR:%.*]], align 1
 // CHECK-NEXT:    [[DOTSTOP:%.*]] = alloca [[STRUCT_MYITERATOR]], align 1
 // CHECK-NEXT:    [[DOTSTEP:%.*]] = alloca i64, align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i64 poison
+// CHECK-NEXT:    store i64 [[FREEZE_POISON]], ptr [[DOTSTEP]], align 8
 // CHECK-NEXT:    store ptr [[DISTANCE]], ptr [[DISTANCE_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[__CONTEXT]], ptr [[__CONTEXT_ADDR]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[__CONTEXT_ADDR]], align 8
 // CHECK-NEXT:    [[TMP1:%.*]] = getelementptr inbounds [[STRUCT_ANON:%.*]], ptr [[TMP0]], i32 0, i32 0
-// CHECK-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[TMP1]], align 8
+// CHECK-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[TMP1]], align 8, !freeze_bits [[META3]]
 // CHECK-NEXT:    call void @_ZN10MyIteratorC1ERKS_(ptr noundef nonnull align 1 dereferenceable(1) [[DOTSTART]], ptr noundef nonnull align 1 dereferenceable(1) [[TMP2]])
 // CHECK-NEXT:    call void @_ZN10MyIteratorC1Ej(ptr noundef nonnull align 1 dereferenceable(1) [[DOTSTOP]], i32 noundef 41)
 // CHECK-NEXT:    store i64 1, ptr [[DOTSTEP]], align 8

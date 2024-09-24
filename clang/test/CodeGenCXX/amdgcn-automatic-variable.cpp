@@ -17,11 +17,17 @@ void func1(int *x) {
 // CHECK-LABEL: @_Z5func2v(
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[LV1:%.*]] = alloca i32, align 4, addrspace(5)
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr addrspace(5) [[LV1]], align 4
 // CHECK-NEXT:    [[LV2:%.*]] = alloca i32, align 4, addrspace(5)
+// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON1]], ptr addrspace(5) [[LV2]], align 4
 // CHECK-NEXT:    [[LA:%.*]] = alloca [100 x i32], align 4, addrspace(5)
 // CHECK-NEXT:    [[LP1:%.*]] = alloca ptr, align 8, addrspace(5)
 // CHECK-NEXT:    [[LP2:%.*]] = alloca ptr, align 8, addrspace(5)
 // CHECK-NEXT:    [[LVC:%.*]] = alloca i32, align 4, addrspace(5)
+// CHECK-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON2]], ptr addrspace(5) [[LVC]], align 4
 // CHECK-NEXT:    [[LV1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[LV1]] to ptr
 // CHECK-NEXT:    [[LV2_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[LV2]] to ptr
 // CHECK-NEXT:    [[LA_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[LA]] to ptr
@@ -64,7 +70,25 @@ void destroy(int x);
 class A {
 int x;
 public:
+// CHECK-LABEL: @_ZN1AC1Ev(
+// CHECK-NEXT:  entry:
+// CHECK-NEXT:    [[THIS_ADDR:%.*]] = alloca ptr, align 8, addrspace(5)
+// CHECK-NEXT:    [[THIS_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[THIS_ADDR]] to ptr
+// CHECK-NEXT:    store ptr [[THIS:%.*]], ptr [[THIS_ADDR_ASCAST]], align 8
+// CHECK-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR_ASCAST]], align 8
+// CHECK-NEXT:    call void @_ZN1AC2Ev(ptr noundef nonnull align 4 dereferenceable(4) [[THIS1]])
+// CHECK-NEXT:    ret void
+//
   A():x(0) {}
+// CHECK-LABEL: @_ZN1AD1Ev(
+// CHECK-NEXT:  entry:
+// CHECK-NEXT:    [[THIS_ADDR:%.*]] = alloca ptr, align 8, addrspace(5)
+// CHECK-NEXT:    [[THIS_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[THIS_ADDR]] to ptr
+// CHECK-NEXT:    store ptr [[THIS:%.*]], ptr [[THIS_ADDR_ASCAST]], align 8
+// CHECK-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR_ASCAST]], align 8
+// CHECK-NEXT:    call void @_ZN1AD2Ev(ptr noundef nonnull align 4 dereferenceable(4) [[THIS1]]) #[[ATTR2:[0-9]+]]
+// CHECK-NEXT:    ret void
+//
   ~A() {
    destroy(x);
   }
@@ -75,7 +99,7 @@ public:
 // CHECK-NEXT:    [[A:%.*]] = alloca [[CLASS_A:%.*]], align 4, addrspace(5)
 // CHECK-NEXT:    [[A_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[A]] to ptr
 // CHECK-NEXT:    call void @_ZN1AC1Ev(ptr noundef nonnull align 4 dereferenceable(4) [[A_ASCAST]])
-// CHECK-NEXT:    call void @_ZN1AD1Ev(ptr noundef nonnull align 4 dereferenceable(4) [[A_ASCAST]])
+// CHECK-NEXT:    call void @_ZN1AD1Ev(ptr noundef nonnull align 4 dereferenceable(4) [[A_ASCAST]]) #[[ATTR2]]
 // CHECK-NEXT:    ret void
 //
 void func3() {
@@ -97,6 +121,8 @@ void func4(int x) {
 // CHECK-LABEL: @_Z5func5v(
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[X:%.*]] = alloca i32, align 4, addrspace(5)
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr addrspace(5) [[X]], align 4
 // CHECK-NEXT:    [[X_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[X]] to ptr
 // CHECK-NEXT:    ret void
 //
@@ -108,6 +134,8 @@ void func5() {
 // CHECK-LABEL: @_Z5func6v(
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[X:%.*]] = alloca i32, align 4, addrspace(5)
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr addrspace(5) [[X]], align 4
 // CHECK-NEXT:    [[X_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[X]] to ptr
 // CHECK-NEXT:    ret void
 //
@@ -120,6 +148,8 @@ extern void use(int *);
 // CHECK-LABEL: @_Z5func7v(
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[X:%.*]] = alloca i32, align 4, addrspace(5)
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr addrspace(5) [[X]], align 4
 // CHECK-NEXT:    [[X_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[X]] to ptr
 // CHECK-NEXT:    br label [[LATER:%.*]]
 // CHECK:       later:
