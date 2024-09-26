@@ -1603,7 +1603,6 @@ CodeGenFunction::EmitAutoVarAlloca(const VarDecl &D) {
       address = CreateTempAlloca(allocaTy, Ty.getAddressSpace(),
                                  allocaAlignment, D.getName(),
                                  /*ArraySize=*/nullptr, &AllocaAddr);
-      address.setIsNondeterministicInit(allocaTy->isIntegerTy());
 
       // Don't emit lifetime markers for MSVC catch parameters. The lifetime of
       // the catch parameter starts in the catchpad instruction, and we can't
@@ -1635,6 +1634,18 @@ CodeGenFunction::EmitAutoVarAlloca(const VarDecl &D) {
         }
       } else {
         assert(!emission.useLifetimeMarkers());
+      }
+      if (allocaTy->isIntegerTy()) {
+        if (HaveInsertPoint()) {
+          auto Freeze = Builder.CreateFreeze(llvm::PoisonValue::get(allocaTy),
+                                            "freeze.poison");
+          Builder.CreateStore(Freeze, address);
+        } else {
+          auto Freeze = new llvm::FreezeInst(llvm::PoisonValue::get(allocaTy),
+                                             "freeze.poison", AllocaInsertPt);
+          new llvm::StoreInst(Freeze, AllocaAddr.getPointer(), AllocaInsertPt);
+        }
+        address.setIsNondeterministicInit(allocaTy->isIntegerTy());
       }
     }
   } else {
