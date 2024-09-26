@@ -1564,9 +1564,7 @@ CodeGenFunction::EmitAutoVarAlloca(const VarDecl &D) {
       // building the instruction so that it's there even in no-asserts
       // builds.
       address = CreateTempAlloca(allocaTy, allocaAlignment, D.getName(),
-                                 /*ArraySize=*/nullptr, &AllocaAddr,
-                                 allocaTy->isIntegerTy());
-      address.setIsNondeterministicInit(allocaTy->isIntegerTy());
+                                 /*ArraySize=*/nullptr, &AllocaAddr);
 
       // Don't emit lifetime markers for MSVC catch parameters. The lifetime of
       // the catch parameter starts in the catchpad instruction, and we can't
@@ -1598,6 +1596,18 @@ CodeGenFunction::EmitAutoVarAlloca(const VarDecl &D) {
         }
       } else {
         assert(!emission.useLifetimeMarkers());
+      }
+      if (allocaTy->isIntegerTy()) {
+        if (HaveInsertPoint()) {
+          auto Freeze = Builder.CreateFreeze(llvm::PoisonValue::get(allocaTy),
+                                            "freeze.poison");
+          Builder.CreateStore(Freeze, address);
+        } else {
+          auto Freeze = new llvm::FreezeInst(llvm::PoisonValue::get(allocaTy),
+                                             "freeze.poison", AllocaInsertPt);
+          new llvm::StoreInst(Freeze, AllocaAddr.getPointer(), AllocaInsertPt);
+        }
+        address.setIsNondeterministicInit(allocaTy->isIntegerTy());
       }
     }
   } else {
@@ -2646,7 +2656,7 @@ void CodeGenFunction::EmitParmDecl(const VarDecl &D, ParamValue Arg,
     } else {
       // Otherwise, create a temporary to hold the value.
       DeclPtr = CreateMemTemp(Ty, getContext().getDeclAlign(&D),
-                              D.getName() + ".addr", &AllocaPtr, false);
+                              D.getName() + ".addr", &AllocaPtr);
       DeclPtr.setIsNondeterministicInit(true);
     }
     DoStore = true;
