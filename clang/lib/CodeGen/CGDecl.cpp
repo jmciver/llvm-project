@@ -1635,17 +1635,11 @@ CodeGenFunction::EmitAutoVarAlloca(const VarDecl &D) {
       } else {
         assert(!emission.useLifetimeMarkers());
       }
-      if (allocaTy->isIntegerTy()) {
-        if (HaveInsertPoint()) {
-          auto Freeze = Builder.CreateFreeze(llvm::PoisonValue::get(allocaTy),
-                                            "freeze.poison");
-          Builder.CreateStore(Freeze, address);
-        } else {
-          auto Freeze = new llvm::FreezeInst(llvm::PoisonValue::get(allocaTy),
-                                             "freeze.poison", AllocaInsertPt);
-          new llvm::StoreInst(Freeze, AllocaAddr.getPointer(), AllocaInsertPt);
-        }
-        address.setIsNondeterministicInit(allocaTy->isIntegerTy());
+      if (allocaTy->isIntegerTy() && HaveInsertPoint()) {
+        auto Freeze = Builder.CreateFreeze(llvm::PoisonValue::get(allocaTy),
+                                           "freeze.poison");
+        Builder.CreateStore(Freeze, address);
+        address.setIsNondeterministicInit(true);
       }
     }
   } else {
