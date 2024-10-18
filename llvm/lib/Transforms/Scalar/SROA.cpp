@@ -2954,8 +2954,7 @@ private:
 
     bool isFreezingLoad{true};
     if (NewAI.getAllocatedType() == LI.getType() ||
-        (NewAI.getAllocatedType()->isPointerTy() &&
-         LI.getType()->isIntegerTy()))
+        NewAI.getAllocatedType()->isPointerTy())
       isFreezingLoad = loadHasFreezeBits(&LI);
     Value *V = IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
                                      NewAI.getAlign(), "load",
