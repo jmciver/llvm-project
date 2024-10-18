@@ -2953,7 +2953,9 @@ private:
                    << "SROA: Function seen <-------------------------\n";);
 
     bool isFreezingLoad{true};
-    if (NewAI.getAllocatedType() == LI.getType())
+    if (NewAI.getAllocatedType() == LI.getType() ||
+        (NewAI.getAllocatedType()->isPointerTy() &&
+         LI.getType()->isIntegerTy()))
       isFreezingLoad = loadHasFreezeBits(&LI);
     Value *V = IRB.CreateAlignedLoad(NewAI.getAllocatedType(), &NewAI,
                                      NewAI.getAlign(), "load",
