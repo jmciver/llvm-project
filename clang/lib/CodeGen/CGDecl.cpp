@@ -1597,7 +1597,8 @@ CodeGenFunction::EmitAutoVarAlloca(const VarDecl &D) {
       } else {
         assert(!emission.useLifetimeMarkers());
       }
-      if ((allocaTy->isIntegerTy() || allocaTy->isFloatingPointTy()) &&
+      if ((allocaTy->isIntegerTy() || allocaTy->isFloatingPointTy() ||
+           allocaTy->isPointerTy()) &&
           HaveInsertPoint()) {
         auto Freeze = Builder.CreateFreeze(llvm::PoisonValue::get(allocaTy),
                                            "freeze.poison");
