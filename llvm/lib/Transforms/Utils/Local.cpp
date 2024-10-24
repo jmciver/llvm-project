@@ -2978,14 +2978,14 @@ static void combineMetadata(Instruction *K, const Instruction *J,
       case LLVMContext::MD_invariant_group:
         // Preserve !invariant.group in K.
         break;
-      // Keep empty cases for prof, mmra, memprof, callsite, and freeze_bits to
+      // Keep empty cases for prof, mmra, memprof, callsite, and freeze to
       // prevent them from being removed as unknown metadata. The actual merging
       // is handled separately below.
       case LLVMContext::MD_prof:
       case LLVMContext::MD_mmra:
       case LLVMContext::MD_memprof:
       case LLVMContext::MD_callsite:
-      case LLVMContext::MD_freeze_bits:
+      case LLVMContext::MD_freeze:
         break;
       case LLVMContext::MD_callee_type:
         if (!AAOnly) {
@@ -3029,11 +3029,10 @@ static void combineMetadata(Instruction *K, const Instruction *J,
       }
   }
 
-  // If K is a load instruction and does not have freeze_bits and J does then
-  // set K.
-  if (isa<LoadInst>(K) && !K->hasMetadata(LLVMContext::MD_freeze_bits))
-    K->setMetadata(LLVMContext::MD_freeze_bits,
-                   J->getMetadata(LLVMContext::MD_freeze_bits));
+  // If K is a load instruction and does not have freeze and J does then set K.
+  if (isa<LoadInst>(K) && !K->hasMetadata(LLVMContext::MD_freeze))
+    K->setMetadata(LLVMContext::MD_freeze,
+                   J->getMetadata(LLVMContext::MD_freeze));
 
   // Set !invariant.group from J if J has it. If both instructions have it
   // then we will just pick it from J - even when they are different.
@@ -3125,7 +3124,7 @@ void llvm::copyMetadataForLoad(LoadInst &Dest, const LoadInst &Source) {
     case LLVMContext::MD_access_group:
     case LLVMContext::MD_noundef:
     case LLVMContext::MD_noalias_addrspace:
-    case LLVMContext::MD_freeze_bits:
+    case LLVMContext::MD_freeze:
       // All of these directly apply.
       Dest.setMetadata(ID, N);
       break;
