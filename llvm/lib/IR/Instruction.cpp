@@ -544,12 +544,14 @@ void Instruction::dropUBImplyingAttrsAndUnknownMetadata(
 }
 
 void Instruction::dropUBImplyingAttrsAndMetadata() {
-  // !annotation metadata does not impact semantics.
-  // !range, !nonnull and !align produce poison, so they are safe to speculate.
-  // !noundef and various AA metadata must be dropped, as it generally produces
-  // immediate undefined behavior.
+  // !annotation metadata does not impact semantics. !range, !nonnull and !align
+  // produce poison, so they are safe to speculate. !freeze_bits produces a
+  // nondeterministic value when uninitialized memory loads are transformed to
+  // register based transactions. !noundef and various AA metadata must be
+  // dropped, as it generally produces immediate undefined behavior.
   unsigned KnownIDs[] = {LLVMContext::MD_annotation, LLVMContext::MD_range,
-                         LLVMContext::MD_nonnull, LLVMContext::MD_align};
+                         LLVMContext::MD_nonnull, LLVMContext::MD_align,
+                         LLVMContext::MD_freeze_bits};
   dropUBImplyingAttrsAndUnknownMetadata(KnownIDs);
 }
 
