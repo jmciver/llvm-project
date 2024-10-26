@@ -7,6 +7,12 @@
 // CHECK-NEXT:    [[X:%.*]] = alloca half, align 2
 // CHECK-NEXT:    [[Y:%.*]] = alloca half, align 2
 // CHECK-NEXT:    [[Z:%.*]] = alloca half, align 2
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze half poison
+// CHECK-NEXT:    store half [[FREEZE_POISON]], ptr [[X]], align 2
+// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze half poison
+// CHECK-NEXT:    store half [[FREEZE_POISON1]], ptr [[Y]], align 2
+// CHECK-NEXT:    [[FREEZE_POISON2:%.*]] = freeze half poison
+// CHECK-NEXT:    store half [[FREEZE_POISON2]], ptr [[Z]], align 2
 // CHECK-NEXT:    [[TMP0:%.*]] = load half, ptr [[X]], align 2
 // CHECK-NEXT:    [[TMP1:%.*]] = load half, ptr [[Y]], align 2
 // CHECK-NEXT:    [[ADD:%.*]] = fadd half [[TMP0]], [[TMP1]]

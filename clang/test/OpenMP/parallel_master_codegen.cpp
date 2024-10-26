@@ -350,10 +350,10 @@ void parallel_master_allocate() {
 // CHECK5-NEXT:    [[DOTGLOBAL_TID__ADDR:%.*]] = alloca ptr, align 8
 // CHECK5-NEXT:    [[DOTBOUND_TID__ADDR:%.*]] = alloca ptr, align 8
 // CHECK5-NEXT:    [[A:%.*]] = alloca i32, align 4
-// CHECK5-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK5-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
 // CHECK5-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK5-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
+// CHECK5-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK5-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
 // CHECK5-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK5-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3:![0-9]+]]
 // CHECK5-NEXT:    [[TMP2:%.*]] = call i32 @__kmpc_master(ptr @[[GLOB1]], i32 [[TMP1]])
@@ -408,9 +408,9 @@ void parallel_master_allocate() {
 // CHECK13-SAME: () #[[ATTR0:[0-9]+]] {
 // CHECK13-NEXT:  entry:
 // CHECK13-NEXT:    [[A:%.*]] = alloca i32, align 4
+// CHECK13-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK13-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
 // CHECK13-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
-// CHECK13-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK13-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A]], align 4
 // CHECK13-NEXT:    store i32 [[TMP0]], ptr [[A_CASTED]], align 4
 // CHECK13-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3:![0-9]+]]
@@ -549,9 +549,9 @@ void parallel_master_allocate() {
 // CHECK21-SAME: () #[[ATTR0:[0-9]+]] {
 // CHECK21-NEXT:  entry:
 // CHECK21-NEXT:    [[A:%.*]] = alloca i32, align 4
+// CHECK21-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK21-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
 // CHECK21-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
-// CHECK21-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK21-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A]], align 4
 // CHECK21-NEXT:    store i32 [[TMP0]], ptr [[A_CASTED]], align 4
 // CHECK21-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3:![0-9]+]]

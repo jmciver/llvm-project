@@ -699,11 +699,7 @@ int bar(int n){
 // CHECK1-NEXT:    [[A_ADDR:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    [[B_ADDR:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    [[A1:%.*]] = alloca i32, align 4
-// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK1-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A1]], align 4
 // CHECK1-NEXT:    [[B2:%.*]] = alloca i16, align 2
-// CHECK1-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i16 poison
-// CHECK1-NEXT:    store i16 [[FREEZE_POISON3]], ptr [[B2]], align 2
 // CHECK1-NEXT:    [[CAPTURED_VARS_ADDRS:%.*]] = alloca [2 x ptr], align 8
 // CHECK1-NEXT:    [[DOTOMP_REDUCTION_RED_LIST:%.*]] = alloca [2 x ptr], align 8
 // CHECK1-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
@@ -712,7 +708,11 @@ int bar(int n){
 // CHECK1-NEXT:    store ptr [[B]], ptr [[B_ADDR]], align 8
 // CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[A_ADDR]], align 8
 // CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[B_ADDR]], align 8
+// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK1-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A1]], align 4
 // CHECK1-NEXT:    store i32 0, ptr [[A1]], align 4
+// CHECK1-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i16 poison
+// CHECK1-NEXT:    store i16 [[FREEZE_POISON3]], ptr [[B2]], align 2
 // CHECK1-NEXT:    store i16 -32768, ptr [[B2]], align 2
 // CHECK1-NEXT:    [[TMP2:%.*]] = getelementptr inbounds [2 x ptr], ptr [[CAPTURED_VARS_ADDRS]], i64 0, i64 0
 // CHECK1-NEXT:    store ptr [[A1]], ptr [[TMP2]], align 8
@@ -762,11 +762,7 @@ int bar(int n){
 // CHECK1-NEXT:    [[A_ADDR:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    [[B_ADDR:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    [[A1:%.*]] = alloca i32, align 4
-// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK1-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A1]], align 4
 // CHECK1-NEXT:    [[B2:%.*]] = alloca i16, align 2
-// CHECK1-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i16 poison
-// CHECK1-NEXT:    store i16 [[FREEZE_POISON3]], ptr [[B2]], align 2
 // CHECK1-NEXT:    [[DOTOMP_REDUCTION_RED_LIST:%.*]] = alloca [2 x ptr], align 8
 // CHECK1-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK1-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
@@ -774,7 +770,11 @@ int bar(int n){
 // CHECK1-NEXT:    store ptr [[B]], ptr [[B_ADDR]], align 8
 // CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[A_ADDR]], align 8
 // CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[B_ADDR]], align 8
+// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK1-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A1]], align 4
 // CHECK1-NEXT:    store i32 0, ptr [[A1]], align 4
+// CHECK1-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i16 poison
+// CHECK1-NEXT:    store i16 [[FREEZE_POISON3]], ptr [[B2]], align 2
 // CHECK1-NEXT:    store i16 -32768, ptr [[B2]], align 2
 // CHECK1-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A1]], align 4
 // CHECK1-NEXT:    [[OR:%.*]] = or i32 [[TMP2]], 1
@@ -1261,6 +1261,8 @@ int bar(int n){
 // CHECK2-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
 // CHECK2:       user_code.entry:
 // CHECK2-NEXT:    [[TMP2:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1:[0-9]+]])
+// CHECK2-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// CHECK2-NEXT:    store double [[FREEZE_POISON]], ptr [[E1]], align 8
 // CHECK2-NEXT:    [[TMP3:%.*]] = load double, ptr [[TMP0]], align 8, !freeze_bits [[META13:![0-9]+]]
 // CHECK2-NEXT:    store double [[TMP3]], ptr [[E1]], align 8
 // CHECK2-NEXT:    store i32 0, ptr [[DOTZERO_ADDR]], align 4
@@ -1894,11 +1896,7 @@ int bar(int n){
 // CHECK2-NEXT:    [[A_ADDR:%.*]] = alloca ptr, align 4
 // CHECK2-NEXT:    [[B_ADDR:%.*]] = alloca ptr, align 4
 // CHECK2-NEXT:    [[A1:%.*]] = alloca i32, align 4
-// CHECK2-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK2-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A1]], align 4
 // CHECK2-NEXT:    [[B2:%.*]] = alloca i16, align 2
-// CHECK2-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i16 poison
-// CHECK2-NEXT:    store i16 [[FREEZE_POISON3]], ptr [[B2]], align 2
 // CHECK2-NEXT:    [[CAPTURED_VARS_ADDRS:%.*]] = alloca [2 x ptr], align 4
 // CHECK2-NEXT:    [[DOTOMP_REDUCTION_RED_LIST:%.*]] = alloca [2 x ptr], align 4
 // CHECK2-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 4
@@ -1907,7 +1905,11 @@ int bar(int n){
 // CHECK2-NEXT:    store ptr [[B]], ptr [[B_ADDR]], align 4
 // CHECK2-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[A_ADDR]], align 4
 // CHECK2-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[B_ADDR]], align 4
+// CHECK2-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK2-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A1]], align 4
 // CHECK2-NEXT:    store i32 0, ptr [[A1]], align 4
+// CHECK2-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i16 poison
+// CHECK2-NEXT:    store i16 [[FREEZE_POISON3]], ptr [[B2]], align 2
 // CHECK2-NEXT:    store i16 -32768, ptr [[B2]], align 2
 // CHECK2-NEXT:    [[TMP2:%.*]] = getelementptr inbounds [2 x ptr], ptr [[CAPTURED_VARS_ADDRS]], i32 0, i32 0
 // CHECK2-NEXT:    store ptr [[A1]], ptr [[TMP2]], align 4
@@ -1957,11 +1959,7 @@ int bar(int n){
 // CHECK2-NEXT:    [[A_ADDR:%.*]] = alloca ptr, align 4
 // CHECK2-NEXT:    [[B_ADDR:%.*]] = alloca ptr, align 4
 // CHECK2-NEXT:    [[A1:%.*]] = alloca i32, align 4
-// CHECK2-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK2-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A1]], align 4
 // CHECK2-NEXT:    [[B2:%.*]] = alloca i16, align 2
-// CHECK2-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i16 poison
-// CHECK2-NEXT:    store i16 [[FREEZE_POISON3]], ptr [[B2]], align 2
 // CHECK2-NEXT:    [[DOTOMP_REDUCTION_RED_LIST:%.*]] = alloca [2 x ptr], align 4
 // CHECK2-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 4
 // CHECK2-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 4
@@ -1969,7 +1967,11 @@ int bar(int n){
 // CHECK2-NEXT:    store ptr [[B]], ptr [[B_ADDR]], align 4
 // CHECK2-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[A_ADDR]], align 4
 // CHECK2-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[B_ADDR]], align 4
+// CHECK2-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK2-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A1]], align 4
 // CHECK2-NEXT:    store i32 0, ptr [[A1]], align 4
+// CHECK2-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i16 poison
+// CHECK2-NEXT:    store i16 [[FREEZE_POISON3]], ptr [[B2]], align 2
 // CHECK2-NEXT:    store i16 -32768, ptr [[B2]], align 2
 // CHECK2-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A1]], align 4
 // CHECK2-NEXT:    [[OR:%.*]] = or i32 [[TMP2]], 1
@@ -2456,6 +2458,8 @@ int bar(int n){
 // CHECK3-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
 // CHECK3:       user_code.entry:
 // CHECK3-NEXT:    [[TMP2:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1:[0-9]+]])
+// CHECK3-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// CHECK3-NEXT:    store double [[FREEZE_POISON]], ptr [[E1]], align 8
 // CHECK3-NEXT:    [[TMP3:%.*]] = load double, ptr [[TMP0]], align 8, !freeze_bits [[META13:![0-9]+]]
 // CHECK3-NEXT:    store double [[TMP3]], ptr [[E1]], align 8
 // CHECK3-NEXT:    store i32 0, ptr [[DOTZERO_ADDR]], align 4
@@ -3089,11 +3093,7 @@ int bar(int n){
 // CHECK3-NEXT:    [[A_ADDR:%.*]] = alloca ptr, align 4
 // CHECK3-NEXT:    [[B_ADDR:%.*]] = alloca ptr, align 4
 // CHECK3-NEXT:    [[A1:%.*]] = alloca i32, align 4
-// CHECK3-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK3-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A1]], align 4
 // CHECK3-NEXT:    [[B2:%.*]] = alloca i16, align 2
-// CHECK3-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i16 poison
-// CHECK3-NEXT:    store i16 [[FREEZE_POISON3]], ptr [[B2]], align 2
 // CHECK3-NEXT:    [[CAPTURED_VARS_ADDRS:%.*]] = alloca [2 x ptr], align 4
 // CHECK3-NEXT:    [[DOTOMP_REDUCTION_RED_LIST:%.*]] = alloca [2 x ptr], align 4
 // CHECK3-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 4
@@ -3102,7 +3102,11 @@ int bar(int n){
 // CHECK3-NEXT:    store ptr [[B]], ptr [[B_ADDR]], align 4
 // CHECK3-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[A_ADDR]], align 4
 // CHECK3-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[B_ADDR]], align 4
+// CHECK3-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK3-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A1]], align 4
 // CHECK3-NEXT:    store i32 0, ptr [[A1]], align 4
+// CHECK3-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i16 poison
+// CHECK3-NEXT:    store i16 [[FREEZE_POISON3]], ptr [[B2]], align 2
 // CHECK3-NEXT:    store i16 -32768, ptr [[B2]], align 2
 // CHECK3-NEXT:    [[TMP2:%.*]] = getelementptr inbounds [2 x ptr], ptr [[CAPTURED_VARS_ADDRS]], i32 0, i32 0
 // CHECK3-NEXT:    store ptr [[A1]], ptr [[TMP2]], align 4
@@ -3152,11 +3156,7 @@ int bar(int n){
 // CHECK3-NEXT:    [[A_ADDR:%.*]] = alloca ptr, align 4
 // CHECK3-NEXT:    [[B_ADDR:%.*]] = alloca ptr, align 4
 // CHECK3-NEXT:    [[A1:%.*]] = alloca i32, align 4
-// CHECK3-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK3-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A1]], align 4
 // CHECK3-NEXT:    [[B2:%.*]] = alloca i16, align 2
-// CHECK3-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i16 poison
-// CHECK3-NEXT:    store i16 [[FREEZE_POISON3]], ptr [[B2]], align 2
 // CHECK3-NEXT:    [[DOTOMP_REDUCTION_RED_LIST:%.*]] = alloca [2 x ptr], align 4
 // CHECK3-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 4
 // CHECK3-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 4
@@ -3164,7 +3164,11 @@ int bar(int n){
 // CHECK3-NEXT:    store ptr [[B]], ptr [[B_ADDR]], align 4
 // CHECK3-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[A_ADDR]], align 4
 // CHECK3-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[B_ADDR]], align 4
+// CHECK3-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK3-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A1]], align 4
 // CHECK3-NEXT:    store i32 0, ptr [[A1]], align 4
+// CHECK3-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i16 poison
+// CHECK3-NEXT:    store i16 [[FREEZE_POISON3]], ptr [[B2]], align 2
 // CHECK3-NEXT:    store i16 -32768, ptr [[B2]], align 2
 // CHECK3-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A1]], align 4
 // CHECK3-NEXT:    [[OR:%.*]] = or i32 [[TMP2]], 1

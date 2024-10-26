@@ -147,31 +147,31 @@ int nested(int a){
 // CHECK-NEXT:    [[DOTBOUND_TID__ADDR:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca i64, align 8
 // CHECK-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
-// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
 // CHECK-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // CHECK-NEXT:    [[DOTOMP_LB:%.*]] = alloca i32, align 4
-// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // CHECK-NEXT:    [[DOTOMP_UB:%.*]] = alloca i32, align 4
-// CHECK-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // CHECK-NEXT:    [[DOTOMP_STRIDE:%.*]] = alloca i32, align 4
-// CHECK-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // CHECK-NEXT:    [[DOTOMP_IS_LAST:%.*]] = alloca i32, align 4
-// CHECK-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // CHECK-NEXT:    [[I:%.*]] = alloca i32, align 4
-// CHECK-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // CHECK-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // CHECK-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // CHECK-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // CHECK-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // CHECK-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META5]]
 // CHECK-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1:[0-9]+]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
@@ -237,31 +237,31 @@ int nested(int a){
 // CHECK-NEXT:    [[DOTBOUND_TID__ADDR:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca i64, align 8
 // CHECK-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
-// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
 // CHECK-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // CHECK-NEXT:    [[DOTOMP_LB:%.*]] = alloca i32, align 4
-// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // CHECK-NEXT:    [[DOTOMP_UB:%.*]] = alloca i32, align 4
-// CHECK-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // CHECK-NEXT:    [[DOTOMP_STRIDE:%.*]] = alloca i32, align 4
-// CHECK-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // CHECK-NEXT:    [[DOTOMP_IS_LAST:%.*]] = alloca i32, align 4
-// CHECK-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // CHECK-NEXT:    [[I:%.*]] = alloca i32, align 4
-// CHECK-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // CHECK-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // CHECK-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // CHECK-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // CHECK-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // CHECK-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META5]]
 // CHECK-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
@@ -389,31 +389,31 @@ int nested(int a){
 // CHECK-X86-NEXT:    [[DOTBOUND_TID__ADDR:%.*]] = alloca ptr, align 4
 // CHECK-X86-NEXT:    [[A_ADDR:%.*]] = alloca i32, align 4
 // CHECK-X86-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
-// CHECK-X86-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK-X86-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
 // CHECK-X86-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // CHECK-X86-NEXT:    [[DOTOMP_LB:%.*]] = alloca i32, align 4
-// CHECK-X86-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// CHECK-X86-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // CHECK-X86-NEXT:    [[DOTOMP_UB:%.*]] = alloca i32, align 4
-// CHECK-X86-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
-// CHECK-X86-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // CHECK-X86-NEXT:    [[DOTOMP_STRIDE:%.*]] = alloca i32, align 4
-// CHECK-X86-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
-// CHECK-X86-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // CHECK-X86-NEXT:    [[DOTOMP_IS_LAST:%.*]] = alloca i32, align 4
-// CHECK-X86-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
-// CHECK-X86-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // CHECK-X86-NEXT:    [[I:%.*]] = alloca i32, align 4
-// CHECK-X86-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
-// CHECK-X86-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // CHECK-X86-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 4
 // CHECK-X86-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 4
 // CHECK-X86-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
+// CHECK-X86-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-X86-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// CHECK-X86-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-X86-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // CHECK-X86-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// CHECK-X86-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-X86-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // CHECK-X86-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// CHECK-X86-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK-X86-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // CHECK-X86-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// CHECK-X86-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK-X86-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // CHECK-X86-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// CHECK-X86-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK-X86-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // CHECK-X86-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 4
 // CHECK-X86-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META6]]
 // CHECK-X86-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1:[0-9]+]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
@@ -479,31 +479,31 @@ int nested(int a){
 // CHECK-X86-NEXT:    [[DOTBOUND_TID__ADDR:%.*]] = alloca ptr, align 4
 // CHECK-X86-NEXT:    [[A_ADDR:%.*]] = alloca i32, align 4
 // CHECK-X86-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
-// CHECK-X86-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK-X86-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
 // CHECK-X86-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // CHECK-X86-NEXT:    [[DOTOMP_LB:%.*]] = alloca i32, align 4
-// CHECK-X86-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// CHECK-X86-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // CHECK-X86-NEXT:    [[DOTOMP_UB:%.*]] = alloca i32, align 4
-// CHECK-X86-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
-// CHECK-X86-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // CHECK-X86-NEXT:    [[DOTOMP_STRIDE:%.*]] = alloca i32, align 4
-// CHECK-X86-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
-// CHECK-X86-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // CHECK-X86-NEXT:    [[DOTOMP_IS_LAST:%.*]] = alloca i32, align 4
-// CHECK-X86-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
-// CHECK-X86-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // CHECK-X86-NEXT:    [[I:%.*]] = alloca i32, align 4
-// CHECK-X86-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
-// CHECK-X86-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // CHECK-X86-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 4
 // CHECK-X86-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 4
 // CHECK-X86-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
+// CHECK-X86-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-X86-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// CHECK-X86-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-X86-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // CHECK-X86-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// CHECK-X86-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-X86-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // CHECK-X86-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// CHECK-X86-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK-X86-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // CHECK-X86-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// CHECK-X86-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK-X86-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // CHECK-X86-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// CHECK-X86-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK-X86-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // CHECK-X86-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 4
 // CHECK-X86-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META6]]
 // CHECK-X86-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
@@ -554,10 +554,10 @@ int nested(int a){
 // SIMD-ONLY0-NEXT:  entry:
 // SIMD-ONLY0-NEXT:    [[A_ADDR:%.*]] = alloca i32, align 4
 // SIMD-ONLY0-NEXT:    [[I:%.*]] = alloca i32, align 4
-// SIMD-ONLY0-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// SIMD-ONLY0-NEXT:    store i32 [[FREEZE_POISON]], ptr [[I]], align 4
 // SIMD-ONLY0-NEXT:    [[F:%.*]] = alloca [[CLASS_ANON:%.*]], align 8
 // SIMD-ONLY0-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
+// SIMD-ONLY0-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// SIMD-ONLY0-NEXT:    store i32 [[FREEZE_POISON]], ptr [[I]], align 4
 // SIMD-ONLY0-NEXT:    store i32 0, ptr [[I]], align 4
 // SIMD-ONLY0-NEXT:    br label [[FOR_COND:%.*]]
 // SIMD-ONLY0:       for.cond:
@@ -587,10 +587,10 @@ int nested(int a){
 // SIMD-ONLY0-X86-NEXT:  entry:
 // SIMD-ONLY0-X86-NEXT:    [[A_ADDR:%.*]] = alloca i32, align 4
 // SIMD-ONLY0-X86-NEXT:    [[I:%.*]] = alloca i32, align 4
-// SIMD-ONLY0-X86-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// SIMD-ONLY0-X86-NEXT:    store i32 [[FREEZE_POISON]], ptr [[I]], align 4
 // SIMD-ONLY0-X86-NEXT:    [[F:%.*]] = alloca [[CLASS_ANON:%.*]], align 4
 // SIMD-ONLY0-X86-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
+// SIMD-ONLY0-X86-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// SIMD-ONLY0-X86-NEXT:    store i32 [[FREEZE_POISON]], ptr [[I]], align 4
 // SIMD-ONLY0-X86-NEXT:    store i32 0, ptr [[I]], align 4
 // SIMD-ONLY0-X86-NEXT:    br label [[FOR_COND:%.*]]
 // SIMD-ONLY0-X86:       for.cond:
@@ -637,31 +637,31 @@ int nested(int a){
 // TCHECK-TARGET-NEXT:    [[DOTBOUND_TID__ADDR:%.*]] = alloca ptr, align 8
 // TCHECK-TARGET-NEXT:    [[A_ADDR:%.*]] = alloca i64, align 8
 // TCHECK-TARGET-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
-// TCHECK-TARGET-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// TCHECK-TARGET-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
 // TCHECK-TARGET-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // TCHECK-TARGET-NEXT:    [[DOTOMP_LB:%.*]] = alloca i32, align 4
-// TCHECK-TARGET-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// TCHECK-TARGET-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // TCHECK-TARGET-NEXT:    [[DOTOMP_UB:%.*]] = alloca i32, align 4
-// TCHECK-TARGET-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
-// TCHECK-TARGET-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // TCHECK-TARGET-NEXT:    [[DOTOMP_STRIDE:%.*]] = alloca i32, align 4
-// TCHECK-TARGET-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
-// TCHECK-TARGET-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // TCHECK-TARGET-NEXT:    [[DOTOMP_IS_LAST:%.*]] = alloca i32, align 4
-// TCHECK-TARGET-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
-// TCHECK-TARGET-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // TCHECK-TARGET-NEXT:    [[I:%.*]] = alloca i32, align 4
-// TCHECK-TARGET-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
-// TCHECK-TARGET-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // TCHECK-TARGET-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // TCHECK-TARGET-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // TCHECK-TARGET-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
+// TCHECK-TARGET-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// TCHECK-TARGET-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// TCHECK-TARGET-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// TCHECK-TARGET-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // TCHECK-TARGET-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// TCHECK-TARGET-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// TCHECK-TARGET-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // TCHECK-TARGET-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// TCHECK-TARGET-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// TCHECK-TARGET-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // TCHECK-TARGET-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// TCHECK-TARGET-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// TCHECK-TARGET-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // TCHECK-TARGET-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// TCHECK-TARGET-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// TCHECK-TARGET-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // TCHECK-TARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // TCHECK-TARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META6]]
 // TCHECK-TARGET-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1:[0-9]+]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
@@ -729,31 +729,31 @@ int nested(int a){
 // TCHECK-TARGET-NEXT:    [[DOTBOUND_TID__ADDR:%.*]] = alloca ptr, align 8
 // TCHECK-TARGET-NEXT:    [[A_ADDR:%.*]] = alloca i64, align 8
 // TCHECK-TARGET-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
-// TCHECK-TARGET-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// TCHECK-TARGET-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
 // TCHECK-TARGET-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // TCHECK-TARGET-NEXT:    [[DOTOMP_LB:%.*]] = alloca i32, align 4
-// TCHECK-TARGET-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// TCHECK-TARGET-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // TCHECK-TARGET-NEXT:    [[DOTOMP_UB:%.*]] = alloca i32, align 4
-// TCHECK-TARGET-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
-// TCHECK-TARGET-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // TCHECK-TARGET-NEXT:    [[DOTOMP_STRIDE:%.*]] = alloca i32, align 4
-// TCHECK-TARGET-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
-// TCHECK-TARGET-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // TCHECK-TARGET-NEXT:    [[DOTOMP_IS_LAST:%.*]] = alloca i32, align 4
-// TCHECK-TARGET-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
-// TCHECK-TARGET-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // TCHECK-TARGET-NEXT:    [[I:%.*]] = alloca i32, align 4
-// TCHECK-TARGET-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
-// TCHECK-TARGET-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // TCHECK-TARGET-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // TCHECK-TARGET-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // TCHECK-TARGET-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
+// TCHECK-TARGET-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// TCHECK-TARGET-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// TCHECK-TARGET-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// TCHECK-TARGET-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // TCHECK-TARGET-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// TCHECK-TARGET-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// TCHECK-TARGET-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // TCHECK-TARGET-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// TCHECK-TARGET-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// TCHECK-TARGET-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // TCHECK-TARGET-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// TCHECK-TARGET-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// TCHECK-TARGET-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // TCHECK-TARGET-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// TCHECK-TARGET-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// TCHECK-TARGET-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // TCHECK-TARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // TCHECK-TARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META6]]
 // TCHECK-TARGET-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
@@ -821,31 +821,31 @@ int nested(int a){
 // TCHECK-TARGET-X86-NEXT:    [[DOTBOUND_TID__ADDR:%.*]] = alloca ptr, align 4
 // TCHECK-TARGET-X86-NEXT:    [[A_ADDR:%.*]] = alloca i32, align 4
 // TCHECK-TARGET-X86-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
-// TCHECK-TARGET-X86-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// TCHECK-TARGET-X86-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
 // TCHECK-TARGET-X86-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // TCHECK-TARGET-X86-NEXT:    [[DOTOMP_LB:%.*]] = alloca i32, align 4
-// TCHECK-TARGET-X86-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// TCHECK-TARGET-X86-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // TCHECK-TARGET-X86-NEXT:    [[DOTOMP_UB:%.*]] = alloca i32, align 4
-// TCHECK-TARGET-X86-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
-// TCHECK-TARGET-X86-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // TCHECK-TARGET-X86-NEXT:    [[DOTOMP_STRIDE:%.*]] = alloca i32, align 4
-// TCHECK-TARGET-X86-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
-// TCHECK-TARGET-X86-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // TCHECK-TARGET-X86-NEXT:    [[DOTOMP_IS_LAST:%.*]] = alloca i32, align 4
-// TCHECK-TARGET-X86-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
-// TCHECK-TARGET-X86-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // TCHECK-TARGET-X86-NEXT:    [[I:%.*]] = alloca i32, align 4
-// TCHECK-TARGET-X86-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
-// TCHECK-TARGET-X86-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // TCHECK-TARGET-X86-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 4
 // TCHECK-TARGET-X86-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 4
 // TCHECK-TARGET-X86-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
+// TCHECK-TARGET-X86-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// TCHECK-TARGET-X86-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// TCHECK-TARGET-X86-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// TCHECK-TARGET-X86-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // TCHECK-TARGET-X86-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// TCHECK-TARGET-X86-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// TCHECK-TARGET-X86-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // TCHECK-TARGET-X86-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// TCHECK-TARGET-X86-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// TCHECK-TARGET-X86-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // TCHECK-TARGET-X86-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// TCHECK-TARGET-X86-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// TCHECK-TARGET-X86-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // TCHECK-TARGET-X86-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// TCHECK-TARGET-X86-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// TCHECK-TARGET-X86-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // TCHECK-TARGET-X86-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 4
 // TCHECK-TARGET-X86-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META7]]
 // TCHECK-TARGET-X86-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1:[0-9]+]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
@@ -913,31 +913,31 @@ int nested(int a){
 // TCHECK-TARGET-X86-NEXT:    [[DOTBOUND_TID__ADDR:%.*]] = alloca ptr, align 4
 // TCHECK-TARGET-X86-NEXT:    [[A_ADDR:%.*]] = alloca i32, align 4
 // TCHECK-TARGET-X86-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
-// TCHECK-TARGET-X86-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// TCHECK-TARGET-X86-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
 // TCHECK-TARGET-X86-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // TCHECK-TARGET-X86-NEXT:    [[DOTOMP_LB:%.*]] = alloca i32, align 4
-// TCHECK-TARGET-X86-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// TCHECK-TARGET-X86-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // TCHECK-TARGET-X86-NEXT:    [[DOTOMP_UB:%.*]] = alloca i32, align 4
-// TCHECK-TARGET-X86-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
-// TCHECK-TARGET-X86-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // TCHECK-TARGET-X86-NEXT:    [[DOTOMP_STRIDE:%.*]] = alloca i32, align 4
-// TCHECK-TARGET-X86-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
-// TCHECK-TARGET-X86-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // TCHECK-TARGET-X86-NEXT:    [[DOTOMP_IS_LAST:%.*]] = alloca i32, align 4
-// TCHECK-TARGET-X86-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
-// TCHECK-TARGET-X86-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // TCHECK-TARGET-X86-NEXT:    [[I:%.*]] = alloca i32, align 4
-// TCHECK-TARGET-X86-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
-// TCHECK-TARGET-X86-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // TCHECK-TARGET-X86-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 4
 // TCHECK-TARGET-X86-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 4
 // TCHECK-TARGET-X86-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
+// TCHECK-TARGET-X86-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// TCHECK-TARGET-X86-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// TCHECK-TARGET-X86-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// TCHECK-TARGET-X86-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // TCHECK-TARGET-X86-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// TCHECK-TARGET-X86-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// TCHECK-TARGET-X86-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // TCHECK-TARGET-X86-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// TCHECK-TARGET-X86-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// TCHECK-TARGET-X86-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // TCHECK-TARGET-X86-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// TCHECK-TARGET-X86-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// TCHECK-TARGET-X86-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // TCHECK-TARGET-X86-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// TCHECK-TARGET-X86-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// TCHECK-TARGET-X86-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // TCHECK-TARGET-X86-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 4
 // TCHECK-TARGET-X86-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META7]]
 // TCHECK-TARGET-X86-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
@@ -988,10 +988,10 @@ int nested(int a){
 // SIMD-ONLY1-TARGET-NEXT:  entry:
 // SIMD-ONLY1-TARGET-NEXT:    [[A_ADDR:%.*]] = alloca i32, align 4
 // SIMD-ONLY1-TARGET-NEXT:    [[I:%.*]] = alloca i32, align 4
-// SIMD-ONLY1-TARGET-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// SIMD-ONLY1-TARGET-NEXT:    store i32 [[FREEZE_POISON]], ptr [[I]], align 4
 // SIMD-ONLY1-TARGET-NEXT:    [[F:%.*]] = alloca [[CLASS_ANON:%.*]], align 8
 // SIMD-ONLY1-TARGET-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
+// SIMD-ONLY1-TARGET-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// SIMD-ONLY1-TARGET-NEXT:    store i32 [[FREEZE_POISON]], ptr [[I]], align 4
 // SIMD-ONLY1-TARGET-NEXT:    store i32 0, ptr [[I]], align 4
 // SIMD-ONLY1-TARGET-NEXT:    br label [[FOR_COND:%.*]]
 // SIMD-ONLY1-TARGET:       for.cond:
@@ -1021,10 +1021,10 @@ int nested(int a){
 // SIMD-ONLY1-TARGET-X86-NEXT:  entry:
 // SIMD-ONLY1-TARGET-X86-NEXT:    [[A_ADDR:%.*]] = alloca i32, align 4
 // SIMD-ONLY1-TARGET-X86-NEXT:    [[I:%.*]] = alloca i32, align 4
-// SIMD-ONLY1-TARGET-X86-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// SIMD-ONLY1-TARGET-X86-NEXT:    store i32 [[FREEZE_POISON]], ptr [[I]], align 4
 // SIMD-ONLY1-TARGET-X86-NEXT:    [[F:%.*]] = alloca [[CLASS_ANON:%.*]], align 4
 // SIMD-ONLY1-TARGET-X86-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
+// SIMD-ONLY1-TARGET-X86-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// SIMD-ONLY1-TARGET-X86-NEXT:    store i32 [[FREEZE_POISON]], ptr [[I]], align 4
 // SIMD-ONLY1-TARGET-X86-NEXT:    store i32 0, ptr [[I]], align 4
 // SIMD-ONLY1-TARGET-X86-NEXT:    br label [[FOR_COND:%.*]]
 // SIMD-ONLY1-TARGET-X86:       for.cond:

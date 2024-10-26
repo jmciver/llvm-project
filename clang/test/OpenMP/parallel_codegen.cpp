@@ -151,14 +151,14 @@ int main (int argc, char **argv) {
 // CHECK1-NEXT:    [[DOTBOUND_TID__ADDR:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    [[VLA_ADDR:%.*]] = alloca i64, align 8
 // CHECK1-NEXT:    [[GLOBAL:%.*]] = alloca i32, align 4
-// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK1-NEXT:    store i32 [[FREEZE_POISON]], ptr [[GLOBAL]], align 4
 // CHECK1-NEXT:    [[SAVED_STACK:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    [[__VLA_EXPR0:%.*]] = alloca i64, align 8
 // CHECK1-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK1-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK1-NEXT:    store i64 [[VLA]], ptr [[VLA_ADDR]], align 8
 // CHECK1-NEXT:    [[TMP0:%.*]] = load i64, ptr [[VLA_ADDR]], align 8, !freeze_bits [[META3]]
+// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK1-NEXT:    store i32 [[FREEZE_POISON]], ptr [[GLOBAL]], align 4
 // CHECK1-NEXT:    [[TMP1:%.*]] = call ptr @llvm.stacksave.p0()
 // CHECK1-NEXT:    store ptr [[TMP1]], ptr [[SAVED_STACK]], align 8
 // CHECK1-NEXT:    [[VLA1:%.*]] = alloca i32, i64 [[TMP0]], align 16
@@ -282,7 +282,9 @@ int main (int argc, char **argv) {
 // CHECK1-NEXT:    invoke void @_Z3fooIPPcEvT_(ptr noundef [[TMP2]])
 // CHECK1-NEXT:            to label [[INVOKE_CONT:%.*]] unwind label [[TERMINATE_LPAD:%.*]]
 // CHECK1:       invoke.cont:
-// CHECK1-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[VAR]], align 8, !freeze_bits [[META3]]
+// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK1-NEXT:    store ptr [[FREEZE_POISON]], ptr [[VAR]], align 8
+// CHECK1-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[VAR]], align 8
 // CHECK1-NEXT:    [[TMP4:%.*]] = mul nsw i64 0, [[TMP1]]
 // CHECK1-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds double, ptr [[TMP3]], i64 [[TMP4]]
 // CHECK1-NEXT:    [[ARRAYIDX1:%.*]] = getelementptr inbounds double, ptr [[ARRAYIDX]], i64 0
@@ -417,8 +419,6 @@ int main (int argc, char **argv) {
 // CHECK2-NEXT:    [[DOTBOUND_TID__ADDR:%.*]] = alloca ptr, align 8
 // CHECK2-NEXT:    [[VLA_ADDR:%.*]] = alloca i64, align 8
 // CHECK2-NEXT:    [[GLOBAL:%.*]] = alloca i32, align 4
-// CHECK2-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK2-NEXT:    store i32 [[FREEZE_POISON]], ptr [[GLOBAL]], align 4
 // CHECK2-NEXT:    [[SAVED_STACK:%.*]] = alloca ptr, align 8
 // CHECK2-NEXT:    [[__VLA_EXPR0:%.*]] = alloca i64, align 8
 // CHECK2-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
@@ -428,6 +428,8 @@ int main (int argc, char **argv) {
 // CHECK2-NEXT:    store i64 [[VLA]], ptr [[VLA_ADDR]], align 8
 // CHECK2-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[VLA_ADDR]], metadata [[META81:![0-9]+]], metadata !DIExpression()), !dbg [[DBG79]]
 // CHECK2-NEXT:    [[TMP0:%.*]] = load i64, ptr [[VLA_ADDR]], align 8, !dbg [[DBG82:![0-9]+]]
+// CHECK2-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison, !dbg [[DBG82]]
+// CHECK2-NEXT:    store i32 [[FREEZE_POISON]], ptr [[GLOBAL]], align 4, !dbg [[DBG82]]
 // CHECK2-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[GLOBAL]], metadata [[META83:![0-9]+]], metadata !DIExpression()), !dbg [[DBG79]]
 // CHECK2-NEXT:    [[TMP1:%.*]] = call ptr @llvm.stacksave.p0(), !dbg [[DBG82]]
 // CHECK2-NEXT:    store ptr [[TMP1]], ptr [[SAVED_STACK]], align 8, !dbg [[DBG82]]
@@ -668,12 +670,14 @@ int main (int argc, char **argv) {
 // CHECK2-NEXT:    invoke void @_Z3fooIPPcEvT_(ptr noundef [[TMP2]])
 // CHECK2-NEXT:            to label [[INVOKE_CONT:%.*]] unwind label [[TERMINATE_LPAD:%.*]], !dbg [[DBG178:![0-9]+]]
 // CHECK2:       invoke.cont:
-// CHECK2-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[VAR]], metadata [[META179:![0-9]+]], metadata !DIExpression()), !dbg [[DBG186:![0-9]+]]
-// CHECK2-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[VAR]], align 8, !dbg [[DBG187:![0-9]+]], !freeze_bits [[META17]]
-// CHECK2-NEXT:    [[TMP4:%.*]] = mul nsw i64 0, [[TMP1]], !dbg [[DBG187]]
-// CHECK2-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds double, ptr [[TMP3]], i64 [[TMP4]], !dbg [[DBG187]]
-// CHECK2-NEXT:    [[ARRAYIDX1:%.*]] = getelementptr inbounds double, ptr [[ARRAYIDX]], i64 0, !dbg [[DBG187]]
-// CHECK2-NEXT:    ret void, !dbg [[DBG188:![0-9]+]]
+// CHECK2-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison, !dbg [[DBG179:![0-9]+]]
+// CHECK2-NEXT:    store ptr [[FREEZE_POISON]], ptr [[VAR]], align 8, !dbg [[DBG179]]
+// CHECK2-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[VAR]], metadata [[META180:![0-9]+]], metadata !DIExpression()), !dbg [[DBG187:![0-9]+]]
+// CHECK2-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[VAR]], align 8, !dbg [[DBG188:![0-9]+]]
+// CHECK2-NEXT:    [[TMP4:%.*]] = mul nsw i64 0, [[TMP1]], !dbg [[DBG188]]
+// CHECK2-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds double, ptr [[TMP3]], i64 [[TMP4]], !dbg [[DBG188]]
+// CHECK2-NEXT:    [[ARRAYIDX1:%.*]] = getelementptr inbounds double, ptr [[ARRAYIDX]], i64 0, !dbg [[DBG188]]
+// CHECK2-NEXT:    ret void, !dbg [[DBG189:![0-9]+]]
 // CHECK2:       terminate.lpad:
 // CHECK2-NEXT:    [[TMP5:%.*]] = landingpad { ptr, i32 }
 // CHECK2-NEXT:            catch ptr null, !dbg [[DBG178]]
@@ -683,36 +687,36 @@ int main (int argc, char **argv) {
 //
 //
 // CHECK2-LABEL: define {{[^@]+}}@_Z3fooIPPcEvT_
-// CHECK2-SAME: (ptr noundef [[ARGC:%.*]]) #[[ATTR3]] comdat !dbg [[DBG189:![0-9]+]] {
+// CHECK2-SAME: (ptr noundef [[ARGC:%.*]]) #[[ATTR3]] comdat !dbg [[DBG190:![0-9]+]] {
 // CHECK2-NEXT:  entry:
 // CHECK2-NEXT:    [[ARGC_ADDR:%.*]] = alloca ptr, align 8
 // CHECK2-NEXT:    store ptr [[ARGC]], ptr [[ARGC_ADDR]], align 8
-// CHECK2-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[ARGC_ADDR]], metadata [[META192:![0-9]+]], metadata !DIExpression()), !dbg [[DBG193:![0-9]+]]
-// CHECK2-NEXT:    ret void, !dbg [[DBG194:![0-9]+]]
+// CHECK2-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[ARGC_ADDR]], metadata [[META193:![0-9]+]], metadata !DIExpression()), !dbg [[DBG194:![0-9]+]]
+// CHECK2-NEXT:    ret void, !dbg [[DBG195:![0-9]+]]
 //
 //
 // CHECK2-LABEL: define {{[^@]+}}@_Z5tmainIPPcEiT_.omp_outlined
-// CHECK2-SAME: (ptr noalias noundef [[DOTGLOBAL_TID_:%.*]], ptr noalias noundef [[DOTBOUND_TID_:%.*]], ptr noundef nonnull align 8 dereferenceable(8) [[ARGC:%.*]], i64 noundef [[VLA:%.*]]) #[[ATTR2]] !dbg [[DBG195:![0-9]+]] {
+// CHECK2-SAME: (ptr noalias noundef [[DOTGLOBAL_TID_:%.*]], ptr noalias noundef [[DOTBOUND_TID_:%.*]], ptr noundef nonnull align 8 dereferenceable(8) [[ARGC:%.*]], i64 noundef [[VLA:%.*]]) #[[ATTR2]] !dbg [[DBG196:![0-9]+]] {
 // CHECK2-NEXT:  entry:
 // CHECK2-NEXT:    [[DOTGLOBAL_TID__ADDR:%.*]] = alloca ptr, align 8
 // CHECK2-NEXT:    [[DOTBOUND_TID__ADDR:%.*]] = alloca ptr, align 8
 // CHECK2-NEXT:    [[ARGC_ADDR:%.*]] = alloca ptr, align 8
 // CHECK2-NEXT:    [[VLA_ADDR:%.*]] = alloca i64, align 8
 // CHECK2-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// CHECK2-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[DOTGLOBAL_TID__ADDR]], metadata [[META196:![0-9]+]], metadata !DIExpression()), !dbg [[DBG197:![0-9]+]]
+// CHECK2-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[DOTGLOBAL_TID__ADDR]], metadata [[META197:![0-9]+]], metadata !DIExpression()), !dbg [[DBG198:![0-9]+]]
 // CHECK2-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
-// CHECK2-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[DOTBOUND_TID__ADDR]], metadata [[META198:![0-9]+]], metadata !DIExpression()), !dbg [[DBG197]]
+// CHECK2-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[DOTBOUND_TID__ADDR]], metadata [[META199:![0-9]+]], metadata !DIExpression()), !dbg [[DBG198]]
 // CHECK2-NEXT:    store ptr [[ARGC]], ptr [[ARGC_ADDR]], align 8
-// CHECK2-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[ARGC_ADDR]], metadata [[META199:![0-9]+]], metadata !DIExpression()), !dbg [[DBG197]]
+// CHECK2-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[ARGC_ADDR]], metadata [[META200:![0-9]+]], metadata !DIExpression()), !dbg [[DBG198]]
 // CHECK2-NEXT:    store i64 [[VLA]], ptr [[VLA_ADDR]], align 8
-// CHECK2-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[VLA_ADDR]], metadata [[META200:![0-9]+]], metadata !DIExpression()), !dbg [[DBG197]]
-// CHECK2-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[ARGC_ADDR]], align 8, !dbg [[DBG201:![0-9]+]]
-// CHECK2-NEXT:    [[TMP1:%.*]] = load i64, ptr [[VLA_ADDR]], align 8, !dbg [[DBG201]], !freeze_bits [[META17]]
-// CHECK2-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !dbg [[DBG201]]
-// CHECK2-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTBOUND_TID__ADDR]], align 8, !dbg [[DBG201]]
-// CHECK2-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[ARGC_ADDR]], align 8, !dbg [[DBG201]]
-// CHECK2-NEXT:    call void @_Z5tmainIPPcEiT_.omp_outlined_debug__(ptr [[TMP2]], ptr [[TMP3]], ptr [[TMP4]], i64 [[TMP1]]) #[[ATTR5]], !dbg [[DBG201]]
-// CHECK2-NEXT:    ret void, !dbg [[DBG201]]
+// CHECK2-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[VLA_ADDR]], metadata [[META201:![0-9]+]], metadata !DIExpression()), !dbg [[DBG198]]
+// CHECK2-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[ARGC_ADDR]], align 8, !dbg [[DBG202:![0-9]+]]
+// CHECK2-NEXT:    [[TMP1:%.*]] = load i64, ptr [[VLA_ADDR]], align 8, !dbg [[DBG202]], !freeze_bits [[META17]]
+// CHECK2-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8, !dbg [[DBG202]]
+// CHECK2-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTBOUND_TID__ADDR]], align 8, !dbg [[DBG202]]
+// CHECK2-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[ARGC_ADDR]], align 8, !dbg [[DBG202]]
+// CHECK2-NEXT:    call void @_Z5tmainIPPcEiT_.omp_outlined_debug__(ptr [[TMP2]], ptr [[TMP3]], ptr [[TMP4]], i64 [[TMP1]]) #[[ATTR5]], !dbg [[DBG202]]
+// CHECK2-NEXT:    ret void, !dbg [[DBG202]]
 //
 //
 // CHECK3-LABEL: define {{[^@]+}}@main
@@ -832,7 +836,9 @@ int main (int argc, char **argv) {
 // CHECK3:       omp.par.region:
 // CHECK3-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[LOADGEP_ARGC_ADDR]], align 8
 // CHECK3-NEXT:    call void @_Z3fooIPPcEvT_(ptr noundef [[TMP3]])
-// CHECK3-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[VAR]], align 8, !freeze_bits [[META3]]
+// CHECK3-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK3-NEXT:    store ptr [[FREEZE_POISON]], ptr [[VAR]], align 8
+// CHECK3-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[VAR]], align 8
 // CHECK3-NEXT:    [[TMP5:%.*]] = mul nsw i64 0, [[TMP2]]
 // CHECK3-NEXT:    [[ARRAYIDX2:%.*]] = getelementptr inbounds double, ptr [[TMP4]], i64 [[TMP5]]
 // CHECK3-NEXT:    [[ARRAYIDX3:%.*]] = getelementptr inbounds double, ptr [[ARRAYIDX2]], i64 0
@@ -976,11 +982,13 @@ int main (int argc, char **argv) {
 // CHECK4:       omp.par.region:
 // CHECK4-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[LOADGEP_ARGC_ADDR]], align 8, !dbg [[DBG56:![0-9]+]]
 // CHECK4-NEXT:    call void @_Z3fooIPPcEvT_(ptr noundef [[TMP3]]), !dbg [[DBG56]]
-// CHECK4-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[VAR]], metadata [[META58:![0-9]+]], metadata !DIExpression()), !dbg [[DBG65:![0-9]+]]
-// CHECK4-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[VAR]], align 8, !dbg [[DBG65]], !freeze_bits [[META17]]
-// CHECK4-NEXT:    [[TMP5:%.*]] = mul nsw i64 0, [[TMP2]], !dbg [[DBG65]]
-// CHECK4-NEXT:    [[ARRAYIDX2:%.*]] = getelementptr inbounds double, ptr [[TMP4]], i64 [[TMP5]], !dbg [[DBG65]]
-// CHECK4-NEXT:    [[ARRAYIDX3:%.*]] = getelementptr inbounds double, ptr [[ARRAYIDX2]], i64 0, !dbg [[DBG65]]
+// CHECK4-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison, !dbg [[DBG58:![0-9]+]]
+// CHECK4-NEXT:    store ptr [[FREEZE_POISON]], ptr [[VAR]], align 8, !dbg [[DBG58]]
+// CHECK4-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[VAR]], metadata [[META59:![0-9]+]], metadata !DIExpression()), !dbg [[DBG58]]
+// CHECK4-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[VAR]], align 8, !dbg [[DBG58]]
+// CHECK4-NEXT:    [[TMP5:%.*]] = mul nsw i64 0, [[TMP2]], !dbg [[DBG58]]
+// CHECK4-NEXT:    [[ARRAYIDX2:%.*]] = getelementptr inbounds double, ptr [[TMP4]], i64 [[TMP5]], !dbg [[DBG58]]
+// CHECK4-NEXT:    [[ARRAYIDX3:%.*]] = getelementptr inbounds double, ptr [[ARRAYIDX2]], i64 0, !dbg [[DBG58]]
 // CHECK4-NEXT:    br label [[OMP_PAR_REGION_PARALLEL_AFTER:%.*]], !dbg [[DBG66:![0-9]+]]
 // CHECK4:       omp.par.region.parallel.after:
 // CHECK4-NEXT:    br label [[OMP_PAR_PRE_FINALIZE:%.*]]

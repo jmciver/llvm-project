@@ -197,8 +197,6 @@ void array_func(int n, float a[n], St s[2]) {
 // CHECK-NEXT:    [[TTT:%.*]] = alloca [[STRUCT_S:%.*]], align 8
 // CHECK-NEXT:    [[TEST:%.*]] = alloca [[STRUCT_S]], align 8
 // CHECK-NEXT:    [[T_VAR:%.*]] = alloca i32, align 4
-// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[T_VAR]], align 4
 // CHECK-NEXT:    [[VEC:%.*]] = alloca [2 x i32], align 4
 // CHECK-NEXT:    [[S_ARR:%.*]] = alloca [2 x %struct.S], align 16
 // CHECK-NEXT:    [[VAR:%.*]] = alloca [[STRUCT_S]], align 8
@@ -206,6 +204,8 @@ void array_func(int n, float a[n], St s[2]) {
 // CHECK-NEXT:    store i32 0, ptr [[RETVAL]], align 4
 // CHECK-NEXT:    call void @_ZN1SIdEC1Ev(ptr noundef nonnull align 8 dereferenceable(8) [[TTT]])
 // CHECK-NEXT:    call void @_ZN1SIdEC1ERKS0_d(ptr noundef nonnull align 8 dereferenceable(8) [[TEST]], ptr noundef nonnull align 8 dereferenceable(8) [[TTT]], double noundef 0.000000e+00)
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[T_VAR]], align 4
 // CHECK-NEXT:    store i32 0, ptr [[T_VAR]], align 4
 // CHECK-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 4 [[VEC]], ptr align 4 @__const.main.vec, i64 8, i1 false)
 // CHECK-NEXT:    call void @_ZN1SIdEC1Ed(ptr noundef nonnull align 8 dereferenceable(8) [[S_ARR]], double noundef 1.000000e+00)
@@ -435,11 +435,7 @@ void array_func(int n, float a[n], St s[2]) {
 // CHECK-NEXT:    call void @llvm.experimental.noalias.scope.decl(metadata [[META9:![0-9]+]])
 // CHECK-NEXT:    call void @llvm.experimental.noalias.scope.decl(metadata [[META11:![0-9]+]])
 // CHECK-NEXT:    call void @llvm.experimental.noalias.scope.decl(metadata [[META13:![0-9]+]])
-// CHECK-NEXT:    [[FREEZE_POISON_I:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON_I]], ptr [[I_I]], align 4, !noalias [[META15:![0-9]+]]
-// CHECK-NEXT:    [[FREEZE_POISON5_I:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON5_I]], ptr [[DOTOMP_IV_I]], align 4, !noalias [[META15]]
-// CHECK-NEXT:    store i32 [[TMP2]], ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias [[META15]]
+// CHECK-NEXT:    store i32 [[TMP2]], ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias [[META15:![0-9]+]]
 // CHECK-NEXT:    store ptr [[TMP5]], ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias [[META15]]
 // CHECK-NEXT:    store ptr [[TMP8]], ptr [[DOTPRIVATES__ADDR_I]], align 8, !noalias [[META15]]
 // CHECK-NEXT:    store ptr @.omp_task_privates_map., ptr [[DOTCOPY_FN__ADDR_I]], align 8, !noalias [[META15]]
@@ -459,6 +455,10 @@ void array_func(int n, float a[n], St s[2]) {
 // CHECK-NEXT:    [[TMP24:%.*]] = load ptr, ptr [[DOTFIRSTPRIV_PTR_ADDR2_I]], align 8, !noalias [[META15]], !freeze_bits [[META3]]
 // CHECK-NEXT:    [[TMP25:%.*]] = load ptr, ptr [[DOTFIRSTPRIV_PTR_ADDR3_I]], align 8, !noalias [[META15]], !freeze_bits [[META3]]
 // CHECK-NEXT:    [[TMP26:%.*]] = load ptr, ptr [[DOTFIRSTPRIV_PTR_ADDR4_I]], align 8, !noalias [[META15]], !freeze_bits [[META3]]
+// CHECK-NEXT:    [[FREEZE_POISON_I:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON_I]], ptr [[I_I]], align 4, !noalias [[META15]]
+// CHECK-NEXT:    [[FREEZE_POISON5_I:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON5_I]], ptr [[DOTOMP_IV_I]], align 4, !noalias [[META15]]
 // CHECK-NEXT:    [[TMP27:%.*]] = load i64, ptr [[DOTLB__ADDR_I]], align 8, !noalias [[META15]]
 // CHECK-NEXT:    [[CONV_I:%.*]] = trunc i64 [[TMP27]] to i32
 // CHECK-NEXT:    store i32 [[CONV_I]], ptr [[DOTOMP_IV_I]], align 4, !noalias [[META15]]
@@ -566,14 +566,14 @@ void array_func(int n, float a[n], St s[2]) {
 // CHECK-NEXT:    [[TTT:%.*]] = alloca [[STRUCT_S_0:%.*]], align 4
 // CHECK-NEXT:    [[TEST:%.*]] = alloca [[STRUCT_S_0]], align 4
 // CHECK-NEXT:    [[T_VAR:%.*]] = alloca i32, align 128
-// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[T_VAR]], align 4
 // CHECK-NEXT:    [[VEC:%.*]] = alloca [2 x i32], align 4
 // CHECK-NEXT:    [[S_ARR:%.*]] = alloca [2 x %struct.S.0], align 4
 // CHECK-NEXT:    [[VAR:%.*]] = alloca [[STRUCT_S_0]], align 4
 // CHECK-NEXT:    [[T_VAR_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NEXT:    call void @_ZN1SIiEC1Ev(ptr noundef nonnull align 4 dereferenceable(4) [[TTT]])
 // CHECK-NEXT:    call void @_ZN1SIiEC1ERKS0_i(ptr noundef nonnull align 4 dereferenceable(4) [[TEST]], ptr noundef nonnull align 4 dereferenceable(4) [[TTT]], i32 noundef 0)
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[T_VAR]], align 128
 // CHECK-NEXT:    store i32 0, ptr [[T_VAR]], align 128
 // CHECK-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 4 [[VEC]], ptr align 4 @__const._Z5tmainIiET_v.vec, i64 8, i1 false)
 // CHECK-NEXT:    call void @_ZN1SIiEC1Ei(ptr noundef nonnull align 4 dereferenceable(4) [[S_ARR]], i32 noundef 1)
@@ -847,11 +847,7 @@ void array_func(int n, float a[n], St s[2]) {
 // CHECK-NEXT:    call void @llvm.experimental.noalias.scope.decl(metadata [[META23:![0-9]+]])
 // CHECK-NEXT:    call void @llvm.experimental.noalias.scope.decl(metadata [[META25:![0-9]+]])
 // CHECK-NEXT:    call void @llvm.experimental.noalias.scope.decl(metadata [[META27:![0-9]+]])
-// CHECK-NEXT:    [[FREEZE_POISON_I:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON_I]], ptr [[I_I]], align 4, !noalias [[META29:![0-9]+]]
-// CHECK-NEXT:    [[FREEZE_POISON4_I:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON4_I]], ptr [[DOTOMP_IV_I]], align 4, !noalias [[META29]]
-// CHECK-NEXT:    store i32 [[TMP2]], ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias [[META29]]
+// CHECK-NEXT:    store i32 [[TMP2]], ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias [[META29:![0-9]+]]
 // CHECK-NEXT:    store ptr [[TMP5]], ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias [[META29]]
 // CHECK-NEXT:    store ptr [[TMP8]], ptr [[DOTPRIVATES__ADDR_I]], align 8, !noalias [[META29]]
 // CHECK-NEXT:    store ptr @.omp_task_privates_map..2, ptr [[DOTCOPY_FN__ADDR_I]], align 8, !noalias [[META29]]
@@ -870,6 +866,10 @@ void array_func(int n, float a[n], St s[2]) {
 // CHECK-NEXT:    [[TMP23:%.*]] = load ptr, ptr [[DOTFIRSTPRIV_PTR_ADDR1_I]], align 8, !noalias [[META29]], !freeze_bits [[META3]]
 // CHECK-NEXT:    [[TMP24:%.*]] = load ptr, ptr [[DOTFIRSTPRIV_PTR_ADDR2_I]], align 8, !noalias [[META29]], !freeze_bits [[META3]]
 // CHECK-NEXT:    [[TMP25:%.*]] = load ptr, ptr [[DOTFIRSTPRIV_PTR_ADDR3_I]], align 8, !noalias [[META29]], !freeze_bits [[META3]]
+// CHECK-NEXT:    [[FREEZE_POISON_I:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON_I]], ptr [[I_I]], align 4, !noalias [[META29]]
+// CHECK-NEXT:    [[FREEZE_POISON4_I:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON4_I]], ptr [[DOTOMP_IV_I]], align 4, !noalias [[META29]]
 // CHECK-NEXT:    [[TMP26:%.*]] = load i64, ptr [[DOTLB__ADDR_I]], align 8, !noalias [[META29]]
 // CHECK-NEXT:    [[CONV_I:%.*]] = trunc i64 [[TMP26]] to i32
 // CHECK-NEXT:    store i32 [[CONV_I]], ptr [[DOTOMP_IV_I]], align 4, !noalias [[META29]]
@@ -1097,11 +1097,7 @@ void array_func(int n, float a[n], St s[2]) {
 // LAMBDA-NEXT:    call void @llvm.experimental.noalias.scope.decl(metadata [[META9:![0-9]+]])
 // LAMBDA-NEXT:    call void @llvm.experimental.noalias.scope.decl(metadata [[META11:![0-9]+]])
 // LAMBDA-NEXT:    call void @llvm.experimental.noalias.scope.decl(metadata [[META13:![0-9]+]])
-// LAMBDA-NEXT:    [[FREEZE_POISON_I:%.*]] = freeze i32 poison
-// LAMBDA-NEXT:    store i32 [[FREEZE_POISON_I]], ptr [[I_I]], align 4, !noalias [[META15:![0-9]+]]
-// LAMBDA-NEXT:    [[FREEZE_POISON2_I:%.*]] = freeze i32 poison
-// LAMBDA-NEXT:    store i32 [[FREEZE_POISON2_I]], ptr [[DOTOMP_IV_I]], align 4, !noalias [[META15]]
-// LAMBDA-NEXT:    store i32 [[TMP2]], ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias [[META15]]
+// LAMBDA-NEXT:    store i32 [[TMP2]], ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias [[META15:![0-9]+]]
 // LAMBDA-NEXT:    store ptr [[TMP5]], ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias [[META15]]
 // LAMBDA-NEXT:    store ptr [[TMP8]], ptr [[DOTPRIVATES__ADDR_I]], align 8, !noalias [[META15]]
 // LAMBDA-NEXT:    store ptr @.omp_task_privates_map., ptr [[DOTCOPY_FN__ADDR_I]], align 8, !noalias [[META15]]
@@ -1118,6 +1114,10 @@ void array_func(int n, float a[n], St s[2]) {
 // LAMBDA-NEXT:    call void [[TMP20]](ptr [[TMP21]], ptr [[DOTFIRSTPRIV_PTR_ADDR_I]], ptr [[DOTFIRSTPRIV_PTR_ADDR1_I]]) #[[ATTR3:[0-9]+]]
 // LAMBDA-NEXT:    [[TMP22:%.*]] = load ptr, ptr [[DOTFIRSTPRIV_PTR_ADDR_I]], align 8, !noalias [[META15]], !freeze_bits [[META3]]
 // LAMBDA-NEXT:    [[TMP23:%.*]] = load ptr, ptr [[DOTFIRSTPRIV_PTR_ADDR1_I]], align 8, !noalias [[META15]], !freeze_bits [[META3]]
+// LAMBDA-NEXT:    [[FREEZE_POISON_I:%.*]] = freeze i32 poison
+// LAMBDA-NEXT:    store i32 [[FREEZE_POISON_I]], ptr [[I_I]], align 4, !noalias [[META15]]
+// LAMBDA-NEXT:    [[FREEZE_POISON2_I:%.*]] = freeze i32 poison
+// LAMBDA-NEXT:    store i32 [[FREEZE_POISON2_I]], ptr [[DOTOMP_IV_I]], align 4, !noalias [[META15]]
 // LAMBDA-NEXT:    [[TMP24:%.*]] = load i64, ptr [[DOTLB__ADDR_I]], align 8, !noalias [[META15]]
 // LAMBDA-NEXT:    [[CONV_I:%.*]] = trunc i64 [[TMP24]] to i32
 // LAMBDA-NEXT:    store i32 [[CONV_I]], ptr [[DOTOMP_IV_I]], align 4, !noalias [[META15]]
@@ -1286,11 +1286,7 @@ void array_func(int n, float a[n], St s[2]) {
 // BLOCKS-NEXT:    call void @llvm.experimental.noalias.scope.decl(metadata [[META9:![0-9]+]])
 // BLOCKS-NEXT:    call void @llvm.experimental.noalias.scope.decl(metadata [[META11:![0-9]+]])
 // BLOCKS-NEXT:    call void @llvm.experimental.noalias.scope.decl(metadata [[META13:![0-9]+]])
-// BLOCKS-NEXT:    [[FREEZE_POISON_I:%.*]] = freeze i32 poison
-// BLOCKS-NEXT:    store i32 [[FREEZE_POISON_I]], ptr [[I_I]], align 4, !noalias [[META15:![0-9]+]]
-// BLOCKS-NEXT:    [[FREEZE_POISON2_I:%.*]] = freeze i32 poison
-// BLOCKS-NEXT:    store i32 [[FREEZE_POISON2_I]], ptr [[DOTOMP_IV_I]], align 4, !noalias [[META15]]
-// BLOCKS-NEXT:    store i32 [[TMP2]], ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias [[META15]]
+// BLOCKS-NEXT:    store i32 [[TMP2]], ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias [[META15:![0-9]+]]
 // BLOCKS-NEXT:    store ptr [[TMP5]], ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias [[META15]]
 // BLOCKS-NEXT:    store ptr [[TMP8]], ptr [[DOTPRIVATES__ADDR_I]], align 8, !noalias [[META15]]
 // BLOCKS-NEXT:    store ptr @.omp_task_privates_map., ptr [[DOTCOPY_FN__ADDR_I]], align 8, !noalias [[META15]]
@@ -1307,6 +1303,10 @@ void array_func(int n, float a[n], St s[2]) {
 // BLOCKS-NEXT:    call void [[TMP20]](ptr [[TMP21]], ptr [[DOTFIRSTPRIV_PTR_ADDR_I]], ptr [[DOTFIRSTPRIV_PTR_ADDR1_I]]) #[[ATTR4:[0-9]+]]
 // BLOCKS-NEXT:    [[TMP22:%.*]] = load ptr, ptr [[DOTFIRSTPRIV_PTR_ADDR_I]], align 8, !noalias [[META15]], !freeze_bits [[META3]]
 // BLOCKS-NEXT:    [[TMP23:%.*]] = load ptr, ptr [[DOTFIRSTPRIV_PTR_ADDR1_I]], align 8, !noalias [[META15]], !freeze_bits [[META3]]
+// BLOCKS-NEXT:    [[FREEZE_POISON_I:%.*]] = freeze i32 poison
+// BLOCKS-NEXT:    store i32 [[FREEZE_POISON_I]], ptr [[I_I]], align 4, !noalias [[META15]]
+// BLOCKS-NEXT:    [[FREEZE_POISON2_I:%.*]] = freeze i32 poison
+// BLOCKS-NEXT:    store i32 [[FREEZE_POISON2_I]], ptr [[DOTOMP_IV_I]], align 4, !noalias [[META15]]
 // BLOCKS-NEXT:    [[TMP24:%.*]] = load i64, ptr [[DOTLB__ADDR_I]], align 8, !noalias [[META15]]
 // BLOCKS-NEXT:    [[CONV_I:%.*]] = trunc i64 [[TMP24]] to i32
 // BLOCKS-NEXT:    store i32 [[CONV_I]], ptr [[DOTOMP_IV_I]], align 4, !noalias [[META15]]
@@ -1482,11 +1482,7 @@ void array_func(int n, float a[n], St s[2]) {
 // ARRAY-NEXT:    call void @llvm.experimental.noalias.scope.decl(metadata [[META9:![0-9]+]])
 // ARRAY-NEXT:    call void @llvm.experimental.noalias.scope.decl(metadata [[META11:![0-9]+]])
 // ARRAY-NEXT:    call void @llvm.experimental.noalias.scope.decl(metadata [[META13:![0-9]+]])
-// ARRAY-NEXT:    [[FREEZE_POISON_I:%.*]] = freeze i32 poison
-// ARRAY-NEXT:    store i32 [[FREEZE_POISON_I]], ptr [[I_I]], align 4, !noalias [[META15:![0-9]+]]
-// ARRAY-NEXT:    [[FREEZE_POISON2_I:%.*]] = freeze i32 poison
-// ARRAY-NEXT:    store i32 [[FREEZE_POISON2_I]], ptr [[DOTOMP_IV_I]], align 4, !noalias [[META15]]
-// ARRAY-NEXT:    store i32 [[TMP2]], ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias [[META15]]
+// ARRAY-NEXT:    store i32 [[TMP2]], ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias [[META15:![0-9]+]]
 // ARRAY-NEXT:    store ptr [[TMP5]], ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias [[META15]]
 // ARRAY-NEXT:    store ptr [[TMP8]], ptr [[DOTPRIVATES__ADDR_I]], align 8, !noalias [[META15]]
 // ARRAY-NEXT:    store ptr @.omp_task_privates_map., ptr [[DOTCOPY_FN__ADDR_I]], align 8, !noalias [[META15]]
@@ -1504,6 +1500,10 @@ void array_func(int n, float a[n], St s[2]) {
 // ARRAY-NEXT:    call void [[TMP21]](ptr [[TMP22]], ptr [[DOTFIRSTPRIV_PTR_ADDR_I]], ptr [[DOTFIRSTPRIV_PTR_ADDR1_I]]) #[[ATTR2:[0-9]+]]
 // ARRAY-NEXT:    [[TMP23:%.*]] = load ptr, ptr [[DOTFIRSTPRIV_PTR_ADDR_I]], align 8, !noalias [[META15]], !freeze_bits [[META3]]
 // ARRAY-NEXT:    [[TMP24:%.*]] = load ptr, ptr [[DOTFIRSTPRIV_PTR_ADDR1_I]], align 8, !noalias [[META15]], !freeze_bits [[META3]]
+// ARRAY-NEXT:    [[FREEZE_POISON_I:%.*]] = freeze i32 poison
+// ARRAY-NEXT:    store i32 [[FREEZE_POISON_I]], ptr [[I_I]], align 4, !noalias [[META15]]
+// ARRAY-NEXT:    [[FREEZE_POISON2_I:%.*]] = freeze i32 poison
+// ARRAY-NEXT:    store i32 [[FREEZE_POISON2_I]], ptr [[DOTOMP_IV_I]], align 4, !noalias [[META15]]
 // ARRAY-NEXT:    [[TMP25:%.*]] = load i64, ptr [[DOTLB__ADDR_I]], align 8, !noalias [[META15]]
 // ARRAY-NEXT:    [[CONV_I:%.*]] = trunc i64 [[TMP25]] to i32
 // ARRAY-NEXT:    store i32 [[CONV_I]], ptr [[DOTOMP_IV_I]], align 4, !noalias [[META15]]
@@ -1532,23 +1532,23 @@ void array_func(int n, float a[n], St s[2]) {
 // SIMD-ONLY0-NEXT:    [[TTT:%.*]] = alloca [[STRUCT_S:%.*]], align 8
 // SIMD-ONLY0-NEXT:    [[TEST:%.*]] = alloca [[STRUCT_S]], align 8
 // SIMD-ONLY0-NEXT:    [[T_VAR:%.*]] = alloca i32, align 4
-// SIMD-ONLY0-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// SIMD-ONLY0-NEXT:    store i32 [[FREEZE_POISON]], ptr [[T_VAR]], align 4
 // SIMD-ONLY0-NEXT:    [[VEC:%.*]] = alloca [2 x i32], align 4
 // SIMD-ONLY0-NEXT:    [[S_ARR:%.*]] = alloca [2 x %struct.S], align 16
 // SIMD-ONLY0-NEXT:    [[VAR:%.*]] = alloca [[STRUCT_S]], align 8
 // SIMD-ONLY0-NEXT:    [[I:%.*]] = alloca i32, align 4
-// SIMD-ONLY0-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// SIMD-ONLY0-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[I]], align 4
 // SIMD-ONLY0-NEXT:    store i32 0, ptr [[RETVAL]], align 4
 // SIMD-ONLY0-NEXT:    call void @_ZN1SIdEC1Ev(ptr noundef nonnull align 8 dereferenceable(8) [[TTT]])
 // SIMD-ONLY0-NEXT:    call void @_ZN1SIdEC1ERKS0_d(ptr noundef nonnull align 8 dereferenceable(8) [[TEST]], ptr noundef nonnull align 8 dereferenceable(8) [[TTT]], double noundef 0.000000e+00)
+// SIMD-ONLY0-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// SIMD-ONLY0-NEXT:    store i32 [[FREEZE_POISON]], ptr [[T_VAR]], align 4
 // SIMD-ONLY0-NEXT:    store i32 0, ptr [[T_VAR]], align 4
 // SIMD-ONLY0-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 4 [[VEC]], ptr align 4 @__const.main.vec, i64 8, i1 false)
 // SIMD-ONLY0-NEXT:    call void @_ZN1SIdEC1Ed(ptr noundef nonnull align 8 dereferenceable(8) [[S_ARR]], double noundef 1.000000e+00)
 // SIMD-ONLY0-NEXT:    [[ARRAYINIT_ELEMENT:%.*]] = getelementptr inbounds [[STRUCT_S]], ptr [[S_ARR]], i64 1
 // SIMD-ONLY0-NEXT:    call void @_ZN1SIdEC1Ed(ptr noundef nonnull align 8 dereferenceable(8) [[ARRAYINIT_ELEMENT]], double noundef 2.000000e+00)
 // SIMD-ONLY0-NEXT:    call void @_ZN1SIdEC1Ed(ptr noundef nonnull align 8 dereferenceable(8) [[VAR]], double noundef 3.000000e+00)
+// SIMD-ONLY0-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// SIMD-ONLY0-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[I]], align 4
 // SIMD-ONLY0-NEXT:    store i32 0, ptr [[I]], align 4
 // SIMD-ONLY0-NEXT:    br label [[FOR_COND:%.*]]
 // SIMD-ONLY0:       for.cond:
@@ -1634,22 +1634,22 @@ void array_func(int n, float a[n], St s[2]) {
 // SIMD-ONLY0-NEXT:    [[TTT:%.*]] = alloca [[STRUCT_S_0:%.*]], align 4
 // SIMD-ONLY0-NEXT:    [[TEST:%.*]] = alloca [[STRUCT_S_0]], align 4
 // SIMD-ONLY0-NEXT:    [[T_VAR:%.*]] = alloca i32, align 128
-// SIMD-ONLY0-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// SIMD-ONLY0-NEXT:    store i32 [[FREEZE_POISON]], ptr [[T_VAR]], align 4
 // SIMD-ONLY0-NEXT:    [[VEC:%.*]] = alloca [2 x i32], align 4
 // SIMD-ONLY0-NEXT:    [[S_ARR:%.*]] = alloca [2 x %struct.S.0], align 4
 // SIMD-ONLY0-NEXT:    [[VAR:%.*]] = alloca [[STRUCT_S_0]], align 4
 // SIMD-ONLY0-NEXT:    [[I:%.*]] = alloca i32, align 4
-// SIMD-ONLY0-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// SIMD-ONLY0-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[I]], align 4
 // SIMD-ONLY0-NEXT:    call void @_ZN1SIiEC1Ev(ptr noundef nonnull align 4 dereferenceable(4) [[TTT]])
 // SIMD-ONLY0-NEXT:    call void @_ZN1SIiEC1ERKS0_i(ptr noundef nonnull align 4 dereferenceable(4) [[TEST]], ptr noundef nonnull align 4 dereferenceable(4) [[TTT]], i32 noundef 0)
+// SIMD-ONLY0-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// SIMD-ONLY0-NEXT:    store i32 [[FREEZE_POISON]], ptr [[T_VAR]], align 128
 // SIMD-ONLY0-NEXT:    store i32 0, ptr [[T_VAR]], align 128
 // SIMD-ONLY0-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 4 [[VEC]], ptr align 4 @__const._Z5tmainIiET_v.vec, i64 8, i1 false)
 // SIMD-ONLY0-NEXT:    call void @_ZN1SIiEC1Ei(ptr noundef nonnull align 4 dereferenceable(4) [[S_ARR]], i32 noundef 1)
 // SIMD-ONLY0-NEXT:    [[ARRAYINIT_ELEMENT:%.*]] = getelementptr inbounds [[STRUCT_S_0]], ptr [[S_ARR]], i64 1
 // SIMD-ONLY0-NEXT:    call void @_ZN1SIiEC1Ei(ptr noundef nonnull align 4 dereferenceable(4) [[ARRAYINIT_ELEMENT]], i32 noundef 2)
 // SIMD-ONLY0-NEXT:    call void @_ZN1SIiEC1Ei(ptr noundef nonnull align 4 dereferenceable(4) [[VAR]], i32 noundef 3)
+// SIMD-ONLY0-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// SIMD-ONLY0-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[I]], align 4
 // SIMD-ONLY0-NEXT:    store i32 0, ptr [[I]], align 4
 // SIMD-ONLY0-NEXT:    br label [[FOR_COND:%.*]]
 // SIMD-ONLY0:       for.cond:
@@ -1861,23 +1861,23 @@ void array_func(int n, float a[n], St s[2]) {
 // SIMD-ONLY1-NEXT:    [[TTT:%.*]] = alloca [[STRUCT_S:%.*]], align 8
 // SIMD-ONLY1-NEXT:    [[TEST:%.*]] = alloca [[STRUCT_S]], align 8
 // SIMD-ONLY1-NEXT:    [[T_VAR:%.*]] = alloca i32, align 4
-// SIMD-ONLY1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// SIMD-ONLY1-NEXT:    store i32 [[FREEZE_POISON]], ptr [[T_VAR]], align 4
 // SIMD-ONLY1-NEXT:    [[VEC:%.*]] = alloca [2 x i32], align 4
 // SIMD-ONLY1-NEXT:    [[S_ARR:%.*]] = alloca [2 x %struct.S], align 16
 // SIMD-ONLY1-NEXT:    [[VAR:%.*]] = alloca [[STRUCT_S]], align 8
 // SIMD-ONLY1-NEXT:    [[I:%.*]] = alloca i32, align 4
-// SIMD-ONLY1-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// SIMD-ONLY1-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[I]], align 4
 // SIMD-ONLY1-NEXT:    store i32 0, ptr [[RETVAL]], align 4
 // SIMD-ONLY1-NEXT:    call void @_ZN1SIdEC1Ev(ptr noundef nonnull align 8 dereferenceable(8) [[TTT]])
 // SIMD-ONLY1-NEXT:    call void @_ZN1SIdEC1ERKS0_d(ptr noundef nonnull align 8 dereferenceable(8) [[TEST]], ptr noundef nonnull align 8 dereferenceable(8) [[TTT]], double noundef 0.000000e+00)
+// SIMD-ONLY1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// SIMD-ONLY1-NEXT:    store i32 [[FREEZE_POISON]], ptr [[T_VAR]], align 4
 // SIMD-ONLY1-NEXT:    store i32 0, ptr [[T_VAR]], align 4
 // SIMD-ONLY1-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 4 [[VEC]], ptr align 4 @__const.main.vec, i64 8, i1 false)
 // SIMD-ONLY1-NEXT:    call void @_ZN1SIdEC1Ed(ptr noundef nonnull align 8 dereferenceable(8) [[S_ARR]], double noundef 1.000000e+00)
 // SIMD-ONLY1-NEXT:    [[ARRAYINIT_ELEMENT:%.*]] = getelementptr inbounds [[STRUCT_S]], ptr [[S_ARR]], i64 1
 // SIMD-ONLY1-NEXT:    call void @_ZN1SIdEC1Ed(ptr noundef nonnull align 8 dereferenceable(8) [[ARRAYINIT_ELEMENT]], double noundef 2.000000e+00)
 // SIMD-ONLY1-NEXT:    call void @_ZN1SIdEC1Ed(ptr noundef nonnull align 8 dereferenceable(8) [[VAR]], double noundef 3.000000e+00)
+// SIMD-ONLY1-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// SIMD-ONLY1-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[I]], align 4
 // SIMD-ONLY1-NEXT:    store i32 0, ptr [[I]], align 4
 // SIMD-ONLY1-NEXT:    br label [[FOR_COND:%.*]]
 // SIMD-ONLY1:       for.cond:
@@ -1963,22 +1963,22 @@ void array_func(int n, float a[n], St s[2]) {
 // SIMD-ONLY1-NEXT:    [[TTT:%.*]] = alloca [[STRUCT_S_0:%.*]], align 4
 // SIMD-ONLY1-NEXT:    [[TEST:%.*]] = alloca [[STRUCT_S_0]], align 4
 // SIMD-ONLY1-NEXT:    [[T_VAR:%.*]] = alloca i32, align 128
-// SIMD-ONLY1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// SIMD-ONLY1-NEXT:    store i32 [[FREEZE_POISON]], ptr [[T_VAR]], align 4
 // SIMD-ONLY1-NEXT:    [[VEC:%.*]] = alloca [2 x i32], align 4
 // SIMD-ONLY1-NEXT:    [[S_ARR:%.*]] = alloca [2 x %struct.S.0], align 4
 // SIMD-ONLY1-NEXT:    [[VAR:%.*]] = alloca [[STRUCT_S_0]], align 4
 // SIMD-ONLY1-NEXT:    [[I:%.*]] = alloca i32, align 4
-// SIMD-ONLY1-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// SIMD-ONLY1-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[I]], align 4
 // SIMD-ONLY1-NEXT:    call void @_ZN1SIiEC1Ev(ptr noundef nonnull align 4 dereferenceable(4) [[TTT]])
 // SIMD-ONLY1-NEXT:    call void @_ZN1SIiEC1ERKS0_i(ptr noundef nonnull align 4 dereferenceable(4) [[TEST]], ptr noundef nonnull align 4 dereferenceable(4) [[TTT]], i32 noundef 0)
+// SIMD-ONLY1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// SIMD-ONLY1-NEXT:    store i32 [[FREEZE_POISON]], ptr [[T_VAR]], align 128
 // SIMD-ONLY1-NEXT:    store i32 0, ptr [[T_VAR]], align 128
 // SIMD-ONLY1-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 4 [[VEC]], ptr align 4 @__const._Z5tmainIiET_v.vec, i64 8, i1 false)
 // SIMD-ONLY1-NEXT:    call void @_ZN1SIiEC1Ei(ptr noundef nonnull align 4 dereferenceable(4) [[S_ARR]], i32 noundef 1)
 // SIMD-ONLY1-NEXT:    [[ARRAYINIT_ELEMENT:%.*]] = getelementptr inbounds [[STRUCT_S_0]], ptr [[S_ARR]], i64 1
 // SIMD-ONLY1-NEXT:    call void @_ZN1SIiEC1Ei(ptr noundef nonnull align 4 dereferenceable(4) [[ARRAYINIT_ELEMENT]], i32 noundef 2)
 // SIMD-ONLY1-NEXT:    call void @_ZN1SIiEC1Ei(ptr noundef nonnull align 4 dereferenceable(4) [[VAR]], i32 noundef 3)
+// SIMD-ONLY1-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// SIMD-ONLY1-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[I]], align 4
 // SIMD-ONLY1-NEXT:    store i32 0, ptr [[I]], align 4
 // SIMD-ONLY1-NEXT:    br label [[FOR_COND:%.*]]
 // SIMD-ONLY1:       for.cond:
@@ -2209,11 +2209,11 @@ void array_func(int n, float a[n], St s[2]) {
 // SIMD-ONLY3-NEXT:    [[DOTBLOCK_DESCRIPTOR_ADDR:%.*]] = alloca ptr, align 8
 // SIMD-ONLY3-NEXT:    [[BLOCK_ADDR:%.*]] = alloca ptr, align 8
 // SIMD-ONLY3-NEXT:    [[I:%.*]] = alloca i32, align 4
-// SIMD-ONLY3-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// SIMD-ONLY3-NEXT:    store i32 [[FREEZE_POISON]], ptr [[I]], align 4
 // SIMD-ONLY3-NEXT:    [[BLOCK:%.*]] = alloca <{ ptr, i32, i32, ptr, ptr, double, i32 }>, align 8
 // SIMD-ONLY3-NEXT:    store ptr [[DOTBLOCK_DESCRIPTOR]], ptr [[DOTBLOCK_DESCRIPTOR_ADDR]], align 8
 // SIMD-ONLY3-NEXT:    store ptr [[DOTBLOCK_DESCRIPTOR]], ptr [[BLOCK_ADDR]], align 8
+// SIMD-ONLY3-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// SIMD-ONLY3-NEXT:    store i32 [[FREEZE_POISON]], ptr [[I]], align 4
 // SIMD-ONLY3-NEXT:    store i32 0, ptr [[I]], align 4
 // SIMD-ONLY3-NEXT:    br label [[FOR_COND:%.*]]
 // SIMD-ONLY3:       for.cond:
@@ -2273,13 +2273,13 @@ void array_func(int n, float a[n], St s[2]) {
 // SIMD-ONLY4-NEXT:    [[A_ADDR:%.*]] = alloca ptr, align 8
 // SIMD-ONLY4-NEXT:    [[S_ADDR:%.*]] = alloca ptr, align 8
 // SIMD-ONLY4-NEXT:    [[I:%.*]] = alloca i32, align 4
-// SIMD-ONLY4-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// SIMD-ONLY4-NEXT:    store i32 [[FREEZE_POISON]], ptr [[I]], align 4
 // SIMD-ONLY4-NEXT:    store i32 [[N]], ptr [[N_ADDR]], align 4
 // SIMD-ONLY4-NEXT:    store ptr [[A]], ptr [[A_ADDR]], align 8
 // SIMD-ONLY4-NEXT:    store ptr [[S]], ptr [[S_ADDR]], align 8
 // SIMD-ONLY4-NEXT:    [[TMP0:%.*]] = load i32, ptr [[N_ADDR]], align 4
 // SIMD-ONLY4-NEXT:    [[TMP1:%.*]] = zext i32 [[TMP0]] to i64
+// SIMD-ONLY4-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// SIMD-ONLY4-NEXT:    store i32 [[FREEZE_POISON]], ptr [[I]], align 4
 // SIMD-ONLY4-NEXT:    store i32 0, ptr [[I]], align 4
 // SIMD-ONLY4-NEXT:    br label [[FOR_COND:%.*]]
 // SIMD-ONLY4:       for.cond:

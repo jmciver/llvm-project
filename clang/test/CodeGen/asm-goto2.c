@@ -31,9 +31,9 @@ z:
 // CHECK-LABEL: @test1(
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[RET:%.*]] = alloca i32, align 4
+// CHECK-NEXT:    [[B:%.*]] = alloca i32, align 4
 // CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
 // CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[RET]], align 4
-// CHECK-NEXT:    [[B:%.*]] = alloca i32, align 4
 // CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
 // CHECK-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[B]], align 4
 // CHECK-NEXT:    [[TMP0:%.*]] = callbr { i32, i32 } asm "", "=r,=r,!i,~{dirflag},~{fpsr},~{flags}"() #[[ATTR1]]
@@ -66,9 +66,9 @@ z:
 // CHECK-LABEL: @test2(
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[RET:%.*]] = alloca i32, align 4
+// CHECK-NEXT:    [[B:%.*]] = alloca i32, align 4
 // CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
 // CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[RET]], align 4
-// CHECK-NEXT:    [[B:%.*]] = alloca i32, align 4
 // CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
 // CHECK-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[B]], align 4
 // CHECK-NEXT:    [[TMP0:%.*]] = callbr { i32, i32 } asm "", "=r,=r,!i,~{dirflag},~{fpsr},~{flags}"() #[[ATTR1]]

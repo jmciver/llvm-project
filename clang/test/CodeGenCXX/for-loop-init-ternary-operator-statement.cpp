@@ -5,14 +5,14 @@
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[RETVAL:%.*]] = alloca i32, align 4
 // CHECK-NEXT:    [[I:%.*]] = alloca i32, align 4
+// CHECK-NEXT:    [[X:%.*]] = alloca i32, align 4
 // CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
 // CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[I]], align 4
-// CHECK-NEXT:    [[X:%.*]] = alloca i32, align 4
-// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[X]], align 4
 // CHECK-NEXT:    store i32 0, ptr [[I]], align 4
 // CHECK-NEXT:    br label [[FOR_COND:%.*]]
 // CHECK:       for.cond:
+// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[X]], align 4
 // CHECK-NEXT:    [[TMP0:%.*]] = load i32, ptr [[I]], align 4
 // CHECK-NEXT:    [[CMP:%.*]] = icmp slt i32 [[TMP0]], 2
 // CHECK-NEXT:    [[TMP1:%.*]] = zext i1 [[CMP]] to i64

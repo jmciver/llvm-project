@@ -76,32 +76,32 @@ int main(int argc, char **argv) {
 // CHECK1-NEXT:    [[ARGC_ADDR:%.*]] = alloca i64, align 8
 // CHECK1-NEXT:    [[ARGV_ADDR:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    [[DOTOMP_IV:%.*]] = alloca i64, align 8
-// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i64 poison
-// CHECK1-NEXT:    store i64 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 8
 // CHECK1-NEXT:    [[TMP:%.*]] = alloca i64, align 8
 // CHECK1-NEXT:    [[DOTOMP_COMB_LB:%.*]] = alloca i64, align 8
-// CHECK1-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i64 poison
-// CHECK1-NEXT:    store i64 [[FREEZE_POISON1]], ptr [[DOTOMP_COMB_LB]], align 8
 // CHECK1-NEXT:    [[DOTOMP_COMB_UB:%.*]] = alloca i64, align 8
-// CHECK1-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i64 poison
-// CHECK1-NEXT:    store i64 [[FREEZE_POISON2]], ptr [[DOTOMP_COMB_UB]], align 8
 // CHECK1-NEXT:    [[DOTOMP_STRIDE:%.*]] = alloca i64, align 8
-// CHECK1-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i64 poison
-// CHECK1-NEXT:    store i64 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 8
 // CHECK1-NEXT:    [[DOTOMP_IS_LAST:%.*]] = alloca i32, align 4
-// CHECK1-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
-// CHECK1-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // CHECK1-NEXT:    [[I:%.*]] = alloca i64, align 8
-// CHECK1-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i64 poison
-// CHECK1-NEXT:    store i64 [[FREEZE_POISON5]], ptr [[I]], align 8
 // CHECK1-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK1-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK1-NEXT:    store i64 [[ARGC]], ptr [[ARGC_ADDR]], align 8
 // CHECK1-NEXT:    store ptr [[ARGV]], ptr [[ARGV_ADDR]], align 8
+// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i64 poison
+// CHECK1-NEXT:    store i64 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 8
+// CHECK1-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i64 poison
+// CHECK1-NEXT:    store i64 [[FREEZE_POISON1]], ptr [[DOTOMP_COMB_LB]], align 8
 // CHECK1-NEXT:    store i64 0, ptr [[DOTOMP_COMB_LB]], align 8
+// CHECK1-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i64 poison
+// CHECK1-NEXT:    store i64 [[FREEZE_POISON2]], ptr [[DOTOMP_COMB_UB]], align 8
 // CHECK1-NEXT:    store i64 9, ptr [[DOTOMP_COMB_UB]], align 8
+// CHECK1-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i64 poison
+// CHECK1-NEXT:    store i64 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 8
 // CHECK1-NEXT:    store i64 1, ptr [[DOTOMP_STRIDE]], align 8
+// CHECK1-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK1-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // CHECK1-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// CHECK1-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i64 poison
+// CHECK1-NEXT:    store i64 [[FREEZE_POISON5]], ptr [[I]], align 8
 // CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK1-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK1-NEXT:    call void @__kmpc_for_static_init_8(ptr @[[GLOB1:[0-9]+]], i32 [[TMP1]], i32 92, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_COMB_LB]], ptr [[DOTOMP_COMB_UB]], ptr [[DOTOMP_STRIDE]], i64 1, i64 1)
@@ -153,24 +153,12 @@ int main(int argc, char **argv) {
 // CHECK1-NEXT:    [[ARGC_ADDR:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    [[ARGV_ADDR:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    [[DOTOMP_IV:%.*]] = alloca i64, align 8
-// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i64 poison
-// CHECK1-NEXT:    store i64 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 8
 // CHECK1-NEXT:    [[TMP:%.*]] = alloca i64, align 8
 // CHECK1-NEXT:    [[DOTOMP_LB:%.*]] = alloca i64, align 8
-// CHECK1-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i64 poison
-// CHECK1-NEXT:    store i64 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 8
 // CHECK1-NEXT:    [[DOTOMP_UB:%.*]] = alloca i64, align 8
-// CHECK1-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i64 poison
-// CHECK1-NEXT:    store i64 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 8
 // CHECK1-NEXT:    [[DOTOMP_STRIDE:%.*]] = alloca i64, align 8
-// CHECK1-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i64 poison
-// CHECK1-NEXT:    store i64 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 8
 // CHECK1-NEXT:    [[DOTOMP_IS_LAST:%.*]] = alloca i32, align 4
-// CHECK1-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
-// CHECK1-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // CHECK1-NEXT:    [[ARGC5:%.*]] = alloca i32, align 4
-// CHECK1-NEXT:    [[FREEZE_POISON6:%.*]] = freeze i32 poison
-// CHECK1-NEXT:    store i32 [[FREEZE_POISON6]], ptr [[ARGC5]], align 4
 // CHECK1-NEXT:    [[SAVED_STACK:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    [[__VLA_EXPR0:%.*]] = alloca i64, align 8
 // CHECK1-NEXT:    [[_TMP10:%.*]] = alloca ptr, align 8
@@ -178,12 +166,10 @@ int main(int argc, char **argv) {
 // CHECK1-NEXT:    [[DOTRD_INPUT_:%.*]] = alloca [2 x %struct.kmp_taskred_input_t], align 8
 // CHECK1-NEXT:    [[DOTTASK_RED_:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    [[I:%.*]] = alloca i64, align 8
-// CHECK1-NEXT:    [[FREEZE_POISON18:%.*]] = freeze i64 poison
-// CHECK1-NEXT:    store i64 [[FREEZE_POISON18]], ptr [[I]], align 8
 // CHECK1-NEXT:    [[AGG_CAPTURED:%.*]] = alloca [[STRUCT_ANON:%.*]], align 8
 // CHECK1-NEXT:    [[DOTOMP_REDUCTION_RED_LIST:%.*]] = alloca [3 x ptr], align 8
 // CHECK1-NEXT:    [[ATOMIC_TEMP:%.*]] = alloca i8, align 1
-// CHECK1-NEXT:    [[_TMP34:%.*]] = alloca i8, align 1
+// CHECK1-NEXT:    [[_TMP35:%.*]] = alloca i8, align 1
 // CHECK1-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK1-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK1-NEXT:    store i64 [[DOTPREVIOUS_LB_]], ptr [[DOTPREVIOUS_LB__ADDR]], align 8
@@ -191,14 +177,26 @@ int main(int argc, char **argv) {
 // CHECK1-NEXT:    store ptr [[ARGC]], ptr [[ARGC_ADDR]], align 8
 // CHECK1-NEXT:    store ptr [[ARGV]], ptr [[ARGV_ADDR]], align 8
 // CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[ARGC_ADDR]], align 8
+// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i64 poison
+// CHECK1-NEXT:    store i64 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 8
+// CHECK1-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i64 poison
+// CHECK1-NEXT:    store i64 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 8
 // CHECK1-NEXT:    store i64 0, ptr [[DOTOMP_LB]], align 8
+// CHECK1-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i64 poison
+// CHECK1-NEXT:    store i64 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 8
 // CHECK1-NEXT:    store i64 9, ptr [[DOTOMP_UB]], align 8
 // CHECK1-NEXT:    [[TMP1:%.*]] = load i64, ptr [[DOTPREVIOUS_LB__ADDR]], align 8
 // CHECK1-NEXT:    [[TMP2:%.*]] = load i64, ptr [[DOTPREVIOUS_UB__ADDR]], align 8
 // CHECK1-NEXT:    store i64 [[TMP1]], ptr [[DOTOMP_LB]], align 8
 // CHECK1-NEXT:    store i64 [[TMP2]], ptr [[DOTOMP_UB]], align 8
+// CHECK1-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i64 poison
+// CHECK1-NEXT:    store i64 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 8
 // CHECK1-NEXT:    store i64 1, ptr [[DOTOMP_STRIDE]], align 8
+// CHECK1-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK1-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // CHECK1-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// CHECK1-NEXT:    [[FREEZE_POISON6:%.*]] = freeze i32 poison
+// CHECK1-NEXT:    store i32 [[FREEZE_POISON6]], ptr [[ARGC5]], align 4
 // CHECK1-NEXT:    store i32 0, ptr [[ARGC5]], align 4
 // CHECK1-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[ARGV_ADDR]], align 8
 // CHECK1-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds ptr, ptr [[TMP3]], i64 0
@@ -290,7 +288,11 @@ int main(int argc, char **argv) {
 // CHECK1-NEXT:    [[TMP50:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK1-NEXT:    [[TMP51:%.*]] = load i32, ptr [[TMP50]], align 4, !freeze_bits [[META3]]
 // CHECK1-NEXT:    [[TMP52:%.*]] = call ptr @__kmpc_taskred_modifier_init(ptr @[[GLOB2]], i32 [[TMP51]], i32 1, i32 2, ptr [[DOTRD_INPUT_]])
+// CHECK1-NEXT:    [[FREEZE_POISON18:%.*]] = freeze ptr poison
+// CHECK1-NEXT:    store ptr [[FREEZE_POISON18]], ptr [[DOTTASK_RED_]], align 8
 // CHECK1-NEXT:    store ptr [[TMP52]], ptr [[DOTTASK_RED_]], align 8
+// CHECK1-NEXT:    [[FREEZE_POISON19:%.*]] = freeze i64 poison
+// CHECK1-NEXT:    store i64 [[FREEZE_POISON19]], ptr [[I]], align 8
 // CHECK1-NEXT:    [[TMP53:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK1-NEXT:    [[TMP54:%.*]] = load i32, ptr [[TMP53]], align 4, !freeze_bits [[META3]]
 // CHECK1-NEXT:    call void @__kmpc_for_static_init_8(ptr @[[GLOB3:[0-9]+]], i32 [[TMP54]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i64 1, i64 1)
@@ -311,8 +313,8 @@ int main(int argc, char **argv) {
 // CHECK1:       omp.inner.for.cond:
 // CHECK1-NEXT:    [[TMP58:%.*]] = load i64, ptr [[DOTOMP_IV]], align 8
 // CHECK1-NEXT:    [[TMP59:%.*]] = load i64, ptr [[DOTOMP_UB]], align 8
-// CHECK1-NEXT:    [[CMP19:%.*]] = icmp sle i64 [[TMP58]], [[TMP59]]
-// CHECK1-NEXT:    br i1 [[CMP19]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_COND_CLEANUP:%.*]]
+// CHECK1-NEXT:    [[CMP20:%.*]] = icmp sle i64 [[TMP58]], [[TMP59]]
+// CHECK1-NEXT:    br i1 [[CMP20]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_COND_CLEANUP:%.*]]
 // CHECK1:       omp.inner.for.cond.cleanup:
 // CHECK1-NEXT:    br label [[OMP_INNER_FOR_END:%.*]]
 // CHECK1:       omp.inner.for.body:
@@ -336,7 +338,7 @@ int main(int argc, char **argv) {
 // CHECK1-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 8 [[TMP70]], ptr align 8 [[AGG_CAPTURED]], i64 24, i1 false)
 // CHECK1-NEXT:    [[TMP71:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES]], ptr [[TMP67]], i32 0, i32 1
 // CHECK1-NEXT:    [[TMP72:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T:%.*]], ptr [[TMP71]], i32 0, i32 0
-// CHECK1-NEXT:    [[TMP73:%.*]] = load ptr, ptr [[DOTTASK_RED_]], align 8, !freeze_bits [[META3]]
+// CHECK1-NEXT:    [[TMP73:%.*]] = load ptr, ptr [[DOTTASK_RED_]], align 8
 // CHECK1-NEXT:    store ptr [[TMP73]], ptr [[TMP72]], align 8
 // CHECK1-NEXT:    [[TMP74:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK1-NEXT:    [[TMP75:%.*]] = load i32, ptr [[TMP74]], align 4, !freeze_bits [[META3]]
@@ -346,8 +348,8 @@ int main(int argc, char **argv) {
 // CHECK1-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // CHECK1:       omp.inner.for.inc:
 // CHECK1-NEXT:    [[TMP77:%.*]] = load i64, ptr [[DOTOMP_IV]], align 8
-// CHECK1-NEXT:    [[ADD20:%.*]] = add nsw i64 [[TMP77]], 1
-// CHECK1-NEXT:    store i64 [[ADD20]], ptr [[DOTOMP_IV]], align 8
+// CHECK1-NEXT:    [[ADD21:%.*]] = add nsw i64 [[TMP77]], 1
+// CHECK1-NEXT:    store i64 [[ADD21]], ptr [[DOTOMP_IV]], align 8
 // CHECK1-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // CHECK1:       omp.inner.for.end:
 // CHECK1-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
@@ -375,62 +377,62 @@ int main(int argc, char **argv) {
 // CHECK1:       .omp.reduction.case1:
 // CHECK1-NEXT:    [[TMP89:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK1-NEXT:    [[TMP90:%.*]] = load i32, ptr [[ARGC5]], align 4
-// CHECK1-NEXT:    [[ADD21:%.*]] = add nsw i32 [[TMP89]], [[TMP90]]
-// CHECK1-NEXT:    store i32 [[ADD21]], ptr [[TMP0]], align 4
+// CHECK1-NEXT:    [[ADD22:%.*]] = add nsw i32 [[TMP89]], [[TMP90]]
+// CHECK1-NEXT:    store i32 [[ADD22]], ptr [[TMP0]], align 4
 // CHECK1-NEXT:    [[TMP91:%.*]] = getelementptr i8, ptr [[ARRAYIDX7]], i64 [[TMP13]]
 // CHECK1-NEXT:    [[OMP_ARRAYCPY_ISEMPTY:%.*]] = icmp eq ptr [[ARRAYIDX7]], [[TMP91]]
-// CHECK1-NEXT:    br i1 [[OMP_ARRAYCPY_ISEMPTY]], label [[OMP_ARRAYCPY_DONE28:%.*]], label [[OMP_ARRAYCPY_BODY:%.*]]
+// CHECK1-NEXT:    br i1 [[OMP_ARRAYCPY_ISEMPTY]], label [[OMP_ARRAYCPY_DONE29:%.*]], label [[OMP_ARRAYCPY_BODY:%.*]]
 // CHECK1:       omp.arraycpy.body:
 // CHECK1-NEXT:    [[OMP_ARRAYCPY_SRCELEMENTPAST:%.*]] = phi ptr [ [[VLA]], [[DOTOMP_REDUCTION_CASE1]] ], [ [[OMP_ARRAYCPY_SRC_ELEMENT:%.*]], [[OMP_ARRAYCPY_BODY]] ]
-// CHECK1-NEXT:    [[OMP_ARRAYCPY_DESTELEMENTPAST22:%.*]] = phi ptr [ [[ARRAYIDX7]], [[DOTOMP_REDUCTION_CASE1]] ], [ [[OMP_ARRAYCPY_DEST_ELEMENT26:%.*]], [[OMP_ARRAYCPY_BODY]] ]
-// CHECK1-NEXT:    [[TMP92:%.*]] = load i8, ptr [[OMP_ARRAYCPY_DESTELEMENTPAST22]], align 1, !freeze_bits [[META3]]
+// CHECK1-NEXT:    [[OMP_ARRAYCPY_DESTELEMENTPAST23:%.*]] = phi ptr [ [[ARRAYIDX7]], [[DOTOMP_REDUCTION_CASE1]] ], [ [[OMP_ARRAYCPY_DEST_ELEMENT27:%.*]], [[OMP_ARRAYCPY_BODY]] ]
+// CHECK1-NEXT:    [[TMP92:%.*]] = load i8, ptr [[OMP_ARRAYCPY_DESTELEMENTPAST23]], align 1, !freeze_bits [[META3]]
 // CHECK1-NEXT:    [[CONV:%.*]] = sext i8 [[TMP92]] to i32
 // CHECK1-NEXT:    [[TMP93:%.*]] = load i8, ptr [[OMP_ARRAYCPY_SRCELEMENTPAST]], align 1, !freeze_bits [[META3]]
-// CHECK1-NEXT:    [[CONV23:%.*]] = sext i8 [[TMP93]] to i32
-// CHECK1-NEXT:    [[ADD24:%.*]] = add nsw i32 [[CONV]], [[CONV23]]
-// CHECK1-NEXT:    [[CONV25:%.*]] = trunc i32 [[ADD24]] to i8
-// CHECK1-NEXT:    store i8 [[CONV25]], ptr [[OMP_ARRAYCPY_DESTELEMENTPAST22]], align 1
-// CHECK1-NEXT:    [[OMP_ARRAYCPY_DEST_ELEMENT26]] = getelementptr i8, ptr [[OMP_ARRAYCPY_DESTELEMENTPAST22]], i32 1
+// CHECK1-NEXT:    [[CONV24:%.*]] = sext i8 [[TMP93]] to i32
+// CHECK1-NEXT:    [[ADD25:%.*]] = add nsw i32 [[CONV]], [[CONV24]]
+// CHECK1-NEXT:    [[CONV26:%.*]] = trunc i32 [[ADD25]] to i8
+// CHECK1-NEXT:    store i8 [[CONV26]], ptr [[OMP_ARRAYCPY_DESTELEMENTPAST23]], align 1
+// CHECK1-NEXT:    [[OMP_ARRAYCPY_DEST_ELEMENT27]] = getelementptr i8, ptr [[OMP_ARRAYCPY_DESTELEMENTPAST23]], i32 1
 // CHECK1-NEXT:    [[OMP_ARRAYCPY_SRC_ELEMENT]] = getelementptr i8, ptr [[OMP_ARRAYCPY_SRCELEMENTPAST]], i32 1
-// CHECK1-NEXT:    [[OMP_ARRAYCPY_DONE27:%.*]] = icmp eq ptr [[OMP_ARRAYCPY_DEST_ELEMENT26]], [[TMP91]]
-// CHECK1-NEXT:    br i1 [[OMP_ARRAYCPY_DONE27]], label [[OMP_ARRAYCPY_DONE28]], label [[OMP_ARRAYCPY_BODY]]
-// CHECK1:       omp.arraycpy.done28:
+// CHECK1-NEXT:    [[OMP_ARRAYCPY_DONE28:%.*]] = icmp eq ptr [[OMP_ARRAYCPY_DEST_ELEMENT27]], [[TMP91]]
+// CHECK1-NEXT:    br i1 [[OMP_ARRAYCPY_DONE28]], label [[OMP_ARRAYCPY_DONE29]], label [[OMP_ARRAYCPY_BODY]]
+// CHECK1:       omp.arraycpy.done29:
 // CHECK1-NEXT:    call void @__kmpc_end_reduce_nowait(ptr @[[GLOB4]], i32 [[TMP87]], ptr @.gomp_critical_user_.reduction.var)
 // CHECK1-NEXT:    br label [[DOTOMP_REDUCTION_DEFAULT]]
 // CHECK1:       .omp.reduction.case2:
 // CHECK1-NEXT:    [[TMP94:%.*]] = load i32, ptr [[ARGC5]], align 4
 // CHECK1-NEXT:    [[TMP95:%.*]] = atomicrmw add ptr [[TMP0]], i32 [[TMP94]] monotonic, align 4
 // CHECK1-NEXT:    [[TMP96:%.*]] = getelementptr i8, ptr [[ARRAYIDX7]], i64 [[TMP13]]
-// CHECK1-NEXT:    [[OMP_ARRAYCPY_ISEMPTY29:%.*]] = icmp eq ptr [[ARRAYIDX7]], [[TMP96]]
-// CHECK1-NEXT:    br i1 [[OMP_ARRAYCPY_ISEMPTY29]], label [[OMP_ARRAYCPY_DONE42:%.*]], label [[OMP_ARRAYCPY_BODY30:%.*]]
-// CHECK1:       omp.arraycpy.body30:
-// CHECK1-NEXT:    [[OMP_ARRAYCPY_SRCELEMENTPAST31:%.*]] = phi ptr [ [[VLA]], [[DOTOMP_REDUCTION_CASE2]] ], [ [[OMP_ARRAYCPY_SRC_ELEMENT40:%.*]], [[ATOMIC_EXIT:%.*]] ]
-// CHECK1-NEXT:    [[OMP_ARRAYCPY_DESTELEMENTPAST32:%.*]] = phi ptr [ [[ARRAYIDX7]], [[DOTOMP_REDUCTION_CASE2]] ], [ [[OMP_ARRAYCPY_DEST_ELEMENT39:%.*]], [[ATOMIC_EXIT]] ]
-// CHECK1-NEXT:    [[TMP97:%.*]] = load i8, ptr [[OMP_ARRAYCPY_SRCELEMENTPAST31]], align 1, !freeze_bits [[META3]]
-// CHECK1-NEXT:    [[CONV33:%.*]] = sext i8 [[TMP97]] to i32
-// CHECK1-NEXT:    [[ATOMIC_LOAD:%.*]] = load atomic i8, ptr [[OMP_ARRAYCPY_DESTELEMENTPAST32]] monotonic, align 1, !freeze_bits [[META3]]
+// CHECK1-NEXT:    [[OMP_ARRAYCPY_ISEMPTY30:%.*]] = icmp eq ptr [[ARRAYIDX7]], [[TMP96]]
+// CHECK1-NEXT:    br i1 [[OMP_ARRAYCPY_ISEMPTY30]], label [[OMP_ARRAYCPY_DONE43:%.*]], label [[OMP_ARRAYCPY_BODY31:%.*]]
+// CHECK1:       omp.arraycpy.body31:
+// CHECK1-NEXT:    [[OMP_ARRAYCPY_SRCELEMENTPAST32:%.*]] = phi ptr [ [[VLA]], [[DOTOMP_REDUCTION_CASE2]] ], [ [[OMP_ARRAYCPY_SRC_ELEMENT41:%.*]], [[ATOMIC_EXIT:%.*]] ]
+// CHECK1-NEXT:    [[OMP_ARRAYCPY_DESTELEMENTPAST33:%.*]] = phi ptr [ [[ARRAYIDX7]], [[DOTOMP_REDUCTION_CASE2]] ], [ [[OMP_ARRAYCPY_DEST_ELEMENT40:%.*]], [[ATOMIC_EXIT]] ]
+// CHECK1-NEXT:    [[TMP97:%.*]] = load i8, ptr [[OMP_ARRAYCPY_SRCELEMENTPAST32]], align 1, !freeze_bits [[META3]]
+// CHECK1-NEXT:    [[CONV34:%.*]] = sext i8 [[TMP97]] to i32
+// CHECK1-NEXT:    [[ATOMIC_LOAD:%.*]] = load atomic i8, ptr [[OMP_ARRAYCPY_DESTELEMENTPAST33]] monotonic, align 1, !freeze_bits [[META3]]
 // CHECK1-NEXT:    br label [[ATOMIC_CONT:%.*]]
 // CHECK1:       atomic_cont:
-// CHECK1-NEXT:    [[TMP98:%.*]] = phi i8 [ [[ATOMIC_LOAD]], [[OMP_ARRAYCPY_BODY30]] ], [ [[TMP103:%.*]], [[ATOMIC_CONT]] ]
-// CHECK1-NEXT:    store i8 [[TMP98]], ptr [[_TMP34]], align 1
-// CHECK1-NEXT:    [[TMP99:%.*]] = load i8, ptr [[_TMP34]], align 1, !freeze_bits [[META3]]
-// CHECK1-NEXT:    [[CONV35:%.*]] = sext i8 [[TMP99]] to i32
-// CHECK1-NEXT:    [[TMP100:%.*]] = load i8, ptr [[OMP_ARRAYCPY_SRCELEMENTPAST31]], align 1, !freeze_bits [[META3]]
-// CHECK1-NEXT:    [[CONV36:%.*]] = sext i8 [[TMP100]] to i32
-// CHECK1-NEXT:    [[ADD37:%.*]] = add nsw i32 [[CONV35]], [[CONV36]]
-// CHECK1-NEXT:    [[CONV38:%.*]] = trunc i32 [[ADD37]] to i8
-// CHECK1-NEXT:    store i8 [[CONV38]], ptr [[ATOMIC_TEMP]], align 1
+// CHECK1-NEXT:    [[TMP98:%.*]] = phi i8 [ [[ATOMIC_LOAD]], [[OMP_ARRAYCPY_BODY31]] ], [ [[TMP103:%.*]], [[ATOMIC_CONT]] ]
+// CHECK1-NEXT:    store i8 [[TMP98]], ptr [[_TMP35]], align 1
+// CHECK1-NEXT:    [[TMP99:%.*]] = load i8, ptr [[_TMP35]], align 1, !freeze_bits [[META3]]
+// CHECK1-NEXT:    [[CONV36:%.*]] = sext i8 [[TMP99]] to i32
+// CHECK1-NEXT:    [[TMP100:%.*]] = load i8, ptr [[OMP_ARRAYCPY_SRCELEMENTPAST32]], align 1, !freeze_bits [[META3]]
+// CHECK1-NEXT:    [[CONV37:%.*]] = sext i8 [[TMP100]] to i32
+// CHECK1-NEXT:    [[ADD38:%.*]] = add nsw i32 [[CONV36]], [[CONV37]]
+// CHECK1-NEXT:    [[CONV39:%.*]] = trunc i32 [[ADD38]] to i8
+// CHECK1-NEXT:    store i8 [[CONV39]], ptr [[ATOMIC_TEMP]], align 1
 // CHECK1-NEXT:    [[TMP101:%.*]] = load i8, ptr [[ATOMIC_TEMP]], align 1, !freeze_bits [[META3]]
-// CHECK1-NEXT:    [[TMP102:%.*]] = cmpxchg ptr [[OMP_ARRAYCPY_DESTELEMENTPAST32]], i8 [[TMP98]], i8 [[TMP101]] monotonic monotonic, align 1
+// CHECK1-NEXT:    [[TMP102:%.*]] = cmpxchg ptr [[OMP_ARRAYCPY_DESTELEMENTPAST33]], i8 [[TMP98]], i8 [[TMP101]] monotonic monotonic, align 1
 // CHECK1-NEXT:    [[TMP103]] = extractvalue { i8, i1 } [[TMP102]], 0
 // CHECK1-NEXT:    [[TMP104:%.*]] = extractvalue { i8, i1 } [[TMP102]], 1
 // CHECK1-NEXT:    br i1 [[TMP104]], label [[ATOMIC_EXIT]], label [[ATOMIC_CONT]]
 // CHECK1:       atomic_exit:
-// CHECK1-NEXT:    [[OMP_ARRAYCPY_DEST_ELEMENT39]] = getelementptr i8, ptr [[OMP_ARRAYCPY_DESTELEMENTPAST32]], i32 1
-// CHECK1-NEXT:    [[OMP_ARRAYCPY_SRC_ELEMENT40]] = getelementptr i8, ptr [[OMP_ARRAYCPY_SRCELEMENTPAST31]], i32 1
-// CHECK1-NEXT:    [[OMP_ARRAYCPY_DONE41:%.*]] = icmp eq ptr [[OMP_ARRAYCPY_DEST_ELEMENT39]], [[TMP96]]
-// CHECK1-NEXT:    br i1 [[OMP_ARRAYCPY_DONE41]], label [[OMP_ARRAYCPY_DONE42]], label [[OMP_ARRAYCPY_BODY30]]
-// CHECK1:       omp.arraycpy.done42:
+// CHECK1-NEXT:    [[OMP_ARRAYCPY_DEST_ELEMENT40]] = getelementptr i8, ptr [[OMP_ARRAYCPY_DESTELEMENTPAST33]], i32 1
+// CHECK1-NEXT:    [[OMP_ARRAYCPY_SRC_ELEMENT41]] = getelementptr i8, ptr [[OMP_ARRAYCPY_SRCELEMENTPAST32]], i32 1
+// CHECK1-NEXT:    [[OMP_ARRAYCPY_DONE42:%.*]] = icmp eq ptr [[OMP_ARRAYCPY_DEST_ELEMENT40]], [[TMP96]]
+// CHECK1-NEXT:    br i1 [[OMP_ARRAYCPY_DONE42]], label [[OMP_ARRAYCPY_DONE43]], label [[OMP_ARRAYCPY_BODY31]]
+// CHECK1:       omp.arraycpy.done43:
 // CHECK1-NEXT:    br label [[DOTOMP_REDUCTION_DEFAULT]]
 // CHECK1:       .omp.reduction.default:
 // CHECK1-NEXT:    [[TMP105:%.*]] = load ptr, ptr [[SAVED_STACK]], align 8, !freeze_bits [[META3]]

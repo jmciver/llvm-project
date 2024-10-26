@@ -246,20 +246,18 @@ void array_func(float a[3], St s[2], int n, long double vla1[n]) {
 // CHECK1-NEXT:    [[SS:%.*]] = alloca [[STRUCT_SS:%.*]], align 4
 // CHECK1-NEXT:    [[TEST:%.*]] = alloca [[STRUCT_S:%.*]], align 4
 // CHECK1-NEXT:    [[T_VAR:%.*]] = alloca i32, align 4
-// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK1-NEXT:    store i32 [[FREEZE_POISON]], ptr [[T_VAR]], align 4
 // CHECK1-NEXT:    [[VEC:%.*]] = alloca [2 x i32], align 4
 // CHECK1-NEXT:    [[S_ARR:%.*]] = alloca [2 x %struct.S], align 4
 // CHECK1-NEXT:    [[VAR:%.*]] = alloca [[STRUCT_S]], align 4
 // CHECK1-NEXT:    [[T_VAR_CASTED:%.*]] = alloca i32, align 4
 // CHECK1-NEXT:    [[SIVAR_CASTED:%.*]] = alloca i32, align 4
 // CHECK1-NEXT:    [[A:%.*]] = alloca i32, align 4
-// CHECK1-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// CHECK1-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[A]], align 4
 // CHECK1-NEXT:    [[T_VAR_CASTED2:%.*]] = alloca i32, align 4
 // CHECK1-NEXT:    store i32 0, ptr [[RETVAL]], align 4
 // CHECK1-NEXT:    call void @_ZN2SSC1ERi(ptr nonnull align 4 dereferenceable(28) [[SS]], ptr nonnull align 4 dereferenceable(4) @_ZZ4mainE5sivar)
 // CHECK1-NEXT:    call void @_ZN1SIfEC1Ev(ptr nonnull align 4 dereferenceable(4) [[TEST]])
+// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK1-NEXT:    store i32 [[FREEZE_POISON]], ptr [[T_VAR]], align 4
 // CHECK1-NEXT:    store i32 0, ptr [[T_VAR]], align 4
 // CHECK1-NEXT:    call void @llvm.memcpy.p0.p0.i32(ptr align 4 [[VEC]], ptr align 4 @__const.main.vec, i32 8, i1 false)
 // CHECK1-NEXT:    call void @_ZN1SIfEC1Ef(ptr nonnull align 4 dereferenceable(4) [[S_ARR]], float 1.000000e+00)
@@ -273,6 +271,8 @@ void array_func(float a[3], St s[2], int n, long double vla1[n]) {
 // CHECK1-NEXT:    store i32 [[TMP2]], ptr [[SIVAR_CASTED]], align 4
 // CHECK1-NEXT:    [[TMP3:%.*]] = load i32, ptr [[SIVAR_CASTED]], align 4, !freeze_bits [[META4]]
 // CHECK1-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB1:[0-9]+]], i32 5, ptr @main.omp_outlined, ptr [[VEC]], i32 [[TMP1]], ptr [[S_ARR]], ptr [[VAR]], i32 [[TMP3]])
+// CHECK1-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK1-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[A]], align 4
 // CHECK1-NEXT:    store i32 0, ptr [[A]], align 4
 // CHECK1-NEXT:    [[TMP4:%.*]] = load i32, ptr [[T_VAR]], align 4
 // CHECK1-NEXT:    store i32 [[TMP4]], ptr [[T_VAR_CASTED2]], align 4
@@ -467,8 +467,6 @@ void array_func(float a[3], St s[2], int n, long double vla1[n]) {
 // CHECK1-NEXT:    [[TEST:%.*]] = alloca [[STRUCT_S_0:%.*]], align 4
 // CHECK1-NEXT:    [[SST:%.*]] = alloca [[STRUCT_SST:%.*]], align 4
 // CHECK1-NEXT:    [[T_VAR:%.*]] = alloca i32, align 128
-// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK1-NEXT:    store i32 [[FREEZE_POISON]], ptr [[T_VAR]], align 4
 // CHECK1-NEXT:    [[VEC:%.*]] = alloca [2 x i32], align 128
 // CHECK1-NEXT:    [[S_ARR:%.*]] = alloca [2 x %struct.S.0], align 128
 // CHECK1-NEXT:    [[VAR:%.*]] = alloca [[STRUCT_S_0]], align 128
@@ -476,6 +474,8 @@ void array_func(float a[3], St s[2], int n, long double vla1[n]) {
 // CHECK1-NEXT:    [[T_VAR_CASTED1:%.*]] = alloca i32, align 4
 // CHECK1-NEXT:    call void @_ZN1SIiEC1Ev(ptr nonnull align 4 dereferenceable(4) [[TEST]])
 // CHECK1-NEXT:    call void @_ZN3SSTIiEC1Ev(ptr nonnull align 4 dereferenceable(4) [[SST]])
+// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK1-NEXT:    store i32 [[FREEZE_POISON]], ptr [[T_VAR]], align 128
 // CHECK1-NEXT:    store i32 0, ptr [[T_VAR]], align 128
 // CHECK1-NEXT:    call void @llvm.memcpy.p0.p0.i32(ptr align 128 [[VEC]], ptr align 128 @__const._Z5tmainIiET_v.vec, i32 8, i1 false)
 // CHECK1-NEXT:    call void @_ZN1SIiEC1Ei(ptr nonnull align 4 dereferenceable(4) [[S_ARR]], i32 1)
@@ -514,9 +514,7 @@ void array_func(float a[3], St s[2], int n, long double vla1[n]) {
 // CHECK1-NEXT:    [[D_ADDR:%.*]] = alloca ptr, align 4
 // CHECK1-NEXT:    [[A2:%.*]] = alloca ptr, align 4
 // CHECK1-NEXT:    [[B4:%.*]] = alloca i32, align 4
-// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK1-NEXT:    store i32 [[FREEZE_POISON]], ptr [[B4]], align 4
-// CHECK1-NEXT:    [[C7:%.*]] = alloca ptr, align 4
+// CHECK1-NEXT:    [[C8:%.*]] = alloca ptr, align 4
 // CHECK1-NEXT:    [[E:%.*]] = alloca ptr, align 4
 // CHECK1-NEXT:    [[A_CASTED:%.*]] = alloca i32, align 4
 // CHECK1-NEXT:    [[B_CASTED:%.*]] = alloca i32, align 4
@@ -534,31 +532,39 @@ void array_func(float a[3], St s[2], int n, long double vla1[n]) {
 // CHECK1-NEXT:    [[C:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 2
 // CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[D_ADDR]], align 4
 // CHECK1-NEXT:    store ptr [[TMP0]], ptr [[C]], align 4
+// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK1-NEXT:    store ptr [[FREEZE_POISON]], ptr [[A2]], align 4
 // CHECK1-NEXT:    [[A3:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 0
 // CHECK1-NEXT:    store ptr [[A3]], ptr [[A2]], align 4
-// CHECK1-NEXT:    [[B5:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 1
-// CHECK1-NEXT:    [[BF_LOAD6:%.*]] = load i8, ptr [[B5]], align 4, !freeze_bits [[META4]]
-// CHECK1-NEXT:    [[BF_SHL:%.*]] = shl i8 [[BF_LOAD6]], 4
+// CHECK1-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK1-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[B4]], align 4
+// CHECK1-NEXT:    [[B6:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 1
+// CHECK1-NEXT:    [[BF_LOAD7:%.*]] = load i8, ptr [[B6]], align 4, !freeze_bits [[META4]]
+// CHECK1-NEXT:    [[BF_SHL:%.*]] = shl i8 [[BF_LOAD7]], 4
 // CHECK1-NEXT:    [[BF_ASHR:%.*]] = ashr i8 [[BF_SHL]], 4
 // CHECK1-NEXT:    [[BF_CAST:%.*]] = sext i8 [[BF_ASHR]] to i32
 // CHECK1-NEXT:    store i32 [[BF_CAST]], ptr [[B4]], align 4
-// CHECK1-NEXT:    [[C8:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 2
-// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[C8]], align 4, !freeze_bits [[META4]]
-// CHECK1-NEXT:    store ptr [[TMP1]], ptr [[C7]], align 4
-// CHECK1-NEXT:    [[E9:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 3
-// CHECK1-NEXT:    store ptr [[E9]], ptr [[E]], align 4
-// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[A2]], align 4, !freeze_bits [[META4]]
+// CHECK1-NEXT:    [[FREEZE_POISON9:%.*]] = freeze ptr poison
+// CHECK1-NEXT:    store ptr [[FREEZE_POISON9]], ptr [[C8]], align 4
+// CHECK1-NEXT:    [[C10:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 2
+// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[C10]], align 4, !freeze_bits [[META4]]
+// CHECK1-NEXT:    store ptr [[TMP1]], ptr [[C8]], align 4
+// CHECK1-NEXT:    [[FREEZE_POISON11:%.*]] = freeze ptr poison
+// CHECK1-NEXT:    store ptr [[FREEZE_POISON11]], ptr [[E]], align 4
+// CHECK1-NEXT:    [[E12:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 3
+// CHECK1-NEXT:    store ptr [[E12]], ptr [[E]], align 4
+// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[A2]], align 4
 // CHECK1-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4, !freeze_bits [[META4]]
 // CHECK1-NEXT:    store i32 [[TMP3]], ptr [[A_CASTED]], align 4
 // CHECK1-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A_CASTED]], align 4, !freeze_bits [[META4]]
 // CHECK1-NEXT:    [[TMP5:%.*]] = load i32, ptr [[B4]], align 4
 // CHECK1-NEXT:    store i32 [[TMP5]], ptr [[B_CASTED]], align 4
 // CHECK1-NEXT:    [[TMP6:%.*]] = load i32, ptr [[B_CASTED]], align 4, !freeze_bits [[META4]]
-// CHECK1-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[C7]], align 4, !freeze_bits [[META4]]
+// CHECK1-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[C8]], align 4
 // CHECK1-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP7]], align 4, !freeze_bits [[META4]]
 // CHECK1-NEXT:    store i32 [[TMP8]], ptr [[C_CASTED]], align 4
 // CHECK1-NEXT:    [[TMP9:%.*]] = load i32, ptr [[C_CASTED]], align 4, !freeze_bits [[META4]]
-// CHECK1-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[E]], align 4, !freeze_bits [[META4]]
+// CHECK1-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[E]], align 4
 // CHECK1-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB1]], i32 5, ptr @_ZN2SSC2ERi.omp_outlined, ptr [[THIS1]], i32 [[TMP4]], i32 [[TMP6]], i32 [[TMP9]], ptr [[TMP10]])
 // CHECK1-NEXT:    ret void
 //
@@ -846,9 +852,11 @@ void array_func(float a[3], St s[2], int n, long double vla1[n]) {
 // CHECK1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 4
 // CHECK1-NEXT:    [[A:%.*]] = getelementptr inbounds [[STRUCT_SST:%.*]], ptr [[THIS1]], i32 0, i32 0
 // CHECK1-NEXT:    store i32 0, ptr [[A]], align 4
+// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK1-NEXT:    store ptr [[FREEZE_POISON]], ptr [[A2]], align 4
 // CHECK1-NEXT:    [[A3:%.*]] = getelementptr inbounds [[STRUCT_SST]], ptr [[THIS1]], i32 0, i32 0
 // CHECK1-NEXT:    store ptr [[A3]], ptr [[A2]], align 4
-// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[A2]], align 4, !freeze_bits [[META4]]
+// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[A2]], align 4
 // CHECK1-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META4]]
 // CHECK1-NEXT:    store i32 [[TMP1]], ptr [[A_CASTED]], align 4
 // CHECK1-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A_CASTED]], align 4, !freeze_bits [[META4]]
@@ -957,9 +965,7 @@ void array_func(float a[3], St s[2], int n, long double vla1[n]) {
 // CHECK3-NEXT:    [[D_ADDR:%.*]] = alloca ptr, align 4
 // CHECK3-NEXT:    [[A2:%.*]] = alloca ptr, align 4
 // CHECK3-NEXT:    [[B4:%.*]] = alloca i32, align 4
-// CHECK3-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK3-NEXT:    store i32 [[FREEZE_POISON]], ptr [[B4]], align 4
-// CHECK3-NEXT:    [[C7:%.*]] = alloca ptr, align 4
+// CHECK3-NEXT:    [[C8:%.*]] = alloca ptr, align 4
 // CHECK3-NEXT:    [[E:%.*]] = alloca ptr, align 4
 // CHECK3-NEXT:    [[A_CASTED:%.*]] = alloca i32, align 4
 // CHECK3-NEXT:    [[B_CASTED:%.*]] = alloca i32, align 4
@@ -977,31 +983,39 @@ void array_func(float a[3], St s[2], int n, long double vla1[n]) {
 // CHECK3-NEXT:    [[C:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 2
 // CHECK3-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[D_ADDR]], align 4
 // CHECK3-NEXT:    store ptr [[TMP0]], ptr [[C]], align 4
+// CHECK3-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK3-NEXT:    store ptr [[FREEZE_POISON]], ptr [[A2]], align 4
 // CHECK3-NEXT:    [[A3:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 0
 // CHECK3-NEXT:    store ptr [[A3]], ptr [[A2]], align 4
-// CHECK3-NEXT:    [[B5:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 1
-// CHECK3-NEXT:    [[BF_LOAD6:%.*]] = load i8, ptr [[B5]], align 4, !freeze_bits [[META4]]
-// CHECK3-NEXT:    [[BF_SHL:%.*]] = shl i8 [[BF_LOAD6]], 4
+// CHECK3-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK3-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[B4]], align 4
+// CHECK3-NEXT:    [[B6:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 1
+// CHECK3-NEXT:    [[BF_LOAD7:%.*]] = load i8, ptr [[B6]], align 4, !freeze_bits [[META4]]
+// CHECK3-NEXT:    [[BF_SHL:%.*]] = shl i8 [[BF_LOAD7]], 4
 // CHECK3-NEXT:    [[BF_ASHR:%.*]] = ashr i8 [[BF_SHL]], 4
 // CHECK3-NEXT:    [[BF_CAST:%.*]] = sext i8 [[BF_ASHR]] to i32
 // CHECK3-NEXT:    store i32 [[BF_CAST]], ptr [[B4]], align 4
-// CHECK3-NEXT:    [[C8:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 2
-// CHECK3-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[C8]], align 4, !freeze_bits [[META4]]
-// CHECK3-NEXT:    store ptr [[TMP1]], ptr [[C7]], align 4
-// CHECK3-NEXT:    [[E9:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 3
-// CHECK3-NEXT:    store ptr [[E9]], ptr [[E]], align 4
-// CHECK3-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[A2]], align 4, !freeze_bits [[META4]]
+// CHECK3-NEXT:    [[FREEZE_POISON9:%.*]] = freeze ptr poison
+// CHECK3-NEXT:    store ptr [[FREEZE_POISON9]], ptr [[C8]], align 4
+// CHECK3-NEXT:    [[C10:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 2
+// CHECK3-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[C10]], align 4, !freeze_bits [[META4]]
+// CHECK3-NEXT:    store ptr [[TMP1]], ptr [[C8]], align 4
+// CHECK3-NEXT:    [[FREEZE_POISON11:%.*]] = freeze ptr poison
+// CHECK3-NEXT:    store ptr [[FREEZE_POISON11]], ptr [[E]], align 4
+// CHECK3-NEXT:    [[E12:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 3
+// CHECK3-NEXT:    store ptr [[E12]], ptr [[E]], align 4
+// CHECK3-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[A2]], align 4
 // CHECK3-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4, !freeze_bits [[META4]]
 // CHECK3-NEXT:    store i32 [[TMP3]], ptr [[A_CASTED]], align 4
 // CHECK3-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A_CASTED]], align 4, !freeze_bits [[META4]]
 // CHECK3-NEXT:    [[TMP5:%.*]] = load i32, ptr [[B4]], align 4
 // CHECK3-NEXT:    store i32 [[TMP5]], ptr [[B_CASTED]], align 4
 // CHECK3-NEXT:    [[TMP6:%.*]] = load i32, ptr [[B_CASTED]], align 4, !freeze_bits [[META4]]
-// CHECK3-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[C7]], align 4, !freeze_bits [[META4]]
+// CHECK3-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[C8]], align 4
 // CHECK3-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP7]], align 4, !freeze_bits [[META4]]
 // CHECK3-NEXT:    store i32 [[TMP8]], ptr [[C_CASTED]], align 4
 // CHECK3-NEXT:    [[TMP9:%.*]] = load i32, ptr [[C_CASTED]], align 4, !freeze_bits [[META4]]
-// CHECK3-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[E]], align 4, !freeze_bits [[META4]]
+// CHECK3-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[E]], align 4
 // CHECK3-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB1:[0-9]+]], i32 5, ptr @_ZN2SSC2ERi.omp_outlined, ptr [[THIS1]], i32 [[TMP4]], i32 [[TMP6]], i32 [[TMP9]], ptr [[TMP10]])
 // CHECK3-NEXT:    ret void
 //
@@ -1246,9 +1260,7 @@ void array_func(float a[3], St s[2], int n, long double vla1[n]) {
 // CHECK4-NEXT:    [[D_ADDR:%.*]] = alloca ptr, align 4
 // CHECK4-NEXT:    [[A2:%.*]] = alloca ptr, align 4
 // CHECK4-NEXT:    [[B4:%.*]] = alloca i32, align 4
-// CHECK4-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK4-NEXT:    store i32 [[FREEZE_POISON]], ptr [[B4]], align 4
-// CHECK4-NEXT:    [[C7:%.*]] = alloca ptr, align 4
+// CHECK4-NEXT:    [[C8:%.*]] = alloca ptr, align 4
 // CHECK4-NEXT:    [[E:%.*]] = alloca ptr, align 4
 // CHECK4-NEXT:    [[A_CASTED:%.*]] = alloca i32, align 4
 // CHECK4-NEXT:    [[B_CASTED:%.*]] = alloca i32, align 4
@@ -1266,31 +1278,39 @@ void array_func(float a[3], St s[2], int n, long double vla1[n]) {
 // CHECK4-NEXT:    [[C:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 2
 // CHECK4-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[D_ADDR]], align 4
 // CHECK4-NEXT:    store ptr [[TMP0]], ptr [[C]], align 4
+// CHECK4-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK4-NEXT:    store ptr [[FREEZE_POISON]], ptr [[A2]], align 4
 // CHECK4-NEXT:    [[A3:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 0
 // CHECK4-NEXT:    store ptr [[A3]], ptr [[A2]], align 4
-// CHECK4-NEXT:    [[B5:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 1
-// CHECK4-NEXT:    [[BF_LOAD6:%.*]] = load i8, ptr [[B5]], align 4, !freeze_bits [[META4]]
-// CHECK4-NEXT:    [[BF_SHL:%.*]] = shl i8 [[BF_LOAD6]], 4
+// CHECK4-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK4-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[B4]], align 4
+// CHECK4-NEXT:    [[B6:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 1
+// CHECK4-NEXT:    [[BF_LOAD7:%.*]] = load i8, ptr [[B6]], align 4, !freeze_bits [[META4]]
+// CHECK4-NEXT:    [[BF_SHL:%.*]] = shl i8 [[BF_LOAD7]], 4
 // CHECK4-NEXT:    [[BF_ASHR:%.*]] = ashr i8 [[BF_SHL]], 4
 // CHECK4-NEXT:    [[BF_CAST:%.*]] = sext i8 [[BF_ASHR]] to i32
 // CHECK4-NEXT:    store i32 [[BF_CAST]], ptr [[B4]], align 4
-// CHECK4-NEXT:    [[C8:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 2
-// CHECK4-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[C8]], align 4, !freeze_bits [[META4]]
-// CHECK4-NEXT:    store ptr [[TMP1]], ptr [[C7]], align 4
-// CHECK4-NEXT:    [[E9:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 3
-// CHECK4-NEXT:    store ptr [[E9]], ptr [[E]], align 4
-// CHECK4-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[A2]], align 4, !freeze_bits [[META4]]
+// CHECK4-NEXT:    [[FREEZE_POISON9:%.*]] = freeze ptr poison
+// CHECK4-NEXT:    store ptr [[FREEZE_POISON9]], ptr [[C8]], align 4
+// CHECK4-NEXT:    [[C10:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 2
+// CHECK4-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[C10]], align 4, !freeze_bits [[META4]]
+// CHECK4-NEXT:    store ptr [[TMP1]], ptr [[C8]], align 4
+// CHECK4-NEXT:    [[FREEZE_POISON11:%.*]] = freeze ptr poison
+// CHECK4-NEXT:    store ptr [[FREEZE_POISON11]], ptr [[E]], align 4
+// CHECK4-NEXT:    [[E12:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 3
+// CHECK4-NEXT:    store ptr [[E12]], ptr [[E]], align 4
+// CHECK4-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[A2]], align 4
 // CHECK4-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4, !freeze_bits [[META4]]
 // CHECK4-NEXT:    store i32 [[TMP3]], ptr [[A_CASTED]], align 4
 // CHECK4-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A_CASTED]], align 4, !freeze_bits [[META4]]
 // CHECK4-NEXT:    [[TMP5:%.*]] = load i32, ptr [[B4]], align 4
 // CHECK4-NEXT:    store i32 [[TMP5]], ptr [[B_CASTED]], align 4
 // CHECK4-NEXT:    [[TMP6:%.*]] = load i32, ptr [[B_CASTED]], align 4, !freeze_bits [[META4]]
-// CHECK4-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[C7]], align 4, !freeze_bits [[META4]]
+// CHECK4-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[C8]], align 4
 // CHECK4-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP7]], align 4, !freeze_bits [[META4]]
 // CHECK4-NEXT:    store i32 [[TMP8]], ptr [[C_CASTED]], align 4
 // CHECK4-NEXT:    [[TMP9:%.*]] = load i32, ptr [[C_CASTED]], align 4, !freeze_bits [[META4]]
-// CHECK4-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[E]], align 4, !freeze_bits [[META4]]
+// CHECK4-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[E]], align 4
 // CHECK4-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB1]], i32 5, ptr @_ZN2SSC2ERi.omp_outlined, ptr [[THIS1]], i32 [[TMP4]], i32 [[TMP6]], i32 [[TMP9]], ptr [[TMP10]])
 // CHECK4-NEXT:    ret void
 //
@@ -1438,20 +1458,18 @@ void array_func(float a[3], St s[2], int n, long double vla1[n]) {
 // CHECK9-NEXT:    [[SS:%.*]] = alloca [[STRUCT_SS:%.*]], align 8
 // CHECK9-NEXT:    [[TEST:%.*]] = alloca [[STRUCT_S:%.*]], align 4
 // CHECK9-NEXT:    [[T_VAR:%.*]] = alloca i32, align 4
-// CHECK9-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK9-NEXT:    store i32 [[FREEZE_POISON]], ptr [[T_VAR]], align 4
 // CHECK9-NEXT:    [[VEC:%.*]] = alloca [2 x i32], align 4
 // CHECK9-NEXT:    [[S_ARR:%.*]] = alloca [2 x %struct.S], align 4
 // CHECK9-NEXT:    [[VAR:%.*]] = alloca [[STRUCT_S]], align 4
 // CHECK9-NEXT:    [[T_VAR_CASTED:%.*]] = alloca i64, align 8
 // CHECK9-NEXT:    [[SIVAR_CASTED:%.*]] = alloca i64, align 8
 // CHECK9-NEXT:    [[A:%.*]] = alloca i32, align 4
-// CHECK9-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// CHECK9-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[A]], align 4
 // CHECK9-NEXT:    [[T_VAR_CASTED2:%.*]] = alloca i64, align 8
 // CHECK9-NEXT:    store i32 0, ptr [[RETVAL]], align 4
 // CHECK9-NEXT:    call void @_ZN2SSC1ERi(ptr nonnull align 8 dereferenceable(32) [[SS]], ptr nonnull align 4 dereferenceable(4) @_ZZ4mainE5sivar)
 // CHECK9-NEXT:    call void @_ZN1SIfEC1Ev(ptr nonnull align 4 dereferenceable(4) [[TEST]])
+// CHECK9-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK9-NEXT:    store i32 [[FREEZE_POISON]], ptr [[T_VAR]], align 4
 // CHECK9-NEXT:    store i32 0, ptr [[T_VAR]], align 4
 // CHECK9-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 4 [[VEC]], ptr align 4 @__const.main.vec, i64 8, i1 false)
 // CHECK9-NEXT:    call void @_ZN1SIfEC1Ef(ptr nonnull align 4 dereferenceable(4) [[S_ARR]], float 1.000000e+00)
@@ -1465,6 +1483,8 @@ void array_func(float a[3], St s[2], int n, long double vla1[n]) {
 // CHECK9-NEXT:    store i32 [[TMP2]], ptr [[SIVAR_CASTED]], align 4
 // CHECK9-NEXT:    [[TMP3:%.*]] = load i64, ptr [[SIVAR_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK9-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB1:[0-9]+]], i32 5, ptr @main.omp_outlined, ptr [[VEC]], i64 [[TMP1]], ptr [[S_ARR]], ptr [[VAR]], i64 [[TMP3]])
+// CHECK9-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK9-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[A]], align 4
 // CHECK9-NEXT:    store i32 0, ptr [[A]], align 4
 // CHECK9-NEXT:    [[TMP4:%.*]] = load i32, ptr [[T_VAR]], align 4
 // CHECK9-NEXT:    store i32 [[TMP4]], ptr [[T_VAR_CASTED2]], align 4
@@ -1659,8 +1679,6 @@ void array_func(float a[3], St s[2], int n, long double vla1[n]) {
 // CHECK9-NEXT:    [[TEST:%.*]] = alloca [[STRUCT_S_0:%.*]], align 4
 // CHECK9-NEXT:    [[SST:%.*]] = alloca [[STRUCT_SST:%.*]], align 4
 // CHECK9-NEXT:    [[T_VAR:%.*]] = alloca i32, align 128
-// CHECK9-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK9-NEXT:    store i32 [[FREEZE_POISON]], ptr [[T_VAR]], align 4
 // CHECK9-NEXT:    [[VEC:%.*]] = alloca [2 x i32], align 128
 // CHECK9-NEXT:    [[S_ARR:%.*]] = alloca [2 x %struct.S.0], align 128
 // CHECK9-NEXT:    [[VAR:%.*]] = alloca [[STRUCT_S_0]], align 128
@@ -1668,6 +1686,8 @@ void array_func(float a[3], St s[2], int n, long double vla1[n]) {
 // CHECK9-NEXT:    [[T_VAR_CASTED1:%.*]] = alloca i64, align 8
 // CHECK9-NEXT:    call void @_ZN1SIiEC1Ev(ptr nonnull align 4 dereferenceable(4) [[TEST]])
 // CHECK9-NEXT:    call void @_ZN3SSTIiEC1Ev(ptr nonnull align 4 dereferenceable(4) [[SST]])
+// CHECK9-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK9-NEXT:    store i32 [[FREEZE_POISON]], ptr [[T_VAR]], align 128
 // CHECK9-NEXT:    store i32 0, ptr [[T_VAR]], align 128
 // CHECK9-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 128 [[VEC]], ptr align 128 @__const._Z5tmainIiET_v.vec, i64 8, i1 false)
 // CHECK9-NEXT:    call void @_ZN1SIiEC1Ei(ptr nonnull align 4 dereferenceable(4) [[S_ARR]], i32 1)
@@ -1706,9 +1726,7 @@ void array_func(float a[3], St s[2], int n, long double vla1[n]) {
 // CHECK9-NEXT:    [[D_ADDR:%.*]] = alloca ptr, align 8
 // CHECK9-NEXT:    [[A2:%.*]] = alloca ptr, align 8
 // CHECK9-NEXT:    [[B4:%.*]] = alloca i32, align 4
-// CHECK9-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK9-NEXT:    store i32 [[FREEZE_POISON]], ptr [[B4]], align 4
-// CHECK9-NEXT:    [[C7:%.*]] = alloca ptr, align 8
+// CHECK9-NEXT:    [[C8:%.*]] = alloca ptr, align 8
 // CHECK9-NEXT:    [[E:%.*]] = alloca ptr, align 8
 // CHECK9-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK9-NEXT:    [[B_CASTED:%.*]] = alloca i64, align 8
@@ -1726,31 +1744,39 @@ void array_func(float a[3], St s[2], int n, long double vla1[n]) {
 // CHECK9-NEXT:    [[C:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 2
 // CHECK9-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[D_ADDR]], align 8
 // CHECK9-NEXT:    store ptr [[TMP0]], ptr [[C]], align 8
+// CHECK9-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK9-NEXT:    store ptr [[FREEZE_POISON]], ptr [[A2]], align 8
 // CHECK9-NEXT:    [[A3:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 0
 // CHECK9-NEXT:    store ptr [[A3]], ptr [[A2]], align 8
-// CHECK9-NEXT:    [[B5:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 1
-// CHECK9-NEXT:    [[BF_LOAD6:%.*]] = load i8, ptr [[B5]], align 4, !freeze_bits [[META3]]
-// CHECK9-NEXT:    [[BF_SHL:%.*]] = shl i8 [[BF_LOAD6]], 4
+// CHECK9-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK9-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[B4]], align 4
+// CHECK9-NEXT:    [[B6:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 1
+// CHECK9-NEXT:    [[BF_LOAD7:%.*]] = load i8, ptr [[B6]], align 4, !freeze_bits [[META3]]
+// CHECK9-NEXT:    [[BF_SHL:%.*]] = shl i8 [[BF_LOAD7]], 4
 // CHECK9-NEXT:    [[BF_ASHR:%.*]] = ashr i8 [[BF_SHL]], 4
 // CHECK9-NEXT:    [[BF_CAST:%.*]] = sext i8 [[BF_ASHR]] to i32
 // CHECK9-NEXT:    store i32 [[BF_CAST]], ptr [[B4]], align 4
-// CHECK9-NEXT:    [[C8:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 2
-// CHECK9-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[C8]], align 8, !freeze_bits [[META3]]
-// CHECK9-NEXT:    store ptr [[TMP1]], ptr [[C7]], align 8
-// CHECK9-NEXT:    [[E9:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 3
-// CHECK9-NEXT:    store ptr [[E9]], ptr [[E]], align 8
-// CHECK9-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[A2]], align 8, !freeze_bits [[META3]]
+// CHECK9-NEXT:    [[FREEZE_POISON9:%.*]] = freeze ptr poison
+// CHECK9-NEXT:    store ptr [[FREEZE_POISON9]], ptr [[C8]], align 8
+// CHECK9-NEXT:    [[C10:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 2
+// CHECK9-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[C10]], align 8, !freeze_bits [[META3]]
+// CHECK9-NEXT:    store ptr [[TMP1]], ptr [[C8]], align 8
+// CHECK9-NEXT:    [[FREEZE_POISON11:%.*]] = freeze ptr poison
+// CHECK9-NEXT:    store ptr [[FREEZE_POISON11]], ptr [[E]], align 8
+// CHECK9-NEXT:    [[E12:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 3
+// CHECK9-NEXT:    store ptr [[E12]], ptr [[E]], align 8
+// CHECK9-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[A2]], align 8
 // CHECK9-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4, !freeze_bits [[META3]]
 // CHECK9-NEXT:    store i32 [[TMP3]], ptr [[A_CASTED]], align 4
 // CHECK9-NEXT:    [[TMP4:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK9-NEXT:    [[TMP5:%.*]] = load i32, ptr [[B4]], align 4
 // CHECK9-NEXT:    store i32 [[TMP5]], ptr [[B_CASTED]], align 4
 // CHECK9-NEXT:    [[TMP6:%.*]] = load i64, ptr [[B_CASTED]], align 8, !freeze_bits [[META3]]
-// CHECK9-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[C7]], align 8, !freeze_bits [[META3]]
+// CHECK9-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[C8]], align 8
 // CHECK9-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP7]], align 4, !freeze_bits [[META3]]
 // CHECK9-NEXT:    store i32 [[TMP8]], ptr [[C_CASTED]], align 4
 // CHECK9-NEXT:    [[TMP9:%.*]] = load i64, ptr [[C_CASTED]], align 8, !freeze_bits [[META3]]
-// CHECK9-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[E]], align 8, !freeze_bits [[META3]]
+// CHECK9-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[E]], align 8
 // CHECK9-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB1]], i32 5, ptr @_ZN2SSC2ERi.omp_outlined, ptr [[THIS1]], i64 [[TMP4]], i64 [[TMP6]], i64 [[TMP9]], ptr [[TMP10]])
 // CHECK9-NEXT:    ret void
 //
@@ -2038,9 +2064,11 @@ void array_func(float a[3], St s[2], int n, long double vla1[n]) {
 // CHECK9-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK9-NEXT:    [[A:%.*]] = getelementptr inbounds [[STRUCT_SST:%.*]], ptr [[THIS1]], i32 0, i32 0
 // CHECK9-NEXT:    store i32 0, ptr [[A]], align 4
+// CHECK9-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK9-NEXT:    store ptr [[FREEZE_POISON]], ptr [[A2]], align 8
 // CHECK9-NEXT:    [[A3:%.*]] = getelementptr inbounds [[STRUCT_SST]], ptr [[THIS1]], i32 0, i32 0
 // CHECK9-NEXT:    store ptr [[A3]], ptr [[A2]], align 8
-// CHECK9-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[A2]], align 8, !freeze_bits [[META3]]
+// CHECK9-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[A2]], align 8
 // CHECK9-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK9-NEXT:    store i32 [[TMP1]], ptr [[A_CASTED]], align 4
 // CHECK9-NEXT:    [[TMP2:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
@@ -2149,9 +2177,7 @@ void array_func(float a[3], St s[2], int n, long double vla1[n]) {
 // CHECK11-NEXT:    [[D_ADDR:%.*]] = alloca ptr, align 8
 // CHECK11-NEXT:    [[A2:%.*]] = alloca ptr, align 8
 // CHECK11-NEXT:    [[B4:%.*]] = alloca i32, align 4
-// CHECK11-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK11-NEXT:    store i32 [[FREEZE_POISON]], ptr [[B4]], align 4
-// CHECK11-NEXT:    [[C7:%.*]] = alloca ptr, align 8
+// CHECK11-NEXT:    [[C8:%.*]] = alloca ptr, align 8
 // CHECK11-NEXT:    [[E:%.*]] = alloca ptr, align 8
 // CHECK11-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK11-NEXT:    [[B_CASTED:%.*]] = alloca i64, align 8
@@ -2169,31 +2195,39 @@ void array_func(float a[3], St s[2], int n, long double vla1[n]) {
 // CHECK11-NEXT:    [[C:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 2
 // CHECK11-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[D_ADDR]], align 8
 // CHECK11-NEXT:    store ptr [[TMP0]], ptr [[C]], align 8
+// CHECK11-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK11-NEXT:    store ptr [[FREEZE_POISON]], ptr [[A2]], align 8
 // CHECK11-NEXT:    [[A3:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 0
 // CHECK11-NEXT:    store ptr [[A3]], ptr [[A2]], align 8
-// CHECK11-NEXT:    [[B5:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 1
-// CHECK11-NEXT:    [[BF_LOAD6:%.*]] = load i8, ptr [[B5]], align 4, !freeze_bits [[META3]]
-// CHECK11-NEXT:    [[BF_SHL:%.*]] = shl i8 [[BF_LOAD6]], 4
+// CHECK11-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK11-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[B4]], align 4
+// CHECK11-NEXT:    [[B6:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 1
+// CHECK11-NEXT:    [[BF_LOAD7:%.*]] = load i8, ptr [[B6]], align 4, !freeze_bits [[META3]]
+// CHECK11-NEXT:    [[BF_SHL:%.*]] = shl i8 [[BF_LOAD7]], 4
 // CHECK11-NEXT:    [[BF_ASHR:%.*]] = ashr i8 [[BF_SHL]], 4
 // CHECK11-NEXT:    [[BF_CAST:%.*]] = sext i8 [[BF_ASHR]] to i32
 // CHECK11-NEXT:    store i32 [[BF_CAST]], ptr [[B4]], align 4
-// CHECK11-NEXT:    [[C8:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 2
-// CHECK11-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[C8]], align 8, !freeze_bits [[META3]]
-// CHECK11-NEXT:    store ptr [[TMP1]], ptr [[C7]], align 8
-// CHECK11-NEXT:    [[E9:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 3
-// CHECK11-NEXT:    store ptr [[E9]], ptr [[E]], align 8
-// CHECK11-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[A2]], align 8, !freeze_bits [[META3]]
+// CHECK11-NEXT:    [[FREEZE_POISON9:%.*]] = freeze ptr poison
+// CHECK11-NEXT:    store ptr [[FREEZE_POISON9]], ptr [[C8]], align 8
+// CHECK11-NEXT:    [[C10:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 2
+// CHECK11-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[C10]], align 8, !freeze_bits [[META3]]
+// CHECK11-NEXT:    store ptr [[TMP1]], ptr [[C8]], align 8
+// CHECK11-NEXT:    [[FREEZE_POISON11:%.*]] = freeze ptr poison
+// CHECK11-NEXT:    store ptr [[FREEZE_POISON11]], ptr [[E]], align 8
+// CHECK11-NEXT:    [[E12:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 3
+// CHECK11-NEXT:    store ptr [[E12]], ptr [[E]], align 8
+// CHECK11-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[A2]], align 8
 // CHECK11-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4, !freeze_bits [[META3]]
 // CHECK11-NEXT:    store i32 [[TMP3]], ptr [[A_CASTED]], align 4
 // CHECK11-NEXT:    [[TMP4:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK11-NEXT:    [[TMP5:%.*]] = load i32, ptr [[B4]], align 4
 // CHECK11-NEXT:    store i32 [[TMP5]], ptr [[B_CASTED]], align 4
 // CHECK11-NEXT:    [[TMP6:%.*]] = load i64, ptr [[B_CASTED]], align 8, !freeze_bits [[META3]]
-// CHECK11-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[C7]], align 8, !freeze_bits [[META3]]
+// CHECK11-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[C8]], align 8
 // CHECK11-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP7]], align 4, !freeze_bits [[META3]]
 // CHECK11-NEXT:    store i32 [[TMP8]], ptr [[C_CASTED]], align 4
 // CHECK11-NEXT:    [[TMP9:%.*]] = load i64, ptr [[C_CASTED]], align 8, !freeze_bits [[META3]]
-// CHECK11-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[E]], align 8, !freeze_bits [[META3]]
+// CHECK11-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[E]], align 8
 // CHECK11-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB1:[0-9]+]], i32 5, ptr @_ZN2SSC2ERi.omp_outlined, ptr [[THIS1]], i64 [[TMP4]], i64 [[TMP6]], i64 [[TMP9]], ptr [[TMP10]])
 // CHECK11-NEXT:    ret void
 //
@@ -2438,9 +2472,7 @@ void array_func(float a[3], St s[2], int n, long double vla1[n]) {
 // CHECK12-NEXT:    [[D_ADDR:%.*]] = alloca ptr, align 8
 // CHECK12-NEXT:    [[A2:%.*]] = alloca ptr, align 8
 // CHECK12-NEXT:    [[B4:%.*]] = alloca i32, align 4
-// CHECK12-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK12-NEXT:    store i32 [[FREEZE_POISON]], ptr [[B4]], align 4
-// CHECK12-NEXT:    [[C7:%.*]] = alloca ptr, align 8
+// CHECK12-NEXT:    [[C8:%.*]] = alloca ptr, align 8
 // CHECK12-NEXT:    [[E:%.*]] = alloca ptr, align 8
 // CHECK12-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK12-NEXT:    [[B_CASTED:%.*]] = alloca i64, align 8
@@ -2458,31 +2490,39 @@ void array_func(float a[3], St s[2], int n, long double vla1[n]) {
 // CHECK12-NEXT:    [[C:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 2
 // CHECK12-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[D_ADDR]], align 8
 // CHECK12-NEXT:    store ptr [[TMP0]], ptr [[C]], align 8
+// CHECK12-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK12-NEXT:    store ptr [[FREEZE_POISON]], ptr [[A2]], align 8
 // CHECK12-NEXT:    [[A3:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 0
 // CHECK12-NEXT:    store ptr [[A3]], ptr [[A2]], align 8
-// CHECK12-NEXT:    [[B5:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 1
-// CHECK12-NEXT:    [[BF_LOAD6:%.*]] = load i8, ptr [[B5]], align 4, !freeze_bits [[META3]]
-// CHECK12-NEXT:    [[BF_SHL:%.*]] = shl i8 [[BF_LOAD6]], 4
+// CHECK12-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK12-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[B4]], align 4
+// CHECK12-NEXT:    [[B6:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 1
+// CHECK12-NEXT:    [[BF_LOAD7:%.*]] = load i8, ptr [[B6]], align 4, !freeze_bits [[META3]]
+// CHECK12-NEXT:    [[BF_SHL:%.*]] = shl i8 [[BF_LOAD7]], 4
 // CHECK12-NEXT:    [[BF_ASHR:%.*]] = ashr i8 [[BF_SHL]], 4
 // CHECK12-NEXT:    [[BF_CAST:%.*]] = sext i8 [[BF_ASHR]] to i32
 // CHECK12-NEXT:    store i32 [[BF_CAST]], ptr [[B4]], align 4
-// CHECK12-NEXT:    [[C8:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 2
-// CHECK12-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[C8]], align 8, !freeze_bits [[META3]]
-// CHECK12-NEXT:    store ptr [[TMP1]], ptr [[C7]], align 8
-// CHECK12-NEXT:    [[E9:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 3
-// CHECK12-NEXT:    store ptr [[E9]], ptr [[E]], align 8
-// CHECK12-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[A2]], align 8, !freeze_bits [[META3]]
+// CHECK12-NEXT:    [[FREEZE_POISON9:%.*]] = freeze ptr poison
+// CHECK12-NEXT:    store ptr [[FREEZE_POISON9]], ptr [[C8]], align 8
+// CHECK12-NEXT:    [[C10:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 2
+// CHECK12-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[C10]], align 8, !freeze_bits [[META3]]
+// CHECK12-NEXT:    store ptr [[TMP1]], ptr [[C8]], align 8
+// CHECK12-NEXT:    [[FREEZE_POISON11:%.*]] = freeze ptr poison
+// CHECK12-NEXT:    store ptr [[FREEZE_POISON11]], ptr [[E]], align 8
+// CHECK12-NEXT:    [[E12:%.*]] = getelementptr inbounds [[STRUCT_SS]], ptr [[THIS1]], i32 0, i32 3
+// CHECK12-NEXT:    store ptr [[E12]], ptr [[E]], align 8
+// CHECK12-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[A2]], align 8
 // CHECK12-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4, !freeze_bits [[META3]]
 // CHECK12-NEXT:    store i32 [[TMP3]], ptr [[A_CASTED]], align 4
 // CHECK12-NEXT:    [[TMP4:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK12-NEXT:    [[TMP5:%.*]] = load i32, ptr [[B4]], align 4
 // CHECK12-NEXT:    store i32 [[TMP5]], ptr [[B_CASTED]], align 4
 // CHECK12-NEXT:    [[TMP6:%.*]] = load i64, ptr [[B_CASTED]], align 8, !freeze_bits [[META3]]
-// CHECK12-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[C7]], align 8, !freeze_bits [[META3]]
+// CHECK12-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[C8]], align 8
 // CHECK12-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP7]], align 4, !freeze_bits [[META3]]
 // CHECK12-NEXT:    store i32 [[TMP8]], ptr [[C_CASTED]], align 4
 // CHECK12-NEXT:    [[TMP9:%.*]] = load i64, ptr [[C_CASTED]], align 8, !freeze_bits [[META3]]
-// CHECK12-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[E]], align 8, !freeze_bits [[META3]]
+// CHECK12-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[E]], align 8
 // CHECK12-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB1]], i32 5, ptr @_ZN2SSC2ERi.omp_outlined, ptr [[THIS1]], i64 [[TMP4]], i64 [[TMP6]], i64 [[TMP9]], ptr [[TMP10]])
 // CHECK12-NEXT:    ret void
 //

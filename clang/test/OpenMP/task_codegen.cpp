@@ -221,8 +221,6 @@ void test_omp_all_memory()
 // CHECK1-NEXT:  entry:
 // CHECK1-NEXT:    [[RETVAL:%.*]] = alloca i32, align 4
 // CHECK1-NEXT:    [[B:%.*]] = alloca i8, align 1
-// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i8 poison
-// CHECK1-NEXT:    store i8 [[FREEZE_POISON]], ptr [[B]], align 1
 // CHECK1-NEXT:    [[S:%.*]] = alloca [2 x %struct.S], align 4
 // CHECK1-NEXT:    [[SAVED_STACK:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    [[__VLA_EXPR0:%.*]] = alloca i64, align 8
@@ -242,16 +240,14 @@ void test_omp_all_memory()
 // CHECK1-NEXT:    [[DEP_COUNTER_ADDR27:%.*]] = alloca i64, align 8
 // CHECK1-NEXT:    [[AGG_CAPTURED28:%.*]] = alloca [[STRUCT_ANON_10:%.*]], align 1
 // CHECK1-NEXT:    [[FLAG:%.*]] = alloca i8, align 1
-// CHECK1-NEXT:    [[FREEZE_POISON29:%.*]] = freeze i8 poison
-// CHECK1-NEXT:    store i8 [[FREEZE_POISON29]], ptr [[FLAG]], align 1
 // CHECK1-NEXT:    [[AGG_CAPTURED30:%.*]] = alloca [[STRUCT_ANON_12:%.*]], align 1
 // CHECK1-NEXT:    [[C:%.*]] = alloca i32, align 128
-// CHECK1-NEXT:    [[FREEZE_POISON31:%.*]] = freeze i32 poison
-// CHECK1-NEXT:    store i32 [[FREEZE_POISON31]], ptr [[C]], align 4
 // CHECK1-NEXT:    [[AGG_CAPTURED32:%.*]] = alloca [[STRUCT_ANON_14:%.*]], align 8
 // CHECK1-NEXT:    [[AGG_CAPTURED33:%.*]] = alloca [[STRUCT_ANON_16:%.*]], align 1
 // CHECK1-NEXT:    [[TMP0:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1:[0-9]+]])
 // CHECK1-NEXT:    store i32 0, ptr [[RETVAL]], align 4
+// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i8 poison
+// CHECK1-NEXT:    store i8 [[FREEZE_POISON]], ptr [[B]], align 1
 // CHECK1-NEXT:    [[ARRAY_BEGIN:%.*]] = getelementptr inbounds [2 x %struct.S], ptr [[S]], i32 0, i32 0
 // CHECK1-NEXT:    [[ARRAYCTOR_END:%.*]] = getelementptr inbounds [[STRUCT_S:%.*]], ptr [[ARRAY_BEGIN]], i64 2
 // CHECK1-NEXT:    br label [[ARRAYCTOR_LOOP:%.*]]
@@ -461,10 +457,14 @@ void test_omp_all_memory()
 // CHECK1-NEXT:    [[TMP128:%.*]] = call ptr @__kmpc_omp_task_alloc(ptr @[[GLOB1]], i32 [[TMP0]], i32 3, i64 40, i64 1, ptr @.omp_task_entry..12)
 // CHECK1-NEXT:    [[TMP129:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_11:%.*]], ptr [[TMP128]], i32 0, i32 0
 // CHECK1-NEXT:    [[TMP130:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[TMP0]], ptr [[TMP128]])
+// CHECK1-NEXT:    [[FREEZE_POISON29:%.*]] = freeze i8 poison
+// CHECK1-NEXT:    store i8 [[FREEZE_POISON29]], ptr [[FLAG]], align 1
 // CHECK1-NEXT:    store i8 0, ptr [[FLAG]], align 1
 // CHECK1-NEXT:    [[TMP131:%.*]] = call ptr @__kmpc_omp_task_alloc(ptr @[[GLOB1]], i32 [[TMP0]], i32 1, i64 40, i64 1, ptr @.omp_task_entry..14)
 // CHECK1-NEXT:    [[TMP132:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_13:%.*]], ptr [[TMP131]], i32 0, i32 0
 // CHECK1-NEXT:    [[TMP133:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[TMP0]], ptr [[TMP131]])
+// CHECK1-NEXT:    [[FREEZE_POISON31:%.*]] = freeze i32 poison
+// CHECK1-NEXT:    store i32 [[FREEZE_POISON31]], ptr [[C]], align 128
 // CHECK1-NEXT:    [[TMP134:%.*]] = getelementptr inbounds [[STRUCT_ANON_14]], ptr [[AGG_CAPTURED32]], i32 0, i32 0
 // CHECK1-NEXT:    store ptr [[C]], ptr [[TMP134]], align 8
 // CHECK1-NEXT:    [[TMP135:%.*]] = load i8, ptr [[B]], align 1
@@ -1234,6 +1234,8 @@ void test_omp_all_memory()
 // CHECK1-SAME: () #[[ATTR1]] {
 // CHECK1-NEXT:  entry:
 // CHECK1-NEXT:    [[A:%.*]] = alloca float, align 4
+// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// CHECK1-NEXT:    store float [[FREEZE_POISON]], ptr [[A]], align 4
 // CHECK1-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB1]], i32 1, ptr @_Z6foobarIvEvv.omp_outlined, ptr [[A]])
 // CHECK1-NEXT:    ret void
 //
@@ -1256,6 +1258,8 @@ void test_omp_all_memory()
 // CHECK1-NEXT:    [[TMP4:%.*]] = icmp ne i32 [[TMP3]], 0
 // CHECK1-NEXT:    br i1 [[TMP4]], label [[OMP_IF_THEN:%.*]], label [[OMP_IF_END:%.*]]
 // CHECK1:       omp_if.then:
+// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// CHECK1-NEXT:    store double [[FREEZE_POISON]], ptr [[B]], align 8
 // CHECK1-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_ANON_23]], ptr [[AGG_CAPTURED]], i32 0, i32 0
 // CHECK1-NEXT:    store ptr [[TMP0]], ptr [[TMP5]], align 8
 // CHECK1-NEXT:    [[TMP6:%.*]] = call ptr @__kmpc_omp_task_alloc(ptr @[[GLOB1]], i32 [[TMP2]], i32 1, i64 48, i64 8, ptr @.omp_task_entry..26)
@@ -1265,7 +1269,7 @@ void test_omp_all_memory()
 // CHECK1-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 8 [[TMP9]], ptr align 8 [[AGG_CAPTURED]], i64 8, i1 false)
 // CHECK1-NEXT:    [[TMP10:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_24]], ptr [[TMP6]], i32 0, i32 1
 // CHECK1-NEXT:    [[TMP11:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T_25:%.*]], ptr [[TMP10]], i32 0, i32 0
-// CHECK1-NEXT:    [[TMP12:%.*]] = load double, ptr [[B]], align 8, !freeze_bits [[META3]]
+// CHECK1-NEXT:    [[TMP12:%.*]] = load double, ptr [[B]], align 8
 // CHECK1-NEXT:    store double [[TMP12]], ptr [[TMP11]], align 8
 // CHECK1-NEXT:    [[TMP13:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[TMP2]], ptr [[TMP6]])
 // CHECK1-NEXT:    call void @__kmpc_end_single(ptr @[[GLOB1]], i32 [[TMP2]])
@@ -1347,8 +1351,6 @@ void test_omp_all_memory()
 // CHECK1-51-NEXT:  entry:
 // CHECK1-51-NEXT:    [[RETVAL:%.*]] = alloca i32, align 4
 // CHECK1-51-NEXT:    [[B:%.*]] = alloca i8, align 1
-// CHECK1-51-NEXT:    [[FREEZE_POISON:%.*]] = freeze i8 poison
-// CHECK1-51-NEXT:    store i8 [[FREEZE_POISON]], ptr [[B]], align 1
 // CHECK1-51-NEXT:    [[S:%.*]] = alloca [2 x %struct.S], align 4
 // CHECK1-51-NEXT:    [[SAVED_STACK:%.*]] = alloca ptr, align 8
 // CHECK1-51-NEXT:    [[__VLA_EXPR0:%.*]] = alloca i64, align 8
@@ -1371,16 +1373,14 @@ void test_omp_all_memory()
 // CHECK1-51-NEXT:    [[DEP_COUNTER_ADDR37:%.*]] = alloca i64, align 8
 // CHECK1-51-NEXT:    [[AGG_CAPTURED38:%.*]] = alloca [[STRUCT_ANON_12:%.*]], align 1
 // CHECK1-51-NEXT:    [[FLAG:%.*]] = alloca i8, align 1
-// CHECK1-51-NEXT:    [[FREEZE_POISON39:%.*]] = freeze i8 poison
-// CHECK1-51-NEXT:    store i8 [[FREEZE_POISON39]], ptr [[FLAG]], align 1
 // CHECK1-51-NEXT:    [[AGG_CAPTURED40:%.*]] = alloca [[STRUCT_ANON_14:%.*]], align 1
 // CHECK1-51-NEXT:    [[C:%.*]] = alloca i32, align 128
-// CHECK1-51-NEXT:    [[FREEZE_POISON41:%.*]] = freeze i32 poison
-// CHECK1-51-NEXT:    store i32 [[FREEZE_POISON41]], ptr [[C]], align 4
 // CHECK1-51-NEXT:    [[AGG_CAPTURED42:%.*]] = alloca [[STRUCT_ANON_16:%.*]], align 8
 // CHECK1-51-NEXT:    [[AGG_CAPTURED43:%.*]] = alloca [[STRUCT_ANON_18:%.*]], align 1
 // CHECK1-51-NEXT:    [[TMP0:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1:[0-9]+]])
 // CHECK1-51-NEXT:    store i32 0, ptr [[RETVAL]], align 4
+// CHECK1-51-NEXT:    [[FREEZE_POISON:%.*]] = freeze i8 poison
+// CHECK1-51-NEXT:    store i8 [[FREEZE_POISON]], ptr [[B]], align 1
 // CHECK1-51-NEXT:    [[ARRAY_BEGIN:%.*]] = getelementptr inbounds [2 x %struct.S], ptr [[S]], i32 0, i32 0
 // CHECK1-51-NEXT:    [[ARRAYCTOR_END:%.*]] = getelementptr inbounds [[STRUCT_S:%.*]], ptr [[ARRAY_BEGIN]], i64 2
 // CHECK1-51-NEXT:    br label [[ARRAYCTOR_LOOP:%.*]]
@@ -1635,10 +1635,14 @@ void test_omp_all_memory()
 // CHECK1-51-NEXT:    [[TMP156:%.*]] = call ptr @__kmpc_omp_task_alloc(ptr @[[GLOB1]], i32 [[TMP0]], i32 3, i64 40, i64 1, ptr @.omp_task_entry..14)
 // CHECK1-51-NEXT:    [[TMP157:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_13:%.*]], ptr [[TMP156]], i32 0, i32 0
 // CHECK1-51-NEXT:    [[TMP158:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[TMP0]], ptr [[TMP156]])
+// CHECK1-51-NEXT:    [[FREEZE_POISON39:%.*]] = freeze i8 poison
+// CHECK1-51-NEXT:    store i8 [[FREEZE_POISON39]], ptr [[FLAG]], align 1
 // CHECK1-51-NEXT:    store i8 0, ptr [[FLAG]], align 1
 // CHECK1-51-NEXT:    [[TMP159:%.*]] = call ptr @__kmpc_omp_task_alloc(ptr @[[GLOB1]], i32 [[TMP0]], i32 1, i64 40, i64 1, ptr @.omp_task_entry..16)
 // CHECK1-51-NEXT:    [[TMP160:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_15:%.*]], ptr [[TMP159]], i32 0, i32 0
 // CHECK1-51-NEXT:    [[TMP161:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[TMP0]], ptr [[TMP159]])
+// CHECK1-51-NEXT:    [[FREEZE_POISON41:%.*]] = freeze i32 poison
+// CHECK1-51-NEXT:    store i32 [[FREEZE_POISON41]], ptr [[C]], align 128
 // CHECK1-51-NEXT:    [[TMP162:%.*]] = getelementptr inbounds [[STRUCT_ANON_16]], ptr [[AGG_CAPTURED42]], i32 0, i32 0
 // CHECK1-51-NEXT:    store ptr [[C]], ptr [[TMP162]], align 8
 // CHECK1-51-NEXT:    [[TMP163:%.*]] = load i8, ptr [[B]], align 1
@@ -2442,6 +2446,8 @@ void test_omp_all_memory()
 // CHECK1-51-SAME: () #[[ATTR1]] {
 // CHECK1-51-NEXT:  entry:
 // CHECK1-51-NEXT:    [[A:%.*]] = alloca float, align 4
+// CHECK1-51-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// CHECK1-51-NEXT:    store float [[FREEZE_POISON]], ptr [[A]], align 4
 // CHECK1-51-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB1]], i32 1, ptr @_Z6foobarIvEvv.omp_outlined, ptr [[A]])
 // CHECK1-51-NEXT:    ret void
 //
@@ -2464,6 +2470,8 @@ void test_omp_all_memory()
 // CHECK1-51-NEXT:    [[TMP4:%.*]] = icmp ne i32 [[TMP3]], 0
 // CHECK1-51-NEXT:    br i1 [[TMP4]], label [[OMP_IF_THEN:%.*]], label [[OMP_IF_END:%.*]]
 // CHECK1-51:       omp_if.then:
+// CHECK1-51-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// CHECK1-51-NEXT:    store double [[FREEZE_POISON]], ptr [[B]], align 8
 // CHECK1-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_ANON_25]], ptr [[AGG_CAPTURED]], i32 0, i32 0
 // CHECK1-51-NEXT:    store ptr [[TMP0]], ptr [[TMP5]], align 8
 // CHECK1-51-NEXT:    [[TMP6:%.*]] = call ptr @__kmpc_omp_task_alloc(ptr @[[GLOB1]], i32 [[TMP2]], i32 1, i64 48, i64 8, ptr @.omp_task_entry..28)
@@ -2473,7 +2481,7 @@ void test_omp_all_memory()
 // CHECK1-51-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 8 [[TMP9]], ptr align 8 [[AGG_CAPTURED]], i64 8, i1 false)
 // CHECK1-51-NEXT:    [[TMP10:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_26]], ptr [[TMP6]], i32 0, i32 1
 // CHECK1-51-NEXT:    [[TMP11:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T_27:%.*]], ptr [[TMP10]], i32 0, i32 0
-// CHECK1-51-NEXT:    [[TMP12:%.*]] = load double, ptr [[B]], align 8, !freeze_bits [[META3]]
+// CHECK1-51-NEXT:    [[TMP12:%.*]] = load double, ptr [[B]], align 8
 // CHECK1-51-NEXT:    store double [[TMP12]], ptr [[TMP11]], align 8
 // CHECK1-51-NEXT:    [[TMP13:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[TMP2]], ptr [[TMP6]])
 // CHECK1-51-NEXT:    call void @__kmpc_end_single(ptr @[[GLOB1]], i32 [[TMP2]])
@@ -2547,20 +2555,10 @@ void test_omp_all_memory()
 // CHECK1-51-SAME: () #[[ATTR1]] {
 // CHECK1-51-NEXT:  entry:
 // CHECK1-51-NEXT:    [[A:%.*]] = alloca i32, align 4
-// CHECK1-51-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK1-51-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
 // CHECK1-51-NEXT:    [[B:%.*]] = alloca i32, align 4
-// CHECK1-51-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// CHECK1-51-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[B]], align 4
 // CHECK1-51-NEXT:    [[C:%.*]] = alloca i32, align 4
-// CHECK1-51-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
-// CHECK1-51-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[C]], align 4
 // CHECK1-51-NEXT:    [[D:%.*]] = alloca i32, align 4
-// CHECK1-51-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
-// CHECK1-51-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[D]], align 4
 // CHECK1-51-NEXT:    [[E:%.*]] = alloca i32, align 4
-// CHECK1-51-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
-// CHECK1-51-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[E]], align 4
 // CHECK1-51-NEXT:    [[AGG_CAPTURED:%.*]] = alloca [[STRUCT_ANON_28:%.*]], align 1
 // CHECK1-51-NEXT:    [[DOTDEP_ARR_ADDR:%.*]] = alloca [2 x %struct.kmp_depend_info], align 8
 // CHECK1-51-NEXT:    [[DEP_COUNTER_ADDR:%.*]] = alloca i64, align 8
@@ -2577,6 +2575,16 @@ void test_omp_all_memory()
 // CHECK1-51-NEXT:    [[DOTDEP_ARR_ADDR15:%.*]] = alloca [1 x %struct.kmp_depend_info], align 8
 // CHECK1-51-NEXT:    [[DEP_COUNTER_ADDR16:%.*]] = alloca i64, align 8
 // CHECK1-51-NEXT:    [[TMP0:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1]])
+// CHECK1-51-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK1-51-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK1-51-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK1-51-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[B]], align 4
+// CHECK1-51-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK1-51-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[C]], align 4
+// CHECK1-51-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK1-51-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[D]], align 4
+// CHECK1-51-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK1-51-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[E]], align 4
 // CHECK1-51-NEXT:    [[TMP1:%.*]] = call ptr @__kmpc_omp_task_alloc(ptr @[[GLOB1]], i32 [[TMP0]], i32 1, i64 48, i64 1, ptr @.omp_task_entry..31)
 // CHECK1-51-NEXT:    [[TMP2:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_29:%.*]], ptr [[TMP1]], i32 0, i32 0
 // CHECK1-51-NEXT:    [[TMP3:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_29]], ptr [[TMP1]], i32 0, i32 1
@@ -2974,8 +2982,6 @@ void test_omp_all_memory()
 // CHECK2-NEXT:  entry:
 // CHECK2-NEXT:    [[RETVAL:%.*]] = alloca i32, align 4
 // CHECK2-NEXT:    [[B:%.*]] = alloca i8, align 1
-// CHECK2-NEXT:    [[FREEZE_POISON:%.*]] = freeze i8 poison
-// CHECK2-NEXT:    store i8 [[FREEZE_POISON]], ptr [[B]], align 1
 // CHECK2-NEXT:    [[S:%.*]] = alloca [2 x %struct.S], align 4
 // CHECK2-NEXT:    [[SAVED_STACK:%.*]] = alloca ptr, align 8
 // CHECK2-NEXT:    [[__VLA_EXPR0:%.*]] = alloca i64, align 8
@@ -2995,16 +3001,14 @@ void test_omp_all_memory()
 // CHECK2-NEXT:    [[DEP_COUNTER_ADDR27:%.*]] = alloca i64, align 8
 // CHECK2-NEXT:    [[AGG_CAPTURED28:%.*]] = alloca [[STRUCT_ANON_10:%.*]], align 1
 // CHECK2-NEXT:    [[FLAG:%.*]] = alloca i8, align 1
-// CHECK2-NEXT:    [[FREEZE_POISON29:%.*]] = freeze i8 poison
-// CHECK2-NEXT:    store i8 [[FREEZE_POISON29]], ptr [[FLAG]], align 1
 // CHECK2-NEXT:    [[AGG_CAPTURED30:%.*]] = alloca [[STRUCT_ANON_12:%.*]], align 1
 // CHECK2-NEXT:    [[C:%.*]] = alloca i32, align 128
-// CHECK2-NEXT:    [[FREEZE_POISON31:%.*]] = freeze i32 poison
-// CHECK2-NEXT:    store i32 [[FREEZE_POISON31]], ptr [[C]], align 4
 // CHECK2-NEXT:    [[AGG_CAPTURED32:%.*]] = alloca [[STRUCT_ANON_14:%.*]], align 8
 // CHECK2-NEXT:    [[AGG_CAPTURED33:%.*]] = alloca [[STRUCT_ANON_16:%.*]], align 1
 // CHECK2-NEXT:    [[TMP0:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1:[0-9]+]])
 // CHECK2-NEXT:    store i32 0, ptr [[RETVAL]], align 4
+// CHECK2-NEXT:    [[FREEZE_POISON:%.*]] = freeze i8 poison
+// CHECK2-NEXT:    store i8 [[FREEZE_POISON]], ptr [[B]], align 1
 // CHECK2-NEXT:    [[ARRAY_BEGIN:%.*]] = getelementptr inbounds [2 x %struct.S], ptr [[S]], i32 0, i32 0
 // CHECK2-NEXT:    [[ARRAYCTOR_END:%.*]] = getelementptr inbounds [[STRUCT_S:%.*]], ptr [[ARRAY_BEGIN]], i64 2
 // CHECK2-NEXT:    br label [[ARRAYCTOR_LOOP:%.*]]
@@ -3214,10 +3218,14 @@ void test_omp_all_memory()
 // CHECK2-NEXT:    [[TMP128:%.*]] = call ptr @__kmpc_omp_task_alloc(ptr @[[GLOB1]], i32 [[TMP0]], i32 3, i64 40, i64 1, ptr @.omp_task_entry..12)
 // CHECK2-NEXT:    [[TMP129:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_11:%.*]], ptr [[TMP128]], i32 0, i32 0
 // CHECK2-NEXT:    [[TMP130:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[TMP0]], ptr [[TMP128]])
+// CHECK2-NEXT:    [[FREEZE_POISON29:%.*]] = freeze i8 poison
+// CHECK2-NEXT:    store i8 [[FREEZE_POISON29]], ptr [[FLAG]], align 1
 // CHECK2-NEXT:    store i8 0, ptr [[FLAG]], align 1
 // CHECK2-NEXT:    [[TMP131:%.*]] = call ptr @__kmpc_omp_task_alloc(ptr @[[GLOB1]], i32 [[TMP0]], i32 1, i64 40, i64 1, ptr @.omp_task_entry..14)
 // CHECK2-NEXT:    [[TMP132:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_13:%.*]], ptr [[TMP131]], i32 0, i32 0
 // CHECK2-NEXT:    [[TMP133:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[TMP0]], ptr [[TMP131]])
+// CHECK2-NEXT:    [[FREEZE_POISON31:%.*]] = freeze i32 poison
+// CHECK2-NEXT:    store i32 [[FREEZE_POISON31]], ptr [[C]], align 128
 // CHECK2-NEXT:    [[TMP134:%.*]] = getelementptr inbounds [[STRUCT_ANON_14]], ptr [[AGG_CAPTURED32]], i32 0, i32 0
 // CHECK2-NEXT:    store ptr [[C]], ptr [[TMP134]], align 8
 // CHECK2-NEXT:    [[TMP135:%.*]] = load i8, ptr [[B]], align 1
@@ -3987,6 +3995,8 @@ void test_omp_all_memory()
 // CHECK2-SAME: () #[[ATTR1]] {
 // CHECK2-NEXT:  entry:
 // CHECK2-NEXT:    [[A:%.*]] = alloca float, align 4
+// CHECK2-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// CHECK2-NEXT:    store float [[FREEZE_POISON]], ptr [[A]], align 4
 // CHECK2-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB1]], i32 1, ptr @_Z6foobarIvEvv.omp_outlined, ptr [[A]])
 // CHECK2-NEXT:    ret void
 //
@@ -4009,6 +4019,8 @@ void test_omp_all_memory()
 // CHECK2-NEXT:    [[TMP4:%.*]] = icmp ne i32 [[TMP3]], 0
 // CHECK2-NEXT:    br i1 [[TMP4]], label [[OMP_IF_THEN:%.*]], label [[OMP_IF_END:%.*]]
 // CHECK2:       omp_if.then:
+// CHECK2-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// CHECK2-NEXT:    store double [[FREEZE_POISON]], ptr [[B]], align 8
 // CHECK2-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_ANON_23]], ptr [[AGG_CAPTURED]], i32 0, i32 0
 // CHECK2-NEXT:    store ptr [[TMP0]], ptr [[TMP5]], align 8
 // CHECK2-NEXT:    [[TMP6:%.*]] = call ptr @__kmpc_omp_task_alloc(ptr @[[GLOB1]], i32 [[TMP2]], i32 1, i64 48, i64 8, ptr @.omp_task_entry..26)
@@ -4018,7 +4030,7 @@ void test_omp_all_memory()
 // CHECK2-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 8 [[TMP9]], ptr align 8 [[AGG_CAPTURED]], i64 8, i1 false)
 // CHECK2-NEXT:    [[TMP10:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_24]], ptr [[TMP6]], i32 0, i32 1
 // CHECK2-NEXT:    [[TMP11:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T_25:%.*]], ptr [[TMP10]], i32 0, i32 0
-// CHECK2-NEXT:    [[TMP12:%.*]] = load double, ptr [[B]], align 8, !freeze_bits [[META3]]
+// CHECK2-NEXT:    [[TMP12:%.*]] = load double, ptr [[B]], align 8
 // CHECK2-NEXT:    store double [[TMP12]], ptr [[TMP11]], align 8
 // CHECK2-NEXT:    [[TMP13:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[TMP2]], ptr [[TMP6]])
 // CHECK2-NEXT:    call void @__kmpc_end_single(ptr @[[GLOB1]], i32 [[TMP2]])
@@ -4100,8 +4112,6 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:  entry:
 // CHECK2-51-NEXT:    [[RETVAL:%.*]] = alloca i32, align 4
 // CHECK2-51-NEXT:    [[B:%.*]] = alloca i8, align 1
-// CHECK2-51-NEXT:    [[FREEZE_POISON:%.*]] = freeze i8 poison
-// CHECK2-51-NEXT:    store i8 [[FREEZE_POISON]], ptr [[B]], align 1
 // CHECK2-51-NEXT:    [[S:%.*]] = alloca [2 x %struct.S], align 4
 // CHECK2-51-NEXT:    [[SAVED_STACK:%.*]] = alloca ptr, align 8
 // CHECK2-51-NEXT:    [[__VLA_EXPR0:%.*]] = alloca i64, align 8
@@ -4124,16 +4134,14 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    [[DEP_COUNTER_ADDR37:%.*]] = alloca i64, align 8
 // CHECK2-51-NEXT:    [[AGG_CAPTURED38:%.*]] = alloca [[STRUCT_ANON_12:%.*]], align 1
 // CHECK2-51-NEXT:    [[FLAG:%.*]] = alloca i8, align 1
-// CHECK2-51-NEXT:    [[FREEZE_POISON39:%.*]] = freeze i8 poison
-// CHECK2-51-NEXT:    store i8 [[FREEZE_POISON39]], ptr [[FLAG]], align 1
 // CHECK2-51-NEXT:    [[AGG_CAPTURED40:%.*]] = alloca [[STRUCT_ANON_14:%.*]], align 1
 // CHECK2-51-NEXT:    [[C:%.*]] = alloca i32, align 128
-// CHECK2-51-NEXT:    [[FREEZE_POISON41:%.*]] = freeze i32 poison
-// CHECK2-51-NEXT:    store i32 [[FREEZE_POISON41]], ptr [[C]], align 4
 // CHECK2-51-NEXT:    [[AGG_CAPTURED42:%.*]] = alloca [[STRUCT_ANON_16:%.*]], align 8
 // CHECK2-51-NEXT:    [[AGG_CAPTURED43:%.*]] = alloca [[STRUCT_ANON_18:%.*]], align 1
 // CHECK2-51-NEXT:    [[TMP0:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1:[0-9]+]])
 // CHECK2-51-NEXT:    store i32 0, ptr [[RETVAL]], align 4
+// CHECK2-51-NEXT:    [[FREEZE_POISON:%.*]] = freeze i8 poison
+// CHECK2-51-NEXT:    store i8 [[FREEZE_POISON]], ptr [[B]], align 1
 // CHECK2-51-NEXT:    [[ARRAY_BEGIN:%.*]] = getelementptr inbounds [2 x %struct.S], ptr [[S]], i32 0, i32 0
 // CHECK2-51-NEXT:    [[ARRAYCTOR_END:%.*]] = getelementptr inbounds [[STRUCT_S:%.*]], ptr [[ARRAY_BEGIN]], i64 2
 // CHECK2-51-NEXT:    br label [[ARRAYCTOR_LOOP:%.*]]
@@ -4388,10 +4396,14 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    [[TMP156:%.*]] = call ptr @__kmpc_omp_task_alloc(ptr @[[GLOB1]], i32 [[TMP0]], i32 3, i64 40, i64 1, ptr @.omp_task_entry..14)
 // CHECK2-51-NEXT:    [[TMP157:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_13:%.*]], ptr [[TMP156]], i32 0, i32 0
 // CHECK2-51-NEXT:    [[TMP158:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[TMP0]], ptr [[TMP156]])
+// CHECK2-51-NEXT:    [[FREEZE_POISON39:%.*]] = freeze i8 poison
+// CHECK2-51-NEXT:    store i8 [[FREEZE_POISON39]], ptr [[FLAG]], align 1
 // CHECK2-51-NEXT:    store i8 0, ptr [[FLAG]], align 1
 // CHECK2-51-NEXT:    [[TMP159:%.*]] = call ptr @__kmpc_omp_task_alloc(ptr @[[GLOB1]], i32 [[TMP0]], i32 1, i64 40, i64 1, ptr @.omp_task_entry..16)
 // CHECK2-51-NEXT:    [[TMP160:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_15:%.*]], ptr [[TMP159]], i32 0, i32 0
 // CHECK2-51-NEXT:    [[TMP161:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[TMP0]], ptr [[TMP159]])
+// CHECK2-51-NEXT:    [[FREEZE_POISON41:%.*]] = freeze i32 poison
+// CHECK2-51-NEXT:    store i32 [[FREEZE_POISON41]], ptr [[C]], align 128
 // CHECK2-51-NEXT:    [[TMP162:%.*]] = getelementptr inbounds [[STRUCT_ANON_16]], ptr [[AGG_CAPTURED42]], i32 0, i32 0
 // CHECK2-51-NEXT:    store ptr [[C]], ptr [[TMP162]], align 8
 // CHECK2-51-NEXT:    [[TMP163:%.*]] = load i8, ptr [[B]], align 1
@@ -5195,6 +5207,8 @@ void test_omp_all_memory()
 // CHECK2-51-SAME: () #[[ATTR1]] {
 // CHECK2-51-NEXT:  entry:
 // CHECK2-51-NEXT:    [[A:%.*]] = alloca float, align 4
+// CHECK2-51-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// CHECK2-51-NEXT:    store float [[FREEZE_POISON]], ptr [[A]], align 4
 // CHECK2-51-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB1]], i32 1, ptr @_Z6foobarIvEvv.omp_outlined, ptr [[A]])
 // CHECK2-51-NEXT:    ret void
 //
@@ -5217,6 +5231,8 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    [[TMP4:%.*]] = icmp ne i32 [[TMP3]], 0
 // CHECK2-51-NEXT:    br i1 [[TMP4]], label [[OMP_IF_THEN:%.*]], label [[OMP_IF_END:%.*]]
 // CHECK2-51:       omp_if.then:
+// CHECK2-51-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// CHECK2-51-NEXT:    store double [[FREEZE_POISON]], ptr [[B]], align 8
 // CHECK2-51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [[STRUCT_ANON_25]], ptr [[AGG_CAPTURED]], i32 0, i32 0
 // CHECK2-51-NEXT:    store ptr [[TMP0]], ptr [[TMP5]], align 8
 // CHECK2-51-NEXT:    [[TMP6:%.*]] = call ptr @__kmpc_omp_task_alloc(ptr @[[GLOB1]], i32 [[TMP2]], i32 1, i64 48, i64 8, ptr @.omp_task_entry..28)
@@ -5226,7 +5242,7 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 8 [[TMP9]], ptr align 8 [[AGG_CAPTURED]], i64 8, i1 false)
 // CHECK2-51-NEXT:    [[TMP10:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_26]], ptr [[TMP6]], i32 0, i32 1
 // CHECK2-51-NEXT:    [[TMP11:%.*]] = getelementptr inbounds [[STRUCT__KMP_PRIVATES_T_27:%.*]], ptr [[TMP10]], i32 0, i32 0
-// CHECK2-51-NEXT:    [[TMP12:%.*]] = load double, ptr [[B]], align 8, !freeze_bits [[META3]]
+// CHECK2-51-NEXT:    [[TMP12:%.*]] = load double, ptr [[B]], align 8
 // CHECK2-51-NEXT:    store double [[TMP12]], ptr [[TMP11]], align 8
 // CHECK2-51-NEXT:    [[TMP13:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[TMP2]], ptr [[TMP6]])
 // CHECK2-51-NEXT:    call void @__kmpc_end_single(ptr @[[GLOB1]], i32 [[TMP2]])
@@ -5300,20 +5316,10 @@ void test_omp_all_memory()
 // CHECK2-51-SAME: () #[[ATTR1]] {
 // CHECK2-51-NEXT:  entry:
 // CHECK2-51-NEXT:    [[A:%.*]] = alloca i32, align 4
-// CHECK2-51-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK2-51-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
 // CHECK2-51-NEXT:    [[B:%.*]] = alloca i32, align 4
-// CHECK2-51-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// CHECK2-51-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[B]], align 4
 // CHECK2-51-NEXT:    [[C:%.*]] = alloca i32, align 4
-// CHECK2-51-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
-// CHECK2-51-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[C]], align 4
 // CHECK2-51-NEXT:    [[D:%.*]] = alloca i32, align 4
-// CHECK2-51-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
-// CHECK2-51-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[D]], align 4
 // CHECK2-51-NEXT:    [[E:%.*]] = alloca i32, align 4
-// CHECK2-51-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
-// CHECK2-51-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[E]], align 4
 // CHECK2-51-NEXT:    [[AGG_CAPTURED:%.*]] = alloca [[STRUCT_ANON_28:%.*]], align 1
 // CHECK2-51-NEXT:    [[DOTDEP_ARR_ADDR:%.*]] = alloca [2 x %struct.kmp_depend_info], align 8
 // CHECK2-51-NEXT:    [[DEP_COUNTER_ADDR:%.*]] = alloca i64, align 8
@@ -5330,6 +5336,16 @@ void test_omp_all_memory()
 // CHECK2-51-NEXT:    [[DOTDEP_ARR_ADDR15:%.*]] = alloca [1 x %struct.kmp_depend_info], align 8
 // CHECK2-51-NEXT:    [[DEP_COUNTER_ADDR16:%.*]] = alloca i64, align 8
 // CHECK2-51-NEXT:    [[TMP0:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1]])
+// CHECK2-51-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK2-51-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK2-51-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK2-51-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[B]], align 4
+// CHECK2-51-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK2-51-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[C]], align 4
+// CHECK2-51-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK2-51-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[D]], align 4
+// CHECK2-51-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK2-51-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[E]], align 4
 // CHECK2-51-NEXT:    [[TMP1:%.*]] = call ptr @__kmpc_omp_task_alloc(ptr @[[GLOB1]], i32 [[TMP0]], i32 1, i64 48, i64 1, ptr @.omp_task_entry..31)
 // CHECK2-51-NEXT:    [[TMP2:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_29:%.*]], ptr [[TMP1]], i32 0, i32 0
 // CHECK2-51-NEXT:    [[TMP3:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_29]], ptr [[TMP1]], i32 0, i32 1
@@ -5727,8 +5743,6 @@ void test_omp_all_memory()
 // CHECK3-NEXT:  entry:
 // CHECK3-NEXT:    [[RETVAL:%.*]] = alloca i32, align 4
 // CHECK3-NEXT:    [[B:%.*]] = alloca i8, align 1
-// CHECK3-NEXT:    [[FREEZE_POISON:%.*]] = freeze i8 poison
-// CHECK3-NEXT:    store i8 [[FREEZE_POISON]], ptr [[B]], align 1
 // CHECK3-NEXT:    [[S:%.*]] = alloca [2 x %struct.S], align 4
 // CHECK3-NEXT:    [[SAVED_STACK:%.*]] = alloca ptr, align 8
 // CHECK3-NEXT:    [[__VLA_EXPR0:%.*]] = alloca i64, align 8
@@ -5748,15 +5762,13 @@ void test_omp_all_memory()
 // CHECK3-NEXT:    [[DEP_COUNTER_ADDR37:%.*]] = alloca i64, align 8
 // CHECK3-NEXT:    [[AGG_CAPTURED39:%.*]] = alloca [[STRUCT_ANON_10:%.*]], align 1
 // CHECK3-NEXT:    [[FLAG:%.*]] = alloca i8, align 1
-// CHECK3-NEXT:    [[FREEZE_POISON42:%.*]] = freeze i8 poison
-// CHECK3-NEXT:    store i8 [[FREEZE_POISON42]], ptr [[FLAG]], align 1
 // CHECK3-NEXT:    [[AGG_CAPTURED43:%.*]] = alloca [[STRUCT_ANON_12:%.*]], align 1
 // CHECK3-NEXT:    [[C:%.*]] = alloca i32, align 128
-// CHECK3-NEXT:    [[FREEZE_POISON46:%.*]] = freeze i32 poison
-// CHECK3-NEXT:    store i32 [[FREEZE_POISON46]], ptr [[C]], align 4
 // CHECK3-NEXT:    [[AGG_CAPTURED47:%.*]] = alloca [[STRUCT_ANON_14:%.*]], align 8
 // CHECK3-NEXT:    [[AGG_CAPTURED50:%.*]] = alloca [[STRUCT_ANON_16:%.*]], align 1
 // CHECK3-NEXT:    store i32 0, ptr [[RETVAL]], align 4
+// CHECK3-NEXT:    [[FREEZE_POISON:%.*]] = freeze i8 poison
+// CHECK3-NEXT:    store i8 [[FREEZE_POISON]], ptr [[B]], align 1
 // CHECK3-NEXT:    [[ARRAY_BEGIN:%.*]] = getelementptr inbounds [2 x %struct.S], ptr [[S]], i32 0, i32 0
 // CHECK3-NEXT:    [[ARRAYCTOR_END:%.*]] = getelementptr inbounds [[STRUCT_S:%.*]], ptr [[ARRAY_BEGIN]], i64 2
 // CHECK3-NEXT:    br label [[ARRAYCTOR_LOOP:%.*]]
@@ -5980,12 +5992,16 @@ void test_omp_all_memory()
 // CHECK3-NEXT:    [[TMP128:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_11:%.*]], ptr [[TMP127]], i32 0, i32 0
 // CHECK3-NEXT:    [[OMP_GLOBAL_THREAD_NUM41:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB15]])
 // CHECK3-NEXT:    [[TMP129:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM41]], ptr [[TMP127]])
+// CHECK3-NEXT:    [[FREEZE_POISON42:%.*]] = freeze i8 poison
+// CHECK3-NEXT:    store i8 [[FREEZE_POISON42]], ptr [[FLAG]], align 1
 // CHECK3-NEXT:    store i8 0, ptr [[FLAG]], align 1
 // CHECK3-NEXT:    [[OMP_GLOBAL_THREAD_NUM44:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB17:[0-9]+]])
 // CHECK3-NEXT:    [[TMP130:%.*]] = call ptr @__kmpc_omp_task_alloc(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM44]], i32 1, i64 40, i64 1, ptr @.omp_task_entry..14)
 // CHECK3-NEXT:    [[TMP131:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_13:%.*]], ptr [[TMP130]], i32 0, i32 0
 // CHECK3-NEXT:    [[OMP_GLOBAL_THREAD_NUM45:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB17]])
 // CHECK3-NEXT:    [[TMP132:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM45]], ptr [[TMP130]])
+// CHECK3-NEXT:    [[FREEZE_POISON46:%.*]] = freeze i32 poison
+// CHECK3-NEXT:    store i32 [[FREEZE_POISON46]], ptr [[C]], align 128
 // CHECK3-NEXT:    [[TMP133:%.*]] = getelementptr inbounds [[STRUCT_ANON_14]], ptr [[AGG_CAPTURED47]], i32 0, i32 0
 // CHECK3-NEXT:    store ptr [[C]], ptr [[TMP133]], align 8
 // CHECK3-NEXT:    [[TMP134:%.*]] = load i8, ptr [[B]], align 1
@@ -6749,8 +6765,6 @@ void test_omp_all_memory()
 // CHECK4-NEXT:  entry:
 // CHECK4-NEXT:    [[RETVAL:%.*]] = alloca i32, align 4
 // CHECK4-NEXT:    [[B:%.*]] = alloca i8, align 1
-// CHECK4-NEXT:    [[FREEZE_POISON:%.*]] = freeze i8 poison
-// CHECK4-NEXT:    store i8 [[FREEZE_POISON]], ptr [[B]], align 1
 // CHECK4-NEXT:    [[S:%.*]] = alloca [2 x %struct.S], align 4
 // CHECK4-NEXT:    [[SAVED_STACK:%.*]] = alloca ptr, align 8
 // CHECK4-NEXT:    [[__VLA_EXPR0:%.*]] = alloca i64, align 8
@@ -6770,15 +6784,13 @@ void test_omp_all_memory()
 // CHECK4-NEXT:    [[DEP_COUNTER_ADDR37:%.*]] = alloca i64, align 8
 // CHECK4-NEXT:    [[AGG_CAPTURED39:%.*]] = alloca [[STRUCT_ANON_10:%.*]], align 1
 // CHECK4-NEXT:    [[FLAG:%.*]] = alloca i8, align 1
-// CHECK4-NEXT:    [[FREEZE_POISON42:%.*]] = freeze i8 poison
-// CHECK4-NEXT:    store i8 [[FREEZE_POISON42]], ptr [[FLAG]], align 1
 // CHECK4-NEXT:    [[AGG_CAPTURED43:%.*]] = alloca [[STRUCT_ANON_12:%.*]], align 1
 // CHECK4-NEXT:    [[C:%.*]] = alloca i32, align 128
-// CHECK4-NEXT:    [[FREEZE_POISON46:%.*]] = freeze i32 poison
-// CHECK4-NEXT:    store i32 [[FREEZE_POISON46]], ptr [[C]], align 4
 // CHECK4-NEXT:    [[AGG_CAPTURED47:%.*]] = alloca [[STRUCT_ANON_14:%.*]], align 8
 // CHECK4-NEXT:    [[AGG_CAPTURED50:%.*]] = alloca [[STRUCT_ANON_16:%.*]], align 1
 // CHECK4-NEXT:    store i32 0, ptr [[RETVAL]], align 4
+// CHECK4-NEXT:    [[FREEZE_POISON:%.*]] = freeze i8 poison
+// CHECK4-NEXT:    store i8 [[FREEZE_POISON]], ptr [[B]], align 1
 // CHECK4-NEXT:    [[ARRAY_BEGIN:%.*]] = getelementptr inbounds [2 x %struct.S], ptr [[S]], i32 0, i32 0
 // CHECK4-NEXT:    [[ARRAYCTOR_END:%.*]] = getelementptr inbounds [[STRUCT_S:%.*]], ptr [[ARRAY_BEGIN]], i64 2
 // CHECK4-NEXT:    br label [[ARRAYCTOR_LOOP:%.*]]
@@ -7002,12 +7014,16 @@ void test_omp_all_memory()
 // CHECK4-NEXT:    [[TMP128:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_11:%.*]], ptr [[TMP127]], i32 0, i32 0
 // CHECK4-NEXT:    [[OMP_GLOBAL_THREAD_NUM41:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB15]])
 // CHECK4-NEXT:    [[TMP129:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM41]], ptr [[TMP127]])
+// CHECK4-NEXT:    [[FREEZE_POISON42:%.*]] = freeze i8 poison
+// CHECK4-NEXT:    store i8 [[FREEZE_POISON42]], ptr [[FLAG]], align 1
 // CHECK4-NEXT:    store i8 0, ptr [[FLAG]], align 1
 // CHECK4-NEXT:    [[OMP_GLOBAL_THREAD_NUM44:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB17:[0-9]+]])
 // CHECK4-NEXT:    [[TMP130:%.*]] = call ptr @__kmpc_omp_task_alloc(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM44]], i32 1, i64 40, i64 1, ptr @.omp_task_entry..14)
 // CHECK4-NEXT:    [[TMP131:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_13:%.*]], ptr [[TMP130]], i32 0, i32 0
 // CHECK4-NEXT:    [[OMP_GLOBAL_THREAD_NUM45:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB17]])
 // CHECK4-NEXT:    [[TMP132:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM45]], ptr [[TMP130]])
+// CHECK4-NEXT:    [[FREEZE_POISON46:%.*]] = freeze i32 poison
+// CHECK4-NEXT:    store i32 [[FREEZE_POISON46]], ptr [[C]], align 128
 // CHECK4-NEXT:    [[TMP133:%.*]] = getelementptr inbounds [[STRUCT_ANON_14]], ptr [[AGG_CAPTURED47]], i32 0, i32 0
 // CHECK4-NEXT:    store ptr [[C]], ptr [[TMP133]], align 8
 // CHECK4-NEXT:    [[TMP134:%.*]] = load i8, ptr [[B]], align 1
@@ -7771,8 +7787,6 @@ void test_omp_all_memory()
 // CHECK3-51-NEXT:  entry:
 // CHECK3-51-NEXT:    [[RETVAL:%.*]] = alloca i32, align 4
 // CHECK3-51-NEXT:    [[B:%.*]] = alloca i8, align 1
-// CHECK3-51-NEXT:    [[FREEZE_POISON:%.*]] = freeze i8 poison
-// CHECK3-51-NEXT:    store i8 [[FREEZE_POISON]], ptr [[B]], align 1
 // CHECK3-51-NEXT:    [[S:%.*]] = alloca [2 x %struct.S], align 4
 // CHECK3-51-NEXT:    [[SAVED_STACK:%.*]] = alloca ptr, align 8
 // CHECK3-51-NEXT:    [[__VLA_EXPR0:%.*]] = alloca i64, align 8
@@ -7795,15 +7809,13 @@ void test_omp_all_memory()
 // CHECK3-51-NEXT:    [[DEP_COUNTER_ADDR49:%.*]] = alloca i64, align 8
 // CHECK3-51-NEXT:    [[AGG_CAPTURED51:%.*]] = alloca [[STRUCT_ANON_12:%.*]], align 1
 // CHECK3-51-NEXT:    [[FLAG:%.*]] = alloca i8, align 1
-// CHECK3-51-NEXT:    [[FREEZE_POISON54:%.*]] = freeze i8 poison
-// CHECK3-51-NEXT:    store i8 [[FREEZE_POISON54]], ptr [[FLAG]], align 1
 // CHECK3-51-NEXT:    [[AGG_CAPTURED55:%.*]] = alloca [[STRUCT_ANON_14:%.*]], align 1
 // CHECK3-51-NEXT:    [[C:%.*]] = alloca i32, align 128
-// CHECK3-51-NEXT:    [[FREEZE_POISON58:%.*]] = freeze i32 poison
-// CHECK3-51-NEXT:    store i32 [[FREEZE_POISON58]], ptr [[C]], align 4
 // CHECK3-51-NEXT:    [[AGG_CAPTURED59:%.*]] = alloca [[STRUCT_ANON_16:%.*]], align 8
 // CHECK3-51-NEXT:    [[AGG_CAPTURED62:%.*]] = alloca [[STRUCT_ANON_18:%.*]], align 1
 // CHECK3-51-NEXT:    store i32 0, ptr [[RETVAL]], align 4
+// CHECK3-51-NEXT:    [[FREEZE_POISON:%.*]] = freeze i8 poison
+// CHECK3-51-NEXT:    store i8 [[FREEZE_POISON]], ptr [[B]], align 1
 // CHECK3-51-NEXT:    [[ARRAY_BEGIN:%.*]] = getelementptr inbounds [2 x %struct.S], ptr [[S]], i32 0, i32 0
 // CHECK3-51-NEXT:    [[ARRAYCTOR_END:%.*]] = getelementptr inbounds [[STRUCT_S:%.*]], ptr [[ARRAY_BEGIN]], i64 2
 // CHECK3-51-NEXT:    br label [[ARRAYCTOR_LOOP:%.*]]
@@ -8074,12 +8086,16 @@ void test_omp_all_memory()
 // CHECK3-51-NEXT:    [[TMP156:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_13:%.*]], ptr [[TMP155]], i32 0, i32 0
 // CHECK3-51-NEXT:    [[OMP_GLOBAL_THREAD_NUM53:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB17]])
 // CHECK3-51-NEXT:    [[TMP157:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM53]], ptr [[TMP155]])
+// CHECK3-51-NEXT:    [[FREEZE_POISON54:%.*]] = freeze i8 poison
+// CHECK3-51-NEXT:    store i8 [[FREEZE_POISON54]], ptr [[FLAG]], align 1
 // CHECK3-51-NEXT:    store i8 0, ptr [[FLAG]], align 1
 // CHECK3-51-NEXT:    [[OMP_GLOBAL_THREAD_NUM56:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB19:[0-9]+]])
 // CHECK3-51-NEXT:    [[TMP158:%.*]] = call ptr @__kmpc_omp_task_alloc(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM56]], i32 1, i64 40, i64 1, ptr @.omp_task_entry..16)
 // CHECK3-51-NEXT:    [[TMP159:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_15:%.*]], ptr [[TMP158]], i32 0, i32 0
 // CHECK3-51-NEXT:    [[OMP_GLOBAL_THREAD_NUM57:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB19]])
 // CHECK3-51-NEXT:    [[TMP160:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM57]], ptr [[TMP158]])
+// CHECK3-51-NEXT:    [[FREEZE_POISON58:%.*]] = freeze i32 poison
+// CHECK3-51-NEXT:    store i32 [[FREEZE_POISON58]], ptr [[C]], align 128
 // CHECK3-51-NEXT:    [[TMP161:%.*]] = getelementptr inbounds [[STRUCT_ANON_16]], ptr [[AGG_CAPTURED59]], i32 0, i32 0
 // CHECK3-51-NEXT:    store ptr [[C]], ptr [[TMP161]], align 8
 // CHECK3-51-NEXT:    [[TMP162:%.*]] = load i8, ptr [[B]], align 1
@@ -8869,20 +8885,10 @@ void test_omp_all_memory()
 // CHECK3-51-SAME: () #[[ATTR1]] {
 // CHECK3-51-NEXT:  entry:
 // CHECK3-51-NEXT:    [[A:%.*]] = alloca i32, align 4
-// CHECK3-51-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK3-51-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
 // CHECK3-51-NEXT:    [[B:%.*]] = alloca i32, align 4
-// CHECK3-51-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// CHECK3-51-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[B]], align 4
 // CHECK3-51-NEXT:    [[C:%.*]] = alloca i32, align 4
-// CHECK3-51-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
-// CHECK3-51-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[C]], align 4
 // CHECK3-51-NEXT:    [[D:%.*]] = alloca i32, align 4
-// CHECK3-51-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
-// CHECK3-51-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[D]], align 4
 // CHECK3-51-NEXT:    [[E:%.*]] = alloca i32, align 4
-// CHECK3-51-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
-// CHECK3-51-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[E]], align 4
 // CHECK3-51-NEXT:    [[AGG_CAPTURED:%.*]] = alloca [[STRUCT_ANON_25:%.*]], align 1
 // CHECK3-51-NEXT:    [[DOTDEP_ARR_ADDR:%.*]] = alloca [2 x %struct.kmp_depend_info], align 8
 // CHECK3-51-NEXT:    [[DEP_COUNTER_ADDR:%.*]] = alloca i64, align 8
@@ -8898,6 +8904,16 @@ void test_omp_all_memory()
 // CHECK3-51-NEXT:    [[AGG_CAPTURED21:%.*]] = alloca [[STRUCT_ANON_37:%.*]], align 1
 // CHECK3-51-NEXT:    [[DOTDEP_ARR_ADDR23:%.*]] = alloca [1 x %struct.kmp_depend_info], align 8
 // CHECK3-51-NEXT:    [[DEP_COUNTER_ADDR24:%.*]] = alloca i64, align 8
+// CHECK3-51-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK3-51-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK3-51-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK3-51-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[B]], align 4
+// CHECK3-51-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK3-51-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[C]], align 4
+// CHECK3-51-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK3-51-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[D]], align 4
+// CHECK3-51-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK3-51-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[E]], align 4
 // CHECK3-51-NEXT:    [[OMP_GLOBAL_THREAD_NUM:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB29:[0-9]+]])
 // CHECK3-51-NEXT:    [[TMP0:%.*]] = call ptr @__kmpc_omp_task_alloc(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM]], i32 1, i64 48, i64 1, ptr @.omp_task_entry..28)
 // CHECK3-51-NEXT:    [[TMP1:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_26:%.*]], ptr [[TMP0]], i32 0, i32 0
@@ -9305,8 +9321,6 @@ void test_omp_all_memory()
 // CHECK4-51-NEXT:  entry:
 // CHECK4-51-NEXT:    [[RETVAL:%.*]] = alloca i32, align 4
 // CHECK4-51-NEXT:    [[B:%.*]] = alloca i8, align 1
-// CHECK4-51-NEXT:    [[FREEZE_POISON:%.*]] = freeze i8 poison
-// CHECK4-51-NEXT:    store i8 [[FREEZE_POISON]], ptr [[B]], align 1
 // CHECK4-51-NEXT:    [[S:%.*]] = alloca [2 x %struct.S], align 4
 // CHECK4-51-NEXT:    [[SAVED_STACK:%.*]] = alloca ptr, align 8
 // CHECK4-51-NEXT:    [[__VLA_EXPR0:%.*]] = alloca i64, align 8
@@ -9326,15 +9340,13 @@ void test_omp_all_memory()
 // CHECK4-51-NEXT:    [[DEP_COUNTER_ADDR37:%.*]] = alloca i64, align 8
 // CHECK4-51-NEXT:    [[AGG_CAPTURED39:%.*]] = alloca [[STRUCT_ANON_10:%.*]], align 1
 // CHECK4-51-NEXT:    [[FLAG:%.*]] = alloca i8, align 1
-// CHECK4-51-NEXT:    [[FREEZE_POISON42:%.*]] = freeze i8 poison
-// CHECK4-51-NEXT:    store i8 [[FREEZE_POISON42]], ptr [[FLAG]], align 1
 // CHECK4-51-NEXT:    [[AGG_CAPTURED43:%.*]] = alloca [[STRUCT_ANON_12:%.*]], align 1
 // CHECK4-51-NEXT:    [[C:%.*]] = alloca i32, align 128
-// CHECK4-51-NEXT:    [[FREEZE_POISON46:%.*]] = freeze i32 poison
-// CHECK4-51-NEXT:    store i32 [[FREEZE_POISON46]], ptr [[C]], align 4
 // CHECK4-51-NEXT:    [[AGG_CAPTURED47:%.*]] = alloca [[STRUCT_ANON_14:%.*]], align 8
 // CHECK4-51-NEXT:    [[AGG_CAPTURED50:%.*]] = alloca [[STRUCT_ANON_16:%.*]], align 1
 // CHECK4-51-NEXT:    store i32 0, ptr [[RETVAL]], align 4
+// CHECK4-51-NEXT:    [[FREEZE_POISON:%.*]] = freeze i8 poison
+// CHECK4-51-NEXT:    store i8 [[FREEZE_POISON]], ptr [[B]], align 1
 // CHECK4-51-NEXT:    [[ARRAY_BEGIN:%.*]] = getelementptr inbounds [2 x %struct.S], ptr [[S]], i32 0, i32 0
 // CHECK4-51-NEXT:    [[ARRAYCTOR_END:%.*]] = getelementptr inbounds [[STRUCT_S:%.*]], ptr [[ARRAY_BEGIN]], i64 2
 // CHECK4-51-NEXT:    br label [[ARRAYCTOR_LOOP:%.*]]
@@ -9558,12 +9570,16 @@ void test_omp_all_memory()
 // CHECK4-51-NEXT:    [[TMP128:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_11:%.*]], ptr [[TMP127]], i32 0, i32 0
 // CHECK4-51-NEXT:    [[OMP_GLOBAL_THREAD_NUM41:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB15]])
 // CHECK4-51-NEXT:    [[TMP129:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM41]], ptr [[TMP127]])
+// CHECK4-51-NEXT:    [[FREEZE_POISON42:%.*]] = freeze i8 poison
+// CHECK4-51-NEXT:    store i8 [[FREEZE_POISON42]], ptr [[FLAG]], align 1
 // CHECK4-51-NEXT:    store i8 0, ptr [[FLAG]], align 1
 // CHECK4-51-NEXT:    [[OMP_GLOBAL_THREAD_NUM44:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB17:[0-9]+]])
 // CHECK4-51-NEXT:    [[TMP130:%.*]] = call ptr @__kmpc_omp_task_alloc(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM44]], i32 1, i64 40, i64 1, ptr @.omp_task_entry..14)
 // CHECK4-51-NEXT:    [[TMP131:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASK_T_WITH_PRIVATES_13:%.*]], ptr [[TMP130]], i32 0, i32 0
 // CHECK4-51-NEXT:    [[OMP_GLOBAL_THREAD_NUM45:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB17]])
 // CHECK4-51-NEXT:    [[TMP132:%.*]] = call i32 @__kmpc_omp_task(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM45]], ptr [[TMP130]])
+// CHECK4-51-NEXT:    [[FREEZE_POISON46:%.*]] = freeze i32 poison
+// CHECK4-51-NEXT:    store i32 [[FREEZE_POISON46]], ptr [[C]], align 128
 // CHECK4-51-NEXT:    [[TMP133:%.*]] = getelementptr inbounds [[STRUCT_ANON_14]], ptr [[AGG_CAPTURED47]], i32 0, i32 0
 // CHECK4-51-NEXT:    store ptr [[C]], ptr [[TMP133]], align 8
 // CHECK4-51-NEXT:    [[TMP134:%.*]] = load i8, ptr [[B]], align 1

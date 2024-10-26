@@ -30,8 +30,6 @@ void foo(int **t1d)
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[T1D_ADDR:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    [[J:%.*]] = alloca i32, align 4
-// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[J]], align 4
 // CHECK-NEXT:    [[DOTOFFLOAD_BASEPTRS:%.*]] = alloca [2 x ptr], align 8
 // CHECK-NEXT:    [[DOTOFFLOAD_PTRS:%.*]] = alloca [2 x ptr], align 8
 // CHECK-NEXT:    [[DOTOFFLOAD_MAPPERS:%.*]] = alloca [2 x ptr], align 8
@@ -41,11 +39,7 @@ void foo(int **t1d)
 // CHECK-NEXT:    [[DOTOFFLOAD_MAPPERS4:%.*]] = alloca [2 x ptr], align 8
 // CHECK-NEXT:    [[KERNEL_ARGS5:%.*]] = alloca [[STRUCT___TGT_KERNEL_ARGUMENTS]], align 8
 // CHECK-NEXT:    [[A:%.*]] = alloca i32, align 4
-// CHECK-NEXT:    [[FREEZE_POISON8:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON8]], ptr [[A]], align 4
 // CHECK-NEXT:    [[B:%.*]] = alloca i32, align 4
-// CHECK-NEXT:    [[FREEZE_POISON9:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON9]], ptr [[B]], align 4
 // CHECK-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NEXT:    [[B_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NEXT:    [[DOTOFFLOAD_BASEPTRS14:%.*]] = alloca [4 x ptr], align 8
@@ -56,6 +50,8 @@ void foo(int **t1d)
 // CHECK-NEXT:    [[CALL:%.*]] = call noalias noundef ptr @_Z6malloci(i32 noundef signext 12) #[[ATTR3:[0-9]+]]
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[T1D_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[CALL]], ptr [[TMP0]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[J]], align 4
 // CHECK-NEXT:    store i32 0, ptr [[J]], align 4
 // CHECK-NEXT:    br label [[FOR_COND:%.*]]
 // CHECK:       for.cond:
@@ -181,7 +177,11 @@ void foo(int **t1d)
 // CHECK-NEXT:    call void @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__Z3fooPPi_l19(ptr [[TMP34]]) #[[ATTR3]]
 // CHECK-NEXT:    br label [[OMP_OFFLOAD_CONT7]]
 // CHECK:       omp_offload.cont7:
+// CHECK-NEXT:    [[FREEZE_POISON8:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON8]], ptr [[A]], align 4
 // CHECK-NEXT:    store i32 0, ptr [[A]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON9:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON9]], ptr [[B]], align 4
 // CHECK-NEXT:    store i32 0, ptr [[B]], align 4
 // CHECK-NEXT:    [[TMP62:%.*]] = load ptr, ptr [[T1D_ADDR]], align 8
 // CHECK-NEXT:    [[TMP63:%.*]] = load i32, ptr [[A]], align 4

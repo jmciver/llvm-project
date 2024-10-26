@@ -29,14 +29,14 @@ kernel void device_side_enqueue(global float *a, global float *b, int i) {
 // SPIR32-NEXT:    [[I_ADDR:%.*]] = alloca i32, align 4
 // SPIR32-NEXT:    [[DEFAULT_QUEUE:%.*]] = alloca target("spirv.Queue"), align 4
 // SPIR32-NEXT:    [[FLAGS:%.*]] = alloca i32, align 4
-// SPIR32-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// SPIR32-NEXT:    store i32 [[FREEZE_POISON]], ptr [[FLAGS]], align 4
 // SPIR32-NEXT:    [[NDRANGE:%.*]] = alloca [[STRUCT_NDRANGE_T:%.*]], align 4
 // SPIR32-NEXT:    [[TMP:%.*]] = alloca [[STRUCT_NDRANGE_T]], align 4
 // SPIR32-NEXT:    [[BLOCK:%.*]] = alloca <{ i32, i32, ptr addrspace(4), ptr addrspace(1), i32, ptr addrspace(1) }>, align 4
 // SPIR32-NEXT:    store ptr addrspace(1) [[A]], ptr [[A_ADDR]], align 4
 // SPIR32-NEXT:    store ptr addrspace(1) [[B]], ptr [[B_ADDR]], align 4
 // SPIR32-NEXT:    store i32 [[I]], ptr [[I_ADDR]], align 4
+// SPIR32-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// SPIR32-NEXT:    store i32 [[FREEZE_POISON]], ptr [[FLAGS]], align 4
 // SPIR32-NEXT:    store i32 0, ptr [[FLAGS]], align 4
 // SPIR32-NEXT:    [[TMP0:%.*]] = load target("spirv.Queue"), ptr [[DEFAULT_QUEUE]], align 4, !freeze_bits [[META6:![0-9]+]]
 // SPIR32-NEXT:    [[TMP1:%.*]] = load i32, ptr [[FLAGS]], align 4
@@ -102,14 +102,14 @@ kernel void device_side_enqueue(global float *a, global float *b, int i) {
 // STRICTFP-NEXT:    [[I_ADDR:%.*]] = alloca i32, align 4
 // STRICTFP-NEXT:    [[DEFAULT_QUEUE:%.*]] = alloca target("spirv.Queue"), align 4
 // STRICTFP-NEXT:    [[FLAGS:%.*]] = alloca i32, align 4
-// STRICTFP-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// STRICTFP-NEXT:    store i32 [[FREEZE_POISON]], ptr [[FLAGS]], align 4
 // STRICTFP-NEXT:    [[NDRANGE:%.*]] = alloca [[STRUCT_NDRANGE_T:%.*]], align 4
 // STRICTFP-NEXT:    [[TMP:%.*]] = alloca [[STRUCT_NDRANGE_T]], align 4
 // STRICTFP-NEXT:    [[BLOCK:%.*]] = alloca <{ i32, i32, ptr addrspace(4), ptr addrspace(1), i32, ptr addrspace(1) }>, align 4
 // STRICTFP-NEXT:    store ptr addrspace(1) [[A]], ptr [[A_ADDR]], align 4
 // STRICTFP-NEXT:    store ptr addrspace(1) [[B]], ptr [[B_ADDR]], align 4
 // STRICTFP-NEXT:    store i32 [[I]], ptr [[I_ADDR]], align 4
+// STRICTFP-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// STRICTFP-NEXT:    store i32 [[FREEZE_POISON]], ptr [[FLAGS]], align 4
 // STRICTFP-NEXT:    store i32 0, ptr [[FLAGS]], align 4
 // STRICTFP-NEXT:    [[TMP0:%.*]] = load target("spirv.Queue"), ptr [[DEFAULT_QUEUE]], align 4, !freeze_bits [[META6:![0-9]+]]
 // STRICTFP-NEXT:    [[TMP1:%.*]] = load i32, ptr [[FLAGS]], align 4

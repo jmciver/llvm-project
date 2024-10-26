@@ -84,8 +84,6 @@ int template_test() {
 // CHECK-32-SAME: () #[[ATTR0:[0-9]+]] {
 // CHECK-32-NEXT:  entry:
 // CHECK-32-NEXT:    [[MYALLOC:%.*]] = alloca i32, align 4
-// CHECK-32-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK-32-NEXT:    store i32 [[FREEZE_POISON]], ptr [[MYALLOC]], align 4
 // CHECK-32-NEXT:    [[TMP0:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1:[0-9]+]])
 // CHECK-32-NEXT:    [[DOTFOO0__VOID_ADDR:%.*]] = call ptr @__kmpc_aligned_alloc(i32 [[TMP0]], i32 4, i32 20, ptr null)
 // CHECK-32-NEXT:    [[DOTFOO1__VOID_ADDR:%.*]] = call ptr @__kmpc_aligned_alloc(i32 [[TMP0]], i32 4, i32 40, ptr inttoptr (i32 7 to ptr))
@@ -96,6 +94,8 @@ int template_test() {
 // CHECK-32-NEXT:    [[DOTFOO6__VOID_ADDR:%.*]] = call ptr @__kmpc_aligned_alloc(i32 [[TMP0]], i32 64, i32 240, ptr inttoptr (i32 2 to ptr))
 // CHECK-32-NEXT:    [[DOTFOO7__VOID_ADDR:%.*]] = call ptr @__kmpc_aligned_alloc(i32 [[TMP0]], i32 32, i32 280, ptr inttoptr (i32 8 to ptr))
 // CHECK-32-NEXT:    [[DOTFOO8__VOID_ADDR:%.*]] = call ptr @__kmpc_aligned_alloc(i32 [[TMP0]], i32 16, i32 320, ptr null)
+// CHECK-32-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-32-NEXT:    store i32 [[FREEZE_POISON]], ptr [[MYALLOC]], align 4
 // CHECK-32-NEXT:    store i32 2, ptr [[MYALLOC]], align 4
 // CHECK-32-NEXT:    [[DOTFOO9__VOID_ADDR:%.*]] = call ptr @__kmpc_aligned_alloc(i32 [[TMP0]], i32 8, i32 640, ptr inttoptr (i32 8 to ptr))
 // CHECK-32-NEXT:    [[DOTFOO10__VOID_ADDR:%.*]] = call ptr @__kmpc_aligned_alloc(i32 [[TMP0]], i32 128, i32 720, ptr null)
@@ -141,6 +141,8 @@ int template_test() {
 // CHECK-32-SAME: () #[[ATTR2:[0-9]+]] {
 // CHECK-32-NEXT:  entry:
 // CHECK-32-NEXT:    [[RESULT:%.*]] = alloca double, align 8
+// CHECK-32-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// CHECK-32-NEXT:    store double [[FREEZE_POISON]], ptr [[RESULT]], align 8
 // CHECK-32-NEXT:    [[CALL:%.*]] = call noundef double @_Z3runIdLj1000ELj16EET_v()
 // CHECK-32-NEXT:    store double [[CALL]], ptr [[RESULT]], align 8
 // CHECK-32-NEXT:    ret i32 0
@@ -161,8 +163,6 @@ int template_test() {
 // CHECK-SAME: () #[[ATTR0:[0-9]+]] {
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[MYALLOC:%.*]] = alloca i64, align 8
-// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i64 poison
-// CHECK-NEXT:    store i64 [[FREEZE_POISON]], ptr [[MYALLOC]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1:[0-9]+]])
 // CHECK-NEXT:    [[DOTFOO0__VOID_ADDR:%.*]] = call ptr @__kmpc_aligned_alloc(i32 [[TMP0]], i64 4, i64 32, ptr null)
 // CHECK-NEXT:    [[DOTFOO1__VOID_ADDR:%.*]] = call ptr @__kmpc_aligned_alloc(i32 [[TMP0]], i64 4, i64 48, ptr inttoptr (i64 7 to ptr))
@@ -173,6 +173,8 @@ int template_test() {
 // CHECK-NEXT:    [[DOTFOO6__VOID_ADDR:%.*]] = call ptr @__kmpc_aligned_alloc(i32 [[TMP0]], i64 64, i64 240, ptr inttoptr (i64 2 to ptr))
 // CHECK-NEXT:    [[DOTFOO7__VOID_ADDR:%.*]] = call ptr @__kmpc_aligned_alloc(i32 [[TMP0]], i64 32, i64 288, ptr inttoptr (i64 8 to ptr))
 // CHECK-NEXT:    [[DOTFOO8__VOID_ADDR:%.*]] = call ptr @__kmpc_aligned_alloc(i32 [[TMP0]], i64 16, i64 320, ptr null)
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i64 poison
+// CHECK-NEXT:    store i64 [[FREEZE_POISON]], ptr [[MYALLOC]], align 8
 // CHECK-NEXT:    store i64 2, ptr [[MYALLOC]], align 8
 // CHECK-NEXT:    [[DOTFOO9__VOID_ADDR:%.*]] = call ptr @__kmpc_aligned_alloc(i32 [[TMP0]], i64 8, i64 640, ptr inttoptr (i64 8 to ptr))
 // CHECK-NEXT:    [[DOTFOO10__VOID_ADDR:%.*]] = call ptr @__kmpc_aligned_alloc(i32 [[TMP0]], i64 128, i64 720, ptr null)
@@ -218,6 +220,8 @@ int template_test() {
 // CHECK-SAME: () #[[ATTR2:[0-9]+]] {
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[RESULT:%.*]] = alloca double, align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// CHECK-NEXT:    store double [[FREEZE_POISON]], ptr [[RESULT]], align 8
 // CHECK-NEXT:    [[CALL:%.*]] = call noundef double @_Z3runIdLj1000ELj16EET_v()
 // CHECK-NEXT:    store double [[CALL]], ptr [[RESULT]], align 8
 // CHECK-NEXT:    ret i32 0

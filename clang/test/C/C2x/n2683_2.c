@@ -8,12 +8,12 @@
 // CHECK-SAME: ) #[[ATTR0:[0-9]+]] {
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[RESULT64:%.*]] = alloca i64, align 8
+// CHECK-NEXT:    [[FLAG_ADD:%.*]] = alloca i8, align 1
 // CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i64 poison
 // CHECK-NEXT:    store i64 [[FREEZE_POISON]], ptr [[RESULT64]], align 8
-// CHECK-NEXT:    [[FLAG_ADD:%.*]] = alloca i8, align 1
+// CHECK-NEXT:    store i64 0, ptr [[RESULT64]], align 8
 // CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i8 poison
 // CHECK-NEXT:    store i8 [[FREEZE_POISON1]], ptr [[FLAG_ADD]], align 1
-// CHECK-NEXT:    store i64 0, ptr [[RESULT64]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = call { i64, i1 } @llvm.sadd.with.overflow.i64(i64 2147483647, i64 1)
 // CHECK-NEXT:    [[TMP1:%.*]] = extractvalue { i64, i1 } [[TMP0]], 1
 // CHECK-NEXT:    [[TMP2:%.*]] = extractvalue { i64, i1 } [[TMP0]], 0
@@ -31,12 +31,12 @@ void test_add_overflow_to64() {
 // CHECK-SAME: ) #[[ATTR0]] {
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[RESULT32:%.*]] = alloca i32, align 4
+// CHECK-NEXT:    [[FLAG_SUB:%.*]] = alloca i8, align 1
 // CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
 // CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[RESULT32]], align 4
-// CHECK-NEXT:    [[FLAG_SUB:%.*]] = alloca i8, align 1
+// CHECK-NEXT:    store i32 0, ptr [[RESULT32]], align 4
 // CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i8 poison
 // CHECK-NEXT:    store i8 [[FREEZE_POISON1]], ptr [[FLAG_SUB]], align 1
-// CHECK-NEXT:    store i32 0, ptr [[RESULT32]], align 4
 // CHECK-NEXT:    [[TMP0:%.*]] = call { i32, i1 } @llvm.ssub.with.overflow.i32(i32 2147483647, i32 -1)
 // CHECK-NEXT:    [[TMP1:%.*]] = extractvalue { i32, i1 } [[TMP0]], 1
 // CHECK-NEXT:    [[TMP2:%.*]] = extractvalue { i32, i1 } [[TMP0]], 0
@@ -54,16 +54,16 @@ void test_sub_overflow() {
 // CHECK-SAME: ) #[[ATTR0]] {
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[A:%.*]] = alloca i32, align 4
+// CHECK-NEXT:    [[RESULT:%.*]] = alloca i32, align 4
+// CHECK-NEXT:    [[FLAG_MUL:%.*]] = alloca i8, align 1
 // CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
 // CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
-// CHECK-NEXT:    [[RESULT:%.*]] = alloca i32, align 4
+// CHECK-NEXT:    store i32 3, ptr [[A]], align 4
 // CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
 // CHECK-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[RESULT]], align 4
-// CHECK-NEXT:    [[FLAG_MUL:%.*]] = alloca i8, align 1
+// CHECK-NEXT:    store i32 0, ptr [[RESULT]], align 4
 // CHECK-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i8 poison
 // CHECK-NEXT:    store i8 [[FREEZE_POISON2]], ptr [[FLAG_MUL]], align 1
-// CHECK-NEXT:    store i32 3, ptr [[A]], align 4
-// CHECK-NEXT:    store i32 0, ptr [[RESULT]], align 4
 // CHECK-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A]], align 4
 // CHECK-NEXT:    [[TMP1:%.*]] = call { i32, i1 } @llvm.smul.with.overflow.i32(i32 [[TMP0]], i32 2)
 // CHECK-NEXT:    [[TMP2:%.*]] = extractvalue { i32, i1 } [[TMP1]], 1

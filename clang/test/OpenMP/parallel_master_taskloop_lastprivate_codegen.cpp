@@ -204,14 +204,14 @@ void loop() {
 // CHECK1-NEXT:    [[TTT:%.*]] = alloca [[STRUCT_S:%.*]], align 8
 // CHECK1-NEXT:    [[TEST:%.*]] = alloca [[STRUCT_S]], align 8
 // CHECK1-NEXT:    [[T_VAR:%.*]] = alloca i32, align 4
-// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK1-NEXT:    store i32 [[FREEZE_POISON]], ptr [[T_VAR]], align 4
 // CHECK1-NEXT:    [[VEC:%.*]] = alloca [2 x i32], align 4
 // CHECK1-NEXT:    [[S_ARR:%.*]] = alloca [2 x %struct.S], align 16
 // CHECK1-NEXT:    [[VAR:%.*]] = alloca [[STRUCT_S]], align 8
 // CHECK1-NEXT:    store i32 0, ptr [[RETVAL]], align 4
 // CHECK1-NEXT:    call void @_ZN1SIdEC1Ev(ptr noundef nonnull align 8 dereferenceable(8) [[TTT]])
 // CHECK1-NEXT:    call void @_ZN1SIdEC1Ev(ptr noundef nonnull align 8 dereferenceable(8) [[TEST]])
+// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK1-NEXT:    store i32 [[FREEZE_POISON]], ptr [[T_VAR]], align 4
 // CHECK1-NEXT:    store i32 0, ptr [[T_VAR]], align 4
 // CHECK1-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 4 [[VEC]], ptr align 4 @__const.main.vec, i64 8, i1 false)
 // CHECK1-NEXT:    call void @_ZN1SIdEC1Ed(ptr noundef nonnull align 8 dereferenceable(8) [[S_ARR]], double noundef 1.000000e+00)
@@ -418,11 +418,7 @@ void loop() {
 // CHECK1-NEXT:    call void @llvm.experimental.noalias.scope.decl(metadata [[META9:![0-9]+]])
 // CHECK1-NEXT:    call void @llvm.experimental.noalias.scope.decl(metadata [[META11:![0-9]+]])
 // CHECK1-NEXT:    call void @llvm.experimental.noalias.scope.decl(metadata [[META13:![0-9]+]])
-// CHECK1-NEXT:    [[FREEZE_POISON_I:%.*]] = freeze i32 poison
-// CHECK1-NEXT:    store i32 [[FREEZE_POISON_I]], ptr [[I_I]], align 4, !noalias [[META15:![0-9]+]]
-// CHECK1-NEXT:    [[FREEZE_POISON5_I:%.*]] = freeze i32 poison
-// CHECK1-NEXT:    store i32 [[FREEZE_POISON5_I]], ptr [[DOTOMP_IV_I]], align 4, !noalias [[META15]]
-// CHECK1-NEXT:    store i32 [[TMP2]], ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias [[META15]]
+// CHECK1-NEXT:    store i32 [[TMP2]], ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias [[META15:![0-9]+]]
 // CHECK1-NEXT:    store ptr [[TMP5]], ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias [[META15]]
 // CHECK1-NEXT:    store ptr [[TMP8]], ptr [[DOTPRIVATES__ADDR_I]], align 8, !noalias [[META15]]
 // CHECK1-NEXT:    store ptr @.omp_task_privates_map., ptr [[DOTCOPY_FN__ADDR_I]], align 8, !noalias [[META15]]
@@ -455,6 +451,10 @@ void loop() {
 // CHECK1-NEXT:    [[TMP37:%.*]] = load ptr, ptr [[DOTLASTPRIV_PTR_ADDR2_I]], align 8, !noalias [[META15]], !freeze_bits [[META3]]
 // CHECK1-NEXT:    [[TMP38:%.*]] = load ptr, ptr [[DOTLASTPRIV_PTR_ADDR3_I]], align 8, !noalias [[META15]], !freeze_bits [[META3]]
 // CHECK1-NEXT:    [[TMP39:%.*]] = load ptr, ptr [[DOTLASTPRIV_PTR_ADDR4_I]], align 8, !noalias [[META15]], !freeze_bits [[META3]]
+// CHECK1-NEXT:    [[FREEZE_POISON_I:%.*]] = freeze i32 poison
+// CHECK1-NEXT:    store i32 [[FREEZE_POISON_I]], ptr [[I_I]], align 4, !noalias [[META15]]
+// CHECK1-NEXT:    [[FREEZE_POISON5_I:%.*]] = freeze i32 poison
+// CHECK1-NEXT:    store i32 [[FREEZE_POISON5_I]], ptr [[DOTOMP_IV_I]], align 4, !noalias [[META15]]
 // CHECK1-NEXT:    [[TMP40:%.*]] = load i64, ptr [[DOTLB__ADDR_I]], align 8, !noalias [[META15]]
 // CHECK1-NEXT:    [[CONV_I:%.*]] = trunc i64 [[TMP40]] to i32
 // CHECK1-NEXT:    store i32 [[CONV_I]], ptr [[DOTOMP_IV_I]], align 4, !noalias [[META15]]
@@ -578,13 +578,13 @@ void loop() {
 // CHECK1-NEXT:    [[TTT:%.*]] = alloca [[STRUCT_S_0:%.*]], align 4
 // CHECK1-NEXT:    [[TEST:%.*]] = alloca [[STRUCT_S_0]], align 4
 // CHECK1-NEXT:    [[T_VAR:%.*]] = alloca i32, align 128
-// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK1-NEXT:    store i32 [[FREEZE_POISON]], ptr [[T_VAR]], align 4
 // CHECK1-NEXT:    [[VEC:%.*]] = alloca [2 x i32], align 4
 // CHECK1-NEXT:    [[S_ARR:%.*]] = alloca [2 x %struct.S.0], align 4
 // CHECK1-NEXT:    [[VAR:%.*]] = alloca [[STRUCT_S_0]], align 4
 // CHECK1-NEXT:    call void @_ZN1SIiEC1Ev(ptr noundef nonnull align 4 dereferenceable(4) [[TTT]])
 // CHECK1-NEXT:    call void @_ZN1SIiEC1Ev(ptr noundef nonnull align 4 dereferenceable(4) [[TEST]])
+// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK1-NEXT:    store i32 [[FREEZE_POISON]], ptr [[T_VAR]], align 128
 // CHECK1-NEXT:    store i32 0, ptr [[T_VAR]], align 128
 // CHECK1-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 4 [[VEC]], ptr align 4 @__const._Z5tmainIiET_v.vec, i64 8, i1 false)
 // CHECK1-NEXT:    call void @_ZN1SIiEC1Ei(ptr noundef nonnull align 4 dereferenceable(4) [[S_ARR]], i32 noundef 1)
@@ -816,11 +816,7 @@ void loop() {
 // CHECK1-NEXT:    call void @llvm.experimental.noalias.scope.decl(metadata [[META23:![0-9]+]])
 // CHECK1-NEXT:    call void @llvm.experimental.noalias.scope.decl(metadata [[META25:![0-9]+]])
 // CHECK1-NEXT:    call void @llvm.experimental.noalias.scope.decl(metadata [[META27:![0-9]+]])
-// CHECK1-NEXT:    [[FREEZE_POISON_I:%.*]] = freeze i32 poison
-// CHECK1-NEXT:    store i32 [[FREEZE_POISON_I]], ptr [[I_I]], align 4, !noalias [[META29:![0-9]+]]
-// CHECK1-NEXT:    [[FREEZE_POISON4_I:%.*]] = freeze i32 poison
-// CHECK1-NEXT:    store i32 [[FREEZE_POISON4_I]], ptr [[DOTOMP_IV_I]], align 4, !noalias [[META29]]
-// CHECK1-NEXT:    store i32 [[TMP2]], ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias [[META29]]
+// CHECK1-NEXT:    store i32 [[TMP2]], ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias [[META29:![0-9]+]]
 // CHECK1-NEXT:    store ptr [[TMP5]], ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias [[META29]]
 // CHECK1-NEXT:    store ptr [[TMP8]], ptr [[DOTPRIVATES__ADDR_I]], align 8, !noalias [[META29]]
 // CHECK1-NEXT:    store ptr @.omp_task_privates_map..2, ptr [[DOTCOPY_FN__ADDR_I]], align 8, !noalias [[META29]]
@@ -850,6 +846,10 @@ void loop() {
 // CHECK1-NEXT:    [[TMP34:%.*]] = load ptr, ptr [[DOTLASTPRIV_PTR_ADDR1_I]], align 8, !noalias [[META29]], !freeze_bits [[META3]]
 // CHECK1-NEXT:    [[TMP35:%.*]] = load ptr, ptr [[DOTLASTPRIV_PTR_ADDR2_I]], align 8, !noalias [[META29]], !freeze_bits [[META3]]
 // CHECK1-NEXT:    [[TMP36:%.*]] = load ptr, ptr [[DOTLASTPRIV_PTR_ADDR3_I]], align 8, !noalias [[META29]], !freeze_bits [[META3]]
+// CHECK1-NEXT:    [[FREEZE_POISON_I:%.*]] = freeze i32 poison
+// CHECK1-NEXT:    store i32 [[FREEZE_POISON_I]], ptr [[I_I]], align 4, !noalias [[META29]]
+// CHECK1-NEXT:    [[FREEZE_POISON4_I:%.*]] = freeze i32 poison
+// CHECK1-NEXT:    store i32 [[FREEZE_POISON4_I]], ptr [[DOTOMP_IV_I]], align 4, !noalias [[META29]]
 // CHECK1-NEXT:    [[TMP37:%.*]] = load i64, ptr [[DOTLB__ADDR_I]], align 8, !noalias [[META29]]
 // CHECK1-NEXT:    [[CONV_I:%.*]] = trunc i64 [[TMP37]] to i32
 // CHECK1-NEXT:    store i32 [[CONV_I]], ptr [[DOTOMP_IV_I]], align 4, !noalias [[META29]]
@@ -1071,11 +1071,7 @@ void loop() {
 // CHECK3-NEXT:    call void @llvm.experimental.noalias.scope.decl(metadata [[META9:![0-9]+]])
 // CHECK3-NEXT:    call void @llvm.experimental.noalias.scope.decl(metadata [[META11:![0-9]+]])
 // CHECK3-NEXT:    call void @llvm.experimental.noalias.scope.decl(metadata [[META13:![0-9]+]])
-// CHECK3-NEXT:    [[FREEZE_POISON_I:%.*]] = freeze i32 poison
-// CHECK3-NEXT:    store i32 [[FREEZE_POISON_I]], ptr [[I_I]], align 4, !noalias [[META15:![0-9]+]]
-// CHECK3-NEXT:    [[FREEZE_POISON2_I:%.*]] = freeze i32 poison
-// CHECK3-NEXT:    store i32 [[FREEZE_POISON2_I]], ptr [[DOTOMP_IV_I]], align 4, !noalias [[META15]]
-// CHECK3-NEXT:    store i32 [[TMP2]], ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias [[META15]]
+// CHECK3-NEXT:    store i32 [[TMP2]], ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias [[META15:![0-9]+]]
 // CHECK3-NEXT:    store ptr [[TMP5]], ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias [[META15]]
 // CHECK3-NEXT:    store ptr [[TMP8]], ptr [[DOTPRIVATES__ADDR_I]], align 8, !noalias [[META15]]
 // CHECK3-NEXT:    store ptr @.omp_task_privates_map., ptr [[DOTCOPY_FN__ADDR_I]], align 8, !noalias [[META15]]
@@ -1095,6 +1091,10 @@ void loop() {
 // CHECK3-NEXT:    [[TMP24:%.*]] = load ptr, ptr [[TMP23]], align 8, !freeze_bits [[META3]]
 // CHECK3-NEXT:    [[TMP25:%.*]] = load ptr, ptr [[DOTLASTPRIV_PTR_ADDR_I]], align 8, !noalias [[META15]], !freeze_bits [[META3]]
 // CHECK3-NEXT:    [[TMP26:%.*]] = load ptr, ptr [[DOTLASTPRIV_PTR_ADDR1_I]], align 8, !noalias [[META15]], !freeze_bits [[META3]]
+// CHECK3-NEXT:    [[FREEZE_POISON_I:%.*]] = freeze i32 poison
+// CHECK3-NEXT:    store i32 [[FREEZE_POISON_I]], ptr [[I_I]], align 4, !noalias [[META15]]
+// CHECK3-NEXT:    [[FREEZE_POISON2_I:%.*]] = freeze i32 poison
+// CHECK3-NEXT:    store i32 [[FREEZE_POISON2_I]], ptr [[DOTOMP_IV_I]], align 4, !noalias [[META15]]
 // CHECK3-NEXT:    [[TMP27:%.*]] = load i64, ptr [[DOTLB__ADDR_I]], align 8, !noalias [[META15]]
 // CHECK3-NEXT:    [[CONV_I:%.*]] = trunc i64 [[TMP27]] to i32
 // CHECK3-NEXT:    store i32 [[CONV_I]], ptr [[DOTOMP_IV_I]], align 4, !noalias [[META15]]
@@ -1292,11 +1292,7 @@ void loop() {
 // CHECK4-NEXT:    call void @llvm.experimental.noalias.scope.decl(metadata [[META9:![0-9]+]])
 // CHECK4-NEXT:    call void @llvm.experimental.noalias.scope.decl(metadata [[META11:![0-9]+]])
 // CHECK4-NEXT:    call void @llvm.experimental.noalias.scope.decl(metadata [[META13:![0-9]+]])
-// CHECK4-NEXT:    [[FREEZE_POISON_I:%.*]] = freeze i32 poison
-// CHECK4-NEXT:    store i32 [[FREEZE_POISON_I]], ptr [[I_I]], align 4, !noalias [[META15:![0-9]+]]
-// CHECK4-NEXT:    [[FREEZE_POISON2_I:%.*]] = freeze i32 poison
-// CHECK4-NEXT:    store i32 [[FREEZE_POISON2_I]], ptr [[DOTOMP_IV_I]], align 4, !noalias [[META15]]
-// CHECK4-NEXT:    store i32 [[TMP2]], ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias [[META15]]
+// CHECK4-NEXT:    store i32 [[TMP2]], ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias [[META15:![0-9]+]]
 // CHECK4-NEXT:    store ptr [[TMP5]], ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias [[META15]]
 // CHECK4-NEXT:    store ptr [[TMP8]], ptr [[DOTPRIVATES__ADDR_I]], align 8, !noalias [[META15]]
 // CHECK4-NEXT:    store ptr @.omp_task_privates_map., ptr [[DOTCOPY_FN__ADDR_I]], align 8, !noalias [[META15]]
@@ -1316,6 +1312,10 @@ void loop() {
 // CHECK4-NEXT:    [[TMP24:%.*]] = load ptr, ptr [[TMP23]], align 8, !freeze_bits [[META3]]
 // CHECK4-NEXT:    [[TMP25:%.*]] = load ptr, ptr [[DOTLASTPRIV_PTR_ADDR_I]], align 8, !noalias [[META15]], !freeze_bits [[META3]]
 // CHECK4-NEXT:    [[TMP26:%.*]] = load ptr, ptr [[DOTLASTPRIV_PTR_ADDR1_I]], align 8, !noalias [[META15]], !freeze_bits [[META3]]
+// CHECK4-NEXT:    [[FREEZE_POISON_I:%.*]] = freeze i32 poison
+// CHECK4-NEXT:    store i32 [[FREEZE_POISON_I]], ptr [[I_I]], align 4, !noalias [[META15]]
+// CHECK4-NEXT:    [[FREEZE_POISON2_I:%.*]] = freeze i32 poison
+// CHECK4-NEXT:    store i32 [[FREEZE_POISON2_I]], ptr [[DOTOMP_IV_I]], align 4, !noalias [[META15]]
 // CHECK4-NEXT:    [[TMP27:%.*]] = load i64, ptr [[DOTLB__ADDR_I]], align 8, !noalias [[META15]]
 // CHECK4-NEXT:    [[CONV_I:%.*]] = trunc i64 [[TMP27]] to i32
 // CHECK4-NEXT:    store i32 [[CONV_I]], ptr [[DOTOMP_IV_I]], align 4, !noalias [[META15]]
@@ -1517,11 +1517,7 @@ void loop() {
 // CHECK5-NEXT:    call void @llvm.experimental.noalias.scope.decl(metadata [[META9:![0-9]+]])
 // CHECK5-NEXT:    call void @llvm.experimental.noalias.scope.decl(metadata [[META11:![0-9]+]])
 // CHECK5-NEXT:    call void @llvm.experimental.noalias.scope.decl(metadata [[META13:![0-9]+]])
-// CHECK5-NEXT:    [[FREEZE_POISON_I:%.*]] = freeze i32 poison
-// CHECK5-NEXT:    store i32 [[FREEZE_POISON_I]], ptr [[I_I]], align 4, !noalias [[META15:![0-9]+]]
-// CHECK5-NEXT:    [[FREEZE_POISON2_I:%.*]] = freeze i32 poison
-// CHECK5-NEXT:    store i32 [[FREEZE_POISON2_I]], ptr [[DOTOMP_IV_I]], align 4, !noalias [[META15]]
-// CHECK5-NEXT:    store i32 [[TMP2]], ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias [[META15]]
+// CHECK5-NEXT:    store i32 [[TMP2]], ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias [[META15:![0-9]+]]
 // CHECK5-NEXT:    store ptr [[TMP5]], ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias [[META15]]
 // CHECK5-NEXT:    store ptr [[TMP8]], ptr [[DOTPRIVATES__ADDR_I]], align 8, !noalias [[META15]]
 // CHECK5-NEXT:    store ptr @.omp_task_privates_map., ptr [[DOTCOPY_FN__ADDR_I]], align 8, !noalias [[META15]]
@@ -1543,6 +1539,10 @@ void loop() {
 // CHECK5-NEXT:    [[TMP26:%.*]] = load ptr, ptr [[TMP25]], align 8, !freeze_bits [[META3]]
 // CHECK5-NEXT:    [[TMP27:%.*]] = load ptr, ptr [[DOTLASTPRIV_PTR_ADDR_I]], align 8, !noalias [[META15]], !freeze_bits [[META3]]
 // CHECK5-NEXT:    [[TMP28:%.*]] = load ptr, ptr [[DOTLASTPRIV_PTR_ADDR1_I]], align 8, !noalias [[META15]], !freeze_bits [[META3]]
+// CHECK5-NEXT:    [[FREEZE_POISON_I:%.*]] = freeze i32 poison
+// CHECK5-NEXT:    store i32 [[FREEZE_POISON_I]], ptr [[I_I]], align 4, !noalias [[META15]]
+// CHECK5-NEXT:    [[FREEZE_POISON2_I:%.*]] = freeze i32 poison
+// CHECK5-NEXT:    store i32 [[FREEZE_POISON2_I]], ptr [[DOTOMP_IV_I]], align 4, !noalias [[META15]]
 // CHECK5-NEXT:    [[TMP29:%.*]] = load i64, ptr [[DOTLB__ADDR_I]], align 8, !noalias [[META15]]
 // CHECK5-NEXT:    [[CONV_I:%.*]] = trunc i64 [[TMP29]] to i32
 // CHECK5-NEXT:    store i32 [[CONV_I]], ptr [[DOTOMP_IV_I]], align 4, !noalias [[META15]]
@@ -1703,11 +1703,7 @@ void loop() {
 // CHECK6-NEXT:    call void @llvm.experimental.noalias.scope.decl(metadata [[META9:![0-9]+]])
 // CHECK6-NEXT:    call void @llvm.experimental.noalias.scope.decl(metadata [[META11:![0-9]+]])
 // CHECK6-NEXT:    call void @llvm.experimental.noalias.scope.decl(metadata [[META13:![0-9]+]])
-// CHECK6-NEXT:    [[FREEZE_POISON_I:%.*]] = freeze i32 poison
-// CHECK6-NEXT:    store i32 [[FREEZE_POISON_I]], ptr [[I_I]], align 4, !noalias [[META15:![0-9]+]]
-// CHECK6-NEXT:    [[FREEZE_POISON1_I:%.*]] = freeze i32 poison
-// CHECK6-NEXT:    store i32 [[FREEZE_POISON1_I]], ptr [[DOTOMP_IV_I]], align 4, !noalias [[META15]]
-// CHECK6-NEXT:    store i32 [[TMP2]], ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias [[META15]]
+// CHECK6-NEXT:    store i32 [[TMP2]], ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias [[META15:![0-9]+]]
 // CHECK6-NEXT:    store ptr [[TMP5]], ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias [[META15]]
 // CHECK6-NEXT:    store ptr [[TMP8]], ptr [[DOTPRIVATES__ADDR_I]], align 8, !noalias [[META15]]
 // CHECK6-NEXT:    store ptr @.omp_task_privates_map., ptr [[DOTCOPY_FN__ADDR_I]], align 8, !noalias [[META15]]
@@ -1724,6 +1720,10 @@ void loop() {
 // CHECK6-NEXT:    call void [[TMP20]](ptr [[TMP21]], ptr [[DOTLASTPRIV_PTR_ADDR_I]]) #[[ATTR2:[0-9]+]]
 // CHECK6-NEXT:    [[TMP22:%.*]] = load ptr, ptr [[TMP19]], align 8, !freeze_bits [[META3]]
 // CHECK6-NEXT:    [[TMP23:%.*]] = load ptr, ptr [[DOTLASTPRIV_PTR_ADDR_I]], align 8, !noalias [[META15]], !freeze_bits [[META3]]
+// CHECK6-NEXT:    [[FREEZE_POISON_I:%.*]] = freeze i32 poison
+// CHECK6-NEXT:    store i32 [[FREEZE_POISON_I]], ptr [[I_I]], align 4, !noalias [[META15]]
+// CHECK6-NEXT:    [[FREEZE_POISON1_I:%.*]] = freeze i32 poison
+// CHECK6-NEXT:    store i32 [[FREEZE_POISON1_I]], ptr [[DOTOMP_IV_I]], align 4, !noalias [[META15]]
 // CHECK6-NEXT:    [[TMP24:%.*]] = load i64, ptr [[DOTLB__ADDR_I]], align 8, !noalias [[META15]]
 // CHECK6-NEXT:    [[CONV_I:%.*]] = trunc i64 [[TMP24]] to i32
 // CHECK6-NEXT:    store i32 [[CONV_I]], ptr [[DOTOMP_IV_I]], align 4, !noalias [[META15]]

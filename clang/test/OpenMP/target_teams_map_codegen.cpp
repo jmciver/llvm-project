@@ -80,15 +80,15 @@ void mapInt128() {
 // CHECK1-SAME: () #[[ATTR0:[0-9]+]] {
 // CHECK1-NEXT:  entry:
 // CHECK1-NEXT:    [[X:%.*]] = alloca i32, align 4
-// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK1-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X]], align 4
 // CHECK1-NEXT:    [[Y:%.*]] = alloca i32, align 4
-// CHECK1-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// CHECK1-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[Y]], align 4
 // CHECK1-NEXT:    [[DOTOFFLOAD_BASEPTRS:%.*]] = alloca [2 x ptr], align 8
 // CHECK1-NEXT:    [[DOTOFFLOAD_PTRS:%.*]] = alloca [2 x ptr], align 8
 // CHECK1-NEXT:    [[DOTOFFLOAD_MAPPERS:%.*]] = alloca [2 x ptr], align 8
 // CHECK1-NEXT:    [[KERNEL_ARGS:%.*]] = alloca [[STRUCT___TGT_KERNEL_ARGUMENTS:%.*]], align 8
+// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK1-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X]], align 4
+// CHECK1-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK1-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[Y]], align 4
 // CHECK1-NEXT:    [[TMP0:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOFFLOAD_BASEPTRS]], i32 0, i32 0
 // CHECK1-NEXT:    store ptr [[X]], ptr [[TMP0]], align 8
 // CHECK1-NEXT:    [[TMP1:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOFFLOAD_PTRS]], i32 0, i32 0
@@ -152,13 +152,13 @@ void mapInt128() {
 // CHECK1-NEXT:    [[DOTGLOBAL_TID__ADDR:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    [[DOTBOUND_TID__ADDR:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    [[X:%.*]] = alloca i32, align 4
-// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK1-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X]], align 4
 // CHECK1-NEXT:    [[Y:%.*]] = alloca i32, align 4
-// CHECK1-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// CHECK1-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[Y]], align 4
 // CHECK1-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK1-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
+// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK1-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X]], align 4
+// CHECK1-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK1-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[Y]], align 4
 // CHECK1-NEXT:    ret void
 //
 //
@@ -166,15 +166,15 @@ void mapInt128() {
 // CHECK1-SAME: () #[[ATTR0]] {
 // CHECK1-NEXT:  entry:
 // CHECK1-NEXT:    [[X:%.*]] = alloca i32, align 4
-// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK1-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X]], align 4
 // CHECK1-NEXT:    [[Y:%.*]] = alloca i32, align 4
-// CHECK1-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// CHECK1-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[Y]], align 4
 // CHECK1-NEXT:    [[DOTOFFLOAD_BASEPTRS:%.*]] = alloca [2 x ptr], align 8
 // CHECK1-NEXT:    [[DOTOFFLOAD_PTRS:%.*]] = alloca [2 x ptr], align 8
 // CHECK1-NEXT:    [[DOTOFFLOAD_MAPPERS:%.*]] = alloca [2 x ptr], align 8
 // CHECK1-NEXT:    [[KERNEL_ARGS:%.*]] = alloca [[STRUCT___TGT_KERNEL_ARGUMENTS:%.*]], align 8
+// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK1-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X]], align 4
+// CHECK1-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK1-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[Y]], align 4
 // CHECK1-NEXT:    [[TMP0:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOFFLOAD_BASEPTRS]], i32 0, i32 0
 // CHECK1-NEXT:    store ptr [[X]], ptr [[TMP0]], align 8
 // CHECK1-NEXT:    [[TMP1:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOFFLOAD_PTRS]], i32 0, i32 0
@@ -264,15 +264,15 @@ void mapInt128() {
 // CHECK1-SAME: () #[[ATTR0]] {
 // CHECK1-NEXT:  entry:
 // CHECK1-NEXT:    [[X:%.*]] = alloca i32, align 4
-// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK1-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X]], align 4
 // CHECK1-NEXT:    [[Y:%.*]] = alloca i32, align 4
-// CHECK1-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// CHECK1-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[Y]], align 4
 // CHECK1-NEXT:    [[DOTOFFLOAD_BASEPTRS:%.*]] = alloca [2 x ptr], align 8
 // CHECK1-NEXT:    [[DOTOFFLOAD_PTRS:%.*]] = alloca [2 x ptr], align 8
 // CHECK1-NEXT:    [[DOTOFFLOAD_MAPPERS:%.*]] = alloca [2 x ptr], align 8
 // CHECK1-NEXT:    [[KERNEL_ARGS:%.*]] = alloca [[STRUCT___TGT_KERNEL_ARGUMENTS:%.*]], align 8
+// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK1-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X]], align 4
+// CHECK1-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK1-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[Y]], align 4
 // CHECK1-NEXT:    [[TMP0:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOFFLOAD_BASEPTRS]], i32 0, i32 0
 // CHECK1-NEXT:    store ptr [[X]], ptr [[TMP0]], align 8
 // CHECK1-NEXT:    [[TMP1:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOFFLOAD_PTRS]], i32 0, i32 0
@@ -344,11 +344,7 @@ void mapInt128() {
 // CHECK1-NEXT:    [[X_ADDR:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    [[Y_ADDR:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    [[X1:%.*]] = alloca i32, align 4
-// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK1-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X1]], align 4
 // CHECK1-NEXT:    [[Y2:%.*]] = alloca i32, align 4
-// CHECK1-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
-// CHECK1-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[Y2]], align 4
 // CHECK1-NEXT:    [[DOTOMP_REDUCTION_RED_LIST:%.*]] = alloca [2 x ptr], align 8
 // CHECK1-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK1-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
@@ -356,7 +352,11 @@ void mapInt128() {
 // CHECK1-NEXT:    store ptr [[Y]], ptr [[Y_ADDR]], align 8
 // CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[X_ADDR]], align 8
 // CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[Y_ADDR]], align 8
+// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK1-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X1]], align 4
 // CHECK1-NEXT:    store i32 0, ptr [[X1]], align 4
+// CHECK1-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK1-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[Y2]], align 4
 // CHECK1-NEXT:    store i32 0, ptr [[Y2]], align 4
 // CHECK1-NEXT:    [[TMP2:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOMP_REDUCTION_RED_LIST]], i64 0, i64 0
 // CHECK1-NEXT:    store ptr [[X1]], ptr [[TMP2]], align 8
@@ -423,12 +423,12 @@ void mapInt128() {
 // CHECK1-SAME: () #[[ATTR0]] {
 // CHECK1-NEXT:  entry:
 // CHECK1-NEXT:    [[X:%.*]] = alloca i32, align 4
-// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK1-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X]], align 4
 // CHECK1-NEXT:    [[DOTOFFLOAD_BASEPTRS:%.*]] = alloca [1 x ptr], align 8
 // CHECK1-NEXT:    [[DOTOFFLOAD_PTRS:%.*]] = alloca [1 x ptr], align 8
 // CHECK1-NEXT:    [[DOTOFFLOAD_MAPPERS:%.*]] = alloca [1 x ptr], align 8
 // CHECK1-NEXT:    [[KERNEL_ARGS:%.*]] = alloca [[STRUCT___TGT_KERNEL_ARGUMENTS:%.*]], align 8
+// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK1-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X]], align 4
 // CHECK1-NEXT:    [[TMP0:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOFFLOAD_BASEPTRS]], i32 0, i32 0
 // CHECK1-NEXT:    store ptr [[X]], ptr [[TMP0]], align 8
 // CHECK1-NEXT:    [[TMP1:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOFFLOAD_PTRS]], i32 0, i32 0
@@ -503,12 +503,12 @@ void mapInt128() {
 // CHECK1-SAME: () #[[ATTR0]] {
 // CHECK1-NEXT:  entry:
 // CHECK1-NEXT:    [[X:%.*]] = alloca i32, align 4
-// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK1-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X]], align 4
 // CHECK1-NEXT:    [[DOTOFFLOAD_BASEPTRS:%.*]] = alloca [1 x ptr], align 8
 // CHECK1-NEXT:    [[DOTOFFLOAD_PTRS:%.*]] = alloca [1 x ptr], align 8
 // CHECK1-NEXT:    [[DOTOFFLOAD_MAPPERS:%.*]] = alloca [1 x ptr], align 8
 // CHECK1-NEXT:    [[KERNEL_ARGS:%.*]] = alloca [[STRUCT___TGT_KERNEL_ARGUMENTS:%.*]], align 8
+// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK1-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X]], align 4
 // CHECK1-NEXT:    [[TMP0:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOFFLOAD_BASEPTRS]], i32 0, i32 0
 // CHECK1-NEXT:    store ptr [[X]], ptr [[TMP0]], align 8
 // CHECK1-NEXT:    [[TMP1:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOFFLOAD_PTRS]], i32 0, i32 0
@@ -583,12 +583,12 @@ void mapInt128() {
 // CHECK1-SAME: () #[[ATTR0]] {
 // CHECK1-NEXT:  entry:
 // CHECK1-NEXT:    [[X:%.*]] = alloca i32, align 4
-// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK1-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X]], align 4
 // CHECK1-NEXT:    [[DOTOFFLOAD_BASEPTRS:%.*]] = alloca [1 x ptr], align 8
 // CHECK1-NEXT:    [[DOTOFFLOAD_PTRS:%.*]] = alloca [1 x ptr], align 8
 // CHECK1-NEXT:    [[DOTOFFLOAD_MAPPERS:%.*]] = alloca [1 x ptr], align 8
 // CHECK1-NEXT:    [[KERNEL_ARGS:%.*]] = alloca [[STRUCT___TGT_KERNEL_ARGUMENTS:%.*]], align 8
+// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK1-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X]], align 4
 // CHECK1-NEXT:    [[TMP0:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOFFLOAD_BASEPTRS]], i32 0, i32 0
 // CHECK1-NEXT:    store ptr [[X]], ptr [[TMP0]], align 8
 // CHECK1-NEXT:    [[TMP1:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOFFLOAD_PTRS]], i32 0, i32 0
@@ -1026,14 +1026,8 @@ void mapInt128() {
 // CHECK1-SAME: () #[[ATTR0]] {
 // CHECK1-NEXT:  entry:
 // CHECK1-NEXT:    [[X:%.*]] = alloca i128, align 16
-// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i128 poison
-// CHECK1-NEXT:    store i128 [[FREEZE_POISON]], ptr [[X]], align 8
 // CHECK1-NEXT:    [[Y:%.*]] = alloca i128, align 16
-// CHECK1-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i128 poison
-// CHECK1-NEXT:    store i128 [[FREEZE_POISON1]], ptr [[Y]], align 8
 // CHECK1-NEXT:    [[Z:%.*]] = alloca i128, align 16
-// CHECK1-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i128 poison
-// CHECK1-NEXT:    store i128 [[FREEZE_POISON2]], ptr [[Z]], align 8
 // CHECK1-NEXT:    [[DOTOFFLOAD_BASEPTRS:%.*]] = alloca [3 x ptr], align 8
 // CHECK1-NEXT:    [[DOTOFFLOAD_PTRS:%.*]] = alloca [3 x ptr], align 8
 // CHECK1-NEXT:    [[DOTOFFLOAD_MAPPERS:%.*]] = alloca [3 x ptr], align 8
@@ -1042,6 +1036,12 @@ void mapInt128() {
 // CHECK1-NEXT:    [[DOTOFFLOAD_PTRS4:%.*]] = alloca [3 x ptr], align 8
 // CHECK1-NEXT:    [[DOTOFFLOAD_MAPPERS5:%.*]] = alloca [3 x ptr], align 8
 // CHECK1-NEXT:    [[KERNEL_ARGS6:%.*]] = alloca [[STRUCT___TGT_KERNEL_ARGUMENTS]], align 8
+// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i128 poison
+// CHECK1-NEXT:    store i128 [[FREEZE_POISON]], ptr [[X]], align 16
+// CHECK1-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i128 poison
+// CHECK1-NEXT:    store i128 [[FREEZE_POISON1]], ptr [[Y]], align 16
+// CHECK1-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i128 poison
+// CHECK1-NEXT:    store i128 [[FREEZE_POISON2]], ptr [[Z]], align 16
 // CHECK1-NEXT:    [[TMP0:%.*]] = getelementptr inbounds [3 x ptr], ptr [[DOTOFFLOAD_BASEPTRS]], i32 0, i32 0
 // CHECK1-NEXT:    store ptr [[Y]], ptr [[TMP0]], align 8
 // CHECK1-NEXT:    [[TMP1:%.*]] = getelementptr inbounds [3 x ptr], ptr [[DOTOFFLOAD_PTRS]], i32 0, i32 0
@@ -1172,14 +1172,8 @@ void mapInt128() {
 // CHECK1-NEXT:    [[Y_ADDR:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    [[Z_ADDR:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    [[Y1:%.*]] = alloca i128, align 16
-// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i128 poison
-// CHECK1-NEXT:    store i128 [[FREEZE_POISON]], ptr [[Y1]], align 8
 // CHECK1-NEXT:    [[X:%.*]] = alloca i128, align 16
-// CHECK1-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i128 poison
-// CHECK1-NEXT:    store i128 [[FREEZE_POISON2]], ptr [[X]], align 8
 // CHECK1-NEXT:    [[Z3:%.*]] = alloca i128, align 16
-// CHECK1-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i128 poison
-// CHECK1-NEXT:    store i128 [[FREEZE_POISON4]], ptr [[Z3]], align 8
 // CHECK1-NEXT:    [[DOTOMP_REDUCTION_RED_LIST:%.*]] = alloca [1 x ptr], align 8
 // CHECK1-NEXT:    [[ATOMIC_TEMP:%.*]] = alloca i128, align 16
 // CHECK1-NEXT:    [[ATOMIC_TEMP5:%.*]] = alloca i128, align 16
@@ -1190,8 +1184,14 @@ void mapInt128() {
 // CHECK1-NEXT:    store ptr [[Z]], ptr [[Z_ADDR]], align 8
 // CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[Y_ADDR]], align 8
 // CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[Z_ADDR]], align 8
+// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i128 poison
+// CHECK1-NEXT:    store i128 [[FREEZE_POISON]], ptr [[Y1]], align 16
 // CHECK1-NEXT:    [[TMP2:%.*]] = load i128, ptr [[TMP0]], align 16, !freeze_bits [[META15]]
 // CHECK1-NEXT:    store i128 [[TMP2]], ptr [[Y1]], align 16
+// CHECK1-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i128 poison
+// CHECK1-NEXT:    store i128 [[FREEZE_POISON2]], ptr [[X]], align 16
+// CHECK1-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i128 poison
+// CHECK1-NEXT:    store i128 [[FREEZE_POISON4]], ptr [[Z3]], align 16
 // CHECK1-NEXT:    store i128 0, ptr [[Z3]], align 16
 // CHECK1-NEXT:    [[TMP3:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOMP_REDUCTION_RED_LIST]], i64 0, i64 0
 // CHECK1-NEXT:    store ptr [[Z3]], ptr [[TMP3]], align 8
@@ -1270,14 +1270,8 @@ void mapInt128() {
 // CHECK1-NEXT:    [[Y_ADDR:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    [[Z_ADDR:%.*]] = alloca ptr, align 8
 // CHECK1-NEXT:    [[Y1:%.*]] = alloca i128, align 16
-// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i128 poison
-// CHECK1-NEXT:    store i128 [[FREEZE_POISON]], ptr [[Y1]], align 8
 // CHECK1-NEXT:    [[X:%.*]] = alloca i128, align 16
-// CHECK1-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i128 poison
-// CHECK1-NEXT:    store i128 [[FREEZE_POISON2]], ptr [[X]], align 8
 // CHECK1-NEXT:    [[Z3:%.*]] = alloca i128, align 16
-// CHECK1-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i128 poison
-// CHECK1-NEXT:    store i128 [[FREEZE_POISON4]], ptr [[Z3]], align 8
 // CHECK1-NEXT:    [[DOTOMP_REDUCTION_RED_LIST:%.*]] = alloca [1 x ptr], align 8
 // CHECK1-NEXT:    [[ATOMIC_TEMP:%.*]] = alloca i128, align 16
 // CHECK1-NEXT:    [[ATOMIC_TEMP5:%.*]] = alloca i128, align 16
@@ -1288,8 +1282,14 @@ void mapInt128() {
 // CHECK1-NEXT:    store ptr [[Z]], ptr [[Z_ADDR]], align 8
 // CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[Y_ADDR]], align 8
 // CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[Z_ADDR]], align 8
+// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i128 poison
+// CHECK1-NEXT:    store i128 [[FREEZE_POISON]], ptr [[Y1]], align 16
 // CHECK1-NEXT:    [[TMP2:%.*]] = load i128, ptr [[TMP0]], align 16, !freeze_bits [[META15]]
 // CHECK1-NEXT:    store i128 [[TMP2]], ptr [[Y1]], align 16
+// CHECK1-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i128 poison
+// CHECK1-NEXT:    store i128 [[FREEZE_POISON2]], ptr [[X]], align 16
+// CHECK1-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i128 poison
+// CHECK1-NEXT:    store i128 [[FREEZE_POISON4]], ptr [[Z3]], align 16
 // CHECK1-NEXT:    store i128 0, ptr [[Z3]], align 16
 // CHECK1-NEXT:    [[TMP3:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOMP_REDUCTION_RED_LIST]], i64 0, i64 0
 // CHECK1-NEXT:    store ptr [[Z3]], ptr [[TMP3]], align 8
@@ -1351,15 +1351,15 @@ void mapInt128() {
 // CHECK3-SAME: () #[[ATTR0:[0-9]+]] {
 // CHECK3-NEXT:  entry:
 // CHECK3-NEXT:    [[X:%.*]] = alloca i32, align 4
-// CHECK3-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK3-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X]], align 4
 // CHECK3-NEXT:    [[Y:%.*]] = alloca i32, align 4
-// CHECK3-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// CHECK3-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[Y]], align 4
 // CHECK3-NEXT:    [[DOTOFFLOAD_BASEPTRS:%.*]] = alloca [2 x ptr], align 4
 // CHECK3-NEXT:    [[DOTOFFLOAD_PTRS:%.*]] = alloca [2 x ptr], align 4
 // CHECK3-NEXT:    [[DOTOFFLOAD_MAPPERS:%.*]] = alloca [2 x ptr], align 4
 // CHECK3-NEXT:    [[KERNEL_ARGS:%.*]] = alloca [[STRUCT___TGT_KERNEL_ARGUMENTS:%.*]], align 8
+// CHECK3-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK3-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X]], align 4
+// CHECK3-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK3-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[Y]], align 4
 // CHECK3-NEXT:    [[TMP0:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOFFLOAD_BASEPTRS]], i32 0, i32 0
 // CHECK3-NEXT:    store ptr [[X]], ptr [[TMP0]], align 4
 // CHECK3-NEXT:    [[TMP1:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOFFLOAD_PTRS]], i32 0, i32 0
@@ -1423,13 +1423,13 @@ void mapInt128() {
 // CHECK3-NEXT:    [[DOTGLOBAL_TID__ADDR:%.*]] = alloca ptr, align 4
 // CHECK3-NEXT:    [[DOTBOUND_TID__ADDR:%.*]] = alloca ptr, align 4
 // CHECK3-NEXT:    [[X:%.*]] = alloca i32, align 4
-// CHECK3-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK3-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X]], align 4
 // CHECK3-NEXT:    [[Y:%.*]] = alloca i32, align 4
-// CHECK3-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// CHECK3-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[Y]], align 4
 // CHECK3-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 4
 // CHECK3-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 4
+// CHECK3-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK3-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X]], align 4
+// CHECK3-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK3-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[Y]], align 4
 // CHECK3-NEXT:    ret void
 //
 //
@@ -1437,15 +1437,15 @@ void mapInt128() {
 // CHECK3-SAME: () #[[ATTR0]] {
 // CHECK3-NEXT:  entry:
 // CHECK3-NEXT:    [[X:%.*]] = alloca i32, align 4
-// CHECK3-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK3-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X]], align 4
 // CHECK3-NEXT:    [[Y:%.*]] = alloca i32, align 4
-// CHECK3-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// CHECK3-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[Y]], align 4
 // CHECK3-NEXT:    [[DOTOFFLOAD_BASEPTRS:%.*]] = alloca [2 x ptr], align 4
 // CHECK3-NEXT:    [[DOTOFFLOAD_PTRS:%.*]] = alloca [2 x ptr], align 4
 // CHECK3-NEXT:    [[DOTOFFLOAD_MAPPERS:%.*]] = alloca [2 x ptr], align 4
 // CHECK3-NEXT:    [[KERNEL_ARGS:%.*]] = alloca [[STRUCT___TGT_KERNEL_ARGUMENTS:%.*]], align 8
+// CHECK3-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK3-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X]], align 4
+// CHECK3-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK3-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[Y]], align 4
 // CHECK3-NEXT:    [[TMP0:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOFFLOAD_BASEPTRS]], i32 0, i32 0
 // CHECK3-NEXT:    store ptr [[X]], ptr [[TMP0]], align 4
 // CHECK3-NEXT:    [[TMP1:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOFFLOAD_PTRS]], i32 0, i32 0
@@ -1535,15 +1535,15 @@ void mapInt128() {
 // CHECK3-SAME: () #[[ATTR0]] {
 // CHECK3-NEXT:  entry:
 // CHECK3-NEXT:    [[X:%.*]] = alloca i32, align 4
-// CHECK3-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK3-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X]], align 4
 // CHECK3-NEXT:    [[Y:%.*]] = alloca i32, align 4
-// CHECK3-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// CHECK3-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[Y]], align 4
 // CHECK3-NEXT:    [[DOTOFFLOAD_BASEPTRS:%.*]] = alloca [2 x ptr], align 4
 // CHECK3-NEXT:    [[DOTOFFLOAD_PTRS:%.*]] = alloca [2 x ptr], align 4
 // CHECK3-NEXT:    [[DOTOFFLOAD_MAPPERS:%.*]] = alloca [2 x ptr], align 4
 // CHECK3-NEXT:    [[KERNEL_ARGS:%.*]] = alloca [[STRUCT___TGT_KERNEL_ARGUMENTS:%.*]], align 8
+// CHECK3-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK3-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X]], align 4
+// CHECK3-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK3-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[Y]], align 4
 // CHECK3-NEXT:    [[TMP0:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOFFLOAD_BASEPTRS]], i32 0, i32 0
 // CHECK3-NEXT:    store ptr [[X]], ptr [[TMP0]], align 4
 // CHECK3-NEXT:    [[TMP1:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOFFLOAD_PTRS]], i32 0, i32 0
@@ -1615,11 +1615,7 @@ void mapInt128() {
 // CHECK3-NEXT:    [[X_ADDR:%.*]] = alloca ptr, align 4
 // CHECK3-NEXT:    [[Y_ADDR:%.*]] = alloca ptr, align 4
 // CHECK3-NEXT:    [[X1:%.*]] = alloca i32, align 4
-// CHECK3-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK3-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X1]], align 4
 // CHECK3-NEXT:    [[Y2:%.*]] = alloca i32, align 4
-// CHECK3-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
-// CHECK3-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[Y2]], align 4
 // CHECK3-NEXT:    [[DOTOMP_REDUCTION_RED_LIST:%.*]] = alloca [2 x ptr], align 4
 // CHECK3-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 4
 // CHECK3-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 4
@@ -1627,7 +1623,11 @@ void mapInt128() {
 // CHECK3-NEXT:    store ptr [[Y]], ptr [[Y_ADDR]], align 4
 // CHECK3-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[X_ADDR]], align 4
 // CHECK3-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[Y_ADDR]], align 4
+// CHECK3-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK3-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X1]], align 4
 // CHECK3-NEXT:    store i32 0, ptr [[X1]], align 4
+// CHECK3-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK3-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[Y2]], align 4
 // CHECK3-NEXT:    store i32 0, ptr [[Y2]], align 4
 // CHECK3-NEXT:    [[TMP2:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOMP_REDUCTION_RED_LIST]], i32 0, i32 0
 // CHECK3-NEXT:    store ptr [[X1]], ptr [[TMP2]], align 4
@@ -1694,12 +1694,12 @@ void mapInt128() {
 // CHECK3-SAME: () #[[ATTR0]] {
 // CHECK3-NEXT:  entry:
 // CHECK3-NEXT:    [[X:%.*]] = alloca i32, align 4
-// CHECK3-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK3-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X]], align 4
 // CHECK3-NEXT:    [[DOTOFFLOAD_BASEPTRS:%.*]] = alloca [1 x ptr], align 4
 // CHECK3-NEXT:    [[DOTOFFLOAD_PTRS:%.*]] = alloca [1 x ptr], align 4
 // CHECK3-NEXT:    [[DOTOFFLOAD_MAPPERS:%.*]] = alloca [1 x ptr], align 4
 // CHECK3-NEXT:    [[KERNEL_ARGS:%.*]] = alloca [[STRUCT___TGT_KERNEL_ARGUMENTS:%.*]], align 8
+// CHECK3-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK3-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X]], align 4
 // CHECK3-NEXT:    [[TMP0:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOFFLOAD_BASEPTRS]], i32 0, i32 0
 // CHECK3-NEXT:    store ptr [[X]], ptr [[TMP0]], align 4
 // CHECK3-NEXT:    [[TMP1:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOFFLOAD_PTRS]], i32 0, i32 0
@@ -1774,12 +1774,12 @@ void mapInt128() {
 // CHECK3-SAME: () #[[ATTR0]] {
 // CHECK3-NEXT:  entry:
 // CHECK3-NEXT:    [[X:%.*]] = alloca i32, align 4
-// CHECK3-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK3-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X]], align 4
 // CHECK3-NEXT:    [[DOTOFFLOAD_BASEPTRS:%.*]] = alloca [1 x ptr], align 4
 // CHECK3-NEXT:    [[DOTOFFLOAD_PTRS:%.*]] = alloca [1 x ptr], align 4
 // CHECK3-NEXT:    [[DOTOFFLOAD_MAPPERS:%.*]] = alloca [1 x ptr], align 4
 // CHECK3-NEXT:    [[KERNEL_ARGS:%.*]] = alloca [[STRUCT___TGT_KERNEL_ARGUMENTS:%.*]], align 8
+// CHECK3-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK3-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X]], align 4
 // CHECK3-NEXT:    [[TMP0:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOFFLOAD_BASEPTRS]], i32 0, i32 0
 // CHECK3-NEXT:    store ptr [[X]], ptr [[TMP0]], align 4
 // CHECK3-NEXT:    [[TMP1:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOFFLOAD_PTRS]], i32 0, i32 0
@@ -1854,12 +1854,12 @@ void mapInt128() {
 // CHECK3-SAME: () #[[ATTR0]] {
 // CHECK3-NEXT:  entry:
 // CHECK3-NEXT:    [[X:%.*]] = alloca i32, align 4
-// CHECK3-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK3-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X]], align 4
 // CHECK3-NEXT:    [[DOTOFFLOAD_BASEPTRS:%.*]] = alloca [1 x ptr], align 4
 // CHECK3-NEXT:    [[DOTOFFLOAD_PTRS:%.*]] = alloca [1 x ptr], align 4
 // CHECK3-NEXT:    [[DOTOFFLOAD_MAPPERS:%.*]] = alloca [1 x ptr], align 4
 // CHECK3-NEXT:    [[KERNEL_ARGS:%.*]] = alloca [[STRUCT___TGT_KERNEL_ARGUMENTS:%.*]], align 8
+// CHECK3-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK3-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X]], align 4
 // CHECK3-NEXT:    [[TMP0:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOFFLOAD_BASEPTRS]], i32 0, i32 0
 // CHECK3-NEXT:    store ptr [[X]], ptr [[TMP0]], align 4
 // CHECK3-NEXT:    [[TMP1:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOFFLOAD_PTRS]], i32 0, i32 0
@@ -2308,13 +2308,13 @@ void mapInt128() {
 // CHECK5-NEXT:    [[DOTGLOBAL_TID__ADDR:%.*]] = alloca ptr, align 8
 // CHECK5-NEXT:    [[DOTBOUND_TID__ADDR:%.*]] = alloca ptr, align 8
 // CHECK5-NEXT:    [[X:%.*]] = alloca i32, align 4
-// CHECK5-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK5-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X]], align 4
 // CHECK5-NEXT:    [[Y:%.*]] = alloca i32, align 4
-// CHECK5-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// CHECK5-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[Y]], align 4
 // CHECK5-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK5-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
+// CHECK5-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK5-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X]], align 4
+// CHECK5-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK5-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[Y]], align 4
 // CHECK5-NEXT:    ret void
 //
 //
@@ -2378,11 +2378,7 @@ void mapInt128() {
 // CHECK5-NEXT:    [[X_ADDR:%.*]] = alloca ptr, align 8
 // CHECK5-NEXT:    [[Y_ADDR:%.*]] = alloca ptr, align 8
 // CHECK5-NEXT:    [[X1:%.*]] = alloca i32, align 4
-// CHECK5-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK5-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X1]], align 4
 // CHECK5-NEXT:    [[Y2:%.*]] = alloca i32, align 4
-// CHECK5-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
-// CHECK5-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[Y2]], align 4
 // CHECK5-NEXT:    [[DOTOMP_REDUCTION_RED_LIST:%.*]] = alloca [2 x ptr], align 8
 // CHECK5-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK5-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
@@ -2390,7 +2386,11 @@ void mapInt128() {
 // CHECK5-NEXT:    store ptr [[Y]], ptr [[Y_ADDR]], align 8
 // CHECK5-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[X_ADDR]], align 8
 // CHECK5-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[Y_ADDR]], align 8
+// CHECK5-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK5-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X1]], align 4
 // CHECK5-NEXT:    store i32 0, ptr [[X1]], align 4
+// CHECK5-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK5-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[Y2]], align 4
 // CHECK5-NEXT:    store i32 0, ptr [[Y2]], align 4
 // CHECK5-NEXT:    [[TMP2:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOMP_REDUCTION_RED_LIST]], i64 0, i64 0
 // CHECK5-NEXT:    store ptr [[X1]], ptr [[TMP2]], align 8
@@ -2804,14 +2804,8 @@ void mapInt128() {
 // CHECK5-NEXT:    [[Y_ADDR:%.*]] = alloca ptr, align 8
 // CHECK5-NEXT:    [[Z_ADDR:%.*]] = alloca ptr, align 8
 // CHECK5-NEXT:    [[Y1:%.*]] = alloca i128, align 16
-// CHECK5-NEXT:    [[FREEZE_POISON:%.*]] = freeze i128 poison
-// CHECK5-NEXT:    store i128 [[FREEZE_POISON]], ptr [[Y1]], align 8
 // CHECK5-NEXT:    [[X:%.*]] = alloca i128, align 16
-// CHECK5-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i128 poison
-// CHECK5-NEXT:    store i128 [[FREEZE_POISON2]], ptr [[X]], align 8
 // CHECK5-NEXT:    [[Z3:%.*]] = alloca i128, align 16
-// CHECK5-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i128 poison
-// CHECK5-NEXT:    store i128 [[FREEZE_POISON4]], ptr [[Z3]], align 8
 // CHECK5-NEXT:    [[DOTOMP_REDUCTION_RED_LIST:%.*]] = alloca [1 x ptr], align 8
 // CHECK5-NEXT:    [[ATOMIC_TEMP:%.*]] = alloca i128, align 16
 // CHECK5-NEXT:    [[ATOMIC_TEMP5:%.*]] = alloca i128, align 16
@@ -2822,8 +2816,14 @@ void mapInt128() {
 // CHECK5-NEXT:    store ptr [[Z]], ptr [[Z_ADDR]], align 8
 // CHECK5-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[Y_ADDR]], align 8
 // CHECK5-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[Z_ADDR]], align 8
+// CHECK5-NEXT:    [[FREEZE_POISON:%.*]] = freeze i128 poison
+// CHECK5-NEXT:    store i128 [[FREEZE_POISON]], ptr [[Y1]], align 16
 // CHECK5-NEXT:    [[TMP2:%.*]] = load i128, ptr [[TMP0]], align 16, !freeze_bits [[META16]]
 // CHECK5-NEXT:    store i128 [[TMP2]], ptr [[Y1]], align 16
+// CHECK5-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i128 poison
+// CHECK5-NEXT:    store i128 [[FREEZE_POISON2]], ptr [[X]], align 16
+// CHECK5-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i128 poison
+// CHECK5-NEXT:    store i128 [[FREEZE_POISON4]], ptr [[Z3]], align 16
 // CHECK5-NEXT:    store i128 0, ptr [[Z3]], align 16
 // CHECK5-NEXT:    [[TMP3:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOMP_REDUCTION_RED_LIST]], i64 0, i64 0
 // CHECK5-NEXT:    store ptr [[Z3]], ptr [[TMP3]], align 8
@@ -2904,14 +2904,8 @@ void mapInt128() {
 // CHECK5-NEXT:    [[Y_ADDR:%.*]] = alloca ptr, align 8
 // CHECK5-NEXT:    [[Z_ADDR:%.*]] = alloca ptr, align 8
 // CHECK5-NEXT:    [[Y1:%.*]] = alloca i128, align 16
-// CHECK5-NEXT:    [[FREEZE_POISON:%.*]] = freeze i128 poison
-// CHECK5-NEXT:    store i128 [[FREEZE_POISON]], ptr [[Y1]], align 8
 // CHECK5-NEXT:    [[X:%.*]] = alloca i128, align 16
-// CHECK5-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i128 poison
-// CHECK5-NEXT:    store i128 [[FREEZE_POISON2]], ptr [[X]], align 8
 // CHECK5-NEXT:    [[Z3:%.*]] = alloca i128, align 16
-// CHECK5-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i128 poison
-// CHECK5-NEXT:    store i128 [[FREEZE_POISON4]], ptr [[Z3]], align 8
 // CHECK5-NEXT:    [[DOTOMP_REDUCTION_RED_LIST:%.*]] = alloca [1 x ptr], align 8
 // CHECK5-NEXT:    [[ATOMIC_TEMP:%.*]] = alloca i128, align 16
 // CHECK5-NEXT:    [[ATOMIC_TEMP5:%.*]] = alloca i128, align 16
@@ -2922,8 +2916,14 @@ void mapInt128() {
 // CHECK5-NEXT:    store ptr [[Z]], ptr [[Z_ADDR]], align 8
 // CHECK5-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[Y_ADDR]], align 8
 // CHECK5-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[Z_ADDR]], align 8
+// CHECK5-NEXT:    [[FREEZE_POISON:%.*]] = freeze i128 poison
+// CHECK5-NEXT:    store i128 [[FREEZE_POISON]], ptr [[Y1]], align 16
 // CHECK5-NEXT:    [[TMP2:%.*]] = load i128, ptr [[TMP0]], align 16, !freeze_bits [[META16]]
 // CHECK5-NEXT:    store i128 [[TMP2]], ptr [[Y1]], align 16
+// CHECK5-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i128 poison
+// CHECK5-NEXT:    store i128 [[FREEZE_POISON2]], ptr [[X]], align 16
+// CHECK5-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i128 poison
+// CHECK5-NEXT:    store i128 [[FREEZE_POISON4]], ptr [[Z3]], align 16
 // CHECK5-NEXT:    store i128 0, ptr [[Z3]], align 16
 // CHECK5-NEXT:    [[TMP3:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOMP_REDUCTION_RED_LIST]], i64 0, i64 0
 // CHECK5-NEXT:    store ptr [[Z3]], ptr [[TMP3]], align 8
@@ -2996,13 +2996,13 @@ void mapInt128() {
 // CHECK7-NEXT:    [[DOTGLOBAL_TID__ADDR:%.*]] = alloca ptr, align 4
 // CHECK7-NEXT:    [[DOTBOUND_TID__ADDR:%.*]] = alloca ptr, align 4
 // CHECK7-NEXT:    [[X:%.*]] = alloca i32, align 4
-// CHECK7-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK7-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X]], align 4
 // CHECK7-NEXT:    [[Y:%.*]] = alloca i32, align 4
-// CHECK7-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// CHECK7-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[Y]], align 4
 // CHECK7-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 4
 // CHECK7-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 4
+// CHECK7-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK7-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X]], align 4
+// CHECK7-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK7-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[Y]], align 4
 // CHECK7-NEXT:    ret void
 //
 //
@@ -3066,11 +3066,7 @@ void mapInt128() {
 // CHECK7-NEXT:    [[X_ADDR:%.*]] = alloca ptr, align 4
 // CHECK7-NEXT:    [[Y_ADDR:%.*]] = alloca ptr, align 4
 // CHECK7-NEXT:    [[X1:%.*]] = alloca i32, align 4
-// CHECK7-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK7-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X1]], align 4
 // CHECK7-NEXT:    [[Y2:%.*]] = alloca i32, align 4
-// CHECK7-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
-// CHECK7-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[Y2]], align 4
 // CHECK7-NEXT:    [[DOTOMP_REDUCTION_RED_LIST:%.*]] = alloca [2 x ptr], align 4
 // CHECK7-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 4
 // CHECK7-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 4
@@ -3078,7 +3074,11 @@ void mapInt128() {
 // CHECK7-NEXT:    store ptr [[Y]], ptr [[Y_ADDR]], align 4
 // CHECK7-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[X_ADDR]], align 4
 // CHECK7-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[Y_ADDR]], align 4
+// CHECK7-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK7-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X1]], align 4
 // CHECK7-NEXT:    store i32 0, ptr [[X1]], align 4
+// CHECK7-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK7-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[Y2]], align 4
 // CHECK7-NEXT:    store i32 0, ptr [[Y2]], align 4
 // CHECK7-NEXT:    [[TMP2:%.*]] = getelementptr inbounds [2 x ptr], ptr [[DOTOMP_REDUCTION_RED_LIST]], i32 0, i32 0
 // CHECK7-NEXT:    store ptr [[X1]], ptr [[TMP2]], align 4

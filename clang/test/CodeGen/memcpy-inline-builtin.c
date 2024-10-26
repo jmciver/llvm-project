@@ -89,12 +89,14 @@ void *foo_alt(void *a, const void *b, size_t c) {
 // CHECK-NEXT:    store ptr [[A:%.*]], ptr [[A_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[B:%.*]], ptr [[B_ADDR]], align 8
 // CHECK-NEXT:    store i64 [[C:%.*]], ptr [[C_ADDR]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[CPY]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load i64, ptr [[C_ADDR]], align 8
 // CHECK-NEXT:    [[CMP:%.*]] = icmp ugt i64 [[TMP0]], 10
 // CHECK-NEXT:    [[TMP1:%.*]] = zext i1 [[CMP]] to i64
 // CHECK-NEXT:    [[COND:%.*]] = select i1 [[CMP]], ptr @memcpy, ptr @foo
 // CHECK-NEXT:    store ptr [[COND]], ptr [[CPY]], align 8
-// CHECK-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[CPY]], align 8, !freeze_bits [[META4:![0-9]+]]
+// CHECK-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[CPY]], align 8
 // CHECK-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[A_ADDR]], align 8
 // CHECK-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[B_ADDR]], align 8
 // CHECK-NEXT:    [[TMP5:%.*]] = load i64, ptr [[C_ADDR]], align 8
@@ -115,12 +117,14 @@ void bar(void *a, const void *b, size_t c) {
 // CHECK-NEXT:    store ptr [[A:%.*]], ptr [[A_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[B:%.*]], ptr [[B_ADDR]], align 8
 // CHECK-NEXT:    store i64 [[C:%.*]], ptr [[C_ADDR]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[CPY]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load i64, ptr [[C_ADDR]], align 8
 // CHECK-NEXT:    [[CMP:%.*]] = icmp ugt i64 [[TMP0]], 10
 // CHECK-NEXT:    [[TMP1:%.*]] = zext i1 [[CMP]] to i64
 // CHECK-NEXT:    [[COND:%.*]] = select i1 [[CMP]], ptr @memmove, ptr @foo_alt
 // CHECK-NEXT:    store ptr [[COND]], ptr [[CPY]], align 8
-// CHECK-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[CPY]], align 8, !freeze_bits [[META4]]
+// CHECK-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[CPY]], align 8
 // CHECK-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[A_ADDR]], align 8
 // CHECK-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[B_ADDR]], align 8
 // CHECK-NEXT:    [[TMP5:%.*]] = load i64, ptr [[C_ADDR]], align 8

@@ -66,20 +66,10 @@ int bar(int n){
 // CHECK45-64-NEXT:    [[A_ADDR:%.*]] = alloca ptr, align 8
 // CHECK45-64-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // CHECK45-64-NEXT:    [[DOTCAPTURE_EXPR_:%.*]] = alloca i32, align 4
-// CHECK45-64-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK45-64-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK45-64-NEXT:    [[DOTCAPTURE_EXPR_1:%.*]] = alloca i32, align 4
-// CHECK45-64-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
-// CHECK45-64-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTCAPTURE_EXPR_1]], align 4
 // CHECK45-64-NEXT:    [[I:%.*]] = alloca i32, align 4
-// CHECK45-64-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
-// CHECK45-64-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[I]], align 4
 // CHECK45-64-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
-// CHECK45-64-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
-// CHECK45-64-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[DOTOMP_IV]], align 4
 // CHECK45-64-NEXT:    [[I6:%.*]] = alloca i32, align 4
-// CHECK45-64-NEXT:    [[FREEZE_POISON7:%.*]] = freeze i32 poison
-// CHECK45-64-NEXT:    store i32 [[FREEZE_POISON7]], ptr [[I6]], align 4
 // CHECK45-64-NEXT:    store ptr [[DYN_PTR]], ptr [[DYN_PTR_ADDR]], align 8
 // CHECK45-64-NEXT:    store i64 [[N]], ptr [[N_ADDR]], align 8
 // CHECK45-64-NEXT:    store ptr [[A]], ptr [[A_ADDR]], align 8
@@ -88,19 +78,29 @@ int bar(int n){
 // CHECK45-64-NEXT:    [[EXEC_USER_CODE:%.*]] = icmp eq i32 [[TMP1]], -1
 // CHECK45-64-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
 // CHECK45-64:       user_code.entry:
+// CHECK45-64-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK45-64-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK45-64-NEXT:    [[TMP2:%.*]] = load i32, ptr [[N_ADDR]], align 4, !freeze_bits [[META20:![0-9]+]]
 // CHECK45-64-NEXT:    store i32 [[TMP2]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// CHECK45-64-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK45-64-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTCAPTURE_EXPR_1]], align 4
 // CHECK45-64-NEXT:    [[TMP3:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK45-64-NEXT:    [[SUB:%.*]] = sub nsw i32 [[TMP3]], 0
 // CHECK45-64-NEXT:    [[DIV:%.*]] = sdiv i32 [[SUB]], 1
 // CHECK45-64-NEXT:    [[SUB3:%.*]] = sub nsw i32 [[DIV]], 1
 // CHECK45-64-NEXT:    store i32 [[SUB3]], ptr [[DOTCAPTURE_EXPR_1]], align 4
+// CHECK45-64-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK45-64-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[I]], align 4
 // CHECK45-64-NEXT:    store i32 0, ptr [[I]], align 4
 // CHECK45-64-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK45-64-NEXT:    [[CMP:%.*]] = icmp slt i32 0, [[TMP4]]
 // CHECK45-64-NEXT:    br i1 [[CMP]], label [[SIMD_IF_THEN:%.*]], label [[SIMD_IF_END:%.*]]
 // CHECK45-64:       simd.if.then:
+// CHECK45-64-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK45-64-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[DOTOMP_IV]], align 4
 // CHECK45-64-NEXT:    store i32 0, ptr [[DOTOMP_IV]], align 4
+// CHECK45-64-NEXT:    [[FREEZE_POISON7:%.*]] = freeze i32 poison
+// CHECK45-64-NEXT:    store i32 [[FREEZE_POISON7]], ptr [[I6]], align 4
 // CHECK45-64-NEXT:    br label [[OMP_INNER_FOR_COND:%.*]]
 // CHECK45-64:       omp.inner.for.cond:
 // CHECK45-64-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4, !llvm.access.group [[ACC_GRP21:![0-9]+]]
@@ -148,20 +148,10 @@ int bar(int n){
 // CHECK45-64-NEXT:    [[AA_ADDR:%.*]] = alloca ptr, align 8
 // CHECK45-64-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // CHECK45-64-NEXT:    [[DOTCAPTURE_EXPR_:%.*]] = alloca i32, align 4
-// CHECK45-64-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK45-64-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK45-64-NEXT:    [[DOTCAPTURE_EXPR_1:%.*]] = alloca i32, align 4
-// CHECK45-64-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
-// CHECK45-64-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTCAPTURE_EXPR_1]], align 4
 // CHECK45-64-NEXT:    [[I:%.*]] = alloca i32, align 4
-// CHECK45-64-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
-// CHECK45-64-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[I]], align 4
 // CHECK45-64-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
-// CHECK45-64-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
-// CHECK45-64-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[DOTOMP_IV]], align 4
 // CHECK45-64-NEXT:    [[I6:%.*]] = alloca i32, align 4
-// CHECK45-64-NEXT:    [[FREEZE_POISON7:%.*]] = freeze i32 poison
-// CHECK45-64-NEXT:    store i32 [[FREEZE_POISON7]], ptr [[I6]], align 4
 // CHECK45-64-NEXT:    store ptr [[DYN_PTR]], ptr [[DYN_PTR_ADDR]], align 8
 // CHECK45-64-NEXT:    store i64 [[N]], ptr [[N_ADDR]], align 8
 // CHECK45-64-NEXT:    store ptr [[AA]], ptr [[AA_ADDR]], align 8
@@ -170,19 +160,29 @@ int bar(int n){
 // CHECK45-64-NEXT:    [[EXEC_USER_CODE:%.*]] = icmp eq i32 [[TMP1]], -1
 // CHECK45-64-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
 // CHECK45-64:       user_code.entry:
+// CHECK45-64-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK45-64-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK45-64-NEXT:    [[TMP2:%.*]] = load i32, ptr [[N_ADDR]], align 4, !freeze_bits [[META20]]
 // CHECK45-64-NEXT:    store i32 [[TMP2]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// CHECK45-64-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK45-64-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTCAPTURE_EXPR_1]], align 4
 // CHECK45-64-NEXT:    [[TMP3:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK45-64-NEXT:    [[SUB:%.*]] = sub nsw i32 [[TMP3]], 0
 // CHECK45-64-NEXT:    [[DIV:%.*]] = sdiv i32 [[SUB]], 1
 // CHECK45-64-NEXT:    [[SUB3:%.*]] = sub nsw i32 [[DIV]], 1
 // CHECK45-64-NEXT:    store i32 [[SUB3]], ptr [[DOTCAPTURE_EXPR_1]], align 4
+// CHECK45-64-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK45-64-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[I]], align 4
 // CHECK45-64-NEXT:    store i32 0, ptr [[I]], align 4
 // CHECK45-64-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK45-64-NEXT:    [[CMP:%.*]] = icmp slt i32 0, [[TMP4]]
 // CHECK45-64-NEXT:    br i1 [[CMP]], label [[SIMD_IF_THEN:%.*]], label [[SIMD_IF_END:%.*]]
 // CHECK45-64:       simd.if.then:
+// CHECK45-64-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK45-64-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[DOTOMP_IV]], align 4
 // CHECK45-64-NEXT:    store i32 0, ptr [[DOTOMP_IV]], align 4
+// CHECK45-64-NEXT:    [[FREEZE_POISON7:%.*]] = freeze i32 poison
+// CHECK45-64-NEXT:    store i32 [[FREEZE_POISON7]], ptr [[I6]], align 4
 // CHECK45-64-NEXT:    br label [[OMP_INNER_FOR_COND:%.*]]
 // CHECK45-64:       omp.inner.for.cond:
 // CHECK45-64-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4, !llvm.access.group [[ACC_GRP25:![0-9]+]]
@@ -233,11 +233,7 @@ int bar(int n){
 // CHECK45-64-NEXT:    [[B_ADDR:%.*]] = alloca ptr, align 8
 // CHECK45-64-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // CHECK45-64-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
-// CHECK45-64-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK45-64-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
 // CHECK45-64-NEXT:    [[I:%.*]] = alloca i32, align 4
-// CHECK45-64-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// CHECK45-64-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[I]], align 4
 // CHECK45-64-NEXT:    store ptr [[DYN_PTR]], ptr [[DYN_PTR_ADDR]], align 8
 // CHECK45-64-NEXT:    store ptr [[B]], ptr [[B_ADDR]], align 8
 // CHECK45-64-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[B_ADDR]], align 8
@@ -245,7 +241,11 @@ int bar(int n){
 // CHECK45-64-NEXT:    [[EXEC_USER_CODE:%.*]] = icmp eq i32 [[TMP1]], -1
 // CHECK45-64-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
 // CHECK45-64:       user_code.entry:
+// CHECK45-64-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK45-64-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
 // CHECK45-64-NEXT:    store i32 0, ptr [[DOTOMP_IV]], align 4
+// CHECK45-64-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK45-64-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[I]], align 4
 // CHECK45-64-NEXT:    br label [[OMP_INNER_FOR_COND:%.*]]
 // CHECK45-64:       omp.inner.for.cond:
 // CHECK45-64-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4, !llvm.access.group [[ACC_GRP28:![0-9]+]]
@@ -286,14 +286,8 @@ int bar(int n){
 // CHECK45-64-NEXT:    [[N_ADDR:%.*]] = alloca ptr, align 8
 // CHECK45-64-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // CHECK45-64-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
-// CHECK45-64-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK45-64-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
 // CHECK45-64-NEXT:    [[I:%.*]] = alloca i32, align 4
-// CHECK45-64-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// CHECK45-64-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[I]], align 4
 // CHECK45-64-NEXT:    [[N2:%.*]] = alloca i32, align 4
-// CHECK45-64-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
-// CHECK45-64-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[N2]], align 4
 // CHECK45-64-NEXT:    store ptr [[DYN_PTR]], ptr [[DYN_PTR_ADDR]], align 8
 // CHECK45-64-NEXT:    store ptr [[B]], ptr [[B_ADDR]], align 8
 // CHECK45-64-NEXT:    store ptr [[N]], ptr [[N_ADDR]], align 8
@@ -303,7 +297,13 @@ int bar(int n){
 // CHECK45-64-NEXT:    [[EXEC_USER_CODE:%.*]] = icmp eq i32 [[TMP2]], -1
 // CHECK45-64-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
 // CHECK45-64:       user_code.entry:
+// CHECK45-64-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK45-64-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
 // CHECK45-64-NEXT:    store i32 0, ptr [[DOTOMP_IV]], align 4
+// CHECK45-64-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK45-64-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[I]], align 4
+// CHECK45-64-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK45-64-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[N2]], align 4
 // CHECK45-64-NEXT:    store i32 0, ptr [[N2]], align 4
 // CHECK45-64-NEXT:    br label [[OMP_INNER_FOR_COND:%.*]]
 // CHECK45-64:       omp.inner.for.cond:
@@ -349,20 +349,10 @@ int bar(int n){
 // CHECK45-32-NEXT:    [[A_ADDR:%.*]] = alloca ptr, align 4
 // CHECK45-32-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // CHECK45-32-NEXT:    [[DOTCAPTURE_EXPR_:%.*]] = alloca i32, align 4
-// CHECK45-32-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK45-32-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK45-32-NEXT:    [[DOTCAPTURE_EXPR_1:%.*]] = alloca i32, align 4
-// CHECK45-32-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
-// CHECK45-32-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTCAPTURE_EXPR_1]], align 4
 // CHECK45-32-NEXT:    [[I:%.*]] = alloca i32, align 4
-// CHECK45-32-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
-// CHECK45-32-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[I]], align 4
 // CHECK45-32-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
-// CHECK45-32-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
-// CHECK45-32-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[DOTOMP_IV]], align 4
 // CHECK45-32-NEXT:    [[I6:%.*]] = alloca i32, align 4
-// CHECK45-32-NEXT:    [[FREEZE_POISON7:%.*]] = freeze i32 poison
-// CHECK45-32-NEXT:    store i32 [[FREEZE_POISON7]], ptr [[I6]], align 4
 // CHECK45-32-NEXT:    store ptr [[DYN_PTR]], ptr [[DYN_PTR_ADDR]], align 4
 // CHECK45-32-NEXT:    store i32 [[N]], ptr [[N_ADDR]], align 4
 // CHECK45-32-NEXT:    store ptr [[A]], ptr [[A_ADDR]], align 4
@@ -371,19 +361,29 @@ int bar(int n){
 // CHECK45-32-NEXT:    [[EXEC_USER_CODE:%.*]] = icmp eq i32 [[TMP1]], -1
 // CHECK45-32-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
 // CHECK45-32:       user_code.entry:
+// CHECK45-32-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK45-32-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK45-32-NEXT:    [[TMP2:%.*]] = load i32, ptr [[N_ADDR]], align 4, !freeze_bits [[META20:![0-9]+]]
 // CHECK45-32-NEXT:    store i32 [[TMP2]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// CHECK45-32-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK45-32-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTCAPTURE_EXPR_1]], align 4
 // CHECK45-32-NEXT:    [[TMP3:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK45-32-NEXT:    [[SUB:%.*]] = sub nsw i32 [[TMP3]], 0
 // CHECK45-32-NEXT:    [[DIV:%.*]] = sdiv i32 [[SUB]], 1
 // CHECK45-32-NEXT:    [[SUB3:%.*]] = sub nsw i32 [[DIV]], 1
 // CHECK45-32-NEXT:    store i32 [[SUB3]], ptr [[DOTCAPTURE_EXPR_1]], align 4
+// CHECK45-32-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK45-32-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[I]], align 4
 // CHECK45-32-NEXT:    store i32 0, ptr [[I]], align 4
 // CHECK45-32-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK45-32-NEXT:    [[CMP:%.*]] = icmp slt i32 0, [[TMP4]]
 // CHECK45-32-NEXT:    br i1 [[CMP]], label [[SIMD_IF_THEN:%.*]], label [[SIMD_IF_END:%.*]]
 // CHECK45-32:       simd.if.then:
+// CHECK45-32-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK45-32-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[DOTOMP_IV]], align 4
 // CHECK45-32-NEXT:    store i32 0, ptr [[DOTOMP_IV]], align 4
+// CHECK45-32-NEXT:    [[FREEZE_POISON7:%.*]] = freeze i32 poison
+// CHECK45-32-NEXT:    store i32 [[FREEZE_POISON7]], ptr [[I6]], align 4
 // CHECK45-32-NEXT:    br label [[OMP_INNER_FOR_COND:%.*]]
 // CHECK45-32:       omp.inner.for.cond:
 // CHECK45-32-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4, !llvm.access.group [[ACC_GRP21:![0-9]+]]
@@ -430,20 +430,10 @@ int bar(int n){
 // CHECK45-32-NEXT:    [[AA_ADDR:%.*]] = alloca ptr, align 4
 // CHECK45-32-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // CHECK45-32-NEXT:    [[DOTCAPTURE_EXPR_:%.*]] = alloca i32, align 4
-// CHECK45-32-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK45-32-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK45-32-NEXT:    [[DOTCAPTURE_EXPR_1:%.*]] = alloca i32, align 4
-// CHECK45-32-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
-// CHECK45-32-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTCAPTURE_EXPR_1]], align 4
 // CHECK45-32-NEXT:    [[I:%.*]] = alloca i32, align 4
-// CHECK45-32-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
-// CHECK45-32-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[I]], align 4
 // CHECK45-32-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
-// CHECK45-32-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
-// CHECK45-32-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[DOTOMP_IV]], align 4
 // CHECK45-32-NEXT:    [[I6:%.*]] = alloca i32, align 4
-// CHECK45-32-NEXT:    [[FREEZE_POISON7:%.*]] = freeze i32 poison
-// CHECK45-32-NEXT:    store i32 [[FREEZE_POISON7]], ptr [[I6]], align 4
 // CHECK45-32-NEXT:    store ptr [[DYN_PTR]], ptr [[DYN_PTR_ADDR]], align 4
 // CHECK45-32-NEXT:    store i32 [[N]], ptr [[N_ADDR]], align 4
 // CHECK45-32-NEXT:    store ptr [[AA]], ptr [[AA_ADDR]], align 4
@@ -452,19 +442,29 @@ int bar(int n){
 // CHECK45-32-NEXT:    [[EXEC_USER_CODE:%.*]] = icmp eq i32 [[TMP1]], -1
 // CHECK45-32-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
 // CHECK45-32:       user_code.entry:
+// CHECK45-32-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK45-32-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK45-32-NEXT:    [[TMP2:%.*]] = load i32, ptr [[N_ADDR]], align 4, !freeze_bits [[META20]]
 // CHECK45-32-NEXT:    store i32 [[TMP2]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// CHECK45-32-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK45-32-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTCAPTURE_EXPR_1]], align 4
 // CHECK45-32-NEXT:    [[TMP3:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK45-32-NEXT:    [[SUB:%.*]] = sub nsw i32 [[TMP3]], 0
 // CHECK45-32-NEXT:    [[DIV:%.*]] = sdiv i32 [[SUB]], 1
 // CHECK45-32-NEXT:    [[SUB3:%.*]] = sub nsw i32 [[DIV]], 1
 // CHECK45-32-NEXT:    store i32 [[SUB3]], ptr [[DOTCAPTURE_EXPR_1]], align 4
+// CHECK45-32-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK45-32-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[I]], align 4
 // CHECK45-32-NEXT:    store i32 0, ptr [[I]], align 4
 // CHECK45-32-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK45-32-NEXT:    [[CMP:%.*]] = icmp slt i32 0, [[TMP4]]
 // CHECK45-32-NEXT:    br i1 [[CMP]], label [[SIMD_IF_THEN:%.*]], label [[SIMD_IF_END:%.*]]
 // CHECK45-32:       simd.if.then:
+// CHECK45-32-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK45-32-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[DOTOMP_IV]], align 4
 // CHECK45-32-NEXT:    store i32 0, ptr [[DOTOMP_IV]], align 4
+// CHECK45-32-NEXT:    [[FREEZE_POISON7:%.*]] = freeze i32 poison
+// CHECK45-32-NEXT:    store i32 [[FREEZE_POISON7]], ptr [[I6]], align 4
 // CHECK45-32-NEXT:    br label [[OMP_INNER_FOR_COND:%.*]]
 // CHECK45-32:       omp.inner.for.cond:
 // CHECK45-32-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4, !llvm.access.group [[ACC_GRP25:![0-9]+]]
@@ -514,11 +514,7 @@ int bar(int n){
 // CHECK45-32-NEXT:    [[B_ADDR:%.*]] = alloca ptr, align 4
 // CHECK45-32-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // CHECK45-32-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
-// CHECK45-32-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK45-32-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
 // CHECK45-32-NEXT:    [[I:%.*]] = alloca i32, align 4
-// CHECK45-32-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// CHECK45-32-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[I]], align 4
 // CHECK45-32-NEXT:    store ptr [[DYN_PTR]], ptr [[DYN_PTR_ADDR]], align 4
 // CHECK45-32-NEXT:    store ptr [[B]], ptr [[B_ADDR]], align 4
 // CHECK45-32-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[B_ADDR]], align 4
@@ -526,7 +522,11 @@ int bar(int n){
 // CHECK45-32-NEXT:    [[EXEC_USER_CODE:%.*]] = icmp eq i32 [[TMP1]], -1
 // CHECK45-32-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
 // CHECK45-32:       user_code.entry:
+// CHECK45-32-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK45-32-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
 // CHECK45-32-NEXT:    store i32 0, ptr [[DOTOMP_IV]], align 4
+// CHECK45-32-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK45-32-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[I]], align 4
 // CHECK45-32-NEXT:    br label [[OMP_INNER_FOR_COND:%.*]]
 // CHECK45-32:       omp.inner.for.cond:
 // CHECK45-32-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4, !llvm.access.group [[ACC_GRP28:![0-9]+]]
@@ -566,14 +566,8 @@ int bar(int n){
 // CHECK45-32-NEXT:    [[N_ADDR:%.*]] = alloca ptr, align 4
 // CHECK45-32-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // CHECK45-32-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
-// CHECK45-32-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK45-32-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
 // CHECK45-32-NEXT:    [[I:%.*]] = alloca i32, align 4
-// CHECK45-32-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// CHECK45-32-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[I]], align 4
 // CHECK45-32-NEXT:    [[N2:%.*]] = alloca i32, align 4
-// CHECK45-32-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
-// CHECK45-32-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[N2]], align 4
 // CHECK45-32-NEXT:    store ptr [[DYN_PTR]], ptr [[DYN_PTR_ADDR]], align 4
 // CHECK45-32-NEXT:    store ptr [[B]], ptr [[B_ADDR]], align 4
 // CHECK45-32-NEXT:    store ptr [[N]], ptr [[N_ADDR]], align 4
@@ -583,7 +577,13 @@ int bar(int n){
 // CHECK45-32-NEXT:    [[EXEC_USER_CODE:%.*]] = icmp eq i32 [[TMP2]], -1
 // CHECK45-32-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
 // CHECK45-32:       user_code.entry:
+// CHECK45-32-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK45-32-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
 // CHECK45-32-NEXT:    store i32 0, ptr [[DOTOMP_IV]], align 4
+// CHECK45-32-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK45-32-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[I]], align 4
+// CHECK45-32-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK45-32-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[N2]], align 4
 // CHECK45-32-NEXT:    store i32 0, ptr [[N2]], align 4
 // CHECK45-32-NEXT:    br label [[OMP_INNER_FOR_COND:%.*]]
 // CHECK45-32:       omp.inner.for.cond:
@@ -628,20 +628,10 @@ int bar(int n){
 // CHECK45-32-EX-NEXT:    [[A_ADDR:%.*]] = alloca ptr, align 4
 // CHECK45-32-EX-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // CHECK45-32-EX-NEXT:    [[DOTCAPTURE_EXPR_:%.*]] = alloca i32, align 4
-// CHECK45-32-EX-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK45-32-EX-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK45-32-EX-NEXT:    [[DOTCAPTURE_EXPR_1:%.*]] = alloca i32, align 4
-// CHECK45-32-EX-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
-// CHECK45-32-EX-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTCAPTURE_EXPR_1]], align 4
 // CHECK45-32-EX-NEXT:    [[I:%.*]] = alloca i32, align 4
-// CHECK45-32-EX-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
-// CHECK45-32-EX-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[I]], align 4
 // CHECK45-32-EX-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
-// CHECK45-32-EX-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
-// CHECK45-32-EX-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[DOTOMP_IV]], align 4
 // CHECK45-32-EX-NEXT:    [[I6:%.*]] = alloca i32, align 4
-// CHECK45-32-EX-NEXT:    [[FREEZE_POISON7:%.*]] = freeze i32 poison
-// CHECK45-32-EX-NEXT:    store i32 [[FREEZE_POISON7]], ptr [[I6]], align 4
 // CHECK45-32-EX-NEXT:    store ptr [[DYN_PTR]], ptr [[DYN_PTR_ADDR]], align 4
 // CHECK45-32-EX-NEXT:    store i32 [[N]], ptr [[N_ADDR]], align 4
 // CHECK45-32-EX-NEXT:    store ptr [[A]], ptr [[A_ADDR]], align 4
@@ -650,19 +640,29 @@ int bar(int n){
 // CHECK45-32-EX-NEXT:    [[EXEC_USER_CODE:%.*]] = icmp eq i32 [[TMP1]], -1
 // CHECK45-32-EX-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
 // CHECK45-32-EX:       user_code.entry:
+// CHECK45-32-EX-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK45-32-EX-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK45-32-EX-NEXT:    [[TMP2:%.*]] = load i32, ptr [[N_ADDR]], align 4, !freeze_bits [[META20:![0-9]+]]
 // CHECK45-32-EX-NEXT:    store i32 [[TMP2]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// CHECK45-32-EX-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK45-32-EX-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTCAPTURE_EXPR_1]], align 4
 // CHECK45-32-EX-NEXT:    [[TMP3:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK45-32-EX-NEXT:    [[SUB:%.*]] = sub nsw i32 [[TMP3]], 0
 // CHECK45-32-EX-NEXT:    [[DIV:%.*]] = sdiv i32 [[SUB]], 1
 // CHECK45-32-EX-NEXT:    [[SUB3:%.*]] = sub nsw i32 [[DIV]], 1
 // CHECK45-32-EX-NEXT:    store i32 [[SUB3]], ptr [[DOTCAPTURE_EXPR_1]], align 4
+// CHECK45-32-EX-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK45-32-EX-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[I]], align 4
 // CHECK45-32-EX-NEXT:    store i32 0, ptr [[I]], align 4
 // CHECK45-32-EX-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK45-32-EX-NEXT:    [[CMP:%.*]] = icmp slt i32 0, [[TMP4]]
 // CHECK45-32-EX-NEXT:    br i1 [[CMP]], label [[SIMD_IF_THEN:%.*]], label [[SIMD_IF_END:%.*]]
 // CHECK45-32-EX:       simd.if.then:
+// CHECK45-32-EX-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK45-32-EX-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[DOTOMP_IV]], align 4
 // CHECK45-32-EX-NEXT:    store i32 0, ptr [[DOTOMP_IV]], align 4
+// CHECK45-32-EX-NEXT:    [[FREEZE_POISON7:%.*]] = freeze i32 poison
+// CHECK45-32-EX-NEXT:    store i32 [[FREEZE_POISON7]], ptr [[I6]], align 4
 // CHECK45-32-EX-NEXT:    br label [[OMP_INNER_FOR_COND:%.*]]
 // CHECK45-32-EX:       omp.inner.for.cond:
 // CHECK45-32-EX-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4, !llvm.access.group [[ACC_GRP21:![0-9]+]]
@@ -709,20 +709,10 @@ int bar(int n){
 // CHECK45-32-EX-NEXT:    [[AA_ADDR:%.*]] = alloca ptr, align 4
 // CHECK45-32-EX-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // CHECK45-32-EX-NEXT:    [[DOTCAPTURE_EXPR_:%.*]] = alloca i32, align 4
-// CHECK45-32-EX-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK45-32-EX-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK45-32-EX-NEXT:    [[DOTCAPTURE_EXPR_1:%.*]] = alloca i32, align 4
-// CHECK45-32-EX-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
-// CHECK45-32-EX-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTCAPTURE_EXPR_1]], align 4
 // CHECK45-32-EX-NEXT:    [[I:%.*]] = alloca i32, align 4
-// CHECK45-32-EX-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
-// CHECK45-32-EX-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[I]], align 4
 // CHECK45-32-EX-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
-// CHECK45-32-EX-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
-// CHECK45-32-EX-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[DOTOMP_IV]], align 4
 // CHECK45-32-EX-NEXT:    [[I6:%.*]] = alloca i32, align 4
-// CHECK45-32-EX-NEXT:    [[FREEZE_POISON7:%.*]] = freeze i32 poison
-// CHECK45-32-EX-NEXT:    store i32 [[FREEZE_POISON7]], ptr [[I6]], align 4
 // CHECK45-32-EX-NEXT:    store ptr [[DYN_PTR]], ptr [[DYN_PTR_ADDR]], align 4
 // CHECK45-32-EX-NEXT:    store i32 [[N]], ptr [[N_ADDR]], align 4
 // CHECK45-32-EX-NEXT:    store ptr [[AA]], ptr [[AA_ADDR]], align 4
@@ -731,19 +721,29 @@ int bar(int n){
 // CHECK45-32-EX-NEXT:    [[EXEC_USER_CODE:%.*]] = icmp eq i32 [[TMP1]], -1
 // CHECK45-32-EX-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
 // CHECK45-32-EX:       user_code.entry:
+// CHECK45-32-EX-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK45-32-EX-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK45-32-EX-NEXT:    [[TMP2:%.*]] = load i32, ptr [[N_ADDR]], align 4, !freeze_bits [[META20]]
 // CHECK45-32-EX-NEXT:    store i32 [[TMP2]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// CHECK45-32-EX-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK45-32-EX-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTCAPTURE_EXPR_1]], align 4
 // CHECK45-32-EX-NEXT:    [[TMP3:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK45-32-EX-NEXT:    [[SUB:%.*]] = sub nsw i32 [[TMP3]], 0
 // CHECK45-32-EX-NEXT:    [[DIV:%.*]] = sdiv i32 [[SUB]], 1
 // CHECK45-32-EX-NEXT:    [[SUB3:%.*]] = sub nsw i32 [[DIV]], 1
 // CHECK45-32-EX-NEXT:    store i32 [[SUB3]], ptr [[DOTCAPTURE_EXPR_1]], align 4
+// CHECK45-32-EX-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK45-32-EX-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[I]], align 4
 // CHECK45-32-EX-NEXT:    store i32 0, ptr [[I]], align 4
 // CHECK45-32-EX-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK45-32-EX-NEXT:    [[CMP:%.*]] = icmp slt i32 0, [[TMP4]]
 // CHECK45-32-EX-NEXT:    br i1 [[CMP]], label [[SIMD_IF_THEN:%.*]], label [[SIMD_IF_END:%.*]]
 // CHECK45-32-EX:       simd.if.then:
+// CHECK45-32-EX-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK45-32-EX-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[DOTOMP_IV]], align 4
 // CHECK45-32-EX-NEXT:    store i32 0, ptr [[DOTOMP_IV]], align 4
+// CHECK45-32-EX-NEXT:    [[FREEZE_POISON7:%.*]] = freeze i32 poison
+// CHECK45-32-EX-NEXT:    store i32 [[FREEZE_POISON7]], ptr [[I6]], align 4
 // CHECK45-32-EX-NEXT:    br label [[OMP_INNER_FOR_COND:%.*]]
 // CHECK45-32-EX:       omp.inner.for.cond:
 // CHECK45-32-EX-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4, !llvm.access.group [[ACC_GRP25:![0-9]+]]
@@ -793,11 +793,7 @@ int bar(int n){
 // CHECK45-32-EX-NEXT:    [[B_ADDR:%.*]] = alloca ptr, align 4
 // CHECK45-32-EX-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // CHECK45-32-EX-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
-// CHECK45-32-EX-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK45-32-EX-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
 // CHECK45-32-EX-NEXT:    [[I:%.*]] = alloca i32, align 4
-// CHECK45-32-EX-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// CHECK45-32-EX-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[I]], align 4
 // CHECK45-32-EX-NEXT:    store ptr [[DYN_PTR]], ptr [[DYN_PTR_ADDR]], align 4
 // CHECK45-32-EX-NEXT:    store ptr [[B]], ptr [[B_ADDR]], align 4
 // CHECK45-32-EX-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[B_ADDR]], align 4
@@ -805,7 +801,11 @@ int bar(int n){
 // CHECK45-32-EX-NEXT:    [[EXEC_USER_CODE:%.*]] = icmp eq i32 [[TMP1]], -1
 // CHECK45-32-EX-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
 // CHECK45-32-EX:       user_code.entry:
+// CHECK45-32-EX-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK45-32-EX-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
 // CHECK45-32-EX-NEXT:    store i32 0, ptr [[DOTOMP_IV]], align 4
+// CHECK45-32-EX-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK45-32-EX-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[I]], align 4
 // CHECK45-32-EX-NEXT:    br label [[OMP_INNER_FOR_COND:%.*]]
 // CHECK45-32-EX:       omp.inner.for.cond:
 // CHECK45-32-EX-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4, !llvm.access.group [[ACC_GRP28:![0-9]+]]
@@ -845,14 +845,8 @@ int bar(int n){
 // CHECK45-32-EX-NEXT:    [[N_ADDR:%.*]] = alloca ptr, align 4
 // CHECK45-32-EX-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // CHECK45-32-EX-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
-// CHECK45-32-EX-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK45-32-EX-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
 // CHECK45-32-EX-NEXT:    [[I:%.*]] = alloca i32, align 4
-// CHECK45-32-EX-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// CHECK45-32-EX-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[I]], align 4
 // CHECK45-32-EX-NEXT:    [[N2:%.*]] = alloca i32, align 4
-// CHECK45-32-EX-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
-// CHECK45-32-EX-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[N2]], align 4
 // CHECK45-32-EX-NEXT:    store ptr [[DYN_PTR]], ptr [[DYN_PTR_ADDR]], align 4
 // CHECK45-32-EX-NEXT:    store ptr [[B]], ptr [[B_ADDR]], align 4
 // CHECK45-32-EX-NEXT:    store ptr [[N]], ptr [[N_ADDR]], align 4
@@ -862,7 +856,13 @@ int bar(int n){
 // CHECK45-32-EX-NEXT:    [[EXEC_USER_CODE:%.*]] = icmp eq i32 [[TMP2]], -1
 // CHECK45-32-EX-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
 // CHECK45-32-EX:       user_code.entry:
+// CHECK45-32-EX-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK45-32-EX-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
 // CHECK45-32-EX-NEXT:    store i32 0, ptr [[DOTOMP_IV]], align 4
+// CHECK45-32-EX-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK45-32-EX-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[I]], align 4
+// CHECK45-32-EX-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK45-32-EX-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[N2]], align 4
 // CHECK45-32-EX-NEXT:    store i32 0, ptr [[N2]], align 4
 // CHECK45-32-EX-NEXT:    br label [[OMP_INNER_FOR_COND:%.*]]
 // CHECK45-32-EX:       omp.inner.for.cond:
@@ -907,20 +907,10 @@ int bar(int n){
 // CHECK-64-NEXT:    [[A_ADDR:%.*]] = alloca ptr, align 8
 // CHECK-64-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // CHECK-64-NEXT:    [[DOTCAPTURE_EXPR_:%.*]] = alloca i32, align 4
-// CHECK-64-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK-64-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK-64-NEXT:    [[DOTCAPTURE_EXPR_1:%.*]] = alloca i32, align 4
-// CHECK-64-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
-// CHECK-64-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTCAPTURE_EXPR_1]], align 4
 // CHECK-64-NEXT:    [[I:%.*]] = alloca i32, align 4
-// CHECK-64-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
-// CHECK-64-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[I]], align 4
 // CHECK-64-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
-// CHECK-64-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
-// CHECK-64-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[DOTOMP_IV]], align 4
 // CHECK-64-NEXT:    [[I6:%.*]] = alloca i32, align 4
-// CHECK-64-NEXT:    [[FREEZE_POISON7:%.*]] = freeze i32 poison
-// CHECK-64-NEXT:    store i32 [[FREEZE_POISON7]], ptr [[I6]], align 4
 // CHECK-64-NEXT:    store ptr [[DYN_PTR]], ptr [[DYN_PTR_ADDR]], align 8
 // CHECK-64-NEXT:    store i64 [[N]], ptr [[N_ADDR]], align 8
 // CHECK-64-NEXT:    store ptr [[A]], ptr [[A_ADDR]], align 8
@@ -929,19 +919,29 @@ int bar(int n){
 // CHECK-64-NEXT:    [[EXEC_USER_CODE:%.*]] = icmp eq i32 [[TMP1]], -1
 // CHECK-64-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
 // CHECK-64:       user_code.entry:
+// CHECK-64-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-64-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK-64-NEXT:    [[TMP2:%.*]] = load i32, ptr [[N_ADDR]], align 4, !freeze_bits [[META20:![0-9]+]]
 // CHECK-64-NEXT:    store i32 [[TMP2]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// CHECK-64-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-64-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTCAPTURE_EXPR_1]], align 4
 // CHECK-64-NEXT:    [[TMP3:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK-64-NEXT:    [[SUB:%.*]] = sub nsw i32 [[TMP3]], 0
 // CHECK-64-NEXT:    [[DIV:%.*]] = sdiv i32 [[SUB]], 1
 // CHECK-64-NEXT:    [[SUB3:%.*]] = sub nsw i32 [[DIV]], 1
 // CHECK-64-NEXT:    store i32 [[SUB3]], ptr [[DOTCAPTURE_EXPR_1]], align 4
+// CHECK-64-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK-64-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[I]], align 4
 // CHECK-64-NEXT:    store i32 0, ptr [[I]], align 4
 // CHECK-64-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK-64-NEXT:    [[CMP:%.*]] = icmp slt i32 0, [[TMP4]]
 // CHECK-64-NEXT:    br i1 [[CMP]], label [[SIMD_IF_THEN:%.*]], label [[SIMD_IF_END:%.*]]
 // CHECK-64:       simd.if.then:
+// CHECK-64-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK-64-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[DOTOMP_IV]], align 4
 // CHECK-64-NEXT:    store i32 0, ptr [[DOTOMP_IV]], align 4
+// CHECK-64-NEXT:    [[FREEZE_POISON7:%.*]] = freeze i32 poison
+// CHECK-64-NEXT:    store i32 [[FREEZE_POISON7]], ptr [[I6]], align 4
 // CHECK-64-NEXT:    br label [[OMP_INNER_FOR_COND:%.*]]
 // CHECK-64:       omp.inner.for.cond:
 // CHECK-64-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4, !llvm.access.group [[ACC_GRP21:![0-9]+]]
@@ -989,20 +989,10 @@ int bar(int n){
 // CHECK-64-NEXT:    [[AA_ADDR:%.*]] = alloca ptr, align 8
 // CHECK-64-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // CHECK-64-NEXT:    [[DOTCAPTURE_EXPR_:%.*]] = alloca i32, align 4
-// CHECK-64-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK-64-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK-64-NEXT:    [[DOTCAPTURE_EXPR_1:%.*]] = alloca i32, align 4
-// CHECK-64-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
-// CHECK-64-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTCAPTURE_EXPR_1]], align 4
 // CHECK-64-NEXT:    [[I:%.*]] = alloca i32, align 4
-// CHECK-64-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
-// CHECK-64-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[I]], align 4
 // CHECK-64-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
-// CHECK-64-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
-// CHECK-64-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[DOTOMP_IV]], align 4
 // CHECK-64-NEXT:    [[I6:%.*]] = alloca i32, align 4
-// CHECK-64-NEXT:    [[FREEZE_POISON7:%.*]] = freeze i32 poison
-// CHECK-64-NEXT:    store i32 [[FREEZE_POISON7]], ptr [[I6]], align 4
 // CHECK-64-NEXT:    store ptr [[DYN_PTR]], ptr [[DYN_PTR_ADDR]], align 8
 // CHECK-64-NEXT:    store i64 [[N]], ptr [[N_ADDR]], align 8
 // CHECK-64-NEXT:    store ptr [[AA]], ptr [[AA_ADDR]], align 8
@@ -1011,19 +1001,29 @@ int bar(int n){
 // CHECK-64-NEXT:    [[EXEC_USER_CODE:%.*]] = icmp eq i32 [[TMP1]], -1
 // CHECK-64-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
 // CHECK-64:       user_code.entry:
+// CHECK-64-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-64-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK-64-NEXT:    [[TMP2:%.*]] = load i32, ptr [[N_ADDR]], align 4, !freeze_bits [[META20]]
 // CHECK-64-NEXT:    store i32 [[TMP2]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// CHECK-64-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-64-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTCAPTURE_EXPR_1]], align 4
 // CHECK-64-NEXT:    [[TMP3:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK-64-NEXT:    [[SUB:%.*]] = sub nsw i32 [[TMP3]], 0
 // CHECK-64-NEXT:    [[DIV:%.*]] = sdiv i32 [[SUB]], 1
 // CHECK-64-NEXT:    [[SUB3:%.*]] = sub nsw i32 [[DIV]], 1
 // CHECK-64-NEXT:    store i32 [[SUB3]], ptr [[DOTCAPTURE_EXPR_1]], align 4
+// CHECK-64-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK-64-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[I]], align 4
 // CHECK-64-NEXT:    store i32 0, ptr [[I]], align 4
 // CHECK-64-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK-64-NEXT:    [[CMP:%.*]] = icmp slt i32 0, [[TMP4]]
 // CHECK-64-NEXT:    br i1 [[CMP]], label [[SIMD_IF_THEN:%.*]], label [[SIMD_IF_END:%.*]]
 // CHECK-64:       simd.if.then:
+// CHECK-64-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK-64-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[DOTOMP_IV]], align 4
 // CHECK-64-NEXT:    store i32 0, ptr [[DOTOMP_IV]], align 4
+// CHECK-64-NEXT:    [[FREEZE_POISON7:%.*]] = freeze i32 poison
+// CHECK-64-NEXT:    store i32 [[FREEZE_POISON7]], ptr [[I6]], align 4
 // CHECK-64-NEXT:    br label [[OMP_INNER_FOR_COND:%.*]]
 // CHECK-64:       omp.inner.for.cond:
 // CHECK-64-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4, !llvm.access.group [[ACC_GRP25:![0-9]+]]
@@ -1074,11 +1074,7 @@ int bar(int n){
 // CHECK-64-NEXT:    [[B_ADDR:%.*]] = alloca ptr, align 8
 // CHECK-64-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // CHECK-64-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
-// CHECK-64-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK-64-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
 // CHECK-64-NEXT:    [[I:%.*]] = alloca i32, align 4
-// CHECK-64-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// CHECK-64-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[I]], align 4
 // CHECK-64-NEXT:    store ptr [[DYN_PTR]], ptr [[DYN_PTR_ADDR]], align 8
 // CHECK-64-NEXT:    store ptr [[B]], ptr [[B_ADDR]], align 8
 // CHECK-64-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[B_ADDR]], align 8
@@ -1086,7 +1082,11 @@ int bar(int n){
 // CHECK-64-NEXT:    [[EXEC_USER_CODE:%.*]] = icmp eq i32 [[TMP1]], -1
 // CHECK-64-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
 // CHECK-64:       user_code.entry:
+// CHECK-64-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-64-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
 // CHECK-64-NEXT:    store i32 0, ptr [[DOTOMP_IV]], align 4
+// CHECK-64-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-64-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[I]], align 4
 // CHECK-64-NEXT:    br label [[OMP_INNER_FOR_COND:%.*]]
 // CHECK-64:       omp.inner.for.cond:
 // CHECK-64-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4, !llvm.access.group [[ACC_GRP28:![0-9]+]]
@@ -1127,14 +1127,8 @@ int bar(int n){
 // CHECK-64-NEXT:    [[N_ADDR:%.*]] = alloca ptr, align 8
 // CHECK-64-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // CHECK-64-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
-// CHECK-64-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK-64-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
 // CHECK-64-NEXT:    [[I:%.*]] = alloca i32, align 4
-// CHECK-64-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// CHECK-64-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[I]], align 4
 // CHECK-64-NEXT:    [[N2:%.*]] = alloca i32, align 4
-// CHECK-64-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
-// CHECK-64-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[N2]], align 4
 // CHECK-64-NEXT:    store ptr [[DYN_PTR]], ptr [[DYN_PTR_ADDR]], align 8
 // CHECK-64-NEXT:    store ptr [[B]], ptr [[B_ADDR]], align 8
 // CHECK-64-NEXT:    store ptr [[N]], ptr [[N_ADDR]], align 8
@@ -1144,7 +1138,13 @@ int bar(int n){
 // CHECK-64-NEXT:    [[EXEC_USER_CODE:%.*]] = icmp eq i32 [[TMP2]], -1
 // CHECK-64-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
 // CHECK-64:       user_code.entry:
+// CHECK-64-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-64-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
 // CHECK-64-NEXT:    store i32 0, ptr [[DOTOMP_IV]], align 4
+// CHECK-64-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-64-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[I]], align 4
+// CHECK-64-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK-64-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[N2]], align 4
 // CHECK-64-NEXT:    store i32 0, ptr [[N2]], align 4
 // CHECK-64-NEXT:    br label [[OMP_INNER_FOR_COND:%.*]]
 // CHECK-64:       omp.inner.for.cond:
@@ -1190,20 +1190,10 @@ int bar(int n){
 // CHECK-32-NEXT:    [[A_ADDR:%.*]] = alloca ptr, align 4
 // CHECK-32-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // CHECK-32-NEXT:    [[DOTCAPTURE_EXPR_:%.*]] = alloca i32, align 4
-// CHECK-32-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK-32-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK-32-NEXT:    [[DOTCAPTURE_EXPR_1:%.*]] = alloca i32, align 4
-// CHECK-32-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
-// CHECK-32-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTCAPTURE_EXPR_1]], align 4
 // CHECK-32-NEXT:    [[I:%.*]] = alloca i32, align 4
-// CHECK-32-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
-// CHECK-32-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[I]], align 4
 // CHECK-32-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
-// CHECK-32-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
-// CHECK-32-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[DOTOMP_IV]], align 4
 // CHECK-32-NEXT:    [[I6:%.*]] = alloca i32, align 4
-// CHECK-32-NEXT:    [[FREEZE_POISON7:%.*]] = freeze i32 poison
-// CHECK-32-NEXT:    store i32 [[FREEZE_POISON7]], ptr [[I6]], align 4
 // CHECK-32-NEXT:    store ptr [[DYN_PTR]], ptr [[DYN_PTR_ADDR]], align 4
 // CHECK-32-NEXT:    store i32 [[N]], ptr [[N_ADDR]], align 4
 // CHECK-32-NEXT:    store ptr [[A]], ptr [[A_ADDR]], align 4
@@ -1212,19 +1202,29 @@ int bar(int n){
 // CHECK-32-NEXT:    [[EXEC_USER_CODE:%.*]] = icmp eq i32 [[TMP1]], -1
 // CHECK-32-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
 // CHECK-32:       user_code.entry:
+// CHECK-32-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-32-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK-32-NEXT:    [[TMP2:%.*]] = load i32, ptr [[N_ADDR]], align 4, !freeze_bits [[META20:![0-9]+]]
 // CHECK-32-NEXT:    store i32 [[TMP2]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// CHECK-32-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-32-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTCAPTURE_EXPR_1]], align 4
 // CHECK-32-NEXT:    [[TMP3:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK-32-NEXT:    [[SUB:%.*]] = sub nsw i32 [[TMP3]], 0
 // CHECK-32-NEXT:    [[DIV:%.*]] = sdiv i32 [[SUB]], 1
 // CHECK-32-NEXT:    [[SUB3:%.*]] = sub nsw i32 [[DIV]], 1
 // CHECK-32-NEXT:    store i32 [[SUB3]], ptr [[DOTCAPTURE_EXPR_1]], align 4
+// CHECK-32-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK-32-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[I]], align 4
 // CHECK-32-NEXT:    store i32 0, ptr [[I]], align 4
 // CHECK-32-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK-32-NEXT:    [[CMP:%.*]] = icmp slt i32 0, [[TMP4]]
 // CHECK-32-NEXT:    br i1 [[CMP]], label [[SIMD_IF_THEN:%.*]], label [[SIMD_IF_END:%.*]]
 // CHECK-32:       simd.if.then:
+// CHECK-32-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK-32-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[DOTOMP_IV]], align 4
 // CHECK-32-NEXT:    store i32 0, ptr [[DOTOMP_IV]], align 4
+// CHECK-32-NEXT:    [[FREEZE_POISON7:%.*]] = freeze i32 poison
+// CHECK-32-NEXT:    store i32 [[FREEZE_POISON7]], ptr [[I6]], align 4
 // CHECK-32-NEXT:    br label [[OMP_INNER_FOR_COND:%.*]]
 // CHECK-32:       omp.inner.for.cond:
 // CHECK-32-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4, !llvm.access.group [[ACC_GRP21:![0-9]+]]
@@ -1271,20 +1271,10 @@ int bar(int n){
 // CHECK-32-NEXT:    [[AA_ADDR:%.*]] = alloca ptr, align 4
 // CHECK-32-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // CHECK-32-NEXT:    [[DOTCAPTURE_EXPR_:%.*]] = alloca i32, align 4
-// CHECK-32-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK-32-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK-32-NEXT:    [[DOTCAPTURE_EXPR_1:%.*]] = alloca i32, align 4
-// CHECK-32-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
-// CHECK-32-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTCAPTURE_EXPR_1]], align 4
 // CHECK-32-NEXT:    [[I:%.*]] = alloca i32, align 4
-// CHECK-32-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
-// CHECK-32-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[I]], align 4
 // CHECK-32-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
-// CHECK-32-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
-// CHECK-32-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[DOTOMP_IV]], align 4
 // CHECK-32-NEXT:    [[I6:%.*]] = alloca i32, align 4
-// CHECK-32-NEXT:    [[FREEZE_POISON7:%.*]] = freeze i32 poison
-// CHECK-32-NEXT:    store i32 [[FREEZE_POISON7]], ptr [[I6]], align 4
 // CHECK-32-NEXT:    store ptr [[DYN_PTR]], ptr [[DYN_PTR_ADDR]], align 4
 // CHECK-32-NEXT:    store i32 [[N]], ptr [[N_ADDR]], align 4
 // CHECK-32-NEXT:    store ptr [[AA]], ptr [[AA_ADDR]], align 4
@@ -1293,19 +1283,29 @@ int bar(int n){
 // CHECK-32-NEXT:    [[EXEC_USER_CODE:%.*]] = icmp eq i32 [[TMP1]], -1
 // CHECK-32-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
 // CHECK-32:       user_code.entry:
+// CHECK-32-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-32-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK-32-NEXT:    [[TMP2:%.*]] = load i32, ptr [[N_ADDR]], align 4, !freeze_bits [[META20]]
 // CHECK-32-NEXT:    store i32 [[TMP2]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// CHECK-32-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-32-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTCAPTURE_EXPR_1]], align 4
 // CHECK-32-NEXT:    [[TMP3:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK-32-NEXT:    [[SUB:%.*]] = sub nsw i32 [[TMP3]], 0
 // CHECK-32-NEXT:    [[DIV:%.*]] = sdiv i32 [[SUB]], 1
 // CHECK-32-NEXT:    [[SUB3:%.*]] = sub nsw i32 [[DIV]], 1
 // CHECK-32-NEXT:    store i32 [[SUB3]], ptr [[DOTCAPTURE_EXPR_1]], align 4
+// CHECK-32-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK-32-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[I]], align 4
 // CHECK-32-NEXT:    store i32 0, ptr [[I]], align 4
 // CHECK-32-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK-32-NEXT:    [[CMP:%.*]] = icmp slt i32 0, [[TMP4]]
 // CHECK-32-NEXT:    br i1 [[CMP]], label [[SIMD_IF_THEN:%.*]], label [[SIMD_IF_END:%.*]]
 // CHECK-32:       simd.if.then:
+// CHECK-32-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK-32-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[DOTOMP_IV]], align 4
 // CHECK-32-NEXT:    store i32 0, ptr [[DOTOMP_IV]], align 4
+// CHECK-32-NEXT:    [[FREEZE_POISON7:%.*]] = freeze i32 poison
+// CHECK-32-NEXT:    store i32 [[FREEZE_POISON7]], ptr [[I6]], align 4
 // CHECK-32-NEXT:    br label [[OMP_INNER_FOR_COND:%.*]]
 // CHECK-32:       omp.inner.for.cond:
 // CHECK-32-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4, !llvm.access.group [[ACC_GRP25:![0-9]+]]
@@ -1355,11 +1355,7 @@ int bar(int n){
 // CHECK-32-NEXT:    [[B_ADDR:%.*]] = alloca ptr, align 4
 // CHECK-32-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // CHECK-32-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
-// CHECK-32-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK-32-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
 // CHECK-32-NEXT:    [[I:%.*]] = alloca i32, align 4
-// CHECK-32-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// CHECK-32-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[I]], align 4
 // CHECK-32-NEXT:    store ptr [[DYN_PTR]], ptr [[DYN_PTR_ADDR]], align 4
 // CHECK-32-NEXT:    store ptr [[B]], ptr [[B_ADDR]], align 4
 // CHECK-32-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[B_ADDR]], align 4
@@ -1367,7 +1363,11 @@ int bar(int n){
 // CHECK-32-NEXT:    [[EXEC_USER_CODE:%.*]] = icmp eq i32 [[TMP1]], -1
 // CHECK-32-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
 // CHECK-32:       user_code.entry:
+// CHECK-32-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-32-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
 // CHECK-32-NEXT:    store i32 0, ptr [[DOTOMP_IV]], align 4
+// CHECK-32-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-32-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[I]], align 4
 // CHECK-32-NEXT:    br label [[OMP_INNER_FOR_COND:%.*]]
 // CHECK-32:       omp.inner.for.cond:
 // CHECK-32-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4, !llvm.access.group [[ACC_GRP28:![0-9]+]]
@@ -1407,14 +1407,8 @@ int bar(int n){
 // CHECK-32-NEXT:    [[N_ADDR:%.*]] = alloca ptr, align 4
 // CHECK-32-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // CHECK-32-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
-// CHECK-32-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK-32-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
 // CHECK-32-NEXT:    [[I:%.*]] = alloca i32, align 4
-// CHECK-32-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// CHECK-32-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[I]], align 4
 // CHECK-32-NEXT:    [[N2:%.*]] = alloca i32, align 4
-// CHECK-32-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
-// CHECK-32-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[N2]], align 4
 // CHECK-32-NEXT:    store ptr [[DYN_PTR]], ptr [[DYN_PTR_ADDR]], align 4
 // CHECK-32-NEXT:    store ptr [[B]], ptr [[B_ADDR]], align 4
 // CHECK-32-NEXT:    store ptr [[N]], ptr [[N_ADDR]], align 4
@@ -1424,7 +1418,13 @@ int bar(int n){
 // CHECK-32-NEXT:    [[EXEC_USER_CODE:%.*]] = icmp eq i32 [[TMP2]], -1
 // CHECK-32-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
 // CHECK-32:       user_code.entry:
+// CHECK-32-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-32-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
 // CHECK-32-NEXT:    store i32 0, ptr [[DOTOMP_IV]], align 4
+// CHECK-32-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-32-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[I]], align 4
+// CHECK-32-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK-32-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[N2]], align 4
 // CHECK-32-NEXT:    store i32 0, ptr [[N2]], align 4
 // CHECK-32-NEXT:    br label [[OMP_INNER_FOR_COND:%.*]]
 // CHECK-32:       omp.inner.for.cond:
@@ -1469,20 +1469,10 @@ int bar(int n){
 // CHECK-32-EX-NEXT:    [[A_ADDR:%.*]] = alloca ptr, align 4
 // CHECK-32-EX-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // CHECK-32-EX-NEXT:    [[DOTCAPTURE_EXPR_:%.*]] = alloca i32, align 4
-// CHECK-32-EX-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK-32-EX-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK-32-EX-NEXT:    [[DOTCAPTURE_EXPR_1:%.*]] = alloca i32, align 4
-// CHECK-32-EX-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
-// CHECK-32-EX-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTCAPTURE_EXPR_1]], align 4
 // CHECK-32-EX-NEXT:    [[I:%.*]] = alloca i32, align 4
-// CHECK-32-EX-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
-// CHECK-32-EX-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[I]], align 4
 // CHECK-32-EX-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
-// CHECK-32-EX-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
-// CHECK-32-EX-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[DOTOMP_IV]], align 4
 // CHECK-32-EX-NEXT:    [[I6:%.*]] = alloca i32, align 4
-// CHECK-32-EX-NEXT:    [[FREEZE_POISON7:%.*]] = freeze i32 poison
-// CHECK-32-EX-NEXT:    store i32 [[FREEZE_POISON7]], ptr [[I6]], align 4
 // CHECK-32-EX-NEXT:    store ptr [[DYN_PTR]], ptr [[DYN_PTR_ADDR]], align 4
 // CHECK-32-EX-NEXT:    store i32 [[N]], ptr [[N_ADDR]], align 4
 // CHECK-32-EX-NEXT:    store ptr [[A]], ptr [[A_ADDR]], align 4
@@ -1491,19 +1481,29 @@ int bar(int n){
 // CHECK-32-EX-NEXT:    [[EXEC_USER_CODE:%.*]] = icmp eq i32 [[TMP1]], -1
 // CHECK-32-EX-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
 // CHECK-32-EX:       user_code.entry:
+// CHECK-32-EX-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-32-EX-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK-32-EX-NEXT:    [[TMP2:%.*]] = load i32, ptr [[N_ADDR]], align 4, !freeze_bits [[META20:![0-9]+]]
 // CHECK-32-EX-NEXT:    store i32 [[TMP2]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// CHECK-32-EX-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-32-EX-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTCAPTURE_EXPR_1]], align 4
 // CHECK-32-EX-NEXT:    [[TMP3:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK-32-EX-NEXT:    [[SUB:%.*]] = sub nsw i32 [[TMP3]], 0
 // CHECK-32-EX-NEXT:    [[DIV:%.*]] = sdiv i32 [[SUB]], 1
 // CHECK-32-EX-NEXT:    [[SUB3:%.*]] = sub nsw i32 [[DIV]], 1
 // CHECK-32-EX-NEXT:    store i32 [[SUB3]], ptr [[DOTCAPTURE_EXPR_1]], align 4
+// CHECK-32-EX-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK-32-EX-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[I]], align 4
 // CHECK-32-EX-NEXT:    store i32 0, ptr [[I]], align 4
 // CHECK-32-EX-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK-32-EX-NEXT:    [[CMP:%.*]] = icmp slt i32 0, [[TMP4]]
 // CHECK-32-EX-NEXT:    br i1 [[CMP]], label [[SIMD_IF_THEN:%.*]], label [[SIMD_IF_END:%.*]]
 // CHECK-32-EX:       simd.if.then:
+// CHECK-32-EX-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK-32-EX-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[DOTOMP_IV]], align 4
 // CHECK-32-EX-NEXT:    store i32 0, ptr [[DOTOMP_IV]], align 4
+// CHECK-32-EX-NEXT:    [[FREEZE_POISON7:%.*]] = freeze i32 poison
+// CHECK-32-EX-NEXT:    store i32 [[FREEZE_POISON7]], ptr [[I6]], align 4
 // CHECK-32-EX-NEXT:    br label [[OMP_INNER_FOR_COND:%.*]]
 // CHECK-32-EX:       omp.inner.for.cond:
 // CHECK-32-EX-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4, !llvm.access.group [[ACC_GRP21:![0-9]+]]
@@ -1550,20 +1550,10 @@ int bar(int n){
 // CHECK-32-EX-NEXT:    [[AA_ADDR:%.*]] = alloca ptr, align 4
 // CHECK-32-EX-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // CHECK-32-EX-NEXT:    [[DOTCAPTURE_EXPR_:%.*]] = alloca i32, align 4
-// CHECK-32-EX-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK-32-EX-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK-32-EX-NEXT:    [[DOTCAPTURE_EXPR_1:%.*]] = alloca i32, align 4
-// CHECK-32-EX-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
-// CHECK-32-EX-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTCAPTURE_EXPR_1]], align 4
 // CHECK-32-EX-NEXT:    [[I:%.*]] = alloca i32, align 4
-// CHECK-32-EX-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
-// CHECK-32-EX-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[I]], align 4
 // CHECK-32-EX-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
-// CHECK-32-EX-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
-// CHECK-32-EX-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[DOTOMP_IV]], align 4
 // CHECK-32-EX-NEXT:    [[I6:%.*]] = alloca i32, align 4
-// CHECK-32-EX-NEXT:    [[FREEZE_POISON7:%.*]] = freeze i32 poison
-// CHECK-32-EX-NEXT:    store i32 [[FREEZE_POISON7]], ptr [[I6]], align 4
 // CHECK-32-EX-NEXT:    store ptr [[DYN_PTR]], ptr [[DYN_PTR_ADDR]], align 4
 // CHECK-32-EX-NEXT:    store i32 [[N]], ptr [[N_ADDR]], align 4
 // CHECK-32-EX-NEXT:    store ptr [[AA]], ptr [[AA_ADDR]], align 4
@@ -1572,19 +1562,29 @@ int bar(int n){
 // CHECK-32-EX-NEXT:    [[EXEC_USER_CODE:%.*]] = icmp eq i32 [[TMP1]], -1
 // CHECK-32-EX-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
 // CHECK-32-EX:       user_code.entry:
+// CHECK-32-EX-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-32-EX-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK-32-EX-NEXT:    [[TMP2:%.*]] = load i32, ptr [[N_ADDR]], align 4, !freeze_bits [[META20]]
 // CHECK-32-EX-NEXT:    store i32 [[TMP2]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// CHECK-32-EX-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-32-EX-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTCAPTURE_EXPR_1]], align 4
 // CHECK-32-EX-NEXT:    [[TMP3:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK-32-EX-NEXT:    [[SUB:%.*]] = sub nsw i32 [[TMP3]], 0
 // CHECK-32-EX-NEXT:    [[DIV:%.*]] = sdiv i32 [[SUB]], 1
 // CHECK-32-EX-NEXT:    [[SUB3:%.*]] = sub nsw i32 [[DIV]], 1
 // CHECK-32-EX-NEXT:    store i32 [[SUB3]], ptr [[DOTCAPTURE_EXPR_1]], align 4
+// CHECK-32-EX-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK-32-EX-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[I]], align 4
 // CHECK-32-EX-NEXT:    store i32 0, ptr [[I]], align 4
 // CHECK-32-EX-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // CHECK-32-EX-NEXT:    [[CMP:%.*]] = icmp slt i32 0, [[TMP4]]
 // CHECK-32-EX-NEXT:    br i1 [[CMP]], label [[SIMD_IF_THEN:%.*]], label [[SIMD_IF_END:%.*]]
 // CHECK-32-EX:       simd.if.then:
+// CHECK-32-EX-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK-32-EX-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[DOTOMP_IV]], align 4
 // CHECK-32-EX-NEXT:    store i32 0, ptr [[DOTOMP_IV]], align 4
+// CHECK-32-EX-NEXT:    [[FREEZE_POISON7:%.*]] = freeze i32 poison
+// CHECK-32-EX-NEXT:    store i32 [[FREEZE_POISON7]], ptr [[I6]], align 4
 // CHECK-32-EX-NEXT:    br label [[OMP_INNER_FOR_COND:%.*]]
 // CHECK-32-EX:       omp.inner.for.cond:
 // CHECK-32-EX-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4, !llvm.access.group [[ACC_GRP25:![0-9]+]]
@@ -1634,11 +1634,7 @@ int bar(int n){
 // CHECK-32-EX-NEXT:    [[B_ADDR:%.*]] = alloca ptr, align 4
 // CHECK-32-EX-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // CHECK-32-EX-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
-// CHECK-32-EX-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK-32-EX-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
 // CHECK-32-EX-NEXT:    [[I:%.*]] = alloca i32, align 4
-// CHECK-32-EX-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// CHECK-32-EX-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[I]], align 4
 // CHECK-32-EX-NEXT:    store ptr [[DYN_PTR]], ptr [[DYN_PTR_ADDR]], align 4
 // CHECK-32-EX-NEXT:    store ptr [[B]], ptr [[B_ADDR]], align 4
 // CHECK-32-EX-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[B_ADDR]], align 4
@@ -1646,7 +1642,11 @@ int bar(int n){
 // CHECK-32-EX-NEXT:    [[EXEC_USER_CODE:%.*]] = icmp eq i32 [[TMP1]], -1
 // CHECK-32-EX-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
 // CHECK-32-EX:       user_code.entry:
+// CHECK-32-EX-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-32-EX-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
 // CHECK-32-EX-NEXT:    store i32 0, ptr [[DOTOMP_IV]], align 4
+// CHECK-32-EX-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-32-EX-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[I]], align 4
 // CHECK-32-EX-NEXT:    br label [[OMP_INNER_FOR_COND:%.*]]
 // CHECK-32-EX:       omp.inner.for.cond:
 // CHECK-32-EX-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4, !llvm.access.group [[ACC_GRP28:![0-9]+]]
@@ -1686,14 +1686,8 @@ int bar(int n){
 // CHECK-32-EX-NEXT:    [[N_ADDR:%.*]] = alloca ptr, align 4
 // CHECK-32-EX-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // CHECK-32-EX-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
-// CHECK-32-EX-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK-32-EX-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
 // CHECK-32-EX-NEXT:    [[I:%.*]] = alloca i32, align 4
-// CHECK-32-EX-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// CHECK-32-EX-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[I]], align 4
 // CHECK-32-EX-NEXT:    [[N2:%.*]] = alloca i32, align 4
-// CHECK-32-EX-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
-// CHECK-32-EX-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[N2]], align 4
 // CHECK-32-EX-NEXT:    store ptr [[DYN_PTR]], ptr [[DYN_PTR_ADDR]], align 4
 // CHECK-32-EX-NEXT:    store ptr [[B]], ptr [[B_ADDR]], align 4
 // CHECK-32-EX-NEXT:    store ptr [[N]], ptr [[N_ADDR]], align 4
@@ -1703,7 +1697,13 @@ int bar(int n){
 // CHECK-32-EX-NEXT:    [[EXEC_USER_CODE:%.*]] = icmp eq i32 [[TMP2]], -1
 // CHECK-32-EX-NEXT:    br i1 [[EXEC_USER_CODE]], label [[USER_CODE_ENTRY:%.*]], label [[WORKER_EXIT:%.*]]
 // CHECK-32-EX:       user_code.entry:
+// CHECK-32-EX-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-32-EX-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
 // CHECK-32-EX-NEXT:    store i32 0, ptr [[DOTOMP_IV]], align 4
+// CHECK-32-EX-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-32-EX-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[I]], align 4
+// CHECK-32-EX-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK-32-EX-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[N2]], align 4
 // CHECK-32-EX-NEXT:    store i32 0, ptr [[N2]], align 4
 // CHECK-32-EX-NEXT:    br label [[OMP_INNER_FOR_COND:%.*]]
 // CHECK-32-EX:       omp.inner.for.cond:

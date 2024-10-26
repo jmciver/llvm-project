@@ -51,13 +51,17 @@ typedef __vector_quad vq_t;
 // CHECK-NEXT:    [[VQOUT:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    store ptr [[INP:%.*]], ptr [[INP_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[OUTP:%.*]], ptr [[OUTP_ADDR]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[VQIN]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[INP_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[TMP0]], ptr [[VQIN]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON1]], ptr [[VQOUT]], align 8
 // CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[OUTP_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[TMP1]], ptr [[VQOUT]], align 8
-// CHECK-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[VQIN]], align 8, !freeze_bits [[META2]]
+// CHECK-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[VQIN]], align 8
 // CHECK-NEXT:    [[TMP3:%.*]] = load <512 x i1>, ptr [[TMP2]], align 64, !freeze_bits [[META2]]
-// CHECK-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[VQOUT]], align 8, !freeze_bits [[META2]]
+// CHECK-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[VQOUT]], align 8
 // CHECK-NEXT:    store <512 x i1> [[TMP3]], ptr [[TMP4]], align 64
 // CHECK-NEXT:    ret void
 //
@@ -74,11 +78,13 @@ void testVQTypedef(int *inp, int *outp) {
 // CHECK-NEXT:    [[VQP:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    store ptr [[VQ:%.*]], ptr [[VQ_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[PTR:%.*]], ptr [[PTR_ADDR]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[VQP]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[PTR_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[TMP0]], ptr [[VQP]], align 8
 // CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[VQ_ADDR]], align 8
 // CHECK-NEXT:    [[TMP2:%.*]] = load <512 x i1>, ptr [[TMP1]], align 64, !freeze_bits [[META2]]
-// CHECK-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[VQP]], align 8, !freeze_bits [[META2]]
+// CHECK-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[VQP]], align 8
 // CHECK-NEXT:    store <512 x i1> [[TMP2]], ptr [[TMP3]], align 64
 // CHECK-NEXT:    ret void
 //
@@ -94,11 +100,13 @@ void testVQArg3(__vector_quad *vq, int *ptr) {
 // CHECK-NEXT:    [[VQP:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    store ptr [[VQ:%.*]], ptr [[VQ_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[PTR:%.*]], ptr [[PTR_ADDR]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[VQP]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[PTR_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[TMP0]], ptr [[VQP]], align 8
 // CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[VQ_ADDR]], align 8
 // CHECK-NEXT:    [[TMP2:%.*]] = load <512 x i1>, ptr [[TMP1]], align 64, !freeze_bits [[META2]]
-// CHECK-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[VQP]], align 8, !freeze_bits [[META2]]
+// CHECK-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[VQP]], align 8
 // CHECK-NEXT:    store <512 x i1> [[TMP2]], ptr [[TMP3]], align 64
 // CHECK-NEXT:    ret void
 //
@@ -114,12 +122,14 @@ void testVQArg4(const __vector_quad *const vq, int *ptr) {
 // CHECK-NEXT:    [[VQP:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    store ptr [[VQA:%.*]], ptr [[VQA_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[PTR:%.*]], ptr [[PTR_ADDR]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[VQP]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[PTR_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[TMP0]], ptr [[VQP]], align 8
 // CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[VQA_ADDR]], align 8
 // CHECK-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds <512 x i1>, ptr [[TMP1]], i64 0
 // CHECK-NEXT:    [[TMP2:%.*]] = load <512 x i1>, ptr [[ARRAYIDX]], align 64, !freeze_bits [[META2]]
-// CHECK-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[VQP]], align 8, !freeze_bits [[META2]]
+// CHECK-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[VQP]], align 8
 // CHECK-NEXT:    store <512 x i1> [[TMP2]], ptr [[TMP3]], align 64
 // CHECK-NEXT:    ret void
 //
@@ -135,11 +145,13 @@ void testVQArg5(__vector_quad vqa[], int *ptr) {
 // CHECK-NEXT:    [[VQP:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    store ptr [[VQ:%.*]], ptr [[VQ_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[PTR:%.*]], ptr [[PTR_ADDR]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[VQP]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[PTR_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[TMP0]], ptr [[VQP]], align 8
 // CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[VQ_ADDR]], align 8
 // CHECK-NEXT:    [[TMP2:%.*]] = load <512 x i1>, ptr [[TMP1]], align 64, !freeze_bits [[META2]]
-// CHECK-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[VQP]], align 8, !freeze_bits [[META2]]
+// CHECK-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[VQP]], align 8
 // CHECK-NEXT:    store <512 x i1> [[TMP2]], ptr [[TMP3]], align 64
 // CHECK-NEXT:    ret void
 //
@@ -153,9 +165,11 @@ void testVQArg7(const vq_t *vq, int *ptr) {
 // CHECK-NEXT:    [[PTR_ADDR:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    [[VQP:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    store ptr [[PTR:%.*]], ptr [[PTR_ADDR]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[VQP]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[PTR_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[TMP0]], ptr [[VQP]], align 8
-// CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[VQP]], align 8, !freeze_bits [[META2]]
+// CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[VQP]], align 8
 // CHECK-NEXT:    [[ADD_PTR:%.*]] = getelementptr inbounds <512 x i1>, ptr [[TMP1]], i64 2
 // CHECK-NEXT:    ret ptr [[ADD_PTR]]
 //
@@ -169,9 +183,11 @@ __vector_quad *testVQRet2(int *ptr) {
 // CHECK-NEXT:    [[PTR_ADDR:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    [[VQP:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    store ptr [[PTR:%.*]], ptr [[PTR_ADDR]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[VQP]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[PTR_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[TMP0]], ptr [[VQP]], align 8
-// CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[VQP]], align 8, !freeze_bits [[META2]]
+// CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[VQP]], align 8
 // CHECK-NEXT:    [[ADD_PTR:%.*]] = getelementptr inbounds <512 x i1>, ptr [[TMP1]], i64 2
 // CHECK-NEXT:    ret ptr [[ADD_PTR]]
 //
@@ -185,9 +201,11 @@ const __vector_quad *testVQRet3(int *ptr) {
 // CHECK-NEXT:    [[PTR_ADDR:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    [[VQP:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    store ptr [[PTR:%.*]], ptr [[PTR_ADDR]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[VQP]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[PTR_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[TMP0]], ptr [[VQP]], align 8
-// CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[VQP]], align 8, !freeze_bits [[META2]]
+// CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[VQP]], align 8
 // CHECK-NEXT:    [[ADD_PTR:%.*]] = getelementptr inbounds <512 x i1>, ptr [[TMP1]], i64 2
 // CHECK-NEXT:    ret ptr [[ADD_PTR]]
 //
@@ -202,35 +220,37 @@ const vq_t *testVQRet5(int *ptr) {
 // CHECK-NEXT:    [[VQP:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    [[VQ:%.*]] = alloca <512 x i1>, align 64
 // CHECK-NEXT:    [[SIZET:%.*]] = alloca i32, align 4
-// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[SIZET]], align 4
 // CHECK-NEXT:    [[ALIGNT:%.*]] = alloca i32, align 4
-// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[ALIGNT]], align 4
 // CHECK-NEXT:    [[SIZEV:%.*]] = alloca i32, align 4
-// CHECK-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[SIZEV]], align 4
 // CHECK-NEXT:    [[ALIGNV:%.*]] = alloca i32, align 4
-// CHECK-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[ALIGNV]], align 4
 // CHECK-NEXT:    store ptr [[PTR:%.*]], ptr [[PTR_ADDR]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[VQP]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[PTR_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[TMP0]], ptr [[VQP]], align 8
-// CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[VQP]], align 8, !freeze_bits [[META2]]
+// CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[VQP]], align 8
 // CHECK-NEXT:    [[TMP2:%.*]] = load <512 x i1>, ptr [[TMP1]], align 64, !freeze_bits [[META2]]
 // CHECK-NEXT:    store <512 x i1> [[TMP2]], ptr [[VQ]], align 64
+// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[SIZET]], align 4
 // CHECK-NEXT:    store i32 64, ptr [[SIZET]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[ALIGNT]], align 4
 // CHECK-NEXT:    store i32 64, ptr [[ALIGNT]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[SIZEV]], align 4
 // CHECK-NEXT:    store i32 64, ptr [[SIZEV]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[ALIGNV]], align 4
 // CHECK-NEXT:    store i32 64, ptr [[ALIGNV]], align 4
 // CHECK-NEXT:    [[TMP3:%.*]] = load i32, ptr [[SIZET]], align 4
 // CHECK-NEXT:    [[TMP4:%.*]] = load i32, ptr [[ALIGNT]], align 4
 // CHECK-NEXT:    [[ADD:%.*]] = add i32 [[TMP3]], [[TMP4]]
 // CHECK-NEXT:    [[TMP5:%.*]] = load i32, ptr [[SIZEV]], align 4
-// CHECK-NEXT:    [[ADD4:%.*]] = add i32 [[ADD]], [[TMP5]]
+// CHECK-NEXT:    [[ADD5:%.*]] = add i32 [[ADD]], [[TMP5]]
 // CHECK-NEXT:    [[TMP6:%.*]] = load i32, ptr [[ALIGNV]], align 4
-// CHECK-NEXT:    [[ADD5:%.*]] = add i32 [[ADD4]], [[TMP6]]
-// CHECK-NEXT:    ret i32 [[ADD5]]
+// CHECK-NEXT:    [[ADD6:%.*]] = add i32 [[ADD5]], [[TMP6]]
+// CHECK-NEXT:    ret i32 [[ADD6]]
 //
 int testVQSizeofAlignof(int *ptr) {
   __vector_quad *vqp = (__vector_quad *)ptr;
@@ -251,13 +271,17 @@ typedef __vector_pair vp_t;
 // CHECK-NEXT:    [[VPOUT:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    store ptr [[INP:%.*]], ptr [[INP_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[OUTP:%.*]], ptr [[OUTP_ADDR]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[VPIN]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[INP_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[TMP0]], ptr [[VPIN]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON1]], ptr [[VPOUT]], align 8
 // CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[OUTP_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[TMP1]], ptr [[VPOUT]], align 8
-// CHECK-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[VPIN]], align 8, !freeze_bits [[META2]]
+// CHECK-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[VPIN]], align 8
 // CHECK-NEXT:    [[TMP3:%.*]] = load <256 x i1>, ptr [[TMP2]], align 32, !freeze_bits [[META2]]
-// CHECK-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[VPOUT]], align 8, !freeze_bits [[META2]]
+// CHECK-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[VPOUT]], align 8
 // CHECK-NEXT:    store <256 x i1> [[TMP3]], ptr [[TMP4]], align 32
 // CHECK-NEXT:    ret void
 //
@@ -274,11 +298,13 @@ void testVPTypedef(int *inp, int *outp) {
 // CHECK-NEXT:    [[VPP:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    store ptr [[VP:%.*]], ptr [[VP_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[PTR:%.*]], ptr [[PTR_ADDR]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[VPP]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[PTR_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[TMP0]], ptr [[VPP]], align 8
 // CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[VP_ADDR]], align 8
 // CHECK-NEXT:    [[TMP2:%.*]] = load <256 x i1>, ptr [[TMP1]], align 32, !freeze_bits [[META2]]
-// CHECK-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[VPP]], align 8, !freeze_bits [[META2]]
+// CHECK-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[VPP]], align 8
 // CHECK-NEXT:    store <256 x i1> [[TMP2]], ptr [[TMP3]], align 32
 // CHECK-NEXT:    ret void
 //
@@ -294,11 +320,13 @@ void testVPArg3(__vector_pair *vp, int *ptr) {
 // CHECK-NEXT:    [[VPP:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    store ptr [[VP:%.*]], ptr [[VP_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[PTR:%.*]], ptr [[PTR_ADDR]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[VPP]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[PTR_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[TMP0]], ptr [[VPP]], align 8
 // CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[VP_ADDR]], align 8
 // CHECK-NEXT:    [[TMP2:%.*]] = load <256 x i1>, ptr [[TMP1]], align 32, !freeze_bits [[META2]]
-// CHECK-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[VPP]], align 8, !freeze_bits [[META2]]
+// CHECK-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[VPP]], align 8
 // CHECK-NEXT:    store <256 x i1> [[TMP2]], ptr [[TMP3]], align 32
 // CHECK-NEXT:    ret void
 //
@@ -314,12 +342,14 @@ void testVPArg4(const __vector_pair *const vp, int *ptr) {
 // CHECK-NEXT:    [[VPP:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    store ptr [[VPA:%.*]], ptr [[VPA_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[PTR:%.*]], ptr [[PTR_ADDR]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[VPP]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[PTR_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[TMP0]], ptr [[VPP]], align 8
 // CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[VPA_ADDR]], align 8
 // CHECK-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds <256 x i1>, ptr [[TMP1]], i64 0
 // CHECK-NEXT:    [[TMP2:%.*]] = load <256 x i1>, ptr [[ARRAYIDX]], align 32, !freeze_bits [[META2]]
-// CHECK-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[VPP]], align 8, !freeze_bits [[META2]]
+// CHECK-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[VPP]], align 8
 // CHECK-NEXT:    store <256 x i1> [[TMP2]], ptr [[TMP3]], align 32
 // CHECK-NEXT:    ret void
 //
@@ -335,11 +365,13 @@ void testVPArg5(__vector_pair vpa[], int *ptr) {
 // CHECK-NEXT:    [[VPP:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    store ptr [[VP:%.*]], ptr [[VP_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[PTR:%.*]], ptr [[PTR_ADDR]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[VPP]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[PTR_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[TMP0]], ptr [[VPP]], align 8
 // CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[VP_ADDR]], align 8
 // CHECK-NEXT:    [[TMP2:%.*]] = load <256 x i1>, ptr [[TMP1]], align 32, !freeze_bits [[META2]]
-// CHECK-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[VPP]], align 8, !freeze_bits [[META2]]
+// CHECK-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[VPP]], align 8
 // CHECK-NEXT:    store <256 x i1> [[TMP2]], ptr [[TMP3]], align 32
 // CHECK-NEXT:    ret void
 //
@@ -353,9 +385,11 @@ void testVPArg7(const vp_t *vp, int *ptr) {
 // CHECK-NEXT:    [[PTR_ADDR:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    [[VPP:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    store ptr [[PTR:%.*]], ptr [[PTR_ADDR]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[VPP]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[PTR_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[TMP0]], ptr [[VPP]], align 8
-// CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[VPP]], align 8, !freeze_bits [[META2]]
+// CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[VPP]], align 8
 // CHECK-NEXT:    [[ADD_PTR:%.*]] = getelementptr inbounds <256 x i1>, ptr [[TMP1]], i64 2
 // CHECK-NEXT:    ret ptr [[ADD_PTR]]
 //
@@ -369,9 +403,11 @@ __vector_pair *testVPRet2(int *ptr) {
 // CHECK-NEXT:    [[PTR_ADDR:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    [[VPP:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    store ptr [[PTR:%.*]], ptr [[PTR_ADDR]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[VPP]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[PTR_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[TMP0]], ptr [[VPP]], align 8
-// CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[VPP]], align 8, !freeze_bits [[META2]]
+// CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[VPP]], align 8
 // CHECK-NEXT:    [[ADD_PTR:%.*]] = getelementptr inbounds <256 x i1>, ptr [[TMP1]], i64 2
 // CHECK-NEXT:    ret ptr [[ADD_PTR]]
 //
@@ -385,9 +421,11 @@ const __vector_pair *testVPRet3(int *ptr) {
 // CHECK-NEXT:    [[PTR_ADDR:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    [[VPP:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    store ptr [[PTR:%.*]], ptr [[PTR_ADDR]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[VPP]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[PTR_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[TMP0]], ptr [[VPP]], align 8
-// CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[VPP]], align 8, !freeze_bits [[META2]]
+// CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[VPP]], align 8
 // CHECK-NEXT:    [[ADD_PTR:%.*]] = getelementptr inbounds <256 x i1>, ptr [[TMP1]], i64 2
 // CHECK-NEXT:    ret ptr [[ADD_PTR]]
 //
@@ -402,35 +440,37 @@ const vp_t *testVPRet5(int *ptr) {
 // CHECK-NEXT:    [[VPP:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    [[VP:%.*]] = alloca <256 x i1>, align 32
 // CHECK-NEXT:    [[SIZET:%.*]] = alloca i32, align 4
-// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[SIZET]], align 4
 // CHECK-NEXT:    [[ALIGNT:%.*]] = alloca i32, align 4
-// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[ALIGNT]], align 4
 // CHECK-NEXT:    [[SIZEV:%.*]] = alloca i32, align 4
-// CHECK-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[SIZEV]], align 4
 // CHECK-NEXT:    [[ALIGNV:%.*]] = alloca i32, align 4
-// CHECK-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[ALIGNV]], align 4
 // CHECK-NEXT:    store ptr [[PTR:%.*]], ptr [[PTR_ADDR]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[VPP]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[PTR_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[TMP0]], ptr [[VPP]], align 8
-// CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[VPP]], align 8, !freeze_bits [[META2]]
+// CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[VPP]], align 8
 // CHECK-NEXT:    [[TMP2:%.*]] = load <256 x i1>, ptr [[TMP1]], align 32, !freeze_bits [[META2]]
 // CHECK-NEXT:    store <256 x i1> [[TMP2]], ptr [[VP]], align 32
+// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[SIZET]], align 4
 // CHECK-NEXT:    store i32 32, ptr [[SIZET]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[ALIGNT]], align 4
 // CHECK-NEXT:    store i32 32, ptr [[ALIGNT]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[SIZEV]], align 4
 // CHECK-NEXT:    store i32 32, ptr [[SIZEV]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[ALIGNV]], align 4
 // CHECK-NEXT:    store i32 32, ptr [[ALIGNV]], align 4
 // CHECK-NEXT:    [[TMP3:%.*]] = load i32, ptr [[SIZET]], align 4
 // CHECK-NEXT:    [[TMP4:%.*]] = load i32, ptr [[ALIGNT]], align 4
 // CHECK-NEXT:    [[ADD:%.*]] = add i32 [[TMP3]], [[TMP4]]
 // CHECK-NEXT:    [[TMP5:%.*]] = load i32, ptr [[SIZEV]], align 4
-// CHECK-NEXT:    [[ADD4:%.*]] = add i32 [[ADD]], [[TMP5]]
+// CHECK-NEXT:    [[ADD5:%.*]] = add i32 [[ADD]], [[TMP5]]
 // CHECK-NEXT:    [[TMP6:%.*]] = load i32, ptr [[ALIGNV]], align 4
-// CHECK-NEXT:    [[ADD5:%.*]] = add i32 [[ADD4]], [[TMP6]]
-// CHECK-NEXT:    ret i32 [[ADD5]]
+// CHECK-NEXT:    [[ADD6:%.*]] = add i32 [[ADD5]], [[TMP6]]
+// CHECK-NEXT:    ret i32 [[ADD6]]
 //
 int testVPSizeofAlignof(int *ptr) {
   __vector_pair *vpp = (__vector_pair *)ptr;

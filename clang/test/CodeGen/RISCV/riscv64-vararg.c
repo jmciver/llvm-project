@@ -134,11 +134,13 @@ void f_va_caller(void) {
 // CHECK-NEXT:    [[FMT_ADDR:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    [[VA:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    [[V:%.*]] = alloca i32, align 4
-// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[V]], align 4
 // CHECK-NEXT:    store ptr [[FMT]], ptr [[FMT_ADDR]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[VA]], align 8
 // CHECK-NEXT:    call void @llvm.va_start.p0(ptr [[VA]])
-// CHECK-NEXT:    [[ARGP_CUR:%.*]] = load ptr, ptr [[VA]], align 8, !freeze_bits [[META6]]
+// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[V]], align 4
+// CHECK-NEXT:    [[ARGP_CUR:%.*]] = load ptr, ptr [[VA]], align 8
 // CHECK-NEXT:    [[ARGP_NEXT:%.*]] = getelementptr inbounds i8, ptr [[ARGP_CUR]], i64 8
 // CHECK-NEXT:    store ptr [[ARGP_NEXT]], ptr [[VA]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load i32, ptr [[ARGP_CUR]], align 8, !freeze_bits [[META6]]
@@ -168,8 +170,12 @@ int f_va_1(char *fmt, ...) {
 // CHECK-NEXT:    [[VA:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    [[V:%.*]] = alloca fp128, align 16
 // CHECK-NEXT:    store ptr [[FMT]], ptr [[FMT_ADDR]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[VA]], align 8
 // CHECK-NEXT:    call void @llvm.va_start.p0(ptr [[VA]])
-// CHECK-NEXT:    [[ARGP_CUR:%.*]] = load ptr, ptr [[VA]], align 8, !freeze_bits [[META6]]
+// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze fp128 poison
+// CHECK-NEXT:    store fp128 [[FREEZE_POISON1]], ptr [[V]], align 16
+// CHECK-NEXT:    [[ARGP_CUR:%.*]] = load ptr, ptr [[VA]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = getelementptr inbounds i8, ptr [[ARGP_CUR]], i32 15
 // CHECK-NEXT:    [[ARGP_CUR_ALIGNED:%.*]] = call ptr @llvm.ptrmask.p0.i64(ptr [[TMP0]], i64 -16)
 // CHECK-NEXT:    [[ARGP_NEXT:%.*]] = getelementptr inbounds i8, ptr [[ARGP_CUR_ALIGNED]], i64 16
@@ -177,7 +183,7 @@ int f_va_1(char *fmt, ...) {
 // CHECK-NEXT:    [[TMP1:%.*]] = load fp128, ptr [[ARGP_CUR_ALIGNED]], align 16, !freeze_bits [[META6]]
 // CHECK-NEXT:    store fp128 [[TMP1]], ptr [[V]], align 16
 // CHECK-NEXT:    call void @llvm.va_end.p0(ptr [[VA]])
-// CHECK-NEXT:    [[TMP2:%.*]] = load fp128, ptr [[V]], align 16, !freeze_bits [[META6]]
+// CHECK-NEXT:    [[TMP2:%.*]] = load fp128, ptr [[V]], align 16
 // CHECK-NEXT:    ret fp128 [[TMP2]]
 //
 long double f_va_2(char *fmt, ...) {
@@ -199,33 +205,39 @@ long double f_va_2(char *fmt, ...) {
 // CHECK-NEXT:    [[VA:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    [[V:%.*]] = alloca fp128, align 16
 // CHECK-NEXT:    [[W:%.*]] = alloca i32, align 4
-// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[W]], align 4
 // CHECK-NEXT:    [[X:%.*]] = alloca fp128, align 16
 // CHECK-NEXT:    store ptr [[FMT]], ptr [[FMT_ADDR]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[VA]], align 8
 // CHECK-NEXT:    call void @llvm.va_start.p0(ptr [[VA]])
-// CHECK-NEXT:    [[ARGP_CUR:%.*]] = load ptr, ptr [[VA]], align 8, !freeze_bits [[META6]]
+// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze fp128 poison
+// CHECK-NEXT:    store fp128 [[FREEZE_POISON1]], ptr [[V]], align 16
+// CHECK-NEXT:    [[ARGP_CUR:%.*]] = load ptr, ptr [[VA]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = getelementptr inbounds i8, ptr [[ARGP_CUR]], i32 15
 // CHECK-NEXT:    [[ARGP_CUR_ALIGNED:%.*]] = call ptr @llvm.ptrmask.p0.i64(ptr [[TMP0]], i64 -16)
 // CHECK-NEXT:    [[ARGP_NEXT:%.*]] = getelementptr inbounds i8, ptr [[ARGP_CUR_ALIGNED]], i64 16
 // CHECK-NEXT:    store ptr [[ARGP_NEXT]], ptr [[VA]], align 8
 // CHECK-NEXT:    [[TMP1:%.*]] = load fp128, ptr [[ARGP_CUR_ALIGNED]], align 16, !freeze_bits [[META6]]
 // CHECK-NEXT:    store fp128 [[TMP1]], ptr [[V]], align 16
-// CHECK-NEXT:    [[ARGP_CUR1:%.*]] = load ptr, ptr [[VA]], align 8, !freeze_bits [[META6]]
-// CHECK-NEXT:    [[ARGP_NEXT2:%.*]] = getelementptr inbounds i8, ptr [[ARGP_CUR1]], i64 8
-// CHECK-NEXT:    store ptr [[ARGP_NEXT2]], ptr [[VA]], align 8
-// CHECK-NEXT:    [[TMP2:%.*]] = load i32, ptr [[ARGP_CUR1]], align 8, !freeze_bits [[META6]]
-// CHECK-NEXT:    store i32 [[TMP2]], ptr [[W]], align 4
-// CHECK-NEXT:    [[ARGP_CUR3:%.*]] = load ptr, ptr [[VA]], align 8, !freeze_bits [[META6]]
-// CHECK-NEXT:    [[TMP3:%.*]] = getelementptr inbounds i8, ptr [[ARGP_CUR3]], i32 15
-// CHECK-NEXT:    [[ARGP_CUR3_ALIGNED:%.*]] = call ptr @llvm.ptrmask.p0.i64(ptr [[TMP3]], i64 -16)
-// CHECK-NEXT:    [[ARGP_NEXT4:%.*]] = getelementptr inbounds i8, ptr [[ARGP_CUR3_ALIGNED]], i64 16
+// CHECK-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[W]], align 4
+// CHECK-NEXT:    [[ARGP_CUR3:%.*]] = load ptr, ptr [[VA]], align 8
+// CHECK-NEXT:    [[ARGP_NEXT4:%.*]] = getelementptr inbounds i8, ptr [[ARGP_CUR3]], i64 8
 // CHECK-NEXT:    store ptr [[ARGP_NEXT4]], ptr [[VA]], align 8
-// CHECK-NEXT:    [[TMP4:%.*]] = load fp128, ptr [[ARGP_CUR3_ALIGNED]], align 16, !freeze_bits [[META6]]
+// CHECK-NEXT:    [[TMP2:%.*]] = load i32, ptr [[ARGP_CUR3]], align 8, !freeze_bits [[META6]]
+// CHECK-NEXT:    store i32 [[TMP2]], ptr [[W]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON5:%.*]] = freeze fp128 poison
+// CHECK-NEXT:    store fp128 [[FREEZE_POISON5]], ptr [[X]], align 16
+// CHECK-NEXT:    [[ARGP_CUR6:%.*]] = load ptr, ptr [[VA]], align 8
+// CHECK-NEXT:    [[TMP3:%.*]] = getelementptr inbounds i8, ptr [[ARGP_CUR6]], i32 15
+// CHECK-NEXT:    [[ARGP_CUR6_ALIGNED:%.*]] = call ptr @llvm.ptrmask.p0.i64(ptr [[TMP3]], i64 -16)
+// CHECK-NEXT:    [[ARGP_NEXT7:%.*]] = getelementptr inbounds i8, ptr [[ARGP_CUR6_ALIGNED]], i64 16
+// CHECK-NEXT:    store ptr [[ARGP_NEXT7]], ptr [[VA]], align 8
+// CHECK-NEXT:    [[TMP4:%.*]] = load fp128, ptr [[ARGP_CUR6_ALIGNED]], align 16, !freeze_bits [[META6]]
 // CHECK-NEXT:    store fp128 [[TMP4]], ptr [[X]], align 16
 // CHECK-NEXT:    call void @llvm.va_end.p0(ptr [[VA]])
-// CHECK-NEXT:    [[TMP5:%.*]] = load fp128, ptr [[V]], align 16, !freeze_bits [[META6]]
-// CHECK-NEXT:    [[TMP6:%.*]] = load fp128, ptr [[X]], align 16, !freeze_bits [[META6]]
+// CHECK-NEXT:    [[TMP5:%.*]] = load fp128, ptr [[V]], align 16
+// CHECK-NEXT:    [[TMP6:%.*]] = load fp128, ptr [[X]], align 16
 // CHECK-NEXT:    [[ADD:%.*]] = fadd fp128 [[TMP5]], [[TMP6]]
 // CHECK-NEXT:    ret fp128 [[ADD]]
 //
@@ -247,46 +259,48 @@ long double f_va_3(char *fmt, ...) {
 // CHECK-NEXT:    [[FMT_ADDR:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    [[VA:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    [[V:%.*]] = alloca i32, align 4
-// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[V]], align 4
 // CHECK-NEXT:    [[TS:%.*]] = alloca [[STRUCT_TINY:%.*]], align 2
 // CHECK-NEXT:    [[SS:%.*]] = alloca [[STRUCT_SMALL:%.*]], align 8
 // CHECK-NEXT:    [[LS:%.*]] = alloca [[STRUCT_LARGE:%.*]], align 8
 // CHECK-NEXT:    [[RET:%.*]] = alloca i32, align 4
-// CHECK-NEXT:    [[FREEZE_POISON7:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON7]], ptr [[RET]], align 4
 // CHECK-NEXT:    store ptr [[FMT]], ptr [[FMT_ADDR]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[VA]], align 8
 // CHECK-NEXT:    call void @llvm.va_start.p0(ptr [[VA]])
-// CHECK-NEXT:    [[ARGP_CUR:%.*]] = load ptr, ptr [[VA]], align 8, !freeze_bits [[META6]]
+// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[V]], align 4
+// CHECK-NEXT:    [[ARGP_CUR:%.*]] = load ptr, ptr [[VA]], align 8
 // CHECK-NEXT:    [[ARGP_NEXT:%.*]] = getelementptr inbounds i8, ptr [[ARGP_CUR]], i64 8
 // CHECK-NEXT:    store ptr [[ARGP_NEXT]], ptr [[VA]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load i32, ptr [[ARGP_CUR]], align 8, !freeze_bits [[META6]]
 // CHECK-NEXT:    store i32 [[TMP0]], ptr [[V]], align 4
-// CHECK-NEXT:    [[ARGP_CUR1:%.*]] = load ptr, ptr [[VA]], align 8, !freeze_bits [[META6]]
-// CHECK-NEXT:    [[ARGP_NEXT2:%.*]] = getelementptr inbounds i8, ptr [[ARGP_CUR1]], i64 8
-// CHECK-NEXT:    store ptr [[ARGP_NEXT2]], ptr [[VA]], align 8
-// CHECK-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 2 [[TS]], ptr align 8 [[ARGP_CUR1]], i64 8, i1 false)
-// CHECK-NEXT:    [[ARGP_CUR3:%.*]] = load ptr, ptr [[VA]], align 8, !freeze_bits [[META6]]
-// CHECK-NEXT:    [[ARGP_NEXT4:%.*]] = getelementptr inbounds i8, ptr [[ARGP_CUR3]], i64 16
-// CHECK-NEXT:    store ptr [[ARGP_NEXT4]], ptr [[VA]], align 8
-// CHECK-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 8 [[SS]], ptr align 8 [[ARGP_CUR3]], i64 16, i1 false)
-// CHECK-NEXT:    [[ARGP_CUR5:%.*]] = load ptr, ptr [[VA]], align 8, !freeze_bits [[META6]]
-// CHECK-NEXT:    [[ARGP_NEXT6:%.*]] = getelementptr inbounds i8, ptr [[ARGP_CUR5]], i64 8
-// CHECK-NEXT:    store ptr [[ARGP_NEXT6]], ptr [[VA]], align 8
-// CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[ARGP_CUR5]], align 8, !freeze_bits [[META6]]
+// CHECK-NEXT:    [[ARGP_CUR2:%.*]] = load ptr, ptr [[VA]], align 8
+// CHECK-NEXT:    [[ARGP_NEXT3:%.*]] = getelementptr inbounds i8, ptr [[ARGP_CUR2]], i64 8
+// CHECK-NEXT:    store ptr [[ARGP_NEXT3]], ptr [[VA]], align 8
+// CHECK-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 2 [[TS]], ptr align 8 [[ARGP_CUR2]], i64 8, i1 false)
+// CHECK-NEXT:    [[ARGP_CUR4:%.*]] = load ptr, ptr [[VA]], align 8
+// CHECK-NEXT:    [[ARGP_NEXT5:%.*]] = getelementptr inbounds i8, ptr [[ARGP_CUR4]], i64 16
+// CHECK-NEXT:    store ptr [[ARGP_NEXT5]], ptr [[VA]], align 8
+// CHECK-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 8 [[SS]], ptr align 8 [[ARGP_CUR4]], i64 16, i1 false)
+// CHECK-NEXT:    [[ARGP_CUR6:%.*]] = load ptr, ptr [[VA]], align 8
+// CHECK-NEXT:    [[ARGP_NEXT7:%.*]] = getelementptr inbounds i8, ptr [[ARGP_CUR6]], i64 8
+// CHECK-NEXT:    store ptr [[ARGP_NEXT7]], ptr [[VA]], align 8
+// CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[ARGP_CUR6]], align 8, !freeze_bits [[META6]]
 // CHECK-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 8 [[LS]], ptr align 8 [[TMP1]], i64 32, i1 false)
 // CHECK-NEXT:    call void @llvm.va_end.p0(ptr [[VA]])
+// CHECK-NEXT:    [[FREEZE_POISON8:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON8]], ptr [[RET]], align 4
 // CHECK-NEXT:    [[A:%.*]] = getelementptr inbounds [[STRUCT_TINY]], ptr [[TS]], i32 0, i32 0
 // CHECK-NEXT:    [[TMP2:%.*]] = load i16, ptr [[A]], align 2, !freeze_bits [[META6]]
 // CHECK-NEXT:    [[CONV:%.*]] = zext i16 [[TMP2]] to i64
-// CHECK-NEXT:    [[A8:%.*]] = getelementptr inbounds [[STRUCT_SMALL]], ptr [[SS]], i32 0, i32 0
-// CHECK-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A8]], align 8, !freeze_bits [[META6]]
+// CHECK-NEXT:    [[A9:%.*]] = getelementptr inbounds [[STRUCT_SMALL]], ptr [[SS]], i32 0, i32 0
+// CHECK-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A9]], align 8, !freeze_bits [[META6]]
 // CHECK-NEXT:    [[ADD:%.*]] = add nsw i64 [[CONV]], [[TMP3]]
 // CHECK-NEXT:    [[C:%.*]] = getelementptr inbounds [[STRUCT_LARGE]], ptr [[LS]], i32 0, i32 2
 // CHECK-NEXT:    [[TMP4:%.*]] = load i64, ptr [[C]], align 8, !freeze_bits [[META6]]
-// CHECK-NEXT:    [[ADD9:%.*]] = add nsw i64 [[ADD]], [[TMP4]]
-// CHECK-NEXT:    [[CONV10:%.*]] = trunc i64 [[ADD9]] to i32
-// CHECK-NEXT:    store i32 [[CONV10]], ptr [[RET]], align 4
+// CHECK-NEXT:    [[ADD10:%.*]] = add nsw i64 [[ADD]], [[TMP4]]
+// CHECK-NEXT:    [[CONV11:%.*]] = trunc i64 [[ADD10]] to i32
+// CHECK-NEXT:    store i32 [[CONV11]], ptr [[RET]], align 4
 // CHECK-NEXT:    [[TMP5:%.*]] = load i32, ptr [[RET]], align 4
 // CHECK-NEXT:    ret i32 [[TMP5]]
 //

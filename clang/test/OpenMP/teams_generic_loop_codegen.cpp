@@ -27,12 +27,12 @@ int foo() {
 // IR-SAME: () #[[ATTR0:[0-9]+]] {
 // IR-NEXT:  entry:
 // IR-NEXT:    [[I:%.*]] = alloca i32, align 4
+// IR-NEXT:    [[J:%.*]] = alloca i32, align 4
+// IR-NEXT:    [[SUM:%.*]] = alloca [10 x [10 x i32]], align 16
 // IR-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
 // IR-NEXT:    store i32 [[FREEZE_POISON]], ptr [[I]], align 4
-// IR-NEXT:    [[J:%.*]] = alloca i32, align 4
 // IR-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
 // IR-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[J]], align 4
-// IR-NEXT:    [[SUM:%.*]] = alloca [10 x [10 x i32]], align 16
 // IR-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_teams(ptr @[[GLOB3:[0-9]+]], i32 2, ptr @_Z3foov.omp_outlined, ptr [[J]], ptr [[SUM]])
 // IR-NEXT:    ret i32 0
 //
@@ -46,31 +46,15 @@ int foo() {
 // IR-NEXT:    [[SUM_ADDR:%.*]] = alloca ptr, align 8
 // IR-NEXT:    [[SUM1:%.*]] = alloca [10 x [10 x i32]], align 16
 // IR-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
-// IR-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// IR-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
 // IR-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // IR-NEXT:    [[_TMP2:%.*]] = alloca i32, align 4
 // IR-NEXT:    [[DOTOMP_COMB_LB:%.*]] = alloca i32, align 4
-// IR-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
-// IR-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_COMB_LB]], align 4
 // IR-NEXT:    [[DOTOMP_COMB_UB:%.*]] = alloca i32, align 4
-// IR-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
-// IR-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_COMB_UB]], align 4
 // IR-NEXT:    [[DOTOMP_STRIDE:%.*]] = alloca i32, align 4
-// IR-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
-// IR-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[DOTOMP_STRIDE]], align 4
 // IR-NEXT:    [[DOTOMP_IS_LAST:%.*]] = alloca i32, align 4
-// IR-NEXT:    [[FREEZE_POISON6:%.*]] = freeze i32 poison
-// IR-NEXT:    store i32 [[FREEZE_POISON6]], ptr [[DOTOMP_IS_LAST]], align 4
 // IR-NEXT:    [[J7:%.*]] = alloca i32, align 4
-// IR-NEXT:    [[FREEZE_POISON8:%.*]] = freeze i32 poison
-// IR-NEXT:    store i32 [[FREEZE_POISON8]], ptr [[J7]], align 4
 // IR-NEXT:    [[I:%.*]] = alloca i32, align 4
-// IR-NEXT:    [[FREEZE_POISON9:%.*]] = freeze i32 poison
-// IR-NEXT:    store i32 [[FREEZE_POISON9]], ptr [[I]], align 4
 // IR-NEXT:    [[J10:%.*]] = alloca i32, align 4
-// IR-NEXT:    [[FREEZE_POISON11:%.*]] = freeze i32 poison
-// IR-NEXT:    store i32 [[FREEZE_POISON11]], ptr [[J10]], align 4
 // IR-NEXT:    [[DOTOMP_REDUCTION_RED_LIST:%.*]] = alloca [1 x ptr], align 8
 // IR-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // IR-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
@@ -89,10 +73,26 @@ int foo() {
 // IR-NEXT:    [[OMP_ARRAYCPY_DONE:%.*]] = icmp eq ptr [[OMP_ARRAYCPY_DEST_ELEMENT]], [[TMP2]]
 // IR-NEXT:    br i1 [[OMP_ARRAYCPY_DONE]], label [[OMP_ARRAYINIT_DONE]], label [[OMP_ARRAYINIT_BODY]]
 // IR:       omp.arrayinit.done:
+// IR-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// IR-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// IR-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// IR-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_COMB_LB]], align 4
 // IR-NEXT:    store i32 0, ptr [[DOTOMP_COMB_LB]], align 4
+// IR-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// IR-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_COMB_UB]], align 4
 // IR-NEXT:    store i32 99, ptr [[DOTOMP_COMB_UB]], align 4
+// IR-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// IR-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[DOTOMP_STRIDE]], align 4
 // IR-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// IR-NEXT:    [[FREEZE_POISON6:%.*]] = freeze i32 poison
+// IR-NEXT:    store i32 [[FREEZE_POISON6]], ptr [[DOTOMP_IS_LAST]], align 4
 // IR-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// IR-NEXT:    [[FREEZE_POISON8:%.*]] = freeze i32 poison
+// IR-NEXT:    store i32 [[FREEZE_POISON8]], ptr [[J7]], align 4
+// IR-NEXT:    [[FREEZE_POISON9:%.*]] = freeze i32 poison
+// IR-NEXT:    store i32 [[FREEZE_POISON9]], ptr [[I]], align 4
+// IR-NEXT:    [[FREEZE_POISON11:%.*]] = freeze i32 poison
+// IR-NEXT:    store i32 [[FREEZE_POISON11]], ptr [[J10]], align 4
 // IR-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // IR-NEXT:    [[TMP4:%.*]] = load i32, ptr [[TMP3]], align 4, !freeze_bits [[META3:![0-9]+]]
 // IR-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1:[0-9]+]], i32 [[TMP4]], i32 92, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_COMB_LB]], ptr [[DOTOMP_COMB_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
@@ -243,12 +243,12 @@ int foo() {
 // IR-PCH-SAME: () #[[ATTR0:[0-9]+]] {
 // IR-PCH-NEXT:  entry:
 // IR-PCH-NEXT:    [[I:%.*]] = alloca i32, align 4
+// IR-PCH-NEXT:    [[J:%.*]] = alloca i32, align 4
+// IR-PCH-NEXT:    [[SUM:%.*]] = alloca [10 x [10 x i32]], align 16
 // IR-PCH-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
 // IR-PCH-NEXT:    store i32 [[FREEZE_POISON]], ptr [[I]], align 4
-// IR-PCH-NEXT:    [[J:%.*]] = alloca i32, align 4
 // IR-PCH-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
 // IR-PCH-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[J]], align 4
-// IR-PCH-NEXT:    [[SUM:%.*]] = alloca [10 x [10 x i32]], align 16
 // IR-PCH-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_teams(ptr @[[GLOB3:[0-9]+]], i32 2, ptr @_Z3foov.omp_outlined, ptr [[J]], ptr [[SUM]])
 // IR-PCH-NEXT:    ret i32 0
 //
@@ -262,31 +262,15 @@ int foo() {
 // IR-PCH-NEXT:    [[SUM_ADDR:%.*]] = alloca ptr, align 8
 // IR-PCH-NEXT:    [[SUM1:%.*]] = alloca [10 x [10 x i32]], align 16
 // IR-PCH-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
-// IR-PCH-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// IR-PCH-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
 // IR-PCH-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // IR-PCH-NEXT:    [[_TMP2:%.*]] = alloca i32, align 4
 // IR-PCH-NEXT:    [[DOTOMP_COMB_LB:%.*]] = alloca i32, align 4
-// IR-PCH-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
-// IR-PCH-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_COMB_LB]], align 4
 // IR-PCH-NEXT:    [[DOTOMP_COMB_UB:%.*]] = alloca i32, align 4
-// IR-PCH-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
-// IR-PCH-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_COMB_UB]], align 4
 // IR-PCH-NEXT:    [[DOTOMP_STRIDE:%.*]] = alloca i32, align 4
-// IR-PCH-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
-// IR-PCH-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[DOTOMP_STRIDE]], align 4
 // IR-PCH-NEXT:    [[DOTOMP_IS_LAST:%.*]] = alloca i32, align 4
-// IR-PCH-NEXT:    [[FREEZE_POISON6:%.*]] = freeze i32 poison
-// IR-PCH-NEXT:    store i32 [[FREEZE_POISON6]], ptr [[DOTOMP_IS_LAST]], align 4
 // IR-PCH-NEXT:    [[J7:%.*]] = alloca i32, align 4
-// IR-PCH-NEXT:    [[FREEZE_POISON8:%.*]] = freeze i32 poison
-// IR-PCH-NEXT:    store i32 [[FREEZE_POISON8]], ptr [[J7]], align 4
 // IR-PCH-NEXT:    [[I:%.*]] = alloca i32, align 4
-// IR-PCH-NEXT:    [[FREEZE_POISON9:%.*]] = freeze i32 poison
-// IR-PCH-NEXT:    store i32 [[FREEZE_POISON9]], ptr [[I]], align 4
 // IR-PCH-NEXT:    [[J10:%.*]] = alloca i32, align 4
-// IR-PCH-NEXT:    [[FREEZE_POISON11:%.*]] = freeze i32 poison
-// IR-PCH-NEXT:    store i32 [[FREEZE_POISON11]], ptr [[J10]], align 4
 // IR-PCH-NEXT:    [[DOTOMP_REDUCTION_RED_LIST:%.*]] = alloca [1 x ptr], align 8
 // IR-PCH-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // IR-PCH-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
@@ -305,10 +289,26 @@ int foo() {
 // IR-PCH-NEXT:    [[OMP_ARRAYCPY_DONE:%.*]] = icmp eq ptr [[OMP_ARRAYCPY_DEST_ELEMENT]], [[TMP2]]
 // IR-PCH-NEXT:    br i1 [[OMP_ARRAYCPY_DONE]], label [[OMP_ARRAYINIT_DONE]], label [[OMP_ARRAYINIT_BODY]]
 // IR-PCH:       omp.arrayinit.done:
+// IR-PCH-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// IR-PCH-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// IR-PCH-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// IR-PCH-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_COMB_LB]], align 4
 // IR-PCH-NEXT:    store i32 0, ptr [[DOTOMP_COMB_LB]], align 4
+// IR-PCH-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// IR-PCH-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_COMB_UB]], align 4
 // IR-PCH-NEXT:    store i32 99, ptr [[DOTOMP_COMB_UB]], align 4
+// IR-PCH-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// IR-PCH-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[DOTOMP_STRIDE]], align 4
 // IR-PCH-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// IR-PCH-NEXT:    [[FREEZE_POISON6:%.*]] = freeze i32 poison
+// IR-PCH-NEXT:    store i32 [[FREEZE_POISON6]], ptr [[DOTOMP_IS_LAST]], align 4
 // IR-PCH-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// IR-PCH-NEXT:    [[FREEZE_POISON8:%.*]] = freeze i32 poison
+// IR-PCH-NEXT:    store i32 [[FREEZE_POISON8]], ptr [[J7]], align 4
+// IR-PCH-NEXT:    [[FREEZE_POISON9:%.*]] = freeze i32 poison
+// IR-PCH-NEXT:    store i32 [[FREEZE_POISON9]], ptr [[I]], align 4
+// IR-PCH-NEXT:    [[FREEZE_POISON11:%.*]] = freeze i32 poison
+// IR-PCH-NEXT:    store i32 [[FREEZE_POISON11]], ptr [[J10]], align 4
 // IR-PCH-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // IR-PCH-NEXT:    [[TMP4:%.*]] = load i32, ptr [[TMP3]], align 4, !freeze_bits [[META3:![0-9]+]]
 // IR-PCH-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1:[0-9]+]], i32 [[TMP4]], i32 92, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_COMB_LB]], ptr [[DOTOMP_COMB_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)

@@ -5,12 +5,12 @@
 // CHECK-LABEL: @_Z1fv(
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[N:%.*]] = alloca i32, align 4
+// CHECK-NEXT:    [[J:%.*]] = alloca i32, align 4
 // CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
 // CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[N]], align 4
-// CHECK-NEXT:    [[J:%.*]] = alloca i32, align 4
+// CHECK-NEXT:    store i32 10, ptr [[N]], align 4
 // CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
 // CHECK-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[J]], align 4
-// CHECK-NEXT:    store i32 10, ptr [[N]], align 4
 // CHECK-NEXT:    call void @llvm.var.annotation.p0.p0(ptr [[J]], ptr @.str, ptr @.str.1, i32 21, ptr @.args)
 // CHECK-NEXT:    store i32 0, ptr [[J]], align 4
 // CHECK-NEXT:    ret void

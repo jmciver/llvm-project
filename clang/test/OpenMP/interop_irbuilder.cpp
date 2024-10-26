@@ -54,35 +54,37 @@ void S::member_test() {
 // CHECK-LABEL: @_Z5test1v(
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[DEVICE_ID:%.*]] = alloca i32, align 4
-// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DEVICE_ID]], align 4
 // CHECK-NEXT:    [[D0:%.*]] = alloca i32, align 4
-// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[D0]], align 4
 // CHECK-NEXT:    [[D1:%.*]] = alloca i32, align 4
-// CHECK-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[D1]], align 4
 // CHECK-NEXT:    [[D2:%.*]] = alloca i32, align 4
-// CHECK-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[D2]], align 4
 // CHECK-NEXT:    [[INTEROP:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    [[DOTDEP_ARR_ADDR:%.*]] = alloca [2 x %struct.kmp_depend_info], align 8
 // CHECK-NEXT:    [[DEP_COUNTER_ADDR:%.*]] = alloca i64, align 8
-// CHECK-NEXT:    [[DOTDEP_ARR_ADDR8:%.*]] = alloca [3 x %struct.kmp_depend_info], align 8
-// CHECK-NEXT:    [[DEP_COUNTER_ADDR9:%.*]] = alloca i64, align 8
-// CHECK-NEXT:    [[DOTDEP_ARR_ADDR11:%.*]] = alloca [2 x %struct.kmp_depend_info], align 8
-// CHECK-NEXT:    [[DEP_COUNTER_ADDR12:%.*]] = alloca i64, align 8
+// CHECK-NEXT:    [[DOTDEP_ARR_ADDR9:%.*]] = alloca [3 x %struct.kmp_depend_info], align 8
+// CHECK-NEXT:    [[DEP_COUNTER_ADDR10:%.*]] = alloca i64, align 8
+// CHECK-NEXT:    [[DOTDEP_ARR_ADDR12:%.*]] = alloca [2 x %struct.kmp_depend_info], align 8
+// CHECK-NEXT:    [[DEP_COUNTER_ADDR13:%.*]] = alloca i64, align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DEVICE_ID]], align 4
 // CHECK-NEXT:    store i32 4, ptr [[DEVICE_ID]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[D0]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[D1]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[D2]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON4:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON4]], ptr [[INTEROP]], align 8
 // CHECK-NEXT:    [[OMP_GLOBAL_THREAD_NUM:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1:[0-9]+]])
 // CHECK-NEXT:    call void @__tgt_interop_init(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM]], ptr [[INTEROP]], i32 1, i32 -1, i32 0, ptr null, i32 0)
-// CHECK-NEXT:    [[OMP_GLOBAL_THREAD_NUM4:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1]])
-// CHECK-NEXT:    call void @__tgt_interop_init(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM4]], ptr [[INTEROP]], i32 2, i32 -1, i32 0, ptr null, i32 0)
-// CHECK-NEXT:    [[TMP0:%.*]] = load i32, ptr [[DEVICE_ID]], align 4
 // CHECK-NEXT:    [[OMP_GLOBAL_THREAD_NUM5:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1]])
-// CHECK-NEXT:    call void @__tgt_interop_init(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM5]], ptr [[INTEROP]], i32 1, i32 [[TMP0]], i32 0, ptr null, i32 0)
-// CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr [[DEVICE_ID]], align 4
+// CHECK-NEXT:    call void @__tgt_interop_init(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM5]], ptr [[INTEROP]], i32 2, i32 -1, i32 0, ptr null, i32 0)
+// CHECK-NEXT:    [[TMP0:%.*]] = load i32, ptr [[DEVICE_ID]], align 4
 // CHECK-NEXT:    [[OMP_GLOBAL_THREAD_NUM6:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1]])
-// CHECK-NEXT:    call void @__tgt_interop_init(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM6]], ptr [[INTEROP]], i32 2, i32 [[TMP1]], i32 0, ptr null, i32 0)
+// CHECK-NEXT:    call void @__tgt_interop_init(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM6]], ptr [[INTEROP]], i32 1, i32 [[TMP0]], i32 0, ptr null, i32 0)
+// CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr [[DEVICE_ID]], align 4
+// CHECK-NEXT:    [[OMP_GLOBAL_THREAD_NUM7:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1]])
+// CHECK-NEXT:    call void @__tgt_interop_init(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM7]], ptr [[INTEROP]], i32 2, i32 [[TMP1]], i32 0, ptr null, i32 0)
 // CHECK-NEXT:    [[TMP2:%.*]] = getelementptr inbounds [2 x %struct.kmp_depend_info], ptr [[DOTDEP_ARR_ADDR]], i64 0, i64 0
 // CHECK-NEXT:    [[TMP3:%.*]] = ptrtoint ptr [[D0]] to i64
 // CHECK-NEXT:    [[TMP4:%.*]] = getelementptr [[STRUCT_KMP_DEPEND_INFO:%.*]], ptr [[TMP2]], i64 0
@@ -101,9 +103,9 @@ void S::member_test() {
 // CHECK-NEXT:    [[TMP12:%.*]] = getelementptr inbounds [[STRUCT_KMP_DEPEND_INFO]], ptr [[TMP9]], i32 0, i32 2
 // CHECK-NEXT:    store i8 1, ptr [[TMP12]], align 8
 // CHECK-NEXT:    store i64 2, ptr [[DEP_COUNTER_ADDR]], align 8
-// CHECK-NEXT:    [[OMP_GLOBAL_THREAD_NUM7:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1]])
-// CHECK-NEXT:    call void @__tgt_interop_use(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM7]], ptr [[INTEROP]], i32 -1, i32 2, ptr [[TMP2]], i32 1)
-// CHECK-NEXT:    [[TMP13:%.*]] = getelementptr inbounds [3 x %struct.kmp_depend_info], ptr [[DOTDEP_ARR_ADDR8]], i64 0, i64 0
+// CHECK-NEXT:    [[OMP_GLOBAL_THREAD_NUM8:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1]])
+// CHECK-NEXT:    call void @__tgt_interop_use(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM8]], ptr [[INTEROP]], i32 -1, i32 2, ptr [[TMP2]], i32 1)
+// CHECK-NEXT:    [[TMP13:%.*]] = getelementptr inbounds [3 x %struct.kmp_depend_info], ptr [[DOTDEP_ARR_ADDR9]], i64 0, i64 0
 // CHECK-NEXT:    [[TMP14:%.*]] = ptrtoint ptr [[D0]] to i64
 // CHECK-NEXT:    [[TMP15:%.*]] = getelementptr [[STRUCT_KMP_DEPEND_INFO]], ptr [[TMP13]], i64 0
 // CHECK-NEXT:    [[TMP16:%.*]] = getelementptr inbounds [[STRUCT_KMP_DEPEND_INFO]], ptr [[TMP15]], i32 0, i32 0
@@ -128,10 +130,10 @@ void S::member_test() {
 // CHECK-NEXT:    store i64 4, ptr [[TMP27]], align 8
 // CHECK-NEXT:    [[TMP28:%.*]] = getelementptr inbounds [[STRUCT_KMP_DEPEND_INFO]], ptr [[TMP25]], i32 0, i32 2
 // CHECK-NEXT:    store i8 3, ptr [[TMP28]], align 8
-// CHECK-NEXT:    store i64 3, ptr [[DEP_COUNTER_ADDR9]], align 8
-// CHECK-NEXT:    [[OMP_GLOBAL_THREAD_NUM10:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1]])
-// CHECK-NEXT:    call void @__tgt_interop_use(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM10]], ptr [[INTEROP]], i32 -1, i32 3, ptr [[TMP13]], i32 1)
-// CHECK-NEXT:    [[TMP29:%.*]] = getelementptr inbounds [2 x %struct.kmp_depend_info], ptr [[DOTDEP_ARR_ADDR11]], i64 0, i64 0
+// CHECK-NEXT:    store i64 3, ptr [[DEP_COUNTER_ADDR10]], align 8
+// CHECK-NEXT:    [[OMP_GLOBAL_THREAD_NUM11:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1]])
+// CHECK-NEXT:    call void @__tgt_interop_use(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM11]], ptr [[INTEROP]], i32 -1, i32 3, ptr [[TMP13]], i32 1)
+// CHECK-NEXT:    [[TMP29:%.*]] = getelementptr inbounds [2 x %struct.kmp_depend_info], ptr [[DOTDEP_ARR_ADDR12]], i64 0, i64 0
 // CHECK-NEXT:    [[TMP30:%.*]] = ptrtoint ptr [[D0]] to i64
 // CHECK-NEXT:    [[TMP31:%.*]] = getelementptr [[STRUCT_KMP_DEPEND_INFO]], ptr [[TMP29]], i64 0
 // CHECK-NEXT:    [[TMP32:%.*]] = getelementptr inbounds [[STRUCT_KMP_DEPEND_INFO]], ptr [[TMP31]], i32 0, i32 0
@@ -148,9 +150,9 @@ void S::member_test() {
 // CHECK-NEXT:    store i64 4, ptr [[TMP38]], align 8
 // CHECK-NEXT:    [[TMP39:%.*]] = getelementptr inbounds [[STRUCT_KMP_DEPEND_INFO]], ptr [[TMP36]], i32 0, i32 2
 // CHECK-NEXT:    store i8 1, ptr [[TMP39]], align 8
-// CHECK-NEXT:    store i64 2, ptr [[DEP_COUNTER_ADDR12]], align 8
-// CHECK-NEXT:    [[OMP_GLOBAL_THREAD_NUM13:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1]])
-// CHECK-NEXT:    call void @__tgt_interop_destroy(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM13]], ptr [[INTEROP]], i32 -1, i32 2, ptr [[TMP29]], i32 0)
+// CHECK-NEXT:    store i64 2, ptr [[DEP_COUNTER_ADDR13]], align 8
+// CHECK-NEXT:    [[OMP_GLOBAL_THREAD_NUM14:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1]])
+// CHECK-NEXT:    call void @__tgt_interop_destroy(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM14]], ptr [[INTEROP]], i32 -1, i32 2, ptr [[TMP29]], i32 0)
 // CHECK-NEXT:    ret void
 //
 //
@@ -158,17 +160,9 @@ void S::member_test() {
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[THIS_ADDR:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    [[DEVICE_ID:%.*]] = alloca i32, align 4
-// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DEVICE_ID]], align 4
 // CHECK-NEXT:    [[D0:%.*]] = alloca i32, align 4
-// CHECK-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[D0]], align 4
 // CHECK-NEXT:    [[D1:%.*]] = alloca i32, align 4
-// CHECK-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[D1]], align 4
 // CHECK-NEXT:    [[D2:%.*]] = alloca i32, align 4
-// CHECK-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[D2]], align 4
 // CHECK-NEXT:    [[DOTDEP_ARR_ADDR:%.*]] = alloca [2 x %struct.kmp_depend_info], align 8
 // CHECK-NEXT:    [[DEP_COUNTER_ADDR:%.*]] = alloca i64, align 8
 // CHECK-NEXT:    [[DOTDEP_ARR_ADDR13:%.*]] = alloca [3 x %struct.kmp_depend_info], align 8
@@ -177,7 +171,15 @@ void S::member_test() {
 // CHECK-NEXT:    [[DEP_COUNTER_ADDR18:%.*]] = alloca i64, align 8
 // CHECK-NEXT:    store ptr [[THIS:%.*]], ptr [[THIS_ADDR]], align 8
 // CHECK-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DEVICE_ID]], align 4
 // CHECK-NEXT:    store i32 4, ptr [[DEVICE_ID]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[D0]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[D1]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[D2]], align 4
 // CHECK-NEXT:    [[INTEROP:%.*]] = getelementptr inbounds [[STRUCT_S:%.*]], ptr [[THIS1]], i32 0, i32 0
 // CHECK-NEXT:    [[OMP_GLOBAL_THREAD_NUM:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1]])
 // CHECK-NEXT:    call void @__tgt_interop_init(ptr @[[GLOB1]], i32 [[OMP_GLOBAL_THREAD_NUM]], ptr [[INTEROP]], i32 1, i32 -1, i32 0, ptr null, i32 0)

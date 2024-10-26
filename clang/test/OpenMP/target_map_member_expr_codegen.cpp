@@ -179,11 +179,7 @@ void foo() {
 // CHECK-NEXT:    [[THIS_ADDR:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    [[D_ADDR:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    [[ASIZE:%.*]] = alloca i32, align 4
-// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[ASIZE]], align 4
 // CHECK-NEXT:    [[CSIZE:%.*]] = alloca i32, align 4
-// CHECK-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[CSIZE]], align 4
 // CHECK-NEXT:    [[DOTOFFLOAD_BASEPTRS:%.*]] = alloca [3 x ptr], align 8
 // CHECK-NEXT:    [[DOTOFFLOAD_PTRS:%.*]] = alloca [3 x ptr], align 8
 // CHECK-NEXT:    [[DOTOFFLOAD_MAPPERS:%.*]] = alloca [3 x ptr], align 8
@@ -205,6 +201,8 @@ void foo() {
 // CHECK-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[D]], ptr [[D_ADDR]], align 8
 // CHECK-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[ASIZE]], align 4
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[D_ADDR]], align 8
 // CHECK-NEXT:    [[M:%.*]] = getelementptr inbounds [[STRUCT_DESCRIPTOR:%.*]], ptr [[TMP0]], i32 0, i32 3
 // CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr [[M]], align 8, !freeze_bits [[META6:![0-9]+]]
@@ -213,6 +211,8 @@ void foo() {
 // CHECK-NEXT:    [[TMP3:%.*]] = load i32, ptr [[K]], align 4, !freeze_bits [[META6]]
 // CHECK-NEXT:    [[MUL:%.*]] = mul i32 [[TMP1]], [[TMP3]]
 // CHECK-NEXT:    store i32 [[MUL]], ptr [[ASIZE]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[CSIZE]], align 4
 // CHECK-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[D_ADDR]], align 8
 // CHECK-NEXT:    [[M3:%.*]] = getelementptr inbounds [[STRUCT_DESCRIPTOR]], ptr [[TMP4]], i32 0, i32 3
 // CHECK-NEXT:    [[TMP5:%.*]] = load i32, ptr [[M3]], align 8, !freeze_bits [[META6]]
@@ -499,14 +499,14 @@ void foo() {
 // CHECK-NEXT:    [[D_ADDR:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    [[TMP:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    [[I:%.*]] = alloca i32, align 4
-// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[I]], align 4
 // CHECK-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK-NEXT:    store i64 [[CSIZE]], ptr [[CSIZE_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[D]], ptr [[D_ADDR]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[D_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[TMP0]], ptr [[TMP]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[I]], align 4
 // CHECK-NEXT:    store i32 0, ptr [[I]], align 4
 // CHECK-NEXT:    br label [[FOR_COND:%.*]]
 // CHECK:       for.cond:
@@ -539,12 +539,12 @@ void foo() {
 // CHECK-NEXT:    [[D_ADDR:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    [[TMP:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    [[I:%.*]] = alloca i32, align 4
-// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[I]], align 4
 // CHECK-NEXT:    store i64 [[CSIZE]], ptr [[CSIZE_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[D]], ptr [[D_ADDR]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[D_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[TMP0]], ptr [[TMP]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[I]], align 4
 // CHECK-NEXT:    store i32 0, ptr [[I]], align 4
 // CHECK-NEXT:    br label [[FOR_COND:%.*]]
 // CHECK:       for.cond:

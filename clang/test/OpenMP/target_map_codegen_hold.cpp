@@ -166,8 +166,6 @@ void ST::test_present_members() {
 // CHECK-USE-PPC64LE-NEXT:  entry:
 // CHECK-USE-PPC64LE-NEXT:    [[II_ADDR:%.*]] = alloca i32, align 4
 // CHECK-USE-PPC64LE-NEXT:    [[A:%.*]] = alloca i32, align 4
-// CHECK-USE-PPC64LE-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK-USE-PPC64LE-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
 // CHECK-USE-PPC64LE-NEXT:    [[ST1:%.*]] = alloca [[STRUCT_ST:%.*]], align 4
 // CHECK-USE-PPC64LE-NEXT:    [[ST2:%.*]] = alloca [[STRUCT_ST]], align 4
 // CHECK-USE-PPC64LE-NEXT:    [[DOTOFFLOAD_BASEPTRS:%.*]] = alloca [7 x ptr], align 8
@@ -180,6 +178,8 @@ void ST::test_present_members() {
 // CHECK-USE-PPC64LE-NEXT:    [[DOTOFFLOAD_MAPPERS5:%.*]] = alloca [1 x ptr], align 8
 // CHECK-USE-PPC64LE-NEXT:    [[KERNEL_ARGS6:%.*]] = alloca [[STRUCT___TGT_KERNEL_ARGUMENTS]], align 8
 // CHECK-USE-PPC64LE-NEXT:    store i32 [[II]], ptr [[II_ADDR]], align 4
+// CHECK-USE-PPC64LE-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-USE-PPC64LE-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
 // CHECK-USE-PPC64LE-NEXT:    [[TMP0:%.*]] = load i32, ptr [[II_ADDR]], align 4
 // CHECK-USE-PPC64LE-NEXT:    store i32 [[TMP0]], ptr [[A]], align 4
 // CHECK-USE-PPC64LE-NEXT:    [[I:%.*]] = getelementptr inbounds [[STRUCT_ST]], ptr [[ST1]], i32 0, i32 0
@@ -469,8 +469,6 @@ void ST::test_present_members() {
 // CHECK-USE-I386-NEXT:  entry:
 // CHECK-USE-I386-NEXT:    [[II_ADDR:%.*]] = alloca i32, align 4
 // CHECK-USE-I386-NEXT:    [[A:%.*]] = alloca i32, align 4
-// CHECK-USE-I386-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK-USE-I386-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
 // CHECK-USE-I386-NEXT:    [[ST1:%.*]] = alloca [[STRUCT_ST:%.*]], align 4
 // CHECK-USE-I386-NEXT:    [[ST2:%.*]] = alloca [[STRUCT_ST]], align 4
 // CHECK-USE-I386-NEXT:    [[DOTOFFLOAD_BASEPTRS:%.*]] = alloca [7 x ptr], align 4
@@ -483,6 +481,8 @@ void ST::test_present_members() {
 // CHECK-USE-I386-NEXT:    [[DOTOFFLOAD_MAPPERS5:%.*]] = alloca [1 x ptr], align 4
 // CHECK-USE-I386-NEXT:    [[KERNEL_ARGS6:%.*]] = alloca [[STRUCT___TGT_KERNEL_ARGUMENTS]], align 8
 // CHECK-USE-I386-NEXT:    store i32 [[II]], ptr [[II_ADDR]], align 4
+// CHECK-USE-I386-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-USE-I386-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
 // CHECK-USE-I386-NEXT:    [[TMP0:%.*]] = load i32, ptr [[II_ADDR]], align 4
 // CHECK-USE-I386-NEXT:    store i32 [[TMP0]], ptr [[A]], align 4
 // CHECK-USE-I386-NEXT:    [[I:%.*]] = getelementptr inbounds [[STRUCT_ST]], ptr [[ST1]], i32 0, i32 0
@@ -772,8 +772,6 @@ void ST::test_present_members() {
 // CHECK-NOUSE-PPC64LE-NEXT:  entry:
 // CHECK-NOUSE-PPC64LE-NEXT:    [[II_ADDR:%.*]] = alloca i32, align 4
 // CHECK-NOUSE-PPC64LE-NEXT:    [[A:%.*]] = alloca i32, align 4
-// CHECK-NOUSE-PPC64LE-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK-NOUSE-PPC64LE-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
 // CHECK-NOUSE-PPC64LE-NEXT:    [[ST1:%.*]] = alloca [[STRUCT_ST:%.*]], align 4
 // CHECK-NOUSE-PPC64LE-NEXT:    [[ST2:%.*]] = alloca [[STRUCT_ST]], align 4
 // CHECK-NOUSE-PPC64LE-NEXT:    [[DOTOFFLOAD_BASEPTRS:%.*]] = alloca [7 x ptr], align 8
@@ -786,6 +784,8 @@ void ST::test_present_members() {
 // CHECK-NOUSE-PPC64LE-NEXT:    [[DOTOFFLOAD_MAPPERS5:%.*]] = alloca [1 x ptr], align 8
 // CHECK-NOUSE-PPC64LE-NEXT:    [[KERNEL_ARGS6:%.*]] = alloca [[STRUCT___TGT_KERNEL_ARGUMENTS]], align 8
 // CHECK-NOUSE-PPC64LE-NEXT:    store i32 [[II]], ptr [[II_ADDR]], align 4
+// CHECK-NOUSE-PPC64LE-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NOUSE-PPC64LE-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
 // CHECK-NOUSE-PPC64LE-NEXT:    [[TMP0:%.*]] = load i32, ptr [[II_ADDR]], align 4
 // CHECK-NOUSE-PPC64LE-NEXT:    store i32 [[TMP0]], ptr [[A]], align 4
 // CHECK-NOUSE-PPC64LE-NEXT:    [[I:%.*]] = getelementptr inbounds [[STRUCT_ST]], ptr [[ST1]], i32 0, i32 0
@@ -1030,8 +1030,6 @@ void ST::test_present_members() {
 // CHECK-NOUSE-I386-NEXT:  entry:
 // CHECK-NOUSE-I386-NEXT:    [[II_ADDR:%.*]] = alloca i32, align 4
 // CHECK-NOUSE-I386-NEXT:    [[A:%.*]] = alloca i32, align 4
-// CHECK-NOUSE-I386-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// CHECK-NOUSE-I386-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
 // CHECK-NOUSE-I386-NEXT:    [[ST1:%.*]] = alloca [[STRUCT_ST:%.*]], align 4
 // CHECK-NOUSE-I386-NEXT:    [[ST2:%.*]] = alloca [[STRUCT_ST]], align 4
 // CHECK-NOUSE-I386-NEXT:    [[DOTOFFLOAD_BASEPTRS:%.*]] = alloca [7 x ptr], align 4
@@ -1044,6 +1042,8 @@ void ST::test_present_members() {
 // CHECK-NOUSE-I386-NEXT:    [[DOTOFFLOAD_MAPPERS5:%.*]] = alloca [1 x ptr], align 4
 // CHECK-NOUSE-I386-NEXT:    [[KERNEL_ARGS6:%.*]] = alloca [[STRUCT___TGT_KERNEL_ARGUMENTS]], align 8
 // CHECK-NOUSE-I386-NEXT:    store i32 [[II]], ptr [[II_ADDR]], align 4
+// CHECK-NOUSE-I386-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NOUSE-I386-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
 // CHECK-NOUSE-I386-NEXT:    [[TMP0:%.*]] = load i32, ptr [[II_ADDR]], align 4
 // CHECK-NOUSE-I386-NEXT:    store i32 [[TMP0]], ptr [[A]], align 4
 // CHECK-NOUSE-I386-NEXT:    [[I:%.*]] = getelementptr inbounds [[STRUCT_ST]], ptr [[ST1]], i32 0, i32 0

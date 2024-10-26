@@ -36,12 +36,12 @@ int thread_limit_target_simd() {
 // OMP51-NEXT:  entry:
 // OMP51-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // OMP51-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
+// OMP51-NEXT:    [[I:%.*]] = alloca i32, align 4
 // OMP51-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
 // OMP51-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
-// OMP51-NEXT:    [[I:%.*]] = alloca i32, align 4
+// OMP51-NEXT:    store i32 0, ptr [[DOTOMP_IV]], align 4
 // OMP51-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
 // OMP51-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[I]], align 4
-// OMP51-NEXT:    store i32 0, ptr [[DOTOMP_IV]], align 4
 // OMP51-NEXT:    br label [[OMP_INNER_FOR_COND:%.*]]
 // OMP51:       omp.inner.for.cond:
 // OMP51-NEXT:    [[TMP0:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4, !llvm.access.group [[ACC_GRP3:![0-9]+]]

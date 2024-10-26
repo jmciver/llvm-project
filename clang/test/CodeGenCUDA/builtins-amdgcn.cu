@@ -34,6 +34,8 @@ __global__
 // CHECK-NEXT:    [[SRC_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[SRC_ADDR]] to ptr
 // CHECK-NEXT:    [[X_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[X]] to ptr
 // CHECK-NEXT:    store float [[SRC:%.*]], ptr [[SRC_ADDR_ASCAST]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// CHECK-NEXT:    store float [[FREEZE_POISON]], ptr [[X_ASCAST]], align 4
 // CHECK-NEXT:    [[TMP0:%.*]] = load float, ptr [[SRC_ADDR_ASCAST]], align 4
 // CHECK-NEXT:    [[TMP1:%.*]] = call contract float @llvm.amdgcn.ds.fmax.f32(ptr addrspace(3) @_ZZ12test_ds_fmaxfE6shared, float [[TMP0]], i32 0, i32 0, i1 false)
 // CHECK-NEXT:    store volatile float [[TMP1]], ptr [[X_ASCAST]], align 4
@@ -51,6 +53,8 @@ __global__
 // CHECK-NEXT:    [[SRC_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[SRC_ADDR]] to ptr
 // CHECK-NEXT:    [[X_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[X]] to ptr
 // CHECK-NEXT:    store float [[SRC:%.*]], ptr [[SRC_ADDR_ASCAST]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// CHECK-NEXT:    store float [[FREEZE_POISON]], ptr [[X_ASCAST]], align 4
 // CHECK-NEXT:    [[TMP0:%.*]] = load float, ptr [[SRC_ADDR_ASCAST]], align 4
 // CHECK-NEXT:    [[TMP1:%.*]] = call contract float @llvm.amdgcn.ds.fadd.f32(ptr addrspace(3) @_ZZ12test_ds_faddfE6shared, float [[TMP0]], i32 0, i32 0, i1 false)
 // CHECK-NEXT:    store volatile float [[TMP1]], ptr [[X_ASCAST]], align 4
@@ -69,6 +73,8 @@ __global__ void test_ds_fmin(float src, float *shared) {
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[X:%.*]] = alloca ptr, align 8, addrspace(5)
 // CHECK-NEXT:    [[X_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[X]] to ptr
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[X_ASCAST]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = call align 4 dereferenceable(64) ptr addrspace(4) @llvm.amdgcn.dispatch.ptr()
 // CHECK-NEXT:    [[TMP1:%.*]] = addrspacecast ptr addrspace(4) [[TMP0]] to ptr
 // CHECK-NEXT:    store ptr [[TMP1]], ptr [[X_ASCAST]], align 8

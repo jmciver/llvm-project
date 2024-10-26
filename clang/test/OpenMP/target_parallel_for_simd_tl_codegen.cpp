@@ -44,30 +44,30 @@ int thread_limit_target_parallel_for_simd() {
 // OMP51-NEXT:    [[DOTGLOBAL_TID__ADDR:%.*]] = alloca ptr, align 8
 // OMP51-NEXT:    [[DOTBOUND_TID__ADDR:%.*]] = alloca ptr, align 8
 // OMP51-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
-// OMP51-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
-// OMP51-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
 // OMP51-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // OMP51-NEXT:    [[DOTOMP_LB:%.*]] = alloca i32, align 4
-// OMP51-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
-// OMP51-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // OMP51-NEXT:    [[DOTOMP_UB:%.*]] = alloca i32, align 4
-// OMP51-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
-// OMP51-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // OMP51-NEXT:    [[DOTOMP_STRIDE:%.*]] = alloca i32, align 4
-// OMP51-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
-// OMP51-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // OMP51-NEXT:    [[DOTOMP_IS_LAST:%.*]] = alloca i32, align 4
-// OMP51-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
-// OMP51-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // OMP51-NEXT:    [[I:%.*]] = alloca i32, align 4
-// OMP51-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
-// OMP51-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // OMP51-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // OMP51-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
+// OMP51-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// OMP51-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// OMP51-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// OMP51-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // OMP51-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// OMP51-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// OMP51-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // OMP51-NEXT:    store i32 1, ptr [[DOTOMP_UB]], align 4
+// OMP51-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// OMP51-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // OMP51-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// OMP51-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// OMP51-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // OMP51-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// OMP51-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// OMP51-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // OMP51-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // OMP51-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3:![0-9]+]]
 // OMP51-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1:[0-9]+]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
