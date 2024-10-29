@@ -210,7 +210,11 @@ int f_va_1(char *fmt, ...) {
 // CHECK-NEXT:    [[VA:%.*]] = alloca ptr, align 4
 // CHECK-NEXT:    [[V:%.*]] = alloca double, align 4
 // CHECK-NEXT:    store ptr [[FMT:%.*]], ptr [[FMT_ADDR]], align 4
+// CHECK-NEXT:    [[FREEZE:%.+]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE]], ptr [[VA]]
 // CHECK-NEXT:    call void @llvm.va_start.p0(ptr [[VA]])
+// CHECK-NEXT:    [[FREEZE1:%.+]] = freeze double poison
+// CHECK-NEXT:    store double [[FREEZE1]], ptr [[V]]
 // CHECK-NEXT:    [[ARGP_CUR:%.*]] = load ptr, ptr [[VA]], align 4
 // CHECK-NEXT:    [[ARGP_NEXT:%.*]] = getelementptr inbounds i8, ptr [[ARGP_CUR]], i32 8
 // CHECK-NEXT:    store ptr [[ARGP_NEXT]], ptr [[VA]], align 4
@@ -236,17 +240,25 @@ double f_va_2(char *fmt, ...) {
 // CHECK-NEXT:    [[W:%.*]] = alloca i32, align 4
 // CHECK-NEXT:    [[X:%.*]] = alloca double, align 4
 // CHECK-NEXT:    store ptr [[FMT:%.*]], ptr [[FMT_ADDR]], align 4
+// CHECK-NEXT:    [[FREEZE:%.+]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE]], ptr [[VA]]
 // CHECK-NEXT:    call void @llvm.va_start.p0(ptr [[VA]])
+// CHECK-NEXT:    [[FREEZE1:%.+]] = freeze double poison
+// CHECK-NEXT:    store double [[FREEZE1]], ptr [[V]]
 // CHECK-NEXT:    [[ARGP_CUR:%.*]] = load ptr, ptr [[VA]], align 4
 // CHECK-NEXT:    [[ARGP_NEXT:%.*]] = getelementptr inbounds i8, ptr [[ARGP_CUR]], i32 8
 // CHECK-NEXT:    store ptr [[ARGP_NEXT]], ptr [[VA]], align 4
 // CHECK-NEXT:    [[TMP4:%.*]] = load double, ptr [[ARGP_CUR]], align 4
 // CHECK-NEXT:    store double [[TMP4]], ptr [[V]], align 4
+// CHECK-NEXT:    [[FREEZE2:%.+]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE2]], ptr [[W]]
 // CHECK-NEXT:    [[ARGP_CUR2:%.*]] = load ptr, ptr [[VA]], align 4
 // CHECK-NEXT:    [[ARGP_NEXT3:%.*]] = getelementptr inbounds i8, ptr [[ARGP_CUR2]], i32 4
 // CHECK-NEXT:    store ptr [[ARGP_NEXT3]], ptr [[VA]], align 4
 // CHECK-NEXT:    [[TMP6:%.*]] = load i32, ptr [[ARGP_CUR2]], align 4
 // CHECK-NEXT:    store i32 [[TMP6]], ptr [[W]], align 4
+// CHECK-NEXT:    [[FREEZE3:%.+]] = freeze double poison
+// CHECK-NEXT:    store double [[FREEZE3]], ptr [[X]]
 // CHECK-NEXT:    [[ARGP_CUR4:%.*]] = load ptr, ptr [[VA]], align 4
 // CHECK-NEXT:    [[ARGP_NEXT5:%.*]] = getelementptr inbounds i8, ptr [[ARGP_CUR4]], i32 8
 // CHECK-NEXT:    store ptr [[ARGP_NEXT5]], ptr [[VA]], align 4
@@ -279,12 +291,18 @@ double f_va_3(char *fmt, ...) {
 // CHECK-NEXT:    [[LS:%.*]] = alloca [[STRUCT_LARGE:%.*]], align 4
 // CHECK-NEXT:    [[RET:%.*]] = alloca i32, align 4
 // CHECK-NEXT:    store ptr [[FMT:%.*]], ptr [[FMT_ADDR]], align 4
+// CHECK-NEXT:    [[FREEZE:%.+]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE]], ptr [[VA]]
 // CHECK-NEXT:    call void @llvm.va_start.p0(ptr [[VA]])
+// CHECK-NEXT:    [[FREEZE1:%.+]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE1]], ptr [[V]]
 // CHECK-NEXT:    [[ARGP_CUR:%.*]] = load ptr, ptr [[VA]], align 4
 // CHECK-NEXT:    [[ARGP_NEXT:%.*]] = getelementptr inbounds i8, ptr [[ARGP_CUR]], i32 4
 // CHECK-NEXT:    store ptr [[ARGP_NEXT]], ptr [[VA]], align 4
 // CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr [[ARGP_CUR]], align 4
 // CHECK-NEXT:    store i32 [[TMP1]], ptr [[V]], align 4
+// CHECK-NEXT:    [[FREEZE2:%.+]] = freeze double poison
+// CHECK-NEXT:    store double [[FREEZE2]], ptr [[LD]]
 // CHECK-NEXT:    [[ARGP_CUR2:%.*]] = load ptr, ptr [[VA]], align 4
 // CHECK-NEXT:    [[ARGP_NEXT3:%.*]] = getelementptr inbounds i8, ptr [[ARGP_CUR2]], i32 8
 // CHECK-NEXT:    store ptr [[ARGP_NEXT3]], ptr [[VA]], align 4

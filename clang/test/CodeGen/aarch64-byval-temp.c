@@ -83,6 +83,8 @@ void example_BitInt(void) {
 // CHECK-O0-NEXT:    [[L:%.*]] = alloca i129, align 16
 // CHECK-O0-NEXT:    [[INDIRECT_ARG_TEMP:%.*]] = alloca i129, align 16
 // CHECK-O0-NEXT:    [[INDIRECT_ARG_TEMP1:%.*]] = alloca i129, align 16
+// CHECK-O0-NEXT:    [[FREEZE:%.+]] = freeze i129 poison
+// CHECK-O0-NEXT:    store i129 [[FREEZE]], ptr [[L]], align 16
 // CHECK-O0-NEXT:    store i129 0, ptr [[L]], align 16
 // CHECK-O0-NEXT:    [[TMP0:%.*]] = load i129, ptr [[L]], align 16
 // CHECK-O0-NEXT:    store i129 [[TMP0]], ptr [[INDIRECT_ARG_TEMP]], align 16
@@ -98,6 +100,8 @@ void example_BitInt(void) {
 // CHECK-O3-NEXT:    [[INDIRECT_ARG_TEMP:%.*]] = alloca i129, align 16
 // CHECK-O3-NEXT:    [[INDIRECT_ARG_TEMP1:%.*]] = alloca i129, align 16
 // CHECK-O3-NEXT:    call void @llvm.lifetime.start.p0(i64 32, ptr [[L]]) 
+// CHECK-O3-NEXT:    [[FREEZE:%.+]] = freeze i129 poison
+// CHECK-O3-NEXT:    store i129 [[FREEZE]], ptr [[L]], align 16
 // CHECK-O3-NEXT:    store i129 0, ptr [[L]], align 16, !tbaa [[TBAA6:![0-9]+]]
 // CHECK-O3-NEXT:    [[TMP0:%.*]] = load i129, ptr [[L]], align 16, !tbaa [[TBAA6]]
 // CHECK-O3-NEXT:    call void @llvm.lifetime.start.p0(i64 32, ptr [[INDIRECT_ARG_TEMP]]) 

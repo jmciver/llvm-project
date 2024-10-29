@@ -29,6 +29,8 @@ void local(void) {
     int localvar __attribute__((annotate("localvar_ann_0"))) __attribute__((annotate("localvar_ann_1"))) = 3;
 // LOCAL-LABEL: define{{.*}} void @local()
 // LOCAL:      [[LOCALVAR:%.*]] = alloca i32,
+// LOCAL-NEXT: [[FREEZE:%.+]] = freeze i32 poison
+// LOCAL-NEXT: store i32 [[FREEZE]], ptr [[LOCALVAR]], align 4
 // LOCAL-NEXT: call void @llvm.var.annotation.p0.p0(ptr [[LOCALVAR]], ptr @{{.*}}, ptr @{{.*}}, i32 29, ptr null)
 // LOCAL-NEXT: call void @llvm.var.annotation.p0.p0(ptr [[LOCALVAR]], ptr @{{.*}}, ptr @{{.*}}, i32 29, ptr null)
 }
@@ -46,5 +48,7 @@ void undef(void) {
     int undefvar __attribute__((annotate("undefvar_ann_0")));
 // UNDEF-LABEL: define{{.*}} void @undef()
 // UNDEF:      [[UNDEFVAR:%.*]] = alloca i32,
-// UNDEF-NEXT: call void @llvm.var.annotation.p0.p0(ptr [[UNDEFVAR]], ptr @{{.*}}, ptr @{{.*}}, i32 46, ptr null)
+// UNDEF-NEXT: [[FREEZE:%.+]] = freeze i32 poison
+// UNDEF-NEXT: store i32 [[FREEZE]], ptr [[UNDEFVAR]], align 4
+// UNDEF-NEXT: call void @llvm.var.annotation.p0.p0(ptr [[UNDEFVAR]], ptr @{{.*}}, ptr @{{.*}}, i32 48, ptr null)
 }

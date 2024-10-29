@@ -24,6 +24,8 @@ void f() {
 // CHECK-NEXT:    [[P2:%.+]] = alloca ptr, align 8
 // CHECK:         [[TEMP0:%.+]] = load ptr, ptr [[P1]]
 // CHECK-NEXT:    store ptr [[TEMP0:%.+]], ptr [[P2]]
+// CHECK-NEXT:    [[FREEZE:%.+]] = freeze i8 poison
+// CHECK-NEXT:    store i8 [[FREEZE]], ptr [[B:%.+]]
 // CHECK-NEXT:    [[TEMP1:%.+]] = load ptr, ptr [[P1]]
 // CHECK-NEXT:    [[TEMP2:%.+]] = load ptr, ptr [[P2]]
 // CHECK-NEXT:    {{.*}} = icmp eq ptr [[TEMP1]], [[TEMP2]]

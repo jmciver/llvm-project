@@ -21,6 +21,8 @@ int addit(float a, float b) {
   // CHECK-NEXT: [[AF:%.*]] = alloca float, align 4
   // CHECK-NEXT: store float {{.*}}, ptr [[ADDR_A]], align 4
   // CHECK-NEXT: store float {{.*}}, ptr [[ADDR_B]], align 4
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze float poison
+  // CHECK-NEXT: store float [[FREEZE]], ptr [[AF]], align 4
   // CHECK-NEXT: [[TEMP_A:%.*]] = load float, ptr [[ADDR_A]], align 4
   // CHECK-NEXT: [[TEMP_B:%.*]] = load float, ptr [[ADDR_B]], align 4
   // CHECK-NEXT: [[CALL2:%.*]] = call reassoc noundef float @_Z5addAFIfET_S0_S0_(float noundef [[TEMP_A]], float noundef [[TEMP_B]])

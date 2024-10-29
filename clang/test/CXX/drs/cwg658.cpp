@@ -20,6 +20,6 @@ void f(int* p1) {
 // CHECK:         [[P1_ADDR:%.+]] = alloca ptr, align 8
 // CHECK-NEXT:    [[P2:%.+]] = alloca ptr, align 8
 // CHECK:         store ptr %p1, ptr [[P1_ADDR]]
-// CHECK-NEXT:    [[TEMP:%.+]] = load ptr, ptr [[P1_ADDR]]
+// CHECK:    [[TEMP:%.+]] = load ptr, ptr [[P1_ADDR]]
 // CHECK-NEXT:    store ptr [[TEMP]], ptr [[P2]]
 // CHECK-LABEL: }

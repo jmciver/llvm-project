@@ -23,7 +23,7 @@ void other_func(void) {
   /* Test that the conversion looks the same as an assignment. */
   i = f;
   // CHECK: %0 = load float, ptr %f, align 4
-  // CHECK-NEXT: %conv1 = fptosi float %0 to i32
-  // CHECK-NEXT: store i32 %conv1, ptr %i, align 4
+  // CHECK-NEXT: %conv2 = fptosi float %0 to i32
+  // CHECK-NEXT: store i32 %conv2, ptr %i, align 4
 }
 

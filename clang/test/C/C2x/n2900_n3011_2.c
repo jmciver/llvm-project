@@ -23,6 +23,8 @@ void test_var() {
   // CHECK: define {{.*}} void @test_var
   // CHECK-NEXT: entry:
   // CHECK-NEXT: %[[I:.+]] = alloca i32
+  // CHECK-NEXT: %[[FREEZE:.+]] = freeze i32 poison
+  // CHECK-NEXT: store i32 %[[FREEZE]], ptr %[[I]]  
   // CHECK-NEXT: store i32 0, ptr %[[I]]
 }
 
@@ -32,6 +34,8 @@ void test_simple_compound_literal() {
   // CHECK-NEXT: entry:
   // CHECK-NEXT: %[[J:.+]] = alloca i32
   // CHECK-NEXT: %[[COMPOUND:.+]] = alloca i32
+  // CHECK-NEXT: %[[FREEZE:.+]] = freeze i32 poison
+  // CHECK-NEXT: store i32 %[[FREEZE]], ptr %[[J]]
   // CHECK-NEXT: store i32 0, ptr %[[COMPOUND]]
   // CHECK-NEXT: %[[MEM:.+]] = load i32, ptr %[[COMPOUND]]
   // CHECK-NEXT: store i32 %[[MEM]], ptr %[[J]]
@@ -51,6 +55,8 @@ void test_vla() {
   // CHECK-NEXT: entry:
   // CHECK-NEXT: %[[NUM_ELTS_PTR:.+]] = alloca i32
   // CHECK: %[[VLA_EXPR:.+]] = alloca i64
+  // CHECK-NEXT: %[[FREEZE:.*]] = freeze i32 poison
+  // CHECK-NEXT: store i32 %[[FREEZE]], ptr %[[NUM_ELTS_PTR]]
   // CHECK-NEXT: store i32 12, ptr %[[NUM_ELTS_PTR]]
   // CHECK-NEXT: %[[NUM_ELTS:.+]] = load i32, ptr %[[NUM_ELTS_PTR]]
   // CHECK-NEXT: %[[NUM_ELTS_EXT:.+]] = zext i32 %[[NUM_ELTS]] to i64
@@ -67,6 +73,8 @@ void test_zero_size_vla() {
   // CHECK-NEXT: entry:
   // CHECK-NEXT: %[[NUM_ELTS_PTR:.+]] = alloca i32
   // CHECK: %[[VLA_EXPR:.+]] = alloca i64
+  // CHECK-NEXT: %[[FREEZE:.*]] = freeze i32 poison
+  // CHECK-NEXT: store i32 %[[FREEZE]], ptr %[[NUM_ELTS_PTR]]
   // CHECK-NEXT: store i32 0, ptr %[[NUM_ELTS_PTR]]
   // CHECK-NEXT: %[[NUM_ELTS:.+]] = load i32, ptr %[[NUM_ELTS_PTR]]
   // CHECK-NEXT: %[[NUM_ELTS_EXT:.+]] = zext i32 %[[NUM_ELTS]] to i64

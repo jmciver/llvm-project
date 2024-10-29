@@ -449,7 +449,11 @@ void f_va_caller(void) {
 // CHECK-NEXT:    [[VA:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    [[V:%.*]] = alloca i32, align 4
 // CHECK-NEXT:    store ptr [[FMT:%.*]], ptr [[FMT_ADDR]], align 8
+// CHECK-NEXT:    [[FREEZE:%.+]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE]], ptr [[VA]]
 // CHECK-NEXT:    call void @llvm.va_start.p0(ptr [[VA]])
+// CHECK-NEXT:    [[FREEZE1:%.+]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE1]], ptr [[V]]
 // CHECK-NEXT:    [[ARGP_CUR:%.*]] = load ptr, ptr [[VA]], align 8
 // CHECK-NEXT:    [[ARGP_NEXT:%.*]] = getelementptr inbounds i8, ptr [[ARGP_CUR]], i64 8
 // CHECK-NEXT:    store ptr [[ARGP_NEXT]], ptr [[VA]], align 8

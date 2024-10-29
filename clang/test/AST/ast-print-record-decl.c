@@ -119,7 +119,7 @@ void defFirst(void) {
 
   // LLVM: store i64 16
   long s0 = sizeof *p0;
-  // LLVM-NEXT: store i64 16
+  // LLVM: store i64 16
   long s1 = sizeof *p1;
 }
 
@@ -137,7 +137,7 @@ void defLast(void) {
 
   // LLVM: store i64 16
   long s0 = sizeof *p0;
-  // LLVM-NEXT: store i64 16
+  // LLVM: store i64 16
   long s1 = sizeof *p1;
 }
 
@@ -158,9 +158,9 @@ void defMiddle(void) {
 
   // LLVM: store i64 16
   long s0 = sizeof *p0;
-  // LLVM-NEXT: store i64 16
+  // LLVM: store i64 16
   long s1 = sizeof *p1;
-  // LLVM-NEXT: store i64 16
+  // LLVM: store i64 16
   long s2 = sizeof *p2;
 }
 
@@ -190,13 +190,13 @@ void defSelfRef(void) {
 
   // LLVM: store i64 64
   long s0 = sizeof *p0;
-  // LLVM-NEXT: store i64 64
+  // LLVM: store i64 64
   long s1 = sizeof *p1;
-  // LLVM-NEXT: store i64 64
+  // LLVM: store i64 64
   long s2 = sizeof *p0->p2;
-  // LLVM-NEXT: store i64 64
+  // LLVM: store i64 64
   long s3 = sizeof *p1->p3;
-  // LLVM-NEXT: store i64 64
+  // LLVM: store i64 64
   long s4 = sizeof *p1->p4->p2;
 }
 

@@ -35,11 +35,19 @@ int rdrand64(unsigned long long *p) {
 // X86-NEXT:    store ptr [[P:%.*]], ptr [[P_ADDR]], align 4
 // X86-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[P_ADDR]], align 4
 // X86-NEXT:    store ptr [[TMP0]], ptr [[__P_ADDR_I]], align 4
+// X86-NEXT:    [[FREEZE:%.+]] = freeze i32 poison
+// X86-NEXT:    store i32 [[FREEZE]], ptr [[__LO_I]], align 4
+// X86-NEXT:    [[FREEZE1:%.+]] = freeze i32 poison
+// X86-NEXT:    store i32 [[FREEZE1]], ptr [[__HI_I]], align 4
+// X86-NEXT:    [[FREEZE2:%.+]] = freeze i32 poison
+// X86-NEXT:    store i32 [[FREEZE2]], ptr [[__RES_LO_I]], align 4
 // X86-NEXT:    [[TMP1:%.*]] = call { i32, i32 } @llvm.x86.rdrand.32()
 // X86-NEXT:    [[TMP2:%.*]] = extractvalue { i32, i32 } [[TMP1]], 0
 // X86-NEXT:    store i32 [[TMP2]], ptr [[__LO_I]], align 4
 // X86-NEXT:    [[TMP3:%.*]] = extractvalue { i32, i32 } [[TMP1]], 1
 // X86-NEXT:    store i32 [[TMP3]], ptr [[__RES_LO_I]], align 4
+// X86-NEXT:    [[FREEZE3:%.+]] = freeze i32 poison
+// X86-NEXT:    store i32 [[FREEZE3]], ptr [[__RES_HI_I]], align 4
 // X86-NEXT:    [[TMP4:%.*]] = call { i32, i32 } @llvm.x86.rdrand.32()
 // X86-NEXT:    [[TMP5:%.*]] = extractvalue { i32, i32 } [[TMP4]], 0
 // X86-NEXT:    store i32 [[TMP5]], ptr [[__HI_I]], align 4
