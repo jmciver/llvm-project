@@ -154,6 +154,8 @@ namespace test5 {
   // CHECK-NEXT: [[T0:%.*]] = zext i1
   // CHECK-NEXT: store i8 [[T0]], ptr [[COND]], align 1
   // CHECK-NEXT: call void @_ZN5test51AC1Ev(ptr {{[^,]*}} [[X]])
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[B]], align 8
   // CHECK-NEXT: [[T0:%.*]] = load i8, ptr [[COND]], align 1
   // CHECK-NEXT: [[T1:%.*]] = trunc i8 [[T0]] to i1
   // CHECK-NEXT: store i1 false, ptr [[CLEANUP_ACTIVE]]

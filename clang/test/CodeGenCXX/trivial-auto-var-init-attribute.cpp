@@ -8,14 +8,19 @@ extern "C" {
 
 // UNINIT-LABEL:  test_attribute_uninitialized(
 // UNINIT:      alloca
+// UNINIT:      freeze
+// UNINIT:      store
 // UNINIT-NEXT: call void
 // ZERO-LABEL:    test_attribute_uninitialized(
 // ZERO:      alloca
 // ZERO-NOT:  !annotation
+// ZERO:      store
 // ZERO-NEXT: call void
 // PATTERN-LABEL: test_attribute_uninitialized(
 // PATTERN:      alloca
 // PATTERN-NOT:  !annotation
+// PATTERN:      freeze
+// PATTERN-NEXT: store
 // PATTERN-NEXT: call void
 void test_attribute_uninitialized() {
   [[clang::uninitialized]] int i;
@@ -25,12 +30,18 @@ void test_attribute_uninitialized() {
 #pragma clang attribute push([[clang::uninitialized]], apply_to = variable(is_local))
 // UNINIT-LABEL:  test_pragma_attribute_uninitialized(
 // UNINIT:      alloca
+// UNINIT-NEXT: freeze
+// UNINIT-NEXT: store
 // UNINIT-NEXT: call void
 // ZERO-LABEL:    test_pragma_attribute_uninitialized(
 // ZERO:      alloca
+// ZERO:      freeze
+// ZERO:      store
 // ZERO-NEXT: call void
 // PATTERN-LABEL: test_pragma_attribute_uninitialized(
 // PATTERN:      alloca
+// PATTERN:      freeze
+// PATTERN:      store
 // PATTERN-NEXT: call void
 void test_pragma_attribute_uninitialized() {
   int i;

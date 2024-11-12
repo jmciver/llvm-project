@@ -119,11 +119,15 @@ void test_goto(int i) {
 // UNINIT-LABEL:  test_switch(
 // ZERO-LABEL:    test_switch(
 // ZERO:      sw.bb:
+// ZERO-NEXT: [[FREEZE:%.+]] = freeze i32 poison
+// ZERO-NEXT: store i32 [[FREEZE]], ptr %oops, align 4
 // ZERO-NEXT: store i32 0, ptr %oops, align 4, !annotation [[AUTO_INIT:!.+]]
 // ZERO:      sw.bb1:
 // ZERO-NEXT: call void @{{.*}}used
 // PATTERN-LABEL: test_switch(
 // PATTERN:      sw.bb:
+// PATTERN-NEXT: [[FREEZE:%.+]] = freeze i32 poison
+// PATTERN-NEXT: store i32 [[FREEZE]], ptr %oops, align 4
 // PATTERN-NEXT: store i32 -1431655766, ptr %oops, align 4, !annotation [[AUTO_INIT:!.+]]
 // PATTERN:      sw.bb1:
 // PATTERN-NEXT: call void @{{.*}}used

@@ -40,6 +40,8 @@ void test1(void) {
 //   Various initializations.
 // CHECK:      [[T0:%.*]] = call ptr
 // CHECK-NEXT: store ptr [[T0]], ptr [[OBJ]]
+// CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+// CHECK-NEXT: store ptr [[FREEZE]], ptr [[WEAKOBJ]], align 8
 // CHECK-NEXT: [[T0:%.*]] = load ptr, ptr [[OBJ]]
 // CHECK-NEXT: call ptr @llvm.objc.initWeak(ptr [[WEAKOBJ]], ptr [[T0]]) [[NUW]]
 //   Okay, start the message-send.

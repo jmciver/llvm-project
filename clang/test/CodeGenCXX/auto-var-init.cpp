@@ -227,6 +227,8 @@ extern "C" {
 TEST_UNINIT(char, char);
 // CHECK-LABEL: @test_char_uninit()
 // CHECK:       %uninit = alloca i8, align
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze i8 poison
+// CHECK-NEXT:  store i8 [[FREEZE]], ptr %uninit, align 1
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%uninit)
 // PATTERN-LABEL: @test_char_uninit()
 // PATTERN: store i8 [[I8]], ptr %uninit, align 1, !annotation [[AUTO_INIT:!.+]]
@@ -236,12 +238,16 @@ TEST_UNINIT(char, char);
 TEST_BRACES(char, char);
 // CHECK-LABEL: @test_char_braces()
 // CHECK:       %braces = alloca i8, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze i8 poison
+// CHECK-NEXT:  store i8 [[FREEZE]], ptr %braces, align [[ALIGN]]
 // CHECK-NEXT:  store i8 0, ptr %braces, align [[ALIGN]]
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%braces)
 
 TEST_UNINIT(uchar, unsigned char);
 // CHECK-LABEL: @test_uchar_uninit()
-// CHECK:       %uninit = alloca i8, align
+// CHECK:       %uninit = alloca i8, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze i8 poison
+// CHECK-NEXT:  store i8 [[FREEZE]], ptr %uninit, align [[ALIGN]]
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%uninit)
 // PATTERN-LABEL: @test_uchar_uninit()
 // PATTERN: store i8 [[I8]], ptr %uninit, align 1, !annotation [[AUTO_INIT]]
@@ -251,12 +257,16 @@ TEST_UNINIT(uchar, unsigned char);
 TEST_BRACES(uchar, unsigned char);
 // CHECK-LABEL: @test_uchar_braces()
 // CHECK:       %braces = alloca i8, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze i8 poison
+// CHECK-NEXT:  store i8 [[FREEZE]], ptr %braces, align [[ALIGN]]
 // CHECK-NEXT:  store i8 0, ptr %braces, align [[ALIGN]]
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%braces)
 
 TEST_UNINIT(schar, signed char);
 // CHECK-LABEL: @test_schar_uninit()
-// CHECK:       %uninit = alloca i8, align
+// CHECK:       %uninit = alloca i8, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze i8 poison
+// CHECK-NEXT:  store i8 [[FREEZE]], ptr %uninit, align [[ALIGN]]
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%uninit)
 // PATTERN-LABEL: @test_schar_uninit()
 // PATTERN: store i8 [[I8]], ptr %uninit, align 1, !annotation [[AUTO_INIT]]
@@ -266,13 +276,17 @@ TEST_UNINIT(schar, signed char);
 TEST_BRACES(schar, signed char);
 // CHECK-LABEL: @test_schar_braces()
 // CHECK:       %braces = alloca i8, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze i8 poison
+// CHECK-NEXT:  store i8 [[FREEZE]], ptr %braces, align [[ALIGN]]
 // CHECK-NEXT:  store i8 0, ptr %braces, align [[ALIGN]]
 // CHECK-NOT:   !annotation
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%braces)
 
 TEST_UNINIT(wchar_t, wchar_t);
 // CHECK-LABEL: @test_wchar_t_uninit()
-// CHECK:       %uninit = alloca i32, align
+// CHECK:       %uninit = alloca i32, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze i32 poison
+// CHECK-NEXT:  store i32 [[FREEZE]], ptr %uninit, align [[ALIGN]]
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%uninit)
 // PATTERN-LABEL: @test_wchar_t_uninit()
 // PATTERN: store i32 [[I32]], ptr %uninit, align 4, !annotation [[AUTO_INIT]]
@@ -282,13 +296,17 @@ TEST_UNINIT(wchar_t, wchar_t);
 TEST_BRACES(wchar_t, wchar_t);
 // CHECK-LABEL: @test_wchar_t_braces()
 // CHECK:       %braces = alloca i32, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze i32 poison
+// CHECK-NEXT:  store i32 [[FREEZE]], ptr %braces, align [[ALIGN]]
 // CHECK-NEXT:  store i32 0, ptr %braces, align [[ALIGN]]
 //  CHECK-NOT:  !annotation
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%braces)
 
 TEST_UNINIT(short, short);
 // CHECK-LABEL: @test_short_uninit()
-// CHECK:       %uninit = alloca i16, align
+// CHECK:       %uninit = alloca i16, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze i16 poison
+// CHECK-NEXT:  store i16 [[FREEZE]], ptr %uninit, align [[ALIGN]]
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%uninit)
 // PATTERN-LABEL: @test_short_uninit()
 // PATTERN: store i16 [[I16]], ptr %uninit, align 2, !annotation [[AUTO_INIT]]
@@ -298,13 +316,17 @@ TEST_UNINIT(short, short);
 TEST_BRACES(short, short);
 // CHECK-LABEL: @test_short_braces()
 // CHECK:       %braces = alloca i16, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze i16 poison
+// CHECK-NEXT:  store i16 [[FREEZE]], ptr %braces, align [[ALIGN]]
 // CHECK-NEXT:  store i16 0, ptr %braces, align [[ALIGN]]
 // CHECK-NOT:   !annotation
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%braces)
 
 TEST_UNINIT(ushort, unsigned short);
 // CHECK-LABEL: @test_ushort_uninit()
-// CHECK:       %uninit = alloca i16, align
+// CHECK:       %uninit = alloca i16, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze i16 poison
+// CHECK-NEXT:  store i16 [[FREEZE]], ptr %uninit, align [[ALIGN]]
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%uninit)
 // PATTERN-LABEL: @test_ushort_uninit()
 // PATTERN: store i16 [[I16]], ptr %uninit, align 2, !annotation [[AUTO_INIT]]
@@ -314,13 +336,17 @@ TEST_UNINIT(ushort, unsigned short);
 TEST_BRACES(ushort, unsigned short);
 // CHECK-LABEL: @test_ushort_braces()
 // CHECK:       %braces = alloca i16, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze i16 poison
+// CHECK-NEXT:  store i16 [[FREEZE]], ptr %braces, align [[ALIGN]]
 // CHECK-NEXT:  store i16 0, ptr %braces, align [[ALIGN]]
 //CHECK-NOT:    !annotation
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%braces)
 
 TEST_UNINIT(int, int);
 // CHECK-LABEL: @test_int_uninit()
-// CHECK:       %uninit = alloca i32, align
+// CHECK:       %uninit = alloca i32, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze i32 poison
+// CHECK-NEXT:  store i32 [[FREEZE]], ptr %uninit, align [[ALIGN]]
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%uninit)
 // PATTERN-LABEL: @test_int_uninit()
 // PATTERN: store i32 [[I32]], ptr %uninit, align 4, !annotation [[AUTO_INIT]]
@@ -330,13 +356,17 @@ TEST_UNINIT(int, int);
 TEST_BRACES(int, int);
 // CHECK-LABEL: @test_int_braces()
 // CHECK:       %braces = alloca i32, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze i32 poison
+// CHECK-NEXT:  store i32 [[FREEZE]], ptr %braces, align [[ALIGN]]
 // CHECK-NEXT:  store i32 0, ptr %braces, align [[ALIGN]]
 // CHECK-NOT:   !annotation
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%braces)
 
 TEST_UNINIT(unsigned, unsigned);
 // CHECK-LABEL: @test_unsigned_uninit()
-// CHECK:       %uninit = alloca i32, align
+// CHECK:       %uninit = alloca i32, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze i32 poison
+// CHECK-NEXT:  store i32 [[FREEZE]], ptr %uninit, align [[ALIGN]]
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%uninit)
 // PATTERN-LABEL: @test_unsigned_uninit()
 // PATTERN: store i32 [[I32]], ptr %uninit, align 4, !annotation [[AUTO_INIT]]
@@ -346,13 +376,17 @@ TEST_UNINIT(unsigned, unsigned);
 TEST_BRACES(unsigned, unsigned);
 // CHECK-LABEL: @test_unsigned_braces()
 // CHECK:       %braces = alloca i32, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze i32 poison
+// CHECK-NEXT:  store i32 [[FREEZE]], ptr %braces, align [[ALIGN]]
 // CHECK-NEXT:  store i32 0, ptr %braces, align [[ALIGN]]
 // CHECK-NOT:   !annotation
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%braces)
 
 TEST_UNINIT(long, long);
 // CHECK-LABEL: @test_long_uninit()
-// CHECK:       %uninit = alloca i64, align
+// CHECK:       %uninit = alloca i64, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze i64 poison
+// CHECK-NEXT:  store i64 [[FREEZE]], ptr %uninit, align [[ALIGN]]
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%uninit)
 // PATTERN-LABEL: @test_long_uninit()
 // PATTERN: store [[ILONGT]] [[ILONG]], ptr %uninit, align {{.+}}, !annotation [[AUTO_INIT]]
@@ -362,13 +396,17 @@ TEST_UNINIT(long, long);
 TEST_BRACES(long, long);
 // CHECK-LABEL: @test_long_braces()
 // CHECK:       %braces = alloca i64, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze i64 poison
+// CHECK-NEXT:  store i64 [[FREEZE]], ptr %braces, align [[ALIGN]]
 // CHECK-NEXT:  store i64 0, ptr %braces, align [[ALIGN]]
 // CHECK-NOT:   !annotation
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%braces)
 
 TEST_UNINIT(ulong, unsigned long);
 // CHECK-LABEL: @test_ulong_uninit()
-// CHECK:       %uninit = alloca i64, align
+// CHECK:       %uninit = alloca i64, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze i64 poison
+// CHECK-NEXT:  store i64 [[FREEZE]], ptr %uninit, align [[ALIGN]]
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%uninit)
 // PATTERN-LABEL: @test_ulong_uninit()
 // PATTERN: store [[ILONGT]] [[ILONG]], ptr %uninit, align {{.+}}, !annotation [[AUTO_INIT]]
@@ -378,13 +416,17 @@ TEST_UNINIT(ulong, unsigned long);
 TEST_BRACES(ulong, unsigned long);
 // CHECK-LABEL: @test_ulong_braces()
 // CHECK:       %braces = alloca i64, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze i64 poison
+// CHECK-NEXT:  store i64 [[FREEZE]], ptr %braces, align [[ALIGN]]
 // CHECK-NEXT:  store i64 0, ptr %braces, align [[ALIGN]]
 // CHECK-NOT:   !annotation
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%braces)
 
 TEST_UNINIT(longlong, long long);
 // CHECK-LABEL: @test_longlong_uninit()
-// CHECK:       %uninit = alloca i64, align
+// CHECK:       %uninit = alloca i64, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze i64 poison
+// CHECK-NEXT:  store i64 [[FREEZE]], ptr %uninit, align [[ALIGN]]
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%uninit)
 // PATTERN-LABEL: @test_longlong_uninit()
 // PATTERN: store i64 [[I64]], ptr %uninit, align 8, !annotation [[AUTO_INIT]]
@@ -394,13 +436,17 @@ TEST_UNINIT(longlong, long long);
 TEST_BRACES(longlong, long long);
 // CHECK-LABEL: @test_longlong_braces()
 // CHECK:       %braces = alloca i64, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze i64 poison
+// CHECK-NEXT:  store i64 [[FREEZE]], ptr %braces, align [[ALIGN]]
 // CHECK-NEXT:  store i64 0, ptr %braces, align [[ALIGN]]
 // CHECK-NOT:   !annotation
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%braces)
 
 TEST_UNINIT(ulonglong, unsigned long long);
 // CHECK-LABEL: @test_ulonglong_uninit()
-// CHECK:       %uninit = alloca i64, align
+// CHECK:       %uninit = alloca i64, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze i64 poison
+// CHECK-NEXT:  store i64 [[FREEZE]], ptr %uninit, align [[ALIGN]]
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%uninit)
 // PATTERN-LABEL: @test_ulonglong_uninit()
 // PATTERN: store i64 [[I64]], ptr %uninit, align 8, !annotation [[AUTO_INIT]]
@@ -410,13 +456,17 @@ TEST_UNINIT(ulonglong, unsigned long long);
 TEST_BRACES(ulonglong, unsigned long long);
 // CHECK-LABEL: @test_ulonglong_braces()
 // CHECK:       %braces = alloca i64, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze i64 poison
+// CHECK-NEXT:  store i64 [[FREEZE]], ptr %braces, align [[ALIGN]]
 // CHECK-NEXT:  store i64 0, ptr %braces, align [[ALIGN]]
 // CHECK-NOT:   !annotation
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%braces)
 
 TEST_UNINIT(int128, __int128);
 // CHECK-LABEL: @test_int128_uninit()
-// CHECK:       %uninit = alloca i128, align
+// CHECK:       %uninit = alloca i128, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze i128 poison
+// CHECK-NEXT:  store i128 [[FREEZE]], ptr %uninit, align [[ALIGN]]
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%uninit)
 // PATTERN-LABEL: @test_int128_uninit()
 // PATTERN: store [[I128T]] [[I128]], ptr %uninit, align {{.+}}, !annotation [[AUTO_INIT]]
@@ -426,13 +476,17 @@ TEST_UNINIT(int128, __int128);
 TEST_BRACES(int128, __int128);
 // CHECK-LABEL: @test_int128_braces()
 // CHECK:       %braces = alloca i128, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze i128 poison
+// CHECK-NEXT:  store i128 [[FREEZE]], ptr %braces, align [[ALIGN]]
 // CHECK-NEXT:  store i128 0, ptr %braces, align [[ALIGN]]
 // CHECK-NOT:   !annotation
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%braces)
 
 TEST_UNINIT(uint128, unsigned __int128);
 // CHECK-LABEL: @test_uint128_uninit()
-// CHECK:       %uninit = alloca i128, align
+// CHECK:       %uninit = alloca i128, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze i128 poison
+// CHECK-NEXT:  store i128 [[FREEZE]], ptr %uninit, align [[ALIGN]]
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%uninit)
 // PATTERN-LABEL: @test_uint128_uninit()
 // PATTERN: store [[I128T]] [[I128]], ptr %uninit, align {{.+}}, !annotation [[AUTO_INIT]]
@@ -442,13 +496,17 @@ TEST_UNINIT(uint128, unsigned __int128);
 TEST_BRACES(uint128, unsigned __int128);
 // CHECK-LABEL: @test_uint128_braces()
 // CHECK:       %braces = alloca i128, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze i128 poison
+// CHECK-NEXT:  store i128 [[FREEZE]], ptr %braces, align [[ALIGN]]
 // CHECK-NEXT:  store i128 0, ptr %braces, align [[ALIGN]]
 // CHECK-NOT:   !annotation
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%braces)
 
 TEST_UNINIT(fp16, __fp16);
 // CHECK-LABEL: @test_fp16_uninit()
-// CHECK:       %uninit = alloca half, align
+// CHECK:       %uninit = alloca half, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze half poison
+// CHECK-NEXT:  store half [[FREEZE]], ptr %uninit, align [[ALIGN]]
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%uninit)
 // PATTERN-LABEL: @test_fp16_uninit()
 // PATTERN: store half 0xHFFFF, ptr %uninit, align 2, !annotation [[AUTO_INIT]]
@@ -458,13 +516,17 @@ TEST_UNINIT(fp16, __fp16);
 TEST_BRACES(fp16, __fp16);
 // CHECK-LABEL: @test_fp16_braces()
 // CHECK:       %braces = alloca half, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze half poison
+// CHECK-NEXT:  store half [[FREEZE]], ptr %braces, align [[ALIGN]]
 // CHECK-NEXT:  store half 0xH0000, ptr %braces, align [[ALIGN]]
 // CHECK-NOT:   !annotation
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%braces)
 
 TEST_UNINIT(float, float);
 // CHECK-LABEL: @test_float_uninit()
-// CHECK:       %uninit = alloca float, align
+// CHECK:       %uninit = alloca float, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze float poison
+// CHECK-NEXT:  store float [[FREEZE]], ptr %uninit, align [[ALIGN]]
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%uninit)
 // PATTERN-LABEL: @test_float_uninit()
 // PATTERN: store float 0xFFFFFFFFE0000000, ptr %uninit, align 4, !annotation [[AUTO_INIT]]
@@ -474,13 +536,17 @@ TEST_UNINIT(float, float);
 TEST_BRACES(float, float);
 // CHECK-LABEL: @test_float_braces()
 // CHECK:       %braces = alloca float, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze float poison
+// CHECK-NEXT:  store float [[FREEZE]], ptr %braces, align [[ALIGN]]
 // CHECK-NEXT:  store float 0.000000e+00, ptr %braces, align [[ALIGN]]
 // CHECK-NOT:   !annotation
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%braces)
 
 TEST_UNINIT(double, double);
 // CHECK-LABEL: @test_double_uninit()
-// CHECK:       %uninit = alloca double, align
+// CHECK:       %uninit = alloca double, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze double poison
+// CHECK-NEXT:  store double [[FREEZE]], ptr %uninit, align [[ALIGN]]
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%uninit)
 // PATTERN-LABEL: @test_double_uninit()
 // PATTERN: store double 0xFFFFFFFFFFFFFFFF, ptr %uninit, align 8, !annotation [[AUTO_INIT]]
@@ -490,13 +556,17 @@ TEST_UNINIT(double, double);
 TEST_BRACES(double, double);
 // CHECK-LABEL: @test_double_braces()
 // CHECK:       %braces = alloca double, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze double poison
+// CHECK-NEXT:  store double [[FREEZE]], ptr %braces, align [[ALIGN]]
 // CHECK-NEXT:  store double 0.000000e+00, ptr %braces, align [[ALIGN]]
 // CHECK-NOT:   !annotation
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%braces)
 
 TEST_UNINIT(longdouble, long double);
 // CHECK-LABEL: @test_longdouble_uninit()
-// CHECK:       %uninit = alloca x86_fp80, align
+// CHECK:       %uninit = alloca x86_fp80, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze x86_fp80 poison
+// CHECK-NEXT:  store x86_fp80 [[FREEZE]], ptr %uninit, align [[ALIGN]]
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%uninit)
 // PATTERN-LABEL: @test_longdouble_uninit()
 // PATTERN: store x86_fp80 0xKFFFFFFFFFFFFFFFFFFFF, ptr %uninit, align {{.+}}, !annotation [[AUTO_INIT]]
@@ -506,13 +576,17 @@ TEST_UNINIT(longdouble, long double);
 TEST_BRACES(longdouble, long double);
 // CHECK-LABEL: @test_longdouble_braces()
 // CHECK:       %braces = alloca x86_fp80, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze x86_fp80 poison
+// CHECK-NEXT:  store x86_fp80 [[FREEZE]], ptr %braces, align [[ALIGN]]
 // CHECK-NEXT:  store x86_fp80 0xK00000000000000000000, ptr %braces, align [[ALIGN]]
 // CHECK-NOT:   !annotation
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%braces)
 
 TEST_UNINIT(intptr, int*);
 // CHECK-LABEL: @test_intptr_uninit()
-// CHECK:       %uninit = alloca ptr, align
+// CHECK:       %uninit = alloca ptr, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze ptr poison
+// CHECK-NEXT:  store ptr [[FREEZE]], ptr %uninit, align [[ALIGN]]
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%uninit)
 // PATTERN-LABEL: @test_intptr_uninit()
 // PATTERN: store ptr inttoptr ([[IPTRT]] [[IPTR]] to ptr), ptr %uninit, align {{.+}}, !annotation [[AUTO_INIT]]
@@ -522,13 +596,17 @@ TEST_UNINIT(intptr, int*);
 TEST_BRACES(intptr, int*);
 // CHECK-LABEL: @test_intptr_braces()
 // CHECK:       %braces = alloca ptr, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze ptr poison
+// CHECK-NEXT:  store ptr [[FREEZE]], ptr %braces, align [[ALIGN]]
 // CHECK-NEXT:  store ptr null, ptr %braces, align [[ALIGN]]
 // CHECK-NOT:   !annotation
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%braces)
 
 TEST_UNINIT(intptrptr, int**);
 // CHECK-LABEL: @test_intptrptr_uninit()
-// CHECK:       %uninit = alloca ptr, align
+// CHECK:       %uninit = alloca ptr, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze ptr poison
+// CHECK-NEXT:  store ptr [[FREEZE]], ptr %uninit, align [[ALIGN]]
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%uninit)
 // PATTERN-LABEL: @test_intptrptr_uninit()
 // PATTERN: store ptr inttoptr ([[IPTRT]] [[IPTR]] to ptr), ptr %uninit, align {{.+}}, !annotation [[AUTO_INIT]]
@@ -538,13 +616,17 @@ TEST_UNINIT(intptrptr, int**);
 TEST_BRACES(intptrptr, int**);
 // CHECK-LABEL: @test_intptrptr_braces()
 // CHECK:       %braces = alloca ptr, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze ptr poison
+// CHECK-NEXT:  store ptr [[FREEZE]], ptr %braces, align [[ALIGN]]
 // CHECK-NEXT:  store ptr null, ptr %braces, align [[ALIGN]]
 // CHECK-NOT:   !annotation
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%braces)
 
 TEST_UNINIT(function, void(*)());
 // CHECK-LABEL: @test_function_uninit()
-// CHECK:       %uninit = alloca ptr, align
+// CHECK:       %uninit = alloca ptr, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze ptr poison
+// CHECK-NEXT:  store ptr [[FREEZE]], ptr %uninit, align [[ALIGN]]
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%uninit)
 // PATTERN-LABEL: @test_function_uninit()
 // PATTERN: store ptr inttoptr ([[IPTRT]] [[IPTR]] to ptr), ptr %uninit, align {{.+}}, !annotation [[AUTO_INIT]]
@@ -554,13 +636,17 @@ TEST_UNINIT(function, void(*)());
 TEST_BRACES(function, void(*)());
 // CHECK-LABEL: @test_function_braces()
 // CHECK:       %braces = alloca ptr, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze ptr poison
+// CHECK-NEXT:  store ptr [[FREEZE]], ptr %braces, align [[ALIGN]]
 // CHECK-NEXT:  store ptr null, ptr %braces, align [[ALIGN]]
 // CHECK-NOT:   !annotation
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%braces)
 
 TEST_UNINIT(bool, bool);
 // CHECK-LABEL: @test_bool_uninit()
-// CHECK:       %uninit = alloca i8, align
+// CHECK:       %uninit = alloca i8, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze i8 poison
+// CHECK-NEXT:  store i8 [[FREEZE]], ptr %uninit, align [[ALIGN]]
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%uninit)
 // PATTERN-LABEL: @test_bool_uninit()
 // PATTERN: store i8 [[I8]], ptr %uninit, align 1, !annotation [[AUTO_INIT]]
@@ -570,6 +656,8 @@ TEST_UNINIT(bool, bool);
 TEST_BRACES(bool, bool);
 // CHECK-LABEL: @test_bool_braces()
 // CHECK:       %braces = alloca i8, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze i8 poison
+// CHECK-NEXT:  store i8 [[FREEZE]], ptr %braces, align [[ALIGN]]
 // CHECK-NEXT:  store i8 0, ptr %braces, align [[ALIGN]]
 // CHECK-NOT:   !annotation
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%braces)
@@ -1138,7 +1226,9 @@ TEST_CUSTOM(tailpad9, tailpad[9], { {257, 1}, {257, 1}, {257, 1}, {257, 1}, {257
 
 TEST_UNINIT(atomicbool, _Atomic(bool));
 // CHECK-LABEL: @test_atomicbool_uninit()
-// CHECK:       %uninit = alloca i8, align
+// CHECK:       %uninit = alloca i8, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze i8 poison
+// CHECK-NEXT:  store i8 [[FREEZE]], ptr %uninit, align [[ALIGN]]
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%uninit)
 // PATTERN-LABEL: @test_atomicbool_uninit()
 // PATTERN: store i8 [[I8]], ptr %uninit, align 1, !annotation [[AUTO_INIT]]
@@ -1147,7 +1237,9 @@ TEST_UNINIT(atomicbool, _Atomic(bool));
 
 TEST_UNINIT(atomicint, _Atomic(int));
 // CHECK-LABEL: @test_atomicint_uninit()
-// CHECK:       %uninit = alloca i32, align
+// CHECK:       %uninit = alloca i32, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze i32 poison
+// CHECK-NEXT:  store i32 [[FREEZE]], ptr %uninit, align [[ALIGN]]
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%uninit)
 // PATTERN-LABEL: @test_atomicint_uninit()
 // PATTERN: store i32 [[I32]], ptr %uninit, align 4, !annotation [[AUTO_INIT]]
@@ -1156,7 +1248,9 @@ TEST_UNINIT(atomicint, _Atomic(int));
 
 TEST_UNINIT(atomicdouble, _Atomic(double));
 // CHECK-LABEL: @test_atomicdouble_uninit()
-// CHECK:       %uninit = alloca double, align
+// CHECK:       %uninit = alloca double, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze double poison
+// CHECK-NEXT:  store double [[FREEZE]], ptr %uninit, align [[ALIGN]]
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%uninit)
 // PATTERN-LABEL: @test_atomicdouble_uninit()
 // PATTERN: store double 0xFFFFFFFFFFFFFFFF, ptr %uninit, align 8, !annotation [[AUTO_INIT]]
@@ -1266,7 +1360,9 @@ TEST_CUSTOM(complexdouble, _Complex double, { 3.1415926535897932384626433, 3.141
 
 TEST_UNINIT(volatileint, volatile int);
 // CHECK-LABEL: @test_volatileint_uninit()
-// CHECK:       %uninit = alloca i32, align
+// CHECK:       %uninit = alloca i32, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze i32 poison
+// CHECK-NEXT:  store i32 [[FREEZE]], ptr %uninit, align [[ALIGN]]
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%uninit)
 // PATTERN-LABEL: @test_volatileint_uninit()
 // PATTERN: store volatile i32 [[I32]], ptr %uninit, align 4, !annotation [[AUTO_INIT]]
@@ -1276,6 +1372,8 @@ TEST_UNINIT(volatileint, volatile int);
 TEST_BRACES(volatileint, volatile int);
 // CHECK-LABEL: @test_volatileint_braces()
 // CHECK:       %braces = alloca i32, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze i32 poison
+// CHECK-NEXT:  store i32 [[FREEZE]], ptr %braces, align [[ALIGN]]
 // CHECK-NEXT:  store volatile i32 0, ptr %braces, align [[ALIGN]]
 // CHECK-NOT:   !annotation
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%braces)
@@ -1539,7 +1637,9 @@ TEST_CUSTOM(unmatchedfp, unmatchedfp, { .d = 3.1415926535897932384626433 });
 
 TEST_UNINIT(emptyenum, emptyenum);
 // CHECK-LABEL: @test_emptyenum_uninit()
-// CHECK:       %uninit = alloca i32, align
+// CHECK:       %uninit = alloca i32, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze i32 poison
+// CHECK-NEXT:  store i32 [[FREEZE]], ptr %uninit, align [[ALIGN]]
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%uninit)
 // PATTERN-LABEL: @test_emptyenum_uninit()
 // PATTERN: store i32 [[I32]], ptr %uninit, align 4, !annotation [[AUTO_INIT]]
@@ -1549,6 +1649,8 @@ TEST_UNINIT(emptyenum, emptyenum);
 TEST_BRACES(emptyenum, emptyenum);
 // CHECK-LABEL: @test_emptyenum_braces()
 // CHECK:       %braces = alloca i32, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze i32 poison
+// CHECK-NEXT:  store i32 [[FREEZE]], ptr %braces, align [[ALIGN]]
 // CHECK-NOT:   !annotation
 // CHECK-NEXT:  store i32 0, ptr %braces, align [[ALIGN]]
 // CHECK-NOT:   !annotation
@@ -1557,13 +1659,17 @@ TEST_BRACES(emptyenum, emptyenum);
 TEST_CUSTOM(emptyenum, emptyenum, { (emptyenum)42 });
 // CHECK-LABEL: @test_emptyenum_custom()
 // CHECK:       %custom = alloca i32, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze i32 poison
+// CHECK-NEXT:  store i32 [[FREEZE]], ptr %custom, align [[ALIGN]]
 // CHECK-NEXT:  store i32 42, ptr %custom, align [[ALIGN]]
 // CHECK-NOT:   !annotation
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%custom)
 
 TEST_UNINIT(smallenum, smallenum);
 // CHECK-LABEL: @test_smallenum_uninit()
-// CHECK:       %uninit = alloca i32, align
+// CHECK:       %uninit = alloca i32, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze i32 poison
+// CHECK-NEXT:  store i32 [[FREEZE]], ptr %uninit, align [[ALIGN]]
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%uninit)
 // PATTERN-LABEL: @test_smallenum_uninit()
 // PATTERN: store i32 [[I32]], ptr %uninit, align 4, !annotation [[AUTO_INIT]]
@@ -1573,6 +1679,8 @@ TEST_UNINIT(smallenum, smallenum);
 TEST_BRACES(smallenum, smallenum);
 // CHECK-LABEL: @test_smallenum_braces()
 // CHECK:       %braces = alloca i32, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze i32 poison
+// CHECK-NEXT:  store i32 [[FREEZE]], ptr %braces, align [[ALIGN]]
 // CHECK-NEXT:  store i32 0, ptr %braces, align [[ALIGN]]
 // CHECK-NOT:   !annotation
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%braces)
@@ -1580,6 +1688,8 @@ TEST_BRACES(smallenum, smallenum);
 TEST_CUSTOM(smallenum, smallenum, { (smallenum)42 });
 // CHECK-LABEL: @test_smallenum_custom()
 // CHECK:       %custom = alloca i32, align [[ALIGN:[0-9]*]]
+// CHECK-NEXT:  [[FREEZE:%.+]] = freeze i32 poison
+// CHECK-NEXT:  store i32 [[FREEZE]], ptr %custom, align [[ALIGN]]
 // CHECK-NEXT:  store i32 42, ptr %custom, align [[ALIGN]]
 // CHECK-NOT:   !annotation
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%custom)

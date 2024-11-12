@@ -15,7 +15,7 @@ extern "C" void followup_inner(int n, int *x) {
 
 
 // CHECK-LABEL: define{{.*}} void @followup_inner
-// CHECK: br label %for.cond1, !llvm.loop ![[INNERLOOP_3:[0-9]+]]
+// CHECK: br label %for.cond2, !llvm.loop ![[INNERLOOP_3:[0-9]+]]
 // CHECK: br label %for.cond, !llvm.loop ![[OUTERLOOP_9:[0-9]+]]
 
 // CHECK-DAG: ![[ACCESSGROUP_2:[0-9]+]] = distinct !{}

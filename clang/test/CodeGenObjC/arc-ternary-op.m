@@ -13,6 +13,8 @@ void test0(_Bool cond) {
   // CHECK-NEXT: zext
   // CHECK-NEXT: store
   // CHECK-NEXT: call void @llvm.lifetime.start.p0(i64 8, ptr [[X]])
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[X]], align 8
   // CHECK-NEXT: [[T0:%.*]] = load i8, ptr [[COND]]
   // CHECK-NEXT: [[T1:%.*]] = trunc i8 [[T0]] to i1
   // CHECK-NEXT: store i1 false, ptr [[RELCOND]]
@@ -54,8 +56,12 @@ void test1(int cond) {
   // CHECK-NEXT: [[CONDCLEANUP:%.*]] = alloca i1
   // CHECK-NEXT: store i32
   // CHECK-NEXT: call void @llvm.lifetime.start.p0(i64 8, ptr [[STRONG]])
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[STRONG]], align 8
   // CHECK-NEXT: store ptr null, ptr [[STRONG]]
   // CHECK-NEXT: call void @llvm.lifetime.start.p0(i64 8, ptr [[WEAK]])
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[WEAK]], align 8
   // CHECK-NEXT: call ptr @llvm.objc.initWeak(ptr [[WEAK]], ptr null)
 
   // CHECK-NEXT: [[T0:%.*]] = load i32, ptr [[COND]]

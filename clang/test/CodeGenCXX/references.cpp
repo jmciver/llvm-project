@@ -286,6 +286,8 @@ namespace PR9565 {
     // CHECK: [[WITH_SEVENTEEN:%[.a-zA-Z0-9]+]] = or i32 [[WITHOUT_SEVENTEEN:%[.a-zA-Z0-9]+]], 17
     // CHECK: store i32 [[WITH_SEVENTEEN]], ptr [[XA:%[.a-zA-Z0-9]+]]
     x.a = 17;
+    // CHECK-NEXT: freeze
+    // CHECK-NEXT: store
     // CHECK-NEXT: load
     // CHECK-NEXT: shl
     // CHECK-NEXT: ashr

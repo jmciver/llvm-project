@@ -16,9 +16,13 @@
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[TMP1:%.*]] = alloca i32, align 4
 // CHECK-NEXT:    [[TMP2:%.*]] = alloca float, align 4
+// CHECK-NEXT:    [[FREEZE:%.+]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE]], ptr [[TMP1]], align 4
+// CHECK-NEXT:    [[FREEZE1:%.+]] = freeze float poison
+// CHECK-NEXT:    store float [[FREEZE1]], ptr [[TMP2]], align 4
 // CHECK-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP1:%.*]], align 4
 // CHECK-NEXT:    [[TMP4:%.*]] = freeze i32 [[TMP3:%.*]]
-// CHECK-NEXT:    call void @{{.*}}test4{{.*}}(i32 noundef [[TMP4:%.*]])
+// CHECK-NEXT:    call void @{{.*}}test4{{.*}}(i32 noundef [[TMP3:%.*]])
 // CHECK-NEXT:    [[TMP5:%.*]] = load float, ptr [[TMP2:%.*]], align 4
 // CHECK-NEXT:    [[TMP6:%.*]] = freeze float [[TMP5:%.*]]
 // CHECK-NEXT:    call void @{{.*}}test4{{.*}}(float noundef [[TMP6:%.*]])

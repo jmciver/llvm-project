@@ -7,6 +7,10 @@
 // CHECK-NEXT:    [[TMP2:%.*]] = alloca i32, align 4, addrspace(5)
 // CHECK-NEXT:    [[TMP3:%.*]] = addrspacecast ptr addrspace(5) [[TMP1:%.*]] to ptr
 // CHECK-NEXT:    [[TMP4:%.*]] = addrspacecast ptr addrspace(5) [[TMP2:%.*]] to ptr
+// CHECK-NEXT:    [[FREEZE:%.+]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE]], ptr [[TMP3]], align 4
+// CHECK-NEXT:    [[FREEZE1:%.+]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE1]], ptr [[TMP4]], align 4
 // CHECK-NEXT:    [[TMP5:%.*]] = load i32, ptr [[TMP3:%.*]], align 4
 // CHECK-NEXT:    [[TMP6:%.*]] = freeze i32 [[TMP5:%.*]]
 // CHECK-NEXT:    %call = call noundef i32 @_Z11__shfl_synciii(i32 noundef [[TMP6:%.*]], i32 noundef 64, i32 noundef 0) #4

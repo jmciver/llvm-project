@@ -80,6 +80,8 @@ void test2(Test2b &x) {
   // CHECK:      [[X:%.*]] = alloca ptr, align 8
   // CHECK-NEXT: [[Y:%.*]] = alloca ptr, align 8
   // CHECK-NEXT: store ptr {{%.*}}, ptr [[X]], align 8
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[Y]], align 8
   // CHECK-NEXT: [[T0:%.*]] = load ptr, ptr [[X]], align 8
   // CHECK-NEXT: store ptr [[T0]], ptr [[Y]], align 8
   // CHECK-NEXT: ret void

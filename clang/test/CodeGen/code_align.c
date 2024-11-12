@@ -3,11 +3,11 @@
 
 // CHECK-C: br label %for.cond, !llvm.loop ![[MD_FP:[0-9]+]]
 // CHECK-C: br label %while.cond, !llvm.loop ![[MD_FP_1:[0-9]+]]
-// CHECK-C: br i1 %cmp3, label %do.body, label %do.end, !llvm.loop ![[MD_FP_2:[0-9]+]]
-// CHECK-C: br label %for.cond5, !llvm.loop ![[MD_FP_3:[0-9]+]]
+// CHECK-C: br i1 %cmp5, label %do.body, label %do.end, !llvm.loop ![[MD_FP_2:[0-9]+]]
+// CHECK-C: br label %for.cond8, !llvm.loop ![[MD_FP_3:[0-9]+]]
 
 // CHECK-CPP: br label %for.cond, !llvm.loop ![[MD_FP_4:[0-9]+]]
-// CHECK-CPP: br label %for.cond2, !llvm.loop ![[MD_FP_5:[0-9]+]]
+// CHECK-CPP: br label %for.cond5, !llvm.loop ![[MD_FP_5:[0-9]+]]
 
 void bar(int);
 void code_align() {

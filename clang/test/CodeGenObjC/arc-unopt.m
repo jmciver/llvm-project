@@ -23,6 +23,8 @@ id test1(void) {
 
 void test2(void) {
   // CHECK:      [[X:%.*]] = alloca ptr
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[X]], align 8
   // CHECK-NEXT: store ptr null, ptr [[X]]
   // CHECK-NEXT: call void @llvm.objc.destroyWeak(ptr [[X]])
   // CHECK-NEXT: ret void
@@ -54,7 +56,11 @@ void test5(void) {
 // CHECK-LABEL:    define{{.*}} void @test5()
 // CHECK:      [[X:%.*]] = alloca ptr,
 // CHECK-NEXT: [[Y:%.*]] = alloca ptr,
+// CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+// CHECK-NEXT: store ptr [[FREEZE]], ptr [[X]], align 8
 // CHECK-NEXT: store ptr null, ptr [[X]],
+// CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+// CHECK-NEXT: store ptr [[FREEZE]], ptr [[Y]], align 8
 // CHECK-NEXT: store ptr null, ptr [[Y]],
 // CHECK-NEXT: [[T0:%.*]] = load ptr, ptr [[Y]],
 // CHECK-NEXT: call void @llvm.objc.storeStrong(ptr [[X]], ptr [[T0]])

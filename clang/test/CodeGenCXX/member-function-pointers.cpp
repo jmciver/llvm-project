@@ -233,6 +233,8 @@ namespace test9 {
 
   // CODE-LP64-LABEL:    define{{.*}} void @_ZN5test94testEv(
   // CODE-LP64:      alloca i32
+  // CODE-LP64:      [[FREEZE:%.+]] = freeze i32 poison
+  // CODE-LP64:      store i32 [[FREEZE]], ptr %x, align 4
   // CODE-LP64-NEXT: ret void
   void test() {
     int x;

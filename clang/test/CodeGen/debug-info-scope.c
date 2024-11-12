@@ -6,6 +6,8 @@ int main(void) {
 	int j = 0;
 	int k = 0;
 // CHECK: !DILocalVariable(name: "i"
+// CHECK-NEXT: !DILocation(
+// CHECK-NEXT: !DILocation(
 // CHECK-NEXT: !DILexicalBlock(
 
 // Make sure we don't have any more lexical blocks because we don't need them in
@@ -14,6 +16,8 @@ int main(void) {
 	for (int i = 0; i < 10; i++)
 		j++;
 // CHECK: !DILocalVariable(name: "i"
+// CHECK-NEXT: !DILocation(
+// CHECK-NEXT: !DILocation(
 // CHECK-NEXT: !DILexicalBlock(
 // GMLT-NOT: !DILexicalBlock
 	for (int i = 0; i < 10; i++)

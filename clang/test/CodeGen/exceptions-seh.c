@@ -264,8 +264,12 @@ void finally_capture_twice(int x) {
 // CHECK-NEXT:    [[Z:%.*]] = alloca i32, align 4
 // CHECK-NEXT:    store ptr
 // CHECK-NEXT:    store i8
+// CHECK-NEXT:    [[FREEZE:%.+]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE]], ptr [[Y]], align 4
 // CHECK-NEXT:    [[T0:%.*]] = load i32, ptr [[LOCAL]], align 4
 // CHECK-NEXT:    store i32 [[T0]], ptr [[Y]], align 4
+// CHECK-NEXT:    [[FREEZE1:%.+]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE1]], ptr [[Z]], align 4
 // CHECK-NEXT:    [[T0:%.*]] = load i32, ptr [[LOCAL]], align 4
 // CHECK-NEXT:    store i32 [[T0]], ptr [[Z]], align 4
 // CHECK-NEXT:    ret void

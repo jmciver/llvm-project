@@ -59,6 +59,8 @@ void library_move(__strong id &y) {
   id x = move(y);
 
   // CHECK-NEXT: call void @llvm.lifetime.start.p0(i64 4, ptr [[I]])
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze i32 poison
+  // CHECK-NEXT: store i32 [[FREEZE]], ptr [[I]], align 4
   // CHECK-NEXT: store i32 17
   int i = 17;
   // CHECK-NEXT: call void @llvm.lifetime.end.p0(i64 4, ptr [[I]])

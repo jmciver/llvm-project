@@ -65,11 +65,17 @@ void test(int n) {
   print(n, sizeof_S, sizeof_array_t_0_0, sizeof_array_t_0, sizeof_array_t);
 
   //  CHECK: [[arrayctor_cont]]
+  //  CHECK-NEXT: [[FREEZE:%.+]] = freeze i32 poison
+  //  CHECK-NEXT: store i32 [[FREEZE]], ptr [[sizeof_S]], align 4
   //  CHECK-NEXT: store i32 68, ptr [[sizeof_S]]
+  //  CHECK-NEXT: [[FREEZE1:%.+]] = freeze i32 poison
+  //  CHECK-NEXT: store i32 [[FREEZE1]], ptr [[sizeof_array_t_0_0]], align 4
   //  CHECK-NEXT: store i32 68, ptr [[sizeof_array_t_0_0]]
   //  CHECK: [[t8:%.+]] = mul nuw i64 68, [[t3]]
   //  CHECK-NEXT: [[conv:%.+]] = trunc i64 [[t8]] to i32
   //  CHECK-NEXT: store i32 [[conv]], ptr [[sizeof_array_t_0]]
+  //  CHECK-NEXT: [[FREEZE2:%.+]] = freeze i32 poison
+  //  CHECK-NEXT: store i32 [[FREEZE2]], ptr [[sizeof_array_t]], align 4
   //  CHECK-NEXT: [[t9:%.+]] = mul nuw i64 [[t1]], [[t3]]
   //  CHECK-NEXT: [[t10:%.+]] = mul nuw i64 68, [[t9]]
   //  CHECK-NEXT: [[conv1:%.+]] = trunc i64 [[t10]] to i32

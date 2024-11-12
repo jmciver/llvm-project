@@ -75,6 +75,8 @@ void bridge_of_cf(int *i) {
   // CHECK: store i32 7
   *i = 7;
   // CHECK: call void @llvm.lifetime.start
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr %cf1, align 8
   // CHECK-NEXT: call ptr @CreateSomething()
   CFTypeRef cf1 = (__bridge CFTypeRef)CreateSomething();
   // CHECK-NOT: retain

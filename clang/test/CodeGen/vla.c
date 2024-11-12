@@ -115,6 +115,8 @@ int test4(unsigned n, char (*p)[n][n+1][6]) {
   // CHECK-NEXT: [[T0:%.*]] = load i32, ptr [[N]], align 4
   // CHECK-NEXT: [[DIM1:%.*]] = add i32 [[T0]], 1
 
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[P2]], align 4
   // CHECK-NEXT: [[T0:%.*]] = load ptr, ptr [[P]], align 4
   // CHECK-NEXT: [[T1:%.*]] = load i32, ptr [[N]], align 4
   // CHECK-NEXT: [[T2:%.*]] = udiv i32 [[T1]], 2
@@ -149,6 +151,8 @@ void test5(void)
   // CHECK: [[A:%.*]] = alloca [5 x i32], align 4
   // CHECK-NEXT: [[I:%.*]] = alloca i32, align 4
   // CHECK-NEXT: [[CL:%.*]] = alloca ptr, align 4
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze i32 poison
+  // CHECK-NEXT: store i32 [[FREEZE]], ptr [[I]], align 4
   // CHECK-NEXT: store i32 0, ptr [[I]], align 4
 
   (typeof(++i, (int (*)[i])a)){&a} += 0;
@@ -173,7 +177,13 @@ void test6(void)
   // CHECK-NEXT: [[I:%.*]] = alloca i32, align 4
  (int (**)[i]){&a}[0][1][5] = 0;
   // CHECK-NEXT: [[CL:%.*]] = alloca ptr, align 4
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze i32 poison
+  // CHECK-NEXT: store i32 [[FREEZE]], ptr [[N]], align 4
   // CHECK-NEXT: store i32 20, ptr [[N]], align 4
+  // CHECK-NEXT: [[FREEZE1:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE1]], ptr [[A]], align 4
+  // CHECK-NEXT: [[FREEZE2:%.+]] = freeze i32 poison
+  // CHECK-NEXT: store i32 [[FREEZE2]], ptr [[I]], align 4
   // CHECK-NEXT: store i32 0, ptr [[I]], align 4
   // CHECK-NEXT: [[Z:%.*]] = load i32, ptr [[I]], align 4
   // CHECK-NEXT: store ptr [[A]], ptr [[CL]]

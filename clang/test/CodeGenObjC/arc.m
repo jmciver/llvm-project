@@ -49,6 +49,8 @@ id test1(id x) {
   // CHECK-NEXT: [[PARM:%.*]] = call ptr @llvm.objc.retain(ptr {{%.*}})
   // CHECK-NEXT: store ptr [[PARM]], ptr [[X]]
   // CHECK-NEXT: call void @llvm.lifetime.start.p0(i64 8, ptr [[Y]])
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[Y]], align 8
   // CHECK-NEXT: store ptr null, ptr [[Y]]
   // CHECK-NEXT: [[T0:%.*]] = load ptr, ptr [[Y]]
   // CHECK-NEXT: [[RET:%.*]] = call ptr @llvm.objc.retain(ptr [[T0]])
@@ -100,6 +102,8 @@ void test3_unelided(void) {
 
   // CHECK:      [[X:%.*]] = alloca ptr
   // CHECK-NEXT: call void @llvm.lifetime.start.p0(i64 8, ptr [[X]])
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[X]], align 8
   // CHECK-NEXT: store ptr null, ptr [[X]], align
   Test3 *x;
 
@@ -130,6 +134,8 @@ void test3(void) {
   id x = [[Test3 alloc] initWith: 5];
 
   // Call to +alloc.
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[X]], align 8
   // CHECK-NEXT: load {{.*}}, ptr @"OBJC_CLASSLIST_REFERENCES_
   // CHECK-NEXT: load ptr, ptr @OBJC_SELECTOR_REFERENCES_
   // CHECK-NEXT: [[ALLOC:%.*]] = call ptr @objc_msgSend
@@ -226,6 +232,8 @@ id test6_helper(void) __attribute__((ns_returns_retained));
 void test6(void) {
   // CHECK:      [[X:%.*]] = alloca ptr
   // CHECK-NEXT: call void @llvm.lifetime.start.p0(i64 8, ptr [[X]])
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[X]], align 8
   // CHECK-NEXT: [[CALL:%.*]] = call ptr @test6_helper()
   // CHECK-NEXT: store ptr [[CALL]], ptr [[X]]
   // CHECK-NEXT: [[T1:%.*]] = load ptr, ptr [[X]]
@@ -240,6 +248,8 @@ void test7_helper(id __attribute__((ns_consumed)));
 void test7(void) {
   // CHECK:      [[X:%.*]] = alloca ptr
   // CHECK-NEXT: call void @llvm.lifetime.start.p0(i64 8, ptr [[X]])
+    // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[X]], align 8
   // CHECK-NEXT: store ptr null, ptr [[X]]
   // CHECK-NEXT: [[T0:%.*]] = load ptr, ptr [[X]]
   // CHECK-NEXT: [[T1:%.*]] = call ptr @llvm.objc.retain(ptr [[T0]]) [[NUW]]
@@ -257,6 +267,8 @@ void test8(void) {
   __unsafe_unretained id x = test8_helper();
   // CHECK:      [[X:%.*]] = alloca ptr
   // CHECK-NEXT: call void @llvm.lifetime.start.p0(i64 8, ptr [[X]])
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[X]], align 8
   // CHECK-NEXT: [[T0:%.*]] = call ptr @test8_helper()
   // CHECK-NEXT: store ptr [[T0]], ptr [[X]]
   // CHECK-NEXT: call void @llvm.objc.release(ptr [[T0]]) [[NUW]], !clang.imprecise_release
@@ -275,8 +287,12 @@ void test10(void) {
   // CHECK:      [[X:%.*]] = alloca ptr, align
   // CHECK-NEXT: [[Y:%.*]] = alloca ptr, align
   // CHECK-NEXT: call void @llvm.lifetime.start.p0(i64 8, ptr [[X]])
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[X]], align 8
   // CHECK-NEXT: store ptr null, ptr [[X]]
   // CHECK-NEXT: call void @llvm.lifetime.start.p0(i64 8, ptr [[Y]])
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[Y]], align 8
   // CHECK-NEXT: load ptr, ptr [[X]], align
   // CHECK-NEXT: load ptr, ptr @OBJC_SELECTOR_REFERENCES_{{[0-9]*}}
   // CHECK-NEXT: [[V:%.*]] = call ptr @objc_msgSend{{.*}} [ "clang.arc.attachedcall"(ptr @llvm.objc.retainAutoreleasedReturnValue) ]
@@ -301,6 +317,8 @@ void test11(id (*f)(void) __attribute__((ns_returns_retained))) {
   // CHECK-NEXT: [[X:%.*]] = alloca ptr, align
   // CHECK-NEXT: store ptr {{%.*}}, ptr [[F]], align
   // CHECK-NEXT: call void @llvm.lifetime.start.p0(i64 8, ptr [[X]])
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[X]], align 8
   // CHECK-NEXT: [[T0:%.*]] = load ptr, ptr [[F]], align
   // CHECK-NEXT: [[T1:%.*]] = call ptr [[T0]]()
   // CHECK-NEXT: store ptr [[T1]], ptr [[X]], align
@@ -320,6 +338,8 @@ void test12(void) {
 
   __weak id x = test12_helper();
   // CHECK-NEXT: call void @llvm.lifetime.start.p0(i64 8, ptr [[X]])
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[X]], align 8
   // CHECK-NEXT: [[T1:%.*]] = call ptr @test12_helper(){{.*}} [ "clang.arc.attachedcall"(ptr @llvm.objc.retainAutoreleasedReturnValue) ]
   // CHECK-NEXT: call void (...) @llvm.objc.clang.arc.noop.use(ptr [[T1]])
   // CHECK-NEXT: call ptr @llvm.objc.initWeak(ptr [[X]], ptr [[T1]])
@@ -333,6 +353,8 @@ void test12(void) {
 
   id y = x;
   // CHECK-NEXT: call void @llvm.lifetime.start.p0(i64 8, ptr [[Y]])
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[Y]], align 8
   // CHECK-NEXT: [[T2:%.*]] = call ptr @llvm.objc.loadWeakRetained(ptr [[X]])
   // CHECK-NEXT: store ptr [[T2]], ptr [[Y]], align
 
@@ -349,6 +371,8 @@ void test13(void) {
   // CHECK-LABEL:      define{{.*}} void @test13()
   // CHECK:      [[X:%.*]] = alloca ptr, align
   // CHECK-NEXT: call void @llvm.lifetime.start.p0(i64 8, ptr [[X]])
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[X]], align 8
   // CHECK-NEXT: store ptr null, ptr [[X]], align
   id x;
 
@@ -804,6 +828,8 @@ void test33(Test33 *ptr) {
   // CHECK-NEXT: llvm.objc.retain
   // CHECK-NEXT: store
   // CHECK-NEXT: call void @llvm.lifetime.start
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[A]], align 8
   // CHECK-NEXT: store ptr null, ptr [[A]]
 
   // CHECK-NEXT: load ptr, ptr [[PTR]]
@@ -890,6 +916,8 @@ void test37(void) {
   // CHECK:      [[VAR:%.*]] = alloca ptr,
   // CHECK-NEXT: [[TEMP:%.*]] = alloca ptr
   // CHECK-NEXT: call void @llvm.lifetime.start.p0(i64 8, ptr [[VAR]])
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[VAR]], align 8
   // CHECK-NEXT: store ptr null, ptr [[VAR]]
 
   // CHECK-NEXT: [[W0:%.*]] = load ptr, ptr [[VAR]]
@@ -960,6 +988,8 @@ void test47(void) {
   // CHECK-LABEL:    define{{.*}} void @test47()
   // CHECK:      [[X:%.*]] = alloca ptr
   // CHECK-NEXT: call void @llvm.lifetime.start.p0(i64 8, ptr [[X]])
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[X]], align 8
   // CHECK-NEXT: store ptr null, ptr [[X]]
   // CHECK-NEXT: [[T0:%.*]] = call ptr @test47_helper(){{.*}} [ "clang.arc.attachedcall"(ptr @llvm.objc.retainAutoreleasedReturnValue) ]
   // CHECK-NEXT: call void (...) @llvm.objc.clang.arc.noop.use(ptr [[T0]])
@@ -982,6 +1012,8 @@ void test48(void) {
   // CHECK-LABEL:    define{{.*}} void @test48()
   // CHECK:      [[X:%.*]] = alloca ptr
   // CHECK-NEXT: call void @llvm.lifetime.start.p0(i64 8, ptr [[X]])
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[X]], align 8
   // CHECK-NEXT: [[T0:%.*]] = call ptr @llvm.objc.initWeak(ptr [[X]], ptr null)
   // CHECK-NEXT: [[T2:%.*]] = call ptr @test48_helper(){{.*}} [ "clang.arc.attachedcall"(ptr @llvm.objc.retainAutoreleasedReturnValue) ]
   // CHECK-NEXT: call void (...) @llvm.objc.clang.arc.noop.use(ptr [[T2]])
@@ -999,6 +1031,8 @@ void test49(void) {
   // CHECK-LABEL:    define{{.*}} void @test49()
   // CHECK:      [[X:%.*]] = alloca ptr
   // CHECK-NEXT: call void @llvm.lifetime.start.p0(i64 8, ptr [[X]])
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[X]], align 8
   // CHECK-NEXT: store ptr null, ptr [[X]]
   // CHECK-NEXT: [[T0:%.*]] = call ptr @test49_helper(){{.*}} [ "clang.arc.attachedcall"(ptr @llvm.objc.retainAutoreleasedReturnValue) ]
   // CHECK-NEXT: call void (...) @llvm.objc.clang.arc.noop.use(ptr [[T0]])
@@ -1039,6 +1073,8 @@ id test52(void) {
 // CHECK:      [[X:%.*]] = alloca i32
 // CHECK-NEXT: [[TMPALLOCA:%.*]] = alloca ptr
 // CHECK-NEXT: call void @llvm.lifetime.start.p0(i64 4, ptr [[X]])
+// CHECK-NEXT: [[FREEZE:%.+]] = freeze i32 poison
+// CHECK-NEXT: store i32 [[FREEZE]], ptr [[X]], align 4
 // CHECK-NEXT: store i32 5, ptr [[X]],
 // CHECK-NEXT: [[T0:%.*]] = load i32, ptr [[X]],
 // CHECK-NEXT: [[T1:%.*]] = call ptr @test52_helper(i32 noundef [[T0]])
@@ -1058,7 +1094,11 @@ void test53(void) {
 // CHECK-NEXT: [[Y:%.*]] = alloca ptr,
 // CHECK-NEXT: [[TMPALLOCA:%.*]] = alloca ptr,
 // CHECK-NEXT: call void @llvm.lifetime.start.p0(i64 8, ptr [[X]])
+// CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+// CHECK-NEXT: store ptr [[FREEZE]], ptr [[X]], align 8
 // CHECK-NEXT: call void @llvm.lifetime.start.p0(i64 8, ptr [[Y]])
+// CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+// CHECK-NEXT: store ptr [[FREEZE]], ptr [[Y]], align 8
 // CHECK-NEXT: [[T1:%.*]] = call ptr @test53_helper(){{.*}} [ "clang.arc.attachedcall"(ptr @llvm.objc.retainAutoreleasedReturnValue) ]
 // CHECK-NEXT: call void (...) @llvm.objc.clang.arc.noop.use(ptr [[T1]])
 // CHECK-NEXT: store ptr [[T1]], ptr [[Y]],
@@ -1195,6 +1235,8 @@ void test61(void) {
   [test61_make() performSelector: @selector(test61_void)];
 
   // CHECK-NEXT: call void @llvm.lifetime.start.p0(i64 8, ptr [[Y]])
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[Y]], align 8
   // CHECK-NEXT: [[T1:%.*]] = call ptr @test61_make(){{.*}} [ "clang.arc.attachedcall"(ptr @llvm.objc.retainAutoreleasedReturnValue) ]
   // CHECK-NEXT: call void (...) @llvm.objc.clang.arc.noop.use(ptr [[T1]])
   // CHECK-NEXT: [[T2:%.*]] = load ptr, ptr @OBJC_SELECTOR_REFERENCES_
@@ -1220,6 +1262,8 @@ void test62(void) {
   extern void test62_body(void);
 
   // CHECK-NEXT: call void @llvm.lifetime.start.p0(i64 4, ptr [[I]])
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze i32 poison
+  // CHECK-NEXT: store i32 [[FREEZE]], ptr [[I]], align 4
   // CHECK-NEXT: store i32 0, ptr [[I]], align 4
   // CHECK-NEXT: br label
 
@@ -1307,6 +1351,8 @@ void test67(void) {
 // CHECK-LABEL:    define{{.*}} void @test67()
 // CHECK:      [[CL:%.*]] = alloca ptr, align 8
 // CHECK-NEXT: call void @llvm.lifetime.start.p0(i64 8, ptr [[CL]])
+// CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+// CHECK-NEXT: store ptr [[FREEZE]], ptr [[CL]], align 8
 // CHECK-NEXT: [[T0:%.*]] = call ptr @test67_helper()
 // CHECK-NEXT: store ptr [[T0]], ptr [[CL]], align 8
 // CHECK-NEXT: call void @llvm.lifetime.end.p0(i64 8, ptr [[CL]])
@@ -1319,6 +1365,8 @@ void test68(void) {
 // CHECK-LABEL:    define{{.*}} void @test68()
 // CHECK:      [[CL:%.*]] = alloca ptr, align 8
 // CHECK-NEXT: call void @llvm.lifetime.start.p0(i64 8, ptr [[CL]])
+// CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+// CHECK-NEXT: store ptr [[FREEZE]], ptr [[CL]], align 8
 // CHECK-NEXT: [[T1:%.*]] = call ptr @test67_helper(){{.*}} [ "clang.arc.attachedcall"(ptr @llvm.objc.retainAutoreleasedReturnValue) ]
 // CHECK-NEXT: call void (...) @llvm.objc.clang.arc.noop.use(ptr [[T1]])
 // CHECK-NEXT: store ptr [[T1]], ptr [[CL]], align 8

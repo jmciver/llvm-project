@@ -75,6 +75,8 @@ void f() {
   // CHECK: call void @_ZN1AIsEC1Ei
   A<short> a4 = 97;
 
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze i32 poison
+  // CHECK-NEXT: store i32 [[FREEZE]], ptr [[I:%.]], align 4
   // CHECK-NEXT: store i32 17
   int i = 17;
 
@@ -122,6 +124,8 @@ namespace rdar9694300 {
     // CHECK: alloca
     X x;
     // CHECK-NEXT: [[I:%.*]] = alloca i32
+    // CHECK-NEXT: [[FREEZE:%.+]] = freeze i32 poison
+    // CHECK-NEXT: store i32 [[FREEZE]], ptr [[I:%.]], align 4
     // CHECK-NEXT: store i32 17, ptr [[I]]
     int i = 17;
     // CHECK-NEXT: ret void

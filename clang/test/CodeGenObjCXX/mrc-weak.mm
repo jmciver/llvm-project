@@ -44,6 +44,8 @@ void test2(id y) {
 // CHECK:      [[Y:%.*]] = alloca ptr,
 // CHECK-NEXT: [[Z:%.*]] = alloca ptr,
 // CHECK-NEXT: store
+// CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+// CHECK-NEXT: store ptr [[FREEZE]], ptr [[Z]], align {{[48]}}
 // CHECK-NEXT: [[T0:%.*]] = load ptr, ptr [[Y]]
 // CHECK-NEXT: call ptr @llvm.objc.initWeak(ptr [[Z]], ptr [[T0]])
 // CHECK-NEXT: call void @llvm.objc.destroyWeak(ptr [[Z]])
@@ -57,6 +59,8 @@ void test3(id y) {
 // CHECK:      [[Y:%.*]] = alloca ptr,
 // CHECK-NEXT: [[Z:%.*]] = alloca ptr,
 // CHECK-NEXT: store
+// CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+// CHECK-NEXT: store ptr [[FREEZE]], ptr [[Z]], align {{[48]}}
 // CHECK-NEXT: store ptr null, ptr [[Z]]
 // CHECK-NEXT: [[T0:%.*]] = load ptr, ptr [[Y]]
 // CHECK-NEXT: call ptr @llvm.objc.storeWeak(ptr [[Z]], ptr [[T0]])
@@ -70,6 +74,8 @@ void test4(__weak id *p) {
 // CHECK:      [[P:%.*]] = alloca ptr,
 // CHECK-NEXT: [[Y:%.*]] = alloca ptr,
 // CHECK-NEXT: store
+// CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+// CHECK-NEXT: store ptr [[FREEZE]], ptr [[Y]], align {{[48]}}
 // CHECK-NEXT: [[T0:%.*]] = load ptr, ptr [[P]]
 // CHECK-NEXT: [[T1:%.*]] = call ptr @llvm.objc.loadWeak(ptr [[T0]])
 // CHECK-NEXT: store ptr [[T1]], ptr [[Y]]
@@ -82,6 +88,8 @@ void test5(__weak id *p) {
 // CHECK:      [[P:%.*]] = alloca ptr,
 // CHECK-NEXT: [[Y:%.*]] = alloca ptr,
 // CHECK-NEXT: store
+// CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+// CHECK-NEXT: store ptr [[FREEZE]], ptr [[Y]], align {{[48]}}
 // CHECK-NEXT: [[T0:%.*]] = load ptr, ptr [[P]]
 // CHECK-NEXT: [[T1:%.*]] = call ptr @llvm.objc.loadWeakRetained(ptr [[T0]])
 // CHECK-NEXT: store ptr [[T1]], ptr [[Y]]
@@ -94,6 +102,8 @@ void test6(__weak Foo **p) {
 // CHECK:      [[P:%.*]] = alloca ptr,
 // CHECK-NEXT: [[Y:%.*]] = alloca ptr,
 // CHECK-NEXT: store
+// CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+// CHECK-NEXT: store ptr [[FREEZE]], ptr [[Y]], align {{[48]}}
 // CHECK-NEXT: [[T0:%.*]] = load ptr, ptr [[P]]
 // CHECK-NEXT: [[T2:%.*]] = call ptr @llvm.objc.loadWeakRetained(ptr [[T0]])
 // CHECK-NEXT: store ptr [[T2]], ptr [[Y]]

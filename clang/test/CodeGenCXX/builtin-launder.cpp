@@ -14,7 +14,7 @@ struct TestVirtualFn {
 // CHECK-LABEL: define{{.*}} void @test_builtin_launder_virtual_fn
 extern "C" void test_builtin_launder_virtual_fn(TestVirtualFn *p) {
   // CHECK: store ptr %p, ptr %p.addr
-  // CHECK-NEXT: [[TMP0:%.*]] = load ptr, ptr %p.addr
+  // CHECK: [[TMP0:%.*]] = load ptr, ptr %p.addr
 
   // CHECK-NONSTRICT-NEXT: store ptr [[TMP0]], ptr %d
 
@@ -61,8 +61,10 @@ extern "C" void test_builtin_launder_virtual_base(TestVirtualBase *p) {
 extern "C" void test_builtin_launder_ommitted_one(int *p) {
   // CHECK: entry
   // CHECK-NEXT: %p.addr = alloca ptr
-  // CHECK-NEXT: %d = alloca ptr
+  // CHECK-NEXT: [[D:%.+]] = alloca ptr
   // CHECK-NEXT: store ptr %p, ptr %p.addr, align 8
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[D]], align 8
   // CHECK-NEXT: [[TMP:%.*]] = load ptr, ptr %p.addr
   // CHECK-NEXT: store ptr [[TMP]], ptr %d
   // CHECK-NEXT: ret void
@@ -78,8 +80,10 @@ extern "C" void test_builtin_launder_ommitted_two(TestNoInvariant *p) {
   // CHECK: entry
   // CHECK-NOT: llvm.launder.invariant.group
   // CHECK-NEXT: %p.addr = alloca ptr, align 8
-  // CHECK-NEXT: %d = alloca ptr
+  // CHECK-NEXT: [[D:%.]] = alloca ptr
   // CHECK-NEXT: store ptr %p, ptr %p.addr
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[D]], align 8
   // CHECK-NEXT: [[TMP:%.*]] = load ptr, ptr %p.addr
   // CHECK-NEXT: store ptr [[TMP]], ptr %d
   // CHECK-NEXT: ret void

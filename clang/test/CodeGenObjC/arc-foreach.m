@@ -37,6 +37,8 @@ void test0(NSArray *array) {
 // CHECK-LP64-NEXT: call void @llvm.objc.storeStrong(ptr [[ARRAY]], ptr {{%.*}}) [[NUW:#[0-9]+]]
 
 // Initialize the fast enumaration state.
+// CHECK-LP64-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+// CHECK-LP64-NEXT: store ptr [[FREEZE]], ptr [[X]], align 8
 // CHECK-LP64-NEXT: call void @llvm.memset.p0.i64(ptr align 8 [[STATE]], i8 0, i64 64, i1 false)
 
 // Evaluate the collection expression and retain.

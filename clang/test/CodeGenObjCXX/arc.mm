@@ -62,8 +62,12 @@ void test34(int cond) {
   // CHECK-NEXT: [[CONDCLEANUP:%.*]] = alloca i1
   // CHECK-NEXT: store i32
   // CHECK-NEXT: call void @llvm.lifetime.start.p0(i64 8, ptr [[STRONG]])
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[STRONG]], align 8
   // CHECK-NEXT: store ptr null, ptr [[STRONG]]
   // CHECK-NEXT: call void @llvm.lifetime.start.p0(i64 8, ptr [[WEAK]])
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[WEAK]], align 8
   // CHECK-NEXT: call ptr @llvm.objc.initWeak(ptr [[WEAK]], ptr null)
 
   // CHECK-NEXT: [[T0:%.*]] = load i32, ptr [[COND]]
@@ -294,6 +298,8 @@ template void test40_helper<int>();
 // CHECK:      [[X:%.*]] = alloca ptr
 // CHECK-NEXT: [[TEMP:%.*]] = alloca ptr
 // CHECK-NEXT: call void @llvm.lifetime.start.p0(i64 8, ptr [[X]])
+// CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+// CHECK-NEXT: store ptr [[FREEZE]], ptr [[X]], align 8
 // CHECK-NEXT: store ptr null, ptr [[X]]
 // CHECK:      [[T0:%.*]] = load ptr, ptr [[X]]
 // CHECK-NEXT: store ptr [[T0]], ptr [[TEMP]]

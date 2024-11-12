@@ -379,6 +379,8 @@ void podMemPtrs() {
 // Check that member pointers use the right offsets and that null is -1.
 // CHECK:      define dso_local void @"?podMemPtrs@@YAXXZ"() {{.*}} {
 // CHECK:        %[[memptr:.*]] = alloca i32, align 4
+// CHECK-NEXT:   [[FREEZE:%.+]] = freeze i32 poison
+// CHECK-NEXT:   store i32 [[FREEZE]], ptr %[[memptr]], align 4
 // CHECK-NEXT:   store i32 0, ptr %[[memptr]], align 4
 // CHECK-NEXT:   store i32 4, ptr %[[memptr]], align 4
 // CHECK-NEXT:   %[[memptr_val:.*]] = load i32, ptr %[[memptr]], align 4
@@ -399,6 +401,8 @@ void polymorphicMemPtrs() {
 // offset and use 0 to represent null.
 // CHECK:      define dso_local void @"?polymorphicMemPtrs@@YAXXZ"() {{.*}} {
 // CHECK:        %[[memptr:.*]] = alloca i32, align 4
+// CHECK-NEXT:   [[FREEZE:%.+]] = freeze i32 poison
+// CHECK-NEXT:   store i32 [[FREEZE]], ptr %[[memptr]], align 4
 // CHECK-NEXT:   store i32 4, ptr %[[memptr]], align 4
 // CHECK-NEXT:   store i32 8, ptr %[[memptr]], align 4
 // CHECK-NEXT:   %[[memptr_val:.*]] = load i32, ptr %[[memptr]], align 4

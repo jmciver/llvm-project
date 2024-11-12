@@ -31,6 +31,8 @@ void test2() {
 // CHECK-LABEL: define{{.*}} void @_Z5test3v
 // CHECK:      %[[WEAK_CONST:[a-zA-Z]+]] = alloca ptr
 // CHECK:      %[[REF_WEAK_CONST:[a-zA-Z]+]] = alloca ptr
+// CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+// CHECK-NEXT: store ptr [[FREEZE]], ptr %[[WEAK_CONST]], align 8
 // CHECK-NEXT: %[[V1:[0-9]+]] = call ptr @llvm.objc.initWeak(ptr %[[WEAK_CONST]], ptr @[[CFSTRING]]
 // CHECK:      store ptr @[[CFSTRING]], ptr %[[REF_WEAK_CONST]]
 // CHECK-NEXT: call void @llvm.objc.storeStrong(ptr %[[REF_WEAK_CONST]], ptr null)

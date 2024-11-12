@@ -190,7 +190,7 @@ void for_destruct(int z) {
   // CHECK: store i32 24
   z = 24;
 
-  // CHECK-NEXT: store i32 0, ptr [[I]]
+  // CHECK: store i32 0, ptr [[I]]
   // CHECK-NEXT: br
   // -> %for.cond6
 

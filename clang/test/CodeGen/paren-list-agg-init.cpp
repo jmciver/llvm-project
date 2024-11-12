@@ -334,6 +334,8 @@ const int* foo15() {
 // CHECK-NEXT: entry:
 // CHECK-NEXT: [[ARR_6:%.*arr6.*]] = alloca ptr, align 8
 // CHECK-NEXT: [[REF_TMP:%.*]] = alloca [1 x i32], align 4
+// CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+// CHECK-NEXT: store ptr [[FREEZE]], ptr [[ARR_6]], align 8
 // CHECK-NEXT: store i32 3, ptr [[REF_TMP]], align 4
 // CHECK-NEXT: store ptr [[REF_TMP]], ptr [[ARR_6]], align 8
 // CHECK-NEXT: ret void
@@ -345,6 +347,8 @@ void foo16() {
 // CHECK-NEXT: entry:
 // CHECK-NEXT: [[ARR_7:%.*arr7.*]] = alloca ptr, align 8
 // CHECK-NEXT: [[REF_TMP:%.*]] = alloca [2 x i32], align 4
+// CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+// CHECK-NEXT: store ptr [[FREEZE]], ptr [[ARR_7]], align 8
 // CHECK-NEXT: store i32 4, ptr [[REF_TMP]], align 4
 // CHECK-NEXT: [[ARRINIT_START:%.*]] = getelementptr inbounds i32, ptr [[REF_TMP]], i64 1
 // CHECK-NEXT: [[ARRINIT_END:%.*]] = getelementptr inbounds i32, ptr [[REF_TMP]], i64 2
@@ -514,6 +518,8 @@ namespace gh68198 {
   // CHECK: define {{.*}} void @{{.*foo25.*}} {
   // CHECK-NEXT: entry
   // CHECK-NEXT: [[ARR_8:%.*arr8.*]] = alloca ptr, align 8
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[ARR_8]], align 8
   // CHECK-NEXT: [[CALL_PTR:%.*]] = call noalias noundef nonnull ptr @_Znam(i64 noundef 8)
   // CHECK-NEXT: store i32 1, ptr [[CALL_PTR]], align 4
   // CHECK-NEXT: [[ARRAY_EXP_NEXT:%.*]] = getelementptr inbounds i32, ptr [[CALL_PTR]], i64 1
@@ -528,6 +534,8 @@ namespace gh68198 {
   // CHECK: define {{.*}} void @{{.*foo26.*}} {
   // CHECK-NEXT: entry
   // CHECK-NEXT: [[ARR_10:%.*arr9.*]] = alloca ptr, align 8
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[ARR_10]], align 8
   // CHECK-NEXT: [[CALL_PTR]] = call noalias noundef nonnull ptr @_Znam(i64 noundef 16)
   // CHECK-NEXT: store i32 1, ptr [[CALL]], align 4
   // CHECK-NEXT: [[ARRAYINIT_ELEMENT:%.*]] = getelementptr inbounds i32, ptr [[CALL]], i64 1
@@ -546,6 +554,8 @@ namespace gh68198 {
   // CHECK: define {{.*}} void @{{.*foo27.*}} {
   // CHECK-NEXT: entry
   // CHECK-NEXT: [[ARR_10:%.*arr10.*]] = alloca ptr, align 8
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[ARR_10]], align 8
   // CHECK-NEXT: [[CALL_PTR]] = call noalias noundef nonnull ptr @_Znam(i64 noundef 32)
   // CHECK-NEXT: store i32 5, ptr [[CALL]], align 4
   // CHECK-NEXT: [[ARRAYINIT_ELEMENT:%.*]] = getelementptr inbounds i32, ptr [[CALL]], i64 1

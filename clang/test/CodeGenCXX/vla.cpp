@@ -40,6 +40,8 @@ void test0(void *array, int n) {
   // CHECK-NEXT: [[DIM1:%.*]] = zext i32 [[T1]] to i64
   typedef short array_t[n][n+1];
 
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[REF]], align 8
   // CHECK-NEXT: [[T0:%.*]] = load ptr, ptr [[ARRAY]], align 8
   // CHECK-NEXT: store ptr [[T0]], ptr [[REF]], align 8
   array_t &ref = *(array_t*) array;
@@ -51,6 +53,8 @@ void test0(void *array, int n) {
   // CHECK-NEXT: store i16 3, ptr [[T3]]
   ref[1][2] = 3;
 
+  // CHECK-NEXT: [[FREEZE1:%.+]] = freeze i16 poison
+  // CHECK-NEXT: store i16 [[FREEZE1]], ptr [[S]], align 2
   // CHECK-NEXT: [[T0:%.*]] = load ptr, ptr [[REF]]
   // CHECK-NEXT: [[T1:%.*]] = mul nsw i64 4, [[DIM1]]
   // CHECK-NEXT: [[T2:%.*]] = getelementptr inbounds i16, ptr [[T0]], i64 [[T1]]

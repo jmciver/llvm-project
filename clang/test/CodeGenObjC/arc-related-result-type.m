@@ -11,6 +11,8 @@ void test0(Test0 *val) {
 // CHECK-NEXT: [[X:%.*]] = alloca ptr
 // CHECK-NEXT: store ptr null
 // CHECK-NEXT: call void @llvm.objc.storeStrong(
+// CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+// CHECK-NEXT: store ptr [[FREEZE]], ptr [[X]], align 8
 // CHECK-NEXT: load ptr, ptr [[VAL]],
 // CHECK-NEXT: load
 // CHECK-NEXT: [[T0:%.*]] = call ptr

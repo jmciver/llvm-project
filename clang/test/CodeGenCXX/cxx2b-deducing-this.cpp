@@ -86,7 +86,9 @@ void test_pointer() {
 //CHECK: define dso_local void @_Z12test_pointerv() #0 {
 //CHECK-NEXT: entry:
 //CHECK-NEXT:  %t = alloca %struct.TestPointer, align 1
-//CHECK-NEXT:  %fn = alloca ptr, align 8
+//CHECK-NEXT:  [[FN:%.+]] = alloca ptr, align 8
+//CHECK-NEXT:  [[FREEZE:%.+]] = freeze ptr poison
+//CHECK-NEXT:  store ptr [[FREEZE]], ptr [[FN]], align 8
 //CHECK-NEXT:  store ptr @_ZNH11TestPointer1fERS_, ptr %fn, align 8
 //CHECK:       %[[fn_ptr:.*]] = load ptr, ptr %fn, align 8
 //CHECK-NEXT:  call void %[[fn_ptr]](ptr noundef nonnull align 1 dereferenceable(1) %t)

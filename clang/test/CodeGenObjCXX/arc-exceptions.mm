@@ -15,6 +15,8 @@ void test0(void) {
 // CHECK:      [[E:%e]] = alloca ptr, align 8
 // CHECK-NEXT: invoke void @_Z12test0_helperv()
 // CHECK:      [[T0:%.*]] = call ptr @objc_begin_catch(
+// CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+// CHECK-NEXT: store ptr [[FREEZE]], ptr [[E]], align 8
 // CHECK-NEXT: [[T3:%.*]] = call ptr @llvm.objc.retain(ptr [[T0]]) [[NUW:#[0-9]+]]
 // CHECK-NEXT: store ptr [[T3]], ptr [[E]]
 // CHECK-NEXT: call void @llvm.objc.storeStrong(ptr [[E]], ptr null) [[NUW]]
@@ -31,6 +33,8 @@ void test1(void) {
 // CHECK:      [[E:%e]] = alloca ptr, align 8
 // CHECK-NEXT: invoke void @_Z12test1_helperv()
 // CHECK:      [[T0:%.*]] = call ptr @objc_begin_catch(
+// CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+// CHECK-NEXT: store ptr [[FREEZE]], ptr [[E]], align 8
 // CHECK-NEXT: call ptr @llvm.objc.initWeak(ptr [[E]], ptr [[T0]]) [[NUW]]
 // CHECK-NEXT: call void @llvm.objc.destroyWeak(ptr [[E]]) [[NUW]]
 // CHECK-NEXT: call void @objc_end_catch() [[NUW]]

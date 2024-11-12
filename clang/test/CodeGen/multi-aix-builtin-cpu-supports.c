@@ -19,6 +19,8 @@ int main() {
 // CHECK-NEXT:   %retval = alloca i32, align 4
 // CHECK-NEXT:   %ret = alloca i32, align 4
 // CHECK-NEXT:   store i32 0, ptr %retval, align 4
+// CHECK-NEXT:   %freeze.poison = freeze i32 poison
+// CHECK-NEXT:   store i32 %freeze.poison, ptr %ret, align 4
 // CHECK-NEXT:   store i32 0, ptr %ret, align 4
 // CHECK-NEXT:   %0 = load i32, ptr getelementptr inbounds ({ i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i32, i64, i32, i32, i32, i32, i64, i64, i64, i64, i32, i32, i32, i32, i32, i32, i64, i32, i8, i8, i8, i8, i32, i32, i16, i16, [3 x i32], i32 }, ptr @_system_configuration, i32 0, i32 46), align 4
 // CHECK-NEXT:   %1 = icmp ugt i32 %0, 1

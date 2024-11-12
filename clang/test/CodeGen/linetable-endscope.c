@@ -5,6 +5,7 @@
 // CodeGenFunction::FinishFunction() for more details.
 
 // CHECK: define {{.*}}foo
+// CHECK: store {{.*}}, !dbg !{{[0-9]+}}
 // CHECK: store {{.*}}, !dbg ![[CONV:[0-9]+]]
 // CHECK: ret {{.*}}, !dbg ![[RET:[0-9]+]]
 

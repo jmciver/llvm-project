@@ -74,6 +74,8 @@ void test3(void (^sink)(id*)) {
   // CHECK-NEXT: call ptr @llvm.objc.retain(
   // CHECK-NEXT: store ptr {{%.*}}, ptr [[SINK]]
   // CHECK-NEXT: call void @llvm.lifetime.start.p0(i64 8, ptr [[STRONG]])
+  // CHECK-NEXT:  [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT:  store ptr [[FREEZE]], ptr [[STRONG]], align 8
   // CHECK-NEXT: store ptr null, ptr [[STRONG]]
 
   // CHECK-NEXT: [[BLOCK:%.*]] = load ptr, ptr [[SINK]]
@@ -450,6 +452,8 @@ void test13(id x) {
   // CHECK-NEXT: [[T0:%.*]] = call ptr @llvm.objc.retain(ptr {{%.*}})
   // CHECK-NEXT: store ptr [[T0]], ptr [[X]], align 8
   // CHECK-NEXT: call void @llvm.lifetime.start.p0(i64 8, ptr [[B]])
+  // CHECK-NEXT:  [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT:  store ptr [[FREEZE]], ptr [[B]], align 8
   // CHECK-NEXT: [[T0:%.*]] = load ptr, ptr [[X]], align 8
   // CHECK-NEXT: [[T1:%.*]] = icmp ne ptr [[T0]], null
   // CHECK-NEXT: store i1 false, ptr [[CLEANUP_ACTIVE]]
@@ -502,6 +506,8 @@ void test16(void) {
   // CHECK: [[BLKVAR:%.*]]  = alloca ptr, align 8
   // CHECK-NEXT:  [[BLOCK:%.*]] = alloca [[BLOCK_T:<{.*}>]],
   // CHECK-NEXT:  call void @llvm.lifetime.start.p0(i64 8, ptr [[BLKVAR]])
+  // CHECK-NEXT:  [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT:  store ptr [[FREEZE]], ptr [[BLKVAR]], align 8
   // CHECK-NEXT:  store ptr null, ptr [[BLKVAR]], align 8
 }
 

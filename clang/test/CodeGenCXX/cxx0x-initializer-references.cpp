@@ -18,25 +18,37 @@ namespace reference {
     // No superfluous instructions allowed here, they could be
     // hiding extra temporaries.
 
-    // CHECK: store i32 1, ptr
+    // CHECK: [[FREEZE:%.+]] = freeze ptr poison
+    // CHECK-NEXT: store ptr [[FREEZE]], ptr %{{.+}}, align 4
+    // CHECK-NEXT: store i32 1, ptr
     // CHECK-NEXT: store ptr %{{.*}}, ptr
     const int &cri2a = 1;
 
+    // CHECK-NEXT: [[FREEZE1:%.+]] = freeze ptr poison
+    // CHECK-NEXT: store ptr [[FREEZE1]], ptr %{{.+}}, align 4
     // CHECK-NEXT: store i32 1, ptr
     // CHECK-NEXT: store ptr %{{.*}}, ptr
     const int &cri1a = {1};
 
+    // CHECK-NEXT: [[FREEZE2:%.+]] = freeze i32 poison
+    // CHECK-NEXT: store i32 [[FREEZE2]], ptr %{{.+}}, align 4
     // CHECK-NEXT: store i32 1, ptr
     int i = 1;
+    // CHECK-NEXT: [[FREEZE3:%.+]] = freeze ptr poison
+    // CHECK-NEXT: store ptr [[FREEZE3]], ptr %{{.+}}, align 4
     // CHECK-NEXT: store ptr %{{.*}}, ptr
     int &ri1a = {i};
 
     // CHECK-NEXT: memcpy
     A a{1, 2};
+    // CHECK-NEXT: [[FREEZE4:%.+]] = freeze ptr poison
+    // CHECK-NEXT: store ptr [[FREEZE4]], ptr %{{.+}}, align 4
     // CHECK-NEXT: store ptr %{{.*}}, ptr %
     A &ra1a = {a};
 
     using T = A&;
+    // CHECK-NEXT: [[FREEZE5:%.+]] = freeze ptr poison
+    // CHECK-NEXT: store ptr [[FREEZE5]], ptr %{{.+}}, align 4
     // CHECK-NEXT: store ptr %{{.*}}, ptr %
     A &ra1b = T{a};
 
@@ -52,6 +64,8 @@ namespace reference {
     // CHECK-NEXT: store ptr %{{.*}}, ptr %{{.*}}, align
     const A &ra1{1, i};
 
+    // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+    // CHECK-NEXT: store ptr [[FREEZE]], ptr %{{.+}}, align 4
     // CHECK-NEXT: store i32 1
     // CHECK-NEXT: getelementptr inbounds i32, ptr %{{.*}}, i{{32|64}} 1
     // CHECK-NEXT: store i32 2
@@ -61,9 +75,13 @@ namespace reference {
     // CHECK-NEXT: store ptr %{{.*}}, ptr %{{.*}}, align
     const int (&arrayRef)[] = {1, 2, i};
 
-    // CHECK: store ptr @{{.*}}, ptr %{{.*}}, align
+    // CHECK: [[FREEZE1:%.+]] = freeze ptr poison
+    // CHECK-NEXT: store ptr [[FREEZE1]], ptr %{{.+}}, align 4
+    // CHECK-NEXT: store ptr @{{.*}}, ptr %{{.*}}, align
     const A &constra1{1, 2};
 
+    // CHECK: [[FREEZE2:%.+]] = freeze ptr poison
+    // CHECK-NEXT: store ptr [[FREEZE2]], ptr %{{.+}}, align 4
     // CHECK-NEXT: store ptr @{{.*}}, ptr %{{.*}}, align
     const int (&constarrayRef)[] = {1, 2, 3};
 

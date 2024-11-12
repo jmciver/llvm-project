@@ -5,6 +5,10 @@
 // CHECK-LABEL: define{{.*}} void @f0()
 // CHECK:      [[x_0:%.*]] = alloca i32, align 4
 // CHECK-NEXT: [[y_0:%.*]] = alloca i32, align 4
+// CHECK-NEXT: [[FREEZE:%.+]] = freeze i32 poison
+// CHECK-NEXT: store i32 [[FREEZE]], ptr [[x_0]], align 4
+// CHECK-NEXT: [[FREEZE1:%.+]] = freeze i32 poison
+// CHECK-NEXT: store i32 [[FREEZE1]], ptr [[y_0]], align 4
 // CHECK-NEXT: store i32 1, ptr [[x_0]]
 // CHECK-NEXT: store i32 1, ptr [[x_0]]
 // CHECK-NEXT: store i32 1, ptr [[y_0]]
@@ -21,6 +25,10 @@ void f0(void) {
 // CHECK-LABEL: define{{.*}} void @f1()
 // CHECK:      [[x_1:%.*]] = alloca i32, align 4
 // CHECK-NEXT: [[y_1:%.*]] = alloca i32, align 4
+// CHECK-NEXT: [[FREEZE:%.+]] = freeze i32 poison
+// CHECK-NEXT: store i32 [[FREEZE]], ptr [[x_1]], align 4
+// CHECK-NEXT: [[FREEZE1:%.+]] = freeze i32 poison
+// CHECK-NEXT: store i32 [[FREEZE1]], ptr [[y_1]], align 4
 // CHECK-NEXT: store volatile i32 1, ptr [[x_1]]
 // CHECK-NEXT: store volatile i32 1, ptr [[x_1]]
 // CHECK-NEXT: store volatile i32 1, ptr [[y_1]]

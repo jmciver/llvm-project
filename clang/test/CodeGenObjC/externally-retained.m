@@ -41,6 +41,8 @@ void in_init(void) {
 
   // CHECK-LABEL: define{{.*}} void @in_init
   // CHECK: [[WAT:%.*]] = alloca
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[WAT]], align 8
   // CHECK-NEXT: store {{.*}} null, {{.*}} [[WAT]]
   // CHECK-NEXT: [[GLOBAL:%.*]] = load {{.*}} @global
   // CHECK-NEXT: [[WAT_LOAD:%.*]] = load {{.*}} [[WAT]]

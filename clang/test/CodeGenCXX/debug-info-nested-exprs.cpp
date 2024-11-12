@@ -192,7 +192,6 @@ int foo(int x, int y, int z) {
 // COLUMNS: ![[SETDONEARG]] = !DILocation(
 // COLUMNS: ![[SETD]] = !DILocation(
 // COLUMNS: ![[RANGEFOR_NOARGS]] = !DILocation(
-// COLUMNS: ![[RANGEFOR_RANGE]] = !DILocation(
 // COLUMNS: ![[RANGEFOR_BODY]] = !DILocation(
 // COLUMNS: ![[ANDLHS]] = !DILocation
 // COLUMNS: ![[ANDRHS]] = !DILocation

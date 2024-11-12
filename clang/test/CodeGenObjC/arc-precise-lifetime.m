@@ -8,6 +8,8 @@ void test0(void) {
   x = 0;
   // CHECK:      [[X:%.*]] = alloca ptr
   // CHECK-NEXT: call void @llvm.lifetime.start.p0(i64 8, ptr [[X]])
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[X]], align 8
   // CHECK-NEXT: [[CALL:%.*]] = call ptr @test0_helper()
   // CHECK-NEXT: store ptr [[CALL]], ptr [[X]]
 
@@ -42,6 +44,8 @@ void test1a_message(void) {
   // CHECK-NEXT: call void (...) @llvm.objc.clang.arc.noop.use(ptr [[T0]])
   // CHECK-NEXT: store ptr [[T0]]
   // CHECK-NEXT: call void @llvm.lifetime.start.p0(i64 8, ptr [[C]])
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[C]], align 8
   // CHECK-NEXT: [[T0:%.*]] = load ptr, ptr
   // CHECK-NEXT: [[T2:%.*]] = call ptr @llvm.objc.retainAutorelease(ptr [[T0]])
   // CHECK-NEXT: [[T4:%.*]] = load ptr, ptr @OBJC_SELECTOR_REFERENCES_
@@ -66,6 +70,8 @@ void test1a_property(void) {
   // CHECK-NEXT: call void (...) @llvm.objc.clang.arc.noop.use(ptr [[T0]])
   // CHECK-NEXT: store ptr [[T0]]
   // CHECK-NEXT: call void @llvm.lifetime.start.p0(i64 8, ptr [[C]])
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[C]], align 8
   // CHECK-NEXT: [[T0:%.*]] = load ptr, ptr
   // CHECK-NEXT: [[T2:%.*]] = call ptr @llvm.objc.retainAutorelease(ptr [[T0]])
   // CHECK-NEXT: [[T4:%.*]] = load ptr, ptr @OBJC_SELECTOR_REFERENCES_
@@ -90,6 +96,8 @@ void test1b_message(void) {
   // CHECK-NEXT: call void (...) @llvm.objc.clang.arc.noop.use(ptr [[T0]])
   // CHECK-NEXT: store ptr [[T0]]
   // CHECK-NEXT: call void @llvm.lifetime.start.p0(i64 8, ptr [[C]])
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[C]], align 8
   // CHECK-NEXT: [[T0:%.*]] = load ptr, ptr
   // CHECK-NEXT: [[T1:%.*]] = load ptr, ptr @OBJC_SELECTOR_REFERENCES_
   // CHECK-NEXT: [[T3:%.*]] = call ptr
@@ -113,6 +121,8 @@ void test1b_property(void) {
   // CHECK-NEXT: call void (...) @llvm.objc.clang.arc.noop.use(ptr [[T0]])
   // CHECK-NEXT: store ptr [[T0]]
   // CHECK-NEXT: call void @llvm.lifetime.start.p0(i64 8, ptr [[C]])
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[C]], align 8
   // CHECK-NEXT: [[T0:%.*]] = load ptr, ptr
   // CHECK-NEXT: [[T1:%.*]] = load ptr, ptr @OBJC_SELECTOR_REFERENCES_
   // CHECK-NEXT: [[T3:%.*]] = call ptr
@@ -136,6 +146,8 @@ void test1c_message(void) {
   // CHECK-NEXT: call void (...) @llvm.objc.clang.arc.noop.use(ptr [[T0]])
   // CHECK-NEXT: store ptr [[T0]]
   // CHECK-NEXT: call void @llvm.lifetime.start.p0(i64 8, ptr [[PC]])
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[PC]], align 8
   // CHECK-NEXT: [[T0:%.*]] = load ptr, ptr
   // CHECK-NEXT: [[T2:%.*]] = call ptr @llvm.objc.retainAutorelease(ptr [[T0]])
   // CHECK-NEXT: [[T4:%.*]] = load ptr, ptr @OBJC_SELECTOR_REFERENCES_
@@ -159,6 +171,8 @@ void test1c_property(void) {
   // CHECK-NEXT: call void (...) @llvm.objc.clang.arc.noop.use(ptr [[T0]])
   // CHECK-NEXT: store ptr [[T0]]
   // CHECK-NEXT: call void @llvm.lifetime.start.p0(i64 8, ptr [[PC]])
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[PC]], align 8
   // CHECK-NEXT: [[T0:%.*]] = load ptr, ptr
   // CHECK-NEXT: [[T2:%.*]] = call ptr @llvm.objc.retainAutorelease(ptr [[T0]])
   // CHECK-NEXT: [[T4:%.*]] = load ptr, ptr @OBJC_SELECTOR_REFERENCES_
@@ -182,6 +196,8 @@ void test1d_message(void) {
   // CHECK-NEXT: call void (...) @llvm.objc.clang.arc.noop.use(ptr [[T0]])
   // CHECK-NEXT: store ptr [[T0]]
   // CHECK-NEXT: call void @llvm.lifetime.start.p0(i64 8, ptr [[PC]])
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[PC]], align 8
   // CHECK-NEXT: [[T0:%.*]] = load ptr, ptr
   // CHECK-NEXT: [[SEL:%.*]] = load ptr, ptr @OBJC_SELECTOR_REFERENCES_
   // CHECK-NEXT: [[CALL1:%.*]] = call ptr @objc_msgSend(ptr noundef [[T0]], ptr noundef [[SEL]])
@@ -204,6 +220,8 @@ void test1d_property(void) {
   // CHECK-NEXT: call void (...) @llvm.objc.clang.arc.noop.use(ptr [[T0]])
   // CHECK-NEXT: store ptr [[T0]]
   // CHECK-NEXT: call void @llvm.lifetime.start.p0(i64 8, ptr [[PC]])
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[PC]], align 8
   // CHECK-NEXT: [[T0:%.*]] = load ptr, ptr
   // CHECK-NEXT: [[SEL:%.*]] = load ptr, ptr @OBJC_SELECTOR_REFERENCES_
   // CHECK-NEXT: [[CALL1:%.*]] = call ptr @objc_msgSend(ptr noundef [[T0]], ptr noundef [[SEL]])

@@ -154,6 +154,8 @@ __attribute__((objc_root_class))
 
   // loading the _cmd selector
   // CHECK-LABEL: objc_direct_method.cont:
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[CMDVAL]], align 8
   // CHECK-NEXT: [[CMD1:%.*]] = load ptr, ptr @OBJC_SELECTOR_REFERENCES_
   // CHECK-NEXT: store ptr [[CMD1]], ptr [[CMDVAL]],
   SEL sel = _cmd;

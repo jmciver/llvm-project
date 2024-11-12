@@ -7,6 +7,8 @@ void releaseObject(__attribute__((ns_consumed)) id);
 // CHECK-LABEL: define{{.*}} void @_Z20basicCorrectnessTestv
 void basicCorrectnessTest() {
   // CHECK: [[X:%.*]] = alloca ptr, align 8
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[X]], align 8
   // CHECK-NEXT: [[OBJ1:%.*]] = call noundef ptr @_Z11makeObject1v()
   // CHECK-NEXT: store ptr [[OBJ1]], ptr [[X]], align 8
   id x = makeObject1();
@@ -31,6 +33,8 @@ void releaseObjectT(__attribute__((ns_consumed)) T);
 // CHECK-LABEL: define{{.*}} void @_Z12templateTestv
 void templateTest() {
   // CHECK: [[X:%.*]] = alloca ptr, align 8
+  // CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+  // CHECK-NEXT: store ptr [[FREEZE]], ptr [[X]], align 8
   // CHECK-NEXT: [[OBJ1:%.*]] = call noundef ptr @_Z12makeObjectT1IU8__strongP11objc_objectET_v()
   // CHECK-NEXT: store ptr [[OBJ1]], ptr [[X]], align 8
   id x = makeObjectT1<id>();

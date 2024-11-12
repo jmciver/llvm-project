@@ -45,6 +45,8 @@ void test1(int cond) {
 // CHECK-NEXT: [[CONDCLEANUPSAVE:%.*]] = alloca ptr
 // CHECK-NEXT: [[CONDCLEANUP:%.*]] = alloca i1
 // CHECK-NEXT: store i32
+// CHECK-NEXT: [[FREEZE:%.+]] = freeze ptr poison
+// CHECK-NEXT: store ptr [[FREEZE]], ptr [[WEAK]], align 8
 // CHECK-NEXT: store ptr null, ptr [[WEAK]]
 // CHECK:  [[COND1:%.*]] = phi ptr
 // CHECK-NEXT: [[ICRISNULL:%.*]] = icmp eq ptr [[COND1]], null

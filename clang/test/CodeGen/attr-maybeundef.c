@@ -38,6 +38,8 @@ void t2(int param1, int param2, int param3) {
 // CHECK-NEXT:  [[TMP1:%.*]] = alloca i32, align 4
 // CHECK-NEXT:  [[TMP2:%.*]] = alloca i32, align 4
 // CHECK-NEXT:  store i32 [[TMP0:%.*]], ptr [[TMP1:%.*]], align 4
+// CHECK-NEXT:  [[FREEZE1:%.+]] = freeze i32 poison
+// CHECK-NEXT:  store i32 [[FREEZE1]], ptr [[TMP2]], align 4
 // CHECK-NEXT:  [[TMP3:%.*]] = load i32, ptr [[TMP1:%.*]], align 4
 // CHECK-NEXT:  [[TMP4:%.*]] = load i32, ptr [[TMP2:%.*]], align 4
 // CHECK-NEXT:  [[TMP5:%.*]] = load i32, ptr [[TMP2:%.*]], align 4
@@ -56,6 +58,8 @@ void TestVariadicFunction(int x, ...) {
 // CHECK:      define{{.*}} void @other()
 // CHECK-NEXT: entry:
 // CHECK-NEXT:   [[TMP1:%.*]] = alloca i32, align 4
+// CHECK-NEXT:   [[FREEZE1:%.+]] = freeze i32 poison
+// CHECK-NEXT:   store i32 [[FREEZE1]], ptr [[TMP1]], align 4
 // CHECK-NEXT:   [[TMP2:%.*]] = load i32, ptr [[TMP1:%.*]], align 4
 // CHECK-NEXT:   call void @func(i32 noundef [[TMP2:%.*]])
 // CHECK-NEXT:   [[TMP3:%.*]] = load i32, ptr [[TMP1:%.*]], align 4
@@ -96,6 +100,8 @@ void func1(int param) {}
 // CHECK:      define{{.*}} void @bar()
 // CHECK-NEXT: entry:
 // CHECK-NEXT:   [[TMP1:%.*]] = alloca i32, align 4
+// CHECK-NEXT:   [[FREEZE1:%.+]] = freeze i32 poison
+// CHECK-NEXT:   store i32 [[FREEZE1]], ptr [[TMP1]], align 4
 // CHECK-NEXT:   [[TMP2:%.*]] = load i32, ptr [[TMP1:%.*]], align 4
 // CHECK-NEXT:   call void @foo(i32 noundef [[TMP2:%.*]])
 // CHECK-NEXT:   ret void

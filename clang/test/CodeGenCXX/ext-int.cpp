@@ -297,7 +297,7 @@ void TakesVarargs(int i, ...) {
   // WIN: store ptr %[[NEXT5]], ptr %[[ARGS]]
   // WIN64: %[[LOADP5:.+]] = load ptr, ptr %[[CUR5]]
   // WIN64: %[[LOADV5:.+]] = load <8 x i32>, ptr %[[LOADP5]]
-  // WIN32: %[[LOADV5:.+]] = load <8 x i32>, ptr %argp.cur7
+  // WIN32: %[[LOADV5:.+]] = load <8 x i32>, ptr %argp.cur10
   // WIN: store <8 x i32> %[[LOADV5]], ptr
 
   __builtin_va_end(args);

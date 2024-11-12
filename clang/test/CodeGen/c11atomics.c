@@ -166,9 +166,13 @@ void testFloat(_Atomic(float) *fp) {
 // CHECK-NEXT: store float 1.000000e+00, ptr [[T0]], align 4
   __c11_atomic_init(fp, 1.0f);
 
+// CHECK-NEXT: [[FREEZE:%.+]] = freeze float poison
+// CHECK-NEXT: store float [[FREEZE]], ptr [[X]], align 4
 // CHECK-NEXT: store float 2.000000e+00, ptr [[X]], align 4
   _Atomic(float) x = 2.0f;
 
+// CHECK-NEXT: [[FREEZE1:%.+]] = freeze float poison
+// CHECK-NEXT: store float [[FREEZE1]], ptr [[F]], align 4
 // CHECK-NEXT: [[T0:%.*]] = load ptr, ptr [[FP]]
 // CHECK-NEXT: call arm_aapcscc void @__atomic_load(i32 noundef 4, ptr noundef [[T0]], ptr noundef [[TMP0]], i32 noundef 5)
 // CHECK-NEXT: [[T3:%.*]] = load float, ptr [[TMP0]], align 4
@@ -324,6 +328,8 @@ void testPromotedStruct(_Atomic(PS) *fp) {
 // CHECK-NEXT: call arm_aapcscc void @__atomic_store(i32 noundef 8, ptr noundef [[T0]], ptr noundef [[TMP1]], i32 noundef 5)
   *fp = f;
 
+// CHECK-NEXT: [[FREEZE:%.+]] = freeze i32 poison
+// CHECK-NEXT: store i32 [[FREEZE]], ptr [[A]], align 4
 // CHECK-NEXT: [[T0:%.*]] = load ptr, ptr [[FP]], align 4
 // CHECK-NEXT: call arm_aapcscc void @__atomic_load(i32 noundef 8, ptr noundef [[T0]], ptr noundef [[TMP3]], i32 noundef 5)
 // CHECK-NEXT: [[T0:%.*]] = getelementptr inbounds [[APS]], ptr [[TMP3]], i32 0, i32 0

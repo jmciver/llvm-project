@@ -24,9 +24,8 @@ void func() {
     f();
 
   // CHECK: = !DILocalVariable(name: "i"
-  // CHECK-SAME:               scope: [[FOR:![0-9]*]]
-  // CHECK-SAME:               line: [[@LINE+2]]
-  // CHECK: [[FOR]] = distinct !DILexicalBlock({{.*}}line: [[@LINE+1]])
+  // CHECK-SAME:               scope: [[FOR:![0-9]+]]
+  // CHECK-SAME:               line: [[@LINE+1]]
   for (int i = 0;
   // CHECK: = !DILocalVariable(name: "b"
   // CHECK-SAME:               scope: [[FOR_BODY:![0-9]*]]
@@ -41,8 +40,7 @@ void func() {
 
   // CHECK: = !DILocalVariable(name: "i"
   // CHECK-SAME:               scope: [[FOR:![0-9]*]]
-  // CHECK-SAME:               line: [[@LINE+2]]
-  // CHECK: [[FOR]] = distinct !DILexicalBlock({{.*}}line: [[@LINE+1]])
+  // CHECK-SAME:               line: [[@LINE+1]]
   for (int i = 0; i != 10; ++i) {
     // FIXME: Do not include scopes that have only other scopes (and no variables
     // or using declarations) as direct children, they just waste
@@ -50,8 +48,7 @@ void func() {
     // CHECK: [[FOR_LOOP_INCLUDING_COND:!.*]] = distinct !DILexicalBlock(scope: [[FOR]],{{.*}} line: [[@LINE-4]])
     // CHECK: = !DILocalVariable(name: "b"
     // CHECK-SAME:               scope: [[FOR_COMPOUND:![0-9]*]]
-    // CHECK-SAME:               line: [[@LINE+2]]
-    // CHECK: [[FOR_COMPOUND]] = distinct !DILexicalBlock(scope: [[FOR_LOOP_INCLUDING_COND]],{{.*}} line: [[@LINE-8]])
+    // CHECK-SAME:               line: [[@LINE+1]]
     bool b = i % 2;
   }
 
@@ -60,7 +57,6 @@ void func() {
   // CHECK-SAME:               scope: [[RANGE_FOR:![0-9]*]]
   // CHECK-NOT:                line:
   // CHECK-SAME:               ){{$}}
-  // CHECK: [[RANGE_FOR]] = distinct !DILexicalBlock({{.*}}, line: [[@LINE+1]])
   for (int i : x) {
     // CHECK: = !DILocalVariable(name: "i"
     // CHECK-SAME:               scope: [[RANGE_FOR_BODY:![0-9]*]]
