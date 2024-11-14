@@ -16,37 +16,54 @@ class CTest {
   volatile __ibm128 vf;
 
 public:
+  CTest(__ibm128 arg);
+  __ibm128 func2(__ibm128 arg);
+  static __ibm128 func3(__ibm128 arg);
+};
+
 // CHECK-LABEL: @_ZN5CTestC1Eg(
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[THIS_ADDR:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    [[ARG_ADDR:%.*]] = alloca ppc_fp128, align 16
 // CHECK-NEXT:    store ptr [[THIS:%.*]], ptr [[THIS_ADDR]], align 8
-// CHECK-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[THIS_ADDR]], metadata [[META135:![0-9]+]], metadata !DIExpression()), !dbg [[DBG137:![0-9]+]]
+// CHECK-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[THIS_ADDR]], metadata [[META45:![0-9]+]], metadata !DIExpression()), !dbg [[DBG46:![0-9]+]]
 // CHECK-NEXT:    store ppc_fp128 [[ARG:%.*]], ptr [[ARG_ADDR]], align 16
-// CHECK-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[ARG_ADDR]], metadata [[META138:![0-9]+]], metadata !DIExpression()), !dbg [[DBG139:![0-9]+]]
+// CHECK-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[ARG_ADDR]], metadata [[META47:![0-9]+]], metadata !DIExpression()), !dbg [[DBG48:![0-9]+]]
 // CHECK-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NEXT:    [[TMP0:%.*]] = load ppc_fp128, ptr [[ARG_ADDR]], align 16, !dbg [[DBG140:![0-9]+]]
-// CHECK-NEXT:    call void @_ZN5CTestC2Eg(ptr noundef nonnull align 16 dereferenceable(32) [[THIS1]], ppc_fp128 noundef [[TMP0]]), !dbg [[DBG140]]
-// CHECK-NEXT:    ret void, !dbg [[DBG141:![0-9]+]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load ppc_fp128, ptr [[ARG_ADDR]], align 16, !dbg [[DBG49:![0-9]+]]
+// CHECK-NEXT:    call void @_ZN5CTestC2Eg(ptr noundef nonnull align 16 dereferenceable(32) [[THIS1]], ppc_fp128 noundef [[TMP0]]), !dbg [[DBG49]]
+// CHECK-NEXT:    ret void, !dbg [[DBG50:![0-9]+]]
 //
-  CTest(__ibm128 arg) : pf(arg), vf(arg) {}
-  __ibm128 func2(__ibm128 arg) {
-    return pf + arg;
-  }
+CTest::CTest(__ibm128 arg) : pf(arg), vf(arg) {}
+
+// CHECK-LABEL: @_ZN5CTest5func2Eg(
+// CHECK-NEXT:  entry:
+// CHECK-NEXT:    [[THIS_ADDR:%.*]] = alloca ptr, align 8
+// CHECK-NEXT:    [[ARG_ADDR:%.*]] = alloca ppc_fp128, align 16
+// CHECK-NEXT:    store ptr [[THIS:%.*]], ptr [[THIS_ADDR]], align 8
+// CHECK-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[THIS_ADDR]], metadata [[META52:![0-9]+]], metadata !DIExpression()), !dbg [[DBG53:![0-9]+]]
+// CHECK-NEXT:    store ppc_fp128 [[ARG:%.*]], ptr [[ARG_ADDR]], align 16
+// CHECK-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[ARG_ADDR]], metadata [[META54:![0-9]+]], metadata !DIExpression()), !dbg [[DBG55:![0-9]+]]
+// CHECK-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
+// CHECK-NEXT:    [[PF:%.*]] = getelementptr inbounds [[CLASS_CTEST:%.*]], ptr [[THIS1]], i32 0, i32 0, !dbg [[DBG56:![0-9]+]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load ppc_fp128, ptr [[PF]], align 16, !dbg [[DBG56]], !freeze_bits [[META33:![0-9]+]]
+// CHECK-NEXT:    [[TMP1:%.*]] = load ppc_fp128, ptr [[ARG_ADDR]], align 16, !dbg [[DBG57:![0-9]+]]
+// CHECK-NEXT:    [[ADD:%.*]] = fadd ppc_fp128 [[TMP0]], [[TMP1]], !dbg [[DBG58:![0-9]+]]
+// CHECK-NEXT:    ret ppc_fp128 [[ADD]], !dbg [[DBG59:![0-9]+]]
+//
+__ibm128 CTest::func2(__ibm128 arg) { return pf + arg; }
+
 // CHECK-LABEL: @_ZN5CTest5func3Eg(
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[ARG_ADDR:%.*]] = alloca ppc_fp128, align 16
 // CHECK-NEXT:    store ppc_fp128 [[ARG:%.*]], ptr [[ARG_ADDR]], align 16
-// CHECK-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[ARG_ADDR]], metadata [[META143:![0-9]+]], metadata !DIExpression()), !dbg [[DBG144:![0-9]+]]
-// CHECK-NEXT:    [[TMP0:%.*]] = load ppc_fp128, ptr [[ARG_ADDR]], align 16, !dbg [[DBG145:![0-9]+]]
-// CHECK-NEXT:    [[TMP1:%.*]] = load ppc_fp128, ptr @_ZN5CTest3scfE, align 16, !dbg [[DBG146:![0-9]+]], !freeze_bits [[META18:![0-9]+]]
-// CHECK-NEXT:    [[MUL:%.*]] = fmul ppc_fp128 [[TMP0]], [[TMP1]], !dbg [[DBG147:![0-9]+]]
-// CHECK-NEXT:    ret ppc_fp128 [[MUL]], !dbg [[DBG148:![0-9]+]]
+// CHECK-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[ARG_ADDR]], metadata [[META61:![0-9]+]], metadata !DIExpression()), !dbg [[DBG62:![0-9]+]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load ppc_fp128, ptr [[ARG_ADDR]], align 16, !dbg [[DBG63:![0-9]+]]
+// CHECK-NEXT:    [[TMP1:%.*]] = load ppc_fp128, ptr @_ZN5CTest3scfE, align 16, !dbg [[DBG64:![0-9]+]], !freeze_bits [[META33]]
+// CHECK-NEXT:    [[MUL:%.*]] = fmul ppc_fp128 [[TMP0]], [[TMP1]], !dbg [[DBG65:![0-9]+]]
+// CHECK-NEXT:    ret ppc_fp128 [[MUL]], !dbg [[DBG66:![0-9]+]]
 //
-  static __ibm128 func3(__ibm128 arg) {
-    return arg * CTest::scf;
-  }
-};
+__ibm128 CTest::func3(__ibm128 arg) { return arg * CTest::scf; }
 
 constexpr __ibm128 func_add(__ibm128 a, __ibm128 b) {
   return a + b;
@@ -65,41 +82,41 @@ __ibm128 gf = ci;
 // CHECK-NEXT:    [[V3:%.*]] = alloca ppc_fp128, align 16
 // CHECK-NEXT:    [[V4:%.*]] = alloca ppc_fp128, align 16
 // CHECK-NEXT:    store ppc_fp128 [[A:%.*]], ptr [[A_ADDR]], align 16
-// CHECK-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META19:![0-9]+]], metadata !DIExpression()), !dbg [[DBG20:![0-9]+]]
+// CHECK-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[A_ADDR]], metadata [[META70:![0-9]+]], metadata !DIExpression()), !dbg [[DBG71:![0-9]+]]
 // CHECK-NEXT:    store ppc_fp128 [[B:%.*]], ptr [[B_ADDR]], align 16
-// CHECK-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[B_ADDR]], metadata [[META21:![0-9]+]], metadata !DIExpression()), !dbg [[DBG22:![0-9]+]]
+// CHECK-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[B_ADDR]], metadata [[META72:![0-9]+]], metadata !DIExpression()), !dbg [[DBG73:![0-9]+]]
 // CHECK-NEXT:    store ppc_fp128 [[C:%.*]], ptr [[C_ADDR]], align 16
-// CHECK-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[C_ADDR]], metadata [[META23:![0-9]+]], metadata !DIExpression()), !dbg [[DBG24:![0-9]+]]
-// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ppc_fp128 poison, !dbg [[DBG25:![0-9]+]]
-// CHECK-NEXT:    store ppc_fp128 [[FREEZE_POISON]], ptr [[V1]], align 16, !dbg [[DBG25]]
-// CHECK-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[V1]], metadata [[META26:![0-9]+]], metadata !DIExpression()), !dbg [[DBG27:![0-9]+]]
-// CHECK-NEXT:    [[TMP0:%.*]] = load ppc_fp128, ptr [[A_ADDR]], align 16, !dbg [[DBG28:![0-9]+]]
-// CHECK-NEXT:    [[TMP1:%.*]] = load ppc_fp128, ptr [[B_ADDR]], align 16, !dbg [[DBG29:![0-9]+]]
-// CHECK-NEXT:    [[ADD:%.*]] = fadd ppc_fp128 [[TMP0]], [[TMP1]], !dbg [[DBG30:![0-9]+]]
-// CHECK-NEXT:    store ppc_fp128 [[ADD]], ptr [[V1]], align 16, !dbg [[DBG27]]
-// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze ppc_fp128 poison, !dbg [[DBG31:![0-9]+]]
-// CHECK-NEXT:    store ppc_fp128 [[FREEZE_POISON1]], ptr [[V2]], align 16, !dbg [[DBG31]]
-// CHECK-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[V2]], metadata [[META32:![0-9]+]], metadata !DIExpression()), !dbg [[DBG33:![0-9]+]]
-// CHECK-NEXT:    [[TMP2:%.*]] = load ppc_fp128, ptr [[A_ADDR]], align 16, !dbg [[DBG34:![0-9]+]]
-// CHECK-NEXT:    [[TMP3:%.*]] = load ppc_fp128, ptr [[C_ADDR]], align 16, !dbg [[DBG35:![0-9]+]]
-// CHECK-NEXT:    [[SUB:%.*]] = fsub ppc_fp128 [[TMP2]], [[TMP3]], !dbg [[DBG36:![0-9]+]]
-// CHECK-NEXT:    store ppc_fp128 [[SUB]], ptr [[V2]], align 16, !dbg [[DBG33]]
-// CHECK-NEXT:    [[FREEZE_POISON2:%.*]] = freeze ppc_fp128 poison, !dbg [[DBG37:![0-9]+]]
-// CHECK-NEXT:    store ppc_fp128 [[FREEZE_POISON2]], ptr [[V3]], align 16, !dbg [[DBG37]]
-// CHECK-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[V3]], metadata [[META38:![0-9]+]], metadata !DIExpression()), !dbg [[DBG39:![0-9]+]]
-// CHECK-NEXT:    [[TMP4:%.*]] = load ppc_fp128, ptr [[V1]], align 16, !dbg [[DBG40:![0-9]+]]
-// CHECK-NEXT:    [[TMP5:%.*]] = load ppc_fp128, ptr [[C_ADDR]], align 16, !dbg [[DBG41:![0-9]+]]
-// CHECK-NEXT:    [[MUL:%.*]] = fmul ppc_fp128 [[TMP4]], [[TMP5]], !dbg [[DBG42:![0-9]+]]
-// CHECK-NEXT:    store ppc_fp128 [[MUL]], ptr [[V3]], align 16, !dbg [[DBG39]]
-// CHECK-NEXT:    [[FREEZE_POISON3:%.*]] = freeze ppc_fp128 poison, !dbg [[DBG43:![0-9]+]]
-// CHECK-NEXT:    store ppc_fp128 [[FREEZE_POISON3]], ptr [[V4]], align 16, !dbg [[DBG43]]
-// CHECK-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[V4]], metadata [[META44:![0-9]+]], metadata !DIExpression()), !dbg [[DBG45:![0-9]+]]
-// CHECK-NEXT:    [[TMP6:%.*]] = load ppc_fp128, ptr [[V2]], align 16, !dbg [[DBG46:![0-9]+]]
-// CHECK-NEXT:    [[TMP7:%.*]] = load ppc_fp128, ptr [[V3]], align 16, !dbg [[DBG47:![0-9]+]]
-// CHECK-NEXT:    [[DIV:%.*]] = fdiv ppc_fp128 [[TMP6]], [[TMP7]], !dbg [[DBG48:![0-9]+]]
-// CHECK-NEXT:    store ppc_fp128 [[DIV]], ptr [[V4]], align 16, !dbg [[DBG45]]
-// CHECK-NEXT:    [[TMP8:%.*]] = load ppc_fp128, ptr [[V4]], align 16, !dbg [[DBG49:![0-9]+]]
-// CHECK-NEXT:    ret ppc_fp128 [[TMP8]], !dbg [[DBG50:![0-9]+]]
+// CHECK-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[C_ADDR]], metadata [[META74:![0-9]+]], metadata !DIExpression()), !dbg [[DBG75:![0-9]+]]
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ppc_fp128 poison, !dbg [[DBG76:![0-9]+]]
+// CHECK-NEXT:    store ppc_fp128 [[FREEZE_POISON]], ptr [[V1]], align 16, !dbg [[DBG76]]
+// CHECK-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[V1]], metadata [[META77:![0-9]+]], metadata !DIExpression()), !dbg [[DBG78:![0-9]+]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load ppc_fp128, ptr [[A_ADDR]], align 16, !dbg [[DBG79:![0-9]+]]
+// CHECK-NEXT:    [[TMP1:%.*]] = load ppc_fp128, ptr [[B_ADDR]], align 16, !dbg [[DBG80:![0-9]+]]
+// CHECK-NEXT:    [[ADD:%.*]] = fadd ppc_fp128 [[TMP0]], [[TMP1]], !dbg [[DBG81:![0-9]+]]
+// CHECK-NEXT:    store ppc_fp128 [[ADD]], ptr [[V1]], align 16, !dbg [[DBG78]]
+// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze ppc_fp128 poison, !dbg [[DBG82:![0-9]+]]
+// CHECK-NEXT:    store ppc_fp128 [[FREEZE_POISON1]], ptr [[V2]], align 16, !dbg [[DBG82]]
+// CHECK-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[V2]], metadata [[META83:![0-9]+]], metadata !DIExpression()), !dbg [[DBG84:![0-9]+]]
+// CHECK-NEXT:    [[TMP2:%.*]] = load ppc_fp128, ptr [[A_ADDR]], align 16, !dbg [[DBG85:![0-9]+]]
+// CHECK-NEXT:    [[TMP3:%.*]] = load ppc_fp128, ptr [[C_ADDR]], align 16, !dbg [[DBG86:![0-9]+]]
+// CHECK-NEXT:    [[SUB:%.*]] = fsub ppc_fp128 [[TMP2]], [[TMP3]], !dbg [[DBG87:![0-9]+]]
+// CHECK-NEXT:    store ppc_fp128 [[SUB]], ptr [[V2]], align 16, !dbg [[DBG84]]
+// CHECK-NEXT:    [[FREEZE_POISON2:%.*]] = freeze ppc_fp128 poison, !dbg [[DBG88:![0-9]+]]
+// CHECK-NEXT:    store ppc_fp128 [[FREEZE_POISON2]], ptr [[V3]], align 16, !dbg [[DBG88]]
+// CHECK-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[V3]], metadata [[META89:![0-9]+]], metadata !DIExpression()), !dbg [[DBG90:![0-9]+]]
+// CHECK-NEXT:    [[TMP4:%.*]] = load ppc_fp128, ptr [[V1]], align 16, !dbg [[DBG91:![0-9]+]]
+// CHECK-NEXT:    [[TMP5:%.*]] = load ppc_fp128, ptr [[C_ADDR]], align 16, !dbg [[DBG92:![0-9]+]]
+// CHECK-NEXT:    [[MUL:%.*]] = fmul ppc_fp128 [[TMP4]], [[TMP5]], !dbg [[DBG93:![0-9]+]]
+// CHECK-NEXT:    store ppc_fp128 [[MUL]], ptr [[V3]], align 16, !dbg [[DBG90]]
+// CHECK-NEXT:    [[FREEZE_POISON3:%.*]] = freeze ppc_fp128 poison, !dbg [[DBG94:![0-9]+]]
+// CHECK-NEXT:    store ppc_fp128 [[FREEZE_POISON3]], ptr [[V4]], align 16, !dbg [[DBG94]]
+// CHECK-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[V4]], metadata [[META95:![0-9]+]], metadata !DIExpression()), !dbg [[DBG96:![0-9]+]]
+// CHECK-NEXT:    [[TMP6:%.*]] = load ppc_fp128, ptr [[V2]], align 16, !dbg [[DBG97:![0-9]+]]
+// CHECK-NEXT:    [[TMP7:%.*]] = load ppc_fp128, ptr [[V3]], align 16, !dbg [[DBG98:![0-9]+]]
+// CHECK-NEXT:    [[DIV:%.*]] = fdiv ppc_fp128 [[TMP6]], [[TMP7]], !dbg [[DBG99:![0-9]+]]
+// CHECK-NEXT:    store ppc_fp128 [[DIV]], ptr [[V4]], align 16, !dbg [[DBG96]]
+// CHECK-NEXT:    [[TMP8:%.*]] = load ppc_fp128, ptr [[V4]], align 16, !dbg [[DBG100:![0-9]+]]
+// CHECK-NEXT:    ret ppc_fp128 [[TMP8]], !dbg [[DBG101:![0-9]+]]
 //
 __ibm128 func_arith(__ibm128 a, __ibm128 b, __ibm128 c) {
   __ibm128 v1 = a + b;
@@ -115,22 +132,22 @@ __ibm128 func_arith(__ibm128 a, __ibm128 b, __ibm128 c) {
 // CHECK-NEXT:    [[AP:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    [[R:%.*]] = alloca ppc_fp128, align 16
 // CHECK-NEXT:    store i32 [[N:%.*]], ptr [[N_ADDR]], align 4
-// CHECK-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[N_ADDR]], metadata [[META55:![0-9]+]], metadata !DIExpression()), !dbg [[DBG56:![0-9]+]]
-// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison, !dbg [[DBG57:![0-9]+]]
-// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[AP]], align 8, !dbg [[DBG57]]
-// CHECK-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[AP]], metadata [[META58:![0-9]+]], metadata !DIExpression()), !dbg [[DBG64:![0-9]+]]
-// CHECK-NEXT:    call void @llvm.va_start.p0(ptr [[AP]]), !dbg [[DBG65:![0-9]+]]
-// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze ppc_fp128 poison, !dbg [[DBG66:![0-9]+]]
-// CHECK-NEXT:    store ppc_fp128 [[FREEZE_POISON1]], ptr [[R]], align 16, !dbg [[DBG66]]
-// CHECK-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[R]], metadata [[META67:![0-9]+]], metadata !DIExpression()), !dbg [[DBG68:![0-9]+]]
-// CHECK-NEXT:    [[ARGP_CUR:%.*]] = load ptr, ptr [[AP]], align 8, !dbg [[DBG69:![0-9]+]]
-// CHECK-NEXT:    [[ARGP_NEXT:%.*]] = getelementptr inbounds i8, ptr [[ARGP_CUR]], i64 16, !dbg [[DBG69]]
-// CHECK-NEXT:    store ptr [[ARGP_NEXT]], ptr [[AP]], align 8, !dbg [[DBG69]]
-// CHECK-NEXT:    [[TMP0:%.*]] = load ppc_fp128, ptr [[ARGP_CUR]], align 8, !dbg [[DBG69]], !freeze_bits [[META18]]
-// CHECK-NEXT:    store ppc_fp128 [[TMP0]], ptr [[R]], align 16, !dbg [[DBG68]]
-// CHECK-NEXT:    call void @llvm.va_end.p0(ptr [[AP]]), !dbg [[DBG70:![0-9]+]]
-// CHECK-NEXT:    [[TMP1:%.*]] = load ppc_fp128, ptr [[R]], align 16, !dbg [[DBG71:![0-9]+]]
-// CHECK-NEXT:    ret ppc_fp128 [[TMP1]], !dbg [[DBG72:![0-9]+]]
+// CHECK-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[N_ADDR]], metadata [[META106:![0-9]+]], metadata !DIExpression()), !dbg [[DBG107:![0-9]+]]
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison, !dbg [[DBG108:![0-9]+]]
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[AP]], align 8, !dbg [[DBG108]]
+// CHECK-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[AP]], metadata [[META109:![0-9]+]], metadata !DIExpression()), !dbg [[DBG115:![0-9]+]]
+// CHECK-NEXT:    call void @llvm.va_start.p0(ptr [[AP]]), !dbg [[DBG116:![0-9]+]]
+// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze ppc_fp128 poison, !dbg [[DBG117:![0-9]+]]
+// CHECK-NEXT:    store ppc_fp128 [[FREEZE_POISON1]], ptr [[R]], align 16, !dbg [[DBG117]]
+// CHECK-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[R]], metadata [[META118:![0-9]+]], metadata !DIExpression()), !dbg [[DBG119:![0-9]+]]
+// CHECK-NEXT:    [[ARGP_CUR:%.*]] = load ptr, ptr [[AP]], align 8, !dbg [[DBG120:![0-9]+]]
+// CHECK-NEXT:    [[ARGP_NEXT:%.*]] = getelementptr inbounds i8, ptr [[ARGP_CUR]], i64 16, !dbg [[DBG120]]
+// CHECK-NEXT:    store ptr [[ARGP_NEXT]], ptr [[AP]], align 8, !dbg [[DBG120]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load ppc_fp128, ptr [[ARGP_CUR]], align 8, !dbg [[DBG120]], !freeze_bits [[META33]]
+// CHECK-NEXT:    store ppc_fp128 [[TMP0]], ptr [[R]], align 16, !dbg [[DBG119]]
+// CHECK-NEXT:    call void @llvm.va_end.p0(ptr [[AP]]), !dbg [[DBG121:![0-9]+]]
+// CHECK-NEXT:    [[TMP1:%.*]] = load ppc_fp128, ptr [[R]], align 16, !dbg [[DBG122:![0-9]+]]
+// CHECK-NEXT:    ret ppc_fp128 [[TMP1]], !dbg [[DBG123:![0-9]+]]
 //
 __ibm128 func_vaarg(int n, ...) {
   va_list ap;
@@ -158,9 +175,9 @@ typedef _Complex float w128ibm_c __attribute__((mode(IC)));
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[X_ADDR:%.*]] = alloca ppc_fp128, align 16
 // CHECK-NEXT:    store ppc_fp128 [[X:%.*]], ptr [[X_ADDR]], align 16
-// CHECK-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[X_ADDR]], metadata [[META77:![0-9]+]], metadata !DIExpression()), !dbg [[DBG78:![0-9]+]]
-// CHECK-NEXT:    [[TMP0:%.*]] = load ppc_fp128, ptr [[X_ADDR]], align 16, !dbg [[DBG79:![0-9]+]]
-// CHECK-NEXT:    ret ppc_fp128 [[TMP0]], !dbg [[DBG80:![0-9]+]]
+// CHECK-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[X_ADDR]], metadata [[META128:![0-9]+]], metadata !DIExpression()), !dbg [[DBG129:![0-9]+]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load ppc_fp128, ptr [[X_ADDR]], align 16, !dbg [[DBG130:![0-9]+]]
+// CHECK-NEXT:    ret ppc_fp128 [[TMP0]], !dbg [[DBG131:![0-9]+]]
 //
 w128ibm icmode_self(w128ibm x) { return x; }
 // CHECK-LABEL: @_Z19icmode_self_complexCg(
@@ -171,17 +188,17 @@ w128ibm icmode_self(w128ibm x) { return x; }
 // CHECK-NEXT:    store ppc_fp128 [[X_COERCE0:%.*]], ptr [[TMP0]], align 16
 // CHECK-NEXT:    [[TMP1:%.*]] = getelementptr inbounds { ppc_fp128, ppc_fp128 }, ptr [[X]], i32 0, i32 1
 // CHECK-NEXT:    store ppc_fp128 [[X_COERCE1:%.*]], ptr [[TMP1]], align 16
-// CHECK-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[X]], metadata [[META86:![0-9]+]], metadata !DIExpression()), !dbg [[DBG87:![0-9]+]]
-// CHECK-NEXT:    [[X_REALP:%.*]] = getelementptr inbounds { ppc_fp128, ppc_fp128 }, ptr [[X]], i32 0, i32 0, !dbg [[DBG88:![0-9]+]]
-// CHECK-NEXT:    [[X_REAL:%.*]] = load ppc_fp128, ptr [[X_REALP]], align 16, !dbg [[DBG88]], !freeze_bits [[META18]]
-// CHECK-NEXT:    [[X_IMAGP:%.*]] = getelementptr inbounds { ppc_fp128, ppc_fp128 }, ptr [[X]], i32 0, i32 1, !dbg [[DBG88]]
-// CHECK-NEXT:    [[X_IMAG:%.*]] = load ppc_fp128, ptr [[X_IMAGP]], align 16, !dbg [[DBG88]], !freeze_bits [[META18]]
-// CHECK-NEXT:    [[RETVAL_REALP:%.*]] = getelementptr inbounds { ppc_fp128, ppc_fp128 }, ptr [[RETVAL]], i32 0, i32 0, !dbg [[DBG89:![0-9]+]]
-// CHECK-NEXT:    [[RETVAL_IMAGP:%.*]] = getelementptr inbounds { ppc_fp128, ppc_fp128 }, ptr [[RETVAL]], i32 0, i32 1, !dbg [[DBG89]]
-// CHECK-NEXT:    store ppc_fp128 [[X_REAL]], ptr [[RETVAL_REALP]], align 16, !dbg [[DBG89]]
-// CHECK-NEXT:    store ppc_fp128 [[X_IMAG]], ptr [[RETVAL_IMAGP]], align 16, !dbg [[DBG89]]
-// CHECK-NEXT:    [[TMP2:%.*]] = load { ppc_fp128, ppc_fp128 }, ptr [[RETVAL]], align 16, !dbg [[DBG89]], !freeze_bits [[META18]]
-// CHECK-NEXT:    ret { ppc_fp128, ppc_fp128 } [[TMP2]], !dbg [[DBG89]]
+// CHECK-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[X]], metadata [[META137:![0-9]+]], metadata !DIExpression()), !dbg [[DBG138:![0-9]+]]
+// CHECK-NEXT:    [[X_REALP:%.*]] = getelementptr inbounds { ppc_fp128, ppc_fp128 }, ptr [[X]], i32 0, i32 0, !dbg [[DBG139:![0-9]+]]
+// CHECK-NEXT:    [[X_REAL:%.*]] = load ppc_fp128, ptr [[X_REALP]], align 16, !dbg [[DBG139]], !freeze_bits [[META33]]
+// CHECK-NEXT:    [[X_IMAGP:%.*]] = getelementptr inbounds { ppc_fp128, ppc_fp128 }, ptr [[X]], i32 0, i32 1, !dbg [[DBG139]]
+// CHECK-NEXT:    [[X_IMAG:%.*]] = load ppc_fp128, ptr [[X_IMAGP]], align 16, !dbg [[DBG139]], !freeze_bits [[META33]]
+// CHECK-NEXT:    [[RETVAL_REALP:%.*]] = getelementptr inbounds { ppc_fp128, ppc_fp128 }, ptr [[RETVAL]], i32 0, i32 0, !dbg [[DBG140:![0-9]+]]
+// CHECK-NEXT:    [[RETVAL_IMAGP:%.*]] = getelementptr inbounds { ppc_fp128, ppc_fp128 }, ptr [[RETVAL]], i32 0, i32 1, !dbg [[DBG140]]
+// CHECK-NEXT:    store ppc_fp128 [[X_REAL]], ptr [[RETVAL_REALP]], align 16, !dbg [[DBG140]]
+// CHECK-NEXT:    store ppc_fp128 [[X_IMAG]], ptr [[RETVAL_IMAGP]], align 16, !dbg [[DBG140]]
+// CHECK-NEXT:    [[TMP2:%.*]] = load { ppc_fp128, ppc_fp128 }, ptr [[RETVAL]], align 16, !dbg [[DBG140]], !freeze_bits [[META33]]
+// CHECK-NEXT:    ret { ppc_fp128, ppc_fp128 } [[TMP2]], !dbg [[DBG140]]
 //
 w128ibm_c icmode_self_complex(w128ibm_c x) { return x; }
 
@@ -191,26 +208,26 @@ w128ibm_c icmode_self_complex(w128ibm_c x) { return x; }
 // CHECK-NEXT:    [[CT:%.*]] = alloca [[CLASS_CTEST:%.*]], align 16
 // CHECK-NEXT:    [[TF:%.*]] = alloca [[STRUCT_T1:%.*]], align 16
 // CHECK-NEXT:    [[LFI:%.*]] = alloca ppc_fp128, align 16
-// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ppc_fp128 poison, !dbg [[DBG93:![0-9]+]]
-// CHECK-NEXT:    store ppc_fp128 [[FREEZE_POISON]], ptr [[LF]], align 16, !dbg [[DBG93]]
-// CHECK-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[LF]], metadata [[META94:![0-9]+]], metadata !DIExpression()), !dbg [[DBG95:![0-9]+]]
-// CHECK-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[CT]], metadata [[META96:![0-9]+]], metadata !DIExpression()), !dbg [[DBG114:![0-9]+]]
-// CHECK-NEXT:    [[TMP0:%.*]] = load ppc_fp128, ptr [[LF]], align 16, !dbg [[DBG115:![0-9]+]]
-// CHECK-NEXT:    call void @_ZN5CTestC1Eg(ptr noundef nonnull align 16 dereferenceable(32) [[CT]], ppc_fp128 noundef [[TMP0]]), !dbg [[DBG114]]
-// CHECK-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[TF]], metadata [[META116:![0-9]+]], metadata !DIExpression()), !dbg [[DBG122:![0-9]+]]
-// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze ppc_fp128 poison, !dbg [[DBG123:![0-9]+]]
-// CHECK-NEXT:    store ppc_fp128 [[FREEZE_POISON1]], ptr [[LFI]], align 16, !dbg [[DBG123]]
-// CHECK-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[LFI]], metadata [[META124:![0-9]+]], metadata !DIExpression()), !dbg [[DBG125:![0-9]+]]
-// CHECK-NEXT:    [[MEM2:%.*]] = getelementptr inbounds [[STRUCT_T1]], ptr [[TF]], i32 0, i32 0, !dbg [[DBG126:![0-9]+]]
-// CHECK-NEXT:    [[TMP1:%.*]] = load ppc_fp128, ptr [[MEM2]], align 16, !dbg [[DBG126]], !freeze_bits [[META18]]
-// CHECK-NEXT:    [[TMP2:%.*]] = load ppc_fp128, ptr [[LF]], align 16, !dbg [[DBG127:![0-9]+]]
-// CHECK-NEXT:    [[CALL:%.*]] = call noundef ppc_fp128 @_Z5func1g(ppc_fp128 noundef [[TMP2]]), !dbg [[DBG128:![0-9]+]]
-// CHECK-NEXT:    [[ADD:%.*]] = fadd ppc_fp128 [[TMP1]], [[CALL]], !dbg [[DBG129:![0-9]+]]
-// CHECK-NEXT:    [[TMP3:%.*]] = load ppc_fp128, ptr [[LF]], align 16, !dbg [[DBG130:![0-9]+]]
-// CHECK-NEXT:    [[CALL2:%.*]] = call noundef ppc_fp128 @_ZN5CTest5func3Eg(ppc_fp128 noundef [[TMP3]]), !dbg [[DBG131:![0-9]+]]
-// CHECK-NEXT:    [[SUB:%.*]] = fsub ppc_fp128 [[ADD]], [[CALL2]], !dbg [[DBG132:![0-9]+]]
-// CHECK-NEXT:    store ppc_fp128 [[SUB]], ptr [[LFI]], align 16, !dbg [[DBG125]]
-// CHECK-NEXT:    ret i32 0, !dbg [[DBG133:![0-9]+]]
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ppc_fp128 poison, !dbg [[DBG144:![0-9]+]]
+// CHECK-NEXT:    store ppc_fp128 [[FREEZE_POISON]], ptr [[LF]], align 16, !dbg [[DBG144]]
+// CHECK-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[LF]], metadata [[META145:![0-9]+]], metadata !DIExpression()), !dbg [[DBG146:![0-9]+]]
+// CHECK-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[CT]], metadata [[META147:![0-9]+]], metadata !DIExpression()), !dbg [[DBG148:![0-9]+]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load ppc_fp128, ptr [[LF]], align 16, !dbg [[DBG149:![0-9]+]]
+// CHECK-NEXT:    call void @_ZN5CTestC1Eg(ptr noundef nonnull align 16 dereferenceable(32) [[CT]], ppc_fp128 noundef [[TMP0]]), !dbg [[DBG148]]
+// CHECK-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[TF]], metadata [[META150:![0-9]+]], metadata !DIExpression()), !dbg [[DBG156:![0-9]+]]
+// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze ppc_fp128 poison, !dbg [[DBG157:![0-9]+]]
+// CHECK-NEXT:    store ppc_fp128 [[FREEZE_POISON1]], ptr [[LFI]], align 16, !dbg [[DBG157]]
+// CHECK-NEXT:    tail call void @llvm.dbg.declare(metadata ptr [[LFI]], metadata [[META158:![0-9]+]], metadata !DIExpression()), !dbg [[DBG159:![0-9]+]]
+// CHECK-NEXT:    [[MEM2:%.*]] = getelementptr inbounds [[STRUCT_T1]], ptr [[TF]], i32 0, i32 0, !dbg [[DBG160:![0-9]+]]
+// CHECK-NEXT:    [[TMP1:%.*]] = load ppc_fp128, ptr [[MEM2]], align 16, !dbg [[DBG160]], !freeze_bits [[META33]]
+// CHECK-NEXT:    [[TMP2:%.*]] = load ppc_fp128, ptr [[LF]], align 16, !dbg [[DBG161:![0-9]+]]
+// CHECK-NEXT:    [[CALL:%.*]] = call noundef ppc_fp128 @_Z5func1g(ppc_fp128 noundef [[TMP2]]), !dbg [[DBG162:![0-9]+]]
+// CHECK-NEXT:    [[ADD:%.*]] = fadd ppc_fp128 [[TMP1]], [[CALL]], !dbg [[DBG163:![0-9]+]]
+// CHECK-NEXT:    [[TMP3:%.*]] = load ppc_fp128, ptr [[LF]], align 16, !dbg [[DBG164:![0-9]+]]
+// CHECK-NEXT:    [[CALL2:%.*]] = call noundef ppc_fp128 @_ZN5CTest5func3Eg(ppc_fp128 noundef [[TMP3]]), !dbg [[DBG165:![0-9]+]]
+// CHECK-NEXT:    [[SUB:%.*]] = fsub ppc_fp128 [[ADD]], [[CALL2]], !dbg [[DBG166:![0-9]+]]
+// CHECK-NEXT:    store ppc_fp128 [[SUB]], ptr [[LFI]], align 16, !dbg [[DBG159]]
+// CHECK-NEXT:    ret i32 0, !dbg [[DBG167:![0-9]+]]
 //
 int main(void) {
   __ibm128 lf;

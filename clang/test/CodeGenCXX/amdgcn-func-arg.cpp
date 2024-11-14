@@ -4,6 +4,10 @@
 class A {
 public:
   int x;
+  A();
+  ~A();
+};
+
 // CHECK-LABEL: @_ZN1AC1Ev(
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[THIS_ADDR:%.*]] = alloca ptr, align 8, addrspace(5)
@@ -13,7 +17,8 @@ public:
 // CHECK-NEXT:    call void @_ZN1AC2Ev(ptr noundef nonnull align 4 dereferenceable(4) [[THIS1]])
 // CHECK-NEXT:    ret void
 //
-  A():x(0) {}
+A::A() : x(0) {}
+
 // CHECK-LABEL: @_ZN1AD1Ev(
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[THIS_ADDR:%.*]] = alloca ptr, align 8, addrspace(5)
@@ -23,8 +28,7 @@ public:
 // CHECK-NEXT:    call void @_ZN1AD2Ev(ptr noundef nonnull align 4 dereferenceable(4) [[THIS1]]) #[[ATTR2:[0-9]+]]
 // CHECK-NEXT:    ret void
 //
-  ~A() {}
-};
+A::~A() {}
 
 class B {
 int x[100];
