@@ -38,13 +38,13 @@ extern "C" void body(...) {}
 // IR-NEXT:    store i32 %[[START:.+]], ptr %[[START_ADDR]], align 4
 // IR-NEXT:    store i32 %[[END:.+]], ptr %[[END_ADDR]], align 4
 // IR-NEXT:    store i32 %[[STEP:.+]], ptr %[[STEP_ADDR]], align 4
-// IR-NEXT:    %[[TMP1:.+]] = load i32, ptr %[[START_ADDR]], align 4
+// IR:         %[[TMP1:.+]] = load i32, ptr %[[START_ADDR]], align 4
 // IR-NEXT:    store i32 %[[TMP1]], ptr %[[DOTCAPTURE_EXPR_]], align 4
-// IR-NEXT:    %[[TMP2:.+]] = load i32, ptr %[[END_ADDR]], align 4
+// IR:         %[[TMP2:.+]] = load i32, ptr %[[END_ADDR]], align 4
 // IR-NEXT:    store i32 %[[TMP2]], ptr %[[DOTCAPTURE_EXPR_1]], align 4
-// IR-NEXT:    %[[TMP3:.+]] = load i32, ptr %[[STEP_ADDR]], align 4
+// IR:         %[[TMP3:.+]] = load i32, ptr %[[STEP_ADDR]], align 4
 // IR-NEXT:    store i32 %[[TMP3]], ptr %[[DOTCAPTURE_EXPR_2]], align 4
-// IR-NEXT:    %[[TMP4:.+]] = load i32, ptr %[[DOTCAPTURE_EXPR_1]], align 4
+// IR:         %[[TMP4:.+]] = load i32, ptr %[[DOTCAPTURE_EXPR_1]], align 4
 // IR-NEXT:    %[[TMP5:.+]] = load i32, ptr %[[DOTCAPTURE_EXPR_]], align 4
 // IR-NEXT:    %[[SUB:.+]] = sub i32 %[[TMP4]], %[[TMP5]]
 // IR-NEXT:    %[[SUB4:.+]] = sub i32 %[[SUB]], 1
@@ -54,26 +54,26 @@ extern "C" void body(...) {}
 // IR-NEXT:    %[[DIV:.+]] = udiv i32 %[[ADD]], %[[TMP7]]
 // IR-NEXT:    %[[SUB5:.+]] = sub i32 %[[DIV]], 1
 // IR-NEXT:    store i32 %[[SUB5]], ptr %[[DOTCAPTURE_EXPR_3]], align 4
-// IR-NEXT:    %[[TMP8:.+]] = load i32, ptr %[[DOTCAPTURE_EXPR_3]], align 4
+// IR:         %[[TMP8:.+]] = load i32, ptr %[[DOTCAPTURE_EXPR_3]], align 4
 // IR-NEXT:    %[[ADD7:.+]] = add i32 %[[TMP8]], 1
 // IR-NEXT:    store i32 %[[ADD7]], ptr %[[DOTCAPTURE_EXPR_6]], align 4
-// IR-NEXT:    %[[TMP9:.+]] = load i32, ptr %[[DOTCAPTURE_EXPR_6]], align 4
+// IR:         %[[TMP9:.+]] = load i32, ptr %[[DOTCAPTURE_EXPR_6]], align 4
 // IR-NEXT:    %[[SUB9:.+]] = sub i32 %[[TMP9]], -1
 // IR-NEXT:    %[[DIV10:.+]] = udiv i32 %[[SUB9]], 2
 // IR-NEXT:    %[[SUB11:.+]] = sub i32 %[[DIV10]], 1
 // IR-NEXT:    store i32 %[[SUB11]], ptr %[[DOTCAPTURE_EXPR_8]], align 4
-// IR-NEXT:    store i32 0, ptr %[[DOTUNROLLED_IV_I]], align 4
+// IR:         store i32 0, ptr %[[DOTUNROLLED_IV_I]], align 4
 // IR-NEXT:    %[[TMP10:.+]] = load i32, ptr %[[DOTCAPTURE_EXPR_6]], align 4
 // IR-NEXT:    %[[CMP:.+]] = icmp ult i32 0, %[[TMP10]]
 // IR-NEXT:    br i1 %[[CMP]], label %[[OMP_PRECOND_THEN:.+]], label %[[OMP_PRECOND_END:.+]]
 // IR-EMPTY:
 // IR-NEXT:  [[OMP_PRECOND_THEN]]:
-// IR-NEXT:    store i32 0, ptr %[[DOTOMP_LB]], align 4
-// IR-NEXT:    %[[TMP11:.+]] = load i32, ptr %[[DOTCAPTURE_EXPR_8]], align 4
+// IR:         store i32 0, ptr %[[DOTOMP_LB]], align 4
+// IR:         %[[TMP11:.+]] = load i32, ptr %[[DOTCAPTURE_EXPR_8]], align 4
 // IR-NEXT:    store i32 %[[TMP11]], ptr %[[DOTOMP_UB]], align 4
-// IR-NEXT:    store i32 1, ptr %[[DOTOMP_STRIDE]], align 4
-// IR-NEXT:    store i32 0, ptr %[[DOTOMP_IS_LAST]], align 4
-// IR-NEXT:    call void @__kmpc_for_static_init_4u(ptr @1, i32 %[[TMP0]], i32 34, ptr %[[DOTOMP_IS_LAST]], ptr %[[DOTOMP_LB]], ptr %[[DOTOMP_UB]], ptr %[[DOTOMP_STRIDE]], i32 1, i32 1)
+// IR:         store i32 1, ptr %[[DOTOMP_STRIDE]], align 4
+// IR:         store i32 0, ptr %[[DOTOMP_IS_LAST]], align 4
+// IR:         call void @__kmpc_for_static_init_4u(ptr @1, i32 %[[TMP0]], i32 34, ptr %[[DOTOMP_IS_LAST]], ptr %[[DOTOMP_LB]], ptr %[[DOTOMP_UB]], ptr %[[DOTOMP_STRIDE]], i32 1, i32 1)
 // IR-NEXT:    %[[TMP12:.+]] = load i32, ptr %[[DOTOMP_UB]], align 4
 // IR-NEXT:    %[[TMP13:.+]] = load i32, ptr %[[DOTCAPTURE_EXPR_8]], align 4
 // IR-NEXT:    %[[CMP13:.+]] = icmp ugt i32 %[[TMP12]], %[[TMP13]]
@@ -106,7 +106,7 @@ extern "C" void body(...) {}
 // IR-NEXT:    %[[MUL:.+]] = mul i32 %[[TMP19]], 2
 // IR-NEXT:    %[[ADD16:.+]] = add i32 0, %[[MUL]]
 // IR-NEXT:    store i32 %[[ADD16]], ptr %[[DOTUNROLLED_IV_I12]], align 4
-// IR-NEXT:    %[[TMP20:.+]] = load i32, ptr %[[DOTUNROLLED_IV_I12]], align 4
+// IR:         %[[TMP20:.+]] = load i32, ptr %[[DOTUNROLLED_IV_I12]], align 4
 // IR-NEXT:    store i32 %[[TMP20]], ptr %[[DOTUNROLL_INNER_IV_I]], align 4
 // IR-NEXT:    br label %[[FOR_COND:.+]]
 // IR-EMPTY:

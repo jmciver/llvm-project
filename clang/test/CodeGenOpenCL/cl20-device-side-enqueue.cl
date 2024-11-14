@@ -104,8 +104,8 @@ kernel void device_side_enqueue(global int *a, global int *b, int i) {
   // COMMON: [[FLAGS:%[0-9]+]] = load i32, ptr %flags
   // COMMON: [[WAIT_EVNT:%[0-9]+]] ={{.*}} addrspacecast ptr %event_wait_list to ptr addrspace(4)
   // COMMON: [[EVNT:%[0-9]+]] ={{.*}} addrspacecast ptr %clk_event to ptr addrspace(4)
-  // COMMON: store ptr addrspace(4) addrspacecast (ptr [[INVL2:@__device_side_enqueue_block_invoke[^ ]*]] to ptr addrspace(4)), ptr %block.invoke
-  // COMMON: [[BL_I8:%[0-9]+]] ={{.*}} addrspacecast ptr %block4 to ptr addrspace(4)
+  // COMMON: store ptr addrspace(4) addrspacecast (ptr [[INVL2:@__device_side_enqueue_block_invoke[^ ]*]] to ptr addrspace(4)), ptr [[BLOCKINV:%block.invoke[0-9]+]]
+  // COMMON: [[BL_I8:%[0-9]+]] ={{.*}} addrspacecast ptr [[BLOCK:%block[0-9]+]] to ptr addrspace(4)
   // COMMON-LABEL: call {{(spir_func )?}}i32 @__enqueue_kernel_basic_events
   // SPIR-SAME: (target("spirv.Queue") [[DEF_Q]], i32 [[FLAGS]],  ptr {{.*}}, i32 2, ptr addrspace(4) [[WAIT_EVNT]], ptr addrspace(4) [[EVNT]],
   // X86-SAME: (ptr [[DEF_Q]], i32 [[FLAGS]],  ptr {{.*}}, i32 2, ptr addrspace(4) [[WAIT_EVNT]], ptr addrspace(4) [[EVNT]],
@@ -351,11 +351,13 @@ kernel void device_side_enqueue(global int *a, global int *b, int i) {
 
   // Make sure that block invoke function is resolved correctly after sequence of assignements.
   // COMMON: store ptr addrspace(4)
+  // COMMON: store ptr addrspace(4)
   // COMMON-SAME: addrspacecast (ptr addrspace(1)
   // COMMON-SAME: [[BL_GLOBAL]]
   // COMMON-SAME: to ptr addrspace(4)),
   // COMMON-SAME: ptr %b1,
   bl_t b1 = block_G;
+  // COMMON: store ptr addrspace(4)
   // COMMON: store ptr addrspace(4)
   // COMMON-SAME: addrspacecast (ptr addrspace(1)
   // COMMON-SAME: [[BL_GLOBAL]]

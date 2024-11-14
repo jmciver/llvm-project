@@ -48,8 +48,11 @@ int foo(int n) {
   // TCHECK:  define weak_odr protected void @__omp_offloading_{{.+}}(ptr {{[^,]+}})
   // TCHECK:  [[DYN_PTR:%.+]] = alloca ptr
   // TCHECK:  [[A:%.+]] = alloca i{{[0-9]+}},
+  // TCHECK-NEXT: store ptr %dyn_ptr, ptr [[DYN_PTR]]
+  // TCHECK-NEXT: [[FREEZE:%.+]] = freeze i32 poison
+  // TCHECK-NEXT: store i32 [[FREEZE]], ptr [[A]], align 4
   // TCHECK-NOT: store {{.+}}, {{.+}} [[A]],
-  // TCHECK:  ret void
+  // TCHECK-NEXT:  ret void
 
 #pragma omp target private(a)
   {

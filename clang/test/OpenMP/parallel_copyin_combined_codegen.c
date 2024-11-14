@@ -96,11 +96,11 @@ void test_omp_parallel_master_copyin(int *a) {
 // CHECK-NEXT:   [[TMP7:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK-NEXT:   [[TMP8:%.*]] = load i32, ptr [[TMP7]], align 4
 // CHECK-NEXT:   call void @__kmpc_barrier(ptr @[[GLOB1:[0-9]+]], i32 [[TMP8]])
-// CHECK-NEXT:   store i32 0, ptr [[DOTOMP_LB]], align 4
-// CHECK-NEXT:   store i32 99, ptr [[DOTOMP_UB]], align 4
-// CHECK-NEXT:   store i32 1, ptr [[DOTOMP_STRIDE]], align 4
-// CHECK-NEXT:   store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK-NEXT:   [[TMP9:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
+// CHECK:        store i32 0, ptr [[DOTOMP_LB]], align 4
+// CHECK:        store i32 99, ptr [[DOTOMP_UB]], align 4
+// CHECK:        store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// CHECK:        store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// CHECK:        [[TMP9:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK-NEXT:   [[TMP10:%.*]] = load i32, ptr [[TMP9]], align 4
 // CHECK-NEXT:   call void @__kmpc_for_static_init_4(ptr @[[GLOB2:[0-9]+]], i32 [[TMP10]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK-NEXT:   [[TMP11:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
@@ -199,11 +199,11 @@ void test_omp_parallel_master_copyin(int *a) {
 // CHECK-NEXT:   [[TMP7:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK-NEXT:   [[TMP8:%.*]] = load i32, ptr [[TMP7]], align 4
 // CHECK-NEXT:   call void @__kmpc_barrier(ptr @[[GLOB1:[0-9]+]], i32 [[TMP8]])
-// CHECK-NEXT:   store i32 0, ptr [[DOTOMP_LB]], align 4
-// CHECK-NEXT:   store i32 99, ptr [[DOTOMP_UB]], align 4
-// CHECK-NEXT:   store i32 1, ptr [[DOTOMP_STRIDE]], align 4
-// CHECK-NEXT:   store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK-NEXT:   [[TMP9:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
+// CHECK:        store i32 0, ptr [[DOTOMP_LB]], align 4
+// CHECK:        store i32 99, ptr [[DOTOMP_UB]], align 4
+// CHECK:        store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// CHECK:        store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// CHECK:        [[TMP9:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK-NEXT:   [[TMP10:%.*]] = load i32, ptr [[TMP9]], align 4
 // CHECK-NEXT:   call void @__kmpc_for_static_init_4(ptr @[[GLOB2:[0-9]+]], i32 [[TMP10]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK-NEXT:   [[TMP11:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
@@ -299,11 +299,11 @@ void test_omp_parallel_master_copyin(int *a) {
 // CHECK-NEXT:   [[TMP7:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK-NEXT:   [[TMP8:%.*]] = load i32, ptr [[TMP7]], align 4
 // CHECK-NEXT:   call void @__kmpc_barrier(ptr @[[GLOB1:[0-9]+]], i32 [[TMP8]])
-// CHECK-NEXT:   store i32 0, ptr [[DOTOMP_LB]], align 4
-// CHECK-NEXT:   store i32 99, ptr [[DOTOMP_UB]], align 4
-// CHECK-NEXT:   store i32 1, ptr [[DOTOMP_STRIDE]], align 4
-// CHECK-NEXT:   store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// CHECK-NEXT:   [[TMP9:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
+// CHECK:        store i32 0, ptr [[DOTOMP_LB]], align 4
+// CHECK:        store i32 99, ptr [[DOTOMP_UB]], align 4
+// CHECK:        store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// CHECK:        store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// CHECK:        [[TMP9:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK-NEXT:   [[TMP10:%.*]] = load i32, ptr [[TMP9]], align 4
 // CHECK-NEXT:   call void @__kmpc_for_static_init_4(ptr @[[GLOB2:[0-9]+]], i32 [[TMP10]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK-NEXT:   [[TMP11:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
@@ -503,7 +503,7 @@ void test_omp_parallel_master_copyin(int *a) {
 // CHECK-NEXT:   [[TMP12:%.*]] = icmp ne i32 [[TMP11]], 0
 // CHECK-NEXT:   br i1 [[TMP12]], label [[OMP_IF_THEN:%.*]], label [[OMP_IF_END:%.*]]
 // CHECK:      omp_if.then:
-// CHECK-NEXT:   store i32 0, ptr [[I]], align 4
+// CHECK:        store i32 0, ptr [[I]], align 4
 // CHECK-NEXT:   br label [[FOR_COND:%.*]]
 // CHECK:      for.cond:
 // CHECK-NEXT:   [[TMP13:%.*]] = load i32, ptr [[I]], align 4

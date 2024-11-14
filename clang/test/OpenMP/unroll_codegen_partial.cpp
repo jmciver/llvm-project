@@ -22,7 +22,7 @@ extern "C" void body(...) {}
 // IR-NEXT:    store i32 %[[START:.+]], ptr %[[START_ADDR]], align 4
 // IR-NEXT:    store i32 %[[END:.+]], ptr %[[END_ADDR]], align 4
 // IR-NEXT:    store i32 %[[STEP:.+]], ptr %[[STEP_ADDR]], align 4
-// IR-NEXT:    %[[TMP0:.+]] = load i32, ptr %[[START_ADDR]], align 4
+// IR:         %[[TMP0:.+]] = load i32, ptr %[[START_ADDR]], align 4
 // IR-NEXT:    store i32 %[[TMP0]], ptr %[[I]], align 4
 // IR-NEXT:    br label %[[FOR_COND:.+]]
 // IR-EMPTY:

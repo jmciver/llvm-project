@@ -16,7 +16,7 @@ extern "C" void body(...) {}
 // IR-LABEL: @func(
 // IR-NEXT:  [[ENTRY:.*]]:
 // IR-NEXT:    %[[I:.+]] = alloca i32, align 4
-// IR-NEXT:    store i32 7, ptr %[[I]], align 4
+// IR:         store i32 7, ptr %[[I]], align 4
 // IR-NEXT:    br label %[[FOR_COND:.+]]
 // IR-EMPTY:
 // IR-NEXT:  [[FOR_COND]]:

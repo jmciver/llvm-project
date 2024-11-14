@@ -166,7 +166,7 @@ main(int argc, char *argv[]) {
 // CHECK:       omp.loop.exit:
 // CHECK:         call {{.+}}__kmpc_for_static_fini
 // CHECK:         [[TMP24:%.*]] = call {{.+}}__kmpc_cancel_barrier
-// CHECK:       .cancel.continue5:
+// CHECK:       .cancel.continue10:
 //
 //
 // CHECK-LABEL: define {{.+}}@main{{.+}} {

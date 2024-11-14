@@ -553,6 +553,9 @@ void test_precond() {
   // CHECK: store i8 0,
   // CHECK: store i32
   // CHECK: store i8
+  // CHECK: store i8
+  // CHECK: store i8
+  // CHECK: store i8   
   // CHECK: [[A:%.+]] = load i8, ptr [[CAP]],
   // CHECK: [[CONV:%.+]] = sext i8 [[A]] to i32
   // CHECK: [[CMP:%.+]] = icmp slt i32 [[CONV]], 10

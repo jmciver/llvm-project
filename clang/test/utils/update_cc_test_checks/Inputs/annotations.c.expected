@@ -5,11 +5,13 @@
 // CHECK-SAME: ) #[[ATTR0:[0-9]+]] {
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[X:%.*]] = alloca i32, align 4
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X]], align 4
 // CHECK-NEXT:    store i32 0, ptr [[X]], align 4, !annotation [[META2:![0-9]+]]
-// CHECK-NEXT:    [[TMP0:%.*]] = load i32, ptr [[X]], align 4, !freeze_bits [[META3:![0-9]+]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load i32, ptr [[X]], align 4
 // CHECK-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP0]], 1
 // CHECK-NEXT:    store i32 [[ADD]], ptr [[X]], align 4
-// CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr [[X]], align 4, !freeze_bits [[META3]]
+// CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr [[X]], align 4
 // CHECK-NEXT:    ret i32 [[TMP1]]
 //
 int foo() {
@@ -18,5 +20,4 @@ int foo() {
 }
 //.
 // CHECK: [[META2]] = !{!"auto-init"}
-// CHECK: [[META3]] = !{}
 //.

@@ -53,7 +53,7 @@ int main(int argc, char **argv) {
 // CHECK1-NEXT:    store i32 0, ptr [[RETVAL]], align 4
 // CHECK1-NEXT:    store i32 [[ARGC]], ptr [[ARGC_ADDR]], align 4
 // CHECK1-NEXT:    store ptr [[ARGV]], ptr [[ARGV_ADDR]], align 8
-// CHECK1-NEXT:    [[ARRAY_BEGIN:%.*]] = getelementptr inbounds [5 x %struct.S], ptr [[C]], i32 0, i32 0
+// CHECK1:    [[ARRAY_BEGIN:%.*]] = getelementptr inbounds [5 x %struct.S], ptr [[C]], i32 0, i32 0
 // CHECK1-NEXT:    [[ARRAYCTOR_END:%.*]] = getelementptr inbounds [[STRUCT_S:%.*]], ptr [[ARRAY_BEGIN]], i64 5
 // CHECK1-NEXT:    br label [[ARRAYCTOR_LOOP:%.*]]
 // CHECK1:       arrayctor.loop:
@@ -116,7 +116,7 @@ int main(int argc, char **argv) {
 // CHECK1-NEXT:    [[TMP32:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASKRED_INPUT_T]], ptr [[DOTRD_INPUT_GEP_2]], i32 0, i32 6
 // CHECK1-NEXT:    call void @llvm.memset.p0.i64(ptr align 8 [[TMP32]], i8 0, i64 4, i1 false)
 // CHECK1-NEXT:    [[TMP35:%.*]] = call ptr @__kmpc_taskred_init(i32 [[TMP0]], i32 3, ptr [[DOTRD_INPUT_]])
-// CHECK1-NEXT:    store ptr [[TMP35]], ptr [[DOTTASK_RED_]], align 8
+// CHECK1:         store ptr [[TMP35]], ptr [[DOTTASK_RED_]], align 8
 // CHECK1-NEXT:    call void @__kmpc_taskgroup(ptr @[[GLOB1]], i32 [[TMP0]])
 // CHECK1-NEXT:    [[DOTRD_INPUT_GEP_4:%.*]] = getelementptr inbounds [2 x %struct.kmp_taskred_input_t.0], ptr [[DOTRD_INPUT_3]], i64 0, i64 0
 // CHECK1-NEXT:    [[TMP36:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASKRED_INPUT_T_0:%.*]], ptr [[DOTRD_INPUT_GEP_4]], i32 0, i32 0
@@ -151,7 +151,7 @@ int main(int argc, char **argv) {
 // CHECK1-NEXT:    [[TMP56:%.*]] = getelementptr inbounds [[STRUCT_KMP_TASKRED_INPUT_T_0]], ptr [[DOTRD_INPUT_GEP_5]], i32 0, i32 6
 // CHECK1-NEXT:    store i32 1, ptr [[TMP56]], align 8
 // CHECK1-NEXT:    [[TMP58:%.*]] = call ptr @__kmpc_taskred_init(i32 [[TMP0]], i32 2, ptr [[DOTRD_INPUT_3]])
-// CHECK1-NEXT:    store ptr [[TMP58]], ptr [[DOTTASK_RED_6]], align 8
+// CHECK1:         store ptr [[TMP58]], ptr [[DOTTASK_RED_6]], align 8
 // CHECK1-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB1]], i32 4, ptr @main.omp_outlined, ptr [[A]], i64 [[TMP2]], ptr [[VLA]], ptr [[DOTTASK_RED_]])
 // CHECK1-NEXT:    call void @__kmpc_end_taskgroup(ptr @[[GLOB1]], i32 [[TMP0]])
 // CHECK1-NEXT:    call void @__kmpc_end_taskgroup(ptr @[[GLOB1]], i32 [[TMP0]])
@@ -167,7 +167,7 @@ int main(int argc, char **argv) {
 // CHECK1-NEXT:    call void @_ZN1SD1Ev(ptr nonnull align 4 dereferenceable(4) [[ARRAYDESTROY_ELEMENT]]) #[[ATTR3:[0-9]+]]
 // CHECK1-NEXT:    [[ARRAYDESTROY_DONE:%.*]] = icmp eq ptr [[ARRAYDESTROY_ELEMENT]], [[ARRAY_BEGIN7]]
 // CHECK1-NEXT:    br i1 [[ARRAYDESTROY_DONE]], label [[ARRAYDESTROY_DONE8:%.*]], label [[ARRAYDESTROY_BODY]]
-// CHECK1:       arraydestroy.done8:
+// CHECK1:       arraydestroy.done11:
 // CHECK1-NEXT:    [[TMP61:%.*]] = load i32, ptr [[RETVAL]], align 4
 // CHECK1-NEXT:    ret i32 [[TMP61]]
 //
@@ -488,7 +488,7 @@ int main(int argc, char **argv) {
 // CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[A_ADDR]], align 8
 // CHECK1-NEXT:    [[TMP1:%.*]] = load i64, ptr [[VLA_ADDR]], align 8
 // CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[D_ADDR]], align 8
-// CHECK1-NEXT:    store i32 0, ptr [[I]], align 4
+// CHECK1:         store i32 0, ptr [[I]], align 4
 // CHECK1-NEXT:    br label [[FOR_COND:%.*]]
 // CHECK1:       for.cond:
 // CHECK1-NEXT:    [[TMP3:%.*]] = load i32, ptr [[I]], align 4
