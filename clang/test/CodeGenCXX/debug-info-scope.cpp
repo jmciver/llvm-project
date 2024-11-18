@@ -58,9 +58,9 @@ void func() {
   // CHECK-NOT:                line:
   // CHECK-SAME:               ){{$}}
   for (int i : x) {
+    // CHECK: [[RANGE_FOR_BODY:![0-9]+]] = distinct !DILexicalBlock(scope: [[RANGE_FOR]],{{.*}} line: [[@LINE-1]])
     // CHECK: = !DILocalVariable(name: "i"
     // CHECK-SAME:               scope: [[RANGE_FOR_BODY:![0-9]*]]
-    // CHECK-SAME:               line: [[@LINE-3]]
-    // CHECK: [[RANGE_FOR_BODY]] = distinct !DILexicalBlock(scope: [[RANGE_FOR]],{{.*}} line: [[@LINE-4]])
+    // CHECK-SAME:               line: [[@LINE-4]]
   }
 }
