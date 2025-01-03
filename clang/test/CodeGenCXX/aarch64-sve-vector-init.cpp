@@ -56,56 +56,158 @@
 // CHECK-NEXT:    [[B8X2:%.*]] = alloca <vscale x 32 x i1>, align 2
 // CHECK-NEXT:    [[B8X4:%.*]] = alloca <vscale x 64 x i1>, align 2
 // CHECK-NEXT:    [[CNT:%.*]] = alloca target("aarch64.svcount"), align 2
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 16 x i8> poison
+// CHECK-NEXT:    store <vscale x 16 x i8> [[FREEZE_POISON]], ptr [[S8]], align 16
 // CHECK-NEXT:    store <vscale x 16 x i8> zeroinitializer, ptr [[S8]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze <vscale x 8 x i16> poison
+// CHECK-NEXT:    store <vscale x 8 x i16> [[FREEZE_POISON1]], ptr [[S16]], align 16
 // CHECK-NEXT:    store <vscale x 8 x i16> zeroinitializer, ptr [[S16]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON2:%.*]] = freeze <vscale x 4 x i32> poison
+// CHECK-NEXT:    store <vscale x 4 x i32> [[FREEZE_POISON2]], ptr [[S32]], align 16
 // CHECK-NEXT:    store <vscale x 4 x i32> zeroinitializer, ptr [[S32]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON3:%.*]] = freeze <vscale x 2 x i64> poison
+// CHECK-NEXT:    store <vscale x 2 x i64> [[FREEZE_POISON3]], ptr [[S64]], align 16
 // CHECK-NEXT:    store <vscale x 2 x i64> zeroinitializer, ptr [[S64]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON4:%.*]] = freeze <vscale x 16 x i8> poison
+// CHECK-NEXT:    store <vscale x 16 x i8> [[FREEZE_POISON4]], ptr [[U8]], align 16
 // CHECK-NEXT:    store <vscale x 16 x i8> zeroinitializer, ptr [[U8]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON5:%.*]] = freeze <vscale x 8 x i16> poison
+// CHECK-NEXT:    store <vscale x 8 x i16> [[FREEZE_POISON5]], ptr [[U16]], align 16
 // CHECK-NEXT:    store <vscale x 8 x i16> zeroinitializer, ptr [[U16]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON6:%.*]] = freeze <vscale x 4 x i32> poison
+// CHECK-NEXT:    store <vscale x 4 x i32> [[FREEZE_POISON6]], ptr [[U32]], align 16
 // CHECK-NEXT:    store <vscale x 4 x i32> zeroinitializer, ptr [[U32]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON7:%.*]] = freeze <vscale x 2 x i64> poison
+// CHECK-NEXT:    store <vscale x 2 x i64> [[FREEZE_POISON7]], ptr [[U64]], align 16
 // CHECK-NEXT:    store <vscale x 2 x i64> zeroinitializer, ptr [[U64]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON8:%.*]] = freeze <vscale x 8 x half> poison
+// CHECK-NEXT:    store <vscale x 8 x half> [[FREEZE_POISON8]], ptr [[F16]], align 16
 // CHECK-NEXT:    store <vscale x 8 x half> zeroinitializer, ptr [[F16]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON9:%.*]] = freeze <vscale x 4 x float> poison
+// CHECK-NEXT:    store <vscale x 4 x float> [[FREEZE_POISON9]], ptr [[F32]], align 16
 // CHECK-NEXT:    store <vscale x 4 x float> zeroinitializer, ptr [[F32]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON10:%.*]] = freeze <vscale x 2 x double> poison
+// CHECK-NEXT:    store <vscale x 2 x double> [[FREEZE_POISON10]], ptr [[F64]], align 16
 // CHECK-NEXT:    store <vscale x 2 x double> zeroinitializer, ptr [[F64]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON11:%.*]] = freeze <vscale x 8 x bfloat> poison
+// CHECK-NEXT:    store <vscale x 8 x bfloat> [[FREEZE_POISON11]], ptr [[BF16]], align 16
 // CHECK-NEXT:    store <vscale x 8 x bfloat> zeroinitializer, ptr [[BF16]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON12:%.*]] = freeze <vscale x 32 x i8> poison
+// CHECK-NEXT:    store <vscale x 32 x i8> [[FREEZE_POISON12]], ptr [[S8X2]], align 16
 // CHECK-NEXT:    store <vscale x 32 x i8> zeroinitializer, ptr [[S8X2]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON13:%.*]] = freeze <vscale x 16 x i16> poison
+// CHECK-NEXT:    store <vscale x 16 x i16> [[FREEZE_POISON13]], ptr [[S16X2]], align 16
 // CHECK-NEXT:    store <vscale x 16 x i16> zeroinitializer, ptr [[S16X2]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON14:%.*]] = freeze <vscale x 8 x i32> poison
+// CHECK-NEXT:    store <vscale x 8 x i32> [[FREEZE_POISON14]], ptr [[S32X2]], align 16
 // CHECK-NEXT:    store <vscale x 8 x i32> zeroinitializer, ptr [[S32X2]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON15:%.*]] = freeze <vscale x 4 x i64> poison
+// CHECK-NEXT:    store <vscale x 4 x i64> [[FREEZE_POISON15]], ptr [[X64X2]], align 16
 // CHECK-NEXT:    store <vscale x 4 x i64> zeroinitializer, ptr [[X64X2]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON16:%.*]] = freeze <vscale x 32 x i8> poison
+// CHECK-NEXT:    store <vscale x 32 x i8> [[FREEZE_POISON16]], ptr [[U8X2]], align 16
 // CHECK-NEXT:    store <vscale x 32 x i8> zeroinitializer, ptr [[U8X2]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON17:%.*]] = freeze <vscale x 16 x i16> poison
+// CHECK-NEXT:    store <vscale x 16 x i16> [[FREEZE_POISON17]], ptr [[U16X2]], align 16
 // CHECK-NEXT:    store <vscale x 16 x i16> zeroinitializer, ptr [[U16X2]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON18:%.*]] = freeze <vscale x 8 x i32> poison
+// CHECK-NEXT:    store <vscale x 8 x i32> [[FREEZE_POISON18]], ptr [[U32X2]], align 16
 // CHECK-NEXT:    store <vscale x 8 x i32> zeroinitializer, ptr [[U32X2]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON19:%.*]] = freeze <vscale x 4 x i64> poison
+// CHECK-NEXT:    store <vscale x 4 x i64> [[FREEZE_POISON19]], ptr [[U64X2]], align 16
 // CHECK-NEXT:    store <vscale x 4 x i64> zeroinitializer, ptr [[U64X2]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON20:%.*]] = freeze <vscale x 16 x half> poison
+// CHECK-NEXT:    store <vscale x 16 x half> [[FREEZE_POISON20]], ptr [[F16X2]], align 16
 // CHECK-NEXT:    store <vscale x 16 x half> zeroinitializer, ptr [[F16X2]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON21:%.*]] = freeze <vscale x 8 x float> poison
+// CHECK-NEXT:    store <vscale x 8 x float> [[FREEZE_POISON21]], ptr [[F32X2]], align 16
 // CHECK-NEXT:    store <vscale x 8 x float> zeroinitializer, ptr [[F32X2]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON22:%.*]] = freeze <vscale x 4 x double> poison
+// CHECK-NEXT:    store <vscale x 4 x double> [[FREEZE_POISON22]], ptr [[F64X2]], align 16
 // CHECK-NEXT:    store <vscale x 4 x double> zeroinitializer, ptr [[F64X2]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON23:%.*]] = freeze <vscale x 16 x bfloat> poison
+// CHECK-NEXT:    store <vscale x 16 x bfloat> [[FREEZE_POISON23]], ptr [[BF16X2]], align 16
 // CHECK-NEXT:    store <vscale x 16 x bfloat> zeroinitializer, ptr [[BF16X2]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON24:%.*]] = freeze <vscale x 48 x i8> poison
+// CHECK-NEXT:    store <vscale x 48 x i8> [[FREEZE_POISON24]], ptr [[S8X3]], align 16
 // CHECK-NEXT:    store <vscale x 48 x i8> zeroinitializer, ptr [[S8X3]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON25:%.*]] = freeze <vscale x 24 x i16> poison
+// CHECK-NEXT:    store <vscale x 24 x i16> [[FREEZE_POISON25]], ptr [[S16X3]], align 16
 // CHECK-NEXT:    store <vscale x 24 x i16> zeroinitializer, ptr [[S16X3]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON26:%.*]] = freeze <vscale x 12 x i32> poison
+// CHECK-NEXT:    store <vscale x 12 x i32> [[FREEZE_POISON26]], ptr [[S32X3]], align 16
 // CHECK-NEXT:    store <vscale x 12 x i32> zeroinitializer, ptr [[S32X3]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON27:%.*]] = freeze <vscale x 6 x i64> poison
+// CHECK-NEXT:    store <vscale x 6 x i64> [[FREEZE_POISON27]], ptr [[X64X3]], align 16
 // CHECK-NEXT:    store <vscale x 6 x i64> zeroinitializer, ptr [[X64X3]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON28:%.*]] = freeze <vscale x 48 x i8> poison
+// CHECK-NEXT:    store <vscale x 48 x i8> [[FREEZE_POISON28]], ptr [[U8X3]], align 16
 // CHECK-NEXT:    store <vscale x 48 x i8> zeroinitializer, ptr [[U8X3]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON29:%.*]] = freeze <vscale x 24 x i16> poison
+// CHECK-NEXT:    store <vscale x 24 x i16> [[FREEZE_POISON29]], ptr [[U16X3]], align 16
 // CHECK-NEXT:    store <vscale x 24 x i16> zeroinitializer, ptr [[U16X3]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON30:%.*]] = freeze <vscale x 12 x i32> poison
+// CHECK-NEXT:    store <vscale x 12 x i32> [[FREEZE_POISON30]], ptr [[U32X3]], align 16
 // CHECK-NEXT:    store <vscale x 12 x i32> zeroinitializer, ptr [[U32X3]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON31:%.*]] = freeze <vscale x 6 x i64> poison
+// CHECK-NEXT:    store <vscale x 6 x i64> [[FREEZE_POISON31]], ptr [[U64X3]], align 16
 // CHECK-NEXT:    store <vscale x 6 x i64> zeroinitializer, ptr [[U64X3]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON32:%.*]] = freeze <vscale x 24 x half> poison
+// CHECK-NEXT:    store <vscale x 24 x half> [[FREEZE_POISON32]], ptr [[F16X3]], align 16
 // CHECK-NEXT:    store <vscale x 24 x half> zeroinitializer, ptr [[F16X3]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON33:%.*]] = freeze <vscale x 12 x float> poison
+// CHECK-NEXT:    store <vscale x 12 x float> [[FREEZE_POISON33]], ptr [[F32X3]], align 16
 // CHECK-NEXT:    store <vscale x 12 x float> zeroinitializer, ptr [[F32X3]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON34:%.*]] = freeze <vscale x 6 x double> poison
+// CHECK-NEXT:    store <vscale x 6 x double> [[FREEZE_POISON34]], ptr [[F64X3]], align 16
 // CHECK-NEXT:    store <vscale x 6 x double> zeroinitializer, ptr [[F64X3]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON35:%.*]] = freeze <vscale x 24 x bfloat> poison
+// CHECK-NEXT:    store <vscale x 24 x bfloat> [[FREEZE_POISON35]], ptr [[BF16X3]], align 16
 // CHECK-NEXT:    store <vscale x 24 x bfloat> zeroinitializer, ptr [[BF16X3]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON36:%.*]] = freeze <vscale x 64 x i8> poison
+// CHECK-NEXT:    store <vscale x 64 x i8> [[FREEZE_POISON36]], ptr [[S8X4]], align 16
 // CHECK-NEXT:    store <vscale x 64 x i8> zeroinitializer, ptr [[S8X4]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON37:%.*]] = freeze <vscale x 32 x i16> poison
+// CHECK-NEXT:    store <vscale x 32 x i16> [[FREEZE_POISON37]], ptr [[S16X4]], align 16
 // CHECK-NEXT:    store <vscale x 32 x i16> zeroinitializer, ptr [[S16X4]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON38:%.*]] = freeze <vscale x 16 x i32> poison
+// CHECK-NEXT:    store <vscale x 16 x i32> [[FREEZE_POISON38]], ptr [[S32X4]], align 16
 // CHECK-NEXT:    store <vscale x 16 x i32> zeroinitializer, ptr [[S32X4]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON39:%.*]] = freeze <vscale x 8 x i64> poison
+// CHECK-NEXT:    store <vscale x 8 x i64> [[FREEZE_POISON39]], ptr [[X64X4]], align 16
 // CHECK-NEXT:    store <vscale x 8 x i64> zeroinitializer, ptr [[X64X4]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON40:%.*]] = freeze <vscale x 64 x i8> poison
+// CHECK-NEXT:    store <vscale x 64 x i8> [[FREEZE_POISON40]], ptr [[U8X4]], align 16
 // CHECK-NEXT:    store <vscale x 64 x i8> zeroinitializer, ptr [[U8X4]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON41:%.*]] = freeze <vscale x 32 x i16> poison
+// CHECK-NEXT:    store <vscale x 32 x i16> [[FREEZE_POISON41]], ptr [[U16X4]], align 16
 // CHECK-NEXT:    store <vscale x 32 x i16> zeroinitializer, ptr [[U16X4]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON42:%.*]] = freeze <vscale x 16 x i32> poison
+// CHECK-NEXT:    store <vscale x 16 x i32> [[FREEZE_POISON42]], ptr [[U32X4]], align 16
 // CHECK-NEXT:    store <vscale x 16 x i32> zeroinitializer, ptr [[U32X4]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON43:%.*]] = freeze <vscale x 8 x i64> poison
+// CHECK-NEXT:    store <vscale x 8 x i64> [[FREEZE_POISON43]], ptr [[U64X4]], align 16
 // CHECK-NEXT:    store <vscale x 8 x i64> zeroinitializer, ptr [[U64X4]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON44:%.*]] = freeze <vscale x 32 x half> poison
+// CHECK-NEXT:    store <vscale x 32 x half> [[FREEZE_POISON44]], ptr [[F16X4]], align 16
 // CHECK-NEXT:    store <vscale x 32 x half> zeroinitializer, ptr [[F16X4]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON45:%.*]] = freeze <vscale x 16 x float> poison
+// CHECK-NEXT:    store <vscale x 16 x float> [[FREEZE_POISON45]], ptr [[F32X4]], align 16
 // CHECK-NEXT:    store <vscale x 16 x float> zeroinitializer, ptr [[F32X4]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON46:%.*]] = freeze <vscale x 8 x double> poison
+// CHECK-NEXT:    store <vscale x 8 x double> [[FREEZE_POISON46]], ptr [[F64X4]], align 16
 // CHECK-NEXT:    store <vscale x 8 x double> zeroinitializer, ptr [[F64X4]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON47:%.*]] = freeze <vscale x 32 x bfloat> poison
+// CHECK-NEXT:    store <vscale x 32 x bfloat> [[FREEZE_POISON47]], ptr [[BF16X4]], align 16
 // CHECK-NEXT:    store <vscale x 32 x bfloat> zeroinitializer, ptr [[BF16X4]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON48:%.*]] = freeze <vscale x 16 x i1> poison
+// CHECK-NEXT:    store <vscale x 16 x i1> [[FREEZE_POISON48]], ptr [[B8]], align 2
 // CHECK-NEXT:    store <vscale x 16 x i1> zeroinitializer, ptr [[B8]], align 2
+// CHECK-NEXT:    [[FREEZE_POISON49:%.*]] = freeze <vscale x 32 x i1> poison
+// CHECK-NEXT:    store <vscale x 32 x i1> [[FREEZE_POISON49]], ptr [[B8X2]], align 2
 // CHECK-NEXT:    store <vscale x 32 x i1> zeroinitializer, ptr [[B8X2]], align 2
+// CHECK-NEXT:    [[FREEZE_POISON50:%.*]] = freeze <vscale x 64 x i1> poison
+// CHECK-NEXT:    store <vscale x 64 x i1> [[FREEZE_POISON50]], ptr [[B8X4]], align 2
 // CHECK-NEXT:    store <vscale x 64 x i1> zeroinitializer, ptr [[B8X4]], align 2
 // CHECK-NEXT:    store target("aarch64.svcount") zeroinitializer, ptr [[CNT]], align 2
 // CHECK-NEXT:    ret void
@@ -176,6 +278,8 @@ void test_locals(void) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 16 x i8>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 16 x i8>, align 16
 // CHECK-NEXT:    store <vscale x 16 x i8> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 16 x i8> poison
+// CHECK-NEXT:    store <vscale x 16 x i8> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 16 x i8>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 16 x i8> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -190,6 +294,8 @@ void test_copy_s8(__SVInt8_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 8 x i16>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 8 x i16>, align 16
 // CHECK-NEXT:    store <vscale x 8 x i16> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 8 x i16> poison
+// CHECK-NEXT:    store <vscale x 8 x i16> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 8 x i16>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 8 x i16> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -204,6 +310,8 @@ void test_copy_s16(__SVInt16_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 4 x i32>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 4 x i32>, align 16
 // CHECK-NEXT:    store <vscale x 4 x i32> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 4 x i32> poison
+// CHECK-NEXT:    store <vscale x 4 x i32> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 4 x i32>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 4 x i32> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -218,6 +326,8 @@ void test_copy_s32(__SVInt32_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 2 x i64>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 2 x i64>, align 16
 // CHECK-NEXT:    store <vscale x 2 x i64> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 2 x i64> poison
+// CHECK-NEXT:    store <vscale x 2 x i64> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 2 x i64>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 2 x i64> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -232,6 +342,8 @@ void test_copy_s64(__SVInt64_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 16 x i8>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 16 x i8>, align 16
 // CHECK-NEXT:    store <vscale x 16 x i8> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 16 x i8> poison
+// CHECK-NEXT:    store <vscale x 16 x i8> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 16 x i8>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 16 x i8> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -246,6 +358,8 @@ void test_copy_u8(__SVUint8_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 8 x i16>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 8 x i16>, align 16
 // CHECK-NEXT:    store <vscale x 8 x i16> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 8 x i16> poison
+// CHECK-NEXT:    store <vscale x 8 x i16> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 8 x i16>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 8 x i16> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -260,6 +374,8 @@ void test_copy_u16(__SVUint16_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 4 x i32>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 4 x i32>, align 16
 // CHECK-NEXT:    store <vscale x 4 x i32> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 4 x i32> poison
+// CHECK-NEXT:    store <vscale x 4 x i32> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 4 x i32>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 4 x i32> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -274,6 +390,8 @@ void test_copy_u32(__SVUint32_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 2 x i64>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 2 x i64>, align 16
 // CHECK-NEXT:    store <vscale x 2 x i64> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 2 x i64> poison
+// CHECK-NEXT:    store <vscale x 2 x i64> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 2 x i64>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 2 x i64> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -288,6 +406,8 @@ void test_copy_u64(__SVUint64_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 8 x half>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 8 x half>, align 16
 // CHECK-NEXT:    store <vscale x 8 x half> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 8 x half> poison
+// CHECK-NEXT:    store <vscale x 8 x half> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 8 x half>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 8 x half> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -302,6 +422,8 @@ void test_copy_f16(__SVFloat16_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 4 x float>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 4 x float>, align 16
 // CHECK-NEXT:    store <vscale x 4 x float> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 4 x float> poison
+// CHECK-NEXT:    store <vscale x 4 x float> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 4 x float>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 4 x float> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -316,6 +438,8 @@ void test_copy_f32(__SVFloat32_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 2 x double>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 2 x double>, align 16
 // CHECK-NEXT:    store <vscale x 2 x double> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 2 x double> poison
+// CHECK-NEXT:    store <vscale x 2 x double> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 2 x double>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 2 x double> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -330,6 +454,8 @@ void test_copy_f64(__SVFloat64_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 8 x bfloat>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 8 x bfloat>, align 16
 // CHECK-NEXT:    store <vscale x 8 x bfloat> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 8 x bfloat> poison
+// CHECK-NEXT:    store <vscale x 8 x bfloat> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 8 x bfloat>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 8 x bfloat> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -344,6 +470,8 @@ void test_copy_bf16(__SVBfloat16_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 32 x i8>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 32 x i8>, align 16
 // CHECK-NEXT:    store <vscale x 32 x i8> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 32 x i8> poison
+// CHECK-NEXT:    store <vscale x 32 x i8> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 32 x i8>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 32 x i8> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -358,6 +486,8 @@ void test_copy_s8x2(__clang_svint8x2_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 16 x i16>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 16 x i16>, align 16
 // CHECK-NEXT:    store <vscale x 16 x i16> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 16 x i16> poison
+// CHECK-NEXT:    store <vscale x 16 x i16> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 16 x i16>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 16 x i16> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -372,6 +502,8 @@ void test_copy_s16x2(__clang_svint16x2_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 8 x i32>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 8 x i32>, align 16
 // CHECK-NEXT:    store <vscale x 8 x i32> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 8 x i32> poison
+// CHECK-NEXT:    store <vscale x 8 x i32> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 8 x i32>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 8 x i32> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -386,6 +518,8 @@ void test_copy_s32x2(__clang_svint32x2_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 4 x i64>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 4 x i64>, align 16
 // CHECK-NEXT:    store <vscale x 4 x i64> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 4 x i64> poison
+// CHECK-NEXT:    store <vscale x 4 x i64> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 4 x i64>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 4 x i64> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -400,6 +534,8 @@ void test_copy_s64x2(__clang_svint64x2_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 32 x i8>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 32 x i8>, align 16
 // CHECK-NEXT:    store <vscale x 32 x i8> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 32 x i8> poison
+// CHECK-NEXT:    store <vscale x 32 x i8> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 32 x i8>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 32 x i8> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -414,6 +550,8 @@ void test_copy_u8x2(__clang_svuint8x2_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 16 x i16>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 16 x i16>, align 16
 // CHECK-NEXT:    store <vscale x 16 x i16> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 16 x i16> poison
+// CHECK-NEXT:    store <vscale x 16 x i16> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 16 x i16>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 16 x i16> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -428,6 +566,8 @@ void test_copy_u16x2(__clang_svuint16x2_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 8 x i32>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 8 x i32>, align 16
 // CHECK-NEXT:    store <vscale x 8 x i32> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 8 x i32> poison
+// CHECK-NEXT:    store <vscale x 8 x i32> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 8 x i32>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 8 x i32> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -442,6 +582,8 @@ void test_copy_u32x2(__clang_svuint32x2_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 4 x i64>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 4 x i64>, align 16
 // CHECK-NEXT:    store <vscale x 4 x i64> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 4 x i64> poison
+// CHECK-NEXT:    store <vscale x 4 x i64> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 4 x i64>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 4 x i64> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -456,6 +598,8 @@ void test_copy_u64x2(__clang_svuint64x2_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 16 x half>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 16 x half>, align 16
 // CHECK-NEXT:    store <vscale x 16 x half> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 16 x half> poison
+// CHECK-NEXT:    store <vscale x 16 x half> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 16 x half>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 16 x half> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -470,6 +614,8 @@ void test_copy_f16x2(__clang_svfloat16x2_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 8 x float>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 8 x float>, align 16
 // CHECK-NEXT:    store <vscale x 8 x float> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 8 x float> poison
+// CHECK-NEXT:    store <vscale x 8 x float> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 8 x float>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 8 x float> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -484,6 +630,8 @@ void test_copy_f32x2(__clang_svfloat32x2_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 4 x double>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 4 x double>, align 16
 // CHECK-NEXT:    store <vscale x 4 x double> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 4 x double> poison
+// CHECK-NEXT:    store <vscale x 4 x double> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 4 x double>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 4 x double> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -498,6 +646,8 @@ void test_copy_f64x2(__clang_svfloat64x2_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 16 x bfloat>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 16 x bfloat>, align 16
 // CHECK-NEXT:    store <vscale x 16 x bfloat> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 16 x bfloat> poison
+// CHECK-NEXT:    store <vscale x 16 x bfloat> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 16 x bfloat>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 16 x bfloat> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -512,6 +662,8 @@ void test_copy_bf16x2(__clang_svbfloat16x2_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 48 x i8>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 48 x i8>, align 16
 // CHECK-NEXT:    store <vscale x 48 x i8> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 48 x i8> poison
+// CHECK-NEXT:    store <vscale x 48 x i8> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 48 x i8>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 48 x i8> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -526,6 +678,8 @@ void test_copy_s8x3(__clang_svint8x3_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 24 x i16>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 24 x i16>, align 16
 // CHECK-NEXT:    store <vscale x 24 x i16> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 24 x i16> poison
+// CHECK-NEXT:    store <vscale x 24 x i16> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 24 x i16>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 24 x i16> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -540,6 +694,8 @@ void test_copy_s16x3(__clang_svint16x3_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 12 x i32>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 12 x i32>, align 16
 // CHECK-NEXT:    store <vscale x 12 x i32> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 12 x i32> poison
+// CHECK-NEXT:    store <vscale x 12 x i32> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 12 x i32>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 12 x i32> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -554,6 +710,8 @@ void test_copy_s32x3(__clang_svint32x3_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 6 x i64>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 6 x i64>, align 16
 // CHECK-NEXT:    store <vscale x 6 x i64> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 6 x i64> poison
+// CHECK-NEXT:    store <vscale x 6 x i64> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 6 x i64>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 6 x i64> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -568,6 +726,8 @@ void test_copy_s64x3(__clang_svint64x3_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 48 x i8>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 48 x i8>, align 16
 // CHECK-NEXT:    store <vscale x 48 x i8> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 48 x i8> poison
+// CHECK-NEXT:    store <vscale x 48 x i8> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 48 x i8>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 48 x i8> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -582,6 +742,8 @@ void test_copy_u8x3(__clang_svuint8x3_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 24 x i16>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 24 x i16>, align 16
 // CHECK-NEXT:    store <vscale x 24 x i16> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 24 x i16> poison
+// CHECK-NEXT:    store <vscale x 24 x i16> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 24 x i16>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 24 x i16> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -596,6 +758,8 @@ void test_copy_u16x3(__clang_svuint16x3_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 12 x i32>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 12 x i32>, align 16
 // CHECK-NEXT:    store <vscale x 12 x i32> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 12 x i32> poison
+// CHECK-NEXT:    store <vscale x 12 x i32> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 12 x i32>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 12 x i32> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -610,6 +774,8 @@ void test_copy_u32x3(__clang_svuint32x3_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 6 x i64>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 6 x i64>, align 16
 // CHECK-NEXT:    store <vscale x 6 x i64> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 6 x i64> poison
+// CHECK-NEXT:    store <vscale x 6 x i64> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 6 x i64>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 6 x i64> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -624,6 +790,8 @@ void test_copy_u64x3(__clang_svuint64x3_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 24 x half>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 24 x half>, align 16
 // CHECK-NEXT:    store <vscale x 24 x half> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 24 x half> poison
+// CHECK-NEXT:    store <vscale x 24 x half> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 24 x half>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 24 x half> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -638,6 +806,8 @@ void test_copy_f16x3(__clang_svfloat16x3_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 12 x float>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 12 x float>, align 16
 // CHECK-NEXT:    store <vscale x 12 x float> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 12 x float> poison
+// CHECK-NEXT:    store <vscale x 12 x float> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 12 x float>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 12 x float> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -652,6 +822,8 @@ void test_copy_f32x3(__clang_svfloat32x3_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 6 x double>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 6 x double>, align 16
 // CHECK-NEXT:    store <vscale x 6 x double> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 6 x double> poison
+// CHECK-NEXT:    store <vscale x 6 x double> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 6 x double>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 6 x double> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -666,6 +838,8 @@ void test_copy_f64x3(__clang_svfloat64x3_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 24 x bfloat>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 24 x bfloat>, align 16
 // CHECK-NEXT:    store <vscale x 24 x bfloat> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 24 x bfloat> poison
+// CHECK-NEXT:    store <vscale x 24 x bfloat> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 24 x bfloat>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 24 x bfloat> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -680,6 +854,8 @@ void test_copy_bf16x3(__clang_svbfloat16x3_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 64 x i8>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 64 x i8>, align 16
 // CHECK-NEXT:    store <vscale x 64 x i8> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 64 x i8> poison
+// CHECK-NEXT:    store <vscale x 64 x i8> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 64 x i8>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 64 x i8> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -694,6 +870,8 @@ void test_copy_s8x4(__clang_svint8x4_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 32 x i16>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 32 x i16>, align 16
 // CHECK-NEXT:    store <vscale x 32 x i16> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 32 x i16> poison
+// CHECK-NEXT:    store <vscale x 32 x i16> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 32 x i16>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 32 x i16> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -708,6 +886,8 @@ void test_copy_s16x4(__clang_svint16x4_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 16 x i32>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 16 x i32>, align 16
 // CHECK-NEXT:    store <vscale x 16 x i32> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 16 x i32> poison
+// CHECK-NEXT:    store <vscale x 16 x i32> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 16 x i32>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 16 x i32> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -722,6 +902,8 @@ void test_copy_s32x4(__clang_svint32x4_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 8 x i64>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 8 x i64>, align 16
 // CHECK-NEXT:    store <vscale x 8 x i64> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 8 x i64> poison
+// CHECK-NEXT:    store <vscale x 8 x i64> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 8 x i64>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 8 x i64> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -736,6 +918,8 @@ void test_copy_s64x4(__clang_svint64x4_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 64 x i8>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 64 x i8>, align 16
 // CHECK-NEXT:    store <vscale x 64 x i8> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 64 x i8> poison
+// CHECK-NEXT:    store <vscale x 64 x i8> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 64 x i8>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 64 x i8> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -750,6 +934,8 @@ void test_copy_u8x4(__clang_svuint8x4_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 32 x i16>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 32 x i16>, align 16
 // CHECK-NEXT:    store <vscale x 32 x i16> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 32 x i16> poison
+// CHECK-NEXT:    store <vscale x 32 x i16> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 32 x i16>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 32 x i16> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -764,6 +950,8 @@ void test_copy_u16x4(__clang_svuint16x4_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 16 x i32>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 16 x i32>, align 16
 // CHECK-NEXT:    store <vscale x 16 x i32> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 16 x i32> poison
+// CHECK-NEXT:    store <vscale x 16 x i32> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 16 x i32>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 16 x i32> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -778,6 +966,8 @@ void test_copy_u32x4(__clang_svuint32x4_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 8 x i64>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 8 x i64>, align 16
 // CHECK-NEXT:    store <vscale x 8 x i64> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 8 x i64> poison
+// CHECK-NEXT:    store <vscale x 8 x i64> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 8 x i64>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 8 x i64> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -792,6 +982,8 @@ void test_copy_u64x4(__clang_svuint64x4_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 32 x half>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 32 x half>, align 16
 // CHECK-NEXT:    store <vscale x 32 x half> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 32 x half> poison
+// CHECK-NEXT:    store <vscale x 32 x half> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 32 x half>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 32 x half> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -806,6 +998,8 @@ void test_copy_f16x4(__clang_svfloat16x4_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 16 x float>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 16 x float>, align 16
 // CHECK-NEXT:    store <vscale x 16 x float> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 16 x float> poison
+// CHECK-NEXT:    store <vscale x 16 x float> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 16 x float>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 16 x float> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -820,6 +1014,8 @@ void test_copy_f32x4(__clang_svfloat32x4_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 8 x double>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 8 x double>, align 16
 // CHECK-NEXT:    store <vscale x 8 x double> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 8 x double> poison
+// CHECK-NEXT:    store <vscale x 8 x double> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 8 x double>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 8 x double> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -834,6 +1030,8 @@ void test_copy_f64x4(__clang_svfloat64x4_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 32 x bfloat>, align 16
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 32 x bfloat>, align 16
 // CHECK-NEXT:    store <vscale x 32 x bfloat> [[A]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 32 x bfloat> poison
+// CHECK-NEXT:    store <vscale x 32 x bfloat> [[FREEZE_POISON]], ptr [[B]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 32 x bfloat>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <vscale x 32 x bfloat> [[TMP0]], ptr [[B]], align 16
 // CHECK-NEXT:    ret void
@@ -848,6 +1046,8 @@ void test_copy_bf16x4(__clang_svbfloat16x4_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 16 x i1>, align 2
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 16 x i1>, align 2
 // CHECK-NEXT:    store <vscale x 16 x i1> [[A]], ptr [[A_ADDR]], align 2
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 16 x i1> poison
+// CHECK-NEXT:    store <vscale x 16 x i1> [[FREEZE_POISON]], ptr [[B]], align 2
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 16 x i1>, ptr [[A_ADDR]], align 2
 // CHECK-NEXT:    store <vscale x 16 x i1> [[TMP0]], ptr [[B]], align 2
 // CHECK-NEXT:    ret void
@@ -862,6 +1062,8 @@ void test_copy_b8(__SVBool_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 32 x i1>, align 2
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 32 x i1>, align 2
 // CHECK-NEXT:    store <vscale x 32 x i1> [[A]], ptr [[A_ADDR]], align 2
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 32 x i1> poison
+// CHECK-NEXT:    store <vscale x 32 x i1> [[FREEZE_POISON]], ptr [[B]], align 2
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 32 x i1>, ptr [[A_ADDR]], align 2
 // CHECK-NEXT:    store <vscale x 32 x i1> [[TMP0]], ptr [[B]], align 2
 // CHECK-NEXT:    ret void
@@ -876,6 +1078,8 @@ void test_copy_b8x2(__clang_svboolx2_t a) {
 // CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <vscale x 64 x i1>, align 2
 // CHECK-NEXT:    [[B:%.*]] = alloca <vscale x 64 x i1>, align 2
 // CHECK-NEXT:    store <vscale x 64 x i1> [[A]], ptr [[A_ADDR]], align 2
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <vscale x 64 x i1> poison
+// CHECK-NEXT:    store <vscale x 64 x i1> [[FREEZE_POISON]], ptr [[B]], align 2
 // CHECK-NEXT:    [[TMP0:%.*]] = load <vscale x 64 x i1>, ptr [[A_ADDR]], align 2
 // CHECK-NEXT:    store <vscale x 64 x i1> [[TMP0]], ptr [[B]], align 2
 // CHECK-NEXT:    ret void

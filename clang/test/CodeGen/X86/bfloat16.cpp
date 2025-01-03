@@ -88,6 +88,8 @@ typedef __bf16 v8bfloat16 __attribute__((__vector_size__(16)));
 // CHECK-NEXT:    [[C:%.*]] = alloca <8 x bfloat>, align 16
 // CHECK-NEXT:    store <8 x bfloat> [[A]], ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <8 x bfloat> [[B]], ptr [[B_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <8 x bfloat> poison
+// CHECK-NEXT:    store <8 x bfloat> [[FREEZE_POISON]], ptr [[C]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <8 x bfloat>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    [[TMP1:%.*]] = load <8 x bfloat>, ptr [[B_ADDR]], align 16
 // CHECK-NEXT:    [[ADD:%.*]] = fadd <8 x bfloat> [[TMP0]], [[TMP1]]
@@ -114,6 +116,8 @@ typedef __bf16 v8bfloat16 __attribute__((__vector_size__(16)));
 // CHECK-NBF16-NEXT:    [[C:%.*]] = alloca <8 x bfloat>, align 16
 // CHECK-NBF16-NEXT:    store <8 x bfloat> [[A]], ptr [[A_ADDR]], align 16
 // CHECK-NBF16-NEXT:    store <8 x bfloat> [[B]], ptr [[B_ADDR]], align 16
+// CHECK-NBF16-NEXT:    [[FREEZE_POISON:%.*]] = freeze <8 x bfloat> poison
+// CHECK-NBF16-NEXT:    store <8 x bfloat> [[FREEZE_POISON]], ptr [[C]], align 16
 // CHECK-NBF16-NEXT:    [[TMP0:%.*]] = load <8 x bfloat>, ptr [[A_ADDR]], align 16
 // CHECK-NBF16-NEXT:    [[EXT:%.*]] = fpext <8 x bfloat> [[TMP0]] to <8 x float>
 // CHECK-NBF16-NEXT:    [[TMP1:%.*]] = load <8 x bfloat>, ptr [[B_ADDR]], align 16
