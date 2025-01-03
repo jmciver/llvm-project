@@ -1697,7 +1697,7 @@ TEST_CUSTOM(smallenum, smallenum, { (smallenum)42 });
 TEST_UNINIT(intvec16, int  __attribute__((vector_size(16))));
 // CHECK-LABEL: @test_intvec16_uninit()
 // CHECK:       %uninit = alloca <4 x i32>, align
-// CHECK-NEXT:  call void @{{.*}}used{{.*}}%uninit)
+// CHECK:       call void @{{.*}}used{{.*}}%uninit)
 // PATTERN-LABEL: @test_intvec16_uninit()
 // PATTERN: store <4 x i32> <i32 [[I32]], i32 [[I32]], i32 [[I32]], i32 [[I32]]>, ptr %uninit, align 16, !annotation [[AUTO_INIT]]
 // ZERO-LABEL: @test_intvec16_uninit()
@@ -1706,21 +1706,21 @@ TEST_UNINIT(intvec16, int  __attribute__((vector_size(16))));
 TEST_BRACES(intvec16, int  __attribute__((vector_size(16))));
 // CHECK-LABEL: @test_intvec16_braces()
 // CHECK:       %braces = alloca <4 x i32>, align [[ALIGN:[0-9]*]]
-// CHECK-NEXT:  store <4 x i32> zeroinitializer, ptr %braces, align [[ALIGN]]
+// CHECK:       store <4 x i32> zeroinitializer, ptr %braces, align [[ALIGN]]
 // CHECK-NOT:   !annotation
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%braces)
 
 TEST_CUSTOM(intvec16, int  __attribute__((vector_size(16))), { 0x44444444, 0x44444444, 0x44444444, 0x44444444 });
 // CHECK-LABEL: @test_intvec16_custom()
 // CHECK:       %custom = alloca <4 x i32>, align [[ALIGN:[0-9]*]]
-// CHECK-NEXT:  store <4 x i32> <i32 1145324612, i32 1145324612, i32 1145324612, i32 1145324612>, ptr %custom, align [[ALIGN]]
+// CHECK:      store <4 x i32> <i32 1145324612, i32 1145324612, i32 1145324612, i32 1145324612>, ptr %custom, align [[ALIGN]]
 // CHECK-NOT:   !annotation
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%custom)
 
 TEST_UNINIT(longlongvec32, long long  __attribute__((vector_size(32))));
 // CHECK-LABEL: @test_longlongvec32_uninit()
 // CHECK:       %uninit = alloca <4 x i64>, align
-// CHECK-NEXT:  call void @{{.*}}used{{.*}}%uninit)
+// CHECK:       call void @{{.*}}used{{.*}}%uninit)
 // PATTERN-LABEL: @test_longlongvec32_uninit()
 // PATTERN: store <4 x i64> <i64 [[I64]], i64 [[I64]], i64 [[I64]], i64 [[I64]]>, ptr %uninit, align 32, !annotation [[AUTO_INIT]]
 // ZERO-LABEL: @test_longlongvec32_uninit()
@@ -1729,20 +1729,20 @@ TEST_UNINIT(longlongvec32, long long  __attribute__((vector_size(32))));
 TEST_BRACES(longlongvec32, long long  __attribute__((vector_size(32))));
 // CHECK-LABEL: @test_longlongvec32_braces()
 // CHECK:       %braces = alloca <4 x i64>, align [[ALIGN:[0-9]*]]
-// CHECK-NEXT:  store <4 x i64> zeroinitializer, ptr %braces, align [[ALIGN]]
+// CHECK:       store <4 x i64> zeroinitializer, ptr %braces, align [[ALIGN]]
 // CHECK-NOT:   !annotation
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%braces)
 
 TEST_CUSTOM(longlongvec32, long long  __attribute__((vector_size(32))), { 0x3333333333333333, 0x3333333333333333, 0x3333333333333333, 0x3333333333333333 });
 // CHECK-LABEL: @test_longlongvec32_custom()
 // CHECK:       %custom = alloca <4 x i64>, align [[ALIGN:[0-9]*]]
-// CHECK-NEXT:  store <4 x i64> <i64 3689348814741910323, i64 3689348814741910323, i64 3689348814741910323, i64 3689348814741910323>, ptr %custom, align [[ALIGN]]
+// CHECK:       store <4 x i64> <i64 3689348814741910323, i64 3689348814741910323, i64 3689348814741910323, i64 3689348814741910323>, ptr %custom, align [[ALIGN]]
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%custom)
 
 TEST_UNINIT(floatvec16, float  __attribute__((vector_size(16))));
 // CHECK-LABEL: @test_floatvec16_uninit()
 // CHECK:       %uninit = alloca <4 x float>, align
-// CHECK-NEXT:  call void @{{.*}}used{{.*}}%uninit)
+// CHECK:       call void @{{.*}}used{{.*}}%uninit)
 // PATTERN-LABEL: @test_floatvec16_uninit()
 // PATTERN: store <4 x float> <float 0xFFFFFFFFE0000000, float 0xFFFFFFFFE0000000, float 0xFFFFFFFFE0000000, float 0xFFFFFFFFE0000000>, ptr %uninit, align 16, !annotation [[AUTO_INIT]]
 // ZERO-LABEL: @test_floatvec16_uninit()
@@ -1751,21 +1751,21 @@ TEST_UNINIT(floatvec16, float  __attribute__((vector_size(16))));
 TEST_BRACES(floatvec16, float  __attribute__((vector_size(16))));
 // CHECK-LABEL: @test_floatvec16_braces()
 // CHECK:       %braces = alloca <4 x float>, align [[ALIGN:[0-9]*]]
-// CHECK-NEXT:  store <4 x float> zeroinitializer, ptr %braces, align [[ALIGN]]
+// CHECK:       store <4 x float> zeroinitializer, ptr %braces, align [[ALIGN]]
 // CHECK-NOT:   !annotation
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%braces)
 
 TEST_CUSTOM(floatvec16, float  __attribute__((vector_size(16))), { 3.1415926535897932384626433, 3.1415926535897932384626433, 3.1415926535897932384626433, 3.1415926535897932384626433 });
 // CHECK-LABEL: @test_floatvec16_custom()
 // CHECK:       %custom = alloca <4 x float>, align [[ALIGN:[0-9]*]]
-// CHECK-NEXT:  store <4 x float> <float 0x400921FB60000000, float 0x400921FB60000000, float 0x400921FB60000000, float 0x400921FB60000000>, ptr %custom, align [[ALIGN]]
+// CHECK:       store <4 x float> <float 0x400921FB60000000, float 0x400921FB60000000, float 0x400921FB60000000, float 0x400921FB60000000>, ptr %custom, align [[ALIGN]]
 // CHECK-NOT:   !annotation
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%custom)
 
 TEST_UNINIT(doublevec32, double  __attribute__((vector_size(32))));
 // CHECK-LABEL: @test_doublevec32_uninit()
 // CHECK:       %uninit = alloca <4 x double>, align
-// CHECK-NEXT:  call void @{{.*}}used{{.*}}%uninit)
+// CHECK:       call void @{{.*}}used{{.*}}%uninit)
 // PATTERN-LABEL: @test_doublevec32_uninit()
 // PATTERN: store <4 x double> <double 0xFFFFFFFFFFFFFFFF, double 0xFFFFFFFFFFFFFFFF, double 0xFFFFFFFFFFFFFFFF, double 0xFFFFFFFFFFFFFFFF>, ptr %uninit, align 32, !annotation [[AUTO_INIT]]
 // ZERO-LABEL: @test_doublevec32_uninit()
@@ -1774,14 +1774,14 @@ TEST_UNINIT(doublevec32, double  __attribute__((vector_size(32))));
 TEST_BRACES(doublevec32, double  __attribute__((vector_size(32))));
 // CHECK-LABEL: @test_doublevec32_braces()
 // CHECK:       %braces = alloca <4 x double>, align [[ALIGN:[0-9]*]]
-// CHECK-NEXT:  store <4 x double> zeroinitializer, ptr %braces, align [[ALIGN]]
+// CHECK:       store <4 x double> zeroinitializer, ptr %braces, align [[ALIGN]]
 // CHECK-NOT:   !annotation
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%braces)
 
 TEST_CUSTOM(doublevec32, double  __attribute__((vector_size(32))), { 3.1415926535897932384626433, 3.1415926535897932384626433, 3.1415926535897932384626433, 3.1415926535897932384626433 });
 // CHECK-LABEL: @test_doublevec32_custom()
 // CHECK:       %custom = alloca <4 x double>, align [[ALIGN:[0-9]*]]
-// CHECK-NEXT:  store <4 x double> <double 0x400921FB54442D18, double 0x400921FB54442D18, double 0x400921FB54442D18, double 0x400921FB54442D18>, ptr %custom, align [[ALIGN]]
+// CHECK:       store <4 x double> <double 0x400921FB54442D18, double 0x400921FB54442D18, double 0x400921FB54442D18, double 0x400921FB54442D18>, ptr %custom, align [[ALIGN]]
 // CHECK-NOT:   !annotation
 // CHECK-NEXT:  call void @{{.*}}used{{.*}}%custom)
 
@@ -1789,7 +1789,7 @@ TEST_CUSTOM(doublevec32, double  __attribute__((vector_size(32))), { 3.141592653
 TEST_UNINIT(doublevec24, double  __attribute__((vector_size(24))));
 // CHECK-LABEL: @test_doublevec24_uninit()
 // CHECK:       %uninit = alloca <3 x double>, align
-// CHECK-NEXT:  call void @{{.*}}used{{.*}}%uninit)
+// CHECK:       call void @{{.*}}used{{.*}}%uninit)
 // PATTERN-LABEL: @test_doublevec24_uninit()
 // PATTERN: store <3 x double> <double 0xFFFFFFFFFFFFFFFF, double 0xFFFFFFFFFFFFFFFF, double 0xFFFFFFFFFFFFFFFF>, ptr %uninit, align 32, !annotation [[AUTO_INIT]]
 // ZERO-LABEL: @test_doublevec24_uninit()
@@ -1799,7 +1799,7 @@ TEST_UNINIT(doublevec24, double  __attribute__((vector_size(24))));
 TEST_UNINIT(longdoublevec32, long double  __attribute__((vector_size(sizeof(long double)*2))));
 // CHECK-LABEL: @test_longdoublevec32_uninit()
 // CHECK:       %uninit = alloca <2 x x86_fp80>, align
-// CHECK-NEXT:  call void @{{.*}}used{{.*}}%uninit)
+// CHECK:       call void @{{.*}}used{{.*}}%uninit)
 // PATTERN-LABEL: @test_longdoublevec32_uninit()
 // PATTERN: store <2 x x86_fp80> <x86_fp80 0xKFFFFFFFFFFFFFFFFFFFF, x86_fp80 0xKFFFFFFFFFFFFFFFFFFFF>, ptr %uninit, align 32, !annotation [[AUTO_INIT]]
 // ZERO-LABEL: @test_longdoublevec32_uninit()

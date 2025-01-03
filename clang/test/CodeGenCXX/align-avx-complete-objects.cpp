@@ -26,6 +26,8 @@ float TestAlign(void)
 // CHECK-NEXT:  [[TWO:%.*]] = load volatile <8 x float>, ptr [[ONE]], align 16
 // CHECK-NEXT:  [[THREE:%.*]] = load ptr, ptr [[P]], align 8
 // CHECK-NEXT:  store volatile <8 x float> [[TWO]], ptr [[THREE]], align 16
+// CHECK-NEXT:  [[FREEZE1:%.+]] = freeze <8 x float> poison
+// CHECK-NEXT:  store <8 x float> [[FREEZE1]], ptr [[R]], align 32
 // CHECK-NEXT:  [[FOUR:%.*]] = load ptr, ptr [[P]], align 8
 // CHECK-NEXT:  [[FIVE:%.*]] = load volatile <8 x float>, ptr [[FOUR]], align 16
 // CHECK-NEXT:  store <8 x float> [[FIVE]], ptr [[R]], align 32
@@ -61,6 +63,8 @@ float TestAlign2(void)
 // CHECK-NEXT:  [[TWO:%.*]] = load volatile <8 x float>, ptr [[ONE]], align 32
 // CHECK-NEXT:  [[THREE:%.*]] = load ptr, ptr [[P]], align 8
 // CHECK-NEXT:  store volatile <8 x float> [[TWO]], ptr [[THREE]], align 32
+// CHECK-NEXT:  [[FREEZE1:%.+]] = freeze <8 x float> poison
+// CHECK-NEXT:  store <8 x float> [[FREEZE1]], ptr [[R]], align 32
 // CHECK-NEXT:  [[FOUR:%.*]] = load ptr, ptr [[P]], align 8
 // CHECK-NEXT:  [[FIVE:%.*]] = load volatile <8 x float>, ptr [[FOUR]], align 32
 // CHECK-NEXT:  store <8 x float> [[FIVE]], ptr [[R]], align 32
