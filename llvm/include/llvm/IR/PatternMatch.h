@@ -3124,6 +3124,23 @@ inline auto m_c_LogicalOp(const LHS &L, const RHS &R) {
   return m_LogicalOp<LHS, RHS, /*Commutable=*/true>(L, R);
 }
 
+/// Matches argument with attribute
+struct argument_attribute_match {
+  Attribute::AttrKind kind;
+  argument_attribute_match(Attribute::AttrKind kind) : kind(kind) {}
+
+  template <typename ITy> bool match(ITy *V) {
+    if (auto *Arg = dyn_cast<Argument>(V)) {
+      return Arg->hasAttribute(kind);
+    }
+    return false;
+  }
+};
+
+inline argument_attribute_match m_ArgumentAttribute(Attribute::AttrKind kind) {
+  return argument_attribute_match(kind);
+}
+
 } // end namespace PatternMatch
 } // end namespace llvm
 
