@@ -1047,8 +1047,8 @@ define i32 @test78(i1 %flag, ptr %x, ptr %y, ptr %z) {
 ; CHECK-NEXT:    store i32 0, ptr [[X:%.*]], align 4
 ; CHECK-NEXT:    store i32 0, ptr [[Y:%.*]], align 4
 ; CHECK-NEXT:    store i32 42, ptr [[Z:%.*]], align 4
-; CHECK-NEXT:    [[X_VAL:%.*]] = load i32, ptr [[X]], align 4
-; CHECK-NEXT:    [[Y_VAL:%.*]] = load i32, ptr [[Y]], align 4
+; CHECK-NEXT:    [[X_VAL:%.*]] = load i32, ptr [[X]], align 4, !freeze_bits [[META0:![0-9]+]]
+; CHECK-NEXT:    [[Y_VAL:%.*]] = load i32, ptr [[Y]], align 4, !freeze_bits [[META0]]
 ; CHECK-NEXT:    [[V:%.*]] = select i1 [[FLAG:%.*]], i32 [[X_VAL]], i32 [[Y_VAL]]
 ; CHECK-NEXT:    ret i32 [[V]]
 ;
@@ -1066,8 +1066,8 @@ entry:
 ; fold the load completely away.
 define i32 @test78_deref(i1 %flag, ptr dereferenceable(4) align 4 %x, ptr dereferenceable(4) align 4 %y, ptr %z) nofree nosync {
 ; CHECK-LABEL: @test78_deref(
-; CHECK-NEXT:    [[X_VAL:%.*]] = load i32, ptr [[X:%.*]], align 4
-; CHECK-NEXT:    [[Y_VAL:%.*]] = load i32, ptr [[Y:%.*]], align 4
+; CHECK-NEXT:    [[X_VAL:%.*]] = load i32, ptr [[X:%.*]], align 4, !freeze_bits [[META0]]
+; CHECK-NEXT:    [[Y_VAL:%.*]] = load i32, ptr [[Y:%.*]], align 4, !freeze_bits [[META0]]
 ; CHECK-NEXT:    [[V:%.*]] = select i1 [[FLAG:%.*]], i32 [[X_VAL]], i32 [[Y_VAL]]
 ; CHECK-NEXT:    ret i32 [[V]]
 ;
@@ -1116,8 +1116,8 @@ define float @test79(i1 %flag, ptr %x, ptr %y, ptr %z) {
 ; CHECK-NEXT:    store i32 0, ptr [[X:%.*]], align 4
 ; CHECK-NEXT:    store i32 0, ptr [[Y:%.*]], align 4
 ; CHECK-NEXT:    store i32 42, ptr [[Z:%.*]], align 4
-; CHECK-NEXT:    [[X_VAL:%.*]] = load float, ptr [[X]], align 4
-; CHECK-NEXT:    [[Y_VAL:%.*]] = load float, ptr [[Y]], align 4
+; CHECK-NEXT:    [[X_VAL:%.*]] = load float, ptr [[X]], align 4, !freeze_bits [[META0]]
+; CHECK-NEXT:    [[Y_VAL:%.*]] = load float, ptr [[Y]], align 4, !freeze_bits [[META0]]
 ; CHECK-NEXT:    [[V:%.*]] = select i1 [[FLAG:%.*]], float [[X_VAL]], float [[Y_VAL]]
 ; CHECK-NEXT:    ret float [[V]]
 ;
@@ -1138,7 +1138,7 @@ define i32 @test80(i1 %flag) {
 ; CHECK-NEXT:    [[Y:%.*]] = alloca i32, align 4
 ; CHECK-NEXT:    call void @scribble_on_i32(ptr nonnull [[X]])
 ; CHECK-NEXT:    call void @scribble_on_i32(ptr nonnull [[Y]])
-; CHECK-NEXT:    [[T:%.*]] = load i32, ptr [[X]], align 4
+; CHECK-NEXT:    [[T:%.*]] = load i32, ptr [[X]], align 4, !freeze_bits [[META0]]
 ; CHECK-NEXT:    store i32 [[T]], ptr [[Y]], align 4
 ; CHECK-NEXT:    ret i32 [[T]]
 ;
@@ -1161,7 +1161,7 @@ define float @test81(i1 %flag) {
 ; CHECK-NEXT:    [[Y:%.*]] = alloca i32, align 4
 ; CHECK-NEXT:    call void @scribble_on_i32(ptr nonnull [[X]])
 ; CHECK-NEXT:    call void @scribble_on_i32(ptr nonnull [[Y]])
-; CHECK-NEXT:    [[T:%.*]] = load i32, ptr [[X]], align 4
+; CHECK-NEXT:    [[T:%.*]] = load i32, ptr [[X]], align 4, !freeze_bits [[META0]]
 ; CHECK-NEXT:    store i32 [[T]], ptr [[Y]], align 4
 ; CHECK-NEXT:    [[V:%.*]] = bitcast i32 [[T]] to float
 ; CHECK-NEXT:    ret float [[V]]
@@ -1185,7 +1185,7 @@ define i32 @test82(i1 %flag) {
 ; CHECK-NEXT:    [[Y:%.*]] = alloca i32, align 4
 ; CHECK-NEXT:    call void @scribble_on_i32(ptr nonnull [[X]])
 ; CHECK-NEXT:    call void @scribble_on_i32(ptr nonnull [[Y]])
-; CHECK-NEXT:    [[T:%.*]] = load float, ptr [[X]], align 4
+; CHECK-NEXT:    [[T:%.*]] = load float, ptr [[X]], align 4, !freeze_bits [[META0]]
 ; CHECK-NEXT:    store float [[T]], ptr [[Y]], align 4
 ; CHECK-NEXT:    [[V:%.*]] = bitcast float [[T]] to i32
 ; CHECK-NEXT:    ret i32 [[V]]
@@ -1212,7 +1212,7 @@ define ptr @test83(i1 %flag) {
 ; CHECK-NEXT:    [[Y:%.*]] = alloca i64, align 8
 ; CHECK-NEXT:    call void @scribble_on_i64(ptr nonnull [[X]])
 ; CHECK-NEXT:    call void @scribble_on_i64(ptr nonnull [[Y]])
-; CHECK-NEXT:    [[T:%.*]] = load i64, ptr [[X]], align 4
+; CHECK-NEXT:    [[T:%.*]] = load i64, ptr [[X]], align 4, !freeze_bits [[META0]]
 ; CHECK-NEXT:    store i64 [[T]], ptr [[Y]], align 4
 ; CHECK-NEXT:    [[V:%.*]] = inttoptr i64 [[T]] to ptr
 ; CHECK-NEXT:    ret ptr [[V]]
@@ -1236,7 +1236,7 @@ define i64 @test84(i1 %flag) {
 ; CHECK-NEXT:    [[Y:%.*]] = alloca i64, align 8
 ; CHECK-NEXT:    call void @scribble_on_i64(ptr nonnull [[X]])
 ; CHECK-NEXT:    call void @scribble_on_i64(ptr nonnull [[Y]])
-; CHECK-NEXT:    [[T:%.*]] = load ptr, ptr [[X]], align 8
+; CHECK-NEXT:    [[T:%.*]] = load ptr, ptr [[X]], align 8, !freeze_bits [[META0]]
 ; CHECK-NEXT:    store ptr [[T]], ptr [[Y]], align 8
 ; CHECK-NEXT:    [[V:%.*]] = ptrtoint ptr [[T]] to i64
 ; CHECK-NEXT:    ret i64 [[V]]
@@ -1263,8 +1263,8 @@ define ptr @test85(i1 %flag) {
 ; CHECK-NEXT:    call void @scribble_on_i128(ptr nonnull [[Y]])
 ; CHECK-NEXT:    [[T:%.*]] = load i128, ptr [[X]], align 4
 ; CHECK-NEXT:    store i128 [[T]], ptr [[Y]], align 4
-; CHECK-NEXT:    [[X_VAL:%.*]] = load ptr, ptr [[X]], align 8
-; CHECK-NEXT:    [[Y_VAL:%.*]] = load ptr, ptr [[Y]], align 8
+; CHECK-NEXT:    [[X_VAL:%.*]] = load ptr, ptr [[X]], align 8, !freeze_bits [[META0]]
+; CHECK-NEXT:    [[Y_VAL:%.*]] = load ptr, ptr [[Y]], align 8, !freeze_bits [[META0]]
 ; CHECK-NEXT:    [[V:%.*]] = select i1 [[FLAG:%.*]], ptr [[X_VAL]], ptr [[Y_VAL]]
 ; CHECK-NEXT:    ret ptr [[V]]
 ;
@@ -1290,8 +1290,8 @@ define i128 @test86(i1 %flag) {
 ; CHECK-NEXT:    call void @scribble_on_i128(ptr nonnull [[Y]])
 ; CHECK-NEXT:    [[T:%.*]] = load ptr, ptr [[X]], align 8
 ; CHECK-NEXT:    store ptr [[T]], ptr [[Y]], align 8
-; CHECK-NEXT:    [[X_VAL:%.*]] = load i128, ptr [[X]], align 4
-; CHECK-NEXT:    [[Y_VAL:%.*]] = load i128, ptr [[Y]], align 4
+; CHECK-NEXT:    [[X_VAL:%.*]] = load i128, ptr [[X]], align 4, !freeze_bits [[META0]]
+; CHECK-NEXT:    [[Y_VAL:%.*]] = load i128, ptr [[Y]], align 4, !freeze_bits [[META0]]
 ; CHECK-NEXT:    [[V:%.*]] = select i1 [[FLAG:%.*]], i128 [[X_VAL]], i128 [[Y_VAL]]
 ; CHECK-NEXT:    ret i128 [[V]]
 ;
@@ -4675,4 +4675,246 @@ define i8 @test_replace_freeze_oneuse(i1 %x, i8 %y) {
   %shl.fr = freeze i8 %shl
   %sel = select i1 %x, i8 0, i8 %shl.fr
   ret i8 %sel
+}
+
+define i8 @select_knownbits_simplify(i8 noundef %x)  {
+; CHECK-LABEL: @select_knownbits_simplify(
+; CHECK-NEXT:    [[X_LO:%.*]] = and i8 [[X:%.*]], 1
+; CHECK-NEXT:    [[CMP:%.*]] = icmp eq i8 [[X_LO]], 0
+; CHECK-NEXT:    [[AND:%.*]] = and i8 [[X]], -2
+; CHECK-NEXT:    [[RES:%.*]] = select i1 [[CMP]], i8 [[AND]], i8 0
+; CHECK-NEXT:    ret i8 [[RES]]
+;
+  %x.lo = and i8 %x, 1
+  %cmp = icmp eq i8 %x.lo, 0
+  %and = and i8 %x, -2
+  %res = select i1 %cmp, i8 %and, i8 0
+  ret i8 %res
+}
+
+define i8 @select_knownbits_simplify_nested(i8 noundef %x)  {
+; CHECK-LABEL: @select_knownbits_simplify_nested(
+; CHECK-NEXT:    [[X_LO:%.*]] = and i8 [[X:%.*]], 1
+; CHECK-NEXT:    [[CMP:%.*]] = icmp eq i8 [[X_LO]], 0
+; CHECK-NEXT:    [[AND:%.*]] = and i8 [[X]], -2
+; CHECK-NEXT:    [[MUL:%.*]] = mul i8 [[AND]], [[AND]]
+; CHECK-NEXT:    [[RES:%.*]] = select i1 [[CMP]], i8 [[MUL]], i8 0
+; CHECK-NEXT:    ret i8 [[RES]]
+;
+  %x.lo = and i8 %x, 1
+  %cmp = icmp eq i8 %x.lo, 0
+  %and = and i8 %x, -2
+  %mul = mul i8 %and, %and
+  %res = select i1 %cmp, i8 %mul, i8 0
+  ret i8 %res
+}
+
+define i8 @select_knownbits_simplify_missing_noundef(i8 %x)  {
+; CHECK-LABEL: @select_knownbits_simplify_missing_noundef(
+; CHECK-NEXT:    [[X_LO:%.*]] = and i8 [[X:%.*]], 1
+; CHECK-NEXT:    [[CMP:%.*]] = icmp eq i8 [[X_LO]], 0
+; CHECK-NEXT:    [[AND:%.*]] = and i8 [[X]], -2
+; CHECK-NEXT:    [[RES:%.*]] = select i1 [[CMP]], i8 [[AND]], i8 0
+; CHECK-NEXT:    ret i8 [[RES]]
+;
+  %x.lo = and i8 %x, 1
+  %cmp = icmp eq i8 %x.lo, 0
+  %and = and i8 %x, -2
+  %res = select i1 %cmp, i8 %and, i8 0
+  ret i8 %res
+}
+
+@g_ext = external global i8
+
+; Make sure we don't replace %ptr with @g_ext, which may cause the load to trigger UB.
+define i32 @pr99436(ptr align 4 dereferenceable(4) %ptr) {
+; CHECK-LABEL: @pr99436(
+; CHECK-NEXT:    [[CMP:%.*]] = icmp eq ptr [[PTR:%.*]], @g_ext
+; CHECK-NEXT:    [[VAL:%.*]] = load i32, ptr @g_ext, align 4
+; CHECK-NEXT:    [[RET:%.*]] = select i1 [[CMP]], i32 [[VAL]], i32 0
+; CHECK-NEXT:    ret i32 [[RET]]
+;
+  %cmp = icmp eq ptr %ptr, @g_ext
+  %val = load i32, ptr %ptr, align 4
+  %ret = select i1 %cmp, i32 %val, i32 0
+  ret i32 %ret
+}
+
+define i8 @sel_trunc_simplify(i1 %c, i8 %x, i16 %y) {
+; CHECK-LABEL: @sel_trunc_simplify(
+; CHECK-NEXT:    [[X_EXT:%.*]] = zext i8 [[X:%.*]] to i16
+; CHECK-NEXT:    [[SEL:%.*]] = select i1 [[C:%.*]], i16 [[X_EXT]], i16 [[Y:%.*]]
+; CHECK-NEXT:    [[TRUNC:%.*]] = trunc i16 [[SEL]] to i8
+; CHECK-NEXT:    ret i8 [[TRUNC]]
+;
+  %x.ext = zext i8 %x to i16
+  %sel = select i1 %c, i16 %x.ext, i16 %y
+  %trunc = trunc i16 %sel to i8
+  ret i8 %trunc
+}
+
+define i32 @sel_umin_simplify(i1 %c, i32 %x, i16 %y) {
+; CHECK-LABEL: @sel_umin_simplify(
+; CHECK-NEXT:    [[SEL:%.*]] = select i1 [[C:%.*]], i32 [[X:%.*]], i32 0
+; CHECK-NEXT:    [[Y_EXT:%.*]] = zext i16 [[Y:%.*]] to i32
+; CHECK-NEXT:    [[RES:%.*]] = call i32 @llvm.umin.i32(i32 [[SEL]], i32 [[Y_EXT]])
+; CHECK-NEXT:    ret i32 [[RES]]
+;
+  %sel = select i1 %c, i32 %x, i32 0
+  %y.ext = zext i16 %y to i32
+  %res = call i32 @llvm.umin.i32(i32 %sel, i32 %y.ext)
+  ret i32 %res
+}
+
+define i32 @sel_extractvalue_simplify(i1 %c, { i32, i32 } %agg1, i32 %x, i32 %y) {
+; CHECK-LABEL: @sel_extractvalue_simplify(
+; CHECK-NEXT:    [[AGG2_0:%.*]] = insertvalue { i32, i32 } poison, i32 [[X:%.*]], 0
+; CHECK-NEXT:    [[AGG2_1:%.*]] = insertvalue { i32, i32 } [[AGG2_0]], i32 [[Y:%.*]], 1
+; CHECK-NEXT:    [[SEL:%.*]] = select i1 [[C:%.*]], { i32, i32 } [[AGG1:%.*]], { i32, i32 } [[AGG2_1]]
+; CHECK-NEXT:    [[RES:%.*]] = extractvalue { i32, i32 } [[SEL]], 1
+; CHECK-NEXT:    ret i32 [[RES]]
+;
+  %agg2.0 = insertvalue { i32, i32 } poison, i32 %x, 0
+  %agg2.1 = insertvalue { i32, i32 } %agg2.0, i32 %y, 1
+  %sel = select i1 %c, { i32, i32 } %agg1, { i32, i32 } %agg2.1
+  %res = extractvalue { i32, i32 } %sel, 1
+  ret i32 %res
+}
+
+define i1 @replace_select_cond_true(i1 %cond, i32 %v1, i32 %v2, i32 %v3) {
+; CHECK-LABEL: @replace_select_cond_true(
+; CHECK-NEXT:    [[SEL:%.*]] = select i1 [[COND:%.*]], i32 [[V1:%.*]], i32 [[V3:%.*]]
+; CHECK-NEXT:    [[CMP:%.*]] = icmp eq i32 [[SEL]], [[V2:%.*]]
+; CHECK-NEXT:    [[AND:%.*]] = select i1 [[COND]], i1 [[CMP]], i1 false
+; CHECK-NEXT:    ret i1 [[AND]]
+;
+  %sel = select i1 %cond, i32 %v1, i32 %v3
+  %cmp = icmp eq i32 %sel, %v2
+  %and = select i1 %cond, i1 %cmp, i1 false
+  ret i1 %and
+}
+
+define i1 @replace_select_cond_false(i1 %cond, i32 %v1, i32 %v2, i32 %v3) {
+; CHECK-LABEL: @replace_select_cond_false(
+; CHECK-NEXT:    [[SEL:%.*]] = select i1 [[COND:%.*]], i32 [[V1:%.*]], i32 [[V3:%.*]]
+; CHECK-NEXT:    [[CMP:%.*]] = icmp eq i32 [[SEL]], [[V2:%.*]]
+; CHECK-NEXT:    [[OR:%.*]] = select i1 [[COND]], i1 true, i1 [[CMP]]
+; CHECK-NEXT:    ret i1 [[OR]]
+;
+  %sel = select i1 %cond, i32 %v1, i32 %v3
+  %cmp = icmp eq i32 %sel, %v2
+  %or = select i1 %cond, i1 true, i1 %cmp
+  ret i1 %or
+}
+
+define i32 @replace_and_cond(i1 %cond1, i1 %cond2) {
+; CHECK-LABEL: @replace_and_cond(
+; CHECK-NEXT:    [[AND:%.*]] = and i1 [[COND1:%.*]], [[COND2:%.*]]
+; CHECK-NEXT:    [[SEL:%.*]] = select i1 [[AND]], i32 3, i32 2
+; CHECK-NEXT:    [[MUX:%.*]] = select i1 [[COND1]], i32 [[SEL]], i32 1
+; CHECK-NEXT:    ret i32 [[MUX]]
+;
+  %and = and i1 %cond1, %cond2
+  %sel = select i1 %and, i32 3, i32 2
+  %mux = select i1 %cond1, i32 %sel, i32 1
+  ret i32 %mux
+}
+
+define <2 x i32> @replace_and_cond_vec(<2 x i1> %cond1, <2 x i1> %cond2) {
+; CHECK-LABEL: @replace_and_cond_vec(
+; CHECK-NEXT:    [[AND:%.*]] = and <2 x i1> [[COND1:%.*]], [[COND2:%.*]]
+; CHECK-NEXT:    [[SEL:%.*]] = select <2 x i1> [[AND]], <2 x i32> <i32 3, i32 3>, <2 x i32> <i32 2, i32 2>
+; CHECK-NEXT:    [[MUX:%.*]] = select <2 x i1> [[COND1]], <2 x i32> [[SEL]], <2 x i32> <i32 1, i32 1>
+; CHECK-NEXT:    ret <2 x i32> [[MUX]]
+;
+  %and = and <2 x i1> %cond1, %cond2
+  %sel = select <2 x i1> %and, <2 x i32> splat(i32 3), <2 x i32> splat(i32 2)
+  %mux = select <2 x i1> %cond1, <2 x i32> %sel, <2 x i32> splat(i32 1)
+  ret <2 x i32> %mux
+}
+
+; TODO: We can still replace the use of %and with %cond2
+define i32 @replace_and_cond_multiuse1(i1 %cond1, i1 %cond2) {
+; CHECK-LABEL: @replace_and_cond_multiuse1(
+; CHECK-NEXT:    [[AND:%.*]] = and i1 [[COND1:%.*]], [[COND2:%.*]]
+; CHECK-NEXT:    call void @use(i1 [[AND]])
+; CHECK-NEXT:    [[SEL:%.*]] = select i1 [[AND]], i32 3, i32 2
+; CHECK-NEXT:    [[MUX:%.*]] = select i1 [[COND1]], i32 [[SEL]], i32 1
+; CHECK-NEXT:    ret i32 [[MUX]]
+;
+  %and = and i1 %cond1, %cond2
+  call void @use(i1 %and)
+  %sel = select i1 %and, i32 3, i32 2
+  %mux = select i1 %cond1, i32 %sel, i32 1
+  ret i32 %mux
+}
+
+define i32 @replace_and_cond_multiuse2(i1 %cond1, i1 %cond2) {
+; CHECK-LABEL: @replace_and_cond_multiuse2(
+; CHECK-NEXT:    [[AND:%.*]] = and i1 [[COND1:%.*]], [[COND2:%.*]]
+; CHECK-NEXT:    [[SEL:%.*]] = select i1 [[AND]], i32 3, i32 2
+; CHECK-NEXT:    call void @use32(i32 [[SEL]])
+; CHECK-NEXT:    [[MUX:%.*]] = select i1 [[COND1]], i32 [[SEL]], i32 1
+; CHECK-NEXT:    ret i32 [[MUX]]
+;
+  %and = and i1 %cond1, %cond2
+  %sel = select i1 %and, i32 3, i32 2
+  call void @use32(i32 %sel)
+  %mux = select i1 %cond1, i32 %sel, i32 1
+  ret i32 %mux
+}
+
+define i32 @src_simplify_2x_at_once_and(i32 %x, i32 %y) {
+; CHECK-LABEL: @src_simplify_2x_at_once_and(
+; CHECK-NEXT:    [[AND:%.*]] = and i32 [[X:%.*]], [[Y:%.*]]
+; CHECK-NEXT:    [[AND0:%.*]] = icmp eq i32 [[AND]], -1
+; CHECK-NEXT:    [[SUB:%.*]] = sub i32 [[X]], [[Y]]
+; CHECK-NEXT:    [[XOR:%.*]] = xor i32 [[X]], [[Y]]
+; CHECK-NEXT:    [[COND:%.*]] = select i1 [[AND0]], i32 [[SUB]], i32 [[XOR]]
+; CHECK-NEXT:    ret i32 [[COND]]
+;
+  %and = and i32 %x, %y
+  %and0 = icmp eq i32 %and, -1
+  %sub = sub i32 %x, %y
+  %xor = xor i32 %x, %y
+  %cond = select i1 %and0, i32 %sub, i32 %xor
+  ret i32 %cond
+}
+
+define void @select_freeze_poison_parameter(ptr noundef %addr.src, ptr %addr.tgt, i1 %cond) {
+; CHECK-LABEL: @select_freeze_poison_parameter(
+; CHECK-NEXT:    [[SELECT_ADDR:%.*]] = select i1 [[COND:%.*]], ptr [[ADDR_SRC:%.*]], ptr null
+; CHECK-NEXT:    store ptr [[SELECT_ADDR]], ptr [[ADDR_TGT:%.*]], align 8
+; CHECK-NEXT:    ret void
+;
+  %freeze = freeze ptr poison
+  %select.addr = select i1 %cond, ptr %addr.src, ptr %freeze
+  store ptr %select.addr, ptr %addr.tgt
+  ret void
+}
+
+@glb = global ptr null
+
+define void @select_freeze_poison_global(ptr %addr.tgt, i1 %cond) {
+; CHECK-LABEL: @select_freeze_poison_global(
+; CHECK-NEXT:    [[SELECT_ADDR:%.*]] = select i1 [[COND:%.*]], ptr @glb, ptr null
+; CHECK-NEXT:    store ptr [[SELECT_ADDR]], ptr [[ADDR_TGT:%.*]], align 8
+; CHECK-NEXT:    ret void
+;
+  %freeze = freeze ptr poison
+  %select.addr = select i1 %cond, ptr @glb, ptr %freeze
+  store ptr %select.addr, ptr %addr.tgt
+  ret void
+}
+
+define void @select_freeze_poison_constant(ptr %addr.tgt, i1 %cond) {
+; CHECK-LABEL: @select_freeze_poison_constant(
+; CHECK-NEXT:    [[SELECT_ADDR:%.*]] = select i1 [[COND:%.*]], i32 72, i32 0
+; CHECK-NEXT:    store i32 [[SELECT_ADDR]], ptr [[ADDR_TGT:%.*]], align 4
+; CHECK-NEXT:    ret void
+;
+  %freeze = freeze i32 poison
+  %select.addr = select i1 %cond, i32 72, i32 %freeze
+  store i32 %select.addr, ptr %addr.tgt
+  ret void
 }
