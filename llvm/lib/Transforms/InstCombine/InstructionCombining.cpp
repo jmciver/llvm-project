@@ -4817,15 +4817,15 @@ Instruction *InstCombinerImpl::visitFreeze(FreezeInst &I) {
     Value *NullValue = Constant::getNullValue(Ty);
     for (const auto *U : I.users()) {
       Value *C = NullValue;
-      Value *SelectValue = nullptr;
+      Value *SelectArgument = nullptr;
       if (match(U, m_Or(m_Value(), m_Value())))
         C = ConstantInt::getAllOnesValue(Ty);
       else if (match(U, m_Select(m_Specific(&I), m_Constant(), m_Value())))
         C = ConstantInt::getTrue(Ty);
       else if (match(&I, m_Freeze(m_Poison())) &&
-               match(U, m_c_Select(m_Specific(&I), m_Value(SelectValue))) &&
-               isGuaranteedNotToBeUndefOrPoison(SelectValue, &AC, &I, &DT))
-        C = SelectValue;
+               match(U, m_c_Select(m_Specific(&I), m_Value(SelectArgument))) &&
+               isGuaranteedNotToBeUndefOrPoison(SelectArgument, &AC, &I, &DT))
+        C = SelectArgument;
 
       if (!BestValue)
         BestValue = C;
