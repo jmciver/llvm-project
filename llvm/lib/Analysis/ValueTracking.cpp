@@ -7669,7 +7669,8 @@ static bool isGuaranteedNotToBeUndefOrPoison(
   if (auto *I = dyn_cast<LoadInst>(V))
     if (I->hasMetadata(LLVMContext::MD_noundef) ||
         I->hasMetadata(LLVMContext::MD_dereferenceable) ||
-        I->hasMetadata(LLVMContext::MD_dereferenceable_or_null))
+        I->hasMetadata(LLVMContext::MD_dereferenceable_or_null) ||
+        I->hasMetadata(LLVMContext::MD_freeze_bits))
       return true;
 
   if (programUndefinedIfUndefOrPoison(V, !includesUndef(Kind)))
