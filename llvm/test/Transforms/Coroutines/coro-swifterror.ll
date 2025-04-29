@@ -10,9 +10,8 @@ define ptr @f(ptr %buffer, i32 %n, ptr swifterror %errorslot) {
 ; CHECK-NEXT:    store ptr null, ptr [[ERRORSLOT:%.*]], align 4
 ; CHECK-NEXT:    tail call void @maybeThrow(ptr nonnull swifterror [[ERRORSLOT]])
 ; CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[ERRORSLOT]], align 4, !freeze_bits [[META0:![0-9]+]]
-; CHECK-NEXT:    [[FREEZE_LOAD1:%.*]] = freeze ptr [[TMP0]]
-; CHECK-NEXT:    tail call void @logError(ptr [[FREEZE_LOAD1]])
-; CHECK-NEXT:    store ptr [[FREEZE_LOAD1]], ptr [[ERRORSLOT]], align 4
+; CHECK-NEXT:    tail call void @logError(ptr [[TMP0]])
+; CHECK-NEXT:    store ptr [[TMP0]], ptr [[ERRORSLOT]], align 4
 ; CHECK-NEXT:    ret ptr @f.resume.0
 ;
 entry:

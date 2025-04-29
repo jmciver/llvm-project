@@ -934,10 +934,8 @@ _Complex _Float16 defined_complex_func_f16_ret(_Complex _Float16 c) {
 // CLFINITEONLY-NEXT:    [[BYVAL_TEMP_IMAGP:%.*]] = getelementptr inbounds i8, ptr [[BYVAL_TEMP]], i64 8
 // CLFINITEONLY-NEXT:    store double [[CF64_COERCE0]], ptr [[BYVAL_TEMP]], align 8
 // CLFINITEONLY-NEXT:    store double [[CF64_COERCE1]], ptr [[BYVAL_TEMP_IMAGP]], align 8
-// CLFINITEONLY-NEXT:    [[COERCE5_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x half> <half poison, half 0xH0000>, half [[CF16_REAL]], i64 0
-// CLFINITEONLY-NEXT:    [[FREEZE:%.*]] = freeze <2 x half> [[COERCE5_SROA_0_0_VEC_INSERT]]
-// CLFINITEONLY-NEXT:    [[CF16_IMAG_FR:%.*]] = freeze half [[CF16_IMAG]]
-// CLFINITEONLY-NEXT:    [[COERCE5_SROA_0_2_VEC_INSERT:%.*]] = insertelement <2 x half> [[FREEZE]], half [[CF16_IMAG_FR]], i64 1
+// CLFINITEONLY-NEXT:    [[COERCE5_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x half> poison, half [[CF16_REAL]], i64 0
+// CLFINITEONLY-NEXT:    [[COERCE5_SROA_0_2_VEC_INSERT:%.*]] = insertelement <2 x half> [[COERCE5_SROA_0_0_VEC_INSERT]], half [[CF16_IMAG]], i64 1
 // CLFINITEONLY-NEXT:    [[CALL:%.*]] = tail call nnan ninf nofpclass(nan inf) float (float, ...) @variadic(float noundef nofpclass(nan inf) [[F32]], double noundef nofpclass(nan inf) [[CONV]], double noundef nofpclass(nan inf) [[F64]], half noundef nofpclass(nan inf) [[F16]], double noundef nofpclass(nan inf) [[V2F32_COERCE]], <2 x double> noundef nofpclass(nan inf) [[V2F64]], i32 noundef [[V2F16_COERCE]], <2 x float> noundef nofpclass(nan inf) [[CF32_COERCE]], ptr noundef nonnull byval({ double, double }) align 8 [[BYVAL_TEMP]], <2 x half> noundef nofpclass(nan inf) [[COERCE5_SROA_0_2_VEC_INSERT]]) #[[ATTR11]]
 // CLFINITEONLY-NEXT:    call void @llvm.lifetime.end.p0(i64 16, ptr nonnull [[BYVAL_TEMP]]) #[[ATTR12]]
 // CLFINITEONLY-NEXT:    ret float [[CALL]]
@@ -1189,10 +1187,8 @@ float call_variadic(float f32, double f64, _Float16 f16,
 // CLFINITEONLY-NEXT:    [[BYVAL_TEMP_IMAGP:%.*]] = getelementptr inbounds i8, ptr [[BYVAL_TEMP]], i64 8
 // CLFINITEONLY-NEXT:    store double [[CF64_COERCE0]], ptr [[BYVAL_TEMP]], align 8
 // CLFINITEONLY-NEXT:    store double [[CF64_COERCE1]], ptr [[BYVAL_TEMP_IMAGP]], align 8
-// CLFINITEONLY-NEXT:    [[COERCE5_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x half> <half poison, half 0xH0000>, half [[CF16_REAL]], i64 0
-// CLFINITEONLY-NEXT:    [[FREEZE:%.*]] = freeze <2 x half> [[COERCE5_SROA_0_0_VEC_INSERT]]
-// CLFINITEONLY-NEXT:    [[CF16_IMAG_FR:%.*]] = freeze half [[CF16_IMAG]]
-// CLFINITEONLY-NEXT:    [[COERCE5_SROA_0_2_VEC_INSERT:%.*]] = insertelement <2 x half> [[FREEZE]], half [[CF16_IMAG_FR]], i64 1
+// CLFINITEONLY-NEXT:    [[COERCE5_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x half> poison, half [[CF16_REAL]], i64 0
+// CLFINITEONLY-NEXT:    [[COERCE5_SROA_0_2_VEC_INSERT:%.*]] = insertelement <2 x half> [[COERCE5_SROA_0_0_VEC_INSERT]], half [[CF16_IMAG]], i64 1
 // CLFINITEONLY-NEXT:    [[CALL:%.*]] = tail call nnan ninf nofpclass(nan inf) float (float, ...) [[FPTR]](float noundef nofpclass(nan inf) [[F32]], double noundef nofpclass(nan inf) [[CONV]], double noundef nofpclass(nan inf) [[F64]], half noundef nofpclass(nan inf) [[F16]], double noundef nofpclass(nan inf) [[V2F32_COERCE]], <2 x double> noundef nofpclass(nan inf) [[V2F64]], i32 noundef [[V2F16_COERCE]], <2 x float> noundef nofpclass(nan inf) [[CF32_COERCE]], ptr noundef nonnull byval({ double, double }) align 8 [[BYVAL_TEMP]], <2 x half> noundef nofpclass(nan inf) [[COERCE5_SROA_0_2_VEC_INSERT]]) #[[ATTR11]]
 // CLFINITEONLY-NEXT:    call void @llvm.lifetime.end.p0(i64 16, ptr nonnull [[BYVAL_TEMP]]) #[[ATTR12]]
 // CLFINITEONLY-NEXT:    ret float [[CALL]]
