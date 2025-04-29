@@ -11,7 +11,7 @@
 char test__readfsbyte(unsigned long Offset) {
   return __readfsbyte(++Offset);
 }
-// CHECK-I386-LABEL: define dso_local signext i8 @test__readfsbyte(i32 noundef %Offset)
+// CHECK-I386-LABEL: define dso_local noundef signext i8 @test__readfsbyte(i32 noundef %Offset)
 // CHECK-I386:   %inc = add i32 %Offset, 1
 // CHECK-I386:   [[PTR:%[0-9]+]] = inttoptr i32 %inc to ptr addrspace(257)
 // CHECK-I386:   [[VALUE:%[0-9]+]] = load volatile i8, ptr addrspace(257) [[PTR]], align 1
@@ -20,7 +20,7 @@ char test__readfsbyte(unsigned long Offset) {
 short test__readfsword(unsigned long Offset) {
   return __readfsword(++Offset);
 }
-// CHECK-I386-LABEL: define dso_local signext i16 @test__readfsword(i32 noundef %Offset)
+// CHECK-I386-LABEL: define dso_local noundef signext i16 @test__readfsword(i32 noundef %Offset)
 // CHECK-I386:   %inc = add i32 %Offset, 1
 // CHECK-I386:   [[PTR:%[0-9]+]] = inttoptr i32 %inc to ptr addrspace(257)
 // CHECK-I386:   [[VALUE:%[0-9]+]] = load volatile i16, ptr addrspace(257) [[PTR]], align 2
@@ -29,7 +29,7 @@ short test__readfsword(unsigned long Offset) {
 long test__readfsdword(unsigned long Offset) {
   return __readfsdword(++Offset);
 }
-// CHECK-I386-LABEL: define dso_local i32 @test__readfsdword(i32 noundef %Offset)
+// CHECK-I386-LABEL: define dso_local noundef i32 @test__readfsdword(i32 noundef %Offset)
 // CHECK-I386:   %inc = add i32 %Offset, 1
 // CHECK-I386:   [[PTR:%[0-9]+]] = inttoptr i32 %inc to ptr addrspace(257)
 // CHECK-I386:   [[VALUE:%[0-9]+]] = load volatile i32, ptr addrspace(257) [[PTR]], align 4
@@ -38,7 +38,7 @@ long test__readfsdword(unsigned long Offset) {
 long long test__readfsqword(unsigned long Offset) {
   return __readfsqword(++Offset);
 }
-// CHECK-I386-LABEL: define dso_local i64 @test__readfsqword(i32 noundef %Offset)
+// CHECK-I386-LABEL: define dso_local noundef i64 @test__readfsqword(i32 noundef %Offset)
 // CHECK-I386:   %inc = add i32 %Offset, 1
 // CHECK-I386:   [[PTR:%[0-9]+]] = inttoptr i32 %inc to ptr addrspace(257)
 // CHECK-I386:   [[VALUE:%[0-9]+]] = load volatile i64, ptr addrspace(257) [[PTR]], align 8
@@ -93,7 +93,7 @@ unsigned long test_inpd(unsigned short port) {
 char test__readgsbyte(unsigned long Offset) {
   return __readgsbyte(++Offset);
 }
-// CHECK-X64-LABEL: define dso_local i8 @test__readgsbyte(i32 noundef %Offset)
+// CHECK-X64-LABEL: define dso_local noundef i8 @test__readgsbyte(i32 noundef %Offset)
 // CHECK-X64:   %inc = add i32 %Offset, 1
 // CHECK-X64:   [[ZEXT:%[0-9]+]] = zext i32 %inc to i64
 // CHECK-X64:   [[PTR:%[0-9]+]] = inttoptr i64 [[ZEXT]] to ptr addrspace(256)
@@ -103,7 +103,7 @@ char test__readgsbyte(unsigned long Offset) {
 short test__readgsword(unsigned long Offset) {
   return __readgsword(++Offset);
 }
-// CHECK-X64-LABEL: define dso_local i16 @test__readgsword(i32 noundef %Offset)
+// CHECK-X64-LABEL: define dso_local noundef i16 @test__readgsword(i32 noundef %Offset)
 // CHECK-X64:   %inc = add i32 %Offset, 1
 // CHECK-X64:   [[ZEXT:%[0-9]+]] = zext i32 %inc to i64
 // CHECK-X64:   [[PTR:%[0-9]+]] = inttoptr i64 [[ZEXT]] to ptr addrspace(256)
@@ -113,7 +113,7 @@ short test__readgsword(unsigned long Offset) {
 long test__readgsdword(unsigned long Offset) {
   return __readgsdword(++Offset);
 }
-// CHECK-X64-LABEL: define dso_local i32 @test__readgsdword(i32 noundef %Offset)
+// CHECK-X64-LABEL: define dso_local noundef i32 @test__readgsdword(i32 noundef %Offset)
 // CHECK-X64:   %inc = add i32 %Offset, 1
 // CHECK-X64:   [[ZEXT:%[0-9]+]] = zext i32 %inc to i64
 // CHECK-X64:   [[PTR:%[0-9]+]] = inttoptr i64 [[ZEXT]] to ptr addrspace(256)
@@ -123,7 +123,7 @@ long test__readgsdword(unsigned long Offset) {
 long long test__readgsqword(unsigned long Offset) {
   return __readgsqword(++Offset);
 }
-// CHECK-X64-LABEL: define dso_local i64 @test__readgsqword(i32 noundef %Offset)
+// CHECK-X64-LABEL: define dso_local noundef i64 @test__readgsqword(i32 noundef %Offset)
 // CHECK-X64:   %inc = add i32 %Offset, 1
 // CHECK-X64:   [[ZEXT:%[0-9]+]] = zext i32 %inc to i64
 // CHECK-X64:   [[PTR:%[0-9]+]] = inttoptr i64 [[ZEXT]] to ptr addrspace(256)

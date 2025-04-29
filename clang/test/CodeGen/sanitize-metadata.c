@@ -13,7 +13,7 @@ void empty() {
 }
 
 int atomics() {
-// ATOMICS-LABEL: define dso_local i32 @atomics()
+// ATOMICS-LABEL: define dso_local noundef i32 @atomics()
 // ATOMICS-SAME:                                  !pcsections ![[ATOMICS_COVERED:[0-9]+]]
 // ATOMICS-NEXT:  entry:
 // ATOMICS-NEXT:    atomicrmw add {{.*}} !pcsections ![[ATOMIC_OP:[0-9]+]]
