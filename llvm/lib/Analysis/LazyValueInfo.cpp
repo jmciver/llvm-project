@@ -431,6 +431,8 @@ class LazyValueInfoImpl {
   void intersectAssumeOrGuardBlockValueConstantRange(Value *Val,
                                                      ValueLatticeElement &BBLV,
                                                      Instruction *BBI);
+  std::optional<ValueLatticeElement>
+  solveBlockValueFreezeValue(FreezeInst *EVI, BasicBlock *BB);
 
   void solve();
 
@@ -660,6 +662,9 @@ LazyValueInfoImpl::solveBlockValueImpl(Value *Val, BasicBlock *BB) {
 
     if (auto *II = dyn_cast<IntrinsicInst>(BBI))
       return solveBlockValueIntrinsic(II, BB);
+
+    if (auto *FI = dyn_cast<FreezeInst>(BBI))
+      return solveBlockValueFreezeValue(FI, BB);
   }
 
   LLVM_DEBUG(dbgs() << " compute BB '" << BB->getName()
@@ -1060,6 +1065,18 @@ LazyValueInfoImpl::solveBlockValueExtractValue(ExtractValueInst *EVI,
           EVI->getAggregateOperand(), EVI->getIndices(),
           EVI->getModule()->getDataLayout()))
     return getBlockValue(V, BB, EVI);
+
+  LLVM_DEBUG(dbgs() << " compute BB '" << BB->getName()
+                    << "' - overdefined (unknown extractvalue).\n");
+  return ValueLatticeElement::getOverdefined();
+}
+
+std::optional<ValueLatticeElement>
+LazyValueInfoImpl::solveBlockValueFreezeValue(FreezeInst *EFI, BasicBlock *BB) {
+  SimplifyQuery SQ(EFI->getModule()->getDataLayout(), nullptr, nullptr, AC,
+                   EFI);
+  if (Value *V = simplifyFreezeInst(EFI->getOperand(0), SQ))
+    return getBlockValue(V, BB, EFI);
 
   LLVM_DEBUG(dbgs() << " compute BB '" << BB->getName()
                     << "' - overdefined (unknown extractvalue).\n");
