@@ -206,7 +206,7 @@ void implicit_maps_double (int a){
 
 // CK4-64-DAG: store i[[sz:64|32]] [[VAL:%[^,]+]], ptr [[BP1]]
 // CK4-64-DAG: store i[[sz]] [[VAL]], ptr [[P1]]
-// CK4-64-DAG: [[VAL]] = load i[[sz]], ptr [[ADDR:%.+]],
+// CK4-64-DAG: [[VAL]] = load i[[sz]], ptr [[ADDR:%[^,]+]]
 // CK4-64-64-DAG: store double {{.+}}, ptr [[ADDR]],
 
 // CK4-32-DAG: store ptr [[DECL:%[^,]+]], ptr [[BP1]]
@@ -1119,7 +1119,7 @@ void implicit_maps_double (int a){
 
 // CK20-64-DAG: store i[[sz:64|32]] [[VAL:%[^,]+]], ptr [[BP1]]
 // CK20-64-DAG: store i[[sz]] [[VAL]], ptr [[P1]]
-// CK20-64-DAG: [[VAL]] = load i[[sz]], ptr [[ADDR:%.+]],
+// CK20-64-DAG: [[VAL]] = load i[[sz]], ptr [[ADDR:%[^,]+]]
 // CK20-64-64-DAG: store double {{.+}}, ptr [[ADDR]],
 
 // CK20-32-DAG: store ptr [[DECL:%[^,]+]], ptr [[BP1]]
@@ -1339,7 +1339,7 @@ void foo(float *&lr, T *&tr) {
 // CK23-DAG: [[P1:%.+]] = getelementptr inbounds {{.+}}[[PS]], i32 0, i32 0
 // CK23-DAG: store ptr [[VAL:%.+]], ptr [[BP1]]
 // CK23-DAG: store ptr [[VAL]], ptr [[P1]]
-// CK23-DAG: [[VAL]] = load ptr, ptr [[ADDR:%.+]],
+// CK23-DAG: [[VAL]] = load ptr, ptr [[ADDR:%[^,]+]]
 
 // CK23: call void [[KERNEL:@.+]](ptr [[VAL]])
 #pragma omp target is_device_ptr(l) defaultmap(none \
@@ -1359,7 +1359,7 @@ void foo(float *&lr, T *&tr) {
 // CK23-DAG: [[P1:%.+]] = getelementptr inbounds {{.+}}[[PS]], i32 0, i32 0
 // CK23-DAG: store ptr [[VAL:%.+]], ptr [[BP1]]
 // CK23-DAG: store ptr [[VAL]], ptr [[P1]]
-// CK23-DAG: [[VAL]] = load ptr, ptr [[ADDR:%.+]],
+// CK23-DAG: [[VAL]] = load ptr, ptr [[ADDR:%[^,]+]]
 
 // CK23: call void [[KERNEL:@.+]](ptr [[VAL]])
 #pragma omp target is_device_ptr(t) defaultmap(none \
@@ -1379,8 +1379,8 @@ void foo(float *&lr, T *&tr) {
 // CK23-DAG: [[P1:%.+]] = getelementptr inbounds {{.+}}[[PS]], i32 0, i32 0
 // CK23-DAG: store ptr [[VAL:%.+]], ptr [[BP1]]
 // CK23-DAG: store ptr [[VAL]], ptr [[P1]]
-// CK23-DAG: [[VAL]] = load ptr, ptr [[ADDR:%.+]],
-// CK23-DAG: [[ADDR]] = load ptr, ptr [[ADDR2:%.+]],
+// CK23-DAG: [[VAL]] = load ptr, ptr [[ADDR:%[^,]+]]
+// CK23-DAG: [[ADDR]] = load ptr, ptr [[ADDR2:%[^,]+]]
 
 // CK23: call void [[KERNEL:@.+]](ptr [[VAL]])
 #pragma omp target is_device_ptr(lr) defaultmap(none \
@@ -1400,8 +1400,8 @@ void foo(float *&lr, T *&tr) {
 // CK23-DAG: [[P1:%.+]] = getelementptr inbounds {{.+}}[[PS]], i32 0, i32 0
 // CK23-DAG: store ptr [[VAL:%.+]], ptr [[BP1]]
 // CK23-DAG: store ptr [[VAL]], ptr [[P1]]
-// CK23-DAG: [[VAL]] = load ptr, ptr [[ADDR:%.+]],
-// CK23-DAG: [[ADDR]] = load ptr, ptr [[ADDR2:%.+]],
+// CK23-DAG: [[VAL]] = load ptr, ptr [[ADDR:%[^,]+]]
+// CK23-DAG: [[ADDR]] = load ptr, ptr [[ADDR2:%[^,]+]]
 
 // CK23: call void [[KERNEL:@.+]](ptr [[VAL]])
 #pragma omp target is_device_ptr(tr) defaultmap(none \
@@ -1421,8 +1421,8 @@ void foo(float *&lr, T *&tr) {
 // CK23-DAG: [[P1:%.+]] = getelementptr inbounds {{.+}}[[PS]], i32 0, i32 0
 // CK23-DAG: store ptr [[VAL:%.+]], ptr [[BP1]]
 // CK23-DAG: store ptr [[VAL]], ptr [[P1]]
-// CK23-DAG: [[VAL]] = load ptr, ptr [[ADDR:%.+]],
-// CK23-DAG: [[ADDR]] = load ptr, ptr [[ADDR2:%.+]],
+// CK23-DAG: [[VAL]] = load ptr, ptr [[ADDR:%[^,]+]]
+// CK23-DAG: [[ADDR]] = load ptr, ptr [[ADDR2:%[^,]+]]
 
 // CK23: call void [[KERNEL:@.+]](ptr [[VAL]])
 #pragma omp target is_device_ptr(tr, lr) defaultmap(none \
@@ -1442,15 +1442,15 @@ void foo(float *&lr, T *&tr) {
 // CK23-DAG: [[P1:%.+]] = getelementptr inbounds {{.+}}[[PS]], i32 0, i32 0
 // CK23-DAG: store ptr [[VAL:%.+]], ptr [[BP1]]
 // CK23-DAG: store ptr [[VAL]], ptr [[P1]]
-// CK23-DAG: [[VAL]] = load ptr, ptr [[ADDR:%.+]],
-// CK23-DAG: [[ADDR]] = load ptr, ptr [[ADDR2:%.+]],
+// CK23-DAG: [[VAL]] = load ptr, ptr [[ADDR:%[^,]+]]
+// CK23-DAG: [[ADDR]] = load ptr, ptr [[ADDR2:%[^,]+]]
 
 // CK23-DAG: [[_BP1:%.+]] = getelementptr inbounds {{.+}}[[BPS]], i32 0, i32 1
 // CK23-DAG: [[_P1:%.+]] = getelementptr inbounds {{.+}}[[PS]], i32 0, i32 1
 // CK23-DAG: store ptr [[_VAL:%.+]], ptr [[_BP1]]
 // CK23-DAG: store ptr [[_VAL]], ptr [[_P1]]
-// CK23-DAG: [[_VAL]] = load ptr, ptr [[_ADDR:%.+]],
-// CK23-DAG: [[_ADDR]] = load ptr, ptr [[_ADDR2:%.+]],
+// CK23-DAG: [[_VAL]] = load ptr, ptr [[_ADDR:%[^,]+]]
+// CK23-DAG: [[_ADDR]] = load ptr, ptr [[_ADDR2:%[^,]+]]
 
 // CK23: call void [[KERNEL:@.+]](ptr [[VAL]], ptr [[_VAL]])
 #pragma omp target is_device_ptr(tr, lr) defaultmap(none \

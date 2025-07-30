@@ -268,7 +268,7 @@ __m256bh test_mm256_abs_pbh(__m256bh a) {
 
 __m256bh test_mm256_loadu_pbh(void *p) {
   // CHECK-LABEL: @test_mm256_loadu_pbh
-  // CHECK: load <16 x bfloat>, ptr {{.*}}, align 1{{$}}
+  // CHECK: load <16 x bfloat>, ptr {{.*}}, align 1, !freeze_bits {{![0-9]+}}{{$}}
   return _mm256_loadu_pbh(p);
 }
 
@@ -292,7 +292,7 @@ __m128bh test_mm_load_pbh(void *p) {
 
 __m128bh test_mm_loadu_pbh(void *p) {
   // CHECK-LABEL: @test_mm_loadu_pbh
-  // CHECK: load <8 x bfloat>, ptr {{.*}}, align 1{{$}}
+  // CHECK: load <8 x bfloat>, ptr {{.*}}, align 1, !freeze_bits {{![0-9]+}}{{$}}
   return _mm_loadu_pbh(p);
 }
 

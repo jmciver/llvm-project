@@ -26,7 +26,7 @@ struct g {
 // CHECK-NEXT: %call = call {{.*}}ptr @_ZN1eaSERKS_(ptr {{.*}}%this1, ptr {{.*}}%1)
 // CHECK-NEXT: %2 = load ptr, ptr %.addr, align 8
 // CHECK-NEXT: %h = getelementptr inbounds nuw %struct.g, ptr %2, i32 0, i32 1
-// CHECK-NEXT: %3 = load i32, ptr %h, align 4, !dbg [[S1_G1R2:!.*]]
+// CHECK-NEXT: %3 = load i32, ptr %h, align 4, !dbg [[S1_G1R2:![0-9]+]]
 // CHECK-NEXT: %h2 = getelementptr inbounds nuw %struct.g, ptr %this1, i32 0, i32 1
 // CHECK-NEXT: store i32 %3, ptr %h2, align 4, !dbg [[S1_G1R1:!.*]]
 // CHECK-NEXT: ret ptr %this1, !dbg
@@ -44,7 +44,7 @@ struct g {
 // CHECK-NEXT: %h = getelementptr inbounds nuw %struct.g, ptr %this1, i32 0, i32 1
 // CHECK-NEXT: %2 = load ptr, ptr %.addr, align 8
 // CHECK-NEXT: %h2 = getelementptr inbounds nuw %struct.g, ptr %2, i32 0, i32 1
-// CHECK-NEXT: %3 = load i32, ptr %h2, align 4, !dbg [[S2_G1R2:!.*]]
+// CHECK-NEXT: %3 = load i32, ptr %h2, align 4, !dbg [[S2_G1R2:![0-9]+]]
 // CHECK-NEXT: store i32 %3, ptr %h, align 4, !dbg [[S2_G1R1:!.*]]
 // CHECK-NEXT: ret void, !dbg
 

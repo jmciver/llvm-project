@@ -37,16 +37,16 @@ atomic_int j;
 
 void fi1(atomic_int *i) {
   // CHECK-LABEL: @fi1
-  // CHECK: load atomic i32, ptr %{{[.0-9A-Z_a-z]+}} syncscope("workgroup") seq_cst, align 4{{$}}
+  // CHECK: load atomic i32, ptr %{{[.0-9A-Z_a-z]+}} syncscope("workgroup") seq_cst, align 4, !freeze_bits !{{[0-9]+}}{{$}}
   int x = __opencl_atomic_load(i, memory_order_seq_cst, memory_scope_work_group);
 
-  // CHECK: load atomic i32, ptr %{{[.0-9A-Z_a-z]+}} syncscope("agent") seq_cst, align 4{{$}}
+  // CHECK: load atomic i32, ptr %{{[.0-9A-Z_a-z]+}} syncscope("agent") seq_cst, align 4, !freeze_bits !{{[0-9]+}}{{$}}
   x = __opencl_atomic_load(i, memory_order_seq_cst, memory_scope_device);
 
-  // CHECK: load atomic i32, ptr %{{[.0-9A-Z_a-z]+}} seq_cst, align 4{{$}}
+  // CHECK: load atomic i32, ptr %{{[.0-9A-Z_a-z]+}} seq_cst, align 4, !freeze_bits !{{[0-9]+}}{{$}}
   x = __opencl_atomic_load(i, memory_order_seq_cst, memory_scope_all_svm_devices);
 
-  // CHECK: load atomic i32, ptr %{{[.0-9A-Z_a-z]+}} syncscope("wavefront") seq_cst, align 4{{$}}
+  // CHECK: load atomic i32, ptr %{{[.0-9A-Z_a-z]+}} syncscope("wavefront") seq_cst, align 4, !freeze_bits !{{[0-9]+}}{{$}}
   x = __opencl_atomic_load(i, memory_order_seq_cst, memory_scope_sub_group);
 }
 
@@ -105,16 +105,16 @@ void fi5(atomic_int *i, int scope) {
   // CHECK-NEXT: i32 4, label %[[opencl_subgroup:.*]]
   // CHECK-NEXT: ]
   // CHECK: [[opencl_workgroup]]:
-  // CHECK: load atomic i32, ptr %{{.*}} syncscope("workgroup") seq_cst, align 4{{$}}
+  // CHECK: load atomic i32, ptr %{{.*}} syncscope("workgroup") seq_cst, align 4, !freeze_bits !{{[0-9]+}}{{$}}
   // CHECK: br label %[[continue:.*]]
   // CHECK: [[opencl_device]]:
-  // CHECK: load atomic i32, ptr %{{.*}} syncscope("agent") seq_cst, align 4{{$}}
+  // CHECK: load atomic i32, ptr %{{.*}} syncscope("agent") seq_cst, align 4, !freeze_bits !{{[0-9]+}}{{$}}
   // CHECK: br label %[[continue]]
   // CHECK: [[opencl_allsvmdevices]]:
   // CHECK: load atomic i32, ptr %{{.*}} seq_cst, align 4
   // CHECK: br label %[[continue]]
   // CHECK: [[opencl_subgroup]]:
-  // CHECK: load atomic i32, ptr %{{.*}} syncscope("wavefront") seq_cst, align 4{{$}}
+  // CHECK: load atomic i32, ptr %{{.*}} syncscope("wavefront") seq_cst, align 4, !freeze_bits !{{[0-9]+}}{{$}}
   // CHECK: br label %[[continue]]
   // CHECK: [[continue]]:
   int x = __opencl_atomic_load(i, memory_order_seq_cst, scope);
@@ -146,35 +146,35 @@ void fi6(atomic_int *i, int order, int scope) {
   // CHECK-NEXT: i32 4, label %[[SEQ_SUB:.*]]
   // CHECK-NEXT: ]
   // CHECK: [[MON_WG]]:
-  // CHECK: load atomic i32, ptr %{{.*}} syncscope("workgroup-one-as") monotonic, align 4{{$}}
+  // CHECK: load atomic i32, ptr %{{.*}} syncscope("workgroup-one-as") monotonic, align 4, !freeze_bits !{{[0-9]+}}{{$}}
   // CHECK: [[MON_DEV]]:
-  // CHECK: load atomic i32, ptr %{{.*}} syncscope("agent-one-as") monotonic, align 4{{$}}
+  // CHECK: load atomic i32, ptr %{{.*}} syncscope("agent-one-as") monotonic, align 4, !freeze_bits !{{[0-9]+}}{{$}}
   // CHECK: [[MON_ALL]]:
-  // CHECK: load atomic i32, ptr %{{.*}} monotonic, align 4{{$}}
+  // CHECK: load atomic i32, ptr %{{.*}} monotonic, align 4, !freeze_bits !{{[0-9]+}}{{$}}
   // CHECK: [[MON_SUB]]:
-  // CHECK: load atomic i32, ptr %{{.*}} syncscope("wavefront-one-as") monotonic, align 4{{$}}
+  // CHECK: load atomic i32, ptr %{{.*}} syncscope("wavefront-one-as") monotonic, align 4, !freeze_bits !{{[0-9]+}}{{$}}
   // CHECK: [[ACQ_WG]]:
-  // CHECK: load atomic i32, ptr %{{.*}} syncscope("workgroup-one-as") acquire, align 4{{$}}
+  // CHECK: load atomic i32, ptr %{{.*}} syncscope("workgroup-one-as") acquire, align 4, !freeze_bits !{{[0-9]+}}{{$}}
   // CHECK: [[ACQ_DEV]]:
-  // CHECK: load atomic i32, ptr %{{.*}} syncscope("agent-one-as") acquire, align 4{{$}}
+  // CHECK: load atomic i32, ptr %{{.*}} syncscope("agent-one-as") acquire, align 4, !freeze_bits !{{[0-9]+}}{{$}}
   // CHECK: [[ACQ_ALL]]:
-  // CHECK: load atomic i32, ptr %{{.*}} acquire, align 4{{$}}
+  // CHECK: load atomic i32, ptr %{{.*}} acquire, align 4, !freeze_bits !{{[0-9]+}}{{$}}
   // CHECK: [[ACQ_SUB]]:
-  // CHECK: load atomic i32, ptr %{{.*}} syncscope("wavefront-one-as") acquire, align 4{{$}}
+  // CHECK: load atomic i32, ptr %{{.*}} syncscope("wavefront-one-as") acquire, align 4, !freeze_bits !{{[0-9]+}}{{$}}
   // CHECK: [[SEQ_WG]]:
-  // CHECK: load atomic i32, ptr %{{.*}} syncscope("workgroup") seq_cst, align 4{{$}}
+  // CHECK: load atomic i32, ptr %{{.*}} syncscope("workgroup") seq_cst, align 4, !freeze_bits !{{[0-9]+}}{{$}}
   // CHECK: [[SEQ_DEV]]:
-  // CHECK: load atomic i32, ptr %{{.*}} syncscope("agent") seq_cst, align 4{{$}}
+  // CHECK: load atomic i32, ptr %{{.*}} syncscope("agent") seq_cst, align 4, !freeze_bits !{{[0-9]+}}{{$}}
   // CHECK: [[SEQ_ALL]]:
-  // CHECK: load atomic i32, ptr %{{.*}} seq_cst, align 4{{$}}
+  // CHECK: load atomic i32, ptr %{{.*}} seq_cst, align 4, !freeze_bits !{{[0-9]+}}{{$}}
   // CHECK: [[SEQ_SUB]]:
-  // CHECK: load atomic i32, ptr %{{.*}} syncscope("wavefront") seq_cst, align 4{{$}}
+  // CHECK: load atomic i32, ptr %{{.*}} syncscope("wavefront") seq_cst, align 4, !freeze_bits !{{[0-9]+}}{{$}}
   int x = __opencl_atomic_load(i, order, scope);
 }
 
 float ff1(global atomic_float *d) {
   // CHECK-LABEL: @ff1
-  // CHECK: load atomic i32, ptr addrspace(1) {{.*}} syncscope("workgroup-one-as") monotonic, align 4{{$}}
+  // CHECK: load atomic i32, ptr addrspace(1) {{.*}} syncscope("workgroup-one-as") monotonic, align 4, !freeze_bits !{{[0-9]+}}{{$}}
   return __opencl_atomic_load(d, memory_order_relaxed, memory_scope_work_group);
 }
 
@@ -349,7 +349,7 @@ int test_volatile(volatile atomic_int *i) {
   // CHECK-NEXT: %[[atomicdst_ascast:.*]] = addrspacecast ptr addrspace(5) %[[atomicdst]] to ptr
   // CHECK-NEXT: store ptr %i, ptr %[[i_addr_ascast]]
   // CHECK-NEXT: %[[addr:.*]] = load ptr, ptr %[[i_addr_ascast]]
-  // CHECK-NEXT: %[[res:.*]] = load atomic volatile i32, ptr %[[addr]] syncscope("workgroup") seq_cst, align 4{{$}}
+  // CHECK-NEXT: %[[res:.*]] = load atomic volatile i32, ptr %[[addr]] syncscope("workgroup") seq_cst, align 4, !freeze_bits !{{[0-9]+}}{{$}}
   // CHECK-NEXT: store i32 %[[res]], ptr %[[atomicdst_ascast]]
   // CHECK-NEXT: %[[retval:.*]] = load i32, ptr %[[atomicdst_ascast]]
   // CHECK-NEXT: ret i32 %[[retval]]

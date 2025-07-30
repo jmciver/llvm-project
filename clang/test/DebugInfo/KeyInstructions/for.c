@@ -108,7 +108,7 @@ void e() {
 // CHECK-NEXT: br i1 %cmp, label %for.body, label %for.end, !dbg [[eG2R1:!.*]]
 
 // CHECK: for.body:
-// CHECK-NEXT: %1 = load i32, ptr @i{{.*}}, !dbg [[eG3R2:!.*]]
+// CHECK-NEXT: %1 = load i32, ptr @i{{.*}}, !dbg [[eG3R2:![0-9]+]]
 // CHECK-NEXT: store i32 %1, ptr @x{{.*}}, !dbg [[eG3R1:!.*]]
 // CHECK-NEXT: br label %for.inc, !dbg [[eG4R1:!.*]]
   for (; i < 3; ee())

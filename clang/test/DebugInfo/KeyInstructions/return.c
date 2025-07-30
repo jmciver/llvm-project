@@ -25,7 +25,7 @@ nomangle float a() {
 // CHECK: float @a()
   if (g)
 // CHECK: if.then:
-// CHECK-NEXT: %1 = load i32, ptr @g{{.*}}, !dbg [[G2R3:!.*]]
+// CHECK-NEXT: %1 = load i32, ptr @g{{.*}}, !dbg [[G2R3:![0-9]+]]
 // CHECK-NEXT: %conv = sitofp i32 %1 to float{{.*}}, !dbg [[G2R2:!.*]]
 // CHECK-NEXT: store float %conv, ptr %retval{{.*}}, !dbg [[G2R1:!.*]]
 // CHECK-NEXT: br label %return{{.*}}, !dbg [[G2R1]]
@@ -35,7 +35,7 @@ nomangle float a() {
 // CHECK-NEXT: br label %return, !dbg [[G3R1]]
 
 // CHECK: return:
-// CHECK-NEXT:  %2 = load float, ptr %retval{{.*}}, !dbg [[G4R2:!.*]]
+// CHECK-NEXT:  %2 = load float, ptr %retval{{.*}}, !dbg [[G4R2:![0-9]+]]
 // CHECK-NEXT:  ret float %2{{.*}}, !dbg [[G4R1:!.*]]
   return 1;
 }
@@ -76,7 +76,7 @@ int &f(int &r) {
 // CHECK-CXX-NEXT: store ptr @g, ptr %retval{{.*}}, !dbg [[F_G3R1:!.*]]
 // CHECK-CXX-NEXT: br label %return, !dbg [[F_G3R1:!.*]]
 // CHECK-CXX: return:
-// CHECK-CXX-NEXT: %3 = load ptr, ptr %retval{{.*}}, !dbg [[F_G4R2:!.*]]
+// CHECK-CXX-NEXT: %3 = load ptr, ptr %retval{{.*}}, !dbg [[F_G4R2:![0-9]+]]
 // CHECK-CXX-NEXT: ret ptr %3, !dbg [[F_G4R1:!.*]]
   return g;
 }

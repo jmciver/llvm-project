@@ -12,9 +12,9 @@ extern void bar(void);
 // CHECK-NEXT:    store ptr [[P]], ptr [[P_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[Q]], ptr [[Q_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[T]], ptr [[T_ADDR]], align 8
-// CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[P_ADDR]], align 8
+// CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[P_ADDR]], align 8, !freeze_bits [[META2:![0-9]+]]
 // CHECK-NEXT:    store i32 5, ptr [[TMP0]], align 4
-// CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[Q_ADDR]], align 8
+// CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[Q_ADDR]], align 8, !freeze_bits [[META2]]
 // CHECK-NEXT:    store i32 7, ptr [[TMP1]], align 4
 // CHECK-NEXT:    call void @bar()
 //
@@ -24,3 +24,6 @@ void foo(int *p, int *q, double *t) {
   bar();
   *t = 1.3l;
 }
+//.
+// CHECK: [[META2]] = !{}
+//.

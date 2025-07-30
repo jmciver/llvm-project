@@ -37,9 +37,9 @@ int main() {
 // CHECK-NEXT:    [[X_ADDR:%.*]] = alloca i32, align 4
 // CHECK-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NEXT:    store i32 [[X]], ptr [[X_ADDR]], align 4
-// CHECK-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
+// CHECK-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8, !freeze_bits [[META2:![0-9]+]]
 // CHECK-NEXT:    [[X2:%.*]] = getelementptr inbounds nuw [[CLASS_FOO:%.*]], ptr [[THIS1]], i32 0, i32 0
-// CHECK-NEXT:    [[TMP0:%.*]] = load i32, ptr [[X_ADDR]], align 4
+// CHECK-NEXT:    [[TMP0:%.*]] = load i32, ptr [[X_ADDR]], align 4, !freeze_bits [[META2]]
 // CHECK-NEXT:    store i32 [[TMP0]], ptr [[X2]], align 4
 // CHECK-NEXT:    ret void
 //
@@ -51,8 +51,8 @@ int main() {
 // CHECK-NEXT:    [[X_ADDR:%.*]] = alloca i32, align 4
 // CHECK-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NEXT:    store i32 [[X]], ptr [[X_ADDR]], align 4
-// CHECK-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NEXT:    [[TMP0:%.*]] = load i32, ptr [[X_ADDR]], align 4
+// CHECK-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8, !freeze_bits [[META2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load i32, ptr [[X_ADDR]], align 4, !freeze_bits [[META2]]
 // CHECK-NEXT:    call void @_ZN3FooC2Ei(ptr noundef nonnull align 4 dereferenceable(4) [[THIS1]], i32 noundef [[TMP0]])
 // CHECK-NEXT:    ret void
 //
@@ -62,7 +62,7 @@ int main() {
 // CHECK-NEXT:  [[ENTRY:.*:]]
 // CHECK-NEXT:    [[THIS_ADDR:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
-// CHECK-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
+// CHECK-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8, !freeze_bits [[META2]]
 // CHECK-NEXT:    ret void
 //
 //
@@ -71,7 +71,7 @@ int main() {
 // CHECK-NEXT:  [[ENTRY:.*:]]
 // CHECK-NEXT:    [[THIS_ADDR:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
-// CHECK-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
+// CHECK-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8, !freeze_bits [[META2]]
 // CHECK-NEXT:    call void @_ZN3FooD2Ev(ptr noundef nonnull align 4 dereferenceable(4) [[THIS1]]) #[[ATTR2:[0-9]+]]
 // CHECK-NEXT:    ret void
 //
@@ -88,7 +88,7 @@ int main() {
 // CHECK-NEXT:    [[CALL2:%.*]] = call noundef i32 @_ZL18static_noinline_fni(i32 noundef 0)
 // CHECK-NEXT:    store i32 [[CALL2]], ptr [[RETVAL]], align 4
 // CHECK-NEXT:    call void @_ZN3FooD1Ev(ptr noundef nonnull align 4 dereferenceable(4) [[F]]) #[[ATTR2]]
-// CHECK-NEXT:    [[TMP0:%.*]] = load i32, ptr [[RETVAL]], align 4
+// CHECK-NEXT:    [[TMP0:%.*]] = load i32, ptr [[RETVAL]], align 4, !freeze_bits [[META2]]
 // CHECK-NEXT:    ret i32 [[TMP0]]
 //
 //
@@ -99,10 +99,10 @@ int main() {
 // CHECK-NEXT:    [[ARG_ADDR:%.*]] = alloca i32, align 4
 // CHECK-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NEXT:    store i32 [[ARG]], ptr [[ARG_ADDR]], align 4
-// CHECK-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NEXT:    [[TMP0:%.*]] = load i32, ptr [[ARG_ADDR]], align 4
+// CHECK-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8, !freeze_bits [[META2]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load i32, ptr [[ARG_ADDR]], align 4, !freeze_bits [[META2]]
 // CHECK-NEXT:    [[X:%.*]] = getelementptr inbounds nuw [[CLASS_FOO:%.*]], ptr [[THIS1]], i32 0, i32 0
-// CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr [[X]], align 4
+// CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr [[X]], align 4, !freeze_bits [[META2]]
 // CHECK-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP0]], [[TMP1]]
 // CHECK-NEXT:    ret i32 [[ADD]]
 //
@@ -114,10 +114,10 @@ int main() {
 // CHECK-NEXT:    [[ARG_ADDR:%.*]] = alloca i32, align 4
 // CHECK-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NEXT:    store i32 [[ARG]], ptr [[ARG_ADDR]], align 4
-// CHECK-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
+// CHECK-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8, !freeze_bits [[META2]]
 // CHECK-NEXT:    [[X:%.*]] = getelementptr inbounds nuw [[CLASS_FOO:%.*]], ptr [[THIS1]], i32 0, i32 0
-// CHECK-NEXT:    [[TMP0:%.*]] = load i32, ptr [[X]], align 4
-// CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr [[ARG_ADDR]], align 4
+// CHECK-NEXT:    [[TMP0:%.*]] = load i32, ptr [[X]], align 4, !freeze_bits [[META2]]
+// CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr [[ARG_ADDR]], align 4, !freeze_bits [[META2]]
 // CHECK-NEXT:    [[SUB:%.*]] = sub nsw i32 [[TMP0]], [[TMP1]]
 // CHECK-NEXT:    ret i32 [[SUB]]
 //
@@ -127,7 +127,7 @@ int main() {
 // CHECK-NEXT:  [[ENTRY:.*:]]
 // CHECK-NEXT:    [[ARG_ADDR:%.*]] = alloca i32, align 4
 // CHECK-NEXT:    store i32 [[ARG]], ptr [[ARG_ADDR]], align 4
-// CHECK-NEXT:    [[TMP0:%.*]] = load i32, ptr [[ARG_ADDR]], align 4
+// CHECK-NEXT:    [[TMP0:%.*]] = load i32, ptr [[ARG_ADDR]], align 4, !freeze_bits [[META2]]
 // CHECK-NEXT:    ret i32 [[TMP0]]
 //
 //
@@ -138,9 +138,9 @@ int main() {
 // MACHO-NEXT:    [[X_ADDR:%.*]] = alloca i32, align 4
 // MACHO-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // MACHO-NEXT:    store i32 [[X]], ptr [[X_ADDR]], align 4
-// MACHO-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
+// MACHO-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8, !freeze_bits [[META2:![0-9]+]]
 // MACHO-NEXT:    [[X2:%.*]] = getelementptr inbounds nuw [[CLASS_FOO:%.*]], ptr [[THIS1]], i32 0, i32 0
-// MACHO-NEXT:    [[TMP0:%.*]] = load i32, ptr [[X_ADDR]], align 4
+// MACHO-NEXT:    [[TMP0:%.*]] = load i32, ptr [[X_ADDR]], align 4, !freeze_bits [[META2]]
 // MACHO-NEXT:    store i32 [[TMP0]], ptr [[X2]], align 4
 // MACHO-NEXT:    ret void
 //
@@ -152,8 +152,8 @@ int main() {
 // MACHO-NEXT:    [[X_ADDR:%.*]] = alloca i32, align 4
 // MACHO-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // MACHO-NEXT:    store i32 [[X]], ptr [[X_ADDR]], align 4
-// MACHO-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// MACHO-NEXT:    [[TMP0:%.*]] = load i32, ptr [[X_ADDR]], align 4
+// MACHO-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8, !freeze_bits [[META2]]
+// MACHO-NEXT:    [[TMP0:%.*]] = load i32, ptr [[X_ADDR]], align 4, !freeze_bits [[META2]]
 // MACHO-NEXT:    call void @_ZN3FooC2Ei(ptr noundef nonnull align 4 dereferenceable(4) [[THIS1]], i32 noundef [[TMP0]])
 // MACHO-NEXT:    ret void
 //
@@ -163,7 +163,7 @@ int main() {
 // MACHO-NEXT:  [[ENTRY:.*:]]
 // MACHO-NEXT:    [[THIS_ADDR:%.*]] = alloca ptr, align 8
 // MACHO-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
-// MACHO-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
+// MACHO-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8, !freeze_bits [[META2]]
 // MACHO-NEXT:    ret void
 //
 //
@@ -172,7 +172,7 @@ int main() {
 // MACHO-NEXT:  [[ENTRY:.*:]]
 // MACHO-NEXT:    [[THIS_ADDR:%.*]] = alloca ptr, align 8
 // MACHO-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
-// MACHO-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
+// MACHO-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8, !freeze_bits [[META2]]
 // MACHO-NEXT:    call void @_ZN3FooD2Ev(ptr noundef nonnull align 4 dereferenceable(4) [[THIS1]]) #[[ATTR2:[0-9]+]]
 // MACHO-NEXT:    ret void
 //
@@ -189,7 +189,7 @@ int main() {
 // MACHO-NEXT:    [[CALL2:%.*]] = call noundef i32 @_ZL18static_noinline_fni(i32 noundef 0)
 // MACHO-NEXT:    store i32 [[CALL2]], ptr [[RETVAL]], align 4
 // MACHO-NEXT:    call void @_ZN3FooD1Ev(ptr noundef nonnull align 4 dereferenceable(4) [[F]]) #[[ATTR2]]
-// MACHO-NEXT:    [[TMP0:%.*]] = load i32, ptr [[RETVAL]], align 4
+// MACHO-NEXT:    [[TMP0:%.*]] = load i32, ptr [[RETVAL]], align 4, !freeze_bits [[META2]]
 // MACHO-NEXT:    ret i32 [[TMP0]]
 //
 //
@@ -200,10 +200,10 @@ int main() {
 // MACHO-NEXT:    [[ARG_ADDR:%.*]] = alloca i32, align 4
 // MACHO-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // MACHO-NEXT:    store i32 [[ARG]], ptr [[ARG_ADDR]], align 4
-// MACHO-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// MACHO-NEXT:    [[TMP0:%.*]] = load i32, ptr [[ARG_ADDR]], align 4
+// MACHO-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8, !freeze_bits [[META2]]
+// MACHO-NEXT:    [[TMP0:%.*]] = load i32, ptr [[ARG_ADDR]], align 4, !freeze_bits [[META2]]
 // MACHO-NEXT:    [[X:%.*]] = getelementptr inbounds nuw [[CLASS_FOO:%.*]], ptr [[THIS1]], i32 0, i32 0
-// MACHO-NEXT:    [[TMP1:%.*]] = load i32, ptr [[X]], align 4
+// MACHO-NEXT:    [[TMP1:%.*]] = load i32, ptr [[X]], align 4, !freeze_bits [[META2]]
 // MACHO-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP0]], [[TMP1]]
 // MACHO-NEXT:    ret i32 [[ADD]]
 //
@@ -215,10 +215,10 @@ int main() {
 // MACHO-NEXT:    [[ARG_ADDR:%.*]] = alloca i32, align 4
 // MACHO-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // MACHO-NEXT:    store i32 [[ARG]], ptr [[ARG_ADDR]], align 4
-// MACHO-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
+// MACHO-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8, !freeze_bits [[META2]]
 // MACHO-NEXT:    [[X:%.*]] = getelementptr inbounds nuw [[CLASS_FOO:%.*]], ptr [[THIS1]], i32 0, i32 0
-// MACHO-NEXT:    [[TMP0:%.*]] = load i32, ptr [[X]], align 4
-// MACHO-NEXT:    [[TMP1:%.*]] = load i32, ptr [[ARG_ADDR]], align 4
+// MACHO-NEXT:    [[TMP0:%.*]] = load i32, ptr [[X]], align 4, !freeze_bits [[META2]]
+// MACHO-NEXT:    [[TMP1:%.*]] = load i32, ptr [[ARG_ADDR]], align 4, !freeze_bits [[META2]]
 // MACHO-NEXT:    [[SUB:%.*]] = sub nsw i32 [[TMP0]], [[TMP1]]
 // MACHO-NEXT:    ret i32 [[SUB]]
 //
@@ -228,7 +228,7 @@ int main() {
 // MACHO-NEXT:  [[ENTRY:.*:]]
 // MACHO-NEXT:    [[ARG_ADDR:%.*]] = alloca i32, align 4
 // MACHO-NEXT:    store i32 [[ARG]], ptr [[ARG_ADDR]], align 4
-// MACHO-NEXT:    [[TMP0:%.*]] = load i32, ptr [[ARG_ADDR]], align 4
+// MACHO-NEXT:    [[TMP0:%.*]] = load i32, ptr [[ARG_ADDR]], align 4, !freeze_bits [[META2]]
 // MACHO-NEXT:    ret i32 [[TMP0]]
 //
 //
@@ -244,7 +244,7 @@ int main() {
 // MSVC-NEXT:    [[CALL3:%.*]] = call noundef i32 @"?static_noinline_fn@@YAHH@Z"(i32 noundef 0)
 // MSVC-NEXT:    store i32 [[CALL3]], ptr [[RETVAL]], align 4
 // MSVC-NEXT:    call void @"??1Foo@@QEAA@XZ"(ptr noundef nonnull align 4 dereferenceable(4) [[F]]) #[[ATTR2:[0-9]+]]
-// MSVC-NEXT:    [[TMP0:%.*]] = load i32, ptr [[RETVAL]], align 4
+// MSVC-NEXT:    [[TMP0:%.*]] = load i32, ptr [[RETVAL]], align 4, !freeze_bits [[META6:![0-9]+]]
 // MSVC-NEXT:    ret i32 [[TMP0]]
 //
 //
@@ -255,9 +255,9 @@ int main() {
 // MINGW-NEXT:    [[X_ADDR:%.*]] = alloca i32, align 4
 // MINGW-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // MINGW-NEXT:    store i32 [[X]], ptr [[X_ADDR]], align 4
-// MINGW-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
+// MINGW-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8, !freeze_bits [[META6:![0-9]+]]
 // MINGW-NEXT:    [[X2:%.*]] = getelementptr inbounds nuw [[CLASS_FOO:%.*]], ptr [[THIS1]], i32 0, i32 0
-// MINGW-NEXT:    [[TMP0:%.*]] = load i32, ptr [[X_ADDR]], align 4
+// MINGW-NEXT:    [[TMP0:%.*]] = load i32, ptr [[X_ADDR]], align 4, !freeze_bits [[META6]]
 // MINGW-NEXT:    store i32 [[TMP0]], ptr [[X2]], align 4
 // MINGW-NEXT:    ret void
 //
@@ -269,8 +269,8 @@ int main() {
 // MINGW-NEXT:    [[X_ADDR:%.*]] = alloca i32, align 4
 // MINGW-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // MINGW-NEXT:    store i32 [[X]], ptr [[X_ADDR]], align 4
-// MINGW-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// MINGW-NEXT:    [[TMP0:%.*]] = load i32, ptr [[X_ADDR]], align 4
+// MINGW-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8, !freeze_bits [[META6]]
+// MINGW-NEXT:    [[TMP0:%.*]] = load i32, ptr [[X_ADDR]], align 4, !freeze_bits [[META6]]
 // MINGW-NEXT:    call void @_ZN3FooC2Ei(ptr noundef nonnull align 4 dereferenceable(4) [[THIS1]], i32 noundef [[TMP0]])
 // MINGW-NEXT:    ret void
 //
@@ -280,7 +280,7 @@ int main() {
 // MINGW-NEXT:  [[ENTRY:.*:]]
 // MINGW-NEXT:    [[THIS_ADDR:%.*]] = alloca ptr, align 8
 // MINGW-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
-// MINGW-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
+// MINGW-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8, !freeze_bits [[META6]]
 // MINGW-NEXT:    ret void
 //
 //
@@ -289,7 +289,7 @@ int main() {
 // MINGW-NEXT:  [[ENTRY:.*:]]
 // MINGW-NEXT:    [[THIS_ADDR:%.*]] = alloca ptr, align 8
 // MINGW-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
-// MINGW-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
+// MINGW-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8, !freeze_bits [[META6]]
 // MINGW-NEXT:    call void @_ZN3FooD2Ev(ptr noundef nonnull align 4 dereferenceable(4) [[THIS1]]) #[[ATTR2:[0-9]+]]
 // MINGW-NEXT:    ret void
 //
@@ -306,7 +306,7 @@ int main() {
 // MINGW-NEXT:    [[CALL2:%.*]] = call noundef i32 @_ZL18static_noinline_fni(i32 noundef 0)
 // MINGW-NEXT:    store i32 [[CALL2]], ptr [[RETVAL]], align 4
 // MINGW-NEXT:    call void @_ZN3FooD1Ev(ptr noundef nonnull align 4 dereferenceable(4) [[F]]) #[[ATTR2]]
-// MINGW-NEXT:    [[TMP0:%.*]] = load i32, ptr [[RETVAL]], align 4
+// MINGW-NEXT:    [[TMP0:%.*]] = load i32, ptr [[RETVAL]], align 4, !freeze_bits [[META6]]
 // MINGW-NEXT:    ret i32 [[TMP0]]
 //
 //
@@ -317,10 +317,10 @@ int main() {
 // MINGW-NEXT:    [[ARG_ADDR:%.*]] = alloca i32, align 4
 // MINGW-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // MINGW-NEXT:    store i32 [[ARG]], ptr [[ARG_ADDR]], align 4
-// MINGW-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// MINGW-NEXT:    [[TMP0:%.*]] = load i32, ptr [[ARG_ADDR]], align 4
+// MINGW-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8, !freeze_bits [[META6]]
+// MINGW-NEXT:    [[TMP0:%.*]] = load i32, ptr [[ARG_ADDR]], align 4, !freeze_bits [[META6]]
 // MINGW-NEXT:    [[X:%.*]] = getelementptr inbounds nuw [[CLASS_FOO:%.*]], ptr [[THIS1]], i32 0, i32 0
-// MINGW-NEXT:    [[TMP1:%.*]] = load i32, ptr [[X]], align 4
+// MINGW-NEXT:    [[TMP1:%.*]] = load i32, ptr [[X]], align 4, !freeze_bits [[META6]]
 // MINGW-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP0]], [[TMP1]]
 // MINGW-NEXT:    ret i32 [[ADD]]
 //
@@ -332,10 +332,10 @@ int main() {
 // MINGW-NEXT:    [[ARG_ADDR:%.*]] = alloca i32, align 4
 // MINGW-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // MINGW-NEXT:    store i32 [[ARG]], ptr [[ARG_ADDR]], align 4
-// MINGW-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
+// MINGW-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8, !freeze_bits [[META6]]
 // MINGW-NEXT:    [[X:%.*]] = getelementptr inbounds nuw [[CLASS_FOO:%.*]], ptr [[THIS1]], i32 0, i32 0
-// MINGW-NEXT:    [[TMP0:%.*]] = load i32, ptr [[X]], align 4
-// MINGW-NEXT:    [[TMP1:%.*]] = load i32, ptr [[ARG_ADDR]], align 4
+// MINGW-NEXT:    [[TMP0:%.*]] = load i32, ptr [[X]], align 4, !freeze_bits [[META6]]
+// MINGW-NEXT:    [[TMP1:%.*]] = load i32, ptr [[ARG_ADDR]], align 4, !freeze_bits [[META6]]
 // MINGW-NEXT:    [[SUB:%.*]] = sub nsw i32 [[TMP0]], [[TMP1]]
 // MINGW-NEXT:    ret i32 [[SUB]]
 //
@@ -345,6 +345,15 @@ int main() {
 // MINGW-NEXT:  [[ENTRY:.*:]]
 // MINGW-NEXT:    [[ARG_ADDR:%.*]] = alloca i32, align 4
 // MINGW-NEXT:    store i32 [[ARG]], ptr [[ARG_ADDR]], align 4
-// MINGW-NEXT:    [[TMP0:%.*]] = load i32, ptr [[ARG_ADDR]], align 4
+// MINGW-NEXT:    [[TMP0:%.*]] = load i32, ptr [[ARG_ADDR]], align 4, !freeze_bits [[META6]]
 // MINGW-NEXT:    ret i32 [[TMP0]]
 //
+//.
+// CHECK: [[META2]] = !{}
+//.
+// MACHO: [[META2]] = !{}
+//.
+// MSVC: [[META6]] = !{}
+//.
+// MINGW: [[META6]] = !{}
+//.

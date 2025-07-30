@@ -7,13 +7,13 @@
 _Complex float ci;
 float f;
 void test() {
-// CHECK: %ci.real = load float, ptr @ci{{.*}}, !dbg [[G1R2:!.*]]
+// CHECK: %ci.real = load float, ptr @ci{{.*}}, !dbg [[G1R2:![0-9]+]]
 // CHECK: %ci.imag = load float, ptr getelementptr inbounds nuw ({ float, float }, ptr @ci, i32 0, i32 1){{.*}}, !dbg [[G1R2]]
 // CHECK: store float %ci.real, ptr %lc.realp{{.*}}, !dbg [[G1R1:!.*]]
 // CHECK: store float %ci.imag, ptr %lc.imagp{{.*}}, !dbg [[G1R1]]
   _Complex float lc = ci;
 
-// CHECK: %ci.real1 = load float, ptr @ci{{.*}}, !dbg [[G2R2:!.*]]
+// CHECK: %ci.real1 = load float, ptr @ci{{.*}}, !dbg [[G2R2:![0-9]+]]
 // CHECK: %ci.imag2 = load float, ptr getelementptr inbounds nuw ({ float, float }, ptr @ci, i32 0, i32 1){{.*}}, !dbg [[G2R2]]
 // CHECK: store float %ci.real1, ptr @ci{{.*}}, !dbg [[G2R1:!.*]]
 // CHECK: store float %ci.imag2, ptr getelementptr inbounds nuw ({ float, float }, ptr @ci, i32 0, i32 1){{.*}}, !dbg [[G2R1]]
@@ -42,7 +42,7 @@ void test() {
   ci *= ci;
 
 // div goes straight to lib call, which gets saved into a temp.
-// CHECK: %coerce21.real = load float, ptr %coerce21.realp, align 4, !dbg [[G6R2:!.*]]
+// CHECK: %coerce21.real = load float, ptr %coerce21.realp, align 4, !dbg [[G6R2:![0-9]+]]
 // CHECK: %coerce21.imag = load float, ptr %coerce21.imagp, align 4, !dbg [[G6R2]]
 // CHECK: store float %coerce21.real, ptr @ci, align 4, !dbg [[G6R1:!.*]]
 // CHECK: store float %coerce21.imag, ptr getelementptr inbounds nuw ({ float, float }, ptr @ci, i32 0, i32 1), align 4, !dbg [[G6R1]]
@@ -63,7 +63,7 @@ void test() {
 // CHECK-C: store float %sub.r27, ptr @f, align 4, !dbg [[G9R1:!.*]]
   f -= ci;
 
-// CHECK-C: %coerce32.real = load float, ptr %coerce32.realp, align 4, !dbg [[G10R2:!.*]]
+// CHECK-C: %coerce32.real = load float, ptr %coerce32.realp, align 4, !dbg [[G10R2:![0-9]+]]
 // CHECK-C: store float %coerce32.real, ptr @f, align 4, !dbg [[G10R1:!.*]]
   f /= ci;
 

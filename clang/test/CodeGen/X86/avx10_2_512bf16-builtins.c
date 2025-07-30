@@ -234,7 +234,7 @@ __m512bh test_mm512_load_pbh(void *p) {
 
 __m512bh test_mm512_loadu_pbh(void *p) {
   // CHECK-LABEL: @test_mm512_loadu_pbh
-  // CHECK: load <32 x bfloat>, ptr {{.*}}, align 1{{$}}
+  // CHECK: load <32 x bfloat>, ptr {{.*}}, align 1, !freeze_bits {{![0-9]+}}{{$}}
   return _mm512_loadu_pbh(p);
 }
 

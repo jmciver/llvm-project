@@ -5,16 +5,16 @@
 
 void f(int x) {
 // CHECK: %call = call noalias noundef nonnull ptr @_Znwm{{.*}}, !dbg [[G1R2_C12:!.*]]
-// CHECK: %0 = load i32, ptr %x.addr{{.*}}, !dbg [[G1R2_C20:!.*]]
+// CHECK: %0 = load i32, ptr %x.addr{{.*}}, !dbg [[G1R2_C20:![0-9]+]]
 // CHECK: store i32 %0, ptr %call{{.*}}, !dbg [[G1R1_C12:!.*]]
 // CHECK: store ptr %call, ptr %{{.*}}, !dbg [[G1R1_C8:!.*]]
   int *n = new int(x);
 // CHECK: %call1 = call noalias noundef nonnull ptr @_Znwm{{.*}}, !dbg [[G2R2_C7:!.*]]
-// CHECK: %1 = load i32, ptr %x.addr{{.*}}, !dbg [[G2R2_C15:!.*]]
+// CHECK: %1 = load i32, ptr %x.addr{{.*}}, !dbg [[G2R2_C15:![0-9]+]]
 // CHECK: store i32 %1, ptr %call{{.*}}, !dbg [[G2R1_C7:!.*]]
 // CHECK: store ptr %call1, ptr %{{.*}}, !dbg [[G2R1_C5:!.*]]
   n = new int(x);
-// CHECK: %2 = load i32, ptr %x.addr{{.*}}, !dbg [[G3R2:!.*]]
+// CHECK: %2 = load i32, ptr %x.addr{{.*}}, !dbg [[G3R2:![0-9]+]]
 // CHECK: %3 = load ptr, ptr %n
 // CHECK: store i32 %2, ptr %3{{.*}}, !dbg [[G3R1:!.*]]
   *n = x;
