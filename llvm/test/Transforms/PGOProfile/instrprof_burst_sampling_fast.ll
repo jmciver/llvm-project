@@ -27,7 +27,7 @@ define void @f() {
 ; SAMPLE-DURATION:         [[TMP1:%.*]] = icmp ule i16 [[TMP0]], 199
 ; SAMPLE-DURATION100:     [[TMP1:%.*]] = icmp ule i16 [[TMP0]], 99
 ; UNSAMPLED-DURATION:     [[TMP1:%.*]] = icmp ule i16 [[TMP0]], -1
-; SAMPLE-CODE:         br i1 [[TMP1]], label %[[TMP2:.*]], label %[[TMP4:.*]], !prof !0
+; SAMPLE-CODE:         br i1 [[TMP1]], label %[[TMP2:.*]], label %[[TMP4:.*]], !prof [[PROF:![0-9]+]]
 ; SAMPLE-CODE:       [[TMP2]]:
 ; SAMPLE-CODE-NEXT:    [[PGOCOUNT:%.*]] = load i64, ptr @__profc_f
 ; SAMPLE-CODE-NEXT:    [[TMP3:%.*]] = add i64 [[PGOCOUNT]], 1
@@ -43,8 +43,8 @@ entry:
   ret void
 }
 
-; SAMPLE-WEIGHT: !0 = !{!"branch_weights", i32 200, i32 65336}
-; SAMPLE-WEIGHT100: !0 = !{!"branch_weights", i32 100, i32 65436}
-; UNSAMPLED-WEIGHT: !0 = !{!"branch_weights", i32 65536, i32 0}
+; SAMPLE-WEIGHT: [[PROF]] = !{!"branch_weights", i32 200, i32 65336}
+; SAMPLE-WEIGHT100: [[PROF]] = !{!"branch_weights", i32 100, i32 65436}
+; UNSAMPLED-WEIGHT: [[PROF]] = !{!"branch_weights", i32 65536, i32 0}
 
 declare void @llvm.instrprof.increment(i8*, i64, i32, i32)

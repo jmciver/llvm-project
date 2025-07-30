@@ -6,8 +6,8 @@ define void @simple_cost_test(ptr %ptr) {
 ; THRESHOLD_0-LABEL: define void @simple_cost_test(
 ; THRESHOLD_0-SAME: ptr [[PTR:%.*]]) #[[ATTR0:[0-9]+]] {
 ; THRESHOLD_0-NEXT:    [[PTR0:%.*]] = getelementptr double, ptr [[PTR]], i32 0
-; THRESHOLD_0-NEXT:    [[VECL:%.*]] = load <2 x double>, ptr [[PTR0]], align 8, !sandboxvec [[META0:![0-9]+]]
-; THRESHOLD_0-NEXT:    store <2 x double> [[VECL]], ptr [[PTR0]], align 8, !sandboxvec [[META0]]
+; THRESHOLD_0-NEXT:    [[VECL:%.*]] = load <2 x double>, ptr [[PTR0]], align 8, !freeze_bits [[META0:![0-9]+]], !sandboxvec [[META1:![0-9]+]]
+; THRESHOLD_0-NEXT:    store <2 x double> [[VECL]], ptr [[PTR0]], align 8, !sandboxvec [[META1]]
 ; THRESHOLD_0-NEXT:    ret void
 ;
 ; THRESHOLD_99-LABEL: define void @simple_cost_test(
@@ -36,16 +36,16 @@ define void @pack_cost_test_(ptr %ptr) {
 ; THRESHOLD_0-NEXT:    [[PTR1:%.*]] = getelementptr float, ptr [[PTR]], i32 1
 ; THRESHOLD_0-NEXT:    [[LD0:%.*]] = load float, ptr [[PTR0]], align 4
 ; THRESHOLD_0-NEXT:    [[LD1:%.*]] = load float, ptr [[PTR1]], align 4
-; THRESHOLD_0-NEXT:    [[PACK4:%.*]] = insertelement <4 x float> poison, float [[LD0]], i32 0, !sandboxvec [[META1:![0-9]+]]
-; THRESHOLD_0-NEXT:    [[PACK5:%.*]] = insertelement <4 x float> [[PACK4]], float [[LD1]], i32 1, !sandboxvec [[META1]]
-; THRESHOLD_0-NEXT:    [[PACK6:%.*]] = insertelement <4 x float> [[PACK5]], float [[LD0]], i32 2, !sandboxvec [[META1]]
-; THRESHOLD_0-NEXT:    [[PACK7:%.*]] = insertelement <4 x float> [[PACK6]], float [[LD1]], i32 3, !sandboxvec [[META1]]
-; THRESHOLD_0-NEXT:    [[PACK:%.*]] = insertelement <4 x float> poison, float [[LD0]], i32 0, !sandboxvec [[META1]]
-; THRESHOLD_0-NEXT:    [[PACK1:%.*]] = insertelement <4 x float> [[PACK]], float [[LD1]], i32 1, !sandboxvec [[META1]]
-; THRESHOLD_0-NEXT:    [[PACK2:%.*]] = insertelement <4 x float> [[PACK1]], float [[LD0]], i32 2, !sandboxvec [[META1]]
-; THRESHOLD_0-NEXT:    [[PACK3:%.*]] = insertelement <4 x float> [[PACK2]], float [[LD1]], i32 3, !sandboxvec [[META1]]
-; THRESHOLD_0-NEXT:    [[VEC:%.*]] = fmul <4 x float> [[PACK3]], [[PACK7]], !sandboxvec [[META1]]
-; THRESHOLD_0-NEXT:    store <4 x float> [[VEC]], ptr [[PTR0]], align 4, !sandboxvec [[META1]]
+; THRESHOLD_0-NEXT:    [[PACK4:%.*]] = insertelement <4 x float> poison, float [[LD0]], i32 0, !sandboxvec [[META2:![0-9]+]]
+; THRESHOLD_0-NEXT:    [[PACK5:%.*]] = insertelement <4 x float> [[PACK4]], float [[LD1]], i32 1, !sandboxvec [[META2]]
+; THRESHOLD_0-NEXT:    [[PACK6:%.*]] = insertelement <4 x float> [[PACK5]], float [[LD0]], i32 2, !sandboxvec [[META2]]
+; THRESHOLD_0-NEXT:    [[PACK7:%.*]] = insertelement <4 x float> [[PACK6]], float [[LD1]], i32 3, !sandboxvec [[META2]]
+; THRESHOLD_0-NEXT:    [[PACK:%.*]] = insertelement <4 x float> poison, float [[LD0]], i32 0, !sandboxvec [[META2]]
+; THRESHOLD_0-NEXT:    [[PACK1:%.*]] = insertelement <4 x float> [[PACK]], float [[LD1]], i32 1, !sandboxvec [[META2]]
+; THRESHOLD_0-NEXT:    [[PACK2:%.*]] = insertelement <4 x float> [[PACK1]], float [[LD0]], i32 2, !sandboxvec [[META2]]
+; THRESHOLD_0-NEXT:    [[PACK3:%.*]] = insertelement <4 x float> [[PACK2]], float [[LD1]], i32 3, !sandboxvec [[META2]]
+; THRESHOLD_0-NEXT:    [[VEC:%.*]] = fmul <4 x float> [[PACK3]], [[PACK7]], !sandboxvec [[META2]]
+; THRESHOLD_0-NEXT:    store <4 x float> [[VEC]], ptr [[PTR0]], align 4, !sandboxvec [[META2]]
 ; THRESHOLD_0-NEXT:    ret void
 ;
 ; THRESHOLD_99-LABEL: define void @pack_cost_test_(
@@ -83,8 +83,9 @@ define void @pack_cost_test_(ptr %ptr) {
   ret void
 }
 ;.
-; THRESHOLD_0: [[META0]] = distinct !{!"sandboxregion"}
+; THRESHOLD_0: [[META0]] = !{}
 ; THRESHOLD_0: [[META1]] = distinct !{!"sandboxregion"}
+; THRESHOLD_0: [[META2]] = distinct !{!"sandboxregion"}
 ;.
 ; THRESHOLD_99: [[META0]] = distinct !{!"sandboxregion"}
 ; THRESHOLD_99: [[META1]] = distinct !{!"sandboxregion"}

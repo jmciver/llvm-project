@@ -12,7 +12,7 @@
 // CHECK: atomicrmw xor ptr {{%[0-9]+}}, i32 {{%[0-9]+}} syncscope("singlethread") monotonic, align 4, !noalias.addrspace ![[$NOALIAS_ADDRSPACE_STACK]], [[$DEFMD]]
 // CHECK: atomicrmw min ptr {{%[0-9]+}}, i32 {{%[0-9]+}} syncscope("singlethread") monotonic, align 4, !noalias.addrspace ![[$NOALIAS_ADDRSPACE_STACK]], [[$DEFMD]]
 // CHECK: atomicrmw max ptr {{%[0-9]+}}, i32 {{%[0-9]+}} syncscope("singlethread") monotonic, align 4, !noalias.addrspace ![[$NOALIAS_ADDRSPACE_STACK]], [[$DEFMD]]
-// CHECK: load atomic i32, ptr {{%[0-9]+}} syncscope("singlethread") monotonic, align 4{{$}}
+// CHECK: load atomic i32, ptr {{%[0-9]+}} syncscope("singlethread") monotonic, align 4, !freeze_bits {{![0-9]+}}{{$}}
 // CHECK: store atomic i32 %{{.*}}, ptr %{{.*}} syncscope("singlethread") monotonic, align 4{{$}}
 __device__ int atomic32_op_singlethread(int *ptr, int val, int desired) {
   bool flag = __hip_atomic_compare_exchange_strong(ptr, &val, desired, __ATOMIC_RELAXED, __ATOMIC_RELAXED, __HIP_MEMORY_SCOPE_SINGLETHREAD);
@@ -50,7 +50,7 @@ __device__ unsigned int atomicu32_op_singlethread(unsigned int *ptr, unsigned in
 // CHECK: atomicrmw xor ptr {{%[0-9]+}}, i32 {{%[0-9]+}} syncscope("wavefront") monotonic, align 4, !noalias.addrspace ![[$NOALIAS_ADDRSPACE_STACK]], [[$DEFMD]]
 // CHECK: atomicrmw min ptr {{%[0-9]+}}, i32 {{%[0-9]+}} syncscope("wavefront") monotonic, align 4, !noalias.addrspace ![[$NOALIAS_ADDRSPACE_STACK]], [[$DEFMD]]
 // CHECK: atomicrmw max ptr {{%[0-9]+}}, i32 {{%[0-9]+}} syncscope("wavefront") monotonic, align 4, !noalias.addrspace ![[$NOALIAS_ADDRSPACE_STACK]], [[$DEFMD]]
-// CHECK: load atomic i32, ptr {{%[0-9]+}} syncscope("wavefront") monotonic, align 4{{$}}
+// CHECK: load atomic i32, ptr {{%[0-9]+}} syncscope("wavefront") monotonic, align 4, !freeze_bits {{![0-9]+}}{{$}}
 // CHECK: store atomic i32 %{{.*}}, ptr %{{.*}} syncscope("wavefront") monotonic, align 4{{$}}
 __device__ int atomic32_op_wavefront(int *ptr, int val, int desired) {
   bool flag = __hip_atomic_compare_exchange_strong(ptr, &val, desired, __ATOMIC_RELAXED, __ATOMIC_RELAXED, __HIP_MEMORY_SCOPE_WAVEFRONT);
@@ -160,7 +160,7 @@ __device__ unsigned int atomicu32_op_agent(unsigned int *ptr, unsigned int val, 
 // CHECK: atomicrmw xor ptr {{%[0-9]+}}, i32 {{%[0-9]+}} monotonic, align 4, !noalias.addrspace ![[$NOALIAS_ADDRSPACE_STACK]], [[$DEFMD]]
 // CHECK: atomicrmw min ptr {{%[0-9]+}}, i32 {{%[0-9]+}} monotonic, align 4, !noalias.addrspace ![[$NOALIAS_ADDRSPACE_STACK]], [[$DEFMD]]
 // CHECK: atomicrmw max ptr {{%[0-9]+}}, i32 {{%[0-9]+}} monotonic, align 4, !noalias.addrspace ![[$NOALIAS_ADDRSPACE_STACK]], [[$DEFMD]]
-// CHECK: load i32, ptr %{{.*}}, align 4{{$}}
+// CHECK: load i32, ptr %{{.*}}, align 4, !freeze_bits {{![0-9]+}}{{$}}
 // CHECK: store atomic i32 %{{.*}}, ptr %{{.*}} monotonic, align 4{{$}}
 __device__ int atomic32_op_system(int *ptr, int val, int desired) {
   bool flag = __hip_atomic_compare_exchange_strong(ptr, &val, desired, __ATOMIC_RELAXED, __ATOMIC_RELAXED, __HIP_MEMORY_SCOPE_SYSTEM);
@@ -217,7 +217,7 @@ __device__ long long atomic64_op_singlethread(long long *ptr, long long *ptr2, l
 // CHECK-LABEL: @_Z25atomicu64_op_singlethreadPyS_yy
 // CHECK: atomicrmw umin ptr {{%[0-9]+}}, i64 {{%[0-9]+}} syncscope("singlethread") monotonic, align 8, !noalias.addrspace ![[$NOALIAS_ADDRSPACE_STACK]], [[$DEFMD]]
 // CHECK: atomicrmw umax ptr {{%[0-9]+}}, i64 {{%[0-9]+}} syncscope("singlethread") monotonic, align 8, !noalias.addrspace ![[$NOALIAS_ADDRSPACE_STACK]], [[$DEFMD]]
-// CHECK: load atomic i64, ptr %{{.*}} syncscope("singlethread") monotonic, align 8{{$}}
+// CHECK: load atomic i64, ptr %{{.*}} syncscope("singlethread") monotonic, align 8, !freeze_bits {{![0-9]+}}{{$}}
 // CHECK: store atomic i64 %{{.*}}, ptr %{{.*}} syncscope("singlethread") monotonic, align 8{{$}}
 __device__ unsigned long long atomicu64_op_singlethread(unsigned long long *ptr, unsigned long long *ptr2, unsigned long long val, unsigned long long desired) {
   val = __hip_atomic_fetch_min(ptr, val, __ATOMIC_RELAXED, __HIP_MEMORY_SCOPE_SINGLETHREAD);
@@ -238,7 +238,7 @@ __device__ unsigned long long atomicu64_op_singlethread(unsigned long long *ptr,
 // CHECK: atomicrmw xor ptr {{%[0-9]+}}, i64 {{%[0-9]+}} syncscope("wavefront") monotonic, align 8, !noalias.addrspace ![[$NOALIAS_ADDRSPACE_STACK]], [[$DEFMD]]
 // CHECK: atomicrmw min ptr {{%[0-9]+}}, i64 {{%[0-9]+}} syncscope("wavefront") monotonic, align 8, !noalias.addrspace ![[$NOALIAS_ADDRSPACE_STACK]], [[$DEFMD]]
 // CHECK: atomicrmw max ptr {{%[0-9]+}}, i64 {{%[0-9]+}} syncscope("wavefront") monotonic, align 8, !noalias.addrspace ![[$NOALIAS_ADDRSPACE_STACK]], [[$DEFMD]]
-// CHECK: load atomic i64, ptr {{%[0-9]+}} syncscope("wavefront") monotonic, align 8{{$}}
+// CHECK: load atomic i64, ptr {{%[0-9]+}} syncscope("wavefront") monotonic, align 8, !freeze_bits {{![0-9]+}}{{$}}
 // CHECK: store atomic i64 %{{.*}}, ptr %{{.*}} syncscope("wavefront") monotonic, align 8{{$}}
 __device__ long long atomic64_op_wavefront(long long *ptr, long long *ptr2, long long val, long long desired) {
   bool flag = __hip_atomic_compare_exchange_strong(ptr, &val, desired, __ATOMIC_RELAXED, __ATOMIC_RELAXED, __HIP_MEMORY_SCOPE_WAVEFRONT);
@@ -259,7 +259,7 @@ __device__ long long atomic64_op_wavefront(long long *ptr, long long *ptr2, long
 // CHECK-LABEL: @_Z22atomicu64_op_wavefrontPyS_yy
 // CHECK: atomicrmw umin ptr {{%[0-9]+}}, i64 {{%[0-9]+}} syncscope("wavefront") monotonic, align 8, !noalias.addrspace ![[$NOALIAS_ADDRSPACE_STACK]], [[$DEFMD]]
 // CHECK: atomicrmw umax ptr {{%[0-9]+}}, i64 {{%[0-9]+}} syncscope("wavefront") monotonic, align 8, !noalias.addrspace ![[$NOALIAS_ADDRSPACE_STACK]], [[$DEFMD]]
-// CHECK: load atomic i64, ptr {{%[0-9]+}} syncscope("wavefront") monotonic, align 8{{$}}
+// CHECK: load atomic i64, ptr {{%[0-9]+}} syncscope("wavefront") monotonic, align 8, !freeze_bits {{![0-9]+}}{{$}}
 // CHECK: store atomic i64 %{{.*}}, ptr %{{.*}} syncscope("wavefront") monotonic, align 8{{$}}
 __device__ unsigned long long atomicu64_op_wavefront(unsigned long long *ptr, unsigned long long *ptr2, unsigned long long val, unsigned long long desired) {
   val = __hip_atomic_fetch_min(ptr, val, __ATOMIC_RELAXED, __HIP_MEMORY_SCOPE_WAVEFRONT);
@@ -356,7 +356,7 @@ __device__ unsigned long long atomicu64_op_agent(unsigned long long *ptr, unsign
 // CHECK: atomicrmw xor ptr {{%[0-9]+}}, i64 {{%[0-9]+}} monotonic, align 8, !noalias.addrspace ![[$NOALIAS_ADDRSPACE_STACK]], [[$DEFMD]]
 // CHECK: atomicrmw min ptr {{%[0-9]+}}, i64 {{%[0-9]+}} monotonic, align 8, !noalias.addrspace ![[$NOALIAS_ADDRSPACE_STACK]], [[$DEFMD]]
 // CHECK: atomicrmw max ptr {{%[0-9]+}}, i64 {{%[0-9]+}} monotonic, align 8, !noalias.addrspace ![[$NOALIAS_ADDRSPACE_STACK]], [[$DEFMD]]
-// CHECK: load i64, ptr %{{.*}}, align 8
+// CHECK: load i64, ptr %{{.*}}, align 8, !freeze_bits {{![0-9]+}}{{$}}
 // CHECK: store atomic i64 %{{.*}}, ptr %{{.*}} monotonic, align 8{{$}}
 __device__ long long atomic64_op_system(long long *ptr, long long *ptr2, long long val, long long desired) {
   bool flag = __hip_atomic_compare_exchange_strong(ptr, &val, desired, __ATOMIC_RELAXED, __ATOMIC_RELAXED, __HIP_MEMORY_SCOPE_SYSTEM);
@@ -377,7 +377,7 @@ __device__ long long atomic64_op_system(long long *ptr, long long *ptr2, long lo
 // CHECK-LABEL: @_Z19atomicu64_op_systemPyS_yy
 // CHECK: atomicrmw umin ptr {{%[0-9]+}}, i64 {{%[0-9]+}} monotonic, align 8, !noalias.addrspace ![[$NOALIAS_ADDRSPACE_STACK]], [[$DEFMD]]
 // CHECK: atomicrmw umax ptr {{%[0-9]+}}, i64 {{%[0-9]+}} monotonic, align 8, !noalias.addrspace ![[$NOALIAS_ADDRSPACE_STACK]], [[$DEFMD]]
-// CHECK: load i64, ptr %{{.*}}, align 8
+// CHECK: load i64, ptr %{{.*}}, align 8, !freeze_bits {{![0-9]+}}{{$}}
 // CHECK: store atomic i64 %{{.*}}, ptr %{{.*}} monotonic, align 8{{$}}
 __device__ unsigned long long atomicu64_op_system(unsigned long long *ptr, unsigned long long *ptr2, unsigned long long val, unsigned long long desired) {
   val = __hip_atomic_fetch_min(ptr, val, __ATOMIC_RELAXED, __HIP_MEMORY_SCOPE_SYSTEM);

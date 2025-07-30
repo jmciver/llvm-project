@@ -4,7 +4,7 @@
 // CHECK: [[b_addr:@.*]] = {{.*}}global ptr
 
 void g(int *a) {
-// CHECK: [[v:%.*]] = load ptr, ptr %a.addr{{.*}}, !dbg [[G1R2:!.*]]
+// CHECK: [[v:%.*]] = load ptr, ptr %a.addr{{.*}}, !dbg [[G1R2:![0-9]+]]
 // CHECK: store ptr [[v]], ptr [[b_addr]]{{.*}}, !dbg [[G1R1:!.*]]
     static int &b = *a;
 // CHECK: ret{{.*}}, !dbg [[RET:!.*]]

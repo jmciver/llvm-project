@@ -9,7 +9,7 @@ void a(int A, int B) {
 // CHECK: entry:
 // The load gets associated with the branch rather than the store.
 // TODO: Associating it with the store may be a better choice.
-// CHECK: %0 = load i32, ptr %A.addr{{.*}}, !dbg [[G2R2:!.*]]
+// CHECK: %0 = load i32, ptr %A.addr{{.*}}, !dbg [[G2R2:![0-9]+]]
 // CHECK: store i32 %0, ptr @g{{.*}}, !dbg [[G1R1:!.*]]
 // CHECK: switch i32 %0, label %{{.*}} [
 // CHECK:   i32 0, label %sw.bb
@@ -20,7 +20,7 @@ void a(int A, int B) {
     case 0: break;
     case 1: {
 // CHECK: sw.bb1:
-// CHECK: %1 = load i32, ptr %B.addr{{.*}}, !dbg [[G4R2:!.*]]
+// CHECK: %1 = load i32, ptr %B.addr{{.*}}, !dbg [[G4R2:![0-9]+]]
 // CHECK: switch i32 %1, label %{{.*}} [
 // CHECK:   i32 0, label %sw.bb2
 // CHECK: ], !dbg [[G4R1:!.*]]

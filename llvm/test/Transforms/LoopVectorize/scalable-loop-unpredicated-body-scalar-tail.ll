@@ -21,13 +21,13 @@ define void @loop(i64 %N, ptr noalias %a, ptr noalias %b) {
 ; CHECKUF1:       [[VECTOR_BODY]]:
 ; CHECKUF1-NEXT:    [[INDEX:%.*]] = phi i64 [ 0, %[[VECTOR_PH]] ], [ [[INDEX_NEXT:%.*]], %[[VECTOR_BODY]] ]
 ; CHECKUF1-NEXT:    [[TMP7:%.*]] = getelementptr inbounds double, ptr [[B]], i64 [[INDEX]]
-; CHECKUF1-NEXT:    [[WIDE_LOAD:%.*]] = load <vscale x 4 x double>, ptr [[TMP7]], align 8
+; CHECKUF1-NEXT:    [[WIDE_LOAD:%.*]] = load <vscale x 4 x double>, ptr [[TMP7]], align 8, !freeze_bits [[META0:![0-9]+]]
 ; CHECKUF1-NEXT:    [[TMP8:%.*]] = fadd <vscale x 4 x double> [[WIDE_LOAD]], splat (double 1.000000e+00)
 ; CHECKUF1-NEXT:    [[TMP9:%.*]] = getelementptr inbounds double, ptr [[A]], i64 [[INDEX]]
 ; CHECKUF1-NEXT:    store <vscale x 4 x double> [[TMP8]], ptr [[TMP9]], align 8
 ; CHECKUF1-NEXT:    [[INDEX_NEXT]] = add nuw i64 [[INDEX]], [[TMP6]]
 ; CHECKUF1-NEXT:    [[TMP10:%.*]] = icmp eq i64 [[INDEX_NEXT]], [[N_VEC]]
-; CHECKUF1-NEXT:    br i1 [[TMP10]], label %[[MIDDLE_BLOCK:.*]], label %[[VECTOR_BODY]], !llvm.loop [[LOOP0:![0-9]+]]
+; CHECKUF1-NEXT:    br i1 [[TMP10]], label %[[MIDDLE_BLOCK:.*]], label %[[VECTOR_BODY]], !llvm.loop [[LOOP1:![0-9]+]]
 ; CHECKUF1:       [[MIDDLE_BLOCK]]:
 ; CHECKUF1-NEXT:    [[CMP_N:%.*]] = icmp eq i64 [[N]], [[N_VEC]]
 ; CHECKUF1-NEXT:    br i1 [[CMP_N]], [[EXIT:label %.*]], label %[[SCALAR_PH]]
@@ -52,8 +52,8 @@ define void @loop(i64 %N, ptr noalias %a, ptr noalias %b) {
 ; CHECKUF2-NEXT:    [[TMP8:%.*]] = call i64 @llvm.vscale.i64()
 ; CHECKUF2-NEXT:    [[TMP16:%.*]] = shl nuw i64 [[TMP8]], 2
 ; CHECKUF2-NEXT:    [[TMP9:%.*]] = getelementptr inbounds double, ptr [[TMP7]], i64 [[TMP16]]
-; CHECKUF2-NEXT:    [[WIDE_LOAD:%.*]] = load <vscale x 4 x double>, ptr [[TMP7]], align 8
-; CHECKUF2-NEXT:    [[WIDE_LOAD3:%.*]] = load <vscale x 4 x double>, ptr [[TMP9]], align 8
+; CHECKUF2-NEXT:    [[WIDE_LOAD:%.*]] = load <vscale x 4 x double>, ptr [[TMP7]], align 8, !freeze_bits [[META0:![0-9]+]]
+; CHECKUF2-NEXT:    [[WIDE_LOAD3:%.*]] = load <vscale x 4 x double>, ptr [[TMP9]], align 8, !freeze_bits [[META0]]
 ; CHECKUF2-NEXT:    [[TMP10:%.*]] = fadd <vscale x 4 x double> [[WIDE_LOAD]], splat (double 1.000000e+00)
 ; CHECKUF2-NEXT:    [[TMP11:%.*]] = fadd <vscale x 4 x double> [[WIDE_LOAD3]], splat (double 1.000000e+00)
 ; CHECKUF2-NEXT:    [[TMP12:%.*]] = getelementptr inbounds double, ptr [[A]], i64 [[INDEX]]
@@ -64,7 +64,7 @@ define void @loop(i64 %N, ptr noalias %a, ptr noalias %b) {
 ; CHECKUF2-NEXT:    store <vscale x 4 x double> [[TMP11]], ptr [[TMP14]], align 8
 ; CHECKUF2-NEXT:    [[INDEX_NEXT]] = add nuw i64 [[INDEX]], [[TMP6]]
 ; CHECKUF2-NEXT:    [[TMP15:%.*]] = icmp eq i64 [[INDEX_NEXT]], [[N_VEC]]
-; CHECKUF2-NEXT:    br i1 [[TMP15]], label %[[MIDDLE_BLOCK:.*]], label %[[VECTOR_BODY]], !llvm.loop [[LOOP0:![0-9]+]]
+; CHECKUF2-NEXT:    br i1 [[TMP15]], label %[[MIDDLE_BLOCK:.*]], label %[[VECTOR_BODY]], !llvm.loop [[LOOP1:![0-9]+]]
 ; CHECKUF2:       [[MIDDLE_BLOCK]]:
 ; CHECKUF2-NEXT:    [[CMP_N:%.*]] = icmp eq i64 [[N]], [[N_VEC]]
 ; CHECKUF2-NEXT:    br i1 [[CMP_N]], [[EXIT:label %.*]], label %[[SCALAR_PH]]

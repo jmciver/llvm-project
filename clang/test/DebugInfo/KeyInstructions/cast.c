@@ -9,7 +9,7 @@
 
 float g;
 void a() {
-// CHECK: %0 = load float, ptr @g{{.*}}, !dbg [[G1R3:!.*]]
+// CHECK: %0 = load float, ptr @g{{.*}}, !dbg [[G1R3:![0-9]+]]
 // CHECK: %conv = fptosi float %0 to i32{{.*}}, !dbg [[G1R2:!.*]]
 // CHECK: store i32 %conv, ptr %a{{.*}}, !dbg [[G1R1:!.*]]
     int a = g;

@@ -2511,7 +2511,7 @@ __m256i test_mm256_maskz_mov_epi8(__mmask32 __U, __m256i __A) {
 
 __m128i test_mm_loadu_epi16(void const *__P) {
   // CHECK-LABEL: test_mm_loadu_epi16
-  // CHECK: load <2 x i64>, ptr %{{.*}}, align 1{{$}}
+  // CHECK: load <2 x i64>, ptr %{{.*}}, align 1, !freeze_bits {{![0-9]+}}{{$}}
   return _mm_loadu_epi16(__P);
 }
 
@@ -2529,7 +2529,7 @@ __m128i test_mm_maskz_loadu_epi16(__mmask8 __U, void const *__P) {
 
 __m256i test_mm256_loadu_epi16(void const *__P) {
   // CHECK-LABEL: test_mm256_loadu_epi16
-  // CHECK: load <4 x i64>, ptr %{{.*}}, align 1{{$}}
+  // CHECK: load <4 x i64>, ptr %{{.*}}, align 1, !freeze_bits {{![0-9]+}}{{$}}
   return _mm256_loadu_epi16(__P);
 }
 
@@ -2547,7 +2547,7 @@ __m256i test_mm256_maskz_loadu_epi16(__mmask16 __U, void const *__P) {
 
 __m128i test_mm_loadu_epi8(void const *__P) {
   // CHECK-LABEL: test_mm_loadu_epi8
-  // CHECK: load <2 x i64>, ptr %{{.*}}, align 1{{$}}
+  // CHECK: load <2 x i64>, ptr %{{.*}}, align 1, !freeze_bits {{![0-9]+}}{{$}}
   return _mm_loadu_epi8(__P);
 }
 
@@ -2565,7 +2565,7 @@ __m128i test_mm_maskz_loadu_epi8(__mmask16 __U, void const *__P) {
 
 __m256i test_mm256_loadu_epi8(void const *__P) {
   // CHECK-LABEL: test_mm256_loadu_epi8
-  // CHECK: load <4 x i64>, ptr %{{.*}}, align 1{{$}}
+  // CHECK: load <4 x i64>, ptr %{{.*}}, align 1, !freeze_bits {{![0-9]+}}{{$}}
   return _mm256_loadu_epi8(__P);
 }
 

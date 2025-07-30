@@ -17,7 +17,7 @@ void a() {
 // CHECK-NEXT: %arrayinit.element = getelementptr {{.*}}, ptr %B, {{.*}} 1, !dbg [[B_LINE:!.*]]
 // CHECK-NEXT: store i32 2, ptr %arrayinit.element{{.*}}, !dbg [[G2R1]]
 // CHECK-NEXT: %arrayinit.element1 = getelementptr {{.*}}, ptr %B, {{.*}} 2, !dbg [[B_LINE]]
-// CHECK-NEXT: %0 = load i32, ptr @g{{.*}}, !dbg [[G2R2:!.*]]
+// CHECK-NEXT: %0 = load i32, ptr @g{{.*}}, !dbg [[G2R2:![0-9]+]]
 // CHECK-NEXT: store i32 %0, ptr %arrayinit.element1{{.*}}, !dbg [[G2R1]]
     int B[] = { 1, 2, g };
 

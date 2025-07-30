@@ -33,10 +33,10 @@ const int *(A::*const *g(const int *(A::* const **p)[3], int *(A::***q)[3]))[3] 
 
 // CHECK-LABEL: define {{.*}} @_Z1h
 const int * h(const int * (*p)[10],  int *(*q)[9]) {
-  // CHECK:  load ptr, ptr %p.addr, align 8, !tbaa [[PTRARRAY_TBAA:!.+]]
+  // CHECK:  load ptr, ptr %p.addr, align 8, !tbaa [[PTRARRAY_TBAA:!.+]], !freeze_bits [[FREEZE_BITS:!.+]]
   const int * x = *p[0];
 
-  // CHECK: load ptr, ptr %q.addr, align 8, !tbaa [[PTRARRAY_TBAA]]
+  // CHECK: load ptr, ptr %q.addr, align 8, !tbaa [[PTRARRAY_TBAA]], !freeze_bits [[FREEZE_BITS]]
   *q[0] = 0;
   return x;
 }
