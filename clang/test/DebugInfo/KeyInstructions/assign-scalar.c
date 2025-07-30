@@ -14,7 +14,7 @@ void fun() {
 // FIXME: Because of the atomGroup implementation the load can only be
 // associated with one of the two stores, despite being a good backup
 // loction for both.
-// CHECK-NEXT: %0 = load i64, ptr @g{{.*}}, !dbg [[G2R2:!.*]]
+// CHECK-NEXT: %0 = load i64, ptr @g{{.*}}, !dbg [[G2R2:![0-9]+]]
 // CHECK-NEXT: store i64 %0, ptr @g{{.*}}, !dbg [[G3R1:!.*]]
 // CHECK-NEXT: store i64 %0, ptr @g{{.*}}, !dbg [[G2R1:!.*]]
     g = g = g;
@@ -37,10 +37,10 @@ void fun() {
 
 // Compound assignment with assignment on RHS, the assignments should have
 // their own separate atom groups.
-// CHECK-NEXT: %4 = load i64, ptr @h{{.*}}, !dbg [[load_h_loc:!.*]]
+// CHECK-NEXT: %4 = load i64, ptr @h{{.*}}, !dbg [[load_h_loc:![0-9]+]]
 // CHECK-NEXT: %inc1 = add i64 %4, 1, !dbg [[G8R2:!.*]]
 // CHECK-NEXT: store i64 %inc1, ptr @h{{.*}}, !dbg [[G8R1:!.*]]
-// CHECK-NEXT: %5 = load i64, ptr @g{{.*}}, !dbg [[load_g_loc:!.*]]
+// CHECK-NEXT: %5 = load i64, ptr @g{{.*}}, !dbg [[load_g_loc:![0-9]+]]
 // CHECK-NEXT: %add2 = add i64 %5, %inc1, !dbg [[G7R2:!.*]]
 // CHECK-NEXT: store i64 %add2, ptr @g{{.*}}, !dbg [[G7R1:!.*]]
     g += ++h;
@@ -50,11 +50,11 @@ void fun() {
 // FIXME: Same situation as earlier in the test - because of the atomGroup
 // implementation the load (from h) can only be associated with one of the two
 // stores (to h and g) despite being a good backup location for both.
-// CHECK-NEXT: %6 = load i64, ptr @h{{.*}}, !dbg [[load_h_loc2:!.*]]
+// CHECK-NEXT: %6 = load i64, ptr @h{{.*}}, !dbg [[load_h_loc2:![0-9]+]]
 // CHECK-NEXT: %inc3 = add i64 %6, 1, !dbg [[G9R2:!.*]]
 // CHECK-NEXT: store i64 %inc3, ptr @h{{.*}}, !dbg [[G10R1:!.*]]
 // CHECK-NEXT: store i64 %inc3, ptr @g{{.*}}, !dbg [[G9R1:!.*]]
-// CHECK-NEXT: %7 = load i64, ptr @i{{.*}}, !dbg [[load_i_loc:!.*]]
+// CHECK-NEXT: %7 = load i64, ptr @i{{.*}}, !dbg [[load_i_loc:![0-9]+]]
 // CHECK-NEXT: %inc4 = add i64 %7, 1, !dbg [[G11R2:!.*]]
 // CHECK-NEXT: store i64 %inc4, ptr @i{{.*}}, !dbg [[G11R1:!.*]]
     g = ++h, ++i;

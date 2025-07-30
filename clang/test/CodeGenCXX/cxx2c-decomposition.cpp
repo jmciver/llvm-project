@@ -33,7 +33,7 @@ int big_test() {
 A:
   auto &[...an] = a;
   an...[0] = 5;
-  // CHECK: %[[a1:.*]].load = load i16, ptr %[[BITFIELD:.*]],
+  // CHECK: %[[a1:.*]].load = load i16, ptr %[[BITFIELD:[0-9]+]],
   // CHECK: %[[a1]].clear = and i16 %[[a1]].load, -8192
   // CHECK: %[[a1]].set = or i16 %[[a1]].clear, 5
   // CHECK: store i16 %[[a1]].set, ptr %[[BITFIELD]],
