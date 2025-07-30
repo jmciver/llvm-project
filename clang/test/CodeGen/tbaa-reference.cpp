@@ -16,10 +16,10 @@ struct B {
 B::B(S &s) : s(s) {
 // CHECK-LABEL: _ZN1BC2ER1S
 // Check initialization of the reference parameter.
-// CHECK: store ptr {{.*}}, ptr %s.addr, align 8, !tbaa [[TAG_S_PTR:!.*]]
+// CHECK: store ptr {{.*}}, ptr %s.addr, align 8, !tbaa [[TAG_S_PTR:![0-9]+]]
 
 // Check loading of the reference parameter.
-// CHECK: load ptr, ptr {{.*}}, !tbaa [[TAG_S_PTR:!.*]]
+// CHECK: load ptr, ptr {{.*}}, !tbaa [[TAG_S_PTR]]
 
 // Check initialization of the reference member.
 // CHECK: store ptr {{.*}}, ptr {{.*}}, !tbaa [[TAG_S_PTR]]
@@ -28,7 +28,7 @@ B::B(S &s) : s(s) {
 S &B::get() {
 // CHECK-LABEL: _ZN1B3getEv
 // Check that we access the reference as a structure member.
-// CHECK: load ptr, ptr {{.*}}, !tbaa [[TAG_B_s:!.*]]
+// CHECK: load ptr, ptr {{.*}}, !tbaa [[TAG_B_s:![0-9]+]]
   return s;
 }
 

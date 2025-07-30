@@ -35,7 +35,7 @@ __attribute__((objc_root_class))
 
 // CHECK-LABEL: define internal ptr @"\01-[Root field2]"
 // CHECK: load ptr, ptr
-// CHECK: [[LOAD:%.*]] = load ptr, ptr [[ADDR:%.*]],
+// CHECK: [[LOAD:%.*]] = load ptr, ptr [[ADDR:%[0-9a-zA-Z.]+]]
 // CHECK: [[CAST_ADDR:%.*]] = ptrtoint ptr [[ADDR]] to i64
 // CHECK: [[BLEND:%.*]] = call i64 @llvm.ptrauth.blend(i64 [[CAST_ADDR:%.*]], i64 1)
 // CHECK: [[VALUE:%.*]] = ptrtoint ptr [[LOAD]] to i64
@@ -65,7 +65,7 @@ __attribute__((objc_root_class))
 
 // CHECK-LABEL: define internal ptr @"\01-[Root field4]"
 // CHECK: load ptr, ptr
-// CHECK: [[VALUE:%.*]] = load ptr, ptr [[ADDR:%.*]],
+// CHECK: [[VALUE:%.*]] = load ptr, ptr [[ADDR:%[0-9a-zA-Z.]+]],
 // CHECK: [[CASTED_ADDR:%.*]] = ptrtoint ptr [[ADDR]] to i64
 // CHECK: [[BLENDED:%.*]] = call i64 @llvm.ptrauth.blend(i64 [[CASTED_ADDR]], i64 123)
 // CHECK: [[CAST_VALUE:%.*]] = ptrtoint ptr [[VALUE]] to i64

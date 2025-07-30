@@ -15,7 +15,7 @@ void a(int A) {
 
 // The assignment in the if gets a distinct source atom group.
 // CHECK: if.end:
-// CHECK: %1 = load i32, ptr %A.addr{{.*}}, !dbg [[G2R2:!.*]]
+// CHECK: %1 = load i32, ptr %A.addr{{.*}}, !dbg [[G2R2:![0-9]+]]
 // CHECK: store i32 %1, ptr @g{{.*}}, !dbg [[G2R1:!.*]]
 // CHECK: %tobool1 = icmp ne i32 %1, 0{{.*}}, !dbg [[G3R2:!.*]]
 // CHECK: br i1 %tobool1, label %if.then2, label %if.end3{{.*}}, !dbg [[G3R1:!.*]]
@@ -25,7 +25,7 @@ void a(int A) {
 #ifdef __cplusplus
 // The assignment in the if gets a distinct source atom group.
 // CHECK-CXX: if.end3:
-// CHECK-CXX: %2 = load i32, ptr %A.addr{{.*}}, !dbg [[G4R2:!.*]]
+// CHECK-CXX: %2 = load i32, ptr %A.addr{{.*}}, !dbg [[G4R2:![0-9]+]]
 // CHECK-CXX: store i32 %2, ptr %B{{.*}}, !dbg [[G4R1:!.*]]
 // CHECK-CXX: %tobool4 = icmp ne i32 %3, 0{{.*}}, !dbg [[G5R2:!.*]]
 // CHECK-CXX: br i1 %tobool4, label %if.then5, label %if.end6{{.*}}, !dbg [[G5R1:!.*]]

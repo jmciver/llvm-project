@@ -10,7 +10,7 @@ void attempt() {
   try { except(); }
 // CHECK: catch:
 // CHECK: %4 = call ptr @__cxa_begin_catch(ptr %exn)
-// CHECK: %5 = load i32{{.*}}, !dbg [[G1R2:!.*]]
+// CHECK: %5 = load i32{{.*}}, !dbg [[G1R2:![0-9]+]]
 // CHECK: store i32 %5, ptr %e{{.*}}, !dbg [[G1R1:!.*]]
 // CHECK: call void @__cxa_end_catch()
   catch (int e) { }

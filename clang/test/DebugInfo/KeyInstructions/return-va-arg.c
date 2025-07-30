@@ -16,7 +16,7 @@ s1 f(int z, ...) {
 // CHECK-NEXT: %vaarg.addr = phi ptr
 // CHECK-NEXT: call void @llvm.memcpy{{.*}}, !dbg [[G1R1:!.*]]
 // CHECK-NEXT: {{.*}} = getelementptr{{.*}}
-// CHECK-NEXT: [[LOAD:%.*]] = load double{{.*}}, !dbg [[G1R2:!.*]]
+// CHECK-NEXT: [[LOAD:%.*]] = load double{{.*}}, !dbg [[G1R2:![0-9]+]]
 // CHECK-NEXT: ret double [[LOAD]], !dbg [[G1R1]]
   return __builtin_va_arg(list, s1);
 }

@@ -19,22 +19,22 @@ struct E { aliasing_int x[4]; aliasing_array y; };
 
 int foo(B *b) {
 // CHECK-LABEL: _Z3fooP1B
-// CHECK: load i32, {{.*}}, !tbaa [[TAG_A_i:!.*]]
+// CHECK: load i32, {{.*}}, !tbaa [[TAG_A_i:!.*]], !freeze_bits [[FREEZE_BITS:![0-9]+]]
 // CHECK-NEW-LABEL: _Z3fooP1B
-// CHECK-NEW: load i32, {{.*}}, !tbaa [[TAG_A_i:!.*]]
+// CHECK-NEW: load i32, {{.*}}, !tbaa [[TAG_A_i:!.*]], !freeze_bits [[FREEZE_BITS:![0-9]+]]
   return b->a->i;
 }
 
 // Check that members of array types are represented correctly.
 int bar(C *c) {
 // CHECK-NEW-LABEL: _Z3barP1C
-// CHECK-NEW: load i32, {{.*}}, !tbaa [[TAG_C_i:!.*]]
+// CHECK-NEW: load i32, {{.*}}, !tbaa [[TAG_C_i:!.*]], !freeze_bits [[FREEZE_BITS]]
   return c->i;
 }
 
 int bar2(C *c) {
 // CHECK-NEW-LABEL: _Z4bar2P1C
-// CHECK-NEW: load i32, {{.*}}, !tbaa [[TAG_C_x:!.*]]
+// CHECK-NEW: load i32, {{.*}}, !tbaa [[TAG_C_x:!.*]], !freeze_bits [[FREEZE_BITS]]
   return c->x[2];
 }
 
@@ -47,26 +47,26 @@ int bar3(C *c, int j) {
 int bar4(D *d) {
 // CHECK-NEW-LABEL: _Z4bar4P1D
 // CHECK-NEW: load i32, {{.*}}, !tbaa [[TAG_int:!.*]]
-// CHECK-NEW: load i32, {{.*}}, !tbaa [[TAG_int:!.*]]
+// CHECK-NEW: load i32, {{.*}}, !tbaa [[TAG_int:!.*]], !freeze_bits [[FREEZE_BITS]]
     return d->arr[d->n];
 }
 
 int bar5(int j) {
 // CHECK-NEW-LABEL: _Z4bar5i
 // CHECK-NEW: load i32, {{.*}}, !tbaa [[TAG_int:!.*]]
-// CHECK-NEW: load i32, {{.*}}, !tbaa [[TAG_int:!.*]]
+// CHECK-NEW: load i32, {{.*}}, !tbaa [[TAG_int:!.*]], !freeze_bits [[FREEZE_BITS]]
     return AA[2] + AA[j];
 }
 
 int bar6(E *e, int j) {
 // CHECK-NEW-LABEL: _Z4bar6P1Ei
-// CHECK-NEW: load i32, {{.*}}, !tbaa [[TAG_E_x:!.*]]
+// CHECK-NEW: load i32, {{.*}}, !tbaa [[TAG_E_x:!.*]], !freeze_bits [[FREEZE_BITS]]
     return e->x[j];
 }
 
 int bar7(E *e, int j) {
 // CHECK-NEW-LABEL: _Z4bar7P1Ei
-// CHECK-NEW: load i32, {{.*}}, !tbaa [[TAG_E_y:!.*]]
+// CHECK-NEW: load i32, {{.*}}, !tbaa [[TAG_E_y:!.*]], !freeze_bits [[FREEZE_BITS]]
     return e->y[j];
 }
 

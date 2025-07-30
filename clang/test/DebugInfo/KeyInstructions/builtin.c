@@ -23,7 +23,7 @@ void fun() {
 // CHECK: store ptr %1, ptr %b{{.*}}, !dbg [[G2R1:!.*]]
     void *b = __builtin_alloca_with_align(4, 8);
 
-// CHECK: %2 = load <4 x float>, ptr @mat{{.*}}, !dbg [[G3R2:!.*]]
+// CHECK: %2 = load <4 x float>, ptr @mat{{.*}}, !dbg [[G3R2:![0-9]+]]
 // CHECK: call void @llvm.matrix.column.major.store.v4f32{{.*}}, !dbg [[G3R1:!.*]]
     __builtin_matrix_column_major_store(mat, f4, sizeof(float) * 2);
 
@@ -60,7 +60,7 @@ void fun() {
 // CHECK: call void @llvm.memset{{.*}}, !dbg [[G14R1:!.*]]
     __builtin___memset_chk(f4, 0, sizeof(float), -1);
 
-// CHECK: %3 = load i32, ptr @v{{.*}}, !dbg [[G15R3:!.*]]
+// CHECK: %3 = load i32, ptr @v{{.*}}, !dbg [[G15R3:![0-9]+]]
 // CHECK-NEXT: %4 = trunc i32 %3 to i8, !dbg [[G15R2:!.*]]
 // CHECK-NEXT: call void @llvm.memset{{.*}}, !dbg [[G15R1:!.*]]
     __builtin_memset(f4, v, sizeof(float) * 4);
