@@ -242,7 +242,7 @@ Constant *
 AA::getInitialValueForObj(Attributor &A, const AbstractAttribute &QueryingAA,
                           Value &Obj, Type &Ty, const TargetLibraryInfo *TLI,
                           const DataLayout &DL, AA::RangeTy *RangePtr) {
-  if (Constant *Init = getInitialValueOfAllocation(&Obj, TLI, &Ty))
+  if (Constant *Init = getInitialValueOfAllocation(&Obj, TLI, &Ty).second)
     return Init;
   auto *GV = dyn_cast<GlobalVariable>(&Obj);
   if (!GV)

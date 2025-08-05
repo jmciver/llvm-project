@@ -2178,7 +2178,8 @@ struct DSEState {
 
     if (StoredConstant) {
       Constant *InitC =
-          getInitialValueOfAllocation(DefUO, &TLI, StoredConstant->getType());
+          getInitialValueOfAllocation(DefUO, &TLI, StoredConstant->getType())
+              .second;
       // If the clobbering access is LiveOnEntry, no instructions between them
       // can modify the memory location.
       if (InitC && InitC == StoredConstant)
