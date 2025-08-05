@@ -688,7 +688,7 @@ promoteSingleBlockAlloca(AllocaInst *AI, const AllocaInfo &Info,
     if (I == StoresByIndex.begin()) {
       if (StoresByIndex.empty())
         // If there are no stores, the load takes the undef value.
-        ReplVal = getInitialValueOfAllocation(AI, nullptr, LI->getType());
+        ReplVal = getInitialValueOfAllocation(AI, nullptr, LI->getType()).second;
       else
         // There is no store before this load, bail out (load may be affected
         // by the following stores - see main comment).
