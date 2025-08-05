@@ -3618,14 +3618,13 @@ Instruction *InstCombinerImpl::visitAllocSite(Instruction &MI) {
 
   // Determine what getInitialValueOfAllocation would return without actually
   // allocating the result.
-  bool KnowInitUndef = false;
+  bool KnowInitPoison = false;
   bool KnowInitZero = false;
-  Constant *Init =
-      getInitialValueOfAllocation(&MI, &TLI, Type::getInt8Ty(MI.getContext()))
-          .second;
-  if (Init) {
-    if (isa<UndefValue>(Init))
-      KnowInitUndef = true;
+  auto [Category, Init] =
+      getInitialValueOfAllocation(&MI, &TLI, Type::getInt8Ty(MI.getContext()));
+  if (Category == InitializationCategory::Constant) {
+    if (isa<PoisonValue>(Init))
+      KnowInitPoison = true;
     else if (Init->isNullValue())
       KnowInitZero = true;
   }
@@ -3634,10 +3633,10 @@ Instruction *InstCombinerImpl::visitAllocSite(Instruction &MI) {
   auto &F = *MI.getFunction();
   if (F.hasFnAttribute(Attribute::SanitizeMemory) ||
       F.hasFnAttribute(Attribute::SanitizeAddress))
-    KnowInitUndef = false;
+    KnowInitPoison = false;
 
   auto Removable =
-      isAllocSiteRemovable(&MI, Users, TLI, KnowInitZero | KnowInitUndef);
+      isAllocSiteRemovable(&MI, Users, TLI, KnowInitZero | KnowInitPoison);
   if (Removable) {
     for (WeakTrackingVH &User : Users) {
       // Lowering all @llvm.objectsize and MTI calls first because they may use
@@ -3689,11 +3688,26 @@ Instruction *InstCombinerImpl::visitAllocSite(Instruction &MI) {
       } else {
         // Casts, GEP, or anything else: we're about to delete this instruction,
         // so it can not have any valid uses.
-        Constant *Replace;
+        Value *Replace;
         if (isa<LoadInst>(I)) {
-          assert(KnowInitZero || KnowInitUndef);
-          Replace = KnowInitUndef ? UndefValue::get(I->getType())
-                                  : Constant::getNullValue(I->getType());
+          auto [LC, LI] = getInitialValueOfAllocation(&MI, &TLI, I->getType(),
+                                                      dyn_cast<LoadInst>(I));
+          switch (LC) {
+          case InitializationCategory::Constant:
+            Replace = LI;
+            break;
+          case InitializationCategory::FreezePoison: {
+            IRBuilderBase::InsertPointGuard Guard(Builder);
+            Builder.SetInsertPoint(I);
+            Replace = Builder.CreateFreeze(PoisonValue::get(I->getType()),
+                                           "freeze_poison");
+            break;
+          }
+          case InitializationCategory::Unknown:
+            llvm_unreachable("isAllocSiteRemovable should not return true");
+            throw std::runtime_error("InitializationCategory::Unknown");
+            break;
+          }
         } else
           Replace = PoisonValue::get(I->getType());
         replaceInstUsesWith(*I, Replace);
