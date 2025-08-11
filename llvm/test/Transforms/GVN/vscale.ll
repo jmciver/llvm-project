@@ -250,7 +250,7 @@ define ptr @load_from_alloc_replaced_with_undef() {
 ; MDEP-LABEL: @load_from_alloc_replaced_with_undef(
 ; MDEP-NEXT:  entry:
 ; MDEP-NEXT:    [[A:%.*]] = alloca <vscale x 4 x i32>, align 16
-; MDEP-NEXT:    br i1 undef, label [[IF_END:%.*]], label [[IF_THEN:%.*]]
+; MDEP-NEXT:    br i1 poison, label [[IF_END:%.*]], label [[IF_THEN:%.*]]
 ; MDEP:       if.then:
 ; MDEP-NEXT:    store <vscale x 4 x i32> zeroinitializer, ptr [[A]], align 16
 ; MDEP-NEXT:    br label [[IF_END]]

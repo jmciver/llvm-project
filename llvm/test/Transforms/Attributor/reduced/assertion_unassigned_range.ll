@@ -7,7 +7,7 @@ define i1 @_ZNK6openmc4Cell16contains_complexENS_8PositionES1_i() {
 ; CHECK-LABEL: define {{[^@]+}}@_ZNK6openmc4Cell16contains_complexENS_8PositionES1_i
 ; CHECK-SAME: () #[[ATTR0:[0-9]+]] {
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[TOBOOL71:%.*]] = trunc i8 undef to i1
+; CHECK-NEXT:    [[TOBOOL71:%.*]] = trunc i8 poison to i1
 ; CHECK-NEXT:    ret i1 false
 ;
 entry:

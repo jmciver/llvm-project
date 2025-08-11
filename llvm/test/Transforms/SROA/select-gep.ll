@@ -92,7 +92,7 @@ define i32 @test_sroa_select_gep_poison(i1 %cond) {
 ; CHECK-MODIFY-CFG-NEXT:    [[LOAD_ELSE_VAL:%.*]] = load i32, ptr poison, align 4
 ; CHECK-MODIFY-CFG-NEXT:    br label [[BB_CONT]]
 ; CHECK-MODIFY-CFG:       bb.cont:
-; CHECK-MODIFY-CFG-NEXT:    [[LOAD:%.*]] = phi i32 [ undef, [[BB:%.*]] ], [ [[LOAD_ELSE_VAL]], [[BB_ELSE]] ]
+; CHECK-MODIFY-CFG-NEXT:    [[LOAD:%.*]] = phi i32 [ poison, [[BB:%.*]] ], [ [[LOAD_ELSE_VAL]], [[BB_ELSE]] ]
 ; CHECK-MODIFY-CFG-NEXT:    ret i32 [[LOAD]]
 ;
 bb:

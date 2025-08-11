@@ -46,8 +46,9 @@ define <vscale x 16 x i8> @unpromotable_alloca(<vscale x 16 x i8> %vec) vscale_r
 define <vscale x 4 x i32> @cast_alloca_to_svint32_t(<vscale x 4 x i32> %type.coerce) vscale_range(1) {
 ; CHECK-LABEL: @cast_alloca_to_svint32_t(
 ; CHECK-NEXT:    [[TMP1:%.*]] = call <4 x i32> @llvm.vector.extract.v4i32.nxv4i32(<vscale x 4 x i32> [[TYPE_COERCE:%.*]], i64 0)
+; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <16 x i32> poison
 ; CHECK-NEXT:    [[TYPE_0_VEC_EXPAND:%.*]] = shufflevector <4 x i32> [[TMP1]], <4 x i32> poison, <16 x i32> <i32 0, i32 1, i32 2, i32 3, i32 poison, i32 poison, i32 poison, i32 poison, i32 poison, i32 poison, i32 poison, i32 poison, i32 poison, i32 poison, i32 poison, i32 poison>
-; CHECK-NEXT:    [[TYPE_0_VECBLEND:%.*]] = select <16 x i1> <i1 true, i1 true, i1 true, i1 true, i1 false, i1 false, i1 false, i1 false, i1 false, i1 false, i1 false, i1 false, i1 false, i1 false, i1 false, i1 false>, <16 x i32> [[TYPE_0_VEC_EXPAND]], <16 x i32> undef
+; CHECK-NEXT:    [[TYPE_0_VECBLEND:%.*]] = select <16 x i1> <i1 true, i1 true, i1 true, i1 true, i1 false, i1 false, i1 false, i1 false, i1 false, i1 false, i1 false, i1 false, i1 false, i1 false, i1 false, i1 false>, <16 x i32> [[TYPE_0_VEC_EXPAND]], <16 x i32> [[FREEZE_LOAD]]
 ; CHECK-NEXT:    [[TYPE_ADDR_0_VEC_EXTRACT:%.*]] = shufflevector <16 x i32> [[TYPE_0_VECBLEND]], <16 x i32> poison, <4 x i32> <i32 0, i32 1, i32 2, i32 3>
 ; CHECK-NEXT:    [[TMP2:%.*]] = call <vscale x 4 x i32> @llvm.vector.insert.nxv4i32.v4i32(<vscale x 4 x i32> poison, <4 x i32> [[TYPE_ADDR_0_VEC_EXTRACT]], i64 0)
 ; CHECK-NEXT:    ret <vscale x 4 x i32> [[TMP2]]
@@ -114,6 +115,7 @@ define void @select_store_alloca_to_svdouble_t(<vscale x 2 x double> %val) vscal
 define <4 x i32> @fixed_alloca_fixed_from_scalable(<vscale x 4 x i32> %a) vscale_range(1) {
 ; CHECK-LABEL: @fixed_alloca_fixed_from_scalable(
 ; CHECK-NEXT:    [[TMP1:%.*]] = call <4 x i32> @llvm.vector.extract.v4i32.nxv4i32(<vscale x 4 x i32> [[A:%.*]], i64 0)
+; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <4 x i32> poison
 ; CHECK-NEXT:    ret <4 x i32> [[TMP1]]
 ;
   %tmp = alloca <4 x i32>
@@ -126,6 +128,7 @@ define <2 x i8> @fixed_alloca_fixed_from_scalable_requires_bitcast(<vscale x 16 
 ; CHECK-LABEL: @fixed_alloca_fixed_from_scalable_requires_bitcast(
 ; CHECK-NEXT:    [[TMP1:%.*]] = bitcast <vscale x 16 x i1> [[A:%.*]] to <vscale x 2 x i8>
 ; CHECK-NEXT:    [[TMP2:%.*]] = call <2 x i8> @llvm.vector.extract.v2i8.nxv2i8(<vscale x 2 x i8> [[TMP1]], i64 0)
+; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x i8> poison
 ; CHECK-NEXT:    ret <2 x i8> [[TMP2]]
 ;
   %tmp = alloca <2 x i8>
@@ -139,6 +142,7 @@ define <2 x ptr> @fixed_alloca_fixed_from_scalable_inttoptr(<vscale x 4 x i32> %
 ; CHECK-NEXT:    [[TMP1:%.*]] = bitcast <vscale x 4 x i32> [[A:%.*]] to <vscale x 2 x i64>
 ; CHECK-NEXT:    [[TMP3:%.*]] = call <2 x i64> @llvm.vector.extract.v2i64.nxv2i64(<vscale x 2 x i64> [[TMP1]], i64 0)
 ; CHECK-NEXT:    [[TMP2:%.*]] = inttoptr <2 x i64> [[TMP3]] to <2 x ptr>
+; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x ptr> poison
 ; CHECK-NEXT:    ret <2 x ptr> [[TMP2]]
 ;
   %tmp = alloca <4 x i32>
@@ -152,6 +156,7 @@ define <4 x i32> @fixed_alloca_fixed_from_scalable_ptrtoint(<vscale x 2 x ptr> %
 ; CHECK-NEXT:    [[TMP1:%.*]] = ptrtoint <vscale x 2 x ptr> [[A:%.*]] to <vscale x 2 x i64>
 ; CHECK-NEXT:    [[TMP2:%.*]] = bitcast <vscale x 2 x i64> [[TMP1]] to <vscale x 4 x i32>
 ; CHECK-NEXT:    [[TMP_0_CAST:%.*]] = call <4 x i32> @llvm.vector.extract.v4i32.nxv4i32(<vscale x 4 x i32> [[TMP2]], i64 0)
+; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <4 x i32> poison
 ; CHECK-NEXT:    ret <4 x i32> [[TMP_0_CAST]]
 ;
   %tmp = alloca <4 x i32>
@@ -163,6 +168,7 @@ define <4 x i32> @fixed_alloca_fixed_from_scalable_ptrtoint(<vscale x 2 x ptr> %
 define <2 x ptr> @fixed_alloca_fixed_from_scalable_ptrtoptr(<vscale x 2 x ptr> %a) vscale_range(1) {
 ; CHECK-LABEL: @fixed_alloca_fixed_from_scalable_ptrtoptr(
 ; CHECK-NEXT:    [[TMP_0_CAST:%.*]] = call <2 x ptr> @llvm.vector.extract.v2p0.nxv2p0(<vscale x 2 x ptr> [[A:%.*]], i64 0)
+; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x ptr> poison
 ; CHECK-NEXT:    ret <2 x ptr> [[TMP_0_CAST]]
 ;
   %tmp = alloca <2 x ptr>
@@ -176,6 +182,7 @@ define <2 x ptr> @fixed_alloca_fixed_from_scalable_ptrtoptr_different_addrspace(
 ; CHECK-NEXT:    [[TMP1:%.*]] = ptrtoint <vscale x 2 x ptr addrspace(1)> [[A:%.*]] to <vscale x 2 x i64>
 ; CHECK-NEXT:    [[TMP2:%.*]] = call <2 x i64> @llvm.vector.extract.v2i64.nxv2i64(<vscale x 2 x i64> [[TMP1]], i64 0)
 ; CHECK-NEXT:    [[TMP3:%.*]] = inttoptr <2 x i64> [[TMP2]] to <2 x ptr>
+; CHECK-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x ptr> poison
 ; CHECK-NEXT:    ret <2 x ptr> [[TMP3]]
 ;
   %tmp = alloca <2 x ptr>

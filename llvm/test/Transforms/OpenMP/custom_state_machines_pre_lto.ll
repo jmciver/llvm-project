@@ -1173,9 +1173,9 @@ attributes #9 = { convergent nounwind willreturn memory(read) }
 ; AMDGPU1-NEXT:    [[CAPTURED_VARS_ADDRS1:%.*]] = alloca ptr, align 8, addrspace(5)
 ; AMDGPU1-NEXT:    [[CAPTURED_VARS_ADDRS1_CAST:%.*]] = addrspacecast ptr addrspace(5) [[CAPTURED_VARS_ADDRS1]] to ptr
 ; AMDGPU1-NEXT:    call void @unknown_no_openmp() #[[ATTR10]]
-; AMDGPU1-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__2, ptr @__omp_outlined__2_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
+; AMDGPU1-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__2, ptr @__omp_outlined__2_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
 ; AMDGPU1-NEXT:    call void @no_parallel_region_in_here.internalized() #[[ATTR9]]
-; AMDGPU1-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__3, ptr @__omp_outlined__3_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
+; AMDGPU1-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__3, ptr @__omp_outlined__3_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
 ; AMDGPU1-NEXT:    ret void
 ;
 ;
@@ -1254,7 +1254,7 @@ attributes #9 = { convergent nounwind willreturn memory(read) }
 ; AMDGPU1-NEXT:    call void @unknown_no_openmp() #[[ATTR10]]
 ; AMDGPU1-NEXT:    call void @simple_state_machine_interprocedural_before.internalized() #[[ATTR9]]
 ; AMDGPU1-NEXT:    call void @no_parallel_region_in_here.internalized() #[[ATTR9]]
-; AMDGPU1-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__5, ptr @__omp_outlined__5_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
+; AMDGPU1-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__5, ptr @__omp_outlined__5_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
 ; AMDGPU1-NEXT:    call void @simple_state_machine_interprocedural_after.internalized() #[[ATTR9]]
 ; AMDGPU1-NEXT:    ret void
 ;
@@ -1354,9 +1354,9 @@ attributes #9 = { convergent nounwind willreturn memory(read) }
 ; AMDGPU1-NEXT:    [[CAPTURED_VARS_ADDRS_CAST:%.*]] = addrspacecast ptr addrspace(5) [[CAPTURED_VARS_ADDRS]] to ptr
 ; AMDGPU1-NEXT:    [[CAPTURED_VARS_ADDRS1:%.*]] = alloca ptr, align 8, addrspace(5)
 ; AMDGPU1-NEXT:    [[CAPTURED_VARS_ADDRS1_CAST:%.*]] = addrspacecast ptr addrspace(5) [[CAPTURED_VARS_ADDRS1]] to ptr
-; AMDGPU1-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__7, ptr @__omp_outlined__7_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
+; AMDGPU1-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__7, ptr @__omp_outlined__7_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
 ; AMDGPU1-NEXT:    [[CALL:%.*]] = call i32 @unknown() #[[ATTR11]]
-; AMDGPU1-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__8, ptr @__omp_outlined__8_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
+; AMDGPU1-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__8, ptr @__omp_outlined__8_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
 ; AMDGPU1-NEXT:    ret void
 ;
 ;
@@ -1434,9 +1434,9 @@ attributes #9 = { convergent nounwind willreturn memory(read) }
 ; AMDGPU1-NEXT:    [[CAPTURED_VARS_ADDRS_CAST:%.*]] = addrspacecast ptr addrspace(5) [[CAPTURED_VARS_ADDRS]] to ptr
 ; AMDGPU1-NEXT:    [[CAPTURED_VARS_ADDRS1:%.*]] = alloca ptr, align 8, addrspace(5)
 ; AMDGPU1-NEXT:    [[CAPTURED_VARS_ADDRS1_CAST:%.*]] = addrspacecast ptr addrspace(5) [[CAPTURED_VARS_ADDRS1]] to ptr
-; AMDGPU1-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__10, ptr @__omp_outlined__10_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
+; AMDGPU1-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__10, ptr @__omp_outlined__10_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
 ; AMDGPU1-NEXT:    call void @unknown_no_openmp() #[[ATTR10]]
-; AMDGPU1-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__11, ptr @__omp_outlined__11_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
+; AMDGPU1-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__11, ptr @__omp_outlined__11_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
 ; AMDGPU1-NEXT:    ret void
 ;
 ;
@@ -1515,8 +1515,8 @@ attributes #9 = { convergent nounwind willreturn memory(read) }
 ; AMDGPU1-NEXT:    [[CAPTURED_VARS_ADDRS1:%.*]] = alloca ptr, align 8, addrspace(5)
 ; AMDGPU1-NEXT:    [[CAPTURED_VARS_ADDRS1_CAST:%.*]] = addrspacecast ptr addrspace(5) [[CAPTURED_VARS_ADDRS1]] to ptr
 ; AMDGPU1-NEXT:    call void @unknown_no_openmp() #[[ATTR10]]
-; AMDGPU1-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__13, ptr @__omp_outlined__13_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
-; AMDGPU1-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__14, ptr @__omp_outlined__14_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
+; AMDGPU1-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__13, ptr @__omp_outlined__13_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
+; AMDGPU1-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__14, ptr @__omp_outlined__14_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
 ; AMDGPU1-NEXT:    ret void
 ;
 ;
@@ -1856,9 +1856,9 @@ attributes #9 = { convergent nounwind willreturn memory(read) }
 ; NVPTX1-NEXT:    [[CAPTURED_VARS_ADDRS1:%.*]] = alloca ptr, align 8, addrspace(5)
 ; NVPTX1-NEXT:    [[CAPTURED_VARS_ADDRS1_CAST:%.*]] = addrspacecast ptr addrspace(5) [[CAPTURED_VARS_ADDRS1]] to ptr
 ; NVPTX1-NEXT:    call void @unknown_no_openmp() #[[ATTR10]]
-; NVPTX1-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__2, ptr @__omp_outlined__2_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
+; NVPTX1-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__2, ptr @__omp_outlined__2_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
 ; NVPTX1-NEXT:    call void @no_parallel_region_in_here.internalized() #[[ATTR9]]
-; NVPTX1-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__3, ptr @__omp_outlined__3_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
+; NVPTX1-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__3, ptr @__omp_outlined__3_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
 ; NVPTX1-NEXT:    ret void
 ;
 ;
@@ -1937,7 +1937,7 @@ attributes #9 = { convergent nounwind willreturn memory(read) }
 ; NVPTX1-NEXT:    call void @unknown_no_openmp() #[[ATTR10]]
 ; NVPTX1-NEXT:    call void @simple_state_machine_interprocedural_before.internalized() #[[ATTR9]]
 ; NVPTX1-NEXT:    call void @no_parallel_region_in_here.internalized() #[[ATTR9]]
-; NVPTX1-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__5, ptr @__omp_outlined__5_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
+; NVPTX1-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__5, ptr @__omp_outlined__5_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
 ; NVPTX1-NEXT:    call void @simple_state_machine_interprocedural_after.internalized() #[[ATTR9]]
 ; NVPTX1-NEXT:    ret void
 ;
@@ -2037,9 +2037,9 @@ attributes #9 = { convergent nounwind willreturn memory(read) }
 ; NVPTX1-NEXT:    [[CAPTURED_VARS_ADDRS_CAST:%.*]] = addrspacecast ptr addrspace(5) [[CAPTURED_VARS_ADDRS]] to ptr
 ; NVPTX1-NEXT:    [[CAPTURED_VARS_ADDRS1:%.*]] = alloca ptr, align 8, addrspace(5)
 ; NVPTX1-NEXT:    [[CAPTURED_VARS_ADDRS1_CAST:%.*]] = addrspacecast ptr addrspace(5) [[CAPTURED_VARS_ADDRS1]] to ptr
-; NVPTX1-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__7, ptr @__omp_outlined__7_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
+; NVPTX1-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__7, ptr @__omp_outlined__7_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
 ; NVPTX1-NEXT:    [[CALL:%.*]] = call i32 @unknown() #[[ATTR11]]
-; NVPTX1-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__8, ptr @__omp_outlined__8_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
+; NVPTX1-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__8, ptr @__omp_outlined__8_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
 ; NVPTX1-NEXT:    ret void
 ;
 ;
@@ -2117,9 +2117,9 @@ attributes #9 = { convergent nounwind willreturn memory(read) }
 ; NVPTX1-NEXT:    [[CAPTURED_VARS_ADDRS_CAST:%.*]] = addrspacecast ptr addrspace(5) [[CAPTURED_VARS_ADDRS]] to ptr
 ; NVPTX1-NEXT:    [[CAPTURED_VARS_ADDRS1:%.*]] = alloca ptr, align 8, addrspace(5)
 ; NVPTX1-NEXT:    [[CAPTURED_VARS_ADDRS1_CAST:%.*]] = addrspacecast ptr addrspace(5) [[CAPTURED_VARS_ADDRS1]] to ptr
-; NVPTX1-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__10, ptr @__omp_outlined__10_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
+; NVPTX1-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__10, ptr @__omp_outlined__10_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
 ; NVPTX1-NEXT:    call void @unknown_no_openmp() #[[ATTR10]]
-; NVPTX1-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__11, ptr @__omp_outlined__11_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
+; NVPTX1-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__11, ptr @__omp_outlined__11_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
 ; NVPTX1-NEXT:    ret void
 ;
 ;
@@ -2198,8 +2198,8 @@ attributes #9 = { convergent nounwind willreturn memory(read) }
 ; NVPTX1-NEXT:    [[CAPTURED_VARS_ADDRS1:%.*]] = alloca ptr, align 8, addrspace(5)
 ; NVPTX1-NEXT:    [[CAPTURED_VARS_ADDRS1_CAST:%.*]] = addrspacecast ptr addrspace(5) [[CAPTURED_VARS_ADDRS1]] to ptr
 ; NVPTX1-NEXT:    call void @unknown_no_openmp() #[[ATTR10]]
-; NVPTX1-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__13, ptr @__omp_outlined__13_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
-; NVPTX1-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__14, ptr @__omp_outlined__14_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
+; NVPTX1-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__13, ptr @__omp_outlined__13_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
+; NVPTX1-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__14, ptr @__omp_outlined__14_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
 ; NVPTX1-NEXT:    ret void
 ;
 ;
@@ -2539,9 +2539,9 @@ attributes #9 = { convergent nounwind willreturn memory(read) }
 ; AMDGPU2-NEXT:    [[CAPTURED_VARS_ADDRS1:%.*]] = alloca ptr, align 8, addrspace(5)
 ; AMDGPU2-NEXT:    [[CAPTURED_VARS_ADDRS1_CAST:%.*]] = addrspacecast ptr addrspace(5) [[CAPTURED_VARS_ADDRS1]] to ptr
 ; AMDGPU2-NEXT:    call void @unknown_no_openmp() #[[ATTR10]]
-; AMDGPU2-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__2, ptr @__omp_outlined__2_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
+; AMDGPU2-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__2, ptr @__omp_outlined__2_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
 ; AMDGPU2-NEXT:    call void @no_parallel_region_in_here.internalized() #[[ATTR9]]
-; AMDGPU2-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__3, ptr @__omp_outlined__3_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
+; AMDGPU2-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__3, ptr @__omp_outlined__3_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
 ; AMDGPU2-NEXT:    ret void
 ;
 ;
@@ -2620,7 +2620,7 @@ attributes #9 = { convergent nounwind willreturn memory(read) }
 ; AMDGPU2-NEXT:    call void @unknown_no_openmp() #[[ATTR10]]
 ; AMDGPU2-NEXT:    call void @simple_state_machine_interprocedural_before.internalized() #[[ATTR9]]
 ; AMDGPU2-NEXT:    call void @no_parallel_region_in_here.internalized() #[[ATTR9]]
-; AMDGPU2-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__5, ptr @__omp_outlined__5_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
+; AMDGPU2-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__5, ptr @__omp_outlined__5_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
 ; AMDGPU2-NEXT:    call void @simple_state_machine_interprocedural_after.internalized() #[[ATTR9]]
 ; AMDGPU2-NEXT:    ret void
 ;
@@ -2720,9 +2720,9 @@ attributes #9 = { convergent nounwind willreturn memory(read) }
 ; AMDGPU2-NEXT:    [[CAPTURED_VARS_ADDRS_CAST:%.*]] = addrspacecast ptr addrspace(5) [[CAPTURED_VARS_ADDRS]] to ptr
 ; AMDGPU2-NEXT:    [[CAPTURED_VARS_ADDRS1:%.*]] = alloca ptr, align 8, addrspace(5)
 ; AMDGPU2-NEXT:    [[CAPTURED_VARS_ADDRS1_CAST:%.*]] = addrspacecast ptr addrspace(5) [[CAPTURED_VARS_ADDRS1]] to ptr
-; AMDGPU2-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__7, ptr @__omp_outlined__7_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
+; AMDGPU2-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__7, ptr @__omp_outlined__7_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
 ; AMDGPU2-NEXT:    [[CALL:%.*]] = call i32 @unknown() #[[ATTR11]]
-; AMDGPU2-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__8, ptr @__omp_outlined__8_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
+; AMDGPU2-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__8, ptr @__omp_outlined__8_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
 ; AMDGPU2-NEXT:    ret void
 ;
 ;
@@ -2800,9 +2800,9 @@ attributes #9 = { convergent nounwind willreturn memory(read) }
 ; AMDGPU2-NEXT:    [[CAPTURED_VARS_ADDRS_CAST:%.*]] = addrspacecast ptr addrspace(5) [[CAPTURED_VARS_ADDRS]] to ptr
 ; AMDGPU2-NEXT:    [[CAPTURED_VARS_ADDRS1:%.*]] = alloca ptr, align 8, addrspace(5)
 ; AMDGPU2-NEXT:    [[CAPTURED_VARS_ADDRS1_CAST:%.*]] = addrspacecast ptr addrspace(5) [[CAPTURED_VARS_ADDRS1]] to ptr
-; AMDGPU2-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__10, ptr @__omp_outlined__10_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
+; AMDGPU2-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__10, ptr @__omp_outlined__10_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
 ; AMDGPU2-NEXT:    call void @unknown_no_openmp() #[[ATTR10]]
-; AMDGPU2-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__11, ptr @__omp_outlined__11_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
+; AMDGPU2-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__11, ptr @__omp_outlined__11_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
 ; AMDGPU2-NEXT:    ret void
 ;
 ;
@@ -2881,8 +2881,8 @@ attributes #9 = { convergent nounwind willreturn memory(read) }
 ; AMDGPU2-NEXT:    [[CAPTURED_VARS_ADDRS1:%.*]] = alloca ptr, align 8, addrspace(5)
 ; AMDGPU2-NEXT:    [[CAPTURED_VARS_ADDRS1_CAST:%.*]] = addrspacecast ptr addrspace(5) [[CAPTURED_VARS_ADDRS1]] to ptr
 ; AMDGPU2-NEXT:    call void @unknown_no_openmp() #[[ATTR10]]
-; AMDGPU2-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__13, ptr @__omp_outlined__13_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
-; AMDGPU2-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__14, ptr @__omp_outlined__14_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
+; AMDGPU2-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__13, ptr @__omp_outlined__13_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
+; AMDGPU2-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__14, ptr @__omp_outlined__14_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
 ; AMDGPU2-NEXT:    ret void
 ;
 ;
@@ -3222,9 +3222,9 @@ attributes #9 = { convergent nounwind willreturn memory(read) }
 ; AMDGPU3-NEXT:    [[CAPTURED_VARS_ADDRS1:%.*]] = alloca ptr, align 8, addrspace(5)
 ; AMDGPU3-NEXT:    [[CAPTURED_VARS_ADDRS1_CAST:%.*]] = addrspacecast ptr addrspace(5) [[CAPTURED_VARS_ADDRS1]] to ptr
 ; AMDGPU3-NEXT:    call void @unknown_no_openmp() #[[ATTR10]]
-; AMDGPU3-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__2, ptr @__omp_outlined__2_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
+; AMDGPU3-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__2, ptr @__omp_outlined__2_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
 ; AMDGPU3-NEXT:    call void @no_parallel_region_in_here.internalized() #[[ATTR9]]
-; AMDGPU3-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__3, ptr @__omp_outlined__3_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
+; AMDGPU3-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__3, ptr @__omp_outlined__3_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
 ; AMDGPU3-NEXT:    ret void
 ;
 ;
@@ -3303,7 +3303,7 @@ attributes #9 = { convergent nounwind willreturn memory(read) }
 ; AMDGPU3-NEXT:    call void @unknown_no_openmp() #[[ATTR10]]
 ; AMDGPU3-NEXT:    call void @simple_state_machine_interprocedural_before.internalized() #[[ATTR9]]
 ; AMDGPU3-NEXT:    call void @no_parallel_region_in_here.internalized() #[[ATTR9]]
-; AMDGPU3-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__5, ptr @__omp_outlined__5_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
+; AMDGPU3-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__5, ptr @__omp_outlined__5_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
 ; AMDGPU3-NEXT:    call void @simple_state_machine_interprocedural_after.internalized() #[[ATTR9]]
 ; AMDGPU3-NEXT:    ret void
 ;
@@ -3403,9 +3403,9 @@ attributes #9 = { convergent nounwind willreturn memory(read) }
 ; AMDGPU3-NEXT:    [[CAPTURED_VARS_ADDRS_CAST:%.*]] = addrspacecast ptr addrspace(5) [[CAPTURED_VARS_ADDRS]] to ptr
 ; AMDGPU3-NEXT:    [[CAPTURED_VARS_ADDRS1:%.*]] = alloca ptr, align 8, addrspace(5)
 ; AMDGPU3-NEXT:    [[CAPTURED_VARS_ADDRS1_CAST:%.*]] = addrspacecast ptr addrspace(5) [[CAPTURED_VARS_ADDRS1]] to ptr
-; AMDGPU3-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__7, ptr @__omp_outlined__7_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
+; AMDGPU3-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__7, ptr @__omp_outlined__7_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
 ; AMDGPU3-NEXT:    [[CALL:%.*]] = call i32 @unknown() #[[ATTR11]]
-; AMDGPU3-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__8, ptr @__omp_outlined__8_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
+; AMDGPU3-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__8, ptr @__omp_outlined__8_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
 ; AMDGPU3-NEXT:    ret void
 ;
 ;
@@ -3483,9 +3483,9 @@ attributes #9 = { convergent nounwind willreturn memory(read) }
 ; AMDGPU3-NEXT:    [[CAPTURED_VARS_ADDRS_CAST:%.*]] = addrspacecast ptr addrspace(5) [[CAPTURED_VARS_ADDRS]] to ptr
 ; AMDGPU3-NEXT:    [[CAPTURED_VARS_ADDRS1:%.*]] = alloca ptr, align 8, addrspace(5)
 ; AMDGPU3-NEXT:    [[CAPTURED_VARS_ADDRS1_CAST:%.*]] = addrspacecast ptr addrspace(5) [[CAPTURED_VARS_ADDRS1]] to ptr
-; AMDGPU3-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__10, ptr @__omp_outlined__10_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
+; AMDGPU3-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__10, ptr @__omp_outlined__10_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
 ; AMDGPU3-NEXT:    call void @unknown_no_openmp() #[[ATTR10]]
-; AMDGPU3-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__11, ptr @__omp_outlined__11_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
+; AMDGPU3-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__11, ptr @__omp_outlined__11_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
 ; AMDGPU3-NEXT:    ret void
 ;
 ;
@@ -3564,8 +3564,8 @@ attributes #9 = { convergent nounwind willreturn memory(read) }
 ; AMDGPU3-NEXT:    [[CAPTURED_VARS_ADDRS1:%.*]] = alloca ptr, align 8, addrspace(5)
 ; AMDGPU3-NEXT:    [[CAPTURED_VARS_ADDRS1_CAST:%.*]] = addrspacecast ptr addrspace(5) [[CAPTURED_VARS_ADDRS1]] to ptr
 ; AMDGPU3-NEXT:    call void @unknown_no_openmp() #[[ATTR10]]
-; AMDGPU3-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__13, ptr @__omp_outlined__13_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
-; AMDGPU3-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__14, ptr @__omp_outlined__14_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
+; AMDGPU3-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__13, ptr @__omp_outlined__13_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
+; AMDGPU3-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__14, ptr @__omp_outlined__14_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
 ; AMDGPU3-NEXT:    ret void
 ;
 ;
@@ -3905,9 +3905,9 @@ attributes #9 = { convergent nounwind willreturn memory(read) }
 ; NVPTX2-NEXT:    [[CAPTURED_VARS_ADDRS1:%.*]] = alloca ptr, align 8, addrspace(5)
 ; NVPTX2-NEXT:    [[CAPTURED_VARS_ADDRS1_CAST:%.*]] = addrspacecast ptr addrspace(5) [[CAPTURED_VARS_ADDRS1]] to ptr
 ; NVPTX2-NEXT:    call void @unknown_no_openmp() #[[ATTR10]]
-; NVPTX2-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__2, ptr @__omp_outlined__2_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
+; NVPTX2-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__2, ptr @__omp_outlined__2_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
 ; NVPTX2-NEXT:    call void @no_parallel_region_in_here.internalized() #[[ATTR9]]
-; NVPTX2-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__3, ptr @__omp_outlined__3_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
+; NVPTX2-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__3, ptr @__omp_outlined__3_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
 ; NVPTX2-NEXT:    ret void
 ;
 ;
@@ -3986,7 +3986,7 @@ attributes #9 = { convergent nounwind willreturn memory(read) }
 ; NVPTX2-NEXT:    call void @unknown_no_openmp() #[[ATTR10]]
 ; NVPTX2-NEXT:    call void @simple_state_machine_interprocedural_before.internalized() #[[ATTR9]]
 ; NVPTX2-NEXT:    call void @no_parallel_region_in_here.internalized() #[[ATTR9]]
-; NVPTX2-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__5, ptr @__omp_outlined__5_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
+; NVPTX2-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__5, ptr @__omp_outlined__5_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
 ; NVPTX2-NEXT:    call void @simple_state_machine_interprocedural_after.internalized() #[[ATTR9]]
 ; NVPTX2-NEXT:    ret void
 ;
@@ -4086,9 +4086,9 @@ attributes #9 = { convergent nounwind willreturn memory(read) }
 ; NVPTX2-NEXT:    [[CAPTURED_VARS_ADDRS_CAST:%.*]] = addrspacecast ptr addrspace(5) [[CAPTURED_VARS_ADDRS]] to ptr
 ; NVPTX2-NEXT:    [[CAPTURED_VARS_ADDRS1:%.*]] = alloca ptr, align 8, addrspace(5)
 ; NVPTX2-NEXT:    [[CAPTURED_VARS_ADDRS1_CAST:%.*]] = addrspacecast ptr addrspace(5) [[CAPTURED_VARS_ADDRS1]] to ptr
-; NVPTX2-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__7, ptr @__omp_outlined__7_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
+; NVPTX2-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__7, ptr @__omp_outlined__7_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
 ; NVPTX2-NEXT:    [[CALL:%.*]] = call i32 @unknown() #[[ATTR11]]
-; NVPTX2-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__8, ptr @__omp_outlined__8_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
+; NVPTX2-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__8, ptr @__omp_outlined__8_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
 ; NVPTX2-NEXT:    ret void
 ;
 ;
@@ -4166,9 +4166,9 @@ attributes #9 = { convergent nounwind willreturn memory(read) }
 ; NVPTX2-NEXT:    [[CAPTURED_VARS_ADDRS_CAST:%.*]] = addrspacecast ptr addrspace(5) [[CAPTURED_VARS_ADDRS]] to ptr
 ; NVPTX2-NEXT:    [[CAPTURED_VARS_ADDRS1:%.*]] = alloca ptr, align 8, addrspace(5)
 ; NVPTX2-NEXT:    [[CAPTURED_VARS_ADDRS1_CAST:%.*]] = addrspacecast ptr addrspace(5) [[CAPTURED_VARS_ADDRS1]] to ptr
-; NVPTX2-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__10, ptr @__omp_outlined__10_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
+; NVPTX2-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__10, ptr @__omp_outlined__10_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
 ; NVPTX2-NEXT:    call void @unknown_no_openmp() #[[ATTR10]]
-; NVPTX2-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__11, ptr @__omp_outlined__11_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
+; NVPTX2-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__11, ptr @__omp_outlined__11_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
 ; NVPTX2-NEXT:    ret void
 ;
 ;
@@ -4247,8 +4247,8 @@ attributes #9 = { convergent nounwind willreturn memory(read) }
 ; NVPTX2-NEXT:    [[CAPTURED_VARS_ADDRS1:%.*]] = alloca ptr, align 8, addrspace(5)
 ; NVPTX2-NEXT:    [[CAPTURED_VARS_ADDRS1_CAST:%.*]] = addrspacecast ptr addrspace(5) [[CAPTURED_VARS_ADDRS1]] to ptr
 ; NVPTX2-NEXT:    call void @unknown_no_openmp() #[[ATTR10]]
-; NVPTX2-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__13, ptr @__omp_outlined__13_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
-; NVPTX2-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__14, ptr @__omp_outlined__14_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
+; NVPTX2-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__13, ptr @__omp_outlined__13_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
+; NVPTX2-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__14, ptr @__omp_outlined__14_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
 ; NVPTX2-NEXT:    ret void
 ;
 ;
@@ -4588,9 +4588,9 @@ attributes #9 = { convergent nounwind willreturn memory(read) }
 ; NVPTX3-NEXT:    [[CAPTURED_VARS_ADDRS1:%.*]] = alloca ptr, align 8, addrspace(5)
 ; NVPTX3-NEXT:    [[CAPTURED_VARS_ADDRS1_CAST:%.*]] = addrspacecast ptr addrspace(5) [[CAPTURED_VARS_ADDRS1]] to ptr
 ; NVPTX3-NEXT:    call void @unknown_no_openmp() #[[ATTR10]]
-; NVPTX3-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__2, ptr @__omp_outlined__2_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
+; NVPTX3-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__2, ptr @__omp_outlined__2_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
 ; NVPTX3-NEXT:    call void @no_parallel_region_in_here.internalized() #[[ATTR9]]
-; NVPTX3-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__3, ptr @__omp_outlined__3_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
+; NVPTX3-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__3, ptr @__omp_outlined__3_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
 ; NVPTX3-NEXT:    ret void
 ;
 ;
@@ -4669,7 +4669,7 @@ attributes #9 = { convergent nounwind willreturn memory(read) }
 ; NVPTX3-NEXT:    call void @unknown_no_openmp() #[[ATTR10]]
 ; NVPTX3-NEXT:    call void @simple_state_machine_interprocedural_before.internalized() #[[ATTR9]]
 ; NVPTX3-NEXT:    call void @no_parallel_region_in_here.internalized() #[[ATTR9]]
-; NVPTX3-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__5, ptr @__omp_outlined__5_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
+; NVPTX3-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__5, ptr @__omp_outlined__5_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
 ; NVPTX3-NEXT:    call void @simple_state_machine_interprocedural_after.internalized() #[[ATTR9]]
 ; NVPTX3-NEXT:    ret void
 ;
@@ -4769,9 +4769,9 @@ attributes #9 = { convergent nounwind willreturn memory(read) }
 ; NVPTX3-NEXT:    [[CAPTURED_VARS_ADDRS_CAST:%.*]] = addrspacecast ptr addrspace(5) [[CAPTURED_VARS_ADDRS]] to ptr
 ; NVPTX3-NEXT:    [[CAPTURED_VARS_ADDRS1:%.*]] = alloca ptr, align 8, addrspace(5)
 ; NVPTX3-NEXT:    [[CAPTURED_VARS_ADDRS1_CAST:%.*]] = addrspacecast ptr addrspace(5) [[CAPTURED_VARS_ADDRS1]] to ptr
-; NVPTX3-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__7, ptr @__omp_outlined__7_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
+; NVPTX3-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__7, ptr @__omp_outlined__7_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
 ; NVPTX3-NEXT:    [[CALL:%.*]] = call i32 @unknown() #[[ATTR11]]
-; NVPTX3-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__8, ptr @__omp_outlined__8_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
+; NVPTX3-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__8, ptr @__omp_outlined__8_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
 ; NVPTX3-NEXT:    ret void
 ;
 ;
@@ -4849,9 +4849,9 @@ attributes #9 = { convergent nounwind willreturn memory(read) }
 ; NVPTX3-NEXT:    [[CAPTURED_VARS_ADDRS_CAST:%.*]] = addrspacecast ptr addrspace(5) [[CAPTURED_VARS_ADDRS]] to ptr
 ; NVPTX3-NEXT:    [[CAPTURED_VARS_ADDRS1:%.*]] = alloca ptr, align 8, addrspace(5)
 ; NVPTX3-NEXT:    [[CAPTURED_VARS_ADDRS1_CAST:%.*]] = addrspacecast ptr addrspace(5) [[CAPTURED_VARS_ADDRS1]] to ptr
-; NVPTX3-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__10, ptr @__omp_outlined__10_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
+; NVPTX3-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__10, ptr @__omp_outlined__10_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
 ; NVPTX3-NEXT:    call void @unknown_no_openmp() #[[ATTR10]]
-; NVPTX3-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__11, ptr @__omp_outlined__11_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
+; NVPTX3-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__11, ptr @__omp_outlined__11_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
 ; NVPTX3-NEXT:    ret void
 ;
 ;
@@ -4930,8 +4930,8 @@ attributes #9 = { convergent nounwind willreturn memory(read) }
 ; NVPTX3-NEXT:    [[CAPTURED_VARS_ADDRS1:%.*]] = alloca ptr, align 8, addrspace(5)
 ; NVPTX3-NEXT:    [[CAPTURED_VARS_ADDRS1_CAST:%.*]] = addrspacecast ptr addrspace(5) [[CAPTURED_VARS_ADDRS1]] to ptr
 ; NVPTX3-NEXT:    call void @unknown_no_openmp() #[[ATTR10]]
-; NVPTX3-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__13, ptr @__omp_outlined__13_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
-; NVPTX3-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 undef, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__14, ptr @__omp_outlined__14_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
+; NVPTX3-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__13, ptr @__omp_outlined__13_wrapper, ptr [[CAPTURED_VARS_ADDRS_CAST]], i64 0)
+; NVPTX3-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 poison, i32 1, i32 -1, i32 -1, ptr @__omp_outlined__14, ptr @__omp_outlined__14_wrapper, ptr [[CAPTURED_VARS_ADDRS1_CAST]], i64 0)
 ; NVPTX3-NEXT:    ret void
 ;
 ;
