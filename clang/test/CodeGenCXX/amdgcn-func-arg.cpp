@@ -4,9 +4,31 @@
 class A {
 public:
   int x;
-  A():x(0) {}
-  ~A() {}
+  A();
+  ~A();
 };
+
+// CHECK-LABEL: @_ZN1AC1Ev(
+// CHECK-NEXT:  entry:
+// CHECK-NEXT:    [[THIS_ADDR:%.*]] = alloca ptr, align 8, addrspace(5)
+// CHECK-NEXT:    [[THIS_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[THIS_ADDR]] to ptr
+// CHECK-NEXT:    store ptr [[THIS:%.*]], ptr [[THIS_ADDR_ASCAST]], align 8
+// CHECK-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR_ASCAST]], align 8
+// CHECK-NEXT:    call void @_ZN1AC2Ev(ptr noundef nonnull align 4 dereferenceable(4) [[THIS1]]) #[[ATTR5:[0-9]+]]
+// CHECK-NEXT:    ret void
+//
+A::A() : x(0) {}
+
+// CHECK-LABEL: @_ZN1AD1Ev(
+// CHECK-NEXT:  entry:
+// CHECK-NEXT:    [[THIS_ADDR:%.*]] = alloca ptr, align 8, addrspace(5)
+// CHECK-NEXT:    [[THIS_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[THIS_ADDR]] to ptr
+// CHECK-NEXT:    store ptr [[THIS:%.*]], ptr [[THIS_ADDR_ASCAST]], align 8
+// CHECK-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR_ASCAST]], align 8
+// CHECK-NEXT:    call void @_ZN1AD2Ev(ptr noundef nonnull align 4 dereferenceable(4) [[THIS1]]) #[[ATTR6:[0-9]+]]
+// CHECK-NEXT:    ret void
+//
+A::~A() {}
 
 class B {
 int x[100];
@@ -26,6 +48,8 @@ void func_with_ref_arg(B &b);
 // CHECK-NEXT:    [[P_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[P]] to ptr
 // CHECK-NEXT:    store ptr addrspace(5) [[A:%.*]], ptr [[A_INDIRECT_ADDR_ASCAST]], align 8
 // CHECK-NEXT:    [[A_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[A]] to ptr
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[P_ASCAST]], align 8
 // CHECK-NEXT:    store ptr [[A_ASCAST]], ptr [[P_ASCAST]], align 8
 // CHECK-NEXT:    ret void
 //
@@ -39,13 +63,13 @@ void func_with_indirect_arg(A a) {
 // CHECK-NEXT:    [[AGG_TMP:%.*]] = alloca [[CLASS_A]], align 4, addrspace(5)
 // CHECK-NEXT:    [[A_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[A]] to ptr
 // CHECK-NEXT:    [[AGG_TMP_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[AGG_TMP]] to ptr
-// CHECK-NEXT:    call void @_ZN1AC1Ev(ptr noundef nonnull align 4 dereferenceable(4) [[A_ASCAST]])
+// CHECK-NEXT:    call void @_ZN1AC1Ev(ptr noundef nonnull align 4 dereferenceable(4) [[A_ASCAST]]) #[[ATTR5]]
 // CHECK-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 4 [[AGG_TMP_ASCAST]], ptr align 4 [[A_ASCAST]], i64 4, i1 false)
 // CHECK-NEXT:    [[AGG_TMP_ASCAST_ASCAST:%.*]] = addrspacecast ptr [[AGG_TMP_ASCAST]] to ptr addrspace(5)
-// CHECK-NEXT:    call void @_Z22func_with_indirect_arg1A(ptr addrspace(5) noundef [[AGG_TMP_ASCAST_ASCAST]])
-// CHECK-NEXT:    call void @_ZN1AD1Ev(ptr noundef nonnull align 4 dereferenceable(4) [[AGG_TMP_ASCAST]])
-// CHECK-NEXT:    call void @_Z17func_with_ref_argR1A(ptr noundef nonnull align 4 dereferenceable(4) [[A_ASCAST]])
-// CHECK-NEXT:    call void @_ZN1AD1Ev(ptr noundef nonnull align 4 dereferenceable(4) [[A_ASCAST]])
+// CHECK-NEXT:    call void @_Z22func_with_indirect_arg1A(ptr addrspace(5) noundef [[AGG_TMP_ASCAST_ASCAST]]) #[[ATTR5]]
+// CHECK-NEXT:    call void @_ZN1AD1Ev(ptr noundef nonnull align 4 dereferenceable(4) [[AGG_TMP_ASCAST]]) #[[ATTR6]]
+// CHECK-NEXT:    call void @_Z17func_with_ref_argR1A(ptr noundef nonnull align 4 dereferenceable(4) [[A_ASCAST]]) #[[ATTR5]]
+// CHECK-NEXT:    call void @_ZN1AD1Ev(ptr noundef nonnull align 4 dereferenceable(4) [[A_ASCAST]]) #[[ATTR6]]
 // CHECK-NEXT:    ret void
 //
 void test_indirect_arg_auto() {
@@ -60,9 +84,9 @@ void test_indirect_arg_auto() {
 // CHECK-NEXT:    [[AGG_TMP_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[AGG_TMP]] to ptr
 // CHECK-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 4 [[AGG_TMP_ASCAST]], ptr align 4 addrspacecast (ptr addrspace(1) @g_a to ptr), i64 4, i1 false)
 // CHECK-NEXT:    [[AGG_TMP_ASCAST_ASCAST:%.*]] = addrspacecast ptr [[AGG_TMP_ASCAST]] to ptr addrspace(5)
-// CHECK-NEXT:    call void @_Z22func_with_indirect_arg1A(ptr addrspace(5) noundef [[AGG_TMP_ASCAST_ASCAST]])
-// CHECK-NEXT:    call void @_ZN1AD1Ev(ptr noundef nonnull align 4 dereferenceable(4) [[AGG_TMP_ASCAST]])
-// CHECK-NEXT:    call void @_Z17func_with_ref_argR1A(ptr noundef nonnull align 4 dereferenceable(4) addrspacecast (ptr addrspace(1) @g_a to ptr))
+// CHECK-NEXT:    call void @_Z22func_with_indirect_arg1A(ptr addrspace(5) noundef [[AGG_TMP_ASCAST_ASCAST]]) #[[ATTR5]]
+// CHECK-NEXT:    call void @_ZN1AD1Ev(ptr noundef nonnull align 4 dereferenceable(4) [[AGG_TMP_ASCAST]]) #[[ATTR6]]
+// CHECK-NEXT:    call void @_Z17func_with_ref_argR1A(ptr noundef nonnull align 4 dereferenceable(4) addrspacecast (ptr addrspace(1) @g_a to ptr)) #[[ATTR5]]
 // CHECK-NEXT:    ret void
 //
 void test_indirect_arg_global() {
@@ -77,6 +101,8 @@ void test_indirect_arg_global() {
 // CHECK-NEXT:    [[B:%.*]] = addrspacecast ptr addrspace(5) [[COERCE]] to ptr
 // CHECK-NEXT:    [[P_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[P]] to ptr
 // CHECK-NEXT:    call void @llvm.memcpy.p0.p5.i64(ptr align 4 [[B]], ptr addrspace(5) align 4 [[TMP0:%.*]], i64 400, i1 false)
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[P_ASCAST]], align 8
 // CHECK-NEXT:    store ptr [[B]], ptr [[P_ASCAST]], align 8
 // CHECK-NEXT:    ret void
 //
@@ -92,8 +118,8 @@ void func_with_byval_arg(B b) {
 // CHECK-NEXT:    [[AGG_TMP_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[AGG_TMP]] to ptr
 // CHECK-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 4 [[AGG_TMP_ASCAST]], ptr align 4 [[B_ASCAST]], i64 400, i1 false)
 // CHECK-NEXT:    [[AGG_TMP_ASCAST_ASCAST:%.*]] = addrspacecast ptr [[AGG_TMP_ASCAST]] to ptr addrspace(5)
-// CHECK-NEXT:    call void @_Z19func_with_byval_arg1B(ptr addrspace(5) noundef byref([[CLASS_B]]) align 4 [[AGG_TMP_ASCAST_ASCAST]])
-// CHECK-NEXT:    call void @_Z17func_with_ref_argR1B(ptr noundef nonnull align 4 dereferenceable(400) [[B_ASCAST]])
+// CHECK-NEXT:    call void @_Z19func_with_byval_arg1B(ptr addrspace(5) noundef byref([[CLASS_B]]) align 4 [[AGG_TMP_ASCAST_ASCAST]]) #[[ATTR5]]
+// CHECK-NEXT:    call void @_Z17func_with_ref_argR1B(ptr noundef nonnull align 4 dereferenceable(400) [[B_ASCAST]]) #[[ATTR5]]
 // CHECK-NEXT:    ret void
 //
 void test_byval_arg_auto() {
@@ -108,8 +134,8 @@ void test_byval_arg_auto() {
 // CHECK-NEXT:    [[AGG_TMP_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[AGG_TMP]] to ptr
 // CHECK-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 4 [[AGG_TMP_ASCAST]], ptr align 4 addrspacecast (ptr addrspace(1) @g_b to ptr), i64 400, i1 false)
 // CHECK-NEXT:    [[AGG_TMP_ASCAST_ASCAST:%.*]] = addrspacecast ptr [[AGG_TMP_ASCAST]] to ptr addrspace(5)
-// CHECK-NEXT:    call void @_Z19func_with_byval_arg1B(ptr addrspace(5) noundef byref([[CLASS_B]]) align 4 [[AGG_TMP_ASCAST_ASCAST]])
-// CHECK-NEXT:    call void @_Z17func_with_ref_argR1B(ptr noundef nonnull align 4 dereferenceable(400) addrspacecast (ptr addrspace(1) @g_b to ptr))
+// CHECK-NEXT:    call void @_Z19func_with_byval_arg1B(ptr addrspace(5) noundef byref([[CLASS_B]]) align 4 [[AGG_TMP_ASCAST_ASCAST]]) #[[ATTR5]]
+// CHECK-NEXT:    call void @_Z17func_with_ref_argR1B(ptr noundef nonnull align 4 dereferenceable(400) addrspacecast (ptr addrspace(1) @g_b to ptr)) #[[ATTR5]]
 // CHECK-NEXT:    ret void
 //
 void test_byval_arg_global() {

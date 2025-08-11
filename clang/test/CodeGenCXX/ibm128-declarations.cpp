@@ -16,14 +16,54 @@ class CTest {
   volatile __ibm128 vf;
 
 public:
-  CTest(__ibm128 arg) : pf(arg), vf(arg) {}
-  __ibm128 func2(__ibm128 arg) {
-    return pf + arg;
-  }
-  static __ibm128 func3(__ibm128 arg) {
-    return arg * CTest::scf;
-  }
+  CTest(__ibm128 arg);
+  __ibm128 func2(__ibm128 arg);
+  static __ibm128 func3(__ibm128 arg);
 };
+
+// CHECK-LABEL: @_ZN5CTestC1Eg(
+// CHECK-NEXT:  entry:
+// CHECK-NEXT:    [[THIS_ADDR:%.*]] = alloca ptr, align 8
+// CHECK-NEXT:    [[ARG_ADDR:%.*]] = alloca ppc_fp128, align 16
+// CHECK-NEXT:    store ptr [[THIS:%.*]], ptr [[THIS_ADDR]], align 8
+// CHECK-NEXT:      #dbg_declare(ptr [[THIS_ADDR]], [[META45:![0-9]+]], !DIExpression(), [[META46:![0-9]+]])
+// CHECK-NEXT:    store ppc_fp128 [[ARG:%.*]], ptr [[ARG_ADDR]], align 16
+// CHECK-NEXT:      #dbg_declare(ptr [[ARG_ADDR]], [[META47:![0-9]+]], !DIExpression(), [[META48:![0-9]+]])
+// CHECK-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
+// CHECK-NEXT:    [[TMP0:%.*]] = load ppc_fp128, ptr [[ARG_ADDR]], align 16, !dbg [[DBG49:![0-9]+]]
+// CHECK-NEXT:    call void @_ZN5CTestC2Eg(ptr noundef nonnull align 16 dereferenceable(32) [[THIS1]], ppc_fp128 noundef [[TMP0]]), !dbg [[DBG49]]
+// CHECK-NEXT:    ret void, !dbg [[DBG50:![0-9]+]]
+//
+CTest::CTest(__ibm128 arg) : pf(arg), vf(arg) {}
+
+// CHECK-LABEL: @_ZN5CTest5func2Eg(
+// CHECK-NEXT:  entry:
+// CHECK-NEXT:    [[THIS_ADDR:%.*]] = alloca ptr, align 8
+// CHECK-NEXT:    [[ARG_ADDR:%.*]] = alloca ppc_fp128, align 16
+// CHECK-NEXT:    store ptr [[THIS:%.*]], ptr [[THIS_ADDR]], align 8
+// CHECK-NEXT:      #dbg_declare(ptr [[THIS_ADDR]], [[META52:![0-9]+]], !DIExpression(), [[META53:![0-9]+]])
+// CHECK-NEXT:    store ppc_fp128 [[ARG:%.*]], ptr [[ARG_ADDR]], align 16
+// CHECK-NEXT:      #dbg_declare(ptr [[ARG_ADDR]], [[META54:![0-9]+]], !DIExpression(), [[META55:![0-9]+]])
+// CHECK-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
+// CHECK-NEXT:    [[PF:%.*]] = getelementptr inbounds nuw [[CLASS_CTEST:%.*]], ptr [[THIS1]], i32 0, i32 0, !dbg [[DBG56:![0-9]+]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load ppc_fp128, ptr [[PF]], align 16, !dbg [[DBG56]], !freeze_bits [[META33:![0-9]+]]
+// CHECK-NEXT:    [[TMP1:%.*]] = load ppc_fp128, ptr [[ARG_ADDR]], align 16, !dbg [[DBG57:![0-9]+]]
+// CHECK-NEXT:    [[ADD:%.*]] = fadd ppc_fp128 [[TMP0]], [[TMP1]], !dbg [[DBG58:![0-9]+]]
+// CHECK-NEXT:    ret ppc_fp128 [[ADD]], !dbg [[DBG59:![0-9]+]]
+//
+__ibm128 CTest::func2(__ibm128 arg) { return pf + arg; }
+
+// CHECK-LABEL: @_ZN5CTest5func3Eg(
+// CHECK-NEXT:  entry:
+// CHECK-NEXT:    [[ARG_ADDR:%.*]] = alloca ppc_fp128, align 16
+// CHECK-NEXT:    store ppc_fp128 [[ARG:%.*]], ptr [[ARG_ADDR]], align 16
+// CHECK-NEXT:      #dbg_declare(ptr [[ARG_ADDR]], [[META61:![0-9]+]], !DIExpression(), [[META62:![0-9]+]])
+// CHECK-NEXT:    [[TMP0:%.*]] = load ppc_fp128, ptr [[ARG_ADDR]], align 16, !dbg [[DBG63:![0-9]+]]
+// CHECK-NEXT:    [[TMP1:%.*]] = load ppc_fp128, ptr @_ZN5CTest3scfE, align 16, !dbg [[DBG64:![0-9]+]], !freeze_bits [[META33]]
+// CHECK-NEXT:    [[MUL:%.*]] = fmul ppc_fp128 [[TMP0]], [[TMP1]], !dbg [[DBG65:![0-9]+]]
+// CHECK-NEXT:    ret ppc_fp128 [[MUL]], !dbg [[DBG66:![0-9]+]]
+//
+__ibm128 CTest::func3(__ibm128 arg) { return arg * CTest::scf; }
 
 constexpr __ibm128 func_add(__ibm128 a, __ibm128 b) {
   return a + b;
@@ -32,6 +72,52 @@ constexpr __ibm128 func_add(__ibm128 a, __ibm128 b) {
 constinit const __ibm128 ci = func_add(1.0, 2.0);
 __ibm128 gf = ci;
 
+// CHECK-LABEL: @_Z10func_arithggg(
+// CHECK-NEXT:  entry:
+// CHECK-NEXT:    [[A_ADDR:%.*]] = alloca ppc_fp128, align 16
+// CHECK-NEXT:    [[B_ADDR:%.*]] = alloca ppc_fp128, align 16
+// CHECK-NEXT:    [[C_ADDR:%.*]] = alloca ppc_fp128, align 16
+// CHECK-NEXT:    [[V1:%.*]] = alloca ppc_fp128, align 16
+// CHECK-NEXT:    [[V2:%.*]] = alloca ppc_fp128, align 16
+// CHECK-NEXT:    [[V3:%.*]] = alloca ppc_fp128, align 16
+// CHECK-NEXT:    [[V4:%.*]] = alloca ppc_fp128, align 16
+// CHECK-NEXT:    store ppc_fp128 [[A:%.*]], ptr [[A_ADDR]], align 16
+// CHECK-NEXT:      #dbg_declare(ptr [[A_ADDR]], [[META70:![0-9]+]], !DIExpression(), [[META71:![0-9]+]])
+// CHECK-NEXT:    store ppc_fp128 [[B:%.*]], ptr [[B_ADDR]], align 16
+// CHECK-NEXT:      #dbg_declare(ptr [[B_ADDR]], [[META72:![0-9]+]], !DIExpression(), [[META73:![0-9]+]])
+// CHECK-NEXT:    store ppc_fp128 [[C:%.*]], ptr [[C_ADDR]], align 16
+// CHECK-NEXT:      #dbg_declare(ptr [[C_ADDR]], [[META74:![0-9]+]], !DIExpression(), [[META75:![0-9]+]])
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ppc_fp128 poison, !dbg [[DBG76:![0-9]+]]
+// CHECK-NEXT:    store ppc_fp128 [[FREEZE_POISON]], ptr [[V1]], align 16, !dbg [[DBG76]]
+// CHECK-NEXT:      #dbg_declare(ptr [[V1]], [[META77:![0-9]+]], !DIExpression(), [[META78:![0-9]+]])
+// CHECK-NEXT:    [[TMP0:%.*]] = load ppc_fp128, ptr [[A_ADDR]], align 16, !dbg [[DBG79:![0-9]+]]
+// CHECK-NEXT:    [[TMP1:%.*]] = load ppc_fp128, ptr [[B_ADDR]], align 16, !dbg [[DBG80:![0-9]+]]
+// CHECK-NEXT:    [[ADD:%.*]] = fadd ppc_fp128 [[TMP0]], [[TMP1]], !dbg [[DBG81:![0-9]+]]
+// CHECK-NEXT:    store ppc_fp128 [[ADD]], ptr [[V1]], align 16, !dbg [[META78]]
+// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze ppc_fp128 poison, !dbg [[DBG82:![0-9]+]]
+// CHECK-NEXT:    store ppc_fp128 [[FREEZE_POISON1]], ptr [[V2]], align 16, !dbg [[DBG82]]
+// CHECK-NEXT:      #dbg_declare(ptr [[V2]], [[META83:![0-9]+]], !DIExpression(), [[META84:![0-9]+]])
+// CHECK-NEXT:    [[TMP2:%.*]] = load ppc_fp128, ptr [[A_ADDR]], align 16, !dbg [[DBG85:![0-9]+]]
+// CHECK-NEXT:    [[TMP3:%.*]] = load ppc_fp128, ptr [[C_ADDR]], align 16, !dbg [[DBG86:![0-9]+]]
+// CHECK-NEXT:    [[SUB:%.*]] = fsub ppc_fp128 [[TMP2]], [[TMP3]], !dbg [[DBG87:![0-9]+]]
+// CHECK-NEXT:    store ppc_fp128 [[SUB]], ptr [[V2]], align 16, !dbg [[META84]]
+// CHECK-NEXT:    [[FREEZE_POISON2:%.*]] = freeze ppc_fp128 poison, !dbg [[DBG88:![0-9]+]]
+// CHECK-NEXT:    store ppc_fp128 [[FREEZE_POISON2]], ptr [[V3]], align 16, !dbg [[DBG88]]
+// CHECK-NEXT:      #dbg_declare(ptr [[V3]], [[META89:![0-9]+]], !DIExpression(), [[META90:![0-9]+]])
+// CHECK-NEXT:    [[TMP4:%.*]] = load ppc_fp128, ptr [[V1]], align 16, !dbg [[DBG91:![0-9]+]]
+// CHECK-NEXT:    [[TMP5:%.*]] = load ppc_fp128, ptr [[C_ADDR]], align 16, !dbg [[DBG92:![0-9]+]]
+// CHECK-NEXT:    [[MUL:%.*]] = fmul ppc_fp128 [[TMP4]], [[TMP5]], !dbg [[DBG93:![0-9]+]]
+// CHECK-NEXT:    store ppc_fp128 [[MUL]], ptr [[V3]], align 16, !dbg [[META90]]
+// CHECK-NEXT:    [[FREEZE_POISON3:%.*]] = freeze ppc_fp128 poison, !dbg [[DBG94:![0-9]+]]
+// CHECK-NEXT:    store ppc_fp128 [[FREEZE_POISON3]], ptr [[V4]], align 16, !dbg [[DBG94]]
+// CHECK-NEXT:      #dbg_declare(ptr [[V4]], [[META95:![0-9]+]], !DIExpression(), [[META96:![0-9]+]])
+// CHECK-NEXT:    [[TMP6:%.*]] = load ppc_fp128, ptr [[V2]], align 16, !dbg [[DBG97:![0-9]+]]
+// CHECK-NEXT:    [[TMP7:%.*]] = load ppc_fp128, ptr [[V3]], align 16, !dbg [[DBG98:![0-9]+]]
+// CHECK-NEXT:    [[DIV:%.*]] = fdiv ppc_fp128 [[TMP6]], [[TMP7]], !dbg [[DBG99:![0-9]+]]
+// CHECK-NEXT:    store ppc_fp128 [[DIV]], ptr [[V4]], align 16, !dbg [[META96]]
+// CHECK-NEXT:    [[TMP8:%.*]] = load ppc_fp128, ptr [[V4]], align 16, !dbg [[DBG100:![0-9]+]]
+// CHECK-NEXT:    ret ppc_fp128 [[TMP8]], !dbg [[DBG101:![0-9]+]]
+//
 __ibm128 func_arith(__ibm128 a, __ibm128 b, __ibm128 c) {
   __ibm128 v1 = a + b;
   __ibm128 v2 = a - c;
@@ -40,6 +126,29 @@ __ibm128 func_arith(__ibm128 a, __ibm128 b, __ibm128 c) {
   return v4;
 }
 
+// CHECK-LABEL: @_Z10func_vaargiz(
+// CHECK-NEXT:  entry:
+// CHECK-NEXT:    [[N_ADDR:%.*]] = alloca i32, align 4
+// CHECK-NEXT:    [[AP:%.*]] = alloca ptr, align 8
+// CHECK-NEXT:    [[R:%.*]] = alloca ppc_fp128, align 16
+// CHECK-NEXT:    store i32 [[N:%.*]], ptr [[N_ADDR]], align 4
+// CHECK-NEXT:      #dbg_declare(ptr [[N_ADDR]], [[META106:![0-9]+]], !DIExpression(), [[META107:![0-9]+]])
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison, !dbg [[DBG108:![0-9]+]]
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[AP]], align 8, !dbg [[DBG108]]
+// CHECK-NEXT:      #dbg_declare(ptr [[AP]], [[META109:![0-9]+]], !DIExpression(), [[META115:![0-9]+]])
+// CHECK-NEXT:    call void @llvm.va_start.p0(ptr [[AP]]), !dbg [[DBG116:![0-9]+]]
+// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze ppc_fp128 poison, !dbg [[DBG117:![0-9]+]]
+// CHECK-NEXT:    store ppc_fp128 [[FREEZE_POISON1]], ptr [[R]], align 16, !dbg [[DBG117]]
+// CHECK-NEXT:      #dbg_declare(ptr [[R]], [[META118:![0-9]+]], !DIExpression(), [[META119:![0-9]+]])
+// CHECK-NEXT:    [[ARGP_CUR:%.*]] = load ptr, ptr [[AP]], align 8, !dbg [[DBG120:![0-9]+]]
+// CHECK-NEXT:    [[ARGP_NEXT:%.*]] = getelementptr inbounds i8, ptr [[ARGP_CUR]], i64 16, !dbg [[DBG120]]
+// CHECK-NEXT:    store ptr [[ARGP_NEXT]], ptr [[AP]], align 8, !dbg [[DBG120]]
+// CHECK-NEXT:    [[TMP0:%.*]] = load ppc_fp128, ptr [[ARGP_CUR]], align 8, !dbg [[DBG120]], !freeze_bits [[META33]]
+// CHECK-NEXT:    store ppc_fp128 [[TMP0]], ptr [[R]], align 16, !dbg [[META119]]
+// CHECK-NEXT:    call void @llvm.va_end.p0(ptr [[AP]]), !dbg [[DBG121:![0-9]+]]
+// CHECK-NEXT:    [[TMP1:%.*]] = load ppc_fp128, ptr [[R]], align 16, !dbg [[DBG122:![0-9]+]]
+// CHECK-NEXT:    ret ppc_fp128 [[TMP1]], !dbg [[DBG123:![0-9]+]]
+//
 __ibm128 func_vaarg(int n, ...) {
   va_list ap;
   va_start(ap, n);
@@ -62,114 +171,67 @@ template <__ibm128 Q> struct T2 {
 typedef float w128ibm __attribute__((mode(IF)));
 typedef _Complex float w128ibm_c __attribute__((mode(IC)));
 
+// CHECK-LABEL: @_Z11icmode_selfg(
+// CHECK-NEXT:  entry:
+// CHECK-NEXT:    [[X_ADDR:%.*]] = alloca ppc_fp128, align 16
+// CHECK-NEXT:    store ppc_fp128 [[X:%.*]], ptr [[X_ADDR]], align 16
+// CHECK-NEXT:      #dbg_declare(ptr [[X_ADDR]], [[META128:![0-9]+]], !DIExpression(), [[META129:![0-9]+]])
+// CHECK-NEXT:    [[TMP0:%.*]] = load ppc_fp128, ptr [[X_ADDR]], align 16, !dbg [[DBG130:![0-9]+]]
+// CHECK-NEXT:    ret ppc_fp128 [[TMP0]], !dbg [[DBG131:![0-9]+]]
+//
 w128ibm icmode_self(w128ibm x) { return x; }
+// CHECK-LABEL: @_Z19icmode_self_complexCg(
+// CHECK-NEXT:  entry:
+// CHECK-NEXT:    [[RETVAL:%.*]] = alloca { ppc_fp128, ppc_fp128 }, align 16
+// CHECK-NEXT:    [[X:%.*]] = alloca { ppc_fp128, ppc_fp128 }, align 16
+// CHECK-NEXT:    [[TMP0:%.*]] = getelementptr inbounds nuw { ppc_fp128, ppc_fp128 }, ptr [[X]], i32 0, i32 0
+// CHECK-NEXT:    store ppc_fp128 [[X_COERCE0:%.*]], ptr [[TMP0]], align 16
+// CHECK-NEXT:    [[TMP1:%.*]] = getelementptr inbounds nuw { ppc_fp128, ppc_fp128 }, ptr [[X]], i32 0, i32 1
+// CHECK-NEXT:    store ppc_fp128 [[X_COERCE1:%.*]], ptr [[TMP1]], align 16
+// CHECK-NEXT:      #dbg_declare(ptr [[X]], [[META137:![0-9]+]], !DIExpression(), [[META138:![0-9]+]])
+// CHECK-NEXT:    [[X_REALP:%.*]] = getelementptr inbounds nuw { ppc_fp128, ppc_fp128 }, ptr [[X]], i32 0, i32 0, !dbg [[DBG139:![0-9]+]]
+// CHECK-NEXT:    [[X_REAL:%.*]] = load ppc_fp128, ptr [[X_REALP]], align 16, !dbg [[DBG139]], !freeze_bits [[META33]]
+// CHECK-NEXT:    [[X_IMAGP:%.*]] = getelementptr inbounds nuw { ppc_fp128, ppc_fp128 }, ptr [[X]], i32 0, i32 1, !dbg [[DBG139]]
+// CHECK-NEXT:    [[X_IMAG:%.*]] = load ppc_fp128, ptr [[X_IMAGP]], align 16, !dbg [[DBG139]], !freeze_bits [[META33]]
+// CHECK-NEXT:    [[RETVAL_REALP:%.*]] = getelementptr inbounds nuw { ppc_fp128, ppc_fp128 }, ptr [[RETVAL]], i32 0, i32 0, !dbg [[DBG140:![0-9]+]]
+// CHECK-NEXT:    [[RETVAL_IMAGP:%.*]] = getelementptr inbounds nuw { ppc_fp128, ppc_fp128 }, ptr [[RETVAL]], i32 0, i32 1, !dbg [[DBG140]]
+// CHECK-NEXT:    store ppc_fp128 [[X_REAL]], ptr [[RETVAL_REALP]], align 16, !dbg [[DBG140]]
+// CHECK-NEXT:    store ppc_fp128 [[X_IMAG]], ptr [[RETVAL_IMAGP]], align 16, !dbg [[DBG140]]
+// CHECK-NEXT:    [[TMP2:%.*]] = load { ppc_fp128, ppc_fp128 }, ptr [[RETVAL]], align 16, !dbg [[DBG140]], !freeze_bits [[META33]]
+// CHECK-NEXT:    ret { ppc_fp128, ppc_fp128 } [[TMP2]], !dbg [[DBG140]]
+//
 w128ibm_c icmode_self_complex(w128ibm_c x) { return x; }
 
+// CHECK-LABEL: @main(
+// CHECK-NEXT:  entry:
+// CHECK-NEXT:    [[LF:%.*]] = alloca ppc_fp128, align 16
+// CHECK-NEXT:    [[CT:%.*]] = alloca [[CLASS_CTEST:%.*]], align 16
+// CHECK-NEXT:    [[TF:%.*]] = alloca [[STRUCT_T1:%.*]], align 16
+// CHECK-NEXT:    [[LFI:%.*]] = alloca ppc_fp128, align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ppc_fp128 poison, !dbg [[DBG144:![0-9]+]]
+// CHECK-NEXT:    store ppc_fp128 [[FREEZE_POISON]], ptr [[LF]], align 16, !dbg [[DBG144]]
+// CHECK-NEXT:      #dbg_declare(ptr [[LF]], [[META145:![0-9]+]], !DIExpression(), [[META146:![0-9]+]])
+// CHECK-NEXT:      #dbg_declare(ptr [[CT]], [[META147:![0-9]+]], !DIExpression(), [[META148:![0-9]+]])
+// CHECK-NEXT:    [[TMP0:%.*]] = load ppc_fp128, ptr [[LF]], align 16, !dbg [[DBG149:![0-9]+]]
+// CHECK-NEXT:    call void @_ZN5CTestC1Eg(ptr noundef nonnull align 16 dereferenceable(32) [[CT]], ppc_fp128 noundef [[TMP0]]), !dbg [[META148]]
+// CHECK-NEXT:      #dbg_declare(ptr [[TF]], [[META150:![0-9]+]], !DIExpression(), [[META156:![0-9]+]])
+// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze ppc_fp128 poison, !dbg [[DBG157:![0-9]+]]
+// CHECK-NEXT:    store ppc_fp128 [[FREEZE_POISON1]], ptr [[LFI]], align 16, !dbg [[DBG157]]
+// CHECK-NEXT:      #dbg_declare(ptr [[LFI]], [[META158:![0-9]+]], !DIExpression(), [[META159:![0-9]+]])
+// CHECK-NEXT:    [[MEM2:%.*]] = getelementptr inbounds nuw [[STRUCT_T1]], ptr [[TF]], i32 0, i32 0, !dbg [[DBG160:![0-9]+]]
+// CHECK-NEXT:    [[TMP1:%.*]] = load ppc_fp128, ptr [[MEM2]], align 16, !dbg [[DBG160]], !freeze_bits [[META33]]
+// CHECK-NEXT:    [[TMP2:%.*]] = load ppc_fp128, ptr [[LF]], align 16, !dbg [[DBG161:![0-9]+]]
+// CHECK-NEXT:    [[CALL:%.*]] = call noundef ppc_fp128 @_Z5func1g(ppc_fp128 noundef [[TMP2]]), !dbg [[DBG162:![0-9]+]]
+// CHECK-NEXT:    [[ADD:%.*]] = fadd ppc_fp128 [[TMP1]], [[CALL]], !dbg [[DBG163:![0-9]+]]
+// CHECK-NEXT:    [[TMP3:%.*]] = load ppc_fp128, ptr [[LF]], align 16, !dbg [[DBG164:![0-9]+]]
+// CHECK-NEXT:    [[CALL2:%.*]] = call noundef ppc_fp128 @_ZN5CTest5func3Eg(ppc_fp128 noundef [[TMP3]]), !dbg [[DBG165:![0-9]+]]
+// CHECK-NEXT:    [[SUB:%.*]] = fsub ppc_fp128 [[ADD]], [[CALL2]], !dbg [[DBG166:![0-9]+]]
+// CHECK-NEXT:    store ppc_fp128 [[SUB]], ptr [[LFI]], align 16, !dbg [[META159]]
+// CHECK-NEXT:    ret i32 0, !dbg [[DBG167:![0-9]+]]
+//
 int main(void) {
   __ibm128 lf;
   CTest ct(lf);
   T1<__ibm128> tf;
   __ibm128 lfi = tf.mem2 + func1(lf) - CTest::func3(lf);
 }
-
-// CHECK: %class.CTest = type { ppc_fp128, ppc_fp128 }
-// CHECK: %struct.T1 = type { ppc_fp128 }
-
-// CHECK: @arrgf = global [10 x ppc_fp128] zeroinitializer, align 16
-// CHECK: @gf = global ppc_fp128 0xM40080000000000000000000000000000, align 16
-// CHECK: @_ZN5CTest3scfE = external constant ppc_fp128, align 16
-
-// CHECK: define dso_local noundef ppc_fp128 @_Z10func_arithggg(ppc_fp128 noundef %a, ppc_fp128 noundef %b, ppc_fp128 noundef %c)
-// CHECK: entry:
-// CHECK:   store ppc_fp128 %a, ptr %a.addr, align 16
-// CHECK:   store ppc_fp128 %b, ptr %b.addr, align 16
-// CHECK:   store ppc_fp128 %c, ptr %c.addr, align 16
-// CHECK:   %0 = load ppc_fp128, ptr %a.addr, align 16
-// CHECK:   %1 = load ppc_fp128, ptr %b.addr, align 16
-// CHECK:   %add = fadd ppc_fp128 %0, %1
-// CHECK:   store ppc_fp128 %add, ptr %v1, align 16
-// CHECK:   %2 = load ppc_fp128, ptr %a.addr, align 16
-// CHECK:   %3 = load ppc_fp128, ptr %c.addr, align 16
-// CHECK:   %sub = fsub ppc_fp128 %2, %3
-// CHECK:   store ppc_fp128 %sub, ptr %v2, align 16
-// CHECK:   %4 = load ppc_fp128, ptr %v1, align 16
-// CHECK:   %5 = load ppc_fp128, ptr %c.addr, align 16
-// CHECK:   %mul = fmul ppc_fp128 %4, %5
-// CHECK:   store ppc_fp128 %mul, ptr %v3, align 16
-// CHECK:   %6 = load ppc_fp128, ptr %v2, align 16
-// CHECK:   %7 = load ppc_fp128, ptr %v3, align 16
-// CHECK:   %div = fdiv ppc_fp128 %6, %7
-// CHECK:   store ppc_fp128 %div, ptr %v4, align 16
-// CHECK:   %8 = load ppc_fp128, ptr %v4, align 16
-// CHECK:   ret ppc_fp128 %8
-// CHECK: }
-
-// CHECK: define dso_local noundef ppc_fp128 @_Z10func_vaargiz(i32 noundef signext %n, ...)
-// CHECK: entry:
-// CHECK:   store i32 %n, ptr %n.addr, align 4
-// CHECK:   call void @llvm.va_start.p0(ptr %ap)
-// CHECK:   %argp.cur = load ptr, ptr %ap, align 8
-// CHECK:   %argp.next = getelementptr inbounds i8, ptr %argp.cur, i64 16
-// CHECK:   store ptr %argp.next, ptr %ap, align 8
-// CHECK:   %0 = load ppc_fp128, ptr %argp.cur, align 8
-// CHECK:   store ppc_fp128 %0, ptr %r, align 16
-// CHECK:   call void @llvm.va_end.p0(ptr %ap)
-// CHECK:   %1 = load ppc_fp128, ptr %r, align 16
-// CHECK:   ret ppc_fp128 %1
-// CHECK: }
-
-// CHECK: define dso_local noundef ppc_fp128 @_Z11icmode_selfg(ppc_fp128 noundef %x)
-// CHECK: define dso_local noundef { ppc_fp128, ppc_fp128 } @_Z19icmode_self_complexCg(ppc_fp128 noundef %x.coerce0, ppc_fp128 noundef %x.coerce1)
-
-// CHECK: define dso_local noundef signext i32 @main()
-// CHECK: entry:
-// CHECK:   %0 = load ppc_fp128, ptr %lf, align 16
-// CHECK:   call void @_ZN5CTestC1Eg(ptr noundef nonnull align 16 dereferenceable(32) %ct, ppc_fp128 noundef %0)
-// CHECK:   %mem2 = getelementptr inbounds nuw %struct.T1, ptr %tf, i32 0, i32 0
-// CHECK:   %1 = load ppc_fp128, ptr %mem2, align 16
-// CHECK:   %2 = load ppc_fp128, ptr %lf, align 16
-// CHECK:   %call = call noundef ppc_fp128 @_Z5func1g(ppc_fp128 noundef %2)
-// CHECK:   %add = fadd ppc_fp128 %1, %call
-// CHECK:   %3 = load ppc_fp128, ptr %lf, align 16
-// CHECK:   %call1 = call noundef ppc_fp128 @_ZN5CTest5func3Eg(ppc_fp128 noundef %3)
-// CHECK:   %sub = fsub ppc_fp128 %add, %call1
-// CHECK:   store ppc_fp128 %sub, ptr %lfi, align 16
-// CHECK:   ret i32 0
-// CHECK: }
-
-// CHECK: define linkonce_odr void @_ZN5CTestC1Eg(ptr noundef nonnull align 16 dereferenceable(32) %this, ppc_fp128 noundef %arg)
-// CHECK: entry:
-// CHECK:   store ptr %this, ptr %this.addr, align 8
-// CHECK:   store ppc_fp128 %arg, ptr %arg.addr, align 16
-// CHECK:   %this1 = load ptr, ptr %this.addr, align 8
-// CHECK:   %0 = load ppc_fp128, ptr %arg.addr, align 16
-// CHECK:   call void @_ZN5CTestC2Eg(ptr noundef nonnull align 16 dereferenceable(32) %this1, ppc_fp128 noundef %0)
-// CHECK:   ret void
-// CHECK: }
-
-// CHECK: define linkonce_odr noundef ppc_fp128 @_ZN5CTest5func3Eg(ppc_fp128 noundef %arg)
-// CHECK: entry:
-// CHECK:   %arg.addr = alloca ppc_fp128, align 16
-// CHECK:   store ppc_fp128 %arg, ptr %arg.addr, align 16
-// CHECK:   %0 = load ppc_fp128, ptr %arg.addr, align 16
-// CHECK:   %1 = load ppc_fp128, ptr @_ZN5CTest3scfE, align 16
-// CHECK:   %mul = fmul ppc_fp128 %0, %1
-// CHECK:   ret ppc_fp128 %mul
-// CHECK: }
-
-// CHECK: define linkonce_odr void @_ZN5CTestC2Eg(ptr noundef nonnull align 16 dereferenceable(32) %this, ppc_fp128 noundef %arg)
-// CHECK: entry:
-// CHECK:   store ptr %this, ptr %this.addr, align 8
-// CHECK:   store ppc_fp128 %arg, ptr %arg.addr, align 16
-// CHECK:   %this1 = load ptr, ptr %this.addr, align 8
-// CHECK:   %pf = getelementptr inbounds nuw %class.CTest, ptr %this1, i32 0, i32 0
-// CHECK:   %0 = load ppc_fp128, ptr %arg.addr, align 16
-// CHECK:   store ppc_fp128 %0, ptr %pf, align 16
-// CHECK:   %vf = getelementptr inbounds nuw %class.CTest, ptr %this1, i32 0, i32 1
-// CHECK:   %1 = load ppc_fp128, ptr %arg.addr, align 16
-// CHECK:   store volatile ppc_fp128 %1, ptr %vf, align 16
-// CHECK:   ret void
-// CHECK: }
-
-// CHECK: !6 = distinct !DIGlobalVariable(name: "gf", scope: !2, file: !7, line: {{[0-9]+}}, type: !8, isLocal: false, isDefinition: true)
-// CHECK: !8 = !DIBasicType(name: "__ibm128", size: 128, encoding: DW_ATE_float)
