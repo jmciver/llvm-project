@@ -45,9 +45,11 @@ define dso_local void @foo(i32 noundef %arg, ptr noundef nonnull align 4 derefer
 ; CHECK-NEXT:    [[I24:%.*]] = or disjoint i32 [[I4_05]], 1
 ; CHECK-NEXT:    [[I21_1:%.*]] = mul nsw i32 [[I3_SROA_8_0]], [[I24]]
 ; CHECK-NEXT:    [[I24_1:%.*]] = or disjoint i32 [[I4_05]], 2
-; CHECK-NEXT:    [[I21_2]] = mul nsw i32 [[I21]], [[I24_1]]
+; CHECK-NEXT:    [[I21_4:%.*]] = mul nsw i32 [[I21]], [[I24_1]]
+; CHECK-NEXT:    [[I21_2]] = freeze i32 [[I21_4]]
 ; CHECK-NEXT:    [[I24_2:%.*]] = or disjoint i32 [[I4_05]], 3
-; CHECK-NEXT:    [[I21_3]] = mul nsw i32 [[I21_1]], [[I24_2]]
+; CHECK-NEXT:    [[I21_5:%.*]] = mul nsw i32 [[I21_1]], [[I24_2]]
+; CHECK-NEXT:    [[I21_3]] = freeze i32 [[I21_5]]
 ; CHECK-NEXT:    [[I24_3]] = add nuw nsw i32 [[I4_05]], 4
 ; CHECK-NEXT:    [[I11_NOT_3:%.*]] = icmp eq i32 [[I24_3]], [[I10]]
 ; CHECK-NEXT:    br i1 [[I11_NOT_3]], label [[BB12_LOOPEXIT]], label [[BB13]], !llvm.loop [[LOOP8:![0-9]+]]

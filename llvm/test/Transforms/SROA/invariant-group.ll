@@ -91,7 +91,7 @@ define void @store_and_launder() {
 
 define i32 @launder_and_load() {
 ; CHECK-LABEL: @launder_and_load(
-; CHECK-NEXT:    ret i32 undef
+; CHECK-NEXT:    ret i32 poison
 ;
   %valptr = alloca i32, align 4
   %barr = call ptr @llvm.launder.invariant.group.p0(ptr %valptr)

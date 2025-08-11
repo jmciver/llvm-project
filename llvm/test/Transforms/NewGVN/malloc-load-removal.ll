@@ -12,7 +12,7 @@ define noalias ptr @test1() nounwind uwtable ssp {
 ; CHECK-SAME: ) #[[ATTR1:[0-9]+]] {
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    [[CALL:%.*]] = tail call ptr @malloc(i64 100) #[[ATTR2:[0-9]+]]
-; CHECK-NEXT:    br i1 undef, label [[IF_END:%.*]], label [[IF_THEN:%.*]]
+; CHECK-NEXT:    br i1 poison, label [[IF_END:%.*]], label [[IF_THEN:%.*]]
 ; CHECK:       if.then:
 ; CHECK-NEXT:    store i8 0, ptr [[CALL]], align 1
 ; CHECK-NEXT:    br label [[IF_END]]
@@ -41,7 +41,7 @@ define noalias ptr @test2() nounwind uwtable ssp {
 ; CHECK-SAME: ) #[[ATTR1]] {
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    [[CALL:%.*]] = tail call ptr @_Znwm(i64 100) #[[ATTR2]]
-; CHECK-NEXT:    br i1 undef, label [[IF_END:%.*]], label [[IF_THEN:%.*]]
+; CHECK-NEXT:    br i1 poison, label [[IF_END:%.*]], label [[IF_THEN:%.*]]
 ; CHECK:       if.then:
 ; CHECK-NEXT:    store i8 0, ptr [[CALL]], align 1
 ; CHECK-NEXT:    br label [[IF_END]]
@@ -70,7 +70,7 @@ define noalias ptr @test3() nounwind uwtable ssp {
 ; CHECK-SAME: ) #[[ATTR1]] {
 ; CHECK-NEXT:  entry:
 ; CHECK-NEXT:    [[CALL:%.*]] = tail call ptr @aligned_alloc(i64 256, i64 32) #[[ATTR2]]
-; CHECK-NEXT:    br i1 undef, label [[IF_END:%.*]], label [[IF_THEN:%.*]]
+; CHECK-NEXT:    br i1 poison, label [[IF_END:%.*]], label [[IF_THEN:%.*]]
 ; CHECK:       if.then:
 ; CHECK-NEXT:    store i8 0, ptr [[CALL]], align 1
 ; CHECK-NEXT:    br label [[IF_END]]

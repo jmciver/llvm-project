@@ -11,7 +11,7 @@ declare void @llvm.memcpy.p1.p1.i32(ptr addrspace(1) nocapture, ptr addrspace(1)
 
 define void @test_address_space_1_1(ptr addrspace(1) %a, ptr addrspace(1) %b) {
 ; CHECK-LABEL: @test_address_space_1_1(
-; CHECK-NEXT:    [[AA_0_COPYLOAD:%.*]] = load <2 x i64>, ptr addrspace(1) [[A:%.*]], align 2
+; CHECK-NEXT:    [[AA_0_COPYLOAD:%.*]] = load <2 x i64>, ptr addrspace(1) [[A:%.*]], align 2, !freeze_bits [[META0:![0-9]+]]
 ; CHECK-NEXT:    store <2 x i64> [[AA_0_COPYLOAD]], ptr addrspace(1) [[B:%.*]], align 2
 ; CHECK-NEXT:    ret void
 ;
@@ -23,7 +23,7 @@ define void @test_address_space_1_1(ptr addrspace(1) %a, ptr addrspace(1) %b) {
 
 define void @test_address_space_1_0(ptr addrspace(1) %a, ptr addrspace(2) %b) {
 ; CHECK-LABEL: @test_address_space_1_0(
-; CHECK-NEXT:    [[AA_0_COPYLOAD:%.*]] = load <2 x i64>, ptr addrspace(1) [[A:%.*]], align 2
+; CHECK-NEXT:    [[AA_0_COPYLOAD:%.*]] = load <2 x i64>, ptr addrspace(1) [[A:%.*]], align 2, !freeze_bits [[META0]]
 ; CHECK-NEXT:    store <2 x i64> [[AA_0_COPYLOAD]], ptr addrspace(2) [[B:%.*]], align 2
 ; CHECK-NEXT:    ret void
 ;
@@ -35,7 +35,7 @@ define void @test_address_space_1_0(ptr addrspace(1) %a, ptr addrspace(2) %b) {
 
 define void @test_address_space_0_1(ptr addrspace(2) %a, ptr addrspace(1) %b) {
 ; CHECK-LABEL: @test_address_space_0_1(
-; CHECK-NEXT:    [[AA_0_COPYLOAD:%.*]] = load <2 x i64>, ptr addrspace(2) [[A:%.*]], align 2
+; CHECK-NEXT:    [[AA_0_COPYLOAD:%.*]] = load <2 x i64>, ptr addrspace(2) [[A:%.*]], align 2, !freeze_bits [[META0]]
 ; CHECK-NEXT:    store <2 x i64> [[AA_0_COPYLOAD]], ptr addrspace(1) [[B:%.*]], align 2
 ; CHECK-NEXT:    ret void
 ;
@@ -60,7 +60,8 @@ define void @copy_struct([5 x i64] %in.coerce, ptr addrspace(1) align 4 %ptr) {
 ; CHECK-NEXT:    [[IN_SROA_4_20_PTR_SROA_IDX:%.*]] = getelementptr inbounds i8, ptr addrspace(1) [[PTR]], i16 4
 ; CHECK-NEXT:    store i64 [[IN_COERCE_FCA_3_EXTRACT]], ptr addrspace(1) [[IN_SROA_4_20_PTR_SROA_IDX]], align 4
 ; CHECK-NEXT:    [[IN_SROA_5_20_PTR_SROA_IDX:%.*]] = getelementptr inbounds i8, ptr addrspace(1) [[PTR]], i16 12
-; CHECK-NEXT:    store i32 undef, ptr addrspace(1) [[IN_SROA_5_20_PTR_SROA_IDX]], align 4
+; CHECK-NEXT:    [[FREEZE:%.*]] = freeze i32 poison
+; CHECK-NEXT:    store i32 [[FREEZE]], ptr addrspace(1) [[IN_SROA_5_20_PTR_SROA_IDX]], align 4
 ; CHECK-NEXT:    ret void
 ;
 for.end:

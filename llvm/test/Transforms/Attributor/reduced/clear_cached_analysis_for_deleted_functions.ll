@@ -18,8 +18,8 @@ define i32 @clause_LiteralComputeWeight(ptr %call23) {
 ; CGSCC:       do.body:
 ; CGSCC-NEXT:    [[TERM_0:%.*]] = phi ptr [ null, [[ENTRY:%.*]] ], [ [[CALL24:%.*]], [[DO_BODY]] ]
 ; CGSCC-NEXT:    [[CALL2:%.*]] = load volatile i32, ptr [[TERM_0]], align 4
-; CGSCC-NEXT:    [[CALL23_VAL:%.*]] = load ptr, ptr [[CALL23]], align 8
-; CGSCC-NEXT:    [[CALL24]] = call ptr @list_Car(ptr nofree readonly [[CALL23_VAL]]) #[[ATTR3:[0-9]+]]
+; CGSCC-NEXT:    [[CALL23_VAL:%.*]] = load ptr, ptr [[CALL23]], align 8, !freeze_bits [[META0:![0-9]+]]
+; CGSCC-NEXT:    [[CALL24]] = call ptr @list_Car(ptr nofree noundef readonly [[CALL23_VAL]]) #[[ATTR3:[0-9]+]]
 ; CGSCC-NEXT:    br label [[DO_BODY]]
 ;
 entry:
@@ -60,4 +60,6 @@ entry:
 ; CGSCC: attributes #[[ATTR1]] = { mustprogress nofree norecurse nosync nounwind willreturn memory(none) }
 ; CGSCC: attributes #[[ATTR2]] = { mustprogress nofree norecurse nosync nounwind willreturn memory(argmem: read) }
 ; CGSCC: attributes #[[ATTR3]] = { nofree }
+;.
+; CGSCC: [[META0]] = !{}
 ;.
