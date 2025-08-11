@@ -7,7 +7,7 @@ declare void @free(ptr) allockind("free") "alloc-family"="malloc"
 ; Test load from uninitialized alloca - should be removed and replaced with undef
 define i32 @test_load_uninitialized_alloca() {
 ; CHECK-LABEL: @test_load_uninitialized_alloca(
-; CHECK-NEXT:    ret i32 undef
+; CHECK-NEXT:    ret i32 poison
 ;
   %a = alloca i32
   %v = load i32, ptr %a
@@ -81,7 +81,7 @@ define void @test_read_then_write_alloca() {
 ; Test load through GEP from uninitialized alloca
 define i8 @test_load_gep_uninitialized_alloca() {
 ; CHECK-LABEL: @test_load_gep_uninitialized_alloca(
-; CHECK-NEXT:    ret i8 undef
+; CHECK-NEXT:    ret i8 poison
 ;
   %a = alloca [4 x i8]
   %gep = getelementptr [4 x i8], ptr %a, i32 0, i32 2
@@ -92,7 +92,7 @@ define i8 @test_load_gep_uninitialized_alloca() {
 ; Test load through bitcast from uninitialized alloca
 define i16 @test_load_bitcast_uninitialized_alloca() {
 ; CHECK-LABEL: @test_load_bitcast_uninitialized_alloca(
-; CHECK-NEXT:    ret i16 undef
+; CHECK-NEXT:    ret i16 poison
 ;
   %a = alloca i32
   %bc = bitcast ptr %a to ptr
@@ -115,7 +115,7 @@ define void @test_memmove_from_zero_initialized_malloc(ptr %dest) {
 ; Test multiple loads from same uninitialized alloca
 define { i32, i32 } @test_multiple_loads_uninitialized_alloca() {
 ; CHECK-LABEL: @test_multiple_loads_uninitialized_alloca(
-; CHECK-NEXT:    ret { i32, i32 } undef
+; CHECK-NEXT:    ret { i32, i32 } poison
 ;
   %a = alloca [2 x i32]
   %gep1 = getelementptr [2 x i32], ptr %a, i32 0, i32 0

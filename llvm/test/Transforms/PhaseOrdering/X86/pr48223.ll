@@ -9,43 +9,43 @@
 define { i64, i64 } @compute_min(ptr noundef nonnull align 2 dereferenceable(16) %x, ptr noundef nonnull align 2 dereferenceable(16) %y) {
 ; SSE2-LABEL: @compute_min(
 ; SSE2-NEXT:  entry:
-; SSE2-NEXT:    [[LD0:%.*]] = load i16, ptr [[Y:%.*]], align 2
-; SSE2-NEXT:    [[LD1:%.*]] = load i16, ptr [[X:%.*]], align 2
+; SSE2-NEXT:    [[LD0:%.*]] = load i16, ptr [[Y:%.*]], align 2, !freeze_bits [[META0:![0-9]+]]
+; SSE2-NEXT:    [[LD1:%.*]] = load i16, ptr [[X:%.*]], align 2, !freeze_bits [[META0]]
 ; SSE2-NEXT:    [[LD2:%.*]] = tail call i16 @llvm.smin.i16(i16 [[LD0]], i16 [[LD1]])
 ; SSE2-NEXT:    [[PT1_1:%.*]] = getelementptr inbounds nuw i8, ptr [[X]], i64 2
 ; SSE2-NEXT:    [[PT0_1:%.*]] = getelementptr inbounds nuw i8, ptr [[Y]], i64 2
-; SSE2-NEXT:    [[LD0_1:%.*]] = load i16, ptr [[PT0_1]], align 2
-; SSE2-NEXT:    [[LD1_1:%.*]] = load i16, ptr [[PT1_1]], align 2
+; SSE2-NEXT:    [[LD0_1:%.*]] = load i16, ptr [[PT0_1]], align 2, !freeze_bits [[META0]]
+; SSE2-NEXT:    [[LD1_1:%.*]] = load i16, ptr [[PT1_1]], align 2, !freeze_bits [[META0]]
 ; SSE2-NEXT:    [[LD2_1:%.*]] = tail call i16 @llvm.smin.i16(i16 [[LD0_1]], i16 [[LD1_1]])
 ; SSE2-NEXT:    [[PT1_2:%.*]] = getelementptr inbounds nuw i8, ptr [[X]], i64 4
 ; SSE2-NEXT:    [[PT0_2:%.*]] = getelementptr inbounds nuw i8, ptr [[Y]], i64 4
-; SSE2-NEXT:    [[LD0_2:%.*]] = load i16, ptr [[PT0_2]], align 2
-; SSE2-NEXT:    [[LD1_2:%.*]] = load i16, ptr [[PT1_2]], align 2
+; SSE2-NEXT:    [[LD0_2:%.*]] = load i16, ptr [[PT0_2]], align 2, !freeze_bits [[META0]]
+; SSE2-NEXT:    [[LD1_2:%.*]] = load i16, ptr [[PT1_2]], align 2, !freeze_bits [[META0]]
 ; SSE2-NEXT:    [[LD2_2:%.*]] = tail call i16 @llvm.smin.i16(i16 [[LD0_2]], i16 [[LD1_2]])
 ; SSE2-NEXT:    [[PT1_3:%.*]] = getelementptr inbounds nuw i8, ptr [[X]], i64 6
 ; SSE2-NEXT:    [[PT0_3:%.*]] = getelementptr inbounds nuw i8, ptr [[Y]], i64 6
-; SSE2-NEXT:    [[LD0_3:%.*]] = load i16, ptr [[PT0_3]], align 2
-; SSE2-NEXT:    [[LD1_3:%.*]] = load i16, ptr [[PT1_3]], align 2
+; SSE2-NEXT:    [[LD0_3:%.*]] = load i16, ptr [[PT0_3]], align 2, !freeze_bits [[META0]]
+; SSE2-NEXT:    [[LD1_3:%.*]] = load i16, ptr [[PT1_3]], align 2, !freeze_bits [[META0]]
 ; SSE2-NEXT:    [[LD2_3:%.*]] = tail call i16 @llvm.smin.i16(i16 [[LD0_3]], i16 [[LD1_3]])
 ; SSE2-NEXT:    [[PT1_4:%.*]] = getelementptr inbounds nuw i8, ptr [[X]], i64 8
 ; SSE2-NEXT:    [[PT0_4:%.*]] = getelementptr inbounds nuw i8, ptr [[Y]], i64 8
-; SSE2-NEXT:    [[LD0_4:%.*]] = load i16, ptr [[PT0_4]], align 2
-; SSE2-NEXT:    [[LD1_4:%.*]] = load i16, ptr [[PT1_4]], align 2
+; SSE2-NEXT:    [[LD0_4:%.*]] = load i16, ptr [[PT0_4]], align 2, !freeze_bits [[META0]]
+; SSE2-NEXT:    [[LD1_4:%.*]] = load i16, ptr [[PT1_4]], align 2, !freeze_bits [[META0]]
 ; SSE2-NEXT:    [[LD2_4:%.*]] = tail call i16 @llvm.smin.i16(i16 [[LD0_4]], i16 [[LD1_4]])
 ; SSE2-NEXT:    [[PT1_5:%.*]] = getelementptr inbounds nuw i8, ptr [[X]], i64 10
 ; SSE2-NEXT:    [[PT0_5:%.*]] = getelementptr inbounds nuw i8, ptr [[Y]], i64 10
-; SSE2-NEXT:    [[LD0_5:%.*]] = load i16, ptr [[PT0_5]], align 2
-; SSE2-NEXT:    [[LD1_5:%.*]] = load i16, ptr [[PT1_5]], align 2
+; SSE2-NEXT:    [[LD0_5:%.*]] = load i16, ptr [[PT0_5]], align 2, !freeze_bits [[META0]]
+; SSE2-NEXT:    [[LD1_5:%.*]] = load i16, ptr [[PT1_5]], align 2, !freeze_bits [[META0]]
 ; SSE2-NEXT:    [[LD2_5:%.*]] = tail call i16 @llvm.smin.i16(i16 [[LD0_5]], i16 [[LD1_5]])
 ; SSE2-NEXT:    [[PT1_6:%.*]] = getelementptr inbounds nuw i8, ptr [[X]], i64 12
 ; SSE2-NEXT:    [[PT0_6:%.*]] = getelementptr inbounds nuw i8, ptr [[Y]], i64 12
-; SSE2-NEXT:    [[LD0_6:%.*]] = load i16, ptr [[PT0_6]], align 2
-; SSE2-NEXT:    [[LD1_6:%.*]] = load i16, ptr [[PT1_6]], align 2
+; SSE2-NEXT:    [[LD0_6:%.*]] = load i16, ptr [[PT0_6]], align 2, !freeze_bits [[META0]]
+; SSE2-NEXT:    [[LD1_6:%.*]] = load i16, ptr [[PT1_6]], align 2, !freeze_bits [[META0]]
 ; SSE2-NEXT:    [[LD2_6:%.*]] = tail call i16 @llvm.smin.i16(i16 [[LD0_6]], i16 [[LD1_6]])
 ; SSE2-NEXT:    [[PT1_7:%.*]] = getelementptr inbounds nuw i8, ptr [[X]], i64 14
 ; SSE2-NEXT:    [[PT0_7:%.*]] = getelementptr inbounds nuw i8, ptr [[Y]], i64 14
-; SSE2-NEXT:    [[LD0_7:%.*]] = load i16, ptr [[PT0_7]], align 2
-; SSE2-NEXT:    [[LD1_7:%.*]] = load i16, ptr [[PT1_7]], align 2
+; SSE2-NEXT:    [[LD0_7:%.*]] = load i16, ptr [[PT0_7]], align 2, !freeze_bits [[META0]]
+; SSE2-NEXT:    [[LD1_7:%.*]] = load i16, ptr [[PT1_7]], align 2, !freeze_bits [[META0]]
 ; SSE2-NEXT:    [[LD2_7:%.*]] = tail call i16 @llvm.smin.i16(i16 [[LD0_7]], i16 [[LD1_7]])
 ; SSE2-NEXT:    [[RETVAL_SROA_4_0_INSERT_EXT:%.*]] = zext i16 [[LD2_3]] to i64
 ; SSE2-NEXT:    [[RETVAL_SROA_4_0_INSERT_SHIFT:%.*]] = shl nuw i64 [[RETVAL_SROA_4_0_INSERT_EXT]], 48
@@ -73,8 +73,8 @@ define { i64, i64 } @compute_min(ptr noundef nonnull align 2 dereferenceable(16)
 ;
 ; SSE4-LABEL: @compute_min(
 ; SSE4-NEXT:  entry:
-; SSE4-NEXT:    [[TMP0:%.*]] = load <8 x i16>, ptr [[Y:%.*]], align 2
-; SSE4-NEXT:    [[TMP1:%.*]] = load <8 x i16>, ptr [[X:%.*]], align 2
+; SSE4-NEXT:    [[TMP0:%.*]] = load <8 x i16>, ptr [[Y:%.*]], align 2, !freeze_bits [[META0:![0-9]+]]
+; SSE4-NEXT:    [[TMP1:%.*]] = load <8 x i16>, ptr [[X:%.*]], align 2, !freeze_bits [[META0]]
 ; SSE4-NEXT:    [[TMP2:%.*]] = tail call <8 x i16> @llvm.smin.v8i16(<8 x i16> [[TMP0]], <8 x i16> [[TMP1]])
 ; SSE4-NEXT:    [[TMP3:%.*]] = shufflevector <8 x i16> [[TMP2]], <8 x i16> poison, <2 x i32> <i32 0, i32 4>
 ; SSE4-NEXT:    [[TMP4:%.*]] = tail call <8 x i16> @llvm.smin.v8i16(<8 x i16> [[TMP0]], <8 x i16> [[TMP1]])
@@ -101,8 +101,8 @@ define { i64, i64 } @compute_min(ptr noundef nonnull align 2 dereferenceable(16)
 ;
 ; AVX-LABEL: @compute_min(
 ; AVX-NEXT:  entry:
-; AVX-NEXT:    [[TMP0:%.*]] = load <8 x i16>, ptr [[Y:%.*]], align 2
-; AVX-NEXT:    [[TMP1:%.*]] = load <8 x i16>, ptr [[X:%.*]], align 2
+; AVX-NEXT:    [[TMP0:%.*]] = load <8 x i16>, ptr [[Y:%.*]], align 2, !freeze_bits [[META0:![0-9]+]]
+; AVX-NEXT:    [[TMP1:%.*]] = load <8 x i16>, ptr [[X:%.*]], align 2, !freeze_bits [[META0]]
 ; AVX-NEXT:    [[TMP2:%.*]] = tail call <8 x i16> @llvm.smin.v8i16(<8 x i16> [[TMP0]], <8 x i16> [[TMP1]])
 ; AVX-NEXT:    [[TMP3:%.*]] = shufflevector <8 x i16> [[TMP2]], <8 x i16> poison, <2 x i32> <i32 0, i32 4>
 ; AVX-NEXT:    [[TMP4:%.*]] = tail call <8 x i16> @llvm.smin.v8i16(<8 x i16> [[TMP0]], <8 x i16> [[TMP1]])

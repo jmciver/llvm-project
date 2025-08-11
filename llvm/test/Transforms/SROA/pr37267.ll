@@ -43,14 +43,18 @@ bb1:
 define i16 @f2() {
 ; CHECK-LABEL: @f2(
 ; CHECK-NEXT:  bb1:
-; CHECK-NEXT:    [[A_3_SROA_2_2_INSERT_EXT:%.*]] = zext i16 undef to i32
-; CHECK-NEXT:    [[A_3_SROA_2_2_INSERT_MASK:%.*]] = and i32 undef, -65536
+; CHECK-NEXT:    [[TMP0:%.*]] = freeze i32 poison
+; CHECK-NEXT:    [[TMP1:%.*]] = freeze i16 poison
+; CHECK-NEXT:    [[A_3_SROA_2_2_INSERT_EXT:%.*]] = zext i16 [[TMP1]] to i32
+; CHECK-NEXT:    [[A_3_SROA_2_2_INSERT_MASK:%.*]] = and i32 [[TMP0]], -65536
 ; CHECK-NEXT:    [[A_3_SROA_2_2_INSERT_INSERT:%.*]] = or i32 [[A_3_SROA_2_2_INSERT_MASK]], [[A_3_SROA_2_2_INSERT_EXT]]
-; CHECK-NEXT:    [[A_3_SROA_0_2_INSERT_EXT:%.*]] = zext i16 undef to i32
+; CHECK-NEXT:    [[TMP2:%.*]] = freeze i32 [[A_3_SROA_2_2_INSERT_INSERT]]
+; CHECK-NEXT:    [[TMP3:%.*]] = freeze i16 poison
+; CHECK-NEXT:    [[A_3_SROA_0_2_INSERT_EXT:%.*]] = zext i16 [[TMP3]] to i32
 ; CHECK-NEXT:    [[A_3_SROA_0_2_INSERT_SHIFT:%.*]] = shl i32 [[A_3_SROA_0_2_INSERT_EXT]], 16
-; CHECK-NEXT:    [[A_3_SROA_0_2_INSERT_MASK:%.*]] = and i32 [[A_3_SROA_2_2_INSERT_INSERT]], 65535
+; CHECK-NEXT:    [[A_3_SROA_0_2_INSERT_MASK:%.*]] = and i32 [[TMP2]], 65535
 ; CHECK-NEXT:    [[A_3_SROA_0_2_INSERT_INSERT:%.*]] = or i32 [[A_3_SROA_0_2_INSERT_MASK]], [[A_3_SROA_0_2_INSERT_SHIFT]]
-; CHECK-NEXT:    [[RC:%.*]] = add i16 2, undef
+; CHECK-NEXT:    [[RC:%.*]] = add i16 2, poison
 ; CHECK-NEXT:    ret i16 [[RC]]
 ;
 bb1:

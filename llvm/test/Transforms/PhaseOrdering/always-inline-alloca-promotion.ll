@@ -15,7 +15,7 @@ define void @pluto() #0 {
 ; CHECK-NEXT:    [[TMP3:%.*]] = tail call <vscale x 16 x float> @llvm.vector.insert.nxv16f32.nxv4f32(<vscale x 16 x float> zeroinitializer, <vscale x 4 x float> zeroinitializer, i64 0)
 ; CHECK-NEXT:    br label %[[SNORK_EXIT:.*]]
 ; CHECK:       [[SNORK_EXIT]]:
-; CHECK-NEXT:    [[DOT0:%.*]] = phi <vscale x 16 x float> [ undef, [[TMP0:%.*]] ], [ [[SPEC_SELECT:%.*]], %[[SNORK_EXIT]] ]
+; CHECK-NEXT:    [[DOT0:%.*]] = phi <vscale x 16 x float> [ poison, [[TMP0:%.*]] ], [ [[SPEC_SELECT:%.*]], %[[SNORK_EXIT]] ]
 ; CHECK-NEXT:    [[SPEC_SELECT]] = select i1 [[TMP2]], <vscale x 16 x float> [[TMP3]], <vscale x 16 x float> [[DOT0]]
 ; CHECK-NEXT:    [[TMP4:%.*]] = tail call <vscale x 4 x float> @llvm.vector.extract.nxv4f32.nxv16f32(<vscale x 16 x float> [[SPEC_SELECT]], i64 0)
 ; CHECK-NEXT:    tail call void @llvm.aarch64.sme.mopa.nxv4f32(i32 0, <vscale x 4 x i1> zeroinitializer, <vscale x 4 x i1> zeroinitializer, <vscale x 4 x float> zeroinitializer, <vscale x 4 x float> [[TMP4]])
@@ -33,12 +33,7 @@ define void @ham() #1 {
 ; CHECK-LABEL: define void @ham(
 ; CHECK-SAME: ) local_unnamed_addr #[[ATTR1:[0-9]+]] {
 ; CHECK-NEXT:  [[SNORK_EXIT:.*:]]
-; CHECK-NEXT:    [[TMP0:%.*]] = load i64, ptr inttoptr (i64 48 to ptr), align 16
-; CHECK-NEXT:    [[TMP1:%.*]] = icmp sgt i64 [[TMP0]], 0
-; CHECK-NEXT:    [[TMP2:%.*]] = tail call <vscale x 16 x float> @llvm.vector.insert.nxv16f32.nxv4f32(<vscale x 16 x float> zeroinitializer, <vscale x 4 x float> zeroinitializer, i64 0)
-; CHECK-NEXT:    [[SPEC_SELECT:%.*]] = select i1 [[TMP1]], <vscale x 16 x float> [[TMP2]], <vscale x 16 x float> undef
-; CHECK-NEXT:    [[TMP3:%.*]] = tail call <vscale x 4 x float> @llvm.vector.extract.nxv4f32.nxv16f32(<vscale x 16 x float> [[SPEC_SELECT]], i64 0)
-; CHECK-NEXT:    tail call void @llvm.aarch64.sme.mopa.nxv4f32(i32 0, <vscale x 4 x i1> zeroinitializer, <vscale x 4 x i1> zeroinitializer, <vscale x 4 x float> zeroinitializer, <vscale x 4 x float> [[TMP3]])
+; CHECK-NEXT:    tail call void @llvm.aarch64.sme.mopa.nxv4f32(i32 0, <vscale x 4 x i1> zeroinitializer, <vscale x 4 x i1> zeroinitializer, <vscale x 4 x float> zeroinitializer, <vscale x 4 x float> zeroinitializer)
 ; CHECK-NEXT:    ret void
 ;
   %1 = alloca <vscale x 16 x float>, align 16
