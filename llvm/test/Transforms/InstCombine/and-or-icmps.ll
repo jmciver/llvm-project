@@ -364,8 +364,6 @@ define <2 x i1> @and_ne_with_diff_one_splatvec(<2 x i32> %x) {
 
 define void @simplify_before_foldAndOfICmps(ptr %p) {
 ; CHECK-LABEL: @simplify_before_foldAndOfICmps(
-; CHECK-NEXT:    store i1 true, ptr [[P:%.*]], align 1
-; CHECK-NEXT:    store ptr null, ptr [[P]], align 8
 ; CHECK-NEXT:    ret void
 ;
   %A8 = alloca i16

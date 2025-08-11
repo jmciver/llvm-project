@@ -10,8 +10,9 @@ define double @phi_with_nsz(double %x) "no-signed-zeros-fp-math"="true" {
 ; CHECK-NEXT:    [[FNEG:%.*]] = fneg double [[X]]
 ; CHECK-NEXT:    br label [[RETURN]]
 ; CHECK:       return:
-; CHECK-NEXT:    [[X_ADDR_0:%.*]] = phi nsz double [ [[FNEG]], [[IF_THEN]] ], [ undef, [[ENTRY:%.*]] ]
+; CHECK-NEXT:    [[X_ADDR_0:%.*]] = phi nsz double [ [[FNEG]], [[IF_THEN]] ], [ poison, [[ENTRY:%.*]] ]
 ; CHECK-NEXT:    ret double [[X_ADDR_0]]
+;
 entry:
   %x.addr = alloca double
   %cmp = fcmp olt double %x, 0.0
@@ -37,6 +38,7 @@ define <2 x double> @vector_phi_with_nsz(<2 x double> %x, i1 %cmp, <2 x double> 
 ; CHECK:       return:
 ; CHECK-NEXT:    [[X_ADDR_0:%.*]] = phi nsz <2 x double> [ [[B]], [[IF_THEN]] ], [ [[A]], [[ENTRY:%.*]] ]
 ; CHECK-NEXT:    ret <2 x double> [[X_ADDR_0]]
+;
 entry:
   %x.addr = alloca <2 x double>
   store <2 x double> %a, ptr %x.addr
@@ -61,8 +63,9 @@ define double @phi_without_nsz(double %x) "no-signed-zeros-fp-math"="false" {
 ; CHECK-NEXT:    [[FNEG:%.*]] = fneg double [[X]]
 ; CHECK-NEXT:    br label [[RETURN]]
 ; CHECK:       return:
-; CHECK-NEXT:    [[X_ADDR_0:%.*]] = phi double [ [[FNEG]], [[IF_THEN]] ], [ undef, [[ENTRY:%.*]] ]
+; CHECK-NEXT:    [[X_ADDR_0:%.*]] = phi double [ [[FNEG]], [[IF_THEN]] ], [ poison, [[ENTRY:%.*]] ]
 ; CHECK-NEXT:    ret double [[X_ADDR_0]]
+;
 entry:
   %x.addr = alloca double
   %cmp = fcmp olt double %x, 0.0

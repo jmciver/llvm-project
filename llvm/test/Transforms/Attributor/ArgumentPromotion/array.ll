@@ -20,7 +20,7 @@ define void @caller() {
 ;
 ; CGSCC-LABEL: define {{[^@]+}}@caller() {
 ; CGSCC-NEXT:  entry:
-; CGSCC-NEXT:    call void @callee(i32 undef, i32 undef, i32 undef)
+; CGSCC-NEXT:    call void @callee(i32 poison, i32 poison, i32 poison)
 ; CGSCC-NEXT:    ret void
 ;
 entry:

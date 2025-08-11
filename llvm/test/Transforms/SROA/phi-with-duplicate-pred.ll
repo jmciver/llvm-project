@@ -22,7 +22,7 @@ define void @f2(i1 %c1) {
 ; CHECK:       if.else:
 ; CHECK-NEXT:    br label [[LBL1]]
 ; CHECK:       lbl1:
-; CHECK-NEXT:    [[G_0_SROA_SPECULATED:%.*]] = phi i16 [ [[G_0_SROA_SPECULATE_LOAD_CLEANUP]], [[CLEANUP]] ], [ [[G_0_SROA_SPECULATE_LOAD_CLEANUP]], [[CLEANUP]] ], [ undef, [[IF_ELSE]] ]
+; CHECK-NEXT:    [[G_0_SROA_SPECULATED:%.*]] = phi i16 [ [[G_0_SROA_SPECULATE_LOAD_CLEANUP]], [[CLEANUP]] ], [ [[G_0_SROA_SPECULATE_LOAD_CLEANUP]], [[CLEANUP]] ], [ poison, [[IF_ELSE]] ]
 ; CHECK-NEXT:    unreachable
 ; CHECK:       cleanup7:
 ; CHECK-NEXT:    ret void

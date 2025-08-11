@@ -12,16 +12,22 @@ define i8 @test1() {
 ;
 ; CHECK-LABEL: @test1(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[A_SROA_3_0_INSERT_EXT:%.*]] = zext i8 0 to i24
-; CHECK-NEXT:    [[A_SROA_3_0_INSERT_MASK:%.*]] = and i24 undef, -256
+; CHECK-NEXT:    [[TMP0:%.*]] = freeze i24 poison
+; CHECK-NEXT:    [[TMP1:%.*]] = freeze i8 0
+; CHECK-NEXT:    [[A_SROA_3_0_INSERT_EXT:%.*]] = zext i8 [[TMP1]] to i24
+; CHECK-NEXT:    [[A_SROA_3_0_INSERT_MASK:%.*]] = and i24 [[TMP0]], -256
 ; CHECK-NEXT:    [[A_SROA_3_0_INSERT_INSERT:%.*]] = or i24 [[A_SROA_3_0_INSERT_MASK]], [[A_SROA_3_0_INSERT_EXT]]
-; CHECK-NEXT:    [[A_SROA_2_0_INSERT_EXT:%.*]] = zext i8 0 to i24
+; CHECK-NEXT:    [[TMP2:%.*]] = freeze i24 [[A_SROA_3_0_INSERT_INSERT]]
+; CHECK-NEXT:    [[TMP3:%.*]] = freeze i8 0
+; CHECK-NEXT:    [[A_SROA_2_0_INSERT_EXT:%.*]] = zext i8 [[TMP3]] to i24
 ; CHECK-NEXT:    [[A_SROA_2_0_INSERT_SHIFT:%.*]] = shl i24 [[A_SROA_2_0_INSERT_EXT]], 8
-; CHECK-NEXT:    [[A_SROA_2_0_INSERT_MASK:%.*]] = and i24 [[A_SROA_3_0_INSERT_INSERT]], -65281
+; CHECK-NEXT:    [[A_SROA_2_0_INSERT_MASK:%.*]] = and i24 [[TMP2]], -65281
 ; CHECK-NEXT:    [[A_SROA_2_0_INSERT_INSERT:%.*]] = or i24 [[A_SROA_2_0_INSERT_MASK]], [[A_SROA_2_0_INSERT_SHIFT]]
-; CHECK-NEXT:    [[A_SROA_0_0_INSERT_EXT:%.*]] = zext i8 0 to i24
+; CHECK-NEXT:    [[TMP4:%.*]] = freeze i24 [[A_SROA_2_0_INSERT_INSERT]]
+; CHECK-NEXT:    [[TMP5:%.*]] = freeze i8 0
+; CHECK-NEXT:    [[A_SROA_0_0_INSERT_EXT:%.*]] = zext i8 [[TMP5]] to i24
 ; CHECK-NEXT:    [[A_SROA_0_0_INSERT_SHIFT:%.*]] = shl i24 [[A_SROA_0_0_INSERT_EXT]], 16
-; CHECK-NEXT:    [[A_SROA_0_0_INSERT_MASK:%.*]] = and i24 [[A_SROA_2_0_INSERT_INSERT]], 65535
+; CHECK-NEXT:    [[A_SROA_0_0_INSERT_MASK:%.*]] = and i24 [[TMP4]], 65535
 ; CHECK-NEXT:    [[A_SROA_0_0_INSERT_INSERT:%.*]] = or i24 [[A_SROA_0_0_INSERT_MASK]], [[A_SROA_0_0_INSERT_SHIFT]]
 ; CHECK-NEXT:    [[B_SROA_0_0_EXTRACT_SHIFT:%.*]] = lshr i24 [[A_SROA_0_0_INSERT_INSERT]], 16
 ; CHECK-NEXT:    [[B_SROA_0_0_EXTRACT_TRUNC:%.*]] = trunc i24 [[B_SROA_0_0_EXTRACT_SHIFT]] to i8
@@ -61,23 +67,33 @@ define i64 @test2() {
 ;
 ; CHECK-LABEL: @test2(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[A_SROA_2_SROA_4_0_INSERT_EXT:%.*]] = zext i8 1 to i40
-; CHECK-NEXT:    [[A_SROA_2_SROA_4_0_INSERT_MASK:%.*]] = and i40 undef, -256
+; CHECK-NEXT:    [[TMP0:%.*]] = freeze i40 poison
+; CHECK-NEXT:    [[TMP1:%.*]] = freeze i8 1
+; CHECK-NEXT:    [[A_SROA_2_SROA_4_0_INSERT_EXT:%.*]] = zext i8 [[TMP1]] to i40
+; CHECK-NEXT:    [[A_SROA_2_SROA_4_0_INSERT_MASK:%.*]] = and i40 [[TMP0]], -256
 ; CHECK-NEXT:    [[A_SROA_2_SROA_4_0_INSERT_INSERT:%.*]] = or i40 [[A_SROA_2_SROA_4_0_INSERT_MASK]], [[A_SROA_2_SROA_4_0_INSERT_EXT]]
-; CHECK-NEXT:    [[A_SROA_2_SROA_3_0_INSERT_EXT:%.*]] = zext i24 0 to i40
+; CHECK-NEXT:    [[TMP2:%.*]] = freeze i40 [[A_SROA_2_SROA_4_0_INSERT_INSERT]]
+; CHECK-NEXT:    [[TMP3:%.*]] = freeze i24 0
+; CHECK-NEXT:    [[A_SROA_2_SROA_3_0_INSERT_EXT:%.*]] = zext i24 [[TMP3]] to i40
 ; CHECK-NEXT:    [[A_SROA_2_SROA_3_0_INSERT_SHIFT:%.*]] = shl i40 [[A_SROA_2_SROA_3_0_INSERT_EXT]], 8
-; CHECK-NEXT:    [[A_SROA_2_SROA_3_0_INSERT_MASK:%.*]] = and i40 [[A_SROA_2_SROA_4_0_INSERT_INSERT]], -4294967041
+; CHECK-NEXT:    [[A_SROA_2_SROA_3_0_INSERT_MASK:%.*]] = and i40 [[TMP2]], -4294967041
 ; CHECK-NEXT:    [[A_SROA_2_SROA_3_0_INSERT_INSERT:%.*]] = or i40 [[A_SROA_2_SROA_3_0_INSERT_MASK]], [[A_SROA_2_SROA_3_0_INSERT_SHIFT]]
-; CHECK-NEXT:    [[A_SROA_2_SROA_0_0_INSERT_EXT:%.*]] = zext i8 0 to i40
+; CHECK-NEXT:    [[TMP4:%.*]] = freeze i40 [[A_SROA_2_SROA_3_0_INSERT_INSERT]]
+; CHECK-NEXT:    [[TMP5:%.*]] = freeze i8 0
+; CHECK-NEXT:    [[A_SROA_2_SROA_0_0_INSERT_EXT:%.*]] = zext i8 [[TMP5]] to i40
 ; CHECK-NEXT:    [[A_SROA_2_SROA_0_0_INSERT_SHIFT:%.*]] = shl i40 [[A_SROA_2_SROA_0_0_INSERT_EXT]], 32
-; CHECK-NEXT:    [[A_SROA_2_SROA_0_0_INSERT_MASK:%.*]] = and i40 [[A_SROA_2_SROA_3_0_INSERT_INSERT]], 4294967295
+; CHECK-NEXT:    [[A_SROA_2_SROA_0_0_INSERT_MASK:%.*]] = and i40 [[TMP4]], 4294967295
 ; CHECK-NEXT:    [[A_SROA_2_SROA_0_0_INSERT_INSERT:%.*]] = or i40 [[A_SROA_2_SROA_0_0_INSERT_MASK]], [[A_SROA_2_SROA_0_0_INSERT_SHIFT]]
-; CHECK-NEXT:    [[A_SROA_2_0_INSERT_EXT:%.*]] = zext i40 [[A_SROA_2_SROA_0_0_INSERT_INSERT]] to i56
-; CHECK-NEXT:    [[A_SROA_2_0_INSERT_MASK:%.*]] = and i56 undef, -1099511627776
+; CHECK-NEXT:    [[TMP6:%.*]] = freeze i56 poison
+; CHECK-NEXT:    [[TMP7:%.*]] = freeze i40 [[A_SROA_2_SROA_0_0_INSERT_INSERT]]
+; CHECK-NEXT:    [[A_SROA_2_0_INSERT_EXT:%.*]] = zext i40 [[TMP7]] to i56
+; CHECK-NEXT:    [[A_SROA_2_0_INSERT_MASK:%.*]] = and i56 [[TMP6]], -1099511627776
 ; CHECK-NEXT:    [[A_SROA_2_0_INSERT_INSERT:%.*]] = or i56 [[A_SROA_2_0_INSERT_MASK]], [[A_SROA_2_0_INSERT_EXT]]
-; CHECK-NEXT:    [[A_SROA_0_0_INSERT_EXT:%.*]] = zext i16 1 to i56
+; CHECK-NEXT:    [[TMP8:%.*]] = freeze i56 [[A_SROA_2_0_INSERT_INSERT]]
+; CHECK-NEXT:    [[TMP9:%.*]] = freeze i16 1
+; CHECK-NEXT:    [[A_SROA_0_0_INSERT_EXT:%.*]] = zext i16 [[TMP9]] to i56
 ; CHECK-NEXT:    [[A_SROA_0_0_INSERT_SHIFT:%.*]] = shl i56 [[A_SROA_0_0_INSERT_EXT]], 40
-; CHECK-NEXT:    [[A_SROA_0_0_INSERT_MASK:%.*]] = and i56 [[A_SROA_2_0_INSERT_INSERT]], 1099511627775
+; CHECK-NEXT:    [[A_SROA_0_0_INSERT_MASK:%.*]] = and i56 [[TMP8]], 1099511627775
 ; CHECK-NEXT:    [[A_SROA_0_0_INSERT_INSERT:%.*]] = or i56 [[A_SROA_0_0_INSERT_MASK]], [[A_SROA_0_0_INSERT_SHIFT]]
 ; CHECK-NEXT:    [[RET:%.*]] = zext i56 [[A_SROA_0_0_INSERT_INSERT]] to i64
 ; CHECK-NEXT:    ret i64 [[RET]]
@@ -174,12 +190,16 @@ define void @test3() {
 ;
 ; CHECK-LABEL: @test3(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    [[A_SROA_3_0_INSERT_EXT:%.*]] = zext i32 134316040 to i64
-; CHECK-NEXT:    [[A_SROA_3_0_INSERT_MASK:%.*]] = and i64 undef, -4294967296
+; CHECK-NEXT:    [[TMP0:%.*]] = freeze i64 poison
+; CHECK-NEXT:    [[TMP1:%.*]] = freeze i32 134316040
+; CHECK-NEXT:    [[A_SROA_3_0_INSERT_EXT:%.*]] = zext i32 [[TMP1]] to i64
+; CHECK-NEXT:    [[A_SROA_3_0_INSERT_MASK:%.*]] = and i64 [[TMP0]], -4294967296
 ; CHECK-NEXT:    [[A_SROA_3_0_INSERT_INSERT:%.*]] = or i64 [[A_SROA_3_0_INSERT_MASK]], [[A_SROA_3_0_INSERT_EXT]]
-; CHECK-NEXT:    [[A_SROA_0_0_INSERT_EXT:%.*]] = zext i32 8 to i64
+; CHECK-NEXT:    [[TMP2:%.*]] = freeze i64 [[A_SROA_3_0_INSERT_INSERT]]
+; CHECK-NEXT:    [[TMP3:%.*]] = freeze i32 8
+; CHECK-NEXT:    [[A_SROA_0_0_INSERT_EXT:%.*]] = zext i32 [[TMP3]] to i64
 ; CHECK-NEXT:    [[A_SROA_0_0_INSERT_SHIFT:%.*]] = shl i64 [[A_SROA_0_0_INSERT_EXT]], 32
-; CHECK-NEXT:    [[A_SROA_0_0_INSERT_MASK:%.*]] = and i64 [[A_SROA_3_0_INSERT_INSERT]], 4294967295
+; CHECK-NEXT:    [[A_SROA_0_0_INSERT_MASK:%.*]] = and i64 [[TMP2]], 4294967295
 ; CHECK-NEXT:    [[A_SROA_0_0_INSERT_INSERT:%.*]] = or i64 [[A_SROA_0_0_INSERT_MASK]], [[A_SROA_0_0_INSERT_SHIFT]]
 ; CHECK-NEXT:    call void @f(i64 [[A_SROA_0_0_INSERT_INSERT]], i32 8)
 ; CHECK-NEXT:    ret void
@@ -206,12 +226,16 @@ define void @test4() {
 ; CHECK-NEXT:    [[A_SROA_0_0_EXTRACT_SHIFT:%.*]] = lshr i64 34494054408, 32
 ; CHECK-NEXT:    [[A_SROA_0_0_EXTRACT_TRUNC:%.*]] = trunc i64 [[A_SROA_0_0_EXTRACT_SHIFT]] to i32
 ; CHECK-NEXT:    [[A_SROA_3_0_EXTRACT_TRUNC:%.*]] = trunc i64 34494054408 to i32
-; CHECK-NEXT:    [[A_SROA_3_0_INSERT_EXT:%.*]] = zext i32 [[A_SROA_3_0_EXTRACT_TRUNC]] to i64
-; CHECK-NEXT:    [[A_SROA_3_0_INSERT_MASK:%.*]] = and i64 undef, -4294967296
+; CHECK-NEXT:    [[TMP0:%.*]] = freeze i64 poison
+; CHECK-NEXT:    [[TMP1:%.*]] = freeze i32 [[A_SROA_3_0_EXTRACT_TRUNC]]
+; CHECK-NEXT:    [[A_SROA_3_0_INSERT_EXT:%.*]] = zext i32 [[TMP1]] to i64
+; CHECK-NEXT:    [[A_SROA_3_0_INSERT_MASK:%.*]] = and i64 [[TMP0]], -4294967296
 ; CHECK-NEXT:    [[A_SROA_3_0_INSERT_INSERT:%.*]] = or i64 [[A_SROA_3_0_INSERT_MASK]], [[A_SROA_3_0_INSERT_EXT]]
-; CHECK-NEXT:    [[A_SROA_0_0_INSERT_EXT:%.*]] = zext i32 [[A_SROA_0_0_EXTRACT_TRUNC]] to i64
+; CHECK-NEXT:    [[TMP2:%.*]] = freeze i64 [[A_SROA_3_0_INSERT_INSERT]]
+; CHECK-NEXT:    [[TMP3:%.*]] = freeze i32 [[A_SROA_0_0_EXTRACT_TRUNC]]
+; CHECK-NEXT:    [[A_SROA_0_0_INSERT_EXT:%.*]] = zext i32 [[TMP3]] to i64
 ; CHECK-NEXT:    [[A_SROA_0_0_INSERT_SHIFT:%.*]] = shl i64 [[A_SROA_0_0_INSERT_EXT]], 32
-; CHECK-NEXT:    [[A_SROA_0_0_INSERT_MASK:%.*]] = and i64 [[A_SROA_3_0_INSERT_INSERT]], 4294967295
+; CHECK-NEXT:    [[A_SROA_0_0_INSERT_MASK:%.*]] = and i64 [[TMP2]], 4294967295
 ; CHECK-NEXT:    [[A_SROA_0_0_INSERT_INSERT:%.*]] = or i64 [[A_SROA_0_0_INSERT_MASK]], [[A_SROA_0_0_INSERT_SHIFT]]
 ; CHECK-NEXT:    call void @f(i64 [[A_SROA_0_0_INSERT_INSERT]], i32 [[A_SROA_0_0_EXTRACT_TRUNC]])
 ; CHECK-NEXT:    ret void

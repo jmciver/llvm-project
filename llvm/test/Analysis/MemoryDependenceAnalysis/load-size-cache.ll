@@ -19,7 +19,7 @@ define i8 @f(i1 %arg0, i1 %arg1, i1 %arg2) {
 ; CHECK:       [[BB5]]:
 ; CHECK-NEXT:    br i1 [[ARG1]], label %[[BB7:.*]], label %[[BB6:.*]]
 ; CHECK:       [[BB6]]:
-; CHECK-NEXT:    call void @use(i64 undef)
+; CHECK-NEXT:    call void @use(i64 poison)
 ; CHECK-NEXT:    br label %[[BB9:.*]]
 ; CHECK:       [[BB7]]:
 ; CHECK-NEXT:    [[LOAD8:%.*]] = load i8, ptr [[CALL]], align 4

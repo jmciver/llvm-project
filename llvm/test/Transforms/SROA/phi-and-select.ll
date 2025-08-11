@@ -304,7 +304,7 @@ define i32 @test8(i32 %b, ptr %ptr) {
 ; CHECK:       else:
 ; CHECK-NEXT:    br label [[EXIT]]
 ; CHECK:       exit:
-; CHECK-NEXT:    [[PHI_SROA_SPECULATED:%.*]] = phi i32 [ undef, [[ELSE]] ], [ [[PHI_SROA_SPECULATE_LOAD_THEN]], [[THEN]] ]
+; CHECK-NEXT:    [[PHI_SROA_SPECULATED:%.*]] = phi i32 [ poison, [[ELSE]] ], [ [[PHI_SROA_SPECULATE_LOAD_THEN]], [[THEN]] ]
 ; CHECK-NEXT:    ret i32 [[PHI_SROA_SPECULATED]]
 ;
 entry:
@@ -332,7 +332,7 @@ define i32 @test9(i32 %b, ptr %ptr) {
 ; CHECK-NEXT:    store i32 0, ptr [[PTR:%.*]], align 4
 ; CHECK-NEXT:    [[TEST:%.*]] = icmp ne i32 [[B:%.*]], 0
 ; CHECK-NEXT:    [[LOADED_SROA_SPECULATE_LOAD_FALSE:%.*]] = load i32, ptr [[PTR]], align 4
-; CHECK-NEXT:    [[LOADED_SROA_SPECULATED:%.*]] = select i1 [[TEST]], i32 undef, i32 [[LOADED_SROA_SPECULATE_LOAD_FALSE]]
+; CHECK-NEXT:    [[LOADED_SROA_SPECULATED:%.*]] = select i1 [[TEST]], i32 poison, i32 [[LOADED_SROA_SPECULATE_LOAD_FALSE]]
 ; CHECK-NEXT:    ret i32 [[LOADED_SROA_SPECULATED]]
 ;
 entry:
@@ -366,7 +366,7 @@ define i32 @test9_asan(i32 %b, ptr %ptr) sanitize_address {
 ; CHECK-MODIFY-CFG:       entry.then:
 ; CHECK-MODIFY-CFG-NEXT:    br label [[ENTRY_CONT]]
 ; CHECK-MODIFY-CFG:       entry.cont:
-; CHECK-MODIFY-CFG-NEXT:    [[LOADED:%.*]] = phi i32 [ undef, [[ENTRY_THEN]] ], [ [[LOADED_ELSE_VAL]], [[ENTRY:%.*]] ]
+; CHECK-MODIFY-CFG-NEXT:    [[LOADED:%.*]] = phi i32 [ poison, [[ENTRY_THEN]] ], [ [[LOADED_ELSE_VAL]], [[ENTRY:%.*]] ]
 ; CHECK-MODIFY-CFG-NEXT:    ret i32 [[LOADED]]
 ;
 entry:
