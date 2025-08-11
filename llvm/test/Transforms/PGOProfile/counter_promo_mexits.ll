@@ -41,7 +41,7 @@ bb14:                                             ; preds = %bb11
   br label %bb15
 ; PROMO:  %pgocount.promoted{{.*}} = load i64, ptr @__profc_foo, align 4
 ; PROMO-NEXT: add 
-; PROMO-NEXT: store i64 %3, ptr @__profc_foo, align 4
+; PROMO-NEXT: store i64 {{%[0-9]+}}, ptr @__profc_foo, align 4
 ; PROMO-NEXT:  %pgocount.promoted{{.*}} = load i64, ptr getelementptr inbounds ([5 x i64], ptr @__profc_foo, i32 0, i32 1), align 4
 ; PROMO-NEXT: add 
 ; PROMO-NEXT: store {{.*}}@__profc_foo{{.*}}1)

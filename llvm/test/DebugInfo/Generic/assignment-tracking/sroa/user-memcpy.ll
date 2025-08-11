@@ -21,6 +21,8 @@
 ;; Allocas have been promoted - the linked dbg.assigns have been removed.
 
 ;; | V3i point = {0, 0, 0};
+; CHECK-NEXT: .
+; CHECK-NEXT: .
 ; CHECK-NEXT: #dbg_value(i64 0, ![[point:[0-9]+]], !DIExpression(DW_OP_LLVM_fragment, 0, 64),
 ; CHECK-NEXT: #dbg_value(i64 0, ![[point]], !DIExpression(DW_OP_LLVM_fragment, 64, 64),
 

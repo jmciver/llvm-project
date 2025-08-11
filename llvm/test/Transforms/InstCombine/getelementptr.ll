@@ -1341,7 +1341,7 @@ declare noalias ptr @malloc(i64) nounwind allockind("alloc,uninitialized") alloc
 define i32 @test_gep_bitcast_malloc(ptr %a) {
 ; CHECK-LABEL: @test_gep_bitcast_malloc(
 ; CHECK-NEXT:  entry:
-; CHECK-NEXT:    ret i32 undef
+; CHECK-NEXT:    ret i32 poison
 ;
 entry:
   %call = call noalias ptr @malloc(i64 16) #2

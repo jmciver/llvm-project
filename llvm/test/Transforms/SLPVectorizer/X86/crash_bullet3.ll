@@ -36,12 +36,11 @@ define void @_ZN11HullLibrary15CleanupVerticesEjPK9btVector3jRjPS0_fRS0_(ptr %ve
 ; CHECK:       if.then325:
 ; CHECK-NEXT:    br label [[IF_END327]]
 ; CHECK:       if.end327:
-; CHECK-NEXT:    [[TMP6:%.*]] = shufflevector <2 x float> [[TMP1]], <2 x float> <float poison, float undef>, <2 x i32> <i32 0, i32 3>
 ; CHECK-NEXT:    br i1 [[ARG]], label [[IF_THEN329:%.*]], label [[IF_END332]]
 ; CHECK:       if.then329:
 ; CHECK-NEXT:    br label [[IF_END332]]
 ; CHECK:       if.end332:
-; CHECK-NEXT:    [[TMP4:%.*]] = phi <2 x float> [ [[TMP6]], [[IF_THEN329]] ], [ [[TMP6]], [[IF_END327]] ], [ splat (float 0x3F847AE140000000), [[IF_THEN291]] ]
+; CHECK-NEXT:    [[TMP4:%.*]] = phi <2 x float> [ [[TMP1]], [[IF_THEN329]] ], [ [[TMP1]], [[IF_END327]] ], [ splat (float 0x3F847AE140000000), [[IF_THEN291]] ]
 ; CHECK-NEXT:    [[TMP5:%.*]] = fsub <2 x float> [[TMP3]], [[TMP4]]
 ; CHECK-NEXT:    store <2 x float> [[TMP5]], ptr [[VERTICES:%.*]], align 4
 ; CHECK-NEXT:    br label [[RETURN]]

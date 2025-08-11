@@ -23,7 +23,8 @@ while.cond.cleanup_crit_edge:                     ; preds = %while.cond
 
 land.rhs:                                         ; preds = %while.cond
   call void @llvm.instrprof.increment(ptr @__profn_foo, i64 0, i32 1, i32 0)
-; CHECK: %[[LAND_COUNT]] = add i64 %[[COUNT]], 1
+; CHECK: [[COUNT_FREEZE:%[0-9]+]] = freeze i64 %[[COUNT]]
+; CHECK: %[[LAND_COUNT]] = add i64 [[COUNT_FREEZE]], 1
   br label %while.cond
 
 cleanup:                                          ; preds = %while.cond.cleanup_crit_edge
