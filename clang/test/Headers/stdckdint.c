@@ -13,6 +13,8 @@
 // CHECK-SAME: ) #[[ATTR0:[0-9]+]] {
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[RESULT:%.*]] = alloca i32, align 4
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[RESULT]], align 4
 // CHECK-NEXT:    [[TMP0:%.*]] = call { i32, i1 } @llvm.sadd.with.overflow.i32(i32 -1073741826, i32 -1073741826)
 // CHECK-NEXT:    [[TMP1:%.*]] = extractvalue { i32, i1 } [[TMP0]], 1
 // CHECK-NEXT:    [[TMP2:%.*]] = extractvalue { i32, i1 } [[TMP0]], 0
@@ -28,6 +30,8 @@ bool test_ckd_add() {
 // CHECK-SAME: ) #[[ATTR0]] {
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[RESULT:%.*]] = alloca i32, align 4
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[RESULT]], align 4
 // CHECK-NEXT:    [[TMP0:%.*]] = call { i32, i1 } @llvm.ssub.with.overflow.i32(i32 -1073741826, i32 1073741826)
 // CHECK-NEXT:    [[TMP1:%.*]] = extractvalue { i32, i1 } [[TMP0]], 1
 // CHECK-NEXT:    [[TMP2:%.*]] = extractvalue { i32, i1 } [[TMP0]], 0
@@ -43,6 +47,8 @@ bool test_ckd_sub() {
 // CHECK-SAME: ) #[[ATTR0]] {
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[RESULT:%.*]] = alloca i32, align 4
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[RESULT]], align 4
 // CHECK-NEXT:    [[TMP0:%.*]] = call { i32, i1 } @llvm.smul.with.overflow.i32(i32 -1073741826, i32 2)
 // CHECK-NEXT:    [[TMP1:%.*]] = extractvalue { i32, i1 } [[TMP0]], 1
 // CHECK-NEXT:    [[TMP2:%.*]] = extractvalue { i32, i1 } [[TMP0]], 0

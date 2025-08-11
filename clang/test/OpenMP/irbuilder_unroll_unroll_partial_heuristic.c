@@ -34,6 +34,8 @@ void unroll_unroll_partial_heuristic(float *a, float *b, float *c, float *d) {
 // CHECK-NEXT:    store ptr [[B]], ptr [[B_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[C]], ptr [[C_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[D]], ptr [[D_ADDR]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[I]], align 4
 // CHECK-NEXT:    store i32 0, ptr [[I]], align 4
 // CHECK-NEXT:    [[TMP0:%.*]] = getelementptr inbounds nuw [[STRUCT_ANON]], ptr [[AGG_CAPTURED]], i32 0, i32 0
 // CHECK-NEXT:    store ptr [[I]], ptr [[TMP0]], align 8
@@ -41,7 +43,7 @@ void unroll_unroll_partial_heuristic(float *a, float *b, float *c, float *d) {
 // CHECK-NEXT:    [[TMP2:%.*]] = load i32, ptr [[I]], align 4
 // CHECK-NEXT:    store i32 [[TMP2]], ptr [[TMP1]], align 4
 // CHECK-NEXT:    call void @__captured_stmt(ptr [[DOTCOUNT_ADDR]], ptr [[AGG_CAPTURED]])
-// CHECK-NEXT:    [[DOTCOUNT:%.*]] = load i32, ptr [[DOTCOUNT_ADDR]], align 4
+// CHECK-NEXT:    [[DOTCOUNT:%.*]] = load i32, ptr [[DOTCOUNT_ADDR]], align 4, !freeze_bits [[META3:![0-9]+]]
 // CHECK-NEXT:    br label [[OMP_LOOP_PREHEADER:%.*]]
 // CHECK:       omp_loop.preheader:
 // CHECK-NEXT:    [[TMP3:%.*]] = udiv i32 [[DOTCOUNT]], 8
@@ -80,18 +82,18 @@ void unroll_unroll_partial_heuristic(float *a, float *b, float *c, float *d) {
 // CHECK-NEXT:    [[TMP12:%.*]] = load i32, ptr [[I]], align 4
 // CHECK-NEXT:    [[IDXPROM:%.*]] = sext i32 [[TMP12]] to i64
 // CHECK-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds float, ptr [[TMP11]], i64 [[IDXPROM]]
-// CHECK-NEXT:    [[TMP13:%.*]] = load float, ptr [[ARRAYIDX]], align 4
+// CHECK-NEXT:    [[TMP13:%.*]] = load float, ptr [[ARRAYIDX]], align 4, !freeze_bits [[META3]]
 // CHECK-NEXT:    [[TMP14:%.*]] = load ptr, ptr [[C_ADDR]], align 8
 // CHECK-NEXT:    [[TMP15:%.*]] = load i32, ptr [[I]], align 4
 // CHECK-NEXT:    [[IDXPROM2:%.*]] = sext i32 [[TMP15]] to i64
 // CHECK-NEXT:    [[ARRAYIDX3:%.*]] = getelementptr inbounds float, ptr [[TMP14]], i64 [[IDXPROM2]]
-// CHECK-NEXT:    [[TMP16:%.*]] = load float, ptr [[ARRAYIDX3]], align 4
+// CHECK-NEXT:    [[TMP16:%.*]] = load float, ptr [[ARRAYIDX3]], align 4, !freeze_bits [[META3]]
 // CHECK-NEXT:    [[MUL:%.*]] = fmul float [[TMP13]], [[TMP16]]
 // CHECK-NEXT:    [[TMP17:%.*]] = load ptr, ptr [[D_ADDR]], align 8
 // CHECK-NEXT:    [[TMP18:%.*]] = load i32, ptr [[I]], align 4
 // CHECK-NEXT:    [[IDXPROM4:%.*]] = sext i32 [[TMP18]] to i64
 // CHECK-NEXT:    [[ARRAYIDX5:%.*]] = getelementptr inbounds float, ptr [[TMP17]], i64 [[IDXPROM4]]
-// CHECK-NEXT:    [[TMP19:%.*]] = load float, ptr [[ARRAYIDX5]], align 4
+// CHECK-NEXT:    [[TMP19:%.*]] = load float, ptr [[ARRAYIDX5]], align 4, !freeze_bits [[META3]]
 // CHECK-NEXT:    [[MUL6:%.*]] = fmul float [[MUL]], [[TMP19]]
 // CHECK-NEXT:    [[TMP20:%.*]] = load ptr, ptr [[A_ADDR]], align 8
 // CHECK-NEXT:    [[TMP21:%.*]] = load i32, ptr [[I]], align 4
@@ -101,14 +103,14 @@ void unroll_unroll_partial_heuristic(float *a, float *b, float *c, float *d) {
 // CHECK-NEXT:    br label [[OMP_TILE0_INC]]
 // CHECK:       omp_tile0.inc:
 // CHECK-NEXT:    [[OMP_TILE0_NEXT]] = add nuw i32 [[OMP_TILE0_IV]], 1
-// CHECK-NEXT:    br label [[OMP_TILE0_HEADER]], !llvm.loop [[LOOP3:![0-9]+]]
+// CHECK-NEXT:    br label [[OMP_TILE0_HEADER]], !llvm.loop [[LOOP4:![0-9]+]]
 // CHECK:       omp_tile0.exit:
 // CHECK-NEXT:    br label [[OMP_TILE0_AFTER:%.*]]
 // CHECK:       omp_tile0.after:
 // CHECK-NEXT:    br label [[OMP_FLOOR0_INC]]
 // CHECK:       omp_floor0.inc:
 // CHECK-NEXT:    [[OMP_FLOOR0_NEXT]] = add nuw i32 [[OMP_FLOOR0_IV]], 1
-// CHECK-NEXT:    br label [[OMP_FLOOR0_HEADER]], !llvm.loop [[LOOP6:![0-9]+]]
+// CHECK-NEXT:    br label [[OMP_FLOOR0_HEADER]], !llvm.loop [[LOOP7:![0-9]+]]
 // CHECK:       omp_floor0.exit:
 // CHECK-NEXT:    br label [[OMP_FLOOR0_AFTER:%.*]]
 // CHECK:       omp_floor0.after:
@@ -128,11 +130,17 @@ void unroll_unroll_partial_heuristic(float *a, float *b, float *c, float *d) {
 // CHECK-NEXT:    store ptr [[DISTANCE]], ptr [[DISTANCE_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[__CONTEXT]], ptr [[__CONTEXT_ADDR]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[__CONTEXT_ADDR]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTSTART]], align 4
 // CHECK-NEXT:    [[TMP1:%.*]] = getelementptr inbounds nuw [[STRUCT_ANON:%.*]], ptr [[TMP0]], i32 0, i32 0
-// CHECK-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[TMP1]], align 8
-// CHECK-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4
+// CHECK-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[TMP1]], align 8, !nonnull [[META3]], !align [[META8:![0-9]+]], !freeze_bits [[META3]]
+// CHECK-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4, !freeze_bits [[META3]]
 // CHECK-NEXT:    store i32 [[TMP3]], ptr [[DOTSTART]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTSTOP]], align 4
 // CHECK-NEXT:    store i32 2, ptr [[DOTSTOP]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTSTEP]], align 4
 // CHECK-NEXT:    store i32 1, ptr [[DOTSTEP]], align 4
 // CHECK-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTSTART]], align 4
 // CHECK-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTSTOP]], align 4
@@ -143,8 +151,8 @@ void unroll_unroll_partial_heuristic(float *a, float *b, float *c, float *d) {
 // CHECK-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTSTART]], align 4
 // CHECK-NEXT:    [[SUB:%.*]] = sub nsw i32 [[TMP6]], [[TMP7]]
 // CHECK-NEXT:    [[TMP8:%.*]] = load i32, ptr [[DOTSTEP]], align 4
-// CHECK-NEXT:    [[SUB1:%.*]] = sub i32 [[TMP8]], 1
-// CHECK-NEXT:    [[ADD:%.*]] = add i32 [[SUB]], [[SUB1]]
+// CHECK-NEXT:    [[SUB3:%.*]] = sub i32 [[TMP8]], 1
+// CHECK-NEXT:    [[ADD:%.*]] = add i32 [[SUB]], [[SUB3]]
 // CHECK-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTSTEP]], align 4
 // CHECK-NEXT:    [[DIV:%.*]] = udiv i32 [[ADD]], [[TMP9]]
 // CHECK-NEXT:    br label [[COND_END:%.*]]
@@ -152,7 +160,7 @@ void unroll_unroll_partial_heuristic(float *a, float *b, float *c, float *d) {
 // CHECK-NEXT:    br label [[COND_END]]
 // CHECK:       cond.end:
 // CHECK-NEXT:    [[COND:%.*]] = phi i32 [ [[DIV]], [[COND_TRUE]] ], [ 0, [[COND_FALSE]] ]
-// CHECK-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[DISTANCE_ADDR]], align 8
+// CHECK-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[DISTANCE_ADDR]], align 8, !nonnull [[META3]], !align [[META8]]
 // CHECK-NEXT:    store i32 [[COND]], ptr [[TMP10]], align 4
 // CHECK-NEXT:    ret void
 //
@@ -168,11 +176,11 @@ void unroll_unroll_partial_heuristic(float *a, float *b, float *c, float *d) {
 // CHECK-NEXT:    store ptr [[__CONTEXT]], ptr [[__CONTEXT_ADDR]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[__CONTEXT_ADDR]], align 8
 // CHECK-NEXT:    [[TMP1:%.*]] = getelementptr inbounds nuw [[STRUCT_ANON_0:%.*]], ptr [[TMP0]], i32 0, i32 0
-// CHECK-NEXT:    [[TMP2:%.*]] = load i32, ptr [[TMP1]], align 4
+// CHECK-NEXT:    [[TMP2:%.*]] = load i32, ptr [[TMP1]], align 4, !freeze_bits [[META3]]
 // CHECK-NEXT:    [[TMP3:%.*]] = load i32, ptr [[LOGICAL_ADDR]], align 4
 // CHECK-NEXT:    [[MUL:%.*]] = mul i32 1, [[TMP3]]
 // CHECK-NEXT:    [[ADD:%.*]] = add i32 [[TMP2]], [[MUL]]
-// CHECK-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[LOOPVAR_ADDR]], align 8
+// CHECK-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[LOOPVAR_ADDR]], align 8, !nonnull [[META3]], !align [[META8]]
 // CHECK-NEXT:    store i32 [[ADD]], ptr [[TMP4]], align 4
 // CHECK-NEXT:    ret void
 //

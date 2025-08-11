@@ -52,8 +52,10 @@ kernel void device_side_enqueue(global float *a, global float *b, int i) {
 // SPIR32-NEXT:    store ptr addrspace(1) [[A]], ptr [[A_ADDR]], align 4
 // SPIR32-NEXT:    store ptr addrspace(1) [[B]], ptr [[B_ADDR]], align 4
 // SPIR32-NEXT:    store i32 [[I]], ptr [[I_ADDR]], align 4
+// SPIR32-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// SPIR32-NEXT:    store i32 [[FREEZE_POISON]], ptr [[FLAGS]], align 4
 // SPIR32-NEXT:    store i32 0, ptr [[FLAGS]], align 4
-// SPIR32-NEXT:    [[TMP0:%.*]] = load target("spirv.Queue"), ptr [[DEFAULT_QUEUE]], align 4
+// SPIR32-NEXT:    [[TMP0:%.*]] = load target("spirv.Queue"), ptr [[DEFAULT_QUEUE]], align 4, !freeze_bits [[META6:![0-9]+]]
 // SPIR32-NEXT:    [[TMP1:%.*]] = load i32, ptr [[FLAGS]], align 4
 // SPIR32-NEXT:    call void @llvm.memcpy.p0.p0.i32(ptr align 4 [[TMP]], ptr align 4 [[NDRANGE]], i32 4, i1 false)
 // SPIR32-NEXT:    [[BLOCK_SIZE:%.*]] = getelementptr inbounds nuw <{ i32, i32, ptr addrspace(4), ptr addrspace(1), i32, ptr addrspace(1) }>, ptr [[BLOCK]], i32 0, i32 0
@@ -85,16 +87,16 @@ kernel void device_side_enqueue(global float *a, global float *b, int i) {
 // SPIR32-NEXT:    store ptr addrspace(4) [[DOTBLOCK_DESCRIPTOR]], ptr [[DOTBLOCK_DESCRIPTOR_ADDR]], align 4
 // SPIR32-NEXT:    store ptr addrspace(4) [[DOTBLOCK_DESCRIPTOR]], ptr [[BLOCK_ADDR]], align 4
 // SPIR32-NEXT:    [[BLOCK_CAPTURE_ADDR:%.*]] = getelementptr inbounds nuw <{ i32, i32, ptr addrspace(4), ptr addrspace(1), i32, ptr addrspace(1) }>, ptr addrspace(4) [[DOTBLOCK_DESCRIPTOR]], i32 0, i32 5
-// SPIR32-NEXT:    [[TMP0:%.*]] = load ptr addrspace(1), ptr addrspace(4) [[BLOCK_CAPTURE_ADDR]], align 4
+// SPIR32-NEXT:    [[TMP0:%.*]] = load ptr addrspace(1), ptr addrspace(4) [[BLOCK_CAPTURE_ADDR]], align 4, !freeze_bits [[META6]]
 // SPIR32-NEXT:    [[BLOCK_CAPTURE_ADDR1:%.*]] = getelementptr inbounds nuw <{ i32, i32, ptr addrspace(4), ptr addrspace(1), i32, ptr addrspace(1) }>, ptr addrspace(4) [[DOTBLOCK_DESCRIPTOR]], i32 0, i32 4
-// SPIR32-NEXT:    [[TMP1:%.*]] = load i32, ptr addrspace(4) [[BLOCK_CAPTURE_ADDR1]], align 4
+// SPIR32-NEXT:    [[TMP1:%.*]] = load i32, ptr addrspace(4) [[BLOCK_CAPTURE_ADDR1]], align 4, !freeze_bits [[META6]]
 // SPIR32-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds float, ptr addrspace(1) [[TMP0]], i32 [[TMP1]]
-// SPIR32-NEXT:    [[TMP2:%.*]] = load float, ptr addrspace(1) [[ARRAYIDX]], align 4
+// SPIR32-NEXT:    [[TMP2:%.*]] = load float, ptr addrspace(1) [[ARRAYIDX]], align 4, !freeze_bits [[META6]]
 // SPIR32-NEXT:    [[TMP3:%.*]] = call float @llvm.fmuladd.f32(float 4.000000e+00, float [[TMP2]], float 1.000000e+00)
 // SPIR32-NEXT:    [[BLOCK_CAPTURE_ADDR2:%.*]] = getelementptr inbounds nuw <{ i32, i32, ptr addrspace(4), ptr addrspace(1), i32, ptr addrspace(1) }>, ptr addrspace(4) [[DOTBLOCK_DESCRIPTOR]], i32 0, i32 3
-// SPIR32-NEXT:    [[TMP4:%.*]] = load ptr addrspace(1), ptr addrspace(4) [[BLOCK_CAPTURE_ADDR2]], align 4
+// SPIR32-NEXT:    [[TMP4:%.*]] = load ptr addrspace(1), ptr addrspace(4) [[BLOCK_CAPTURE_ADDR2]], align 4, !freeze_bits [[META6]]
 // SPIR32-NEXT:    [[BLOCK_CAPTURE_ADDR3:%.*]] = getelementptr inbounds nuw <{ i32, i32, ptr addrspace(4), ptr addrspace(1), i32, ptr addrspace(1) }>, ptr addrspace(4) [[DOTBLOCK_DESCRIPTOR]], i32 0, i32 4
-// SPIR32-NEXT:    [[TMP5:%.*]] = load i32, ptr addrspace(4) [[BLOCK_CAPTURE_ADDR3]], align 4
+// SPIR32-NEXT:    [[TMP5:%.*]] = load i32, ptr addrspace(4) [[BLOCK_CAPTURE_ADDR3]], align 4, !freeze_bits [[META6]]
 // SPIR32-NEXT:    [[ARRAYIDX4:%.*]] = getelementptr inbounds float, ptr addrspace(1) [[TMP4]], i32 [[TMP5]]
 // SPIR32-NEXT:    store float [[TMP3]], ptr addrspace(1) [[ARRAYIDX4]], align 4
 // SPIR32-NEXT:    ret void
@@ -140,8 +142,10 @@ kernel void device_side_enqueue(global float *a, global float *b, int i) {
 // STRICTFP-NEXT:    store ptr addrspace(1) [[A]], ptr [[A_ADDR]], align 4
 // STRICTFP-NEXT:    store ptr addrspace(1) [[B]], ptr [[B_ADDR]], align 4
 // STRICTFP-NEXT:    store i32 [[I]], ptr [[I_ADDR]], align 4
+// STRICTFP-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// STRICTFP-NEXT:    store i32 [[FREEZE_POISON]], ptr [[FLAGS]], align 4
 // STRICTFP-NEXT:    store i32 0, ptr [[FLAGS]], align 4
-// STRICTFP-NEXT:    [[TMP0:%.*]] = load target("spirv.Queue"), ptr [[DEFAULT_QUEUE]], align 4
+// STRICTFP-NEXT:    [[TMP0:%.*]] = load target("spirv.Queue"), ptr [[DEFAULT_QUEUE]], align 4, !freeze_bits [[META6:![0-9]+]]
 // STRICTFP-NEXT:    [[TMP1:%.*]] = load i32, ptr [[FLAGS]], align 4
 // STRICTFP-NEXT:    call void @llvm.memcpy.p0.p0.i32(ptr align 4 [[TMP]], ptr align 4 [[NDRANGE]], i32 4, i1 false) #[[ATTR6:[0-9]+]]
 // STRICTFP-NEXT:    [[BLOCK_SIZE:%.*]] = getelementptr inbounds nuw <{ i32, i32, ptr addrspace(4), ptr addrspace(1), i32, ptr addrspace(1) }>, ptr [[BLOCK]], i32 0, i32 0
@@ -173,16 +177,16 @@ kernel void device_side_enqueue(global float *a, global float *b, int i) {
 // STRICTFP-NEXT:    store ptr addrspace(4) [[DOTBLOCK_DESCRIPTOR]], ptr [[DOTBLOCK_DESCRIPTOR_ADDR]], align 4
 // STRICTFP-NEXT:    store ptr addrspace(4) [[DOTBLOCK_DESCRIPTOR]], ptr [[BLOCK_ADDR]], align 4
 // STRICTFP-NEXT:    [[BLOCK_CAPTURE_ADDR:%.*]] = getelementptr inbounds nuw <{ i32, i32, ptr addrspace(4), ptr addrspace(1), i32, ptr addrspace(1) }>, ptr addrspace(4) [[DOTBLOCK_DESCRIPTOR]], i32 0, i32 5
-// STRICTFP-NEXT:    [[TMP0:%.*]] = load ptr addrspace(1), ptr addrspace(4) [[BLOCK_CAPTURE_ADDR]], align 4
+// STRICTFP-NEXT:    [[TMP0:%.*]] = load ptr addrspace(1), ptr addrspace(4) [[BLOCK_CAPTURE_ADDR]], align 4, !freeze_bits [[META6]]
 // STRICTFP-NEXT:    [[BLOCK_CAPTURE_ADDR1:%.*]] = getelementptr inbounds nuw <{ i32, i32, ptr addrspace(4), ptr addrspace(1), i32, ptr addrspace(1) }>, ptr addrspace(4) [[DOTBLOCK_DESCRIPTOR]], i32 0, i32 4
-// STRICTFP-NEXT:    [[TMP1:%.*]] = load i32, ptr addrspace(4) [[BLOCK_CAPTURE_ADDR1]], align 4
+// STRICTFP-NEXT:    [[TMP1:%.*]] = load i32, ptr addrspace(4) [[BLOCK_CAPTURE_ADDR1]], align 4, !freeze_bits [[META6]]
 // STRICTFP-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds float, ptr addrspace(1) [[TMP0]], i32 [[TMP1]]
-// STRICTFP-NEXT:    [[TMP2:%.*]] = load float, ptr addrspace(1) [[ARRAYIDX]], align 4
+// STRICTFP-NEXT:    [[TMP2:%.*]] = load float, ptr addrspace(1) [[ARRAYIDX]], align 4, !freeze_bits [[META6]]
 // STRICTFP-NEXT:    [[TMP3:%.*]] = call float @llvm.experimental.constrained.fmuladd.f32(float 4.000000e+00, float [[TMP2]], float 1.000000e+00, metadata !"round.tonearest", metadata !"fpexcept.strict") #[[ATTR6]]
 // STRICTFP-NEXT:    [[BLOCK_CAPTURE_ADDR2:%.*]] = getelementptr inbounds nuw <{ i32, i32, ptr addrspace(4), ptr addrspace(1), i32, ptr addrspace(1) }>, ptr addrspace(4) [[DOTBLOCK_DESCRIPTOR]], i32 0, i32 3
-// STRICTFP-NEXT:    [[TMP4:%.*]] = load ptr addrspace(1), ptr addrspace(4) [[BLOCK_CAPTURE_ADDR2]], align 4
+// STRICTFP-NEXT:    [[TMP4:%.*]] = load ptr addrspace(1), ptr addrspace(4) [[BLOCK_CAPTURE_ADDR2]], align 4, !freeze_bits [[META6]]
 // STRICTFP-NEXT:    [[BLOCK_CAPTURE_ADDR3:%.*]] = getelementptr inbounds nuw <{ i32, i32, ptr addrspace(4), ptr addrspace(1), i32, ptr addrspace(1) }>, ptr addrspace(4) [[DOTBLOCK_DESCRIPTOR]], i32 0, i32 4
-// STRICTFP-NEXT:    [[TMP5:%.*]] = load i32, ptr addrspace(4) [[BLOCK_CAPTURE_ADDR3]], align 4
+// STRICTFP-NEXT:    [[TMP5:%.*]] = load i32, ptr addrspace(4) [[BLOCK_CAPTURE_ADDR3]], align 4, !freeze_bits [[META6]]
 // STRICTFP-NEXT:    [[ARRAYIDX4:%.*]] = getelementptr inbounds float, ptr addrspace(1) [[TMP4]], i32 [[TMP5]]
 // STRICTFP-NEXT:    store float [[TMP3]], ptr addrspace(1) [[ARRAYIDX4]], align 4
 // STRICTFP-NEXT:    ret void
@@ -217,6 +221,7 @@ kernel void device_side_enqueue(global float *a, global float *b, int i) {
 // SPIR32: [[META3]] = !{!"none", !"none", !"none"}
 // SPIR32: [[META4]] = !{!"float*", !"float*", !"int"}
 // SPIR32: [[META5]] = !{!"", !"", !""}
+// SPIR32: [[META6]] = !{}
 //.
 // STRICTFP: [[META0:![0-9]+]] = !{i32 1, !"wchar_size", i32 4}
 // STRICTFP: [[META1:![0-9]+]] = !{i32 2, i32 0}
@@ -224,4 +229,5 @@ kernel void device_side_enqueue(global float *a, global float *b, int i) {
 // STRICTFP: [[META3]] = !{!"none", !"none", !"none"}
 // STRICTFP: [[META4]] = !{!"float*", !"float*", !"int"}
 // STRICTFP: [[META5]] = !{!"", !"", !""}
+// STRICTFP: [[META6]] = !{}
 //.

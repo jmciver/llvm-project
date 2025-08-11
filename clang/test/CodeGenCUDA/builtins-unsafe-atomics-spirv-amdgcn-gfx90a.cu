@@ -17,6 +17,8 @@ typedef __attribute__((address_space(3))) float *LP;
 // CHECK-NEXT:    [[RTN_ASCAST:%.*]] = addrspacecast ptr [[RTN]] to ptr addrspace(4)
 // CHECK-NEXT:    store ptr addrspace(4) [[ADDR]], ptr addrspace(4) [[ADDR_ADDR_ASCAST]], align 8
 // CHECK-NEXT:    store float [[VAL]], ptr addrspace(4) [[VAL_ADDR_ASCAST]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr addrspace(4) poison
+// CHECK-NEXT:    store ptr addrspace(4) [[FREEZE_POISON]], ptr addrspace(4) [[RTN_ASCAST]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr addrspace(4), ptr addrspace(4) [[ADDR_ADDR_ASCAST]], align 8
 // CHECK-NEXT:    [[TMP1:%.*]] = addrspacecast ptr addrspace(4) [[TMP0]] to ptr addrspace(3)
 // CHECK-NEXT:    [[TMP2:%.*]] = load float, ptr addrspace(4) [[VAL_ADDR_ASCAST]], align 4

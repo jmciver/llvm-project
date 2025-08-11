@@ -119,52 +119,70 @@ void foo(int N, Point const *Points) {
 // NORM-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTCAPTURE_EXPR_:%.*]] = alloca i32, align 4
-// NORM-NEXT:    [[DOTCAPTURE_EXPR_1:%.*]] = alloca i32, align 4
+// NORM-NEXT:    [[DOTCAPTURE_EXPR_2:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[I:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTOMP_LB:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTOMP_UB:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTOMP_STRIDE:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTOMP_IS_LAST:%.*]] = alloca i32, align 4
-// NORM-NEXT:    [[RED3:%.*]] = alloca [[STRUCT_POINT:%.*]], align 4
-// NORM-NEXT:    [[I4:%.*]] = alloca i32, align 4
+// NORM-NEXT:    [[RED10:%.*]] = alloca [[STRUCT_POINT:%.*]], align 4
+// NORM-NEXT:    [[I11:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTOMP_REDUCTION_RED_LIST:%.*]] = alloca [1 x ptr], align 8
 // NORM-NEXT:    [[REF_TMP:%.*]] = alloca [[STRUCT_POINT]], align 4
-// NORM-NEXT:    [[REF_TMP10:%.*]] = alloca [[STRUCT_POINT]], align 4
+// NORM-NEXT:    [[REF_TMP18:%.*]] = alloca [[STRUCT_POINT]], align 4
 // NORM-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // NORM-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // NORM-NEXT:    store ptr [[N]], ptr [[N_ADDR]], align 8
 // NORM-NEXT:    store ptr [[RED]], ptr [[RED_ADDR]], align 8
 // NORM-NEXT:    store ptr [[POINTS]], ptr [[POINTS_ADDR]], align 8
-// NORM-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[N_ADDR]], align 8
-// NORM-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[RED_ADDR]], align 8
-// NORM-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[POINTS_ADDR]], align 8
-// NORM-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP0]], align 4
+// NORM-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[N_ADDR]], align 8, !nonnull [[META3:![0-9]+]], !align [[META4:![0-9]+]]
+// NORM-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[RED_ADDR]], align 8, !nonnull [[META3]], !align [[META4]]
+// NORM-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[POINTS_ADDR]], align 8, !nonnull [[META3]], !align [[META5:![0-9]+]]
+// NORM-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// NORM-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// NORM-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // NORM-NEXT:    store i32 [[TMP3]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// NORM-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTCAPTURE_EXPR_2]], align 4
 // NORM-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // NORM-NEXT:    [[SUB:%.*]] = sub i32 [[TMP4]], 0
 // NORM-NEXT:    [[DIV:%.*]] = udiv i32 [[SUB]], 1
-// NORM-NEXT:    [[SUB2:%.*]] = sub i32 [[DIV]], 1
-// NORM-NEXT:    store i32 [[SUB2]], ptr [[DOTCAPTURE_EXPR_1]], align 4
+// NORM-NEXT:    [[SUB4:%.*]] = sub i32 [[DIV]], 1
+// NORM-NEXT:    store i32 [[SUB4]], ptr [[DOTCAPTURE_EXPR_2]], align 4
+// NORM-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // NORM-NEXT:    store i32 0, ptr [[I]], align 4
 // NORM-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // NORM-NEXT:    [[CMP:%.*]] = icmp ult i32 0, [[TMP5]]
 // NORM-NEXT:    br i1 [[CMP]], label [[OMP_PRECOND_THEN:%.*]], label [[OMP_PRECOND_END:%.*]]
 // NORM:       omp.precond.then:
+// NORM-NEXT:    [[FREEZE_POISON6:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON6]], ptr [[DOTOMP_LB]], align 4
 // NORM-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
-// NORM-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
+// NORM-NEXT:    [[FREEZE_POISON7:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON7]], ptr [[DOTOMP_UB]], align 4
+// NORM-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
 // NORM-NEXT:    store i32 [[TMP6]], ptr [[DOTOMP_UB]], align 4
+// NORM-NEXT:    [[FREEZE_POISON8:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON8]], ptr [[DOTOMP_STRIDE]], align 4
 // NORM-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// NORM-NEXT:    [[FREEZE_POISON9:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON9]], ptr [[DOTOMP_IS_LAST]], align 4
 // NORM-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// NORM-NEXT:    call void @_ZN5PointC1Ev(ptr nonnull align 4 dereferenceable(8) [[RED3]]) #[[ATTR2]]
+// NORM-NEXT:    call void @_ZN5PointC1Ev(ptr nonnull align 4 dereferenceable(8) [[RED10]]) #[[ATTR2]]
+// NORM-NEXT:    [[FREEZE_POISON12:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON12]], ptr [[I11]], align 4
 // NORM-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// NORM-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP7]], align 4
+// NORM-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP7]], align 4, !freeze_bits [[META3]]
 // NORM-NEXT:    call void @__kmpc_for_static_init_4u(ptr @[[GLOB1:[0-9]+]], i32 [[TMP8]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // NORM-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// NORM-NEXT:    [[TMP10:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
-// NORM-NEXT:    [[CMP5:%.*]] = icmp ugt i32 [[TMP9]], [[TMP10]]
-// NORM-NEXT:    br i1 [[CMP5]], label [[COND_TRUE:%.*]], label [[COND_FALSE:%.*]]
+// NORM-NEXT:    [[TMP10:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
+// NORM-NEXT:    [[CMP13:%.*]] = icmp ugt i32 [[TMP9]], [[TMP10]]
+// NORM-NEXT:    br i1 [[CMP13]], label [[COND_TRUE:%.*]], label [[COND_FALSE:%.*]]
 // NORM:       cond.true:
-// NORM-NEXT:    [[TMP11:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
+// NORM-NEXT:    [[TMP11:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
 // NORM-NEXT:    br label [[COND_END:%.*]]
 // NORM:       cond.false:
 // NORM-NEXT:    [[TMP12:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
@@ -179,52 +197,52 @@ void foo(int N, Point const *Points) {
 // NORM-NEXT:    [[TMP14:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // NORM-NEXT:    [[TMP15:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // NORM-NEXT:    [[ADD:%.*]] = add i32 [[TMP15]], 1
-// NORM-NEXT:    [[CMP6:%.*]] = icmp ult i32 [[TMP14]], [[ADD]]
-// NORM-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// NORM-NEXT:    [[CMP14:%.*]] = icmp ult i32 [[TMP14]], [[ADD]]
+// NORM-NEXT:    br i1 [[CMP14]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // NORM:       omp.inner.for.body:
 // NORM-NEXT:    [[TMP16:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // NORM-NEXT:    [[MUL:%.*]] = mul i32 [[TMP16]], 1
-// NORM-NEXT:    [[ADD7:%.*]] = add i32 0, [[MUL]]
-// NORM-NEXT:    store i32 [[ADD7]], ptr [[I4]], align 4
-// NORM-NEXT:    [[TMP17:%.*]] = load i32, ptr [[I4]], align 4
-// NORM-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[TMP2]], align 8
-// NORM-NEXT:    call void @_Z4workR5PointiPKS_(ptr nonnull align 4 dereferenceable(8) [[RED3]], i32 [[TMP17]], ptr [[TMP18]])
+// NORM-NEXT:    [[ADD15:%.*]] = add i32 0, [[MUL]]
+// NORM-NEXT:    store i32 [[ADD15]], ptr [[I11]], align 4
+// NORM-NEXT:    [[TMP17:%.*]] = load i32, ptr [[I11]], align 4
+// NORM-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[TMP2]], align 8, !freeze_bits [[META3]]
+// NORM-NEXT:    call void @_Z4workR5PointiPKS_(ptr nonnull align 4 dereferenceable(8) [[RED10]], i32 [[TMP17]], ptr [[TMP18]])
 // NORM-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // NORM:       omp.body.continue:
 // NORM-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // NORM:       omp.inner.for.inc:
 // NORM-NEXT:    [[TMP19:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// NORM-NEXT:    [[ADD8:%.*]] = add i32 [[TMP19]], 1
-// NORM-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
+// NORM-NEXT:    [[ADD16:%.*]] = add i32 [[TMP19]], 1
+// NORM-NEXT:    store i32 [[ADD16]], ptr [[DOTOMP_IV]], align 4
 // NORM-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // NORM:       omp.inner.for.end:
 // NORM-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
 // NORM:       omp.loop.exit:
 // NORM-NEXT:    [[TMP20:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// NORM-NEXT:    [[TMP21:%.*]] = load i32, ptr [[TMP20]], align 4
+// NORM-NEXT:    [[TMP21:%.*]] = load i32, ptr [[TMP20]], align 4, !freeze_bits [[META3]]
 // NORM-NEXT:    call void @__kmpc_for_static_fini(ptr @[[GLOB1]], i32 [[TMP21]])
 // NORM-NEXT:    [[TMP22:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOMP_REDUCTION_RED_LIST]], i64 0, i64 0
-// NORM-NEXT:    store ptr [[RED3]], ptr [[TMP22]], align 8
+// NORM-NEXT:    store ptr [[RED10]], ptr [[TMP22]], align 8
 // NORM-NEXT:    [[TMP23:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// NORM-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP23]], align 4
+// NORM-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP23]], align 4, !freeze_bits [[META3]]
 // NORM-NEXT:    [[TMP25:%.*]] = call i32 @__kmpc_reduce_nowait(ptr @[[GLOB2:[0-9]+]], i32 [[TMP24]], i32 1, i64 8, ptr [[DOTOMP_REDUCTION_RED_LIST]], ptr @_Z3fooiPK5Point.omp_outlined.omp.reduction.reduction_func, ptr @.gomp_critical_user_.reduction.var)
 // NORM-NEXT:    switch i32 [[TMP25]], label [[DOTOMP_REDUCTION_DEFAULT:%.*]] [
 // NORM-NEXT:      i32 1, label [[DOTOMP_REDUCTION_CASE1:%.*]]
 // NORM-NEXT:      i32 2, label [[DOTOMP_REDUCTION_CASE2:%.*]]
 // NORM-NEXT:    ]
 // NORM:       .omp.reduction.case1:
-// NORM-NEXT:    [[CALL:%.*]] = call i64 @_ZNK5PointplERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED3]])
+// NORM-NEXT:    [[CALL:%.*]] = call i64 @_ZNK5PointplERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED10]])
 // NORM-NEXT:    store i64 [[CALL]], ptr [[REF_TMP]], align 4
-// NORM-NEXT:    [[CALL9:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP]])
+// NORM-NEXT:    [[CALL17:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP]])
 // NORM-NEXT:    call void @__kmpc_end_reduce_nowait(ptr @[[GLOB2]], i32 [[TMP24]], ptr @.gomp_critical_user_.reduction.var)
 // NORM-NEXT:    br label [[DOTOMP_REDUCTION_DEFAULT]]
 // NORM:       .omp.reduction.case2:
 // NORM-NEXT:    [[TMP26:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// NORM-NEXT:    [[TMP27:%.*]] = load i32, ptr [[TMP26]], align 4
+// NORM-NEXT:    [[TMP27:%.*]] = load i32, ptr [[TMP26]], align 4, !freeze_bits [[META3]]
 // NORM-NEXT:    call void @__kmpc_critical(ptr @[[GLOB3]], i32 [[TMP27]], ptr @.gomp_critical_user_.atomic_reduction.var)
-// NORM-NEXT:    [[CALL11:%.*]] = call i64 @_ZNK5PointplERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED3]])
-// NORM-NEXT:    store i64 [[CALL11]], ptr [[REF_TMP10]], align 4
-// NORM-NEXT:    [[CALL12:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP10]])
+// NORM-NEXT:    [[CALL19:%.*]] = call i64 @_ZNK5PointplERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED10]])
+// NORM-NEXT:    store i64 [[CALL19]], ptr [[REF_TMP18]], align 4
+// NORM-NEXT:    [[CALL20:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP18]])
 // NORM-NEXT:    call void @__kmpc_end_critical(ptr @[[GLOB3]], i32 [[TMP27]], ptr @.gomp_critical_user_.atomic_reduction.var)
 // NORM-NEXT:    br label [[DOTOMP_REDUCTION_DEFAULT]]
 // NORM:       .omp.reduction.default:
@@ -244,9 +262,9 @@ void foo(int N, Point const *Points) {
 // NORM-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // NORM-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // NORM-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP3]], i64 0, i64 0
-// NORM-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[TMP4]], align 8
+// NORM-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[TMP4]], align 8, !freeze_bits [[META3]]
 // NORM-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP2]], i64 0, i64 0
-// NORM-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[TMP6]], align 8
+// NORM-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[TMP6]], align 8, !freeze_bits [[META3]]
 // NORM-NEXT:    [[CALL:%.*]] = call i64 @_ZNK5PointplERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP7]], ptr nonnull align 4 dereferenceable(8) [[TMP5]])
 // NORM-NEXT:    store i64 [[CALL]], ptr [[REF_TMP]], align 4
 // NORM-NEXT:    [[CALL2:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP7]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP]])
@@ -264,52 +282,70 @@ void foo(int N, Point const *Points) {
 // NORM-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTCAPTURE_EXPR_:%.*]] = alloca i32, align 4
-// NORM-NEXT:    [[DOTCAPTURE_EXPR_1:%.*]] = alloca i32, align 4
+// NORM-NEXT:    [[DOTCAPTURE_EXPR_2:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[I:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTOMP_LB:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTOMP_UB:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTOMP_STRIDE:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTOMP_IS_LAST:%.*]] = alloca i32, align 4
-// NORM-NEXT:    [[RED3:%.*]] = alloca [[STRUCT_POINT:%.*]], align 4
-// NORM-NEXT:    [[I4:%.*]] = alloca i32, align 4
+// NORM-NEXT:    [[RED10:%.*]] = alloca [[STRUCT_POINT:%.*]], align 4
+// NORM-NEXT:    [[I11:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTOMP_REDUCTION_RED_LIST:%.*]] = alloca [1 x ptr], align 8
 // NORM-NEXT:    [[REF_TMP:%.*]] = alloca [[STRUCT_POINT]], align 4
-// NORM-NEXT:    [[REF_TMP10:%.*]] = alloca [[STRUCT_POINT]], align 4
+// NORM-NEXT:    [[REF_TMP18:%.*]] = alloca [[STRUCT_POINT]], align 4
 // NORM-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // NORM-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // NORM-NEXT:    store ptr [[N]], ptr [[N_ADDR]], align 8
 // NORM-NEXT:    store ptr [[RED]], ptr [[RED_ADDR]], align 8
 // NORM-NEXT:    store ptr [[POINTS]], ptr [[POINTS_ADDR]], align 8
-// NORM-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[N_ADDR]], align 8
-// NORM-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[RED_ADDR]], align 8
-// NORM-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[POINTS_ADDR]], align 8
-// NORM-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP0]], align 4
+// NORM-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[N_ADDR]], align 8, !nonnull [[META3]], !align [[META4]]
+// NORM-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[RED_ADDR]], align 8, !nonnull [[META3]], !align [[META4]]
+// NORM-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[POINTS_ADDR]], align 8, !nonnull [[META3]], !align [[META5]]
+// NORM-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// NORM-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// NORM-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // NORM-NEXT:    store i32 [[TMP3]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// NORM-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTCAPTURE_EXPR_2]], align 4
 // NORM-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // NORM-NEXT:    [[SUB:%.*]] = sub i32 [[TMP4]], 0
 // NORM-NEXT:    [[DIV:%.*]] = udiv i32 [[SUB]], 1
-// NORM-NEXT:    [[SUB2:%.*]] = sub i32 [[DIV]], 1
-// NORM-NEXT:    store i32 [[SUB2]], ptr [[DOTCAPTURE_EXPR_1]], align 4
+// NORM-NEXT:    [[SUB4:%.*]] = sub i32 [[DIV]], 1
+// NORM-NEXT:    store i32 [[SUB4]], ptr [[DOTCAPTURE_EXPR_2]], align 4
+// NORM-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // NORM-NEXT:    store i32 0, ptr [[I]], align 4
 // NORM-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // NORM-NEXT:    [[CMP:%.*]] = icmp ult i32 0, [[TMP5]]
 // NORM-NEXT:    br i1 [[CMP]], label [[OMP_PRECOND_THEN:%.*]], label [[OMP_PRECOND_END:%.*]]
 // NORM:       omp.precond.then:
+// NORM-NEXT:    [[FREEZE_POISON6:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON6]], ptr [[DOTOMP_LB]], align 4
 // NORM-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
-// NORM-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
+// NORM-NEXT:    [[FREEZE_POISON7:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON7]], ptr [[DOTOMP_UB]], align 4
+// NORM-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
 // NORM-NEXT:    store i32 [[TMP6]], ptr [[DOTOMP_UB]], align 4
+// NORM-NEXT:    [[FREEZE_POISON8:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON8]], ptr [[DOTOMP_STRIDE]], align 4
 // NORM-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// NORM-NEXT:    [[FREEZE_POISON9:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON9]], ptr [[DOTOMP_IS_LAST]], align 4
 // NORM-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// NORM-NEXT:    call void @_ZN5PointC1Ev(ptr nonnull align 4 dereferenceable(8) [[RED3]]) #[[ATTR2]]
+// NORM-NEXT:    call void @_ZN5PointC1Ev(ptr nonnull align 4 dereferenceable(8) [[RED10]]) #[[ATTR2]]
+// NORM-NEXT:    [[FREEZE_POISON12:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON12]], ptr [[I11]], align 4
 // NORM-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// NORM-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP7]], align 4
+// NORM-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP7]], align 4, !freeze_bits [[META3]]
 // NORM-NEXT:    call void @__kmpc_for_static_init_4u(ptr @[[GLOB1]], i32 [[TMP8]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // NORM-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// NORM-NEXT:    [[TMP10:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
-// NORM-NEXT:    [[CMP5:%.*]] = icmp ugt i32 [[TMP9]], [[TMP10]]
-// NORM-NEXT:    br i1 [[CMP5]], label [[COND_TRUE:%.*]], label [[COND_FALSE:%.*]]
+// NORM-NEXT:    [[TMP10:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
+// NORM-NEXT:    [[CMP13:%.*]] = icmp ugt i32 [[TMP9]], [[TMP10]]
+// NORM-NEXT:    br i1 [[CMP13]], label [[COND_TRUE:%.*]], label [[COND_FALSE:%.*]]
 // NORM:       cond.true:
-// NORM-NEXT:    [[TMP11:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
+// NORM-NEXT:    [[TMP11:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
 // NORM-NEXT:    br label [[COND_END:%.*]]
 // NORM:       cond.false:
 // NORM-NEXT:    [[TMP12:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
@@ -324,52 +360,52 @@ void foo(int N, Point const *Points) {
 // NORM-NEXT:    [[TMP14:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // NORM-NEXT:    [[TMP15:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // NORM-NEXT:    [[ADD:%.*]] = add i32 [[TMP15]], 1
-// NORM-NEXT:    [[CMP6:%.*]] = icmp ult i32 [[TMP14]], [[ADD]]
-// NORM-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// NORM-NEXT:    [[CMP14:%.*]] = icmp ult i32 [[TMP14]], [[ADD]]
+// NORM-NEXT:    br i1 [[CMP14]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // NORM:       omp.inner.for.body:
 // NORM-NEXT:    [[TMP16:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // NORM-NEXT:    [[MUL:%.*]] = mul i32 [[TMP16]], 1
-// NORM-NEXT:    [[ADD7:%.*]] = add i32 0, [[MUL]]
-// NORM-NEXT:    store i32 [[ADD7]], ptr [[I4]], align 4
-// NORM-NEXT:    [[TMP17:%.*]] = load i32, ptr [[I4]], align 4
-// NORM-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[TMP2]], align 8
-// NORM-NEXT:    call void @_Z4workR5PointiPKS_(ptr nonnull align 4 dereferenceable(8) [[RED3]], i32 [[TMP17]], ptr [[TMP18]])
+// NORM-NEXT:    [[ADD15:%.*]] = add i32 0, [[MUL]]
+// NORM-NEXT:    store i32 [[ADD15]], ptr [[I11]], align 4
+// NORM-NEXT:    [[TMP17:%.*]] = load i32, ptr [[I11]], align 4
+// NORM-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[TMP2]], align 8, !freeze_bits [[META3]]
+// NORM-NEXT:    call void @_Z4workR5PointiPKS_(ptr nonnull align 4 dereferenceable(8) [[RED10]], i32 [[TMP17]], ptr [[TMP18]])
 // NORM-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // NORM:       omp.body.continue:
 // NORM-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // NORM:       omp.inner.for.inc:
 // NORM-NEXT:    [[TMP19:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// NORM-NEXT:    [[ADD8:%.*]] = add i32 [[TMP19]], 1
-// NORM-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
+// NORM-NEXT:    [[ADD16:%.*]] = add i32 [[TMP19]], 1
+// NORM-NEXT:    store i32 [[ADD16]], ptr [[DOTOMP_IV]], align 4
 // NORM-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // NORM:       omp.inner.for.end:
 // NORM-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
 // NORM:       omp.loop.exit:
 // NORM-NEXT:    [[TMP20:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// NORM-NEXT:    [[TMP21:%.*]] = load i32, ptr [[TMP20]], align 4
+// NORM-NEXT:    [[TMP21:%.*]] = load i32, ptr [[TMP20]], align 4, !freeze_bits [[META3]]
 // NORM-NEXT:    call void @__kmpc_for_static_fini(ptr @[[GLOB1]], i32 [[TMP21]])
 // NORM-NEXT:    [[TMP22:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOMP_REDUCTION_RED_LIST]], i64 0, i64 0
-// NORM-NEXT:    store ptr [[RED3]], ptr [[TMP22]], align 8
+// NORM-NEXT:    store ptr [[RED10]], ptr [[TMP22]], align 8
 // NORM-NEXT:    [[TMP23:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// NORM-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP23]], align 4
+// NORM-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP23]], align 4, !freeze_bits [[META3]]
 // NORM-NEXT:    [[TMP25:%.*]] = call i32 @__kmpc_reduce_nowait(ptr @[[GLOB2]], i32 [[TMP24]], i32 1, i64 8, ptr [[DOTOMP_REDUCTION_RED_LIST]], ptr @_Z3fooiPK5Point.omp_outlined.1.omp.reduction.reduction_func, ptr @.gomp_critical_user_.reduction.var)
 // NORM-NEXT:    switch i32 [[TMP25]], label [[DOTOMP_REDUCTION_DEFAULT:%.*]] [
 // NORM-NEXT:      i32 1, label [[DOTOMP_REDUCTION_CASE1:%.*]]
 // NORM-NEXT:      i32 2, label [[DOTOMP_REDUCTION_CASE2:%.*]]
 // NORM-NEXT:    ]
 // NORM:       .omp.reduction.case1:
-// NORM-NEXT:    [[CALL:%.*]] = call i64 @_ZNK5PointplERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED3]])
+// NORM-NEXT:    [[CALL:%.*]] = call i64 @_ZNK5PointplERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED10]])
 // NORM-NEXT:    store i64 [[CALL]], ptr [[REF_TMP]], align 4
-// NORM-NEXT:    [[CALL9:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP]])
+// NORM-NEXT:    [[CALL17:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP]])
 // NORM-NEXT:    call void @__kmpc_end_reduce_nowait(ptr @[[GLOB2]], i32 [[TMP24]], ptr @.gomp_critical_user_.reduction.var)
 // NORM-NEXT:    br label [[DOTOMP_REDUCTION_DEFAULT]]
 // NORM:       .omp.reduction.case2:
 // NORM-NEXT:    [[TMP26:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// NORM-NEXT:    [[TMP27:%.*]] = load i32, ptr [[TMP26]], align 4
+// NORM-NEXT:    [[TMP27:%.*]] = load i32, ptr [[TMP26]], align 4, !freeze_bits [[META3]]
 // NORM-NEXT:    call void @__kmpc_critical(ptr @[[GLOB3]], i32 [[TMP27]], ptr @.gomp_critical_user_.atomic_reduction.var)
-// NORM-NEXT:    [[CALL11:%.*]] = call i64 @_ZNK5PointplERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED3]])
-// NORM-NEXT:    store i64 [[CALL11]], ptr [[REF_TMP10]], align 4
-// NORM-NEXT:    [[CALL12:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP10]])
+// NORM-NEXT:    [[CALL19:%.*]] = call i64 @_ZNK5PointplERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED10]])
+// NORM-NEXT:    store i64 [[CALL19]], ptr [[REF_TMP18]], align 4
+// NORM-NEXT:    [[CALL20:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP18]])
 // NORM-NEXT:    call void @__kmpc_end_critical(ptr @[[GLOB3]], i32 [[TMP27]], ptr @.gomp_critical_user_.atomic_reduction.var)
 // NORM-NEXT:    br label [[DOTOMP_REDUCTION_DEFAULT]]
 // NORM:       .omp.reduction.default:
@@ -389,9 +425,9 @@ void foo(int N, Point const *Points) {
 // NORM-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // NORM-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // NORM-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP3]], i64 0, i64 0
-// NORM-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[TMP4]], align 8
+// NORM-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[TMP4]], align 8, !freeze_bits [[META3]]
 // NORM-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP2]], i64 0, i64 0
-// NORM-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[TMP6]], align 8
+// NORM-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[TMP6]], align 8, !freeze_bits [[META3]]
 // NORM-NEXT:    [[CALL:%.*]] = call i64 @_ZNK5PointplERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP7]], ptr nonnull align 4 dereferenceable(8) [[TMP5]])
 // NORM-NEXT:    store i64 [[CALL]], ptr [[REF_TMP]], align 4
 // NORM-NEXT:    [[CALL2:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP7]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP]])
@@ -409,52 +445,70 @@ void foo(int N, Point const *Points) {
 // NORM-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTCAPTURE_EXPR_:%.*]] = alloca i32, align 4
-// NORM-NEXT:    [[DOTCAPTURE_EXPR_1:%.*]] = alloca i32, align 4
+// NORM-NEXT:    [[DOTCAPTURE_EXPR_2:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[I:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTOMP_LB:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTOMP_UB:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTOMP_STRIDE:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTOMP_IS_LAST:%.*]] = alloca i32, align 4
-// NORM-NEXT:    [[RED3:%.*]] = alloca [[STRUCT_POINT:%.*]], align 4
-// NORM-NEXT:    [[I4:%.*]] = alloca i32, align 4
+// NORM-NEXT:    [[RED10:%.*]] = alloca [[STRUCT_POINT:%.*]], align 4
+// NORM-NEXT:    [[I11:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTOMP_REDUCTION_RED_LIST:%.*]] = alloca [1 x ptr], align 8
 // NORM-NEXT:    [[REF_TMP:%.*]] = alloca [[STRUCT_POINT]], align 4
-// NORM-NEXT:    [[REF_TMP10:%.*]] = alloca [[STRUCT_POINT]], align 4
+// NORM-NEXT:    [[REF_TMP18:%.*]] = alloca [[STRUCT_POINT]], align 4
 // NORM-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // NORM-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // NORM-NEXT:    store ptr [[N]], ptr [[N_ADDR]], align 8
 // NORM-NEXT:    store ptr [[RED]], ptr [[RED_ADDR]], align 8
 // NORM-NEXT:    store ptr [[POINTS]], ptr [[POINTS_ADDR]], align 8
-// NORM-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[N_ADDR]], align 8
-// NORM-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[RED_ADDR]], align 8
-// NORM-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[POINTS_ADDR]], align 8
-// NORM-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP0]], align 4
+// NORM-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[N_ADDR]], align 8, !nonnull [[META3]], !align [[META4]]
+// NORM-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[RED_ADDR]], align 8, !nonnull [[META3]], !align [[META4]]
+// NORM-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[POINTS_ADDR]], align 8, !nonnull [[META3]], !align [[META5]]
+// NORM-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// NORM-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// NORM-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // NORM-NEXT:    store i32 [[TMP3]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// NORM-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTCAPTURE_EXPR_2]], align 4
 // NORM-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // NORM-NEXT:    [[SUB:%.*]] = sub i32 [[TMP4]], 0
 // NORM-NEXT:    [[DIV:%.*]] = udiv i32 [[SUB]], 1
-// NORM-NEXT:    [[SUB2:%.*]] = sub i32 [[DIV]], 1
-// NORM-NEXT:    store i32 [[SUB2]], ptr [[DOTCAPTURE_EXPR_1]], align 4
+// NORM-NEXT:    [[SUB4:%.*]] = sub i32 [[DIV]], 1
+// NORM-NEXT:    store i32 [[SUB4]], ptr [[DOTCAPTURE_EXPR_2]], align 4
+// NORM-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // NORM-NEXT:    store i32 0, ptr [[I]], align 4
 // NORM-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // NORM-NEXT:    [[CMP:%.*]] = icmp ult i32 0, [[TMP5]]
 // NORM-NEXT:    br i1 [[CMP]], label [[OMP_PRECOND_THEN:%.*]], label [[OMP_PRECOND_END:%.*]]
 // NORM:       omp.precond.then:
+// NORM-NEXT:    [[FREEZE_POISON6:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON6]], ptr [[DOTOMP_LB]], align 4
 // NORM-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
-// NORM-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
+// NORM-NEXT:    [[FREEZE_POISON7:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON7]], ptr [[DOTOMP_UB]], align 4
+// NORM-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
 // NORM-NEXT:    store i32 [[TMP6]], ptr [[DOTOMP_UB]], align 4
+// NORM-NEXT:    [[FREEZE_POISON8:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON8]], ptr [[DOTOMP_STRIDE]], align 4
 // NORM-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// NORM-NEXT:    [[FREEZE_POISON9:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON9]], ptr [[DOTOMP_IS_LAST]], align 4
 // NORM-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// NORM-NEXT:    call void @_ZN5PointC1Ev(ptr nonnull align 4 dereferenceable(8) [[RED3]]) #[[ATTR2]]
+// NORM-NEXT:    call void @_ZN5PointC1Ev(ptr nonnull align 4 dereferenceable(8) [[RED10]]) #[[ATTR2]]
+// NORM-NEXT:    [[FREEZE_POISON12:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON12]], ptr [[I11]], align 4
 // NORM-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// NORM-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP7]], align 4
+// NORM-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP7]], align 4, !freeze_bits [[META3]]
 // NORM-NEXT:    call void @__kmpc_for_static_init_4u(ptr @[[GLOB1]], i32 [[TMP8]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // NORM-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// NORM-NEXT:    [[TMP10:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
-// NORM-NEXT:    [[CMP5:%.*]] = icmp ugt i32 [[TMP9]], [[TMP10]]
-// NORM-NEXT:    br i1 [[CMP5]], label [[COND_TRUE:%.*]], label [[COND_FALSE:%.*]]
+// NORM-NEXT:    [[TMP10:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
+// NORM-NEXT:    [[CMP13:%.*]] = icmp ugt i32 [[TMP9]], [[TMP10]]
+// NORM-NEXT:    br i1 [[CMP13]], label [[COND_TRUE:%.*]], label [[COND_FALSE:%.*]]
 // NORM:       cond.true:
-// NORM-NEXT:    [[TMP11:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
+// NORM-NEXT:    [[TMP11:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
 // NORM-NEXT:    br label [[COND_END:%.*]]
 // NORM:       cond.false:
 // NORM-NEXT:    [[TMP12:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
@@ -469,52 +523,52 @@ void foo(int N, Point const *Points) {
 // NORM-NEXT:    [[TMP14:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // NORM-NEXT:    [[TMP15:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // NORM-NEXT:    [[ADD:%.*]] = add i32 [[TMP15]], 1
-// NORM-NEXT:    [[CMP6:%.*]] = icmp ult i32 [[TMP14]], [[ADD]]
-// NORM-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// NORM-NEXT:    [[CMP14:%.*]] = icmp ult i32 [[TMP14]], [[ADD]]
+// NORM-NEXT:    br i1 [[CMP14]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // NORM:       omp.inner.for.body:
 // NORM-NEXT:    [[TMP16:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // NORM-NEXT:    [[MUL:%.*]] = mul i32 [[TMP16]], 1
-// NORM-NEXT:    [[ADD7:%.*]] = add i32 0, [[MUL]]
-// NORM-NEXT:    store i32 [[ADD7]], ptr [[I4]], align 4
-// NORM-NEXT:    [[TMP17:%.*]] = load i32, ptr [[I4]], align 4
-// NORM-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[TMP2]], align 8
-// NORM-NEXT:    call void @_Z4workR5PointiPKS_(ptr nonnull align 4 dereferenceable(8) [[RED3]], i32 [[TMP17]], ptr [[TMP18]])
+// NORM-NEXT:    [[ADD15:%.*]] = add i32 0, [[MUL]]
+// NORM-NEXT:    store i32 [[ADD15]], ptr [[I11]], align 4
+// NORM-NEXT:    [[TMP17:%.*]] = load i32, ptr [[I11]], align 4
+// NORM-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[TMP2]], align 8, !freeze_bits [[META3]]
+// NORM-NEXT:    call void @_Z4workR5PointiPKS_(ptr nonnull align 4 dereferenceable(8) [[RED10]], i32 [[TMP17]], ptr [[TMP18]])
 // NORM-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // NORM:       omp.body.continue:
 // NORM-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // NORM:       omp.inner.for.inc:
 // NORM-NEXT:    [[TMP19:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// NORM-NEXT:    [[ADD8:%.*]] = add i32 [[TMP19]], 1
-// NORM-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
+// NORM-NEXT:    [[ADD16:%.*]] = add i32 [[TMP19]], 1
+// NORM-NEXT:    store i32 [[ADD16]], ptr [[DOTOMP_IV]], align 4
 // NORM-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // NORM:       omp.inner.for.end:
 // NORM-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
 // NORM:       omp.loop.exit:
 // NORM-NEXT:    [[TMP20:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// NORM-NEXT:    [[TMP21:%.*]] = load i32, ptr [[TMP20]], align 4
+// NORM-NEXT:    [[TMP21:%.*]] = load i32, ptr [[TMP20]], align 4, !freeze_bits [[META3]]
 // NORM-NEXT:    call void @__kmpc_for_static_fini(ptr @[[GLOB1]], i32 [[TMP21]])
 // NORM-NEXT:    [[TMP22:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOMP_REDUCTION_RED_LIST]], i64 0, i64 0
-// NORM-NEXT:    store ptr [[RED3]], ptr [[TMP22]], align 8
+// NORM-NEXT:    store ptr [[RED10]], ptr [[TMP22]], align 8
 // NORM-NEXT:    [[TMP23:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// NORM-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP23]], align 4
+// NORM-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP23]], align 4, !freeze_bits [[META3]]
 // NORM-NEXT:    [[TMP25:%.*]] = call i32 @__kmpc_reduce_nowait(ptr @[[GLOB2]], i32 [[TMP24]], i32 1, i64 8, ptr [[DOTOMP_REDUCTION_RED_LIST]], ptr @_Z3fooiPK5Point.omp_outlined.2.omp.reduction.reduction_func, ptr @.gomp_critical_user_.reduction.var)
 // NORM-NEXT:    switch i32 [[TMP25]], label [[DOTOMP_REDUCTION_DEFAULT:%.*]] [
 // NORM-NEXT:      i32 1, label [[DOTOMP_REDUCTION_CASE1:%.*]]
 // NORM-NEXT:      i32 2, label [[DOTOMP_REDUCTION_CASE2:%.*]]
 // NORM-NEXT:    ]
 // NORM:       .omp.reduction.case1:
-// NORM-NEXT:    [[CALL:%.*]] = call i64 @_ZNK5PointmlERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED3]])
+// NORM-NEXT:    [[CALL:%.*]] = call i64 @_ZNK5PointmlERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED10]])
 // NORM-NEXT:    store i64 [[CALL]], ptr [[REF_TMP]], align 4
-// NORM-NEXT:    [[CALL9:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP]])
+// NORM-NEXT:    [[CALL17:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP]])
 // NORM-NEXT:    call void @__kmpc_end_reduce_nowait(ptr @[[GLOB2]], i32 [[TMP24]], ptr @.gomp_critical_user_.reduction.var)
 // NORM-NEXT:    br label [[DOTOMP_REDUCTION_DEFAULT]]
 // NORM:       .omp.reduction.case2:
 // NORM-NEXT:    [[TMP26:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// NORM-NEXT:    [[TMP27:%.*]] = load i32, ptr [[TMP26]], align 4
+// NORM-NEXT:    [[TMP27:%.*]] = load i32, ptr [[TMP26]], align 4, !freeze_bits [[META3]]
 // NORM-NEXT:    call void @__kmpc_critical(ptr @[[GLOB3]], i32 [[TMP27]], ptr @.gomp_critical_user_.atomic_reduction.var)
-// NORM-NEXT:    [[CALL11:%.*]] = call i64 @_ZNK5PointmlERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED3]])
-// NORM-NEXT:    store i64 [[CALL11]], ptr [[REF_TMP10]], align 4
-// NORM-NEXT:    [[CALL12:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP10]])
+// NORM-NEXT:    [[CALL19:%.*]] = call i64 @_ZNK5PointmlERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED10]])
+// NORM-NEXT:    store i64 [[CALL19]], ptr [[REF_TMP18]], align 4
+// NORM-NEXT:    [[CALL20:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP18]])
 // NORM-NEXT:    call void @__kmpc_end_critical(ptr @[[GLOB3]], i32 [[TMP27]], ptr @.gomp_critical_user_.atomic_reduction.var)
 // NORM-NEXT:    br label [[DOTOMP_REDUCTION_DEFAULT]]
 // NORM:       .omp.reduction.default:
@@ -534,9 +588,9 @@ void foo(int N, Point const *Points) {
 // NORM-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // NORM-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // NORM-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP3]], i64 0, i64 0
-// NORM-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[TMP4]], align 8
+// NORM-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[TMP4]], align 8, !freeze_bits [[META3]]
 // NORM-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP2]], i64 0, i64 0
-// NORM-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[TMP6]], align 8
+// NORM-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[TMP6]], align 8, !freeze_bits [[META3]]
 // NORM-NEXT:    [[CALL:%.*]] = call i64 @_ZNK5PointmlERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP7]], ptr nonnull align 4 dereferenceable(8) [[TMP5]])
 // NORM-NEXT:    store i64 [[CALL]], ptr [[REF_TMP]], align 4
 // NORM-NEXT:    [[CALL2:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP7]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP]])
@@ -554,52 +608,70 @@ void foo(int N, Point const *Points) {
 // NORM-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTCAPTURE_EXPR_:%.*]] = alloca i32, align 4
-// NORM-NEXT:    [[DOTCAPTURE_EXPR_1:%.*]] = alloca i32, align 4
+// NORM-NEXT:    [[DOTCAPTURE_EXPR_2:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[I:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTOMP_LB:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTOMP_UB:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTOMP_STRIDE:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTOMP_IS_LAST:%.*]] = alloca i32, align 4
-// NORM-NEXT:    [[RED3:%.*]] = alloca [[STRUCT_POINT:%.*]], align 4
-// NORM-NEXT:    [[I4:%.*]] = alloca i32, align 4
+// NORM-NEXT:    [[RED10:%.*]] = alloca [[STRUCT_POINT:%.*]], align 4
+// NORM-NEXT:    [[I11:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTOMP_REDUCTION_RED_LIST:%.*]] = alloca [1 x ptr], align 8
 // NORM-NEXT:    [[REF_TMP:%.*]] = alloca [[STRUCT_POINT]], align 4
-// NORM-NEXT:    [[REF_TMP10:%.*]] = alloca [[STRUCT_POINT]], align 4
+// NORM-NEXT:    [[REF_TMP18:%.*]] = alloca [[STRUCT_POINT]], align 4
 // NORM-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // NORM-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // NORM-NEXT:    store ptr [[N]], ptr [[N_ADDR]], align 8
 // NORM-NEXT:    store ptr [[RED]], ptr [[RED_ADDR]], align 8
 // NORM-NEXT:    store ptr [[POINTS]], ptr [[POINTS_ADDR]], align 8
-// NORM-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[N_ADDR]], align 8
-// NORM-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[RED_ADDR]], align 8
-// NORM-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[POINTS_ADDR]], align 8
-// NORM-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP0]], align 4
+// NORM-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[N_ADDR]], align 8, !nonnull [[META3]], !align [[META4]]
+// NORM-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[RED_ADDR]], align 8, !nonnull [[META3]], !align [[META4]]
+// NORM-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[POINTS_ADDR]], align 8, !nonnull [[META3]], !align [[META5]]
+// NORM-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// NORM-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// NORM-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // NORM-NEXT:    store i32 [[TMP3]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// NORM-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTCAPTURE_EXPR_2]], align 4
 // NORM-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // NORM-NEXT:    [[SUB:%.*]] = sub i32 [[TMP4]], 0
 // NORM-NEXT:    [[DIV:%.*]] = udiv i32 [[SUB]], 1
-// NORM-NEXT:    [[SUB2:%.*]] = sub i32 [[DIV]], 1
-// NORM-NEXT:    store i32 [[SUB2]], ptr [[DOTCAPTURE_EXPR_1]], align 4
+// NORM-NEXT:    [[SUB4:%.*]] = sub i32 [[DIV]], 1
+// NORM-NEXT:    store i32 [[SUB4]], ptr [[DOTCAPTURE_EXPR_2]], align 4
+// NORM-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // NORM-NEXT:    store i32 0, ptr [[I]], align 4
 // NORM-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // NORM-NEXT:    [[CMP:%.*]] = icmp ult i32 0, [[TMP5]]
 // NORM-NEXT:    br i1 [[CMP]], label [[OMP_PRECOND_THEN:%.*]], label [[OMP_PRECOND_END:%.*]]
 // NORM:       omp.precond.then:
+// NORM-NEXT:    [[FREEZE_POISON6:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON6]], ptr [[DOTOMP_LB]], align 4
 // NORM-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
-// NORM-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
+// NORM-NEXT:    [[FREEZE_POISON7:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON7]], ptr [[DOTOMP_UB]], align 4
+// NORM-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
 // NORM-NEXT:    store i32 [[TMP6]], ptr [[DOTOMP_UB]], align 4
+// NORM-NEXT:    [[FREEZE_POISON8:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON8]], ptr [[DOTOMP_STRIDE]], align 4
 // NORM-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// NORM-NEXT:    [[FREEZE_POISON9:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON9]], ptr [[DOTOMP_IS_LAST]], align 4
 // NORM-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// NORM-NEXT:    call void @_ZN5PointC1Ev(ptr nonnull align 4 dereferenceable(8) [[RED3]]) #[[ATTR2]]
+// NORM-NEXT:    call void @_ZN5PointC1Ev(ptr nonnull align 4 dereferenceable(8) [[RED10]]) #[[ATTR2]]
+// NORM-NEXT:    [[FREEZE_POISON12:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON12]], ptr [[I11]], align 4
 // NORM-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// NORM-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP7]], align 4
+// NORM-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP7]], align 4, !freeze_bits [[META3]]
 // NORM-NEXT:    call void @__kmpc_for_static_init_4u(ptr @[[GLOB1]], i32 [[TMP8]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // NORM-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// NORM-NEXT:    [[TMP10:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
-// NORM-NEXT:    [[CMP5:%.*]] = icmp ugt i32 [[TMP9]], [[TMP10]]
-// NORM-NEXT:    br i1 [[CMP5]], label [[COND_TRUE:%.*]], label [[COND_FALSE:%.*]]
+// NORM-NEXT:    [[TMP10:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
+// NORM-NEXT:    [[CMP13:%.*]] = icmp ugt i32 [[TMP9]], [[TMP10]]
+// NORM-NEXT:    br i1 [[CMP13]], label [[COND_TRUE:%.*]], label [[COND_FALSE:%.*]]
 // NORM:       cond.true:
-// NORM-NEXT:    [[TMP11:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
+// NORM-NEXT:    [[TMP11:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
 // NORM-NEXT:    br label [[COND_END:%.*]]
 // NORM:       cond.false:
 // NORM-NEXT:    [[TMP12:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
@@ -614,52 +686,52 @@ void foo(int N, Point const *Points) {
 // NORM-NEXT:    [[TMP14:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // NORM-NEXT:    [[TMP15:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // NORM-NEXT:    [[ADD:%.*]] = add i32 [[TMP15]], 1
-// NORM-NEXT:    [[CMP6:%.*]] = icmp ult i32 [[TMP14]], [[ADD]]
-// NORM-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// NORM-NEXT:    [[CMP14:%.*]] = icmp ult i32 [[TMP14]], [[ADD]]
+// NORM-NEXT:    br i1 [[CMP14]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // NORM:       omp.inner.for.body:
 // NORM-NEXT:    [[TMP16:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // NORM-NEXT:    [[MUL:%.*]] = mul i32 [[TMP16]], 1
-// NORM-NEXT:    [[ADD7:%.*]] = add i32 0, [[MUL]]
-// NORM-NEXT:    store i32 [[ADD7]], ptr [[I4]], align 4
-// NORM-NEXT:    [[TMP17:%.*]] = load i32, ptr [[I4]], align 4
-// NORM-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[TMP2]], align 8
-// NORM-NEXT:    call void @_Z4workR5PointiPKS_(ptr nonnull align 4 dereferenceable(8) [[RED3]], i32 [[TMP17]], ptr [[TMP18]])
+// NORM-NEXT:    [[ADD15:%.*]] = add i32 0, [[MUL]]
+// NORM-NEXT:    store i32 [[ADD15]], ptr [[I11]], align 4
+// NORM-NEXT:    [[TMP17:%.*]] = load i32, ptr [[I11]], align 4
+// NORM-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[TMP2]], align 8, !freeze_bits [[META3]]
+// NORM-NEXT:    call void @_Z4workR5PointiPKS_(ptr nonnull align 4 dereferenceable(8) [[RED10]], i32 [[TMP17]], ptr [[TMP18]])
 // NORM-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // NORM:       omp.body.continue:
 // NORM-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // NORM:       omp.inner.for.inc:
 // NORM-NEXT:    [[TMP19:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// NORM-NEXT:    [[ADD8:%.*]] = add i32 [[TMP19]], 1
-// NORM-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
+// NORM-NEXT:    [[ADD16:%.*]] = add i32 [[TMP19]], 1
+// NORM-NEXT:    store i32 [[ADD16]], ptr [[DOTOMP_IV]], align 4
 // NORM-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // NORM:       omp.inner.for.end:
 // NORM-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
 // NORM:       omp.loop.exit:
 // NORM-NEXT:    [[TMP20:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// NORM-NEXT:    [[TMP21:%.*]] = load i32, ptr [[TMP20]], align 4
+// NORM-NEXT:    [[TMP21:%.*]] = load i32, ptr [[TMP20]], align 4, !freeze_bits [[META3]]
 // NORM-NEXT:    call void @__kmpc_for_static_fini(ptr @[[GLOB1]], i32 [[TMP21]])
 // NORM-NEXT:    [[TMP22:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOMP_REDUCTION_RED_LIST]], i64 0, i64 0
-// NORM-NEXT:    store ptr [[RED3]], ptr [[TMP22]], align 8
+// NORM-NEXT:    store ptr [[RED10]], ptr [[TMP22]], align 8
 // NORM-NEXT:    [[TMP23:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// NORM-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP23]], align 4
+// NORM-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP23]], align 4, !freeze_bits [[META3]]
 // NORM-NEXT:    [[TMP25:%.*]] = call i32 @__kmpc_reduce_nowait(ptr @[[GLOB2]], i32 [[TMP24]], i32 1, i64 8, ptr [[DOTOMP_REDUCTION_RED_LIST]], ptr @_Z3fooiPK5Point.omp_outlined.3.omp.reduction.reduction_func, ptr @.gomp_critical_user_.reduction.var)
 // NORM-NEXT:    switch i32 [[TMP25]], label [[DOTOMP_REDUCTION_DEFAULT:%.*]] [
 // NORM-NEXT:      i32 1, label [[DOTOMP_REDUCTION_CASE1:%.*]]
 // NORM-NEXT:      i32 2, label [[DOTOMP_REDUCTION_CASE2:%.*]]
 // NORM-NEXT:    ]
 // NORM:       .omp.reduction.case1:
-// NORM-NEXT:    [[CALL:%.*]] = call i64 @_ZNK5PointanERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED3]])
+// NORM-NEXT:    [[CALL:%.*]] = call i64 @_ZNK5PointanERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED10]])
 // NORM-NEXT:    store i64 [[CALL]], ptr [[REF_TMP]], align 4
-// NORM-NEXT:    [[CALL9:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP]])
+// NORM-NEXT:    [[CALL17:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP]])
 // NORM-NEXT:    call void @__kmpc_end_reduce_nowait(ptr @[[GLOB2]], i32 [[TMP24]], ptr @.gomp_critical_user_.reduction.var)
 // NORM-NEXT:    br label [[DOTOMP_REDUCTION_DEFAULT]]
 // NORM:       .omp.reduction.case2:
 // NORM-NEXT:    [[TMP26:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// NORM-NEXT:    [[TMP27:%.*]] = load i32, ptr [[TMP26]], align 4
+// NORM-NEXT:    [[TMP27:%.*]] = load i32, ptr [[TMP26]], align 4, !freeze_bits [[META3]]
 // NORM-NEXT:    call void @__kmpc_critical(ptr @[[GLOB3]], i32 [[TMP27]], ptr @.gomp_critical_user_.atomic_reduction.var)
-// NORM-NEXT:    [[CALL11:%.*]] = call i64 @_ZNK5PointanERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED3]])
-// NORM-NEXT:    store i64 [[CALL11]], ptr [[REF_TMP10]], align 4
-// NORM-NEXT:    [[CALL12:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP10]])
+// NORM-NEXT:    [[CALL19:%.*]] = call i64 @_ZNK5PointanERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED10]])
+// NORM-NEXT:    store i64 [[CALL19]], ptr [[REF_TMP18]], align 4
+// NORM-NEXT:    [[CALL20:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP18]])
 // NORM-NEXT:    call void @__kmpc_end_critical(ptr @[[GLOB3]], i32 [[TMP27]], ptr @.gomp_critical_user_.atomic_reduction.var)
 // NORM-NEXT:    br label [[DOTOMP_REDUCTION_DEFAULT]]
 // NORM:       .omp.reduction.default:
@@ -679,9 +751,9 @@ void foo(int N, Point const *Points) {
 // NORM-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // NORM-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // NORM-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP3]], i64 0, i64 0
-// NORM-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[TMP4]], align 8
+// NORM-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[TMP4]], align 8, !freeze_bits [[META3]]
 // NORM-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP2]], i64 0, i64 0
-// NORM-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[TMP6]], align 8
+// NORM-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[TMP6]], align 8, !freeze_bits [[META3]]
 // NORM-NEXT:    [[CALL:%.*]] = call i64 @_ZNK5PointanERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP7]], ptr nonnull align 4 dereferenceable(8) [[TMP5]])
 // NORM-NEXT:    store i64 [[CALL]], ptr [[REF_TMP]], align 4
 // NORM-NEXT:    [[CALL2:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP7]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP]])
@@ -699,52 +771,70 @@ void foo(int N, Point const *Points) {
 // NORM-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTCAPTURE_EXPR_:%.*]] = alloca i32, align 4
-// NORM-NEXT:    [[DOTCAPTURE_EXPR_1:%.*]] = alloca i32, align 4
+// NORM-NEXT:    [[DOTCAPTURE_EXPR_2:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[I:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTOMP_LB:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTOMP_UB:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTOMP_STRIDE:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTOMP_IS_LAST:%.*]] = alloca i32, align 4
-// NORM-NEXT:    [[RED3:%.*]] = alloca [[STRUCT_POINT:%.*]], align 4
-// NORM-NEXT:    [[I4:%.*]] = alloca i32, align 4
+// NORM-NEXT:    [[RED10:%.*]] = alloca [[STRUCT_POINT:%.*]], align 4
+// NORM-NEXT:    [[I11:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTOMP_REDUCTION_RED_LIST:%.*]] = alloca [1 x ptr], align 8
 // NORM-NEXT:    [[REF_TMP:%.*]] = alloca [[STRUCT_POINT]], align 4
-// NORM-NEXT:    [[REF_TMP10:%.*]] = alloca [[STRUCT_POINT]], align 4
+// NORM-NEXT:    [[REF_TMP18:%.*]] = alloca [[STRUCT_POINT]], align 4
 // NORM-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // NORM-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // NORM-NEXT:    store ptr [[N]], ptr [[N_ADDR]], align 8
 // NORM-NEXT:    store ptr [[RED]], ptr [[RED_ADDR]], align 8
 // NORM-NEXT:    store ptr [[POINTS]], ptr [[POINTS_ADDR]], align 8
-// NORM-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[N_ADDR]], align 8
-// NORM-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[RED_ADDR]], align 8
-// NORM-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[POINTS_ADDR]], align 8
-// NORM-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP0]], align 4
+// NORM-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[N_ADDR]], align 8, !nonnull [[META3]], !align [[META4]]
+// NORM-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[RED_ADDR]], align 8, !nonnull [[META3]], !align [[META4]]
+// NORM-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[POINTS_ADDR]], align 8, !nonnull [[META3]], !align [[META5]]
+// NORM-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// NORM-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// NORM-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // NORM-NEXT:    store i32 [[TMP3]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// NORM-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTCAPTURE_EXPR_2]], align 4
 // NORM-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // NORM-NEXT:    [[SUB:%.*]] = sub i32 [[TMP4]], 0
 // NORM-NEXT:    [[DIV:%.*]] = udiv i32 [[SUB]], 1
-// NORM-NEXT:    [[SUB2:%.*]] = sub i32 [[DIV]], 1
-// NORM-NEXT:    store i32 [[SUB2]], ptr [[DOTCAPTURE_EXPR_1]], align 4
+// NORM-NEXT:    [[SUB4:%.*]] = sub i32 [[DIV]], 1
+// NORM-NEXT:    store i32 [[SUB4]], ptr [[DOTCAPTURE_EXPR_2]], align 4
+// NORM-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // NORM-NEXT:    store i32 0, ptr [[I]], align 4
 // NORM-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // NORM-NEXT:    [[CMP:%.*]] = icmp ult i32 0, [[TMP5]]
 // NORM-NEXT:    br i1 [[CMP]], label [[OMP_PRECOND_THEN:%.*]], label [[OMP_PRECOND_END:%.*]]
 // NORM:       omp.precond.then:
+// NORM-NEXT:    [[FREEZE_POISON6:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON6]], ptr [[DOTOMP_LB]], align 4
 // NORM-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
-// NORM-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
+// NORM-NEXT:    [[FREEZE_POISON7:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON7]], ptr [[DOTOMP_UB]], align 4
+// NORM-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
 // NORM-NEXT:    store i32 [[TMP6]], ptr [[DOTOMP_UB]], align 4
+// NORM-NEXT:    [[FREEZE_POISON8:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON8]], ptr [[DOTOMP_STRIDE]], align 4
 // NORM-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// NORM-NEXT:    [[FREEZE_POISON9:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON9]], ptr [[DOTOMP_IS_LAST]], align 4
 // NORM-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// NORM-NEXT:    call void @_ZN5PointC1Ev(ptr nonnull align 4 dereferenceable(8) [[RED3]]) #[[ATTR2]]
+// NORM-NEXT:    call void @_ZN5PointC1Ev(ptr nonnull align 4 dereferenceable(8) [[RED10]]) #[[ATTR2]]
+// NORM-NEXT:    [[FREEZE_POISON12:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON12]], ptr [[I11]], align 4
 // NORM-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// NORM-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP7]], align 4
+// NORM-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP7]], align 4, !freeze_bits [[META3]]
 // NORM-NEXT:    call void @__kmpc_for_static_init_4u(ptr @[[GLOB1]], i32 [[TMP8]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // NORM-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// NORM-NEXT:    [[TMP10:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
-// NORM-NEXT:    [[CMP5:%.*]] = icmp ugt i32 [[TMP9]], [[TMP10]]
-// NORM-NEXT:    br i1 [[CMP5]], label [[COND_TRUE:%.*]], label [[COND_FALSE:%.*]]
+// NORM-NEXT:    [[TMP10:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
+// NORM-NEXT:    [[CMP13:%.*]] = icmp ugt i32 [[TMP9]], [[TMP10]]
+// NORM-NEXT:    br i1 [[CMP13]], label [[COND_TRUE:%.*]], label [[COND_FALSE:%.*]]
 // NORM:       cond.true:
-// NORM-NEXT:    [[TMP11:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
+// NORM-NEXT:    [[TMP11:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
 // NORM-NEXT:    br label [[COND_END:%.*]]
 // NORM:       cond.false:
 // NORM-NEXT:    [[TMP12:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
@@ -759,52 +849,52 @@ void foo(int N, Point const *Points) {
 // NORM-NEXT:    [[TMP14:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // NORM-NEXT:    [[TMP15:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // NORM-NEXT:    [[ADD:%.*]] = add i32 [[TMP15]], 1
-// NORM-NEXT:    [[CMP6:%.*]] = icmp ult i32 [[TMP14]], [[ADD]]
-// NORM-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// NORM-NEXT:    [[CMP14:%.*]] = icmp ult i32 [[TMP14]], [[ADD]]
+// NORM-NEXT:    br i1 [[CMP14]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // NORM:       omp.inner.for.body:
 // NORM-NEXT:    [[TMP16:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // NORM-NEXT:    [[MUL:%.*]] = mul i32 [[TMP16]], 1
-// NORM-NEXT:    [[ADD7:%.*]] = add i32 0, [[MUL]]
-// NORM-NEXT:    store i32 [[ADD7]], ptr [[I4]], align 4
-// NORM-NEXT:    [[TMP17:%.*]] = load i32, ptr [[I4]], align 4
-// NORM-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[TMP2]], align 8
-// NORM-NEXT:    call void @_Z4workR5PointiPKS_(ptr nonnull align 4 dereferenceable(8) [[RED3]], i32 [[TMP17]], ptr [[TMP18]])
+// NORM-NEXT:    [[ADD15:%.*]] = add i32 0, [[MUL]]
+// NORM-NEXT:    store i32 [[ADD15]], ptr [[I11]], align 4
+// NORM-NEXT:    [[TMP17:%.*]] = load i32, ptr [[I11]], align 4
+// NORM-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[TMP2]], align 8, !freeze_bits [[META3]]
+// NORM-NEXT:    call void @_Z4workR5PointiPKS_(ptr nonnull align 4 dereferenceable(8) [[RED10]], i32 [[TMP17]], ptr [[TMP18]])
 // NORM-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // NORM:       omp.body.continue:
 // NORM-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // NORM:       omp.inner.for.inc:
 // NORM-NEXT:    [[TMP19:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// NORM-NEXT:    [[ADD8:%.*]] = add i32 [[TMP19]], 1
-// NORM-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
+// NORM-NEXT:    [[ADD16:%.*]] = add i32 [[TMP19]], 1
+// NORM-NEXT:    store i32 [[ADD16]], ptr [[DOTOMP_IV]], align 4
 // NORM-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // NORM:       omp.inner.for.end:
 // NORM-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
 // NORM:       omp.loop.exit:
 // NORM-NEXT:    [[TMP20:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// NORM-NEXT:    [[TMP21:%.*]] = load i32, ptr [[TMP20]], align 4
+// NORM-NEXT:    [[TMP21:%.*]] = load i32, ptr [[TMP20]], align 4, !freeze_bits [[META3]]
 // NORM-NEXT:    call void @__kmpc_for_static_fini(ptr @[[GLOB1]], i32 [[TMP21]])
 // NORM-NEXT:    [[TMP22:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOMP_REDUCTION_RED_LIST]], i64 0, i64 0
-// NORM-NEXT:    store ptr [[RED3]], ptr [[TMP22]], align 8
+// NORM-NEXT:    store ptr [[RED10]], ptr [[TMP22]], align 8
 // NORM-NEXT:    [[TMP23:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// NORM-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP23]], align 4
+// NORM-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP23]], align 4, !freeze_bits [[META3]]
 // NORM-NEXT:    [[TMP25:%.*]] = call i32 @__kmpc_reduce_nowait(ptr @[[GLOB2]], i32 [[TMP24]], i32 1, i64 8, ptr [[DOTOMP_REDUCTION_RED_LIST]], ptr @_Z3fooiPK5Point.omp_outlined.4.omp.reduction.reduction_func, ptr @.gomp_critical_user_.reduction.var)
 // NORM-NEXT:    switch i32 [[TMP25]], label [[DOTOMP_REDUCTION_DEFAULT:%.*]] [
 // NORM-NEXT:      i32 1, label [[DOTOMP_REDUCTION_CASE1:%.*]]
 // NORM-NEXT:      i32 2, label [[DOTOMP_REDUCTION_CASE2:%.*]]
 // NORM-NEXT:    ]
 // NORM:       .omp.reduction.case1:
-// NORM-NEXT:    [[CALL:%.*]] = call i64 @_ZNK5PointorERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED3]])
+// NORM-NEXT:    [[CALL:%.*]] = call i64 @_ZNK5PointorERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED10]])
 // NORM-NEXT:    store i64 [[CALL]], ptr [[REF_TMP]], align 4
-// NORM-NEXT:    [[CALL9:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP]])
+// NORM-NEXT:    [[CALL17:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP]])
 // NORM-NEXT:    call void @__kmpc_end_reduce_nowait(ptr @[[GLOB2]], i32 [[TMP24]], ptr @.gomp_critical_user_.reduction.var)
 // NORM-NEXT:    br label [[DOTOMP_REDUCTION_DEFAULT]]
 // NORM:       .omp.reduction.case2:
 // NORM-NEXT:    [[TMP26:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// NORM-NEXT:    [[TMP27:%.*]] = load i32, ptr [[TMP26]], align 4
+// NORM-NEXT:    [[TMP27:%.*]] = load i32, ptr [[TMP26]], align 4, !freeze_bits [[META3]]
 // NORM-NEXT:    call void @__kmpc_critical(ptr @[[GLOB3]], i32 [[TMP27]], ptr @.gomp_critical_user_.atomic_reduction.var)
-// NORM-NEXT:    [[CALL11:%.*]] = call i64 @_ZNK5PointorERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED3]])
-// NORM-NEXT:    store i64 [[CALL11]], ptr [[REF_TMP10]], align 4
-// NORM-NEXT:    [[CALL12:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP10]])
+// NORM-NEXT:    [[CALL19:%.*]] = call i64 @_ZNK5PointorERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED10]])
+// NORM-NEXT:    store i64 [[CALL19]], ptr [[REF_TMP18]], align 4
+// NORM-NEXT:    [[CALL20:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP18]])
 // NORM-NEXT:    call void @__kmpc_end_critical(ptr @[[GLOB3]], i32 [[TMP27]], ptr @.gomp_critical_user_.atomic_reduction.var)
 // NORM-NEXT:    br label [[DOTOMP_REDUCTION_DEFAULT]]
 // NORM:       .omp.reduction.default:
@@ -824,9 +914,9 @@ void foo(int N, Point const *Points) {
 // NORM-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // NORM-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // NORM-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP3]], i64 0, i64 0
-// NORM-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[TMP4]], align 8
+// NORM-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[TMP4]], align 8, !freeze_bits [[META3]]
 // NORM-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP2]], i64 0, i64 0
-// NORM-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[TMP6]], align 8
+// NORM-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[TMP6]], align 8, !freeze_bits [[META3]]
 // NORM-NEXT:    [[CALL:%.*]] = call i64 @_ZNK5PointorERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP7]], ptr nonnull align 4 dereferenceable(8) [[TMP5]])
 // NORM-NEXT:    store i64 [[CALL]], ptr [[REF_TMP]], align 4
 // NORM-NEXT:    [[CALL2:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP7]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP]])
@@ -844,52 +934,70 @@ void foo(int N, Point const *Points) {
 // NORM-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTCAPTURE_EXPR_:%.*]] = alloca i32, align 4
-// NORM-NEXT:    [[DOTCAPTURE_EXPR_1:%.*]] = alloca i32, align 4
+// NORM-NEXT:    [[DOTCAPTURE_EXPR_2:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[I:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTOMP_LB:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTOMP_UB:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTOMP_STRIDE:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTOMP_IS_LAST:%.*]] = alloca i32, align 4
-// NORM-NEXT:    [[RED3:%.*]] = alloca [[STRUCT_POINT:%.*]], align 4
-// NORM-NEXT:    [[I4:%.*]] = alloca i32, align 4
+// NORM-NEXT:    [[RED10:%.*]] = alloca [[STRUCT_POINT:%.*]], align 4
+// NORM-NEXT:    [[I11:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTOMP_REDUCTION_RED_LIST:%.*]] = alloca [1 x ptr], align 8
 // NORM-NEXT:    [[REF_TMP:%.*]] = alloca [[STRUCT_POINT]], align 4
-// NORM-NEXT:    [[REF_TMP10:%.*]] = alloca [[STRUCT_POINT]], align 4
+// NORM-NEXT:    [[REF_TMP18:%.*]] = alloca [[STRUCT_POINT]], align 4
 // NORM-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // NORM-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // NORM-NEXT:    store ptr [[N]], ptr [[N_ADDR]], align 8
 // NORM-NEXT:    store ptr [[RED]], ptr [[RED_ADDR]], align 8
 // NORM-NEXT:    store ptr [[POINTS]], ptr [[POINTS_ADDR]], align 8
-// NORM-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[N_ADDR]], align 8
-// NORM-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[RED_ADDR]], align 8
-// NORM-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[POINTS_ADDR]], align 8
-// NORM-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP0]], align 4
+// NORM-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[N_ADDR]], align 8, !nonnull [[META3]], !align [[META4]]
+// NORM-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[RED_ADDR]], align 8, !nonnull [[META3]], !align [[META4]]
+// NORM-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[POINTS_ADDR]], align 8, !nonnull [[META3]], !align [[META5]]
+// NORM-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// NORM-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// NORM-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // NORM-NEXT:    store i32 [[TMP3]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// NORM-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTCAPTURE_EXPR_2]], align 4
 // NORM-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // NORM-NEXT:    [[SUB:%.*]] = sub i32 [[TMP4]], 0
 // NORM-NEXT:    [[DIV:%.*]] = udiv i32 [[SUB]], 1
-// NORM-NEXT:    [[SUB2:%.*]] = sub i32 [[DIV]], 1
-// NORM-NEXT:    store i32 [[SUB2]], ptr [[DOTCAPTURE_EXPR_1]], align 4
+// NORM-NEXT:    [[SUB4:%.*]] = sub i32 [[DIV]], 1
+// NORM-NEXT:    store i32 [[SUB4]], ptr [[DOTCAPTURE_EXPR_2]], align 4
+// NORM-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // NORM-NEXT:    store i32 0, ptr [[I]], align 4
 // NORM-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // NORM-NEXT:    [[CMP:%.*]] = icmp ult i32 0, [[TMP5]]
 // NORM-NEXT:    br i1 [[CMP]], label [[OMP_PRECOND_THEN:%.*]], label [[OMP_PRECOND_END:%.*]]
 // NORM:       omp.precond.then:
+// NORM-NEXT:    [[FREEZE_POISON6:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON6]], ptr [[DOTOMP_LB]], align 4
 // NORM-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
-// NORM-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
+// NORM-NEXT:    [[FREEZE_POISON7:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON7]], ptr [[DOTOMP_UB]], align 4
+// NORM-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
 // NORM-NEXT:    store i32 [[TMP6]], ptr [[DOTOMP_UB]], align 4
+// NORM-NEXT:    [[FREEZE_POISON8:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON8]], ptr [[DOTOMP_STRIDE]], align 4
 // NORM-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// NORM-NEXT:    [[FREEZE_POISON9:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON9]], ptr [[DOTOMP_IS_LAST]], align 4
 // NORM-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// NORM-NEXT:    call void @_ZN5PointC1Ev(ptr nonnull align 4 dereferenceable(8) [[RED3]]) #[[ATTR2]]
+// NORM-NEXT:    call void @_ZN5PointC1Ev(ptr nonnull align 4 dereferenceable(8) [[RED10]]) #[[ATTR2]]
+// NORM-NEXT:    [[FREEZE_POISON12:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON12]], ptr [[I11]], align 4
 // NORM-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// NORM-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP7]], align 4
+// NORM-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP7]], align 4, !freeze_bits [[META3]]
 // NORM-NEXT:    call void @__kmpc_for_static_init_4u(ptr @[[GLOB1]], i32 [[TMP8]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // NORM-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// NORM-NEXT:    [[TMP10:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
-// NORM-NEXT:    [[CMP5:%.*]] = icmp ugt i32 [[TMP9]], [[TMP10]]
-// NORM-NEXT:    br i1 [[CMP5]], label [[COND_TRUE:%.*]], label [[COND_FALSE:%.*]]
+// NORM-NEXT:    [[TMP10:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
+// NORM-NEXT:    [[CMP13:%.*]] = icmp ugt i32 [[TMP9]], [[TMP10]]
+// NORM-NEXT:    br i1 [[CMP13]], label [[COND_TRUE:%.*]], label [[COND_FALSE:%.*]]
 // NORM:       cond.true:
-// NORM-NEXT:    [[TMP11:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
+// NORM-NEXT:    [[TMP11:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
 // NORM-NEXT:    br label [[COND_END:%.*]]
 // NORM:       cond.false:
 // NORM-NEXT:    [[TMP12:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
@@ -904,52 +1012,52 @@ void foo(int N, Point const *Points) {
 // NORM-NEXT:    [[TMP14:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // NORM-NEXT:    [[TMP15:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // NORM-NEXT:    [[ADD:%.*]] = add i32 [[TMP15]], 1
-// NORM-NEXT:    [[CMP6:%.*]] = icmp ult i32 [[TMP14]], [[ADD]]
-// NORM-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// NORM-NEXT:    [[CMP14:%.*]] = icmp ult i32 [[TMP14]], [[ADD]]
+// NORM-NEXT:    br i1 [[CMP14]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // NORM:       omp.inner.for.body:
 // NORM-NEXT:    [[TMP16:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // NORM-NEXT:    [[MUL:%.*]] = mul i32 [[TMP16]], 1
-// NORM-NEXT:    [[ADD7:%.*]] = add i32 0, [[MUL]]
-// NORM-NEXT:    store i32 [[ADD7]], ptr [[I4]], align 4
-// NORM-NEXT:    [[TMP17:%.*]] = load i32, ptr [[I4]], align 4
-// NORM-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[TMP2]], align 8
-// NORM-NEXT:    call void @_Z4workR5PointiPKS_(ptr nonnull align 4 dereferenceable(8) [[RED3]], i32 [[TMP17]], ptr [[TMP18]])
+// NORM-NEXT:    [[ADD15:%.*]] = add i32 0, [[MUL]]
+// NORM-NEXT:    store i32 [[ADD15]], ptr [[I11]], align 4
+// NORM-NEXT:    [[TMP17:%.*]] = load i32, ptr [[I11]], align 4
+// NORM-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[TMP2]], align 8, !freeze_bits [[META3]]
+// NORM-NEXT:    call void @_Z4workR5PointiPKS_(ptr nonnull align 4 dereferenceable(8) [[RED10]], i32 [[TMP17]], ptr [[TMP18]])
 // NORM-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // NORM:       omp.body.continue:
 // NORM-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // NORM:       omp.inner.for.inc:
 // NORM-NEXT:    [[TMP19:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// NORM-NEXT:    [[ADD8:%.*]] = add i32 [[TMP19]], 1
-// NORM-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
+// NORM-NEXT:    [[ADD16:%.*]] = add i32 [[TMP19]], 1
+// NORM-NEXT:    store i32 [[ADD16]], ptr [[DOTOMP_IV]], align 4
 // NORM-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // NORM:       omp.inner.for.end:
 // NORM-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
 // NORM:       omp.loop.exit:
 // NORM-NEXT:    [[TMP20:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// NORM-NEXT:    [[TMP21:%.*]] = load i32, ptr [[TMP20]], align 4
+// NORM-NEXT:    [[TMP21:%.*]] = load i32, ptr [[TMP20]], align 4, !freeze_bits [[META3]]
 // NORM-NEXT:    call void @__kmpc_for_static_fini(ptr @[[GLOB1]], i32 [[TMP21]])
 // NORM-NEXT:    [[TMP22:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOMP_REDUCTION_RED_LIST]], i64 0, i64 0
-// NORM-NEXT:    store ptr [[RED3]], ptr [[TMP22]], align 8
+// NORM-NEXT:    store ptr [[RED10]], ptr [[TMP22]], align 8
 // NORM-NEXT:    [[TMP23:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// NORM-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP23]], align 4
+// NORM-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP23]], align 4, !freeze_bits [[META3]]
 // NORM-NEXT:    [[TMP25:%.*]] = call i32 @__kmpc_reduce_nowait(ptr @[[GLOB2]], i32 [[TMP24]], i32 1, i64 8, ptr [[DOTOMP_REDUCTION_RED_LIST]], ptr @_Z3fooiPK5Point.omp_outlined.5.omp.reduction.reduction_func, ptr @.gomp_critical_user_.reduction.var)
 // NORM-NEXT:    switch i32 [[TMP25]], label [[DOTOMP_REDUCTION_DEFAULT:%.*]] [
 // NORM-NEXT:      i32 1, label [[DOTOMP_REDUCTION_CASE1:%.*]]
 // NORM-NEXT:      i32 2, label [[DOTOMP_REDUCTION_CASE2:%.*]]
 // NORM-NEXT:    ]
 // NORM:       .omp.reduction.case1:
-// NORM-NEXT:    [[CALL:%.*]] = call i64 @_ZNK5PointeoERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED3]])
+// NORM-NEXT:    [[CALL:%.*]] = call i64 @_ZNK5PointeoERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED10]])
 // NORM-NEXT:    store i64 [[CALL]], ptr [[REF_TMP]], align 4
-// NORM-NEXT:    [[CALL9:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP]])
+// NORM-NEXT:    [[CALL17:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP]])
 // NORM-NEXT:    call void @__kmpc_end_reduce_nowait(ptr @[[GLOB2]], i32 [[TMP24]], ptr @.gomp_critical_user_.reduction.var)
 // NORM-NEXT:    br label [[DOTOMP_REDUCTION_DEFAULT]]
 // NORM:       .omp.reduction.case2:
 // NORM-NEXT:    [[TMP26:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// NORM-NEXT:    [[TMP27:%.*]] = load i32, ptr [[TMP26]], align 4
+// NORM-NEXT:    [[TMP27:%.*]] = load i32, ptr [[TMP26]], align 4, !freeze_bits [[META3]]
 // NORM-NEXT:    call void @__kmpc_critical(ptr @[[GLOB3]], i32 [[TMP27]], ptr @.gomp_critical_user_.atomic_reduction.var)
-// NORM-NEXT:    [[CALL11:%.*]] = call i64 @_ZNK5PointeoERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED3]])
-// NORM-NEXT:    store i64 [[CALL11]], ptr [[REF_TMP10]], align 4
-// NORM-NEXT:    [[CALL12:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP10]])
+// NORM-NEXT:    [[CALL19:%.*]] = call i64 @_ZNK5PointeoERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED10]])
+// NORM-NEXT:    store i64 [[CALL19]], ptr [[REF_TMP18]], align 4
+// NORM-NEXT:    [[CALL20:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP18]])
 // NORM-NEXT:    call void @__kmpc_end_critical(ptr @[[GLOB3]], i32 [[TMP27]], ptr @.gomp_critical_user_.atomic_reduction.var)
 // NORM-NEXT:    br label [[DOTOMP_REDUCTION_DEFAULT]]
 // NORM:       .omp.reduction.default:
@@ -969,9 +1077,9 @@ void foo(int N, Point const *Points) {
 // NORM-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // NORM-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // NORM-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP3]], i64 0, i64 0
-// NORM-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[TMP4]], align 8
+// NORM-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[TMP4]], align 8, !freeze_bits [[META3]]
 // NORM-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP2]], i64 0, i64 0
-// NORM-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[TMP6]], align 8
+// NORM-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[TMP6]], align 8, !freeze_bits [[META3]]
 // NORM-NEXT:    [[CALL:%.*]] = call i64 @_ZNK5PointeoERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP7]], ptr nonnull align 4 dereferenceable(8) [[TMP5]])
 // NORM-NEXT:    store i64 [[CALL]], ptr [[REF_TMP]], align 4
 // NORM-NEXT:    [[CALL2:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP7]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP]])
@@ -989,52 +1097,70 @@ void foo(int N, Point const *Points) {
 // NORM-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTCAPTURE_EXPR_:%.*]] = alloca i32, align 4
-// NORM-NEXT:    [[DOTCAPTURE_EXPR_1:%.*]] = alloca i32, align 4
+// NORM-NEXT:    [[DOTCAPTURE_EXPR_2:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[I:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTOMP_LB:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTOMP_UB:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTOMP_STRIDE:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTOMP_IS_LAST:%.*]] = alloca i32, align 4
-// NORM-NEXT:    [[RED3:%.*]] = alloca [[STRUCT_POINT:%.*]], align 4
-// NORM-NEXT:    [[I4:%.*]] = alloca i32, align 4
+// NORM-NEXT:    [[RED10:%.*]] = alloca [[STRUCT_POINT:%.*]], align 4
+// NORM-NEXT:    [[I11:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTOMP_REDUCTION_RED_LIST:%.*]] = alloca [1 x ptr], align 8
 // NORM-NEXT:    [[REF_TMP:%.*]] = alloca [[STRUCT_POINT]], align 4
-// NORM-NEXT:    [[REF_TMP10:%.*]] = alloca [[STRUCT_POINT]], align 4
+// NORM-NEXT:    [[REF_TMP18:%.*]] = alloca [[STRUCT_POINT]], align 4
 // NORM-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // NORM-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // NORM-NEXT:    store ptr [[N]], ptr [[N_ADDR]], align 8
 // NORM-NEXT:    store ptr [[RED]], ptr [[RED_ADDR]], align 8
 // NORM-NEXT:    store ptr [[POINTS]], ptr [[POINTS_ADDR]], align 8
-// NORM-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[N_ADDR]], align 8
-// NORM-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[RED_ADDR]], align 8
-// NORM-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[POINTS_ADDR]], align 8
-// NORM-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP0]], align 4
+// NORM-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[N_ADDR]], align 8, !nonnull [[META3]], !align [[META4]]
+// NORM-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[RED_ADDR]], align 8, !nonnull [[META3]], !align [[META4]]
+// NORM-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[POINTS_ADDR]], align 8, !nonnull [[META3]], !align [[META5]]
+// NORM-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// NORM-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// NORM-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // NORM-NEXT:    store i32 [[TMP3]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// NORM-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTCAPTURE_EXPR_2]], align 4
 // NORM-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // NORM-NEXT:    [[SUB:%.*]] = sub i32 [[TMP4]], 0
 // NORM-NEXT:    [[DIV:%.*]] = udiv i32 [[SUB]], 1
-// NORM-NEXT:    [[SUB2:%.*]] = sub i32 [[DIV]], 1
-// NORM-NEXT:    store i32 [[SUB2]], ptr [[DOTCAPTURE_EXPR_1]], align 4
+// NORM-NEXT:    [[SUB4:%.*]] = sub i32 [[DIV]], 1
+// NORM-NEXT:    store i32 [[SUB4]], ptr [[DOTCAPTURE_EXPR_2]], align 4
+// NORM-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // NORM-NEXT:    store i32 0, ptr [[I]], align 4
 // NORM-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // NORM-NEXT:    [[CMP:%.*]] = icmp ult i32 0, [[TMP5]]
 // NORM-NEXT:    br i1 [[CMP]], label [[OMP_PRECOND_THEN:%.*]], label [[OMP_PRECOND_END:%.*]]
 // NORM:       omp.precond.then:
+// NORM-NEXT:    [[FREEZE_POISON6:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON6]], ptr [[DOTOMP_LB]], align 4
 // NORM-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
-// NORM-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
+// NORM-NEXT:    [[FREEZE_POISON7:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON7]], ptr [[DOTOMP_UB]], align 4
+// NORM-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
 // NORM-NEXT:    store i32 [[TMP6]], ptr [[DOTOMP_UB]], align 4
+// NORM-NEXT:    [[FREEZE_POISON8:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON8]], ptr [[DOTOMP_STRIDE]], align 4
 // NORM-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// NORM-NEXT:    [[FREEZE_POISON9:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON9]], ptr [[DOTOMP_IS_LAST]], align 4
 // NORM-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// NORM-NEXT:    call void @_ZN5PointC1Ev(ptr nonnull align 4 dereferenceable(8) [[RED3]]) #[[ATTR2]]
+// NORM-NEXT:    call void @_ZN5PointC1Ev(ptr nonnull align 4 dereferenceable(8) [[RED10]]) #[[ATTR2]]
+// NORM-NEXT:    [[FREEZE_POISON12:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON12]], ptr [[I11]], align 4
 // NORM-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// NORM-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP7]], align 4
+// NORM-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP7]], align 4, !freeze_bits [[META3]]
 // NORM-NEXT:    call void @__kmpc_for_static_init_4u(ptr @[[GLOB1]], i32 [[TMP8]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // NORM-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// NORM-NEXT:    [[TMP10:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
-// NORM-NEXT:    [[CMP5:%.*]] = icmp ugt i32 [[TMP9]], [[TMP10]]
-// NORM-NEXT:    br i1 [[CMP5]], label [[COND_TRUE:%.*]], label [[COND_FALSE:%.*]]
+// NORM-NEXT:    [[TMP10:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
+// NORM-NEXT:    [[CMP13:%.*]] = icmp ugt i32 [[TMP9]], [[TMP10]]
+// NORM-NEXT:    br i1 [[CMP13]], label [[COND_TRUE:%.*]], label [[COND_FALSE:%.*]]
 // NORM:       cond.true:
-// NORM-NEXT:    [[TMP11:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
+// NORM-NEXT:    [[TMP11:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
 // NORM-NEXT:    br label [[COND_END:%.*]]
 // NORM:       cond.false:
 // NORM-NEXT:    [[TMP12:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
@@ -1049,52 +1175,52 @@ void foo(int N, Point const *Points) {
 // NORM-NEXT:    [[TMP14:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // NORM-NEXT:    [[TMP15:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // NORM-NEXT:    [[ADD:%.*]] = add i32 [[TMP15]], 1
-// NORM-NEXT:    [[CMP6:%.*]] = icmp ult i32 [[TMP14]], [[ADD]]
-// NORM-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// NORM-NEXT:    [[CMP14:%.*]] = icmp ult i32 [[TMP14]], [[ADD]]
+// NORM-NEXT:    br i1 [[CMP14]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // NORM:       omp.inner.for.body:
 // NORM-NEXT:    [[TMP16:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // NORM-NEXT:    [[MUL:%.*]] = mul i32 [[TMP16]], 1
-// NORM-NEXT:    [[ADD7:%.*]] = add i32 0, [[MUL]]
-// NORM-NEXT:    store i32 [[ADD7]], ptr [[I4]], align 4
-// NORM-NEXT:    [[TMP17:%.*]] = load i32, ptr [[I4]], align 4
-// NORM-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[TMP2]], align 8
-// NORM-NEXT:    call void @_Z4workR5PointiPKS_(ptr nonnull align 4 dereferenceable(8) [[RED3]], i32 [[TMP17]], ptr [[TMP18]])
+// NORM-NEXT:    [[ADD15:%.*]] = add i32 0, [[MUL]]
+// NORM-NEXT:    store i32 [[ADD15]], ptr [[I11]], align 4
+// NORM-NEXT:    [[TMP17:%.*]] = load i32, ptr [[I11]], align 4
+// NORM-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[TMP2]], align 8, !freeze_bits [[META3]]
+// NORM-NEXT:    call void @_Z4workR5PointiPKS_(ptr nonnull align 4 dereferenceable(8) [[RED10]], i32 [[TMP17]], ptr [[TMP18]])
 // NORM-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // NORM:       omp.body.continue:
 // NORM-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // NORM:       omp.inner.for.inc:
 // NORM-NEXT:    [[TMP19:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// NORM-NEXT:    [[ADD8:%.*]] = add i32 [[TMP19]], 1
-// NORM-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
+// NORM-NEXT:    [[ADD16:%.*]] = add i32 [[TMP19]], 1
+// NORM-NEXT:    store i32 [[ADD16]], ptr [[DOTOMP_IV]], align 4
 // NORM-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // NORM:       omp.inner.for.end:
 // NORM-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
 // NORM:       omp.loop.exit:
 // NORM-NEXT:    [[TMP20:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// NORM-NEXT:    [[TMP21:%.*]] = load i32, ptr [[TMP20]], align 4
+// NORM-NEXT:    [[TMP21:%.*]] = load i32, ptr [[TMP20]], align 4, !freeze_bits [[META3]]
 // NORM-NEXT:    call void @__kmpc_for_static_fini(ptr @[[GLOB1]], i32 [[TMP21]])
 // NORM-NEXT:    [[TMP22:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOMP_REDUCTION_RED_LIST]], i64 0, i64 0
-// NORM-NEXT:    store ptr [[RED3]], ptr [[TMP22]], align 8
+// NORM-NEXT:    store ptr [[RED10]], ptr [[TMP22]], align 8
 // NORM-NEXT:    [[TMP23:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// NORM-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP23]], align 4
+// NORM-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP23]], align 4, !freeze_bits [[META3]]
 // NORM-NEXT:    [[TMP25:%.*]] = call i32 @__kmpc_reduce_nowait(ptr @[[GLOB2]], i32 [[TMP24]], i32 1, i64 8, ptr [[DOTOMP_REDUCTION_RED_LIST]], ptr @_Z3fooiPK5Point.omp_outlined.6.omp.reduction.reduction_func, ptr @.gomp_critical_user_.reduction.var)
 // NORM-NEXT:    switch i32 [[TMP25]], label [[DOTOMP_REDUCTION_DEFAULT:%.*]] [
 // NORM-NEXT:      i32 1, label [[DOTOMP_REDUCTION_CASE1:%.*]]
 // NORM-NEXT:      i32 2, label [[DOTOMP_REDUCTION_CASE2:%.*]]
 // NORM-NEXT:    ]
 // NORM:       .omp.reduction.case1:
-// NORM-NEXT:    [[CALL:%.*]] = call i64 @_ZNK5PointaaERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED3]])
+// NORM-NEXT:    [[CALL:%.*]] = call i64 @_ZNK5PointaaERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED10]])
 // NORM-NEXT:    store i64 [[CALL]], ptr [[REF_TMP]], align 4
-// NORM-NEXT:    [[CALL9:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP]])
+// NORM-NEXT:    [[CALL17:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP]])
 // NORM-NEXT:    call void @__kmpc_end_reduce_nowait(ptr @[[GLOB2]], i32 [[TMP24]], ptr @.gomp_critical_user_.reduction.var)
 // NORM-NEXT:    br label [[DOTOMP_REDUCTION_DEFAULT]]
 // NORM:       .omp.reduction.case2:
 // NORM-NEXT:    [[TMP26:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// NORM-NEXT:    [[TMP27:%.*]] = load i32, ptr [[TMP26]], align 4
+// NORM-NEXT:    [[TMP27:%.*]] = load i32, ptr [[TMP26]], align 4, !freeze_bits [[META3]]
 // NORM-NEXT:    call void @__kmpc_critical(ptr @[[GLOB3]], i32 [[TMP27]], ptr @.gomp_critical_user_.atomic_reduction.var)
-// NORM-NEXT:    [[CALL11:%.*]] = call i64 @_ZNK5PointaaERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED3]])
-// NORM-NEXT:    store i64 [[CALL11]], ptr [[REF_TMP10]], align 4
-// NORM-NEXT:    [[CALL12:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP10]])
+// NORM-NEXT:    [[CALL19:%.*]] = call i64 @_ZNK5PointaaERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED10]])
+// NORM-NEXT:    store i64 [[CALL19]], ptr [[REF_TMP18]], align 4
+// NORM-NEXT:    [[CALL20:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP18]])
 // NORM-NEXT:    call void @__kmpc_end_critical(ptr @[[GLOB3]], i32 [[TMP27]], ptr @.gomp_critical_user_.atomic_reduction.var)
 // NORM-NEXT:    br label [[DOTOMP_REDUCTION_DEFAULT]]
 // NORM:       .omp.reduction.default:
@@ -1114,9 +1240,9 @@ void foo(int N, Point const *Points) {
 // NORM-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // NORM-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // NORM-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP3]], i64 0, i64 0
-// NORM-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[TMP4]], align 8
+// NORM-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[TMP4]], align 8, !freeze_bits [[META3]]
 // NORM-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP2]], i64 0, i64 0
-// NORM-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[TMP6]], align 8
+// NORM-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[TMP6]], align 8, !freeze_bits [[META3]]
 // NORM-NEXT:    [[CALL:%.*]] = call i64 @_ZNK5PointaaERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP7]], ptr nonnull align 4 dereferenceable(8) [[TMP5]])
 // NORM-NEXT:    store i64 [[CALL]], ptr [[REF_TMP]], align 4
 // NORM-NEXT:    [[CALL2:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP7]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP]])
@@ -1134,52 +1260,70 @@ void foo(int N, Point const *Points) {
 // NORM-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTCAPTURE_EXPR_:%.*]] = alloca i32, align 4
-// NORM-NEXT:    [[DOTCAPTURE_EXPR_1:%.*]] = alloca i32, align 4
+// NORM-NEXT:    [[DOTCAPTURE_EXPR_2:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[I:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTOMP_LB:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTOMP_UB:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTOMP_STRIDE:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTOMP_IS_LAST:%.*]] = alloca i32, align 4
-// NORM-NEXT:    [[RED3:%.*]] = alloca [[STRUCT_POINT:%.*]], align 4
-// NORM-NEXT:    [[I4:%.*]] = alloca i32, align 4
+// NORM-NEXT:    [[RED10:%.*]] = alloca [[STRUCT_POINT:%.*]], align 4
+// NORM-NEXT:    [[I11:%.*]] = alloca i32, align 4
 // NORM-NEXT:    [[DOTOMP_REDUCTION_RED_LIST:%.*]] = alloca [1 x ptr], align 8
 // NORM-NEXT:    [[REF_TMP:%.*]] = alloca [[STRUCT_POINT]], align 4
-// NORM-NEXT:    [[REF_TMP10:%.*]] = alloca [[STRUCT_POINT]], align 4
+// NORM-NEXT:    [[REF_TMP18:%.*]] = alloca [[STRUCT_POINT]], align 4
 // NORM-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // NORM-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // NORM-NEXT:    store ptr [[N]], ptr [[N_ADDR]], align 8
 // NORM-NEXT:    store ptr [[RED]], ptr [[RED_ADDR]], align 8
 // NORM-NEXT:    store ptr [[POINTS]], ptr [[POINTS_ADDR]], align 8
-// NORM-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[N_ADDR]], align 8
-// NORM-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[RED_ADDR]], align 8
-// NORM-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[POINTS_ADDR]], align 8
-// NORM-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP0]], align 4
+// NORM-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[N_ADDR]], align 8, !nonnull [[META3]], !align [[META4]]
+// NORM-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[RED_ADDR]], align 8, !nonnull [[META3]], !align [[META4]]
+// NORM-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[POINTS_ADDR]], align 8, !nonnull [[META3]], !align [[META5]]
+// NORM-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// NORM-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// NORM-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // NORM-NEXT:    store i32 [[TMP3]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// NORM-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTCAPTURE_EXPR_2]], align 4
 // NORM-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // NORM-NEXT:    [[SUB:%.*]] = sub i32 [[TMP4]], 0
 // NORM-NEXT:    [[DIV:%.*]] = udiv i32 [[SUB]], 1
-// NORM-NEXT:    [[SUB2:%.*]] = sub i32 [[DIV]], 1
-// NORM-NEXT:    store i32 [[SUB2]], ptr [[DOTCAPTURE_EXPR_1]], align 4
+// NORM-NEXT:    [[SUB4:%.*]] = sub i32 [[DIV]], 1
+// NORM-NEXT:    store i32 [[SUB4]], ptr [[DOTCAPTURE_EXPR_2]], align 4
+// NORM-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // NORM-NEXT:    store i32 0, ptr [[I]], align 4
 // NORM-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // NORM-NEXT:    [[CMP:%.*]] = icmp ult i32 0, [[TMP5]]
 // NORM-NEXT:    br i1 [[CMP]], label [[OMP_PRECOND_THEN:%.*]], label [[OMP_PRECOND_END:%.*]]
 // NORM:       omp.precond.then:
+// NORM-NEXT:    [[FREEZE_POISON6:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON6]], ptr [[DOTOMP_LB]], align 4
 // NORM-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
-// NORM-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
+// NORM-NEXT:    [[FREEZE_POISON7:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON7]], ptr [[DOTOMP_UB]], align 4
+// NORM-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
 // NORM-NEXT:    store i32 [[TMP6]], ptr [[DOTOMP_UB]], align 4
+// NORM-NEXT:    [[FREEZE_POISON8:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON8]], ptr [[DOTOMP_STRIDE]], align 4
 // NORM-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// NORM-NEXT:    [[FREEZE_POISON9:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON9]], ptr [[DOTOMP_IS_LAST]], align 4
 // NORM-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// NORM-NEXT:    call void @_ZN5PointC1Ev(ptr nonnull align 4 dereferenceable(8) [[RED3]]) #[[ATTR2]]
+// NORM-NEXT:    call void @_ZN5PointC1Ev(ptr nonnull align 4 dereferenceable(8) [[RED10]]) #[[ATTR2]]
+// NORM-NEXT:    [[FREEZE_POISON12:%.*]] = freeze i32 poison
+// NORM-NEXT:    store i32 [[FREEZE_POISON12]], ptr [[I11]], align 4
 // NORM-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// NORM-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP7]], align 4
+// NORM-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP7]], align 4, !freeze_bits [[META3]]
 // NORM-NEXT:    call void @__kmpc_for_static_init_4u(ptr @[[GLOB1]], i32 [[TMP8]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // NORM-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// NORM-NEXT:    [[TMP10:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
-// NORM-NEXT:    [[CMP5:%.*]] = icmp ugt i32 [[TMP9]], [[TMP10]]
-// NORM-NEXT:    br i1 [[CMP5]], label [[COND_TRUE:%.*]], label [[COND_FALSE:%.*]]
+// NORM-NEXT:    [[TMP10:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
+// NORM-NEXT:    [[CMP13:%.*]] = icmp ugt i32 [[TMP9]], [[TMP10]]
+// NORM-NEXT:    br i1 [[CMP13]], label [[COND_TRUE:%.*]], label [[COND_FALSE:%.*]]
 // NORM:       cond.true:
-// NORM-NEXT:    [[TMP11:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
+// NORM-NEXT:    [[TMP11:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
 // NORM-NEXT:    br label [[COND_END:%.*]]
 // NORM:       cond.false:
 // NORM-NEXT:    [[TMP12:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
@@ -1194,52 +1338,52 @@ void foo(int N, Point const *Points) {
 // NORM-NEXT:    [[TMP14:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // NORM-NEXT:    [[TMP15:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // NORM-NEXT:    [[ADD:%.*]] = add i32 [[TMP15]], 1
-// NORM-NEXT:    [[CMP6:%.*]] = icmp ult i32 [[TMP14]], [[ADD]]
-// NORM-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// NORM-NEXT:    [[CMP14:%.*]] = icmp ult i32 [[TMP14]], [[ADD]]
+// NORM-NEXT:    br i1 [[CMP14]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // NORM:       omp.inner.for.body:
 // NORM-NEXT:    [[TMP16:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // NORM-NEXT:    [[MUL:%.*]] = mul i32 [[TMP16]], 1
-// NORM-NEXT:    [[ADD7:%.*]] = add i32 0, [[MUL]]
-// NORM-NEXT:    store i32 [[ADD7]], ptr [[I4]], align 4
-// NORM-NEXT:    [[TMP17:%.*]] = load i32, ptr [[I4]], align 4
-// NORM-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[TMP2]], align 8
-// NORM-NEXT:    call void @_Z4workR5PointiPKS_(ptr nonnull align 4 dereferenceable(8) [[RED3]], i32 [[TMP17]], ptr [[TMP18]])
+// NORM-NEXT:    [[ADD15:%.*]] = add i32 0, [[MUL]]
+// NORM-NEXT:    store i32 [[ADD15]], ptr [[I11]], align 4
+// NORM-NEXT:    [[TMP17:%.*]] = load i32, ptr [[I11]], align 4
+// NORM-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[TMP2]], align 8, !freeze_bits [[META3]]
+// NORM-NEXT:    call void @_Z4workR5PointiPKS_(ptr nonnull align 4 dereferenceable(8) [[RED10]], i32 [[TMP17]], ptr [[TMP18]])
 // NORM-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // NORM:       omp.body.continue:
 // NORM-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // NORM:       omp.inner.for.inc:
 // NORM-NEXT:    [[TMP19:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// NORM-NEXT:    [[ADD8:%.*]] = add i32 [[TMP19]], 1
-// NORM-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
+// NORM-NEXT:    [[ADD16:%.*]] = add i32 [[TMP19]], 1
+// NORM-NEXT:    store i32 [[ADD16]], ptr [[DOTOMP_IV]], align 4
 // NORM-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // NORM:       omp.inner.for.end:
 // NORM-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
 // NORM:       omp.loop.exit:
 // NORM-NEXT:    [[TMP20:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// NORM-NEXT:    [[TMP21:%.*]] = load i32, ptr [[TMP20]], align 4
+// NORM-NEXT:    [[TMP21:%.*]] = load i32, ptr [[TMP20]], align 4, !freeze_bits [[META3]]
 // NORM-NEXT:    call void @__kmpc_for_static_fini(ptr @[[GLOB1]], i32 [[TMP21]])
 // NORM-NEXT:    [[TMP22:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOMP_REDUCTION_RED_LIST]], i64 0, i64 0
-// NORM-NEXT:    store ptr [[RED3]], ptr [[TMP22]], align 8
+// NORM-NEXT:    store ptr [[RED10]], ptr [[TMP22]], align 8
 // NORM-NEXT:    [[TMP23:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// NORM-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP23]], align 4
+// NORM-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP23]], align 4, !freeze_bits [[META3]]
 // NORM-NEXT:    [[TMP25:%.*]] = call i32 @__kmpc_reduce_nowait(ptr @[[GLOB2]], i32 [[TMP24]], i32 1, i64 8, ptr [[DOTOMP_REDUCTION_RED_LIST]], ptr @_Z3fooiPK5Point.omp_outlined.7.omp.reduction.reduction_func, ptr @.gomp_critical_user_.reduction.var)
 // NORM-NEXT:    switch i32 [[TMP25]], label [[DOTOMP_REDUCTION_DEFAULT:%.*]] [
 // NORM-NEXT:      i32 1, label [[DOTOMP_REDUCTION_CASE1:%.*]]
 // NORM-NEXT:      i32 2, label [[DOTOMP_REDUCTION_CASE2:%.*]]
 // NORM-NEXT:    ]
 // NORM:       .omp.reduction.case1:
-// NORM-NEXT:    [[CALL:%.*]] = call i64 @_ZNK5PointooERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED3]])
+// NORM-NEXT:    [[CALL:%.*]] = call i64 @_ZNK5PointooERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED10]])
 // NORM-NEXT:    store i64 [[CALL]], ptr [[REF_TMP]], align 4
-// NORM-NEXT:    [[CALL9:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP]])
+// NORM-NEXT:    [[CALL17:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP]])
 // NORM-NEXT:    call void @__kmpc_end_reduce_nowait(ptr @[[GLOB2]], i32 [[TMP24]], ptr @.gomp_critical_user_.reduction.var)
 // NORM-NEXT:    br label [[DOTOMP_REDUCTION_DEFAULT]]
 // NORM:       .omp.reduction.case2:
 // NORM-NEXT:    [[TMP26:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// NORM-NEXT:    [[TMP27:%.*]] = load i32, ptr [[TMP26]], align 4
+// NORM-NEXT:    [[TMP27:%.*]] = load i32, ptr [[TMP26]], align 4, !freeze_bits [[META3]]
 // NORM-NEXT:    call void @__kmpc_critical(ptr @[[GLOB3]], i32 [[TMP27]], ptr @.gomp_critical_user_.atomic_reduction.var)
-// NORM-NEXT:    [[CALL11:%.*]] = call i64 @_ZNK5PointooERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED3]])
-// NORM-NEXT:    store i64 [[CALL11]], ptr [[REF_TMP10]], align 4
-// NORM-NEXT:    [[CALL12:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP10]])
+// NORM-NEXT:    [[CALL19:%.*]] = call i64 @_ZNK5PointooERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED10]])
+// NORM-NEXT:    store i64 [[CALL19]], ptr [[REF_TMP18]], align 4
+// NORM-NEXT:    [[CALL20:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP18]])
 // NORM-NEXT:    call void @__kmpc_end_critical(ptr @[[GLOB3]], i32 [[TMP27]], ptr @.gomp_critical_user_.atomic_reduction.var)
 // NORM-NEXT:    br label [[DOTOMP_REDUCTION_DEFAULT]]
 // NORM:       .omp.reduction.default:
@@ -1259,9 +1403,9 @@ void foo(int N, Point const *Points) {
 // NORM-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // NORM-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // NORM-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP3]], i64 0, i64 0
-// NORM-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[TMP4]], align 8
+// NORM-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[TMP4]], align 8, !freeze_bits [[META3]]
 // NORM-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP2]], i64 0, i64 0
-// NORM-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[TMP6]], align 8
+// NORM-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[TMP6]], align 8, !freeze_bits [[META3]]
 // NORM-NEXT:    [[CALL:%.*]] = call i64 @_ZNK5PointooERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP7]], ptr nonnull align 4 dereferenceable(8) [[TMP5]])
 // NORM-NEXT:    store i64 [[CALL]], ptr [[REF_TMP]], align 4
 // NORM-NEXT:    [[CALL2:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP7]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP]])
@@ -1322,50 +1466,68 @@ void foo(int N, Point const *Points) {
 // COMP-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTCAPTURE_EXPR_:%.*]] = alloca i32, align 4
-// COMP-NEXT:    [[DOTCAPTURE_EXPR_1:%.*]] = alloca i32, align 4
+// COMP-NEXT:    [[DOTCAPTURE_EXPR_2:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[I:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTOMP_LB:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTOMP_UB:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTOMP_STRIDE:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTOMP_IS_LAST:%.*]] = alloca i32, align 4
-// COMP-NEXT:    [[RED3:%.*]] = alloca [[STRUCT_POINT:%.*]], align 4
-// COMP-NEXT:    [[I4:%.*]] = alloca i32, align 4
+// COMP-NEXT:    [[RED10:%.*]] = alloca [[STRUCT_POINT:%.*]], align 4
+// COMP-NEXT:    [[I11:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTOMP_REDUCTION_RED_LIST:%.*]] = alloca [1 x ptr], align 8
 // COMP-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // COMP-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // COMP-NEXT:    store ptr [[N]], ptr [[N_ADDR]], align 8
 // COMP-NEXT:    store ptr [[RED]], ptr [[RED_ADDR]], align 8
 // COMP-NEXT:    store ptr [[POINTS]], ptr [[POINTS_ADDR]], align 8
-// COMP-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[N_ADDR]], align 8
-// COMP-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[RED_ADDR]], align 8
-// COMP-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[POINTS_ADDR]], align 8
-// COMP-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP0]], align 4
+// COMP-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[N_ADDR]], align 8, !nonnull [[META3:![0-9]+]], !align [[META4:![0-9]+]]
+// COMP-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[RED_ADDR]], align 8, !nonnull [[META3]], !align [[META4]]
+// COMP-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[POINTS_ADDR]], align 8, !nonnull [[META3]], !align [[META5:![0-9]+]]
+// COMP-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// COMP-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// COMP-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // COMP-NEXT:    store i32 [[TMP3]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// COMP-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTCAPTURE_EXPR_2]], align 4
 // COMP-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // COMP-NEXT:    [[SUB:%.*]] = sub i32 [[TMP4]], 0
 // COMP-NEXT:    [[DIV:%.*]] = udiv i32 [[SUB]], 1
-// COMP-NEXT:    [[SUB2:%.*]] = sub i32 [[DIV]], 1
-// COMP-NEXT:    store i32 [[SUB2]], ptr [[DOTCAPTURE_EXPR_1]], align 4
+// COMP-NEXT:    [[SUB4:%.*]] = sub i32 [[DIV]], 1
+// COMP-NEXT:    store i32 [[SUB4]], ptr [[DOTCAPTURE_EXPR_2]], align 4
+// COMP-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // COMP-NEXT:    store i32 0, ptr [[I]], align 4
 // COMP-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // COMP-NEXT:    [[CMP:%.*]] = icmp ult i32 0, [[TMP5]]
 // COMP-NEXT:    br i1 [[CMP]], label [[OMP_PRECOND_THEN:%.*]], label [[OMP_PRECOND_END:%.*]]
 // COMP:       omp.precond.then:
+// COMP-NEXT:    [[FREEZE_POISON6:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON6]], ptr [[DOTOMP_LB]], align 4
 // COMP-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
-// COMP-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
+// COMP-NEXT:    [[FREEZE_POISON7:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON7]], ptr [[DOTOMP_UB]], align 4
+// COMP-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
 // COMP-NEXT:    store i32 [[TMP6]], ptr [[DOTOMP_UB]], align 4
+// COMP-NEXT:    [[FREEZE_POISON8:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON8]], ptr [[DOTOMP_STRIDE]], align 4
 // COMP-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// COMP-NEXT:    [[FREEZE_POISON9:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON9]], ptr [[DOTOMP_IS_LAST]], align 4
 // COMP-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// COMP-NEXT:    call void @_ZN5PointC1Ev(ptr nonnull align 4 dereferenceable(8) [[RED3]]) #[[ATTR2]]
+// COMP-NEXT:    call void @_ZN5PointC1Ev(ptr nonnull align 4 dereferenceable(8) [[RED10]]) #[[ATTR2]]
+// COMP-NEXT:    [[FREEZE_POISON12:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON12]], ptr [[I11]], align 4
 // COMP-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// COMP-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP7]], align 4
+// COMP-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP7]], align 4, !freeze_bits [[META3]]
 // COMP-NEXT:    call void @__kmpc_for_static_init_4u(ptr @[[GLOB1:[0-9]+]], i32 [[TMP8]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // COMP-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// COMP-NEXT:    [[TMP10:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
-// COMP-NEXT:    [[CMP5:%.*]] = icmp ugt i32 [[TMP9]], [[TMP10]]
-// COMP-NEXT:    br i1 [[CMP5]], label [[COND_TRUE:%.*]], label [[COND_FALSE:%.*]]
+// COMP-NEXT:    [[TMP10:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
+// COMP-NEXT:    [[CMP13:%.*]] = icmp ugt i32 [[TMP9]], [[TMP10]]
+// COMP-NEXT:    br i1 [[CMP13]], label [[COND_TRUE:%.*]], label [[COND_FALSE:%.*]]
 // COMP:       cond.true:
-// COMP-NEXT:    [[TMP11:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
+// COMP-NEXT:    [[TMP11:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
 // COMP-NEXT:    br label [[COND_END:%.*]]
 // COMP:       cond.false:
 // COMP-NEXT:    [[TMP12:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
@@ -1380,48 +1542,48 @@ void foo(int N, Point const *Points) {
 // COMP-NEXT:    [[TMP14:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // COMP-NEXT:    [[TMP15:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // COMP-NEXT:    [[ADD:%.*]] = add i32 [[TMP15]], 1
-// COMP-NEXT:    [[CMP6:%.*]] = icmp ult i32 [[TMP14]], [[ADD]]
-// COMP-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// COMP-NEXT:    [[CMP14:%.*]] = icmp ult i32 [[TMP14]], [[ADD]]
+// COMP-NEXT:    br i1 [[CMP14]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // COMP:       omp.inner.for.body:
 // COMP-NEXT:    [[TMP16:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // COMP-NEXT:    [[MUL:%.*]] = mul i32 [[TMP16]], 1
-// COMP-NEXT:    [[ADD7:%.*]] = add i32 0, [[MUL]]
-// COMP-NEXT:    store i32 [[ADD7]], ptr [[I4]], align 4
-// COMP-NEXT:    [[TMP17:%.*]] = load i32, ptr [[I4]], align 4
-// COMP-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[TMP2]], align 8
-// COMP-NEXT:    call void @_Z4workR5PointiPKS_(ptr nonnull align 4 dereferenceable(8) [[RED3]], i32 [[TMP17]], ptr [[TMP18]])
+// COMP-NEXT:    [[ADD15:%.*]] = add i32 0, [[MUL]]
+// COMP-NEXT:    store i32 [[ADD15]], ptr [[I11]], align 4
+// COMP-NEXT:    [[TMP17:%.*]] = load i32, ptr [[I11]], align 4
+// COMP-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[TMP2]], align 8, !freeze_bits [[META3]]
+// COMP-NEXT:    call void @_Z4workR5PointiPKS_(ptr nonnull align 4 dereferenceable(8) [[RED10]], i32 [[TMP17]], ptr [[TMP18]])
 // COMP-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // COMP:       omp.body.continue:
 // COMP-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // COMP:       omp.inner.for.inc:
 // COMP-NEXT:    [[TMP19:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// COMP-NEXT:    [[ADD8:%.*]] = add i32 [[TMP19]], 1
-// COMP-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
+// COMP-NEXT:    [[ADD16:%.*]] = add i32 [[TMP19]], 1
+// COMP-NEXT:    store i32 [[ADD16]], ptr [[DOTOMP_IV]], align 4
 // COMP-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // COMP:       omp.inner.for.end:
 // COMP-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
 // COMP:       omp.loop.exit:
 // COMP-NEXT:    [[TMP20:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// COMP-NEXT:    [[TMP21:%.*]] = load i32, ptr [[TMP20]], align 4
+// COMP-NEXT:    [[TMP21:%.*]] = load i32, ptr [[TMP20]], align 4, !freeze_bits [[META3]]
 // COMP-NEXT:    call void @__kmpc_for_static_fini(ptr @[[GLOB1]], i32 [[TMP21]])
 // COMP-NEXT:    [[TMP22:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOMP_REDUCTION_RED_LIST]], i64 0, i64 0
-// COMP-NEXT:    store ptr [[RED3]], ptr [[TMP22]], align 8
+// COMP-NEXT:    store ptr [[RED10]], ptr [[TMP22]], align 8
 // COMP-NEXT:    [[TMP23:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// COMP-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP23]], align 4
+// COMP-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP23]], align 4, !freeze_bits [[META3]]
 // COMP-NEXT:    [[TMP25:%.*]] = call i32 @__kmpc_reduce_nowait(ptr @[[GLOB2:[0-9]+]], i32 [[TMP24]], i32 1, i64 8, ptr [[DOTOMP_REDUCTION_RED_LIST]], ptr @_Z3fooiPK5Point.omp_outlined.omp.reduction.reduction_func, ptr @.gomp_critical_user_.reduction.var)
 // COMP-NEXT:    switch i32 [[TMP25]], label [[DOTOMP_REDUCTION_DEFAULT:%.*]] [
 // COMP-NEXT:      i32 1, label [[DOTOMP_REDUCTION_CASE1:%.*]]
 // COMP-NEXT:      i32 2, label [[DOTOMP_REDUCTION_CASE2:%.*]]
 // COMP-NEXT:    ]
 // COMP:       .omp.reduction.case1:
-// COMP-NEXT:    [[CALL:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointpLERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED3]])
+// COMP-NEXT:    [[CALL:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointpLERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED10]])
 // COMP-NEXT:    call void @__kmpc_end_reduce_nowait(ptr @[[GLOB2]], i32 [[TMP24]], ptr @.gomp_critical_user_.reduction.var)
 // COMP-NEXT:    br label [[DOTOMP_REDUCTION_DEFAULT]]
 // COMP:       .omp.reduction.case2:
 // COMP-NEXT:    [[TMP26:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// COMP-NEXT:    [[TMP27:%.*]] = load i32, ptr [[TMP26]], align 4
+// COMP-NEXT:    [[TMP27:%.*]] = load i32, ptr [[TMP26]], align 4, !freeze_bits [[META3]]
 // COMP-NEXT:    call void @__kmpc_critical(ptr @[[GLOB3]], i32 [[TMP27]], ptr @.gomp_critical_user_.atomic_reduction.var)
-// COMP-NEXT:    [[CALL9:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointpLERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED3]])
+// COMP-NEXT:    [[CALL17:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointpLERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED10]])
 // COMP-NEXT:    call void @__kmpc_end_critical(ptr @[[GLOB3]], i32 [[TMP27]], ptr @.gomp_critical_user_.atomic_reduction.var)
 // COMP-NEXT:    br label [[DOTOMP_REDUCTION_DEFAULT]]
 // COMP:       .omp.reduction.default:
@@ -1440,9 +1602,9 @@ void foo(int N, Point const *Points) {
 // COMP-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // COMP-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // COMP-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP3]], i64 0, i64 0
-// COMP-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[TMP4]], align 8
+// COMP-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[TMP4]], align 8, !freeze_bits [[META3]]
 // COMP-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP2]], i64 0, i64 0
-// COMP-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[TMP6]], align 8
+// COMP-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[TMP6]], align 8, !freeze_bits [[META3]]
 // COMP-NEXT:    [[CALL:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointpLERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP7]], ptr nonnull align 4 dereferenceable(8) [[TMP5]])
 // COMP-NEXT:    ret void
 //
@@ -1458,50 +1620,68 @@ void foo(int N, Point const *Points) {
 // COMP-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTCAPTURE_EXPR_:%.*]] = alloca i32, align 4
-// COMP-NEXT:    [[DOTCAPTURE_EXPR_1:%.*]] = alloca i32, align 4
+// COMP-NEXT:    [[DOTCAPTURE_EXPR_2:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[I:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTOMP_LB:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTOMP_UB:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTOMP_STRIDE:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTOMP_IS_LAST:%.*]] = alloca i32, align 4
-// COMP-NEXT:    [[RED3:%.*]] = alloca [[STRUCT_POINT:%.*]], align 4
-// COMP-NEXT:    [[I4:%.*]] = alloca i32, align 4
+// COMP-NEXT:    [[RED10:%.*]] = alloca [[STRUCT_POINT:%.*]], align 4
+// COMP-NEXT:    [[I11:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTOMP_REDUCTION_RED_LIST:%.*]] = alloca [1 x ptr], align 8
 // COMP-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // COMP-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // COMP-NEXT:    store ptr [[N]], ptr [[N_ADDR]], align 8
 // COMP-NEXT:    store ptr [[RED]], ptr [[RED_ADDR]], align 8
 // COMP-NEXT:    store ptr [[POINTS]], ptr [[POINTS_ADDR]], align 8
-// COMP-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[N_ADDR]], align 8
-// COMP-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[RED_ADDR]], align 8
-// COMP-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[POINTS_ADDR]], align 8
-// COMP-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP0]], align 4
+// COMP-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[N_ADDR]], align 8, !nonnull [[META3]], !align [[META4]]
+// COMP-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[RED_ADDR]], align 8, !nonnull [[META3]], !align [[META4]]
+// COMP-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[POINTS_ADDR]], align 8, !nonnull [[META3]], !align [[META5]]
+// COMP-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// COMP-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// COMP-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // COMP-NEXT:    store i32 [[TMP3]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// COMP-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTCAPTURE_EXPR_2]], align 4
 // COMP-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // COMP-NEXT:    [[SUB:%.*]] = sub i32 [[TMP4]], 0
 // COMP-NEXT:    [[DIV:%.*]] = udiv i32 [[SUB]], 1
-// COMP-NEXT:    [[SUB2:%.*]] = sub i32 [[DIV]], 1
-// COMP-NEXT:    store i32 [[SUB2]], ptr [[DOTCAPTURE_EXPR_1]], align 4
+// COMP-NEXT:    [[SUB4:%.*]] = sub i32 [[DIV]], 1
+// COMP-NEXT:    store i32 [[SUB4]], ptr [[DOTCAPTURE_EXPR_2]], align 4
+// COMP-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // COMP-NEXT:    store i32 0, ptr [[I]], align 4
 // COMP-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // COMP-NEXT:    [[CMP:%.*]] = icmp ult i32 0, [[TMP5]]
 // COMP-NEXT:    br i1 [[CMP]], label [[OMP_PRECOND_THEN:%.*]], label [[OMP_PRECOND_END:%.*]]
 // COMP:       omp.precond.then:
+// COMP-NEXT:    [[FREEZE_POISON6:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON6]], ptr [[DOTOMP_LB]], align 4
 // COMP-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
-// COMP-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
+// COMP-NEXT:    [[FREEZE_POISON7:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON7]], ptr [[DOTOMP_UB]], align 4
+// COMP-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
 // COMP-NEXT:    store i32 [[TMP6]], ptr [[DOTOMP_UB]], align 4
+// COMP-NEXT:    [[FREEZE_POISON8:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON8]], ptr [[DOTOMP_STRIDE]], align 4
 // COMP-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// COMP-NEXT:    [[FREEZE_POISON9:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON9]], ptr [[DOTOMP_IS_LAST]], align 4
 // COMP-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// COMP-NEXT:    call void @_ZN5PointC1Ev(ptr nonnull align 4 dereferenceable(8) [[RED3]]) #[[ATTR2]]
+// COMP-NEXT:    call void @_ZN5PointC1Ev(ptr nonnull align 4 dereferenceable(8) [[RED10]]) #[[ATTR2]]
+// COMP-NEXT:    [[FREEZE_POISON12:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON12]], ptr [[I11]], align 4
 // COMP-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// COMP-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP7]], align 4
+// COMP-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP7]], align 4, !freeze_bits [[META3]]
 // COMP-NEXT:    call void @__kmpc_for_static_init_4u(ptr @[[GLOB1]], i32 [[TMP8]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // COMP-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// COMP-NEXT:    [[TMP10:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
-// COMP-NEXT:    [[CMP5:%.*]] = icmp ugt i32 [[TMP9]], [[TMP10]]
-// COMP-NEXT:    br i1 [[CMP5]], label [[COND_TRUE:%.*]], label [[COND_FALSE:%.*]]
+// COMP-NEXT:    [[TMP10:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
+// COMP-NEXT:    [[CMP13:%.*]] = icmp ugt i32 [[TMP9]], [[TMP10]]
+// COMP-NEXT:    br i1 [[CMP13]], label [[COND_TRUE:%.*]], label [[COND_FALSE:%.*]]
 // COMP:       cond.true:
-// COMP-NEXT:    [[TMP11:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
+// COMP-NEXT:    [[TMP11:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
 // COMP-NEXT:    br label [[COND_END:%.*]]
 // COMP:       cond.false:
 // COMP-NEXT:    [[TMP12:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
@@ -1516,48 +1696,48 @@ void foo(int N, Point const *Points) {
 // COMP-NEXT:    [[TMP14:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // COMP-NEXT:    [[TMP15:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // COMP-NEXT:    [[ADD:%.*]] = add i32 [[TMP15]], 1
-// COMP-NEXT:    [[CMP6:%.*]] = icmp ult i32 [[TMP14]], [[ADD]]
-// COMP-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// COMP-NEXT:    [[CMP14:%.*]] = icmp ult i32 [[TMP14]], [[ADD]]
+// COMP-NEXT:    br i1 [[CMP14]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // COMP:       omp.inner.for.body:
 // COMP-NEXT:    [[TMP16:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // COMP-NEXT:    [[MUL:%.*]] = mul i32 [[TMP16]], 1
-// COMP-NEXT:    [[ADD7:%.*]] = add i32 0, [[MUL]]
-// COMP-NEXT:    store i32 [[ADD7]], ptr [[I4]], align 4
-// COMP-NEXT:    [[TMP17:%.*]] = load i32, ptr [[I4]], align 4
-// COMP-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[TMP2]], align 8
-// COMP-NEXT:    call void @_Z4workR5PointiPKS_(ptr nonnull align 4 dereferenceable(8) [[RED3]], i32 [[TMP17]], ptr [[TMP18]])
+// COMP-NEXT:    [[ADD15:%.*]] = add i32 0, [[MUL]]
+// COMP-NEXT:    store i32 [[ADD15]], ptr [[I11]], align 4
+// COMP-NEXT:    [[TMP17:%.*]] = load i32, ptr [[I11]], align 4
+// COMP-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[TMP2]], align 8, !freeze_bits [[META3]]
+// COMP-NEXT:    call void @_Z4workR5PointiPKS_(ptr nonnull align 4 dereferenceable(8) [[RED10]], i32 [[TMP17]], ptr [[TMP18]])
 // COMP-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // COMP:       omp.body.continue:
 // COMP-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // COMP:       omp.inner.for.inc:
 // COMP-NEXT:    [[TMP19:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// COMP-NEXT:    [[ADD8:%.*]] = add i32 [[TMP19]], 1
-// COMP-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
+// COMP-NEXT:    [[ADD16:%.*]] = add i32 [[TMP19]], 1
+// COMP-NEXT:    store i32 [[ADD16]], ptr [[DOTOMP_IV]], align 4
 // COMP-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // COMP:       omp.inner.for.end:
 // COMP-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
 // COMP:       omp.loop.exit:
 // COMP-NEXT:    [[TMP20:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// COMP-NEXT:    [[TMP21:%.*]] = load i32, ptr [[TMP20]], align 4
+// COMP-NEXT:    [[TMP21:%.*]] = load i32, ptr [[TMP20]], align 4, !freeze_bits [[META3]]
 // COMP-NEXT:    call void @__kmpc_for_static_fini(ptr @[[GLOB1]], i32 [[TMP21]])
 // COMP-NEXT:    [[TMP22:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOMP_REDUCTION_RED_LIST]], i64 0, i64 0
-// COMP-NEXT:    store ptr [[RED3]], ptr [[TMP22]], align 8
+// COMP-NEXT:    store ptr [[RED10]], ptr [[TMP22]], align 8
 // COMP-NEXT:    [[TMP23:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// COMP-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP23]], align 4
+// COMP-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP23]], align 4, !freeze_bits [[META3]]
 // COMP-NEXT:    [[TMP25:%.*]] = call i32 @__kmpc_reduce_nowait(ptr @[[GLOB2]], i32 [[TMP24]], i32 1, i64 8, ptr [[DOTOMP_REDUCTION_RED_LIST]], ptr @_Z3fooiPK5Point.omp_outlined.1.omp.reduction.reduction_func, ptr @.gomp_critical_user_.reduction.var)
 // COMP-NEXT:    switch i32 [[TMP25]], label [[DOTOMP_REDUCTION_DEFAULT:%.*]] [
 // COMP-NEXT:      i32 1, label [[DOTOMP_REDUCTION_CASE1:%.*]]
 // COMP-NEXT:      i32 2, label [[DOTOMP_REDUCTION_CASE2:%.*]]
 // COMP-NEXT:    ]
 // COMP:       .omp.reduction.case1:
-// COMP-NEXT:    [[CALL:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointpLERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED3]])
+// COMP-NEXT:    [[CALL:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointpLERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED10]])
 // COMP-NEXT:    call void @__kmpc_end_reduce_nowait(ptr @[[GLOB2]], i32 [[TMP24]], ptr @.gomp_critical_user_.reduction.var)
 // COMP-NEXT:    br label [[DOTOMP_REDUCTION_DEFAULT]]
 // COMP:       .omp.reduction.case2:
 // COMP-NEXT:    [[TMP26:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// COMP-NEXT:    [[TMP27:%.*]] = load i32, ptr [[TMP26]], align 4
+// COMP-NEXT:    [[TMP27:%.*]] = load i32, ptr [[TMP26]], align 4, !freeze_bits [[META3]]
 // COMP-NEXT:    call void @__kmpc_critical(ptr @[[GLOB3]], i32 [[TMP27]], ptr @.gomp_critical_user_.atomic_reduction.var)
-// COMP-NEXT:    [[CALL9:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointpLERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED3]])
+// COMP-NEXT:    [[CALL17:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointpLERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED10]])
 // COMP-NEXT:    call void @__kmpc_end_critical(ptr @[[GLOB3]], i32 [[TMP27]], ptr @.gomp_critical_user_.atomic_reduction.var)
 // COMP-NEXT:    br label [[DOTOMP_REDUCTION_DEFAULT]]
 // COMP:       .omp.reduction.default:
@@ -1576,9 +1756,9 @@ void foo(int N, Point const *Points) {
 // COMP-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // COMP-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // COMP-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP3]], i64 0, i64 0
-// COMP-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[TMP4]], align 8
+// COMP-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[TMP4]], align 8, !freeze_bits [[META3]]
 // COMP-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP2]], i64 0, i64 0
-// COMP-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[TMP6]], align 8
+// COMP-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[TMP6]], align 8, !freeze_bits [[META3]]
 // COMP-NEXT:    [[CALL:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointpLERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP7]], ptr nonnull align 4 dereferenceable(8) [[TMP5]])
 // COMP-NEXT:    ret void
 //
@@ -1594,50 +1774,68 @@ void foo(int N, Point const *Points) {
 // COMP-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTCAPTURE_EXPR_:%.*]] = alloca i32, align 4
-// COMP-NEXT:    [[DOTCAPTURE_EXPR_1:%.*]] = alloca i32, align 4
+// COMP-NEXT:    [[DOTCAPTURE_EXPR_2:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[I:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTOMP_LB:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTOMP_UB:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTOMP_STRIDE:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTOMP_IS_LAST:%.*]] = alloca i32, align 4
-// COMP-NEXT:    [[RED3:%.*]] = alloca [[STRUCT_POINT:%.*]], align 4
-// COMP-NEXT:    [[I4:%.*]] = alloca i32, align 4
+// COMP-NEXT:    [[RED10:%.*]] = alloca [[STRUCT_POINT:%.*]], align 4
+// COMP-NEXT:    [[I11:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTOMP_REDUCTION_RED_LIST:%.*]] = alloca [1 x ptr], align 8
 // COMP-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // COMP-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // COMP-NEXT:    store ptr [[N]], ptr [[N_ADDR]], align 8
 // COMP-NEXT:    store ptr [[RED]], ptr [[RED_ADDR]], align 8
 // COMP-NEXT:    store ptr [[POINTS]], ptr [[POINTS_ADDR]], align 8
-// COMP-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[N_ADDR]], align 8
-// COMP-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[RED_ADDR]], align 8
-// COMP-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[POINTS_ADDR]], align 8
-// COMP-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP0]], align 4
+// COMP-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[N_ADDR]], align 8, !nonnull [[META3]], !align [[META4]]
+// COMP-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[RED_ADDR]], align 8, !nonnull [[META3]], !align [[META4]]
+// COMP-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[POINTS_ADDR]], align 8, !nonnull [[META3]], !align [[META5]]
+// COMP-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// COMP-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// COMP-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // COMP-NEXT:    store i32 [[TMP3]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// COMP-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTCAPTURE_EXPR_2]], align 4
 // COMP-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // COMP-NEXT:    [[SUB:%.*]] = sub i32 [[TMP4]], 0
 // COMP-NEXT:    [[DIV:%.*]] = udiv i32 [[SUB]], 1
-// COMP-NEXT:    [[SUB2:%.*]] = sub i32 [[DIV]], 1
-// COMP-NEXT:    store i32 [[SUB2]], ptr [[DOTCAPTURE_EXPR_1]], align 4
+// COMP-NEXT:    [[SUB4:%.*]] = sub i32 [[DIV]], 1
+// COMP-NEXT:    store i32 [[SUB4]], ptr [[DOTCAPTURE_EXPR_2]], align 4
+// COMP-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // COMP-NEXT:    store i32 0, ptr [[I]], align 4
 // COMP-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // COMP-NEXT:    [[CMP:%.*]] = icmp ult i32 0, [[TMP5]]
 // COMP-NEXT:    br i1 [[CMP]], label [[OMP_PRECOND_THEN:%.*]], label [[OMP_PRECOND_END:%.*]]
 // COMP:       omp.precond.then:
+// COMP-NEXT:    [[FREEZE_POISON6:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON6]], ptr [[DOTOMP_LB]], align 4
 // COMP-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
-// COMP-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
+// COMP-NEXT:    [[FREEZE_POISON7:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON7]], ptr [[DOTOMP_UB]], align 4
+// COMP-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
 // COMP-NEXT:    store i32 [[TMP6]], ptr [[DOTOMP_UB]], align 4
+// COMP-NEXT:    [[FREEZE_POISON8:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON8]], ptr [[DOTOMP_STRIDE]], align 4
 // COMP-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// COMP-NEXT:    [[FREEZE_POISON9:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON9]], ptr [[DOTOMP_IS_LAST]], align 4
 // COMP-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// COMP-NEXT:    call void @_ZN5PointC1Ev(ptr nonnull align 4 dereferenceable(8) [[RED3]]) #[[ATTR2]]
+// COMP-NEXT:    call void @_ZN5PointC1Ev(ptr nonnull align 4 dereferenceable(8) [[RED10]]) #[[ATTR2]]
+// COMP-NEXT:    [[FREEZE_POISON12:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON12]], ptr [[I11]], align 4
 // COMP-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// COMP-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP7]], align 4
+// COMP-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP7]], align 4, !freeze_bits [[META3]]
 // COMP-NEXT:    call void @__kmpc_for_static_init_4u(ptr @[[GLOB1]], i32 [[TMP8]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // COMP-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// COMP-NEXT:    [[TMP10:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
-// COMP-NEXT:    [[CMP5:%.*]] = icmp ugt i32 [[TMP9]], [[TMP10]]
-// COMP-NEXT:    br i1 [[CMP5]], label [[COND_TRUE:%.*]], label [[COND_FALSE:%.*]]
+// COMP-NEXT:    [[TMP10:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
+// COMP-NEXT:    [[CMP13:%.*]] = icmp ugt i32 [[TMP9]], [[TMP10]]
+// COMP-NEXT:    br i1 [[CMP13]], label [[COND_TRUE:%.*]], label [[COND_FALSE:%.*]]
 // COMP:       cond.true:
-// COMP-NEXT:    [[TMP11:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
+// COMP-NEXT:    [[TMP11:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
 // COMP-NEXT:    br label [[COND_END:%.*]]
 // COMP:       cond.false:
 // COMP-NEXT:    [[TMP12:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
@@ -1652,48 +1850,48 @@ void foo(int N, Point const *Points) {
 // COMP-NEXT:    [[TMP14:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // COMP-NEXT:    [[TMP15:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // COMP-NEXT:    [[ADD:%.*]] = add i32 [[TMP15]], 1
-// COMP-NEXT:    [[CMP6:%.*]] = icmp ult i32 [[TMP14]], [[ADD]]
-// COMP-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// COMP-NEXT:    [[CMP14:%.*]] = icmp ult i32 [[TMP14]], [[ADD]]
+// COMP-NEXT:    br i1 [[CMP14]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // COMP:       omp.inner.for.body:
 // COMP-NEXT:    [[TMP16:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // COMP-NEXT:    [[MUL:%.*]] = mul i32 [[TMP16]], 1
-// COMP-NEXT:    [[ADD7:%.*]] = add i32 0, [[MUL]]
-// COMP-NEXT:    store i32 [[ADD7]], ptr [[I4]], align 4
-// COMP-NEXT:    [[TMP17:%.*]] = load i32, ptr [[I4]], align 4
-// COMP-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[TMP2]], align 8
-// COMP-NEXT:    call void @_Z4workR5PointiPKS_(ptr nonnull align 4 dereferenceable(8) [[RED3]], i32 [[TMP17]], ptr [[TMP18]])
+// COMP-NEXT:    [[ADD15:%.*]] = add i32 0, [[MUL]]
+// COMP-NEXT:    store i32 [[ADD15]], ptr [[I11]], align 4
+// COMP-NEXT:    [[TMP17:%.*]] = load i32, ptr [[I11]], align 4
+// COMP-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[TMP2]], align 8, !freeze_bits [[META3]]
+// COMP-NEXT:    call void @_Z4workR5PointiPKS_(ptr nonnull align 4 dereferenceable(8) [[RED10]], i32 [[TMP17]], ptr [[TMP18]])
 // COMP-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // COMP:       omp.body.continue:
 // COMP-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // COMP:       omp.inner.for.inc:
 // COMP-NEXT:    [[TMP19:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// COMP-NEXT:    [[ADD8:%.*]] = add i32 [[TMP19]], 1
-// COMP-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
+// COMP-NEXT:    [[ADD16:%.*]] = add i32 [[TMP19]], 1
+// COMP-NEXT:    store i32 [[ADD16]], ptr [[DOTOMP_IV]], align 4
 // COMP-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // COMP:       omp.inner.for.end:
 // COMP-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
 // COMP:       omp.loop.exit:
 // COMP-NEXT:    [[TMP20:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// COMP-NEXT:    [[TMP21:%.*]] = load i32, ptr [[TMP20]], align 4
+// COMP-NEXT:    [[TMP21:%.*]] = load i32, ptr [[TMP20]], align 4, !freeze_bits [[META3]]
 // COMP-NEXT:    call void @__kmpc_for_static_fini(ptr @[[GLOB1]], i32 [[TMP21]])
 // COMP-NEXT:    [[TMP22:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOMP_REDUCTION_RED_LIST]], i64 0, i64 0
-// COMP-NEXT:    store ptr [[RED3]], ptr [[TMP22]], align 8
+// COMP-NEXT:    store ptr [[RED10]], ptr [[TMP22]], align 8
 // COMP-NEXT:    [[TMP23:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// COMP-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP23]], align 4
+// COMP-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP23]], align 4, !freeze_bits [[META3]]
 // COMP-NEXT:    [[TMP25:%.*]] = call i32 @__kmpc_reduce_nowait(ptr @[[GLOB2]], i32 [[TMP24]], i32 1, i64 8, ptr [[DOTOMP_REDUCTION_RED_LIST]], ptr @_Z3fooiPK5Point.omp_outlined.2.omp.reduction.reduction_func, ptr @.gomp_critical_user_.reduction.var)
 // COMP-NEXT:    switch i32 [[TMP25]], label [[DOTOMP_REDUCTION_DEFAULT:%.*]] [
 // COMP-NEXT:      i32 1, label [[DOTOMP_REDUCTION_CASE1:%.*]]
 // COMP-NEXT:      i32 2, label [[DOTOMP_REDUCTION_CASE2:%.*]]
 // COMP-NEXT:    ]
 // COMP:       .omp.reduction.case1:
-// COMP-NEXT:    [[CALL:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointmLERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED3]])
+// COMP-NEXT:    [[CALL:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointmLERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED10]])
 // COMP-NEXT:    call void @__kmpc_end_reduce_nowait(ptr @[[GLOB2]], i32 [[TMP24]], ptr @.gomp_critical_user_.reduction.var)
 // COMP-NEXT:    br label [[DOTOMP_REDUCTION_DEFAULT]]
 // COMP:       .omp.reduction.case2:
 // COMP-NEXT:    [[TMP26:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// COMP-NEXT:    [[TMP27:%.*]] = load i32, ptr [[TMP26]], align 4
+// COMP-NEXT:    [[TMP27:%.*]] = load i32, ptr [[TMP26]], align 4, !freeze_bits [[META3]]
 // COMP-NEXT:    call void @__kmpc_critical(ptr @[[GLOB3]], i32 [[TMP27]], ptr @.gomp_critical_user_.atomic_reduction.var)
-// COMP-NEXT:    [[CALL9:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointmLERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED3]])
+// COMP-NEXT:    [[CALL17:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointmLERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED10]])
 // COMP-NEXT:    call void @__kmpc_end_critical(ptr @[[GLOB3]], i32 [[TMP27]], ptr @.gomp_critical_user_.atomic_reduction.var)
 // COMP-NEXT:    br label [[DOTOMP_REDUCTION_DEFAULT]]
 // COMP:       .omp.reduction.default:
@@ -1712,9 +1910,9 @@ void foo(int N, Point const *Points) {
 // COMP-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // COMP-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // COMP-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP3]], i64 0, i64 0
-// COMP-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[TMP4]], align 8
+// COMP-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[TMP4]], align 8, !freeze_bits [[META3]]
 // COMP-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP2]], i64 0, i64 0
-// COMP-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[TMP6]], align 8
+// COMP-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[TMP6]], align 8, !freeze_bits [[META3]]
 // COMP-NEXT:    [[CALL:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointmLERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP7]], ptr nonnull align 4 dereferenceable(8) [[TMP5]])
 // COMP-NEXT:    ret void
 //
@@ -1730,50 +1928,68 @@ void foo(int N, Point const *Points) {
 // COMP-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTCAPTURE_EXPR_:%.*]] = alloca i32, align 4
-// COMP-NEXT:    [[DOTCAPTURE_EXPR_1:%.*]] = alloca i32, align 4
+// COMP-NEXT:    [[DOTCAPTURE_EXPR_2:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[I:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTOMP_LB:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTOMP_UB:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTOMP_STRIDE:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTOMP_IS_LAST:%.*]] = alloca i32, align 4
-// COMP-NEXT:    [[RED3:%.*]] = alloca [[STRUCT_POINT:%.*]], align 4
-// COMP-NEXT:    [[I4:%.*]] = alloca i32, align 4
+// COMP-NEXT:    [[RED10:%.*]] = alloca [[STRUCT_POINT:%.*]], align 4
+// COMP-NEXT:    [[I11:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTOMP_REDUCTION_RED_LIST:%.*]] = alloca [1 x ptr], align 8
 // COMP-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // COMP-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // COMP-NEXT:    store ptr [[N]], ptr [[N_ADDR]], align 8
 // COMP-NEXT:    store ptr [[RED]], ptr [[RED_ADDR]], align 8
 // COMP-NEXT:    store ptr [[POINTS]], ptr [[POINTS_ADDR]], align 8
-// COMP-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[N_ADDR]], align 8
-// COMP-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[RED_ADDR]], align 8
-// COMP-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[POINTS_ADDR]], align 8
-// COMP-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP0]], align 4
+// COMP-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[N_ADDR]], align 8, !nonnull [[META3]], !align [[META4]]
+// COMP-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[RED_ADDR]], align 8, !nonnull [[META3]], !align [[META4]]
+// COMP-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[POINTS_ADDR]], align 8, !nonnull [[META3]], !align [[META5]]
+// COMP-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// COMP-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// COMP-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // COMP-NEXT:    store i32 [[TMP3]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// COMP-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTCAPTURE_EXPR_2]], align 4
 // COMP-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // COMP-NEXT:    [[SUB:%.*]] = sub i32 [[TMP4]], 0
 // COMP-NEXT:    [[DIV:%.*]] = udiv i32 [[SUB]], 1
-// COMP-NEXT:    [[SUB2:%.*]] = sub i32 [[DIV]], 1
-// COMP-NEXT:    store i32 [[SUB2]], ptr [[DOTCAPTURE_EXPR_1]], align 4
+// COMP-NEXT:    [[SUB4:%.*]] = sub i32 [[DIV]], 1
+// COMP-NEXT:    store i32 [[SUB4]], ptr [[DOTCAPTURE_EXPR_2]], align 4
+// COMP-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // COMP-NEXT:    store i32 0, ptr [[I]], align 4
 // COMP-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // COMP-NEXT:    [[CMP:%.*]] = icmp ult i32 0, [[TMP5]]
 // COMP-NEXT:    br i1 [[CMP]], label [[OMP_PRECOND_THEN:%.*]], label [[OMP_PRECOND_END:%.*]]
 // COMP:       omp.precond.then:
+// COMP-NEXT:    [[FREEZE_POISON6:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON6]], ptr [[DOTOMP_LB]], align 4
 // COMP-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
-// COMP-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
+// COMP-NEXT:    [[FREEZE_POISON7:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON7]], ptr [[DOTOMP_UB]], align 4
+// COMP-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
 // COMP-NEXT:    store i32 [[TMP6]], ptr [[DOTOMP_UB]], align 4
+// COMP-NEXT:    [[FREEZE_POISON8:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON8]], ptr [[DOTOMP_STRIDE]], align 4
 // COMP-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// COMP-NEXT:    [[FREEZE_POISON9:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON9]], ptr [[DOTOMP_IS_LAST]], align 4
 // COMP-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// COMP-NEXT:    call void @_ZN5PointC1Ev(ptr nonnull align 4 dereferenceable(8) [[RED3]]) #[[ATTR2]]
+// COMP-NEXT:    call void @_ZN5PointC1Ev(ptr nonnull align 4 dereferenceable(8) [[RED10]]) #[[ATTR2]]
+// COMP-NEXT:    [[FREEZE_POISON12:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON12]], ptr [[I11]], align 4
 // COMP-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// COMP-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP7]], align 4
+// COMP-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP7]], align 4, !freeze_bits [[META3]]
 // COMP-NEXT:    call void @__kmpc_for_static_init_4u(ptr @[[GLOB1]], i32 [[TMP8]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // COMP-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// COMP-NEXT:    [[TMP10:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
-// COMP-NEXT:    [[CMP5:%.*]] = icmp ugt i32 [[TMP9]], [[TMP10]]
-// COMP-NEXT:    br i1 [[CMP5]], label [[COND_TRUE:%.*]], label [[COND_FALSE:%.*]]
+// COMP-NEXT:    [[TMP10:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
+// COMP-NEXT:    [[CMP13:%.*]] = icmp ugt i32 [[TMP9]], [[TMP10]]
+// COMP-NEXT:    br i1 [[CMP13]], label [[COND_TRUE:%.*]], label [[COND_FALSE:%.*]]
 // COMP:       cond.true:
-// COMP-NEXT:    [[TMP11:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
+// COMP-NEXT:    [[TMP11:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
 // COMP-NEXT:    br label [[COND_END:%.*]]
 // COMP:       cond.false:
 // COMP-NEXT:    [[TMP12:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
@@ -1788,48 +2004,48 @@ void foo(int N, Point const *Points) {
 // COMP-NEXT:    [[TMP14:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // COMP-NEXT:    [[TMP15:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // COMP-NEXT:    [[ADD:%.*]] = add i32 [[TMP15]], 1
-// COMP-NEXT:    [[CMP6:%.*]] = icmp ult i32 [[TMP14]], [[ADD]]
-// COMP-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// COMP-NEXT:    [[CMP14:%.*]] = icmp ult i32 [[TMP14]], [[ADD]]
+// COMP-NEXT:    br i1 [[CMP14]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // COMP:       omp.inner.for.body:
 // COMP-NEXT:    [[TMP16:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // COMP-NEXT:    [[MUL:%.*]] = mul i32 [[TMP16]], 1
-// COMP-NEXT:    [[ADD7:%.*]] = add i32 0, [[MUL]]
-// COMP-NEXT:    store i32 [[ADD7]], ptr [[I4]], align 4
-// COMP-NEXT:    [[TMP17:%.*]] = load i32, ptr [[I4]], align 4
-// COMP-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[TMP2]], align 8
-// COMP-NEXT:    call void @_Z4workR5PointiPKS_(ptr nonnull align 4 dereferenceable(8) [[RED3]], i32 [[TMP17]], ptr [[TMP18]])
+// COMP-NEXT:    [[ADD15:%.*]] = add i32 0, [[MUL]]
+// COMP-NEXT:    store i32 [[ADD15]], ptr [[I11]], align 4
+// COMP-NEXT:    [[TMP17:%.*]] = load i32, ptr [[I11]], align 4
+// COMP-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[TMP2]], align 8, !freeze_bits [[META3]]
+// COMP-NEXT:    call void @_Z4workR5PointiPKS_(ptr nonnull align 4 dereferenceable(8) [[RED10]], i32 [[TMP17]], ptr [[TMP18]])
 // COMP-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // COMP:       omp.body.continue:
 // COMP-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // COMP:       omp.inner.for.inc:
 // COMP-NEXT:    [[TMP19:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// COMP-NEXT:    [[ADD8:%.*]] = add i32 [[TMP19]], 1
-// COMP-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
+// COMP-NEXT:    [[ADD16:%.*]] = add i32 [[TMP19]], 1
+// COMP-NEXT:    store i32 [[ADD16]], ptr [[DOTOMP_IV]], align 4
 // COMP-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // COMP:       omp.inner.for.end:
 // COMP-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
 // COMP:       omp.loop.exit:
 // COMP-NEXT:    [[TMP20:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// COMP-NEXT:    [[TMP21:%.*]] = load i32, ptr [[TMP20]], align 4
+// COMP-NEXT:    [[TMP21:%.*]] = load i32, ptr [[TMP20]], align 4, !freeze_bits [[META3]]
 // COMP-NEXT:    call void @__kmpc_for_static_fini(ptr @[[GLOB1]], i32 [[TMP21]])
 // COMP-NEXT:    [[TMP22:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOMP_REDUCTION_RED_LIST]], i64 0, i64 0
-// COMP-NEXT:    store ptr [[RED3]], ptr [[TMP22]], align 8
+// COMP-NEXT:    store ptr [[RED10]], ptr [[TMP22]], align 8
 // COMP-NEXT:    [[TMP23:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// COMP-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP23]], align 4
+// COMP-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP23]], align 4, !freeze_bits [[META3]]
 // COMP-NEXT:    [[TMP25:%.*]] = call i32 @__kmpc_reduce_nowait(ptr @[[GLOB2]], i32 [[TMP24]], i32 1, i64 8, ptr [[DOTOMP_REDUCTION_RED_LIST]], ptr @_Z3fooiPK5Point.omp_outlined.3.omp.reduction.reduction_func, ptr @.gomp_critical_user_.reduction.var)
 // COMP-NEXT:    switch i32 [[TMP25]], label [[DOTOMP_REDUCTION_DEFAULT:%.*]] [
 // COMP-NEXT:      i32 1, label [[DOTOMP_REDUCTION_CASE1:%.*]]
 // COMP-NEXT:      i32 2, label [[DOTOMP_REDUCTION_CASE2:%.*]]
 // COMP-NEXT:    ]
 // COMP:       .omp.reduction.case1:
-// COMP-NEXT:    [[CALL:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaNERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED3]])
+// COMP-NEXT:    [[CALL:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaNERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED10]])
 // COMP-NEXT:    call void @__kmpc_end_reduce_nowait(ptr @[[GLOB2]], i32 [[TMP24]], ptr @.gomp_critical_user_.reduction.var)
 // COMP-NEXT:    br label [[DOTOMP_REDUCTION_DEFAULT]]
 // COMP:       .omp.reduction.case2:
 // COMP-NEXT:    [[TMP26:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// COMP-NEXT:    [[TMP27:%.*]] = load i32, ptr [[TMP26]], align 4
+// COMP-NEXT:    [[TMP27:%.*]] = load i32, ptr [[TMP26]], align 4, !freeze_bits [[META3]]
 // COMP-NEXT:    call void @__kmpc_critical(ptr @[[GLOB3]], i32 [[TMP27]], ptr @.gomp_critical_user_.atomic_reduction.var)
-// COMP-NEXT:    [[CALL9:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaNERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED3]])
+// COMP-NEXT:    [[CALL17:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaNERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED10]])
 // COMP-NEXT:    call void @__kmpc_end_critical(ptr @[[GLOB3]], i32 [[TMP27]], ptr @.gomp_critical_user_.atomic_reduction.var)
 // COMP-NEXT:    br label [[DOTOMP_REDUCTION_DEFAULT]]
 // COMP:       .omp.reduction.default:
@@ -1848,9 +2064,9 @@ void foo(int N, Point const *Points) {
 // COMP-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // COMP-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // COMP-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP3]], i64 0, i64 0
-// COMP-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[TMP4]], align 8
+// COMP-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[TMP4]], align 8, !freeze_bits [[META3]]
 // COMP-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP2]], i64 0, i64 0
-// COMP-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[TMP6]], align 8
+// COMP-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[TMP6]], align 8, !freeze_bits [[META3]]
 // COMP-NEXT:    [[CALL:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaNERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP7]], ptr nonnull align 4 dereferenceable(8) [[TMP5]])
 // COMP-NEXT:    ret void
 //
@@ -1866,50 +2082,68 @@ void foo(int N, Point const *Points) {
 // COMP-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTCAPTURE_EXPR_:%.*]] = alloca i32, align 4
-// COMP-NEXT:    [[DOTCAPTURE_EXPR_1:%.*]] = alloca i32, align 4
+// COMP-NEXT:    [[DOTCAPTURE_EXPR_2:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[I:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTOMP_LB:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTOMP_UB:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTOMP_STRIDE:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTOMP_IS_LAST:%.*]] = alloca i32, align 4
-// COMP-NEXT:    [[RED3:%.*]] = alloca [[STRUCT_POINT:%.*]], align 4
-// COMP-NEXT:    [[I4:%.*]] = alloca i32, align 4
+// COMP-NEXT:    [[RED10:%.*]] = alloca [[STRUCT_POINT:%.*]], align 4
+// COMP-NEXT:    [[I11:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTOMP_REDUCTION_RED_LIST:%.*]] = alloca [1 x ptr], align 8
 // COMP-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // COMP-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // COMP-NEXT:    store ptr [[N]], ptr [[N_ADDR]], align 8
 // COMP-NEXT:    store ptr [[RED]], ptr [[RED_ADDR]], align 8
 // COMP-NEXT:    store ptr [[POINTS]], ptr [[POINTS_ADDR]], align 8
-// COMP-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[N_ADDR]], align 8
-// COMP-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[RED_ADDR]], align 8
-// COMP-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[POINTS_ADDR]], align 8
-// COMP-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP0]], align 4
+// COMP-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[N_ADDR]], align 8, !nonnull [[META3]], !align [[META4]]
+// COMP-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[RED_ADDR]], align 8, !nonnull [[META3]], !align [[META4]]
+// COMP-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[POINTS_ADDR]], align 8, !nonnull [[META3]], !align [[META5]]
+// COMP-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// COMP-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// COMP-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // COMP-NEXT:    store i32 [[TMP3]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// COMP-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTCAPTURE_EXPR_2]], align 4
 // COMP-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // COMP-NEXT:    [[SUB:%.*]] = sub i32 [[TMP4]], 0
 // COMP-NEXT:    [[DIV:%.*]] = udiv i32 [[SUB]], 1
-// COMP-NEXT:    [[SUB2:%.*]] = sub i32 [[DIV]], 1
-// COMP-NEXT:    store i32 [[SUB2]], ptr [[DOTCAPTURE_EXPR_1]], align 4
+// COMP-NEXT:    [[SUB4:%.*]] = sub i32 [[DIV]], 1
+// COMP-NEXT:    store i32 [[SUB4]], ptr [[DOTCAPTURE_EXPR_2]], align 4
+// COMP-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // COMP-NEXT:    store i32 0, ptr [[I]], align 4
 // COMP-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // COMP-NEXT:    [[CMP:%.*]] = icmp ult i32 0, [[TMP5]]
 // COMP-NEXT:    br i1 [[CMP]], label [[OMP_PRECOND_THEN:%.*]], label [[OMP_PRECOND_END:%.*]]
 // COMP:       omp.precond.then:
+// COMP-NEXT:    [[FREEZE_POISON6:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON6]], ptr [[DOTOMP_LB]], align 4
 // COMP-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
-// COMP-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
+// COMP-NEXT:    [[FREEZE_POISON7:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON7]], ptr [[DOTOMP_UB]], align 4
+// COMP-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
 // COMP-NEXT:    store i32 [[TMP6]], ptr [[DOTOMP_UB]], align 4
+// COMP-NEXT:    [[FREEZE_POISON8:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON8]], ptr [[DOTOMP_STRIDE]], align 4
 // COMP-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// COMP-NEXT:    [[FREEZE_POISON9:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON9]], ptr [[DOTOMP_IS_LAST]], align 4
 // COMP-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// COMP-NEXT:    call void @_ZN5PointC1Ev(ptr nonnull align 4 dereferenceable(8) [[RED3]]) #[[ATTR2]]
+// COMP-NEXT:    call void @_ZN5PointC1Ev(ptr nonnull align 4 dereferenceable(8) [[RED10]]) #[[ATTR2]]
+// COMP-NEXT:    [[FREEZE_POISON12:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON12]], ptr [[I11]], align 4
 // COMP-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// COMP-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP7]], align 4
+// COMP-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP7]], align 4, !freeze_bits [[META3]]
 // COMP-NEXT:    call void @__kmpc_for_static_init_4u(ptr @[[GLOB1]], i32 [[TMP8]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // COMP-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// COMP-NEXT:    [[TMP10:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
-// COMP-NEXT:    [[CMP5:%.*]] = icmp ugt i32 [[TMP9]], [[TMP10]]
-// COMP-NEXT:    br i1 [[CMP5]], label [[COND_TRUE:%.*]], label [[COND_FALSE:%.*]]
+// COMP-NEXT:    [[TMP10:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
+// COMP-NEXT:    [[CMP13:%.*]] = icmp ugt i32 [[TMP9]], [[TMP10]]
+// COMP-NEXT:    br i1 [[CMP13]], label [[COND_TRUE:%.*]], label [[COND_FALSE:%.*]]
 // COMP:       cond.true:
-// COMP-NEXT:    [[TMP11:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
+// COMP-NEXT:    [[TMP11:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
 // COMP-NEXT:    br label [[COND_END:%.*]]
 // COMP:       cond.false:
 // COMP-NEXT:    [[TMP12:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
@@ -1924,48 +2158,48 @@ void foo(int N, Point const *Points) {
 // COMP-NEXT:    [[TMP14:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // COMP-NEXT:    [[TMP15:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // COMP-NEXT:    [[ADD:%.*]] = add i32 [[TMP15]], 1
-// COMP-NEXT:    [[CMP6:%.*]] = icmp ult i32 [[TMP14]], [[ADD]]
-// COMP-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// COMP-NEXT:    [[CMP14:%.*]] = icmp ult i32 [[TMP14]], [[ADD]]
+// COMP-NEXT:    br i1 [[CMP14]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // COMP:       omp.inner.for.body:
 // COMP-NEXT:    [[TMP16:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // COMP-NEXT:    [[MUL:%.*]] = mul i32 [[TMP16]], 1
-// COMP-NEXT:    [[ADD7:%.*]] = add i32 0, [[MUL]]
-// COMP-NEXT:    store i32 [[ADD7]], ptr [[I4]], align 4
-// COMP-NEXT:    [[TMP17:%.*]] = load i32, ptr [[I4]], align 4
-// COMP-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[TMP2]], align 8
-// COMP-NEXT:    call void @_Z4workR5PointiPKS_(ptr nonnull align 4 dereferenceable(8) [[RED3]], i32 [[TMP17]], ptr [[TMP18]])
+// COMP-NEXT:    [[ADD15:%.*]] = add i32 0, [[MUL]]
+// COMP-NEXT:    store i32 [[ADD15]], ptr [[I11]], align 4
+// COMP-NEXT:    [[TMP17:%.*]] = load i32, ptr [[I11]], align 4
+// COMP-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[TMP2]], align 8, !freeze_bits [[META3]]
+// COMP-NEXT:    call void @_Z4workR5PointiPKS_(ptr nonnull align 4 dereferenceable(8) [[RED10]], i32 [[TMP17]], ptr [[TMP18]])
 // COMP-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // COMP:       omp.body.continue:
 // COMP-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // COMP:       omp.inner.for.inc:
 // COMP-NEXT:    [[TMP19:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// COMP-NEXT:    [[ADD8:%.*]] = add i32 [[TMP19]], 1
-// COMP-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
+// COMP-NEXT:    [[ADD16:%.*]] = add i32 [[TMP19]], 1
+// COMP-NEXT:    store i32 [[ADD16]], ptr [[DOTOMP_IV]], align 4
 // COMP-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // COMP:       omp.inner.for.end:
 // COMP-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
 // COMP:       omp.loop.exit:
 // COMP-NEXT:    [[TMP20:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// COMP-NEXT:    [[TMP21:%.*]] = load i32, ptr [[TMP20]], align 4
+// COMP-NEXT:    [[TMP21:%.*]] = load i32, ptr [[TMP20]], align 4, !freeze_bits [[META3]]
 // COMP-NEXT:    call void @__kmpc_for_static_fini(ptr @[[GLOB1]], i32 [[TMP21]])
 // COMP-NEXT:    [[TMP22:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOMP_REDUCTION_RED_LIST]], i64 0, i64 0
-// COMP-NEXT:    store ptr [[RED3]], ptr [[TMP22]], align 8
+// COMP-NEXT:    store ptr [[RED10]], ptr [[TMP22]], align 8
 // COMP-NEXT:    [[TMP23:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// COMP-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP23]], align 4
+// COMP-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP23]], align 4, !freeze_bits [[META3]]
 // COMP-NEXT:    [[TMP25:%.*]] = call i32 @__kmpc_reduce_nowait(ptr @[[GLOB2]], i32 [[TMP24]], i32 1, i64 8, ptr [[DOTOMP_REDUCTION_RED_LIST]], ptr @_Z3fooiPK5Point.omp_outlined.4.omp.reduction.reduction_func, ptr @.gomp_critical_user_.reduction.var)
 // COMP-NEXT:    switch i32 [[TMP25]], label [[DOTOMP_REDUCTION_DEFAULT:%.*]] [
 // COMP-NEXT:      i32 1, label [[DOTOMP_REDUCTION_CASE1:%.*]]
 // COMP-NEXT:      i32 2, label [[DOTOMP_REDUCTION_CASE2:%.*]]
 // COMP-NEXT:    ]
 // COMP:       .omp.reduction.case1:
-// COMP-NEXT:    [[CALL:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointoRERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED3]])
+// COMP-NEXT:    [[CALL:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointoRERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED10]])
 // COMP-NEXT:    call void @__kmpc_end_reduce_nowait(ptr @[[GLOB2]], i32 [[TMP24]], ptr @.gomp_critical_user_.reduction.var)
 // COMP-NEXT:    br label [[DOTOMP_REDUCTION_DEFAULT]]
 // COMP:       .omp.reduction.case2:
 // COMP-NEXT:    [[TMP26:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// COMP-NEXT:    [[TMP27:%.*]] = load i32, ptr [[TMP26]], align 4
+// COMP-NEXT:    [[TMP27:%.*]] = load i32, ptr [[TMP26]], align 4, !freeze_bits [[META3]]
 // COMP-NEXT:    call void @__kmpc_critical(ptr @[[GLOB3]], i32 [[TMP27]], ptr @.gomp_critical_user_.atomic_reduction.var)
-// COMP-NEXT:    [[CALL9:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointoRERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED3]])
+// COMP-NEXT:    [[CALL17:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointoRERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED10]])
 // COMP-NEXT:    call void @__kmpc_end_critical(ptr @[[GLOB3]], i32 [[TMP27]], ptr @.gomp_critical_user_.atomic_reduction.var)
 // COMP-NEXT:    br label [[DOTOMP_REDUCTION_DEFAULT]]
 // COMP:       .omp.reduction.default:
@@ -1984,9 +2218,9 @@ void foo(int N, Point const *Points) {
 // COMP-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // COMP-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // COMP-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP3]], i64 0, i64 0
-// COMP-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[TMP4]], align 8
+// COMP-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[TMP4]], align 8, !freeze_bits [[META3]]
 // COMP-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP2]], i64 0, i64 0
-// COMP-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[TMP6]], align 8
+// COMP-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[TMP6]], align 8, !freeze_bits [[META3]]
 // COMP-NEXT:    [[CALL:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointoRERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP7]], ptr nonnull align 4 dereferenceable(8) [[TMP5]])
 // COMP-NEXT:    ret void
 //
@@ -2002,50 +2236,68 @@ void foo(int N, Point const *Points) {
 // COMP-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTCAPTURE_EXPR_:%.*]] = alloca i32, align 4
-// COMP-NEXT:    [[DOTCAPTURE_EXPR_1:%.*]] = alloca i32, align 4
+// COMP-NEXT:    [[DOTCAPTURE_EXPR_2:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[I:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTOMP_LB:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTOMP_UB:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTOMP_STRIDE:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTOMP_IS_LAST:%.*]] = alloca i32, align 4
-// COMP-NEXT:    [[RED3:%.*]] = alloca [[STRUCT_POINT:%.*]], align 4
-// COMP-NEXT:    [[I4:%.*]] = alloca i32, align 4
+// COMP-NEXT:    [[RED10:%.*]] = alloca [[STRUCT_POINT:%.*]], align 4
+// COMP-NEXT:    [[I11:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTOMP_REDUCTION_RED_LIST:%.*]] = alloca [1 x ptr], align 8
 // COMP-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // COMP-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // COMP-NEXT:    store ptr [[N]], ptr [[N_ADDR]], align 8
 // COMP-NEXT:    store ptr [[RED]], ptr [[RED_ADDR]], align 8
 // COMP-NEXT:    store ptr [[POINTS]], ptr [[POINTS_ADDR]], align 8
-// COMP-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[N_ADDR]], align 8
-// COMP-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[RED_ADDR]], align 8
-// COMP-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[POINTS_ADDR]], align 8
-// COMP-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP0]], align 4
+// COMP-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[N_ADDR]], align 8, !nonnull [[META3]], !align [[META4]]
+// COMP-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[RED_ADDR]], align 8, !nonnull [[META3]], !align [[META4]]
+// COMP-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[POINTS_ADDR]], align 8, !nonnull [[META3]], !align [[META5]]
+// COMP-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// COMP-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// COMP-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // COMP-NEXT:    store i32 [[TMP3]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// COMP-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTCAPTURE_EXPR_2]], align 4
 // COMP-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // COMP-NEXT:    [[SUB:%.*]] = sub i32 [[TMP4]], 0
 // COMP-NEXT:    [[DIV:%.*]] = udiv i32 [[SUB]], 1
-// COMP-NEXT:    [[SUB2:%.*]] = sub i32 [[DIV]], 1
-// COMP-NEXT:    store i32 [[SUB2]], ptr [[DOTCAPTURE_EXPR_1]], align 4
+// COMP-NEXT:    [[SUB4:%.*]] = sub i32 [[DIV]], 1
+// COMP-NEXT:    store i32 [[SUB4]], ptr [[DOTCAPTURE_EXPR_2]], align 4
+// COMP-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // COMP-NEXT:    store i32 0, ptr [[I]], align 4
 // COMP-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // COMP-NEXT:    [[CMP:%.*]] = icmp ult i32 0, [[TMP5]]
 // COMP-NEXT:    br i1 [[CMP]], label [[OMP_PRECOND_THEN:%.*]], label [[OMP_PRECOND_END:%.*]]
 // COMP:       omp.precond.then:
+// COMP-NEXT:    [[FREEZE_POISON6:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON6]], ptr [[DOTOMP_LB]], align 4
 // COMP-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
-// COMP-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
+// COMP-NEXT:    [[FREEZE_POISON7:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON7]], ptr [[DOTOMP_UB]], align 4
+// COMP-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
 // COMP-NEXT:    store i32 [[TMP6]], ptr [[DOTOMP_UB]], align 4
+// COMP-NEXT:    [[FREEZE_POISON8:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON8]], ptr [[DOTOMP_STRIDE]], align 4
 // COMP-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// COMP-NEXT:    [[FREEZE_POISON9:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON9]], ptr [[DOTOMP_IS_LAST]], align 4
 // COMP-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// COMP-NEXT:    call void @_ZN5PointC1Ev(ptr nonnull align 4 dereferenceable(8) [[RED3]]) #[[ATTR2]]
+// COMP-NEXT:    call void @_ZN5PointC1Ev(ptr nonnull align 4 dereferenceable(8) [[RED10]]) #[[ATTR2]]
+// COMP-NEXT:    [[FREEZE_POISON12:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON12]], ptr [[I11]], align 4
 // COMP-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// COMP-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP7]], align 4
+// COMP-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP7]], align 4, !freeze_bits [[META3]]
 // COMP-NEXT:    call void @__kmpc_for_static_init_4u(ptr @[[GLOB1]], i32 [[TMP8]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // COMP-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// COMP-NEXT:    [[TMP10:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
-// COMP-NEXT:    [[CMP5:%.*]] = icmp ugt i32 [[TMP9]], [[TMP10]]
-// COMP-NEXT:    br i1 [[CMP5]], label [[COND_TRUE:%.*]], label [[COND_FALSE:%.*]]
+// COMP-NEXT:    [[TMP10:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
+// COMP-NEXT:    [[CMP13:%.*]] = icmp ugt i32 [[TMP9]], [[TMP10]]
+// COMP-NEXT:    br i1 [[CMP13]], label [[COND_TRUE:%.*]], label [[COND_FALSE:%.*]]
 // COMP:       cond.true:
-// COMP-NEXT:    [[TMP11:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
+// COMP-NEXT:    [[TMP11:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
 // COMP-NEXT:    br label [[COND_END:%.*]]
 // COMP:       cond.false:
 // COMP-NEXT:    [[TMP12:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
@@ -2060,48 +2312,48 @@ void foo(int N, Point const *Points) {
 // COMP-NEXT:    [[TMP14:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // COMP-NEXT:    [[TMP15:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // COMP-NEXT:    [[ADD:%.*]] = add i32 [[TMP15]], 1
-// COMP-NEXT:    [[CMP6:%.*]] = icmp ult i32 [[TMP14]], [[ADD]]
-// COMP-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// COMP-NEXT:    [[CMP14:%.*]] = icmp ult i32 [[TMP14]], [[ADD]]
+// COMP-NEXT:    br i1 [[CMP14]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // COMP:       omp.inner.for.body:
 // COMP-NEXT:    [[TMP16:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // COMP-NEXT:    [[MUL:%.*]] = mul i32 [[TMP16]], 1
-// COMP-NEXT:    [[ADD7:%.*]] = add i32 0, [[MUL]]
-// COMP-NEXT:    store i32 [[ADD7]], ptr [[I4]], align 4
-// COMP-NEXT:    [[TMP17:%.*]] = load i32, ptr [[I4]], align 4
-// COMP-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[TMP2]], align 8
-// COMP-NEXT:    call void @_Z4workR5PointiPKS_(ptr nonnull align 4 dereferenceable(8) [[RED3]], i32 [[TMP17]], ptr [[TMP18]])
+// COMP-NEXT:    [[ADD15:%.*]] = add i32 0, [[MUL]]
+// COMP-NEXT:    store i32 [[ADD15]], ptr [[I11]], align 4
+// COMP-NEXT:    [[TMP17:%.*]] = load i32, ptr [[I11]], align 4
+// COMP-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[TMP2]], align 8, !freeze_bits [[META3]]
+// COMP-NEXT:    call void @_Z4workR5PointiPKS_(ptr nonnull align 4 dereferenceable(8) [[RED10]], i32 [[TMP17]], ptr [[TMP18]])
 // COMP-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // COMP:       omp.body.continue:
 // COMP-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // COMP:       omp.inner.for.inc:
 // COMP-NEXT:    [[TMP19:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// COMP-NEXT:    [[ADD8:%.*]] = add i32 [[TMP19]], 1
-// COMP-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
+// COMP-NEXT:    [[ADD16:%.*]] = add i32 [[TMP19]], 1
+// COMP-NEXT:    store i32 [[ADD16]], ptr [[DOTOMP_IV]], align 4
 // COMP-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // COMP:       omp.inner.for.end:
 // COMP-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
 // COMP:       omp.loop.exit:
 // COMP-NEXT:    [[TMP20:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// COMP-NEXT:    [[TMP21:%.*]] = load i32, ptr [[TMP20]], align 4
+// COMP-NEXT:    [[TMP21:%.*]] = load i32, ptr [[TMP20]], align 4, !freeze_bits [[META3]]
 // COMP-NEXT:    call void @__kmpc_for_static_fini(ptr @[[GLOB1]], i32 [[TMP21]])
 // COMP-NEXT:    [[TMP22:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOMP_REDUCTION_RED_LIST]], i64 0, i64 0
-// COMP-NEXT:    store ptr [[RED3]], ptr [[TMP22]], align 8
+// COMP-NEXT:    store ptr [[RED10]], ptr [[TMP22]], align 8
 // COMP-NEXT:    [[TMP23:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// COMP-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP23]], align 4
+// COMP-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP23]], align 4, !freeze_bits [[META3]]
 // COMP-NEXT:    [[TMP25:%.*]] = call i32 @__kmpc_reduce_nowait(ptr @[[GLOB2]], i32 [[TMP24]], i32 1, i64 8, ptr [[DOTOMP_REDUCTION_RED_LIST]], ptr @_Z3fooiPK5Point.omp_outlined.5.omp.reduction.reduction_func, ptr @.gomp_critical_user_.reduction.var)
 // COMP-NEXT:    switch i32 [[TMP25]], label [[DOTOMP_REDUCTION_DEFAULT:%.*]] [
 // COMP-NEXT:      i32 1, label [[DOTOMP_REDUCTION_CASE1:%.*]]
 // COMP-NEXT:      i32 2, label [[DOTOMP_REDUCTION_CASE2:%.*]]
 // COMP-NEXT:    ]
 // COMP:       .omp.reduction.case1:
-// COMP-NEXT:    [[CALL:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointeOERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED3]])
+// COMP-NEXT:    [[CALL:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointeOERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED10]])
 // COMP-NEXT:    call void @__kmpc_end_reduce_nowait(ptr @[[GLOB2]], i32 [[TMP24]], ptr @.gomp_critical_user_.reduction.var)
 // COMP-NEXT:    br label [[DOTOMP_REDUCTION_DEFAULT]]
 // COMP:       .omp.reduction.case2:
 // COMP-NEXT:    [[TMP26:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// COMP-NEXT:    [[TMP27:%.*]] = load i32, ptr [[TMP26]], align 4
+// COMP-NEXT:    [[TMP27:%.*]] = load i32, ptr [[TMP26]], align 4, !freeze_bits [[META3]]
 // COMP-NEXT:    call void @__kmpc_critical(ptr @[[GLOB3]], i32 [[TMP27]], ptr @.gomp_critical_user_.atomic_reduction.var)
-// COMP-NEXT:    [[CALL9:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointeOERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED3]])
+// COMP-NEXT:    [[CALL17:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointeOERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED10]])
 // COMP-NEXT:    call void @__kmpc_end_critical(ptr @[[GLOB3]], i32 [[TMP27]], ptr @.gomp_critical_user_.atomic_reduction.var)
 // COMP-NEXT:    br label [[DOTOMP_REDUCTION_DEFAULT]]
 // COMP:       .omp.reduction.default:
@@ -2120,9 +2372,9 @@ void foo(int N, Point const *Points) {
 // COMP-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // COMP-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // COMP-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP3]], i64 0, i64 0
-// COMP-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[TMP4]], align 8
+// COMP-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[TMP4]], align 8, !freeze_bits [[META3]]
 // COMP-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP2]], i64 0, i64 0
-// COMP-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[TMP6]], align 8
+// COMP-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[TMP6]], align 8, !freeze_bits [[META3]]
 // COMP-NEXT:    [[CALL:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointeOERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP7]], ptr nonnull align 4 dereferenceable(8) [[TMP5]])
 // COMP-NEXT:    ret void
 //
@@ -2138,52 +2390,70 @@ void foo(int N, Point const *Points) {
 // COMP-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTCAPTURE_EXPR_:%.*]] = alloca i32, align 4
-// COMP-NEXT:    [[DOTCAPTURE_EXPR_1:%.*]] = alloca i32, align 4
+// COMP-NEXT:    [[DOTCAPTURE_EXPR_2:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[I:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTOMP_LB:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTOMP_UB:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTOMP_STRIDE:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTOMP_IS_LAST:%.*]] = alloca i32, align 4
-// COMP-NEXT:    [[RED3:%.*]] = alloca [[STRUCT_POINT:%.*]], align 4
-// COMP-NEXT:    [[I4:%.*]] = alloca i32, align 4
+// COMP-NEXT:    [[RED10:%.*]] = alloca [[STRUCT_POINT:%.*]], align 4
+// COMP-NEXT:    [[I11:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTOMP_REDUCTION_RED_LIST:%.*]] = alloca [1 x ptr], align 8
 // COMP-NEXT:    [[REF_TMP:%.*]] = alloca [[STRUCT_POINT]], align 4
-// COMP-NEXT:    [[REF_TMP10:%.*]] = alloca [[STRUCT_POINT]], align 4
+// COMP-NEXT:    [[REF_TMP18:%.*]] = alloca [[STRUCT_POINT]], align 4
 // COMP-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // COMP-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // COMP-NEXT:    store ptr [[N]], ptr [[N_ADDR]], align 8
 // COMP-NEXT:    store ptr [[RED]], ptr [[RED_ADDR]], align 8
 // COMP-NEXT:    store ptr [[POINTS]], ptr [[POINTS_ADDR]], align 8
-// COMP-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[N_ADDR]], align 8
-// COMP-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[RED_ADDR]], align 8
-// COMP-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[POINTS_ADDR]], align 8
-// COMP-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP0]], align 4
+// COMP-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[N_ADDR]], align 8, !nonnull [[META3]], !align [[META4]]
+// COMP-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[RED_ADDR]], align 8, !nonnull [[META3]], !align [[META4]]
+// COMP-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[POINTS_ADDR]], align 8, !nonnull [[META3]], !align [[META5]]
+// COMP-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// COMP-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// COMP-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // COMP-NEXT:    store i32 [[TMP3]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// COMP-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTCAPTURE_EXPR_2]], align 4
 // COMP-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // COMP-NEXT:    [[SUB:%.*]] = sub i32 [[TMP4]], 0
 // COMP-NEXT:    [[DIV:%.*]] = udiv i32 [[SUB]], 1
-// COMP-NEXT:    [[SUB2:%.*]] = sub i32 [[DIV]], 1
-// COMP-NEXT:    store i32 [[SUB2]], ptr [[DOTCAPTURE_EXPR_1]], align 4
+// COMP-NEXT:    [[SUB4:%.*]] = sub i32 [[DIV]], 1
+// COMP-NEXT:    store i32 [[SUB4]], ptr [[DOTCAPTURE_EXPR_2]], align 4
+// COMP-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // COMP-NEXT:    store i32 0, ptr [[I]], align 4
 // COMP-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // COMP-NEXT:    [[CMP:%.*]] = icmp ult i32 0, [[TMP5]]
 // COMP-NEXT:    br i1 [[CMP]], label [[OMP_PRECOND_THEN:%.*]], label [[OMP_PRECOND_END:%.*]]
 // COMP:       omp.precond.then:
+// COMP-NEXT:    [[FREEZE_POISON6:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON6]], ptr [[DOTOMP_LB]], align 4
 // COMP-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
-// COMP-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
+// COMP-NEXT:    [[FREEZE_POISON7:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON7]], ptr [[DOTOMP_UB]], align 4
+// COMP-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
 // COMP-NEXT:    store i32 [[TMP6]], ptr [[DOTOMP_UB]], align 4
+// COMP-NEXT:    [[FREEZE_POISON8:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON8]], ptr [[DOTOMP_STRIDE]], align 4
 // COMP-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// COMP-NEXT:    [[FREEZE_POISON9:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON9]], ptr [[DOTOMP_IS_LAST]], align 4
 // COMP-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// COMP-NEXT:    call void @_ZN5PointC1Ev(ptr nonnull align 4 dereferenceable(8) [[RED3]]) #[[ATTR2]]
+// COMP-NEXT:    call void @_ZN5PointC1Ev(ptr nonnull align 4 dereferenceable(8) [[RED10]]) #[[ATTR2]]
+// COMP-NEXT:    [[FREEZE_POISON12:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON12]], ptr [[I11]], align 4
 // COMP-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// COMP-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP7]], align 4
+// COMP-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP7]], align 4, !freeze_bits [[META3]]
 // COMP-NEXT:    call void @__kmpc_for_static_init_4u(ptr @[[GLOB1]], i32 [[TMP8]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // COMP-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// COMP-NEXT:    [[TMP10:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
-// COMP-NEXT:    [[CMP5:%.*]] = icmp ugt i32 [[TMP9]], [[TMP10]]
-// COMP-NEXT:    br i1 [[CMP5]], label [[COND_TRUE:%.*]], label [[COND_FALSE:%.*]]
+// COMP-NEXT:    [[TMP10:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
+// COMP-NEXT:    [[CMP13:%.*]] = icmp ugt i32 [[TMP9]], [[TMP10]]
+// COMP-NEXT:    br i1 [[CMP13]], label [[COND_TRUE:%.*]], label [[COND_FALSE:%.*]]
 // COMP:       cond.true:
-// COMP-NEXT:    [[TMP11:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
+// COMP-NEXT:    [[TMP11:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
 // COMP-NEXT:    br label [[COND_END:%.*]]
 // COMP:       cond.false:
 // COMP-NEXT:    [[TMP12:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
@@ -2198,52 +2468,52 @@ void foo(int N, Point const *Points) {
 // COMP-NEXT:    [[TMP14:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // COMP-NEXT:    [[TMP15:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // COMP-NEXT:    [[ADD:%.*]] = add i32 [[TMP15]], 1
-// COMP-NEXT:    [[CMP6:%.*]] = icmp ult i32 [[TMP14]], [[ADD]]
-// COMP-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// COMP-NEXT:    [[CMP14:%.*]] = icmp ult i32 [[TMP14]], [[ADD]]
+// COMP-NEXT:    br i1 [[CMP14]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // COMP:       omp.inner.for.body:
 // COMP-NEXT:    [[TMP16:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // COMP-NEXT:    [[MUL:%.*]] = mul i32 [[TMP16]], 1
-// COMP-NEXT:    [[ADD7:%.*]] = add i32 0, [[MUL]]
-// COMP-NEXT:    store i32 [[ADD7]], ptr [[I4]], align 4
-// COMP-NEXT:    [[TMP17:%.*]] = load i32, ptr [[I4]], align 4
-// COMP-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[TMP2]], align 8
-// COMP-NEXT:    call void @_Z4workR5PointiPKS_(ptr nonnull align 4 dereferenceable(8) [[RED3]], i32 [[TMP17]], ptr [[TMP18]])
+// COMP-NEXT:    [[ADD15:%.*]] = add i32 0, [[MUL]]
+// COMP-NEXT:    store i32 [[ADD15]], ptr [[I11]], align 4
+// COMP-NEXT:    [[TMP17:%.*]] = load i32, ptr [[I11]], align 4
+// COMP-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[TMP2]], align 8, !freeze_bits [[META3]]
+// COMP-NEXT:    call void @_Z4workR5PointiPKS_(ptr nonnull align 4 dereferenceable(8) [[RED10]], i32 [[TMP17]], ptr [[TMP18]])
 // COMP-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // COMP:       omp.body.continue:
 // COMP-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // COMP:       omp.inner.for.inc:
 // COMP-NEXT:    [[TMP19:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// COMP-NEXT:    [[ADD8:%.*]] = add i32 [[TMP19]], 1
-// COMP-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
+// COMP-NEXT:    [[ADD16:%.*]] = add i32 [[TMP19]], 1
+// COMP-NEXT:    store i32 [[ADD16]], ptr [[DOTOMP_IV]], align 4
 // COMP-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // COMP:       omp.inner.for.end:
 // COMP-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
 // COMP:       omp.loop.exit:
 // COMP-NEXT:    [[TMP20:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// COMP-NEXT:    [[TMP21:%.*]] = load i32, ptr [[TMP20]], align 4
+// COMP-NEXT:    [[TMP21:%.*]] = load i32, ptr [[TMP20]], align 4, !freeze_bits [[META3]]
 // COMP-NEXT:    call void @__kmpc_for_static_fini(ptr @[[GLOB1]], i32 [[TMP21]])
 // COMP-NEXT:    [[TMP22:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOMP_REDUCTION_RED_LIST]], i64 0, i64 0
-// COMP-NEXT:    store ptr [[RED3]], ptr [[TMP22]], align 8
+// COMP-NEXT:    store ptr [[RED10]], ptr [[TMP22]], align 8
 // COMP-NEXT:    [[TMP23:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// COMP-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP23]], align 4
+// COMP-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP23]], align 4, !freeze_bits [[META3]]
 // COMP-NEXT:    [[TMP25:%.*]] = call i32 @__kmpc_reduce_nowait(ptr @[[GLOB2]], i32 [[TMP24]], i32 1, i64 8, ptr [[DOTOMP_REDUCTION_RED_LIST]], ptr @_Z3fooiPK5Point.omp_outlined.6.omp.reduction.reduction_func, ptr @.gomp_critical_user_.reduction.var)
 // COMP-NEXT:    switch i32 [[TMP25]], label [[DOTOMP_REDUCTION_DEFAULT:%.*]] [
 // COMP-NEXT:      i32 1, label [[DOTOMP_REDUCTION_CASE1:%.*]]
 // COMP-NEXT:      i32 2, label [[DOTOMP_REDUCTION_CASE2:%.*]]
 // COMP-NEXT:    ]
 // COMP:       .omp.reduction.case1:
-// COMP-NEXT:    [[CALL:%.*]] = call i64 @_ZNK5PointaaERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED3]])
+// COMP-NEXT:    [[CALL:%.*]] = call i64 @_ZNK5PointaaERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED10]])
 // COMP-NEXT:    store i64 [[CALL]], ptr [[REF_TMP]], align 4
-// COMP-NEXT:    [[CALL9:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP]])
+// COMP-NEXT:    [[CALL17:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP]])
 // COMP-NEXT:    call void @__kmpc_end_reduce_nowait(ptr @[[GLOB2]], i32 [[TMP24]], ptr @.gomp_critical_user_.reduction.var)
 // COMP-NEXT:    br label [[DOTOMP_REDUCTION_DEFAULT]]
 // COMP:       .omp.reduction.case2:
 // COMP-NEXT:    [[TMP26:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// COMP-NEXT:    [[TMP27:%.*]] = load i32, ptr [[TMP26]], align 4
+// COMP-NEXT:    [[TMP27:%.*]] = load i32, ptr [[TMP26]], align 4, !freeze_bits [[META3]]
 // COMP-NEXT:    call void @__kmpc_critical(ptr @[[GLOB3]], i32 [[TMP27]], ptr @.gomp_critical_user_.atomic_reduction.var)
-// COMP-NEXT:    [[CALL11:%.*]] = call i64 @_ZNK5PointaaERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED3]])
-// COMP-NEXT:    store i64 [[CALL11]], ptr [[REF_TMP10]], align 4
-// COMP-NEXT:    [[CALL12:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP10]])
+// COMP-NEXT:    [[CALL19:%.*]] = call i64 @_ZNK5PointaaERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED10]])
+// COMP-NEXT:    store i64 [[CALL19]], ptr [[REF_TMP18]], align 4
+// COMP-NEXT:    [[CALL20:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP18]])
 // COMP-NEXT:    call void @__kmpc_end_critical(ptr @[[GLOB3]], i32 [[TMP27]], ptr @.gomp_critical_user_.atomic_reduction.var)
 // COMP-NEXT:    br label [[DOTOMP_REDUCTION_DEFAULT]]
 // COMP:       .omp.reduction.default:
@@ -2263,9 +2533,9 @@ void foo(int N, Point const *Points) {
 // COMP-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // COMP-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // COMP-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP3]], i64 0, i64 0
-// COMP-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[TMP4]], align 8
+// COMP-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[TMP4]], align 8, !freeze_bits [[META3]]
 // COMP-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP2]], i64 0, i64 0
-// COMP-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[TMP6]], align 8
+// COMP-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[TMP6]], align 8, !freeze_bits [[META3]]
 // COMP-NEXT:    [[CALL:%.*]] = call i64 @_ZNK5PointaaERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP7]], ptr nonnull align 4 dereferenceable(8) [[TMP5]])
 // COMP-NEXT:    store i64 [[CALL]], ptr [[REF_TMP]], align 4
 // COMP-NEXT:    [[CALL2:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP7]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP]])
@@ -2283,52 +2553,70 @@ void foo(int N, Point const *Points) {
 // COMP-NEXT:    [[DOTOMP_IV:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[TMP:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTCAPTURE_EXPR_:%.*]] = alloca i32, align 4
-// COMP-NEXT:    [[DOTCAPTURE_EXPR_1:%.*]] = alloca i32, align 4
+// COMP-NEXT:    [[DOTCAPTURE_EXPR_2:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[I:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTOMP_LB:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTOMP_UB:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTOMP_STRIDE:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTOMP_IS_LAST:%.*]] = alloca i32, align 4
-// COMP-NEXT:    [[RED3:%.*]] = alloca [[STRUCT_POINT:%.*]], align 4
-// COMP-NEXT:    [[I4:%.*]] = alloca i32, align 4
+// COMP-NEXT:    [[RED10:%.*]] = alloca [[STRUCT_POINT:%.*]], align 4
+// COMP-NEXT:    [[I11:%.*]] = alloca i32, align 4
 // COMP-NEXT:    [[DOTOMP_REDUCTION_RED_LIST:%.*]] = alloca [1 x ptr], align 8
 // COMP-NEXT:    [[REF_TMP:%.*]] = alloca [[STRUCT_POINT]], align 4
-// COMP-NEXT:    [[REF_TMP10:%.*]] = alloca [[STRUCT_POINT]], align 4
+// COMP-NEXT:    [[REF_TMP18:%.*]] = alloca [[STRUCT_POINT]], align 4
 // COMP-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // COMP-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // COMP-NEXT:    store ptr [[N]], ptr [[N_ADDR]], align 8
 // COMP-NEXT:    store ptr [[RED]], ptr [[RED_ADDR]], align 8
 // COMP-NEXT:    store ptr [[POINTS]], ptr [[POINTS_ADDR]], align 8
-// COMP-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[N_ADDR]], align 8
-// COMP-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[RED_ADDR]], align 8
-// COMP-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[POINTS_ADDR]], align 8
-// COMP-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP0]], align 4
+// COMP-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[N_ADDR]], align 8, !nonnull [[META3]], !align [[META4]]
+// COMP-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[RED_ADDR]], align 8, !nonnull [[META3]], !align [[META4]]
+// COMP-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[POINTS_ADDR]], align 8, !nonnull [[META3]], !align [[META5]]
+// COMP-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// COMP-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// COMP-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // COMP-NEXT:    store i32 [[TMP3]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// COMP-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTCAPTURE_EXPR_2]], align 4
 // COMP-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // COMP-NEXT:    [[SUB:%.*]] = sub i32 [[TMP4]], 0
 // COMP-NEXT:    [[DIV:%.*]] = udiv i32 [[SUB]], 1
-// COMP-NEXT:    [[SUB2:%.*]] = sub i32 [[DIV]], 1
-// COMP-NEXT:    store i32 [[SUB2]], ptr [[DOTCAPTURE_EXPR_1]], align 4
+// COMP-NEXT:    [[SUB4:%.*]] = sub i32 [[DIV]], 1
+// COMP-NEXT:    store i32 [[SUB4]], ptr [[DOTCAPTURE_EXPR_2]], align 4
+// COMP-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // COMP-NEXT:    store i32 0, ptr [[I]], align 4
 // COMP-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // COMP-NEXT:    [[CMP:%.*]] = icmp ult i32 0, [[TMP5]]
 // COMP-NEXT:    br i1 [[CMP]], label [[OMP_PRECOND_THEN:%.*]], label [[OMP_PRECOND_END:%.*]]
 // COMP:       omp.precond.then:
+// COMP-NEXT:    [[FREEZE_POISON6:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON6]], ptr [[DOTOMP_LB]], align 4
 // COMP-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
-// COMP-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
+// COMP-NEXT:    [[FREEZE_POISON7:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON7]], ptr [[DOTOMP_UB]], align 4
+// COMP-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
 // COMP-NEXT:    store i32 [[TMP6]], ptr [[DOTOMP_UB]], align 4
+// COMP-NEXT:    [[FREEZE_POISON8:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON8]], ptr [[DOTOMP_STRIDE]], align 4
 // COMP-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// COMP-NEXT:    [[FREEZE_POISON9:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON9]], ptr [[DOTOMP_IS_LAST]], align 4
 // COMP-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
-// COMP-NEXT:    call void @_ZN5PointC1Ev(ptr nonnull align 4 dereferenceable(8) [[RED3]]) #[[ATTR2]]
+// COMP-NEXT:    call void @_ZN5PointC1Ev(ptr nonnull align 4 dereferenceable(8) [[RED10]]) #[[ATTR2]]
+// COMP-NEXT:    [[FREEZE_POISON12:%.*]] = freeze i32 poison
+// COMP-NEXT:    store i32 [[FREEZE_POISON12]], ptr [[I11]], align 4
 // COMP-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// COMP-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP7]], align 4
+// COMP-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP7]], align 4, !freeze_bits [[META3]]
 // COMP-NEXT:    call void @__kmpc_for_static_init_4u(ptr @[[GLOB1]], i32 [[TMP8]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // COMP-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// COMP-NEXT:    [[TMP10:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
-// COMP-NEXT:    [[CMP5:%.*]] = icmp ugt i32 [[TMP9]], [[TMP10]]
-// COMP-NEXT:    br i1 [[CMP5]], label [[COND_TRUE:%.*]], label [[COND_FALSE:%.*]]
+// COMP-NEXT:    [[TMP10:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
+// COMP-NEXT:    [[CMP13:%.*]] = icmp ugt i32 [[TMP9]], [[TMP10]]
+// COMP-NEXT:    br i1 [[CMP13]], label [[COND_TRUE:%.*]], label [[COND_FALSE:%.*]]
 // COMP:       cond.true:
-// COMP-NEXT:    [[TMP11:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_1]], align 4
+// COMP-NEXT:    [[TMP11:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
 // COMP-NEXT:    br label [[COND_END:%.*]]
 // COMP:       cond.false:
 // COMP-NEXT:    [[TMP12:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
@@ -2343,52 +2631,52 @@ void foo(int N, Point const *Points) {
 // COMP-NEXT:    [[TMP14:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // COMP-NEXT:    [[TMP15:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // COMP-NEXT:    [[ADD:%.*]] = add i32 [[TMP15]], 1
-// COMP-NEXT:    [[CMP6:%.*]] = icmp ult i32 [[TMP14]], [[ADD]]
-// COMP-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// COMP-NEXT:    [[CMP14:%.*]] = icmp ult i32 [[TMP14]], [[ADD]]
+// COMP-NEXT:    br i1 [[CMP14]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // COMP:       omp.inner.for.body:
 // COMP-NEXT:    [[TMP16:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // COMP-NEXT:    [[MUL:%.*]] = mul i32 [[TMP16]], 1
-// COMP-NEXT:    [[ADD7:%.*]] = add i32 0, [[MUL]]
-// COMP-NEXT:    store i32 [[ADD7]], ptr [[I4]], align 4
-// COMP-NEXT:    [[TMP17:%.*]] = load i32, ptr [[I4]], align 4
-// COMP-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[TMP2]], align 8
-// COMP-NEXT:    call void @_Z4workR5PointiPKS_(ptr nonnull align 4 dereferenceable(8) [[RED3]], i32 [[TMP17]], ptr [[TMP18]])
+// COMP-NEXT:    [[ADD15:%.*]] = add i32 0, [[MUL]]
+// COMP-NEXT:    store i32 [[ADD15]], ptr [[I11]], align 4
+// COMP-NEXT:    [[TMP17:%.*]] = load i32, ptr [[I11]], align 4
+// COMP-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[TMP2]], align 8, !freeze_bits [[META3]]
+// COMP-NEXT:    call void @_Z4workR5PointiPKS_(ptr nonnull align 4 dereferenceable(8) [[RED10]], i32 [[TMP17]], ptr [[TMP18]])
 // COMP-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // COMP:       omp.body.continue:
 // COMP-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // COMP:       omp.inner.for.inc:
 // COMP-NEXT:    [[TMP19:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// COMP-NEXT:    [[ADD8:%.*]] = add i32 [[TMP19]], 1
-// COMP-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
+// COMP-NEXT:    [[ADD16:%.*]] = add i32 [[TMP19]], 1
+// COMP-NEXT:    store i32 [[ADD16]], ptr [[DOTOMP_IV]], align 4
 // COMP-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // COMP:       omp.inner.for.end:
 // COMP-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
 // COMP:       omp.loop.exit:
 // COMP-NEXT:    [[TMP20:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// COMP-NEXT:    [[TMP21:%.*]] = load i32, ptr [[TMP20]], align 4
+// COMP-NEXT:    [[TMP21:%.*]] = load i32, ptr [[TMP20]], align 4, !freeze_bits [[META3]]
 // COMP-NEXT:    call void @__kmpc_for_static_fini(ptr @[[GLOB1]], i32 [[TMP21]])
 // COMP-NEXT:    [[TMP22:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOMP_REDUCTION_RED_LIST]], i64 0, i64 0
-// COMP-NEXT:    store ptr [[RED3]], ptr [[TMP22]], align 8
+// COMP-NEXT:    store ptr [[RED10]], ptr [[TMP22]], align 8
 // COMP-NEXT:    [[TMP23:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// COMP-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP23]], align 4
+// COMP-NEXT:    [[TMP24:%.*]] = load i32, ptr [[TMP23]], align 4, !freeze_bits [[META3]]
 // COMP-NEXT:    [[TMP25:%.*]] = call i32 @__kmpc_reduce_nowait(ptr @[[GLOB2]], i32 [[TMP24]], i32 1, i64 8, ptr [[DOTOMP_REDUCTION_RED_LIST]], ptr @_Z3fooiPK5Point.omp_outlined.7.omp.reduction.reduction_func, ptr @.gomp_critical_user_.reduction.var)
 // COMP-NEXT:    switch i32 [[TMP25]], label [[DOTOMP_REDUCTION_DEFAULT:%.*]] [
 // COMP-NEXT:      i32 1, label [[DOTOMP_REDUCTION_CASE1:%.*]]
 // COMP-NEXT:      i32 2, label [[DOTOMP_REDUCTION_CASE2:%.*]]
 // COMP-NEXT:    ]
 // COMP:       .omp.reduction.case1:
-// COMP-NEXT:    [[CALL:%.*]] = call i64 @_ZNK5PointooERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED3]])
+// COMP-NEXT:    [[CALL:%.*]] = call i64 @_ZNK5PointooERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED10]])
 // COMP-NEXT:    store i64 [[CALL]], ptr [[REF_TMP]], align 4
-// COMP-NEXT:    [[CALL9:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP]])
+// COMP-NEXT:    [[CALL17:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP]])
 // COMP-NEXT:    call void @__kmpc_end_reduce_nowait(ptr @[[GLOB2]], i32 [[TMP24]], ptr @.gomp_critical_user_.reduction.var)
 // COMP-NEXT:    br label [[DOTOMP_REDUCTION_DEFAULT]]
 // COMP:       .omp.reduction.case2:
 // COMP-NEXT:    [[TMP26:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// COMP-NEXT:    [[TMP27:%.*]] = load i32, ptr [[TMP26]], align 4
+// COMP-NEXT:    [[TMP27:%.*]] = load i32, ptr [[TMP26]], align 4, !freeze_bits [[META3]]
 // COMP-NEXT:    call void @__kmpc_critical(ptr @[[GLOB3]], i32 [[TMP27]], ptr @.gomp_critical_user_.atomic_reduction.var)
-// COMP-NEXT:    [[CALL11:%.*]] = call i64 @_ZNK5PointooERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED3]])
-// COMP-NEXT:    store i64 [[CALL11]], ptr [[REF_TMP10]], align 4
-// COMP-NEXT:    [[CALL12:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP10]])
+// COMP-NEXT:    [[CALL19:%.*]] = call i64 @_ZNK5PointooERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[RED10]])
+// COMP-NEXT:    store i64 [[CALL19]], ptr [[REF_TMP18]], align 4
+// COMP-NEXT:    [[CALL20:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP1]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP18]])
 // COMP-NEXT:    call void @__kmpc_end_critical(ptr @[[GLOB3]], i32 [[TMP27]], ptr @.gomp_critical_user_.atomic_reduction.var)
 // COMP-NEXT:    br label [[DOTOMP_REDUCTION_DEFAULT]]
 // COMP:       .omp.reduction.default:
@@ -2408,9 +2696,9 @@ void foo(int N, Point const *Points) {
 // COMP-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // COMP-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // COMP-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP3]], i64 0, i64 0
-// COMP-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[TMP4]], align 8
+// COMP-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[TMP4]], align 8, !freeze_bits [[META3]]
 // COMP-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP2]], i64 0, i64 0
-// COMP-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[TMP6]], align 8
+// COMP-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[TMP6]], align 8, !freeze_bits [[META3]]
 // COMP-NEXT:    [[CALL:%.*]] = call i64 @_ZNK5PointooERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP7]], ptr nonnull align 4 dereferenceable(8) [[TMP5]])
 // COMP-NEXT:    store i64 [[CALL]], ptr [[REF_TMP]], align 4
 // COMP-NEXT:    [[CALL2:%.*]] = call nonnull align 4 dereferenceable(8) ptr @_ZN5PointaSERKS_(ptr nonnull align 4 dereferenceable(8) [[TMP7]], ptr nonnull align 4 dereferenceable(8) [[REF_TMP]])
@@ -2438,15 +2726,17 @@ void foo(int N, Point const *Points) {
 // SIMD-ONLY-NEXT:    [[RED:%.*]] = alloca [[STRUCT_POINT:%.*]], align 4
 // SIMD-ONLY-NEXT:    [[I:%.*]] = alloca i32, align 4
 // SIMD-ONLY-NEXT:    [[I1:%.*]] = alloca i32, align 4
-// SIMD-ONLY-NEXT:    [[I8:%.*]] = alloca i32, align 4
-// SIMD-ONLY-NEXT:    [[I15:%.*]] = alloca i32, align 4
-// SIMD-ONLY-NEXT:    [[I22:%.*]] = alloca i32, align 4
-// SIMD-ONLY-NEXT:    [[I29:%.*]] = alloca i32, align 4
-// SIMD-ONLY-NEXT:    [[I36:%.*]] = alloca i32, align 4
-// SIMD-ONLY-NEXT:    [[I43:%.*]] = alloca i32, align 4
+// SIMD-ONLY-NEXT:    [[I9:%.*]] = alloca i32, align 4
+// SIMD-ONLY-NEXT:    [[I17:%.*]] = alloca i32, align 4
+// SIMD-ONLY-NEXT:    [[I25:%.*]] = alloca i32, align 4
+// SIMD-ONLY-NEXT:    [[I33:%.*]] = alloca i32, align 4
+// SIMD-ONLY-NEXT:    [[I41:%.*]] = alloca i32, align 4
+// SIMD-ONLY-NEXT:    [[I49:%.*]] = alloca i32, align 4
 // SIMD-ONLY-NEXT:    store i32 [[N]], ptr [[N_ADDR]], align 4
 // SIMD-ONLY-NEXT:    store ptr [[POINTS]], ptr [[POINTS_ADDR]], align 8
 // SIMD-ONLY-NEXT:    call void @_ZN5PointC1Ev(ptr nonnull align 4 dereferenceable(8) [[RED]]) #[[ATTR2:[0-9]+]]
+// SIMD-ONLY-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// SIMD-ONLY-NEXT:    store i32 [[FREEZE_POISON]], ptr [[I]], align 4
 // SIMD-ONLY-NEXT:    store i32 0, ptr [[I]], align 4
 // SIMD-ONLY-NEXT:    br label [[FOR_COND:%.*]]
 // SIMD-ONLY:       for.cond:
@@ -2465,132 +2755,146 @@ void foo(int N, Point const *Points) {
 // SIMD-ONLY-NEXT:    store i32 [[INC]], ptr [[I]], align 4
 // SIMD-ONLY-NEXT:    br label [[FOR_COND]], !llvm.loop [[LOOP2:![0-9]+]]
 // SIMD-ONLY:       for.end:
+// SIMD-ONLY-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// SIMD-ONLY-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[I1]], align 4
 // SIMD-ONLY-NEXT:    store i32 0, ptr [[I1]], align 4
-// SIMD-ONLY-NEXT:    br label [[FOR_COND2:%.*]]
-// SIMD-ONLY:       for.cond2:
+// SIMD-ONLY-NEXT:    br label [[FOR_COND3:%.*]]
+// SIMD-ONLY:       for.cond3:
 // SIMD-ONLY-NEXT:    [[TMP5:%.*]] = load i32, ptr [[I1]], align 4
 // SIMD-ONLY-NEXT:    [[TMP6:%.*]] = load i32, ptr [[N_ADDR]], align 4
-// SIMD-ONLY-NEXT:    [[CMP3:%.*]] = icmp ult i32 [[TMP5]], [[TMP6]]
-// SIMD-ONLY-NEXT:    br i1 [[CMP3]], label [[FOR_BODY4:%.*]], label [[FOR_END7:%.*]]
-// SIMD-ONLY:       for.body4:
+// SIMD-ONLY-NEXT:    [[CMP4:%.*]] = icmp ult i32 [[TMP5]], [[TMP6]]
+// SIMD-ONLY-NEXT:    br i1 [[CMP4]], label [[FOR_BODY5:%.*]], label [[FOR_END8:%.*]]
+// SIMD-ONLY:       for.body5:
 // SIMD-ONLY-NEXT:    [[TMP7:%.*]] = load i32, ptr [[I1]], align 4
 // SIMD-ONLY-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[POINTS_ADDR]], align 8
 // SIMD-ONLY-NEXT:    call void @_Z4workR5PointiPKS_(ptr nonnull align 4 dereferenceable(8) [[RED]], i32 [[TMP7]], ptr [[TMP8]])
-// SIMD-ONLY-NEXT:    br label [[FOR_INC5:%.*]]
-// SIMD-ONLY:       for.inc5:
+// SIMD-ONLY-NEXT:    br label [[FOR_INC6:%.*]]
+// SIMD-ONLY:       for.inc6:
 // SIMD-ONLY-NEXT:    [[TMP9:%.*]] = load i32, ptr [[I1]], align 4
-// SIMD-ONLY-NEXT:    [[INC6:%.*]] = add i32 [[TMP9]], 1
-// SIMD-ONLY-NEXT:    store i32 [[INC6]], ptr [[I1]], align 4
-// SIMD-ONLY-NEXT:    br label [[FOR_COND2]], !llvm.loop [[LOOP4:![0-9]+]]
-// SIMD-ONLY:       for.end7:
-// SIMD-ONLY-NEXT:    store i32 0, ptr [[I8]], align 4
-// SIMD-ONLY-NEXT:    br label [[FOR_COND9:%.*]]
-// SIMD-ONLY:       for.cond9:
-// SIMD-ONLY-NEXT:    [[TMP10:%.*]] = load i32, ptr [[I8]], align 4
+// SIMD-ONLY-NEXT:    [[INC7:%.*]] = add i32 [[TMP9]], 1
+// SIMD-ONLY-NEXT:    store i32 [[INC7]], ptr [[I1]], align 4
+// SIMD-ONLY-NEXT:    br label [[FOR_COND3]], !llvm.loop [[LOOP4:![0-9]+]]
+// SIMD-ONLY:       for.end8:
+// SIMD-ONLY-NEXT:    [[FREEZE_POISON10:%.*]] = freeze i32 poison
+// SIMD-ONLY-NEXT:    store i32 [[FREEZE_POISON10]], ptr [[I9]], align 4
+// SIMD-ONLY-NEXT:    store i32 0, ptr [[I9]], align 4
+// SIMD-ONLY-NEXT:    br label [[FOR_COND11:%.*]]
+// SIMD-ONLY:       for.cond11:
+// SIMD-ONLY-NEXT:    [[TMP10:%.*]] = load i32, ptr [[I9]], align 4
 // SIMD-ONLY-NEXT:    [[TMP11:%.*]] = load i32, ptr [[N_ADDR]], align 4
-// SIMD-ONLY-NEXT:    [[CMP10:%.*]] = icmp ult i32 [[TMP10]], [[TMP11]]
-// SIMD-ONLY-NEXT:    br i1 [[CMP10]], label [[FOR_BODY11:%.*]], label [[FOR_END14:%.*]]
-// SIMD-ONLY:       for.body11:
-// SIMD-ONLY-NEXT:    [[TMP12:%.*]] = load i32, ptr [[I8]], align 4
+// SIMD-ONLY-NEXT:    [[CMP12:%.*]] = icmp ult i32 [[TMP10]], [[TMP11]]
+// SIMD-ONLY-NEXT:    br i1 [[CMP12]], label [[FOR_BODY13:%.*]], label [[FOR_END16:%.*]]
+// SIMD-ONLY:       for.body13:
+// SIMD-ONLY-NEXT:    [[TMP12:%.*]] = load i32, ptr [[I9]], align 4
 // SIMD-ONLY-NEXT:    [[TMP13:%.*]] = load ptr, ptr [[POINTS_ADDR]], align 8
 // SIMD-ONLY-NEXT:    call void @_Z4workR5PointiPKS_(ptr nonnull align 4 dereferenceable(8) [[RED]], i32 [[TMP12]], ptr [[TMP13]])
-// SIMD-ONLY-NEXT:    br label [[FOR_INC12:%.*]]
-// SIMD-ONLY:       for.inc12:
-// SIMD-ONLY-NEXT:    [[TMP14:%.*]] = load i32, ptr [[I8]], align 4
-// SIMD-ONLY-NEXT:    [[INC13:%.*]] = add i32 [[TMP14]], 1
-// SIMD-ONLY-NEXT:    store i32 [[INC13]], ptr [[I8]], align 4
-// SIMD-ONLY-NEXT:    br label [[FOR_COND9]], !llvm.loop [[LOOP5:![0-9]+]]
-// SIMD-ONLY:       for.end14:
-// SIMD-ONLY-NEXT:    store i32 0, ptr [[I15]], align 4
-// SIMD-ONLY-NEXT:    br label [[FOR_COND16:%.*]]
-// SIMD-ONLY:       for.cond16:
-// SIMD-ONLY-NEXT:    [[TMP15:%.*]] = load i32, ptr [[I15]], align 4
+// SIMD-ONLY-NEXT:    br label [[FOR_INC14:%.*]]
+// SIMD-ONLY:       for.inc14:
+// SIMD-ONLY-NEXT:    [[TMP14:%.*]] = load i32, ptr [[I9]], align 4
+// SIMD-ONLY-NEXT:    [[INC15:%.*]] = add i32 [[TMP14]], 1
+// SIMD-ONLY-NEXT:    store i32 [[INC15]], ptr [[I9]], align 4
+// SIMD-ONLY-NEXT:    br label [[FOR_COND11]], !llvm.loop [[LOOP5:![0-9]+]]
+// SIMD-ONLY:       for.end16:
+// SIMD-ONLY-NEXT:    [[FREEZE_POISON18:%.*]] = freeze i32 poison
+// SIMD-ONLY-NEXT:    store i32 [[FREEZE_POISON18]], ptr [[I17]], align 4
+// SIMD-ONLY-NEXT:    store i32 0, ptr [[I17]], align 4
+// SIMD-ONLY-NEXT:    br label [[FOR_COND19:%.*]]
+// SIMD-ONLY:       for.cond19:
+// SIMD-ONLY-NEXT:    [[TMP15:%.*]] = load i32, ptr [[I17]], align 4
 // SIMD-ONLY-NEXT:    [[TMP16:%.*]] = load i32, ptr [[N_ADDR]], align 4
-// SIMD-ONLY-NEXT:    [[CMP17:%.*]] = icmp ult i32 [[TMP15]], [[TMP16]]
-// SIMD-ONLY-NEXT:    br i1 [[CMP17]], label [[FOR_BODY18:%.*]], label [[FOR_END21:%.*]]
-// SIMD-ONLY:       for.body18:
-// SIMD-ONLY-NEXT:    [[TMP17:%.*]] = load i32, ptr [[I15]], align 4
+// SIMD-ONLY-NEXT:    [[CMP20:%.*]] = icmp ult i32 [[TMP15]], [[TMP16]]
+// SIMD-ONLY-NEXT:    br i1 [[CMP20]], label [[FOR_BODY21:%.*]], label [[FOR_END24:%.*]]
+// SIMD-ONLY:       for.body21:
+// SIMD-ONLY-NEXT:    [[TMP17:%.*]] = load i32, ptr [[I17]], align 4
 // SIMD-ONLY-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[POINTS_ADDR]], align 8
 // SIMD-ONLY-NEXT:    call void @_Z4workR5PointiPKS_(ptr nonnull align 4 dereferenceable(8) [[RED]], i32 [[TMP17]], ptr [[TMP18]])
-// SIMD-ONLY-NEXT:    br label [[FOR_INC19:%.*]]
-// SIMD-ONLY:       for.inc19:
-// SIMD-ONLY-NEXT:    [[TMP19:%.*]] = load i32, ptr [[I15]], align 4
-// SIMD-ONLY-NEXT:    [[INC20:%.*]] = add i32 [[TMP19]], 1
-// SIMD-ONLY-NEXT:    store i32 [[INC20]], ptr [[I15]], align 4
-// SIMD-ONLY-NEXT:    br label [[FOR_COND16]], !llvm.loop [[LOOP6:![0-9]+]]
-// SIMD-ONLY:       for.end21:
-// SIMD-ONLY-NEXT:    store i32 0, ptr [[I22]], align 4
-// SIMD-ONLY-NEXT:    br label [[FOR_COND23:%.*]]
-// SIMD-ONLY:       for.cond23:
-// SIMD-ONLY-NEXT:    [[TMP20:%.*]] = load i32, ptr [[I22]], align 4
+// SIMD-ONLY-NEXT:    br label [[FOR_INC22:%.*]]
+// SIMD-ONLY:       for.inc22:
+// SIMD-ONLY-NEXT:    [[TMP19:%.*]] = load i32, ptr [[I17]], align 4
+// SIMD-ONLY-NEXT:    [[INC23:%.*]] = add i32 [[TMP19]], 1
+// SIMD-ONLY-NEXT:    store i32 [[INC23]], ptr [[I17]], align 4
+// SIMD-ONLY-NEXT:    br label [[FOR_COND19]], !llvm.loop [[LOOP6:![0-9]+]]
+// SIMD-ONLY:       for.end24:
+// SIMD-ONLY-NEXT:    [[FREEZE_POISON26:%.*]] = freeze i32 poison
+// SIMD-ONLY-NEXT:    store i32 [[FREEZE_POISON26]], ptr [[I25]], align 4
+// SIMD-ONLY-NEXT:    store i32 0, ptr [[I25]], align 4
+// SIMD-ONLY-NEXT:    br label [[FOR_COND27:%.*]]
+// SIMD-ONLY:       for.cond27:
+// SIMD-ONLY-NEXT:    [[TMP20:%.*]] = load i32, ptr [[I25]], align 4
 // SIMD-ONLY-NEXT:    [[TMP21:%.*]] = load i32, ptr [[N_ADDR]], align 4
-// SIMD-ONLY-NEXT:    [[CMP24:%.*]] = icmp ult i32 [[TMP20]], [[TMP21]]
-// SIMD-ONLY-NEXT:    br i1 [[CMP24]], label [[FOR_BODY25:%.*]], label [[FOR_END28:%.*]]
-// SIMD-ONLY:       for.body25:
-// SIMD-ONLY-NEXT:    [[TMP22:%.*]] = load i32, ptr [[I22]], align 4
+// SIMD-ONLY-NEXT:    [[CMP28:%.*]] = icmp ult i32 [[TMP20]], [[TMP21]]
+// SIMD-ONLY-NEXT:    br i1 [[CMP28]], label [[FOR_BODY29:%.*]], label [[FOR_END32:%.*]]
+// SIMD-ONLY:       for.body29:
+// SIMD-ONLY-NEXT:    [[TMP22:%.*]] = load i32, ptr [[I25]], align 4
 // SIMD-ONLY-NEXT:    [[TMP23:%.*]] = load ptr, ptr [[POINTS_ADDR]], align 8
 // SIMD-ONLY-NEXT:    call void @_Z4workR5PointiPKS_(ptr nonnull align 4 dereferenceable(8) [[RED]], i32 [[TMP22]], ptr [[TMP23]])
-// SIMD-ONLY-NEXT:    br label [[FOR_INC26:%.*]]
-// SIMD-ONLY:       for.inc26:
-// SIMD-ONLY-NEXT:    [[TMP24:%.*]] = load i32, ptr [[I22]], align 4
-// SIMD-ONLY-NEXT:    [[INC27:%.*]] = add i32 [[TMP24]], 1
-// SIMD-ONLY-NEXT:    store i32 [[INC27]], ptr [[I22]], align 4
-// SIMD-ONLY-NEXT:    br label [[FOR_COND23]], !llvm.loop [[LOOP7:![0-9]+]]
-// SIMD-ONLY:       for.end28:
-// SIMD-ONLY-NEXT:    store i32 0, ptr [[I29]], align 4
-// SIMD-ONLY-NEXT:    br label [[FOR_COND30:%.*]]
-// SIMD-ONLY:       for.cond30:
-// SIMD-ONLY-NEXT:    [[TMP25:%.*]] = load i32, ptr [[I29]], align 4
+// SIMD-ONLY-NEXT:    br label [[FOR_INC30:%.*]]
+// SIMD-ONLY:       for.inc30:
+// SIMD-ONLY-NEXT:    [[TMP24:%.*]] = load i32, ptr [[I25]], align 4
+// SIMD-ONLY-NEXT:    [[INC31:%.*]] = add i32 [[TMP24]], 1
+// SIMD-ONLY-NEXT:    store i32 [[INC31]], ptr [[I25]], align 4
+// SIMD-ONLY-NEXT:    br label [[FOR_COND27]], !llvm.loop [[LOOP7:![0-9]+]]
+// SIMD-ONLY:       for.end32:
+// SIMD-ONLY-NEXT:    [[FREEZE_POISON34:%.*]] = freeze i32 poison
+// SIMD-ONLY-NEXT:    store i32 [[FREEZE_POISON34]], ptr [[I33]], align 4
+// SIMD-ONLY-NEXT:    store i32 0, ptr [[I33]], align 4
+// SIMD-ONLY-NEXT:    br label [[FOR_COND35:%.*]]
+// SIMD-ONLY:       for.cond35:
+// SIMD-ONLY-NEXT:    [[TMP25:%.*]] = load i32, ptr [[I33]], align 4
 // SIMD-ONLY-NEXT:    [[TMP26:%.*]] = load i32, ptr [[N_ADDR]], align 4
-// SIMD-ONLY-NEXT:    [[CMP31:%.*]] = icmp ult i32 [[TMP25]], [[TMP26]]
-// SIMD-ONLY-NEXT:    br i1 [[CMP31]], label [[FOR_BODY32:%.*]], label [[FOR_END35:%.*]]
-// SIMD-ONLY:       for.body32:
-// SIMD-ONLY-NEXT:    [[TMP27:%.*]] = load i32, ptr [[I29]], align 4
+// SIMD-ONLY-NEXT:    [[CMP36:%.*]] = icmp ult i32 [[TMP25]], [[TMP26]]
+// SIMD-ONLY-NEXT:    br i1 [[CMP36]], label [[FOR_BODY37:%.*]], label [[FOR_END40:%.*]]
+// SIMD-ONLY:       for.body37:
+// SIMD-ONLY-NEXT:    [[TMP27:%.*]] = load i32, ptr [[I33]], align 4
 // SIMD-ONLY-NEXT:    [[TMP28:%.*]] = load ptr, ptr [[POINTS_ADDR]], align 8
 // SIMD-ONLY-NEXT:    call void @_Z4workR5PointiPKS_(ptr nonnull align 4 dereferenceable(8) [[RED]], i32 [[TMP27]], ptr [[TMP28]])
-// SIMD-ONLY-NEXT:    br label [[FOR_INC33:%.*]]
-// SIMD-ONLY:       for.inc33:
-// SIMD-ONLY-NEXT:    [[TMP29:%.*]] = load i32, ptr [[I29]], align 4
-// SIMD-ONLY-NEXT:    [[INC34:%.*]] = add i32 [[TMP29]], 1
-// SIMD-ONLY-NEXT:    store i32 [[INC34]], ptr [[I29]], align 4
-// SIMD-ONLY-NEXT:    br label [[FOR_COND30]], !llvm.loop [[LOOP8:![0-9]+]]
-// SIMD-ONLY:       for.end35:
-// SIMD-ONLY-NEXT:    store i32 0, ptr [[I36]], align 4
-// SIMD-ONLY-NEXT:    br label [[FOR_COND37:%.*]]
-// SIMD-ONLY:       for.cond37:
-// SIMD-ONLY-NEXT:    [[TMP30:%.*]] = load i32, ptr [[I36]], align 4
+// SIMD-ONLY-NEXT:    br label [[FOR_INC38:%.*]]
+// SIMD-ONLY:       for.inc38:
+// SIMD-ONLY-NEXT:    [[TMP29:%.*]] = load i32, ptr [[I33]], align 4
+// SIMD-ONLY-NEXT:    [[INC39:%.*]] = add i32 [[TMP29]], 1
+// SIMD-ONLY-NEXT:    store i32 [[INC39]], ptr [[I33]], align 4
+// SIMD-ONLY-NEXT:    br label [[FOR_COND35]], !llvm.loop [[LOOP8:![0-9]+]]
+// SIMD-ONLY:       for.end40:
+// SIMD-ONLY-NEXT:    [[FREEZE_POISON42:%.*]] = freeze i32 poison
+// SIMD-ONLY-NEXT:    store i32 [[FREEZE_POISON42]], ptr [[I41]], align 4
+// SIMD-ONLY-NEXT:    store i32 0, ptr [[I41]], align 4
+// SIMD-ONLY-NEXT:    br label [[FOR_COND43:%.*]]
+// SIMD-ONLY:       for.cond43:
+// SIMD-ONLY-NEXT:    [[TMP30:%.*]] = load i32, ptr [[I41]], align 4
 // SIMD-ONLY-NEXT:    [[TMP31:%.*]] = load i32, ptr [[N_ADDR]], align 4
-// SIMD-ONLY-NEXT:    [[CMP38:%.*]] = icmp ult i32 [[TMP30]], [[TMP31]]
-// SIMD-ONLY-NEXT:    br i1 [[CMP38]], label [[FOR_BODY39:%.*]], label [[FOR_END42:%.*]]
-// SIMD-ONLY:       for.body39:
-// SIMD-ONLY-NEXT:    [[TMP32:%.*]] = load i32, ptr [[I36]], align 4
+// SIMD-ONLY-NEXT:    [[CMP44:%.*]] = icmp ult i32 [[TMP30]], [[TMP31]]
+// SIMD-ONLY-NEXT:    br i1 [[CMP44]], label [[FOR_BODY45:%.*]], label [[FOR_END48:%.*]]
+// SIMD-ONLY:       for.body45:
+// SIMD-ONLY-NEXT:    [[TMP32:%.*]] = load i32, ptr [[I41]], align 4
 // SIMD-ONLY-NEXT:    [[TMP33:%.*]] = load ptr, ptr [[POINTS_ADDR]], align 8
 // SIMD-ONLY-NEXT:    call void @_Z4workR5PointiPKS_(ptr nonnull align 4 dereferenceable(8) [[RED]], i32 [[TMP32]], ptr [[TMP33]])
-// SIMD-ONLY-NEXT:    br label [[FOR_INC40:%.*]]
-// SIMD-ONLY:       for.inc40:
-// SIMD-ONLY-NEXT:    [[TMP34:%.*]] = load i32, ptr [[I36]], align 4
-// SIMD-ONLY-NEXT:    [[INC41:%.*]] = add i32 [[TMP34]], 1
-// SIMD-ONLY-NEXT:    store i32 [[INC41]], ptr [[I36]], align 4
-// SIMD-ONLY-NEXT:    br label [[FOR_COND37]], !llvm.loop [[LOOP9:![0-9]+]]
-// SIMD-ONLY:       for.end42:
-// SIMD-ONLY-NEXT:    store i32 0, ptr [[I43]], align 4
-// SIMD-ONLY-NEXT:    br label [[FOR_COND44:%.*]]
-// SIMD-ONLY:       for.cond44:
-// SIMD-ONLY-NEXT:    [[TMP35:%.*]] = load i32, ptr [[I43]], align 4
+// SIMD-ONLY-NEXT:    br label [[FOR_INC46:%.*]]
+// SIMD-ONLY:       for.inc46:
+// SIMD-ONLY-NEXT:    [[TMP34:%.*]] = load i32, ptr [[I41]], align 4
+// SIMD-ONLY-NEXT:    [[INC47:%.*]] = add i32 [[TMP34]], 1
+// SIMD-ONLY-NEXT:    store i32 [[INC47]], ptr [[I41]], align 4
+// SIMD-ONLY-NEXT:    br label [[FOR_COND43]], !llvm.loop [[LOOP9:![0-9]+]]
+// SIMD-ONLY:       for.end48:
+// SIMD-ONLY-NEXT:    [[FREEZE_POISON50:%.*]] = freeze i32 poison
+// SIMD-ONLY-NEXT:    store i32 [[FREEZE_POISON50]], ptr [[I49]], align 4
+// SIMD-ONLY-NEXT:    store i32 0, ptr [[I49]], align 4
+// SIMD-ONLY-NEXT:    br label [[FOR_COND51:%.*]]
+// SIMD-ONLY:       for.cond51:
+// SIMD-ONLY-NEXT:    [[TMP35:%.*]] = load i32, ptr [[I49]], align 4
 // SIMD-ONLY-NEXT:    [[TMP36:%.*]] = load i32, ptr [[N_ADDR]], align 4
-// SIMD-ONLY-NEXT:    [[CMP45:%.*]] = icmp ult i32 [[TMP35]], [[TMP36]]
-// SIMD-ONLY-NEXT:    br i1 [[CMP45]], label [[FOR_BODY46:%.*]], label [[FOR_END49:%.*]]
-// SIMD-ONLY:       for.body46:
-// SIMD-ONLY-NEXT:    [[TMP37:%.*]] = load i32, ptr [[I43]], align 4
+// SIMD-ONLY-NEXT:    [[CMP52:%.*]] = icmp ult i32 [[TMP35]], [[TMP36]]
+// SIMD-ONLY-NEXT:    br i1 [[CMP52]], label [[FOR_BODY53:%.*]], label [[FOR_END56:%.*]]
+// SIMD-ONLY:       for.body53:
+// SIMD-ONLY-NEXT:    [[TMP37:%.*]] = load i32, ptr [[I49]], align 4
 // SIMD-ONLY-NEXT:    [[TMP38:%.*]] = load ptr, ptr [[POINTS_ADDR]], align 8
 // SIMD-ONLY-NEXT:    call void @_Z4workR5PointiPKS_(ptr nonnull align 4 dereferenceable(8) [[RED]], i32 [[TMP37]], ptr [[TMP38]])
-// SIMD-ONLY-NEXT:    br label [[FOR_INC47:%.*]]
-// SIMD-ONLY:       for.inc47:
-// SIMD-ONLY-NEXT:    [[TMP39:%.*]] = load i32, ptr [[I43]], align 4
-// SIMD-ONLY-NEXT:    [[INC48:%.*]] = add i32 [[TMP39]], 1
-// SIMD-ONLY-NEXT:    store i32 [[INC48]], ptr [[I43]], align 4
-// SIMD-ONLY-NEXT:    br label [[FOR_COND44]], !llvm.loop [[LOOP10:![0-9]+]]
-// SIMD-ONLY:       for.end49:
+// SIMD-ONLY-NEXT:    br label [[FOR_INC54:%.*]]
+// SIMD-ONLY:       for.inc54:
+// SIMD-ONLY-NEXT:    [[TMP39:%.*]] = load i32, ptr [[I49]], align 4
+// SIMD-ONLY-NEXT:    [[INC55:%.*]] = add i32 [[TMP39]], 1
+// SIMD-ONLY-NEXT:    store i32 [[INC55]], ptr [[I49]], align 4
+// SIMD-ONLY-NEXT:    br label [[FOR_COND51]], !llvm.loop [[LOOP10:![0-9]+]]
+// SIMD-ONLY:       for.end56:
 // SIMD-ONLY-NEXT:    ret void
 //
 //

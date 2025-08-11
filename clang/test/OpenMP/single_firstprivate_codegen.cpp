@@ -168,7 +168,7 @@ int main() {
 // CHECK1-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK1-NEXT:    [[F:%.*]] = getelementptr inbounds nuw [[STRUCT_S:%.*]], ptr [[THIS1]], i32 0, i32 0
-// CHECK1-NEXT:    [[TMP0:%.*]] = load volatile i32, ptr @g, align 4
+// CHECK1-NEXT:    [[TMP0:%.*]] = load volatile i32, ptr @g, align 4, !freeze_bits [[META3:![0-9]+]]
 // CHECK1-NEXT:    [[CONV:%.*]] = sitofp i32 [[TMP0]] to float
 // CHECK1-NEXT:    store float [[CONV]], ptr [[F]], align 4
 // CHECK1-NEXT:    ret void
@@ -231,7 +231,7 @@ int main() {
 // CHECK1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK1-NEXT:    [[F:%.*]] = getelementptr inbounds nuw [[STRUCT_S:%.*]], ptr [[THIS1]], i32 0, i32 0
 // CHECK1-NEXT:    [[TMP0:%.*]] = load float, ptr [[A_ADDR]], align 4
-// CHECK1-NEXT:    [[TMP1:%.*]] = load volatile i32, ptr @g, align 4
+// CHECK1-NEXT:    [[TMP1:%.*]] = load volatile i32, ptr @g, align 4, !freeze_bits [[META3]]
 // CHECK1-NEXT:    [[CONV:%.*]] = sitofp i32 [[TMP1]] to float
 // CHECK1-NEXT:    [[ADD:%.*]] = fadd float [[TMP0]], [[CONV]]
 // CHECK1-NEXT:    store float [[ADD]], ptr [[F]], align 4
@@ -263,7 +263,9 @@ int main() {
 // CHECK1-NEXT:    [[TMP2:%.*]] = icmp ne i32 [[TMP1]], 0
 // CHECK1-NEXT:    br i1 [[TMP2]], label [[OMP_IF_THEN:%.*]], label [[OMP_IF_END:%.*]]
 // CHECK1:       omp_if.then:
-// CHECK1-NEXT:    [[TMP3:%.*]] = load i32, ptr @t_var, align 4
+// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK1-NEXT:    store i32 [[FREEZE_POISON]], ptr [[T_VAR]], align 4
+// CHECK1-NEXT:    [[TMP3:%.*]] = load i32, ptr @t_var, align 4, !freeze_bits [[META3]]
 // CHECK1-NEXT:    store i32 [[TMP3]], ptr [[T_VAR]], align 4
 // CHECK1-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 4 [[VEC]], ptr align 4 @vec, i64 8, i1 false)
 // CHECK1-NEXT:    [[ARRAY_BEGIN:%.*]] = getelementptr inbounds [2 x %struct.S], ptr [[S_ARR]], i32 0, i32 0
@@ -284,25 +286,27 @@ int main() {
 // CHECK1-NEXT:    call void @_ZN2StC1Ev(ptr nonnull align 4 dereferenceable(8) [[AGG_TMP2]])
 // CHECK1-NEXT:    call void @_ZN1SIfEC1ERKS0_2St(ptr nonnull align 4 dereferenceable(4) [[VAR]], ptr nonnull align 4 dereferenceable(4) @var, ptr [[AGG_TMP2]])
 // CHECK1-NEXT:    call void @_ZN2StD1Ev(ptr nonnull align 4 dereferenceable(8) [[AGG_TMP2]]) #[[ATTR2]]
-// CHECK1-NEXT:    [[TMP5:%.*]] = load i32, ptr @_ZZ4mainE5sivar, align 4
+// CHECK1-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK1-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[SIVAR]], align 4
+// CHECK1-NEXT:    [[TMP5:%.*]] = load i32, ptr @_ZZ4mainE5sivar, align 4, !freeze_bits [[META3]]
 // CHECK1-NEXT:    store i32 [[TMP5]], ptr [[SIVAR]], align 4
 // CHECK1-NEXT:    [[TMP6:%.*]] = load i32, ptr [[T_VAR]], align 4
 // CHECK1-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [2 x i32], ptr [[VEC]], i64 0, i64 0
 // CHECK1-NEXT:    store i32 [[TMP6]], ptr [[ARRAYIDX]], align 4
-// CHECK1-NEXT:    [[ARRAYIDX3:%.*]] = getelementptr inbounds [2 x %struct.S], ptr [[S_ARR]], i64 0, i64 0
-// CHECK1-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 4 [[ARRAYIDX3]], ptr align 4 [[VAR]], i64 4, i1 false)
+// CHECK1-NEXT:    [[ARRAYIDX4:%.*]] = getelementptr inbounds [2 x %struct.S], ptr [[S_ARR]], i64 0, i64 0
+// CHECK1-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 4 [[ARRAYIDX4]], ptr align 4 [[VAR]], i64 4, i1 false)
 // CHECK1-NEXT:    store i32 41, ptr [[SIVAR]], align 4
 // CHECK1-NEXT:    call void @_ZN1SIfED1Ev(ptr nonnull align 4 dereferenceable(4) [[VAR]]) #[[ATTR2]]
-// CHECK1-NEXT:    [[ARRAY_BEGIN4:%.*]] = getelementptr inbounds [2 x %struct.S], ptr [[S_ARR]], i32 0, i32 0
-// CHECK1-NEXT:    [[TMP7:%.*]] = getelementptr inbounds [[STRUCT_S]], ptr [[ARRAY_BEGIN4]], i64 2
+// CHECK1-NEXT:    [[ARRAY_BEGIN5:%.*]] = getelementptr inbounds [2 x %struct.S], ptr [[S_ARR]], i32 0, i32 0
+// CHECK1-NEXT:    [[TMP7:%.*]] = getelementptr inbounds [[STRUCT_S]], ptr [[ARRAY_BEGIN5]], i64 2
 // CHECK1-NEXT:    br label [[ARRAYDESTROY_BODY:%.*]]
 // CHECK1:       arraydestroy.body:
 // CHECK1-NEXT:    [[ARRAYDESTROY_ELEMENTPAST:%.*]] = phi ptr [ [[TMP7]], [[OMP_ARRAYCPY_DONE1]] ], [ [[ARRAYDESTROY_ELEMENT:%.*]], [[ARRAYDESTROY_BODY]] ]
 // CHECK1-NEXT:    [[ARRAYDESTROY_ELEMENT]] = getelementptr inbounds [[STRUCT_S]], ptr [[ARRAYDESTROY_ELEMENTPAST]], i64 -1
 // CHECK1-NEXT:    call void @_ZN1SIfED1Ev(ptr nonnull align 4 dereferenceable(4) [[ARRAYDESTROY_ELEMENT]]) #[[ATTR2]]
-// CHECK1-NEXT:    [[ARRAYDESTROY_DONE:%.*]] = icmp eq ptr [[ARRAYDESTROY_ELEMENT]], [[ARRAY_BEGIN4]]
-// CHECK1-NEXT:    br i1 [[ARRAYDESTROY_DONE]], label [[ARRAYDESTROY_DONE5:%.*]], label [[ARRAYDESTROY_BODY]]
-// CHECK1:       arraydestroy.done5:
+// CHECK1-NEXT:    [[ARRAYDESTROY_DONE:%.*]] = icmp eq ptr [[ARRAYDESTROY_ELEMENT]], [[ARRAY_BEGIN5]]
+// CHECK1-NEXT:    br i1 [[ARRAYDESTROY_DONE]], label [[ARRAYDESTROY_DONE6:%.*]], label [[ARRAYDESTROY_BODY]]
+// CHECK1:       arraydestroy.done6:
 // CHECK1-NEXT:    call void @__kmpc_end_single(ptr @[[GLOB1]], i32 [[TMP0]])
 // CHECK1-NEXT:    br label [[OMP_IF_END]]
 // CHECK1:       omp_if.end:
@@ -355,6 +359,8 @@ int main() {
 // CHECK1-NEXT:    [[S_ARR:%.*]] = alloca [2 x %struct.S.0], align 4
 // CHECK1-NEXT:    [[VAR:%.*]] = alloca [[STRUCT_S_0]], align 4
 // CHECK1-NEXT:    call void @_ZN1SIiEC1Ev(ptr nonnull align 4 dereferenceable(4) [[TEST]])
+// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK1-NEXT:    store i32 [[FREEZE_POISON]], ptr [[T_VAR]], align 4
 // CHECK1-NEXT:    store i32 0, ptr [[T_VAR]], align 4
 // CHECK1-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 4 [[VEC]], ptr align 4 @__const._Z5tmainIiET_v.vec, i64 8, i1 false)
 // CHECK1-NEXT:    call void @_ZN1SIiEC1Ei(ptr nonnull align 4 dereferenceable(4) [[S_ARR]], i32 1)
@@ -375,7 +381,7 @@ int main() {
 // CHECK1-NEXT:    br i1 [[ARRAYDESTROY_DONE]], label [[ARRAYDESTROY_DONE1:%.*]], label [[ARRAYDESTROY_BODY]]
 // CHECK1:       arraydestroy.done1:
 // CHECK1-NEXT:    call void @_ZN1SIiED1Ev(ptr nonnull align 4 dereferenceable(4) [[TEST]]) #[[ATTR2]]
-// CHECK1-NEXT:    [[TMP1:%.*]] = load i32, ptr [[RETVAL]], align 4
+// CHECK1-NEXT:    [[TMP1:%.*]] = load i32, ptr [[RETVAL]], align 4, !freeze_bits [[META3]]
 // CHECK1-NEXT:    ret i32 [[TMP1]]
 //
 //
@@ -403,11 +409,11 @@ int main() {
 // CHECK1-NEXT:    store ptr [[T]], ptr [[T_INDIRECT_ADDR]], align 8
 // CHECK1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK1-NEXT:    [[F:%.*]] = getelementptr inbounds nuw [[STRUCT_S:%.*]], ptr [[THIS1]], i32 0, i32 0
-// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[S_ADDR]], align 8, !nonnull [[META3:![0-9]+]], !align [[META4:![0-9]+]]
+// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[S_ADDR]], align 8, !nonnull [[META3]], !align [[META4:![0-9]+]]
 // CHECK1-NEXT:    [[F2:%.*]] = getelementptr inbounds nuw [[STRUCT_S]], ptr [[TMP0]], i32 0, i32 0
-// CHECK1-NEXT:    [[TMP1:%.*]] = load float, ptr [[F2]], align 4
+// CHECK1-NEXT:    [[TMP1:%.*]] = load float, ptr [[F2]], align 4, !freeze_bits [[META3]]
 // CHECK1-NEXT:    [[A:%.*]] = getelementptr inbounds nuw [[STRUCT_ST:%.*]], ptr [[T]], i32 0, i32 0
-// CHECK1-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
+// CHECK1-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4, !freeze_bits [[META3]]
 // CHECK1-NEXT:    [[CONV:%.*]] = sitofp i32 [[TMP2]] to float
 // CHECK1-NEXT:    [[ADD:%.*]] = fadd float [[TMP1]], [[CONV]]
 // CHECK1-NEXT:    store float [[ADD]], ptr [[F]], align 4
@@ -472,12 +478,14 @@ int main() {
 // CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[S_ARR_ADDR]], align 8, !nonnull [[META3]], !align [[META4]]
 // CHECK1-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[VAR_ADDR]], align 8, !nonnull [[META3]], !align [[META4]]
 // CHECK1-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// CHECK1-NEXT:    [[TMP5:%.*]] = load i32, ptr [[TMP4]], align 4
+// CHECK1-NEXT:    [[TMP5:%.*]] = load i32, ptr [[TMP4]], align 4, !freeze_bits [[META3]]
 // CHECK1-NEXT:    [[TMP6:%.*]] = call i32 @__kmpc_single(ptr @[[GLOB1]], i32 [[TMP5]])
 // CHECK1-NEXT:    [[TMP7:%.*]] = icmp ne i32 [[TMP6]], 0
 // CHECK1-NEXT:    br i1 [[TMP7]], label [[OMP_IF_THEN:%.*]], label [[OMP_IF_END:%.*]]
 // CHECK1:       omp_if.then:
-// CHECK1-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK1-NEXT:    store i32 [[FREEZE_POISON]], ptr [[T_VAR1]], align 4
+// CHECK1-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK1-NEXT:    store i32 [[TMP8]], ptr [[T_VAR1]], align 4
 // CHECK1-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 4 [[VEC2]], ptr align 4 [[TMP1]], i64 8, i1 false)
 // CHECK1-NEXT:    [[ARRAY_BEGIN:%.*]] = getelementptr inbounds [2 x %struct.S.0], ptr [[S_ARR3]], i32 0, i32 0
@@ -553,7 +561,7 @@ int main() {
 // CHECK1-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK1-NEXT:    [[F:%.*]] = getelementptr inbounds nuw [[STRUCT_S_0:%.*]], ptr [[THIS1]], i32 0, i32 0
-// CHECK1-NEXT:    [[TMP0:%.*]] = load volatile i32, ptr @g, align 4
+// CHECK1-NEXT:    [[TMP0:%.*]] = load volatile i32, ptr @g, align 4, !freeze_bits [[META3]]
 // CHECK1-NEXT:    store i32 [[TMP0]], ptr [[F]], align 4
 // CHECK1-NEXT:    ret void
 //
@@ -568,7 +576,7 @@ int main() {
 // CHECK1-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK1-NEXT:    [[F:%.*]] = getelementptr inbounds nuw [[STRUCT_S_0:%.*]], ptr [[THIS1]], i32 0, i32 0
 // CHECK1-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
-// CHECK1-NEXT:    [[TMP1:%.*]] = load volatile i32, ptr @g, align 4
+// CHECK1-NEXT:    [[TMP1:%.*]] = load volatile i32, ptr @g, align 4, !freeze_bits [[META3]]
 // CHECK1-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP0]], [[TMP1]]
 // CHECK1-NEXT:    store i32 [[ADD]], ptr [[F]], align 4
 // CHECK1-NEXT:    ret void
@@ -587,9 +595,9 @@ int main() {
 // CHECK1-NEXT:    [[F:%.*]] = getelementptr inbounds nuw [[STRUCT_S_0:%.*]], ptr [[THIS1]], i32 0, i32 0
 // CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[S_ADDR]], align 8, !nonnull [[META3]], !align [[META4]]
 // CHECK1-NEXT:    [[F2:%.*]] = getelementptr inbounds nuw [[STRUCT_S_0]], ptr [[TMP0]], i32 0, i32 0
-// CHECK1-NEXT:    [[TMP1:%.*]] = load i32, ptr [[F2]], align 4
+// CHECK1-NEXT:    [[TMP1:%.*]] = load i32, ptr [[F2]], align 4, !freeze_bits [[META3]]
 // CHECK1-NEXT:    [[A:%.*]] = getelementptr inbounds nuw [[STRUCT_ST:%.*]], ptr [[T]], i32 0, i32 0
-// CHECK1-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
+// CHECK1-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4, !freeze_bits [[META3]]
 // CHECK1-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP1]], [[TMP2]]
 // CHECK1-NEXT:    store i32 [[ADD]], ptr [[F]], align 4
 // CHECK1-NEXT:    ret void
@@ -648,7 +656,7 @@ int main() {
 // CHECK3-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK3-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK3-NEXT:    [[F:%.*]] = getelementptr inbounds nuw [[STRUCT_S:%.*]], ptr [[THIS1]], i32 0, i32 0
-// CHECK3-NEXT:    [[TMP0:%.*]] = load volatile i32, ptr @g, align 4
+// CHECK3-NEXT:    [[TMP0:%.*]] = load volatile i32, ptr @g, align 4, !freeze_bits [[META3:![0-9]+]]
 // CHECK3-NEXT:    [[CONV:%.*]] = sitofp i32 [[TMP0]] to float
 // CHECK3-NEXT:    store float [[CONV]], ptr [[F]], align 4
 // CHECK3-NEXT:    ret void
@@ -711,7 +719,7 @@ int main() {
 // CHECK3-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK3-NEXT:    [[F:%.*]] = getelementptr inbounds nuw [[STRUCT_S:%.*]], ptr [[THIS1]], i32 0, i32 0
 // CHECK3-NEXT:    [[TMP0:%.*]] = load float, ptr [[A_ADDR]], align 4
-// CHECK3-NEXT:    [[TMP1:%.*]] = load volatile i32, ptr @g, align 4
+// CHECK3-NEXT:    [[TMP1:%.*]] = load volatile i32, ptr @g, align 4, !freeze_bits [[META3]]
 // CHECK3-NEXT:    [[CONV:%.*]] = sitofp i32 [[TMP1]] to float
 // CHECK3-NEXT:    [[ADD:%.*]] = fadd float [[TMP0]], [[CONV]]
 // CHECK3-NEXT:    store float [[ADD]], ptr [[F]], align 4
@@ -782,7 +790,7 @@ int main() {
 // CHECK4-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK4-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK4-NEXT:    [[F:%.*]] = getelementptr inbounds nuw [[STRUCT_S:%.*]], ptr [[THIS1]], i32 0, i32 0
-// CHECK4-NEXT:    [[TMP0:%.*]] = load volatile i32, ptr @g, align 4
+// CHECK4-NEXT:    [[TMP0:%.*]] = load volatile i32, ptr @g, align 4, !freeze_bits [[META3:![0-9]+]]
 // CHECK4-NEXT:    [[CONV:%.*]] = sitofp i32 [[TMP0]] to float
 // CHECK4-NEXT:    store float [[CONV]], ptr [[F]], align 4
 // CHECK4-NEXT:    ret void
@@ -845,7 +853,7 @@ int main() {
 // CHECK4-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
 // CHECK4-NEXT:    [[F:%.*]] = getelementptr inbounds nuw [[STRUCT_S:%.*]], ptr [[THIS1]], i32 0, i32 0
 // CHECK4-NEXT:    [[TMP0:%.*]] = load float, ptr [[A_ADDR]], align 4
-// CHECK4-NEXT:    [[TMP1:%.*]] = load volatile i32, ptr @g, align 4
+// CHECK4-NEXT:    [[TMP1:%.*]] = load volatile i32, ptr @g, align 4, !freeze_bits [[META3]]
 // CHECK4-NEXT:    [[CONV:%.*]] = sitofp i32 [[TMP1]] to float
 // CHECK4-NEXT:    [[ADD:%.*]] = fadd float [[TMP0]], [[CONV]]
 // CHECK4-NEXT:    store float [[ADD]], ptr [[F]], align 4
@@ -877,10 +885,10 @@ int main() {
 // CHECK4-NEXT:    [[BLOCK_DESCRIPTOR:%.*]] = getelementptr inbounds nuw <{ ptr, i32, i32, ptr, ptr, i32 }>, ptr [[BLOCK]], i32 0, i32 4
 // CHECK4-NEXT:    store ptr @__block_descriptor_tmp.3, ptr [[BLOCK_DESCRIPTOR]], align 8
 // CHECK4-NEXT:    [[BLOCK_CAPTURED:%.*]] = getelementptr inbounds nuw <{ ptr, i32, i32, ptr, ptr, i32 }>, ptr [[BLOCK]], i32 0, i32 5
-// CHECK4-NEXT:    [[TMP0:%.*]] = load i32, ptr @_ZZ4mainE5sivar, align 4
+// CHECK4-NEXT:    [[TMP0:%.*]] = load i32, ptr @_ZZ4mainE5sivar, align 4, !freeze_bits [[META3]]
 // CHECK4-NEXT:    store i32 [[TMP0]], ptr [[BLOCK_CAPTURED]], align 8
 // CHECK4-NEXT:    [[TMP1:%.*]] = getelementptr inbounds nuw [[STRUCT___BLOCK_LITERAL_GENERIC:%.*]], ptr [[BLOCK]], i32 0, i32 3
-// CHECK4-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[TMP1]], align 8
+// CHECK4-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[TMP1]], align 8, !freeze_bits [[META3]]
 // CHECK4-NEXT:    call void [[TMP2]](ptr [[BLOCK]])
 // CHECK4-NEXT:    ret i32 0
 //
@@ -908,16 +916,20 @@ int main() {
 // CHECK4-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK4-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK4-NEXT:    store ptr [[SIVAR]], ptr [[SIVAR_ADDR]], align 8
-// CHECK4-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[SIVAR_ADDR]], align 8, !nonnull [[META3:![0-9]+]], !align [[META4:![0-9]+]]
+// CHECK4-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[SIVAR_ADDR]], align 8, !nonnull [[META3]], !align [[META4:![0-9]+]]
 // CHECK4-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// CHECK4-NEXT:    [[TMP2:%.*]] = load i32, ptr [[TMP1]], align 4
+// CHECK4-NEXT:    [[TMP2:%.*]] = load i32, ptr [[TMP1]], align 4, !freeze_bits [[META3]]
 // CHECK4-NEXT:    [[TMP3:%.*]] = call i32 @__kmpc_single(ptr @[[GLOB1]], i32 [[TMP2]])
 // CHECK4-NEXT:    [[TMP4:%.*]] = icmp ne i32 [[TMP3]], 0
 // CHECK4-NEXT:    br i1 [[TMP4]], label [[OMP_IF_THEN:%.*]], label [[OMP_IF_END:%.*]]
 // CHECK4:       omp_if.then:
-// CHECK4-NEXT:    [[TMP5:%.*]] = load volatile i32, ptr @g, align 4
+// CHECK4-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK4-NEXT:    store i32 [[FREEZE_POISON]], ptr [[G]], align 4
+// CHECK4-NEXT:    [[TMP5:%.*]] = load volatile i32, ptr @g, align 4, !freeze_bits [[META3]]
 // CHECK4-NEXT:    store i32 [[TMP5]], ptr [[G]], align 4
-// CHECK4-NEXT:    [[TMP6:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK4-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK4-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[SIVAR1]], align 4
+// CHECK4-NEXT:    [[TMP6:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK4-NEXT:    store i32 [[TMP6]], ptr [[SIVAR1]], align 4
 // CHECK4-NEXT:    store i32 1, ptr [[G]], align 4
 // CHECK4-NEXT:    store i32 37, ptr [[SIVAR1]], align 4
@@ -934,11 +946,11 @@ int main() {
 // CHECK4-NEXT:    [[BLOCK_CAPTURED:%.*]] = getelementptr inbounds nuw <{ ptr, i32, i32, ptr, ptr, i32, i32 }>, ptr [[BLOCK]], i32 0, i32 5
 // CHECK4-NEXT:    [[TMP7:%.*]] = load volatile i32, ptr [[G]], align 4
 // CHECK4-NEXT:    store volatile i32 [[TMP7]], ptr [[BLOCK_CAPTURED]], align 8
-// CHECK4-NEXT:    [[BLOCK_CAPTURED2:%.*]] = getelementptr inbounds nuw <{ ptr, i32, i32, ptr, ptr, i32, i32 }>, ptr [[BLOCK]], i32 0, i32 6
+// CHECK4-NEXT:    [[BLOCK_CAPTURED3:%.*]] = getelementptr inbounds nuw <{ ptr, i32, i32, ptr, ptr, i32, i32 }>, ptr [[BLOCK]], i32 0, i32 6
 // CHECK4-NEXT:    [[TMP8:%.*]] = load i32, ptr [[SIVAR1]], align 4
-// CHECK4-NEXT:    store i32 [[TMP8]], ptr [[BLOCK_CAPTURED2]], align 4
+// CHECK4-NEXT:    store i32 [[TMP8]], ptr [[BLOCK_CAPTURED3]], align 4
 // CHECK4-NEXT:    [[TMP9:%.*]] = getelementptr inbounds nuw [[STRUCT___BLOCK_LITERAL_GENERIC:%.*]], ptr [[BLOCK]], i32 0, i32 3
-// CHECK4-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[TMP9]], align 8
+// CHECK4-NEXT:    [[TMP10:%.*]] = load ptr, ptr [[TMP9]], align 8, !freeze_bits [[META3]]
 // CHECK4-NEXT:    call void [[TMP10]](ptr [[BLOCK]])
 // CHECK4-NEXT:    call void @__kmpc_end_single(ptr @[[GLOB1]], i32 [[TMP2]])
 // CHECK4-NEXT:    br label [[OMP_IF_END]]

@@ -6,6 +6,7 @@ struct x {
   long a;
 };
 
+
 // CHECK-LABEL: define spir_func void @testva(
 // CHECK-SAME: i32 noundef [[N:%.*]], ...) #[[ATTR0:[0-9]+]] {
 // CHECK-NEXT:  entry:
@@ -22,18 +23,24 @@ struct x {
 // CHECK-NEXT:    [[V_ASCAST:%.*]] = addrspacecast ptr [[V]] to ptr addrspace(4)
 // CHECK-NEXT:    [[VARET_ASCAST:%.*]] = addrspacecast ptr [[VARET]] to ptr addrspace(4)
 // CHECK-NEXT:    store i32 [[N]], ptr addrspace(4) [[N_ADDR_ASCAST]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr addrspace(4) poison
+// CHECK-NEXT:    store ptr addrspace(4) [[FREEZE_POISON]], ptr addrspace(4) [[AP_ASCAST]], align 8
 // CHECK-NEXT:    call void @llvm.va_start.p4(ptr addrspace(4) [[AP_ASCAST]])
 // CHECK-NEXT:    [[TMP0:%.*]] = va_arg ptr addrspace(4) [[AP_ASCAST]], ptr
 // CHECK-NEXT:    call void @llvm.memcpy.p4.p0.i64(ptr addrspace(4) align 8 [[T_ASCAST]], ptr align 8 [[TMP0]], i64 16, i1 false)
+// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze ptr addrspace(4) poison
+// CHECK-NEXT:    store ptr addrspace(4) [[FREEZE_POISON1]], ptr addrspace(4) [[AP2_ASCAST]], align 8
 // CHECK-NEXT:    call void @llvm.va_copy.p4(ptr addrspace(4) [[AP2_ASCAST]], ptr addrspace(4) [[AP_ASCAST]])
+// CHECK-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON2]], ptr addrspace(4) [[V_ASCAST]], align 4
 // CHECK-NEXT:    [[TMP1:%.*]] = va_arg ptr addrspace(4) [[AP2_ASCAST]], i32
 // CHECK-NEXT:    store i32 [[TMP1]], ptr addrspace(4) [[VARET_ASCAST]], align 4
-// CHECK-NEXT:    [[TMP2:%.*]] = load i32, ptr addrspace(4) [[VARET_ASCAST]], align 4
+// CHECK-NEXT:    [[TMP2:%.*]] = load i32, ptr addrspace(4) [[VARET_ASCAST]], align 4, !freeze_bits [[META3:![0-9]+]]
 // CHECK-NEXT:    store i32 [[TMP2]], ptr addrspace(4) [[V_ASCAST]], align 4
 // CHECK-NEXT:    call void @llvm.va_end.p4(ptr addrspace(4) [[AP2_ASCAST]])
 // CHECK-NEXT:    call void @llvm.va_end.p4(ptr addrspace(4) [[AP_ASCAST]])
 // CHECK-NEXT:    ret void
-
+//
 void testva(int n, ...) {
   __builtin_va_list ap;
   __builtin_va_start(ap, n);
@@ -44,3 +51,6 @@ void testva(int n, ...) {
   __builtin_va_end(ap2);
   __builtin_va_end(ap);
 }
+//.
+// CHECK: [[META3]] = !{}
+//.

@@ -37,12 +37,18 @@
 // CHECK-LE-NOOPT-NEXT:    store <16 x i8> [[VC3:%.*]], ptr [[VC3_ADDR]], align 16
 // CHECK-LE-NOOPT-NEXT:    store <16 x i8> [[VC4:%.*]], ptr [[VC4_ADDR]], align 16
 // CHECK-LE-NOOPT-NEXT:    store ptr [[RESP:%.*]], ptr [[RESP_ADDR]], align 8
+// CHECK-LE-NOOPT-NEXT:    [[FREEZE_POISON:%.*]] = freeze <512 x i1> poison
+// CHECK-LE-NOOPT-NEXT:    store <512 x i1> [[FREEZE_POISON]], ptr [[VQ]], align 64
 // CHECK-LE-NOOPT-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[VQP_ADDR]], align 8
-// CHECK-LE-NOOPT-NEXT:    [[TMP1:%.*]] = load <512 x i1>, ptr [[TMP0]], align 64
+// CHECK-LE-NOOPT-NEXT:    [[TMP1:%.*]] = load <512 x i1>, ptr [[TMP0]], align 64, !freeze_bits [[META2:![0-9]+]]
 // CHECK-LE-NOOPT-NEXT:    store <512 x i1> [[TMP1]], ptr [[VQ]], align 64
+// CHECK-LE-NOOPT-NEXT:    [[FREEZE_POISON1:%.*]] = freeze <256 x i1> poison
+// CHECK-LE-NOOPT-NEXT:    store <256 x i1> [[FREEZE_POISON1]], ptr [[VP]], align 32
 // CHECK-LE-NOOPT-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[VPP_ADDR]], align 8
-// CHECK-LE-NOOPT-NEXT:    [[TMP3:%.*]] = load <256 x i1>, ptr [[TMP2]], align 32
+// CHECK-LE-NOOPT-NEXT:    [[TMP3:%.*]] = load <256 x i1>, ptr [[TMP2]], align 32, !freeze_bits [[META2]]
 // CHECK-LE-NOOPT-NEXT:    store <256 x i1> [[TMP3]], ptr [[VP]], align 32
+// CHECK-LE-NOOPT-NEXT:    [[FREEZE_POISON2:%.*]] = freeze <512 x i1> poison
+// CHECK-LE-NOOPT-NEXT:    store <512 x i1> [[FREEZE_POISON2]], ptr [[RES]], align 64
 // CHECK-LE-NOOPT-NEXT:    [[TMP4:%.*]] = load <16 x i8>, ptr [[VC1_ADDR]], align 16
 // CHECK-LE-NOOPT-NEXT:    [[TMP5:%.*]] = load <16 x i8>, ptr [[VC2_ADDR]], align 16
 // CHECK-LE-NOOPT-NEXT:    [[TMP6:%.*]] = load <16 x i8>, ptr [[VC3_ADDR]], align 16
@@ -90,12 +96,18 @@ void test1(unsigned char *vqp, unsigned char *vpp, vector unsigned char vc1, vec
 // CHECK-LE-NOOPT-NEXT:    store <16 x i8> [[VC1:%.*]], ptr [[VC1_ADDR]], align 16
 // CHECK-LE-NOOPT-NEXT:    store <16 x i8> [[VC2:%.*]], ptr [[VC2_ADDR]], align 16
 // CHECK-LE-NOOPT-NEXT:    store ptr [[RESP:%.*]], ptr [[RESP_ADDR]], align 8
+// CHECK-LE-NOOPT-NEXT:    [[FREEZE_POISON:%.*]] = freeze <512 x i1> poison
+// CHECK-LE-NOOPT-NEXT:    store <512 x i1> [[FREEZE_POISON]], ptr [[VQ]], align 64
 // CHECK-LE-NOOPT-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[VQP_ADDR]], align 8
-// CHECK-LE-NOOPT-NEXT:    [[TMP1:%.*]] = load <512 x i1>, ptr [[TMP0]], align 64
+// CHECK-LE-NOOPT-NEXT:    [[TMP1:%.*]] = load <512 x i1>, ptr [[TMP0]], align 64, !freeze_bits [[META2]]
 // CHECK-LE-NOOPT-NEXT:    store <512 x i1> [[TMP1]], ptr [[VQ]], align 64
+// CHECK-LE-NOOPT-NEXT:    [[FREEZE_POISON1:%.*]] = freeze <256 x i1> poison
+// CHECK-LE-NOOPT-NEXT:    store <256 x i1> [[FREEZE_POISON1]], ptr [[VP]], align 32
 // CHECK-LE-NOOPT-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[VPP_ADDR]], align 8
-// CHECK-LE-NOOPT-NEXT:    [[TMP3:%.*]] = load <256 x i1>, ptr [[TMP2]], align 32
+// CHECK-LE-NOOPT-NEXT:    [[TMP3:%.*]] = load <256 x i1>, ptr [[TMP2]], align 32, !freeze_bits [[META2]]
 // CHECK-LE-NOOPT-NEXT:    store <256 x i1> [[TMP3]], ptr [[VP]], align 32
+// CHECK-LE-NOOPT-NEXT:    [[FREEZE_POISON2:%.*]] = freeze <256 x i1> poison
+// CHECK-LE-NOOPT-NEXT:    store <256 x i1> [[FREEZE_POISON2]], ptr [[RES]], align 32
 // CHECK-LE-NOOPT-NEXT:    [[TMP4:%.*]] = load <16 x i8>, ptr [[VC1_ADDR]], align 16
 // CHECK-LE-NOOPT-NEXT:    [[TMP5:%.*]] = load <16 x i8>, ptr [[VC2_ADDR]], align 16
 // CHECK-LE-NOOPT-NEXT:    [[TMP6:%.*]] = call <256 x i1> @llvm.ppc.vsx.assemble.pair(<16 x i8> [[TMP5]], <16 x i8> [[TMP4]])

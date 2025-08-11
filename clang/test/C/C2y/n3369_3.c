@@ -11,36 +11,19 @@
 
 typedef typeof(sizeof(0)) size_t;
 
-// CHECK-64-LABEL: define dso_local i64 @test1(
-// CHECK-64-SAME: i32 noundef{{( signext)?}} [[N:%.*]]) #[[ATTR0:[0-9]+]] {
-// CHECK-64-NEXT:  [[ENTRY:.*:]]
-// CHECK-64-NEXT:    [[N_ADDR:%.*]] = alloca i32, align
-// CHECK-64-NEXT:    [[SAVED_STACK:%.*]] = alloca ptr, align
-// CHECK-64-NEXT:    [[__VLA_EXPR0:%.*]] = alloca i64, align
-// CHECK-64-NEXT:    store i32 [[N]], ptr [[N_ADDR]], align
-// CHECK-64-NEXT:    [[TMP0:%.*]] = load i32, ptr [[N_ADDR]], align
-// CHECK-64-NEXT:    [[TMP1:%.*]] = zext i32 [[TMP0]] to i64
-// CHECK-64-NEXT:    [[TMP2:%.*]] = call ptr @llvm.stacksave.p0()
-// CHECK-64-NEXT:    store ptr [[TMP2]], ptr [[SAVED_STACK]], align
-// CHECK-64-NEXT:    [[VLA:%.*]] = alloca i32, i64 [[TMP1]], align
-// CHECK-64-NEXT:    store i64 [[TMP1]], ptr [[__VLA_EXPR0]], align
-// CHECK-64-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[SAVED_STACK]], align
-// CHECK-64-NEXT:    call void @llvm.stackrestore.p0(ptr [[TMP3]])
-// CHECK-64-NEXT:    ret i64 [[TMP1]]
-//
 // CHECK-32-LABEL: define dso_local i32 @test1(
 // CHECK-32-SAME: i32 noundef [[N:%.*]]) #[[ATTR0:[0-9]+]] {
 // CHECK-32-NEXT:  [[ENTRY:.*:]]
-// CHECK-32-NEXT:    [[N_ADDR:%.*]] = alloca i32, align
-// CHECK-32-NEXT:    [[SAVED_STACK:%.*]] = alloca ptr, align
-// CHECK-32-NEXT:    [[__VLA_EXPR0:%.*]] = alloca i32, align
-// CHECK-32-NEXT:    store i32 [[N]], ptr [[N_ADDR]], align
-// CHECK-32-NEXT:    [[TMP0:%.*]] = load i32, ptr [[N_ADDR]], align
+// CHECK-32-NEXT:    [[N_ADDR:%.*]] = alloca i32, align 4
+// CHECK-32-NEXT:    [[SAVED_STACK:%.*]] = alloca ptr, align 4
+// CHECK-32-NEXT:    [[__VLA_EXPR0:%.*]] = alloca i32, align 4
+// CHECK-32-NEXT:    store i32 [[N]], ptr [[N_ADDR]], align 4
+// CHECK-32-NEXT:    [[TMP0:%.*]] = load i32, ptr [[N_ADDR]], align 4
 // CHECK-32-NEXT:    [[TMP1:%.*]] = call ptr @llvm.stacksave.p0()
-// CHECK-32-NEXT:    store ptr [[TMP1]], ptr [[SAVED_STACK]], align
-// CHECK-32-NEXT:    [[VLA:%.*]] = alloca i32, i32 [[TMP0]], align
-// CHECK-32-NEXT:    store i32 [[TMP0]], ptr [[__VLA_EXPR0]], align
-// CHECK-32-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[SAVED_STACK]], align
+// CHECK-32-NEXT:    store ptr [[TMP1]], ptr [[SAVED_STACK]], align 4
+// CHECK-32-NEXT:    [[VLA:%.*]] = alloca i32, i32 [[TMP0]], align 4
+// CHECK-32-NEXT:    store i32 [[TMP0]], ptr [[__VLA_EXPR0]], align 4
+// CHECK-32-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[SAVED_STACK]], align 4, !freeze_bits [[META3:![0-9]+]]
 // CHECK-32-NEXT:    call void @llvm.stackrestore.p0(ptr [[TMP2]])
 // CHECK-32-NEXT:    ret i32 [[TMP0]]
 //
@@ -49,73 +32,42 @@ size_t test1(int n) {
   return _Countof(array);
 }
 
-// CHECK-64-LABEL: define dso_local i64 @test2(
-// CHECK-64-SAME: i32 noundef{{( signext)?}} [[N:%.*]]) #[[ATTR0]] {
-// CHECK-64-NEXT:  [[ENTRY:.*:]]
-// CHECK-64-NEXT:    [[N_ADDR:%.*]] = alloca i32, align
-// CHECK-64-NEXT:    store i32 [[N]], ptr [[N_ADDR]], align
-// CHECK-64-NEXT:    [[TMP0:%.*]] = load i32, ptr [[N_ADDR]], align
-// CHECK-64-NEXT:    [[TMP1:%.*]] = zext i32 [[TMP0]] to i64
-// CHECK-64-NEXT:    ret i64 [[TMP1]]
-//
 // CHECK-32-LABEL: define dso_local i32 @test2(
 // CHECK-32-SAME: i32 noundef [[N:%.*]]) #[[ATTR0]] {
 // CHECK-32-NEXT:  [[ENTRY:.*:]]
-// CHECK-32-NEXT:    [[N_ADDR:%.*]] = alloca i32, align
-// CHECK-32-NEXT:    store i32 [[N]], ptr [[N_ADDR]], align
-// CHECK-32-NEXT:    [[TMP0:%.*]] = load i32, ptr [[N_ADDR]], align
+// CHECK-32-NEXT:    [[N_ADDR:%.*]] = alloca i32, align 4
+// CHECK-32-NEXT:    store i32 [[N]], ptr [[N_ADDR]], align 4
+// CHECK-32-NEXT:    [[TMP0:%.*]] = load i32, ptr [[N_ADDR]], align 4
 // CHECK-32-NEXT:    ret i32 [[TMP0]]
 //
 size_t test2(int n) {
   return _Countof(int[n]);
 }
 
-// CHECK-64-LABEL: define dso_local i64 @test3(
-// CHECK-64-SAME: i32 noundef{{( signext)?}} [[N:%.*]]) #[[ATTR0]] {
-// CHECK-64-NEXT:  [[ENTRY:.*:]]
-// CHECK-64-NEXT:    [[N_ADDR:%.*]] = alloca i32, align
-// CHECK-64-NEXT:    [[SAVED_STACK:%.*]] = alloca ptr, align
-// CHECK-64-NEXT:    [[__VLA_EXPR0:%.*]] = alloca i64, align
-// CHECK-64-NEXT:    [[X:%.*]] = alloca i32, align
-// CHECK-64-NEXT:    [[Y:%.*]] = alloca i32, align
-// CHECK-64-NEXT:    store i32 [[N]], ptr [[N_ADDR]], align
-// CHECK-64-NEXT:    [[TMP0:%.*]] = load i32, ptr [[N_ADDR]], align
-// CHECK-64-NEXT:    [[TMP1:%.*]] = zext i32 [[TMP0]] to i64
-// CHECK-64-NEXT:    [[TMP2:%.*]] = call ptr @llvm.stacksave.p0()
-// CHECK-64-NEXT:    store ptr [[TMP2]], ptr [[SAVED_STACK]], align
-// CHECK-64-NEXT:    [[VLA:%.*]] = alloca [7 x i32], i64 [[TMP1]], align
-// CHECK-64-NEXT:    store i64 [[TMP1]], ptr [[__VLA_EXPR0]], align
-// CHECK-64-NEXT:    [[CONV:%.*]] = trunc i64 [[TMP1]] to i32
-// CHECK-64-NEXT:    store i32 [[CONV]], ptr [[X]], align
-// CHECK-64-NEXT:    store i32 7, ptr [[Y]], align
-// CHECK-64-NEXT:    [[TMP3:%.*]] = load i32, ptr [[X]], align
-// CHECK-64-NEXT:    [[TMP4:%.*]] = load i32, ptr [[Y]], align
-// CHECK-64-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP3]], [[TMP4]]
-// CHECK-64-NEXT:    [[CONV1:%.*]] = sext i32 [[ADD]] to i64
-// CHECK-64-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[SAVED_STACK]], align
-// CHECK-64-NEXT:    call void @llvm.stackrestore.p0(ptr [[TMP5]])
-// CHECK-64-NEXT:    ret i64 [[CONV1]]
-//
 // CHECK-32-LABEL: define dso_local i32 @test3(
 // CHECK-32-SAME: i32 noundef [[N:%.*]]) #[[ATTR0]] {
 // CHECK-32-NEXT:  [[ENTRY:.*:]]
-// CHECK-32-NEXT:    [[N_ADDR:%.*]] = alloca i32, align
-// CHECK-32-NEXT:    [[SAVED_STACK:%.*]] = alloca ptr, align
-// CHECK-32-NEXT:    [[__VLA_EXPR0:%.*]] = alloca i32, align
-// CHECK-32-NEXT:    [[X:%.*]] = alloca i32, align
-// CHECK-32-NEXT:    [[Y:%.*]] = alloca i32, align
-// CHECK-32-NEXT:    store i32 [[N]], ptr [[N_ADDR]], align
-// CHECK-32-NEXT:    [[TMP0:%.*]] = load i32, ptr [[N_ADDR]], align
+// CHECK-32-NEXT:    [[N_ADDR:%.*]] = alloca i32, align 4
+// CHECK-32-NEXT:    [[SAVED_STACK:%.*]] = alloca ptr, align 4
+// CHECK-32-NEXT:    [[__VLA_EXPR0:%.*]] = alloca i32, align 4
+// CHECK-32-NEXT:    [[X:%.*]] = alloca i32, align 4
+// CHECK-32-NEXT:    [[Y:%.*]] = alloca i32, align 4
+// CHECK-32-NEXT:    store i32 [[N]], ptr [[N_ADDR]], align 4
+// CHECK-32-NEXT:    [[TMP0:%.*]] = load i32, ptr [[N_ADDR]], align 4
 // CHECK-32-NEXT:    [[TMP1:%.*]] = call ptr @llvm.stacksave.p0()
-// CHECK-32-NEXT:    store ptr [[TMP1]], ptr [[SAVED_STACK]], align
-// CHECK-32-NEXT:    [[VLA:%.*]] = alloca [7 x i32], i32 [[TMP0]], align
-// CHECK-32-NEXT:    store i32 [[TMP0]], ptr [[__VLA_EXPR0]], align
-// CHECK-32-NEXT:    store i32 [[TMP0]], ptr [[X]], align
-// CHECK-32-NEXT:    store i32 7, ptr [[Y]], align
-// CHECK-32-NEXT:    [[TMP2:%.*]] = load i32, ptr [[X]], align
-// CHECK-32-NEXT:    [[TMP3:%.*]] = load i32, ptr [[Y]], align
+// CHECK-32-NEXT:    store ptr [[TMP1]], ptr [[SAVED_STACK]], align 4
+// CHECK-32-NEXT:    [[VLA:%.*]] = alloca [7 x i32], i32 [[TMP0]], align 4
+// CHECK-32-NEXT:    store i32 [[TMP0]], ptr [[__VLA_EXPR0]], align 4
+// CHECK-32-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-32-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X]], align 4
+// CHECK-32-NEXT:    store i32 [[TMP0]], ptr [[X]], align 4
+// CHECK-32-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-32-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[Y]], align 4
+// CHECK-32-NEXT:    store i32 7, ptr [[Y]], align 4
+// CHECK-32-NEXT:    [[TMP2:%.*]] = load i32, ptr [[X]], align 4
+// CHECK-32-NEXT:    [[TMP3:%.*]] = load i32, ptr [[Y]], align 4
 // CHECK-32-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP2]], [[TMP3]]
-// CHECK-32-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[SAVED_STACK]], align
+// CHECK-32-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[SAVED_STACK]], align 4, !freeze_bits [[META3]]
 // CHECK-32-NEXT:    call void @llvm.stackrestore.p0(ptr [[TMP4]])
 // CHECK-32-NEXT:    ret i32 [[ADD]]
 //
@@ -126,34 +78,22 @@ size_t test3(int n) {
   return x + y;
 }
 
-// CHECK-64-LABEL: define dso_local void @test4(
-// CHECK-64-SAME: i32 noundef{{( signext)?}} [[N:%.*]]) #[[ATTR0]] {
-// CHECK-64-NEXT:  [[ENTRY:.*:]]
-// CHECK-64-NEXT:    [[N_ADDR:%.*]] = alloca i32, align
-// CHECK-64-NEXT:    [[X:%.*]] = alloca i32, align
-// CHECK-64-NEXT:    [[Y:%.*]] = alloca i32, align
-// CHECK-64-NEXT:    store i32 [[N]], ptr [[N_ADDR]], align
-// CHECK-64-NEXT:    store i32 7, ptr [[X]], align
-// CHECK-64-NEXT:    [[TMP0:%.*]] = load i32, ptr [[N_ADDR]], align
-// CHECK-64-NEXT:    [[INC:%.*]] = add nsw i32 [[TMP0]], 1
-// CHECK-64-NEXT:    store i32 [[INC]], ptr [[N_ADDR]], align
-// CHECK-64-NEXT:    [[TMP1:%.*]] = zext i32 [[TMP0]] to i64
-// CHECK-64-NEXT:    [[CONV:%.*]] = trunc i64 [[TMP1]] to i32
-// CHECK-64-NEXT:    store i32 [[CONV]], ptr [[Y]], align
-// CHECK-64-NEXT:    ret void
-//
 // CHECK-32-LABEL: define dso_local void @test4(
 // CHECK-32-SAME: i32 noundef [[N:%.*]]) #[[ATTR0]] {
 // CHECK-32-NEXT:  [[ENTRY:.*:]]
-// CHECK-32-NEXT:    [[N_ADDR:%.*]] = alloca i32, align
-// CHECK-32-NEXT:    [[X:%.*]] = alloca i32, align
-// CHECK-32-NEXT:    [[Y:%.*]] = alloca i32, align
-// CHECK-32-NEXT:    store i32 [[N]], ptr [[N_ADDR]], align
-// CHECK-32-NEXT:    store i32 7, ptr [[X]], align
-// CHECK-32-NEXT:    [[TMP0:%.*]] = load i32, ptr [[N_ADDR]], align
+// CHECK-32-NEXT:    [[N_ADDR:%.*]] = alloca i32, align 4
+// CHECK-32-NEXT:    [[X:%.*]] = alloca i32, align 4
+// CHECK-32-NEXT:    [[Y:%.*]] = alloca i32, align 4
+// CHECK-32-NEXT:    store i32 [[N]], ptr [[N_ADDR]], align 4
+// CHECK-32-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-32-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X]], align 4
+// CHECK-32-NEXT:    store i32 7, ptr [[X]], align 4
+// CHECK-32-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-32-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[Y]], align 4
+// CHECK-32-NEXT:    [[TMP0:%.*]] = load i32, ptr [[N_ADDR]], align 4
 // CHECK-32-NEXT:    [[INC:%.*]] = add nsw i32 [[TMP0]], 1
-// CHECK-32-NEXT:    store i32 [[INC]], ptr [[N_ADDR]], align
-// CHECK-32-NEXT:    store i32 [[TMP0]], ptr [[Y]], align
+// CHECK-32-NEXT:    store i32 [[INC]], ptr [[N_ADDR]], align 4
+// CHECK-32-NEXT:    store i32 [[TMP0]], ptr [[Y]], align 4
 // CHECK-32-NEXT:    ret void
 //
 void test4(int n) {
@@ -164,45 +104,34 @@ void test4(int n) {
   int y = _Countof(int[n++][7]);
 }
 
-// CHECK-64-LABEL: define dso_local void @test5(
-// CHECK-64-SAME: ) #[[ATTR0]] {
-// CHECK-64-NEXT:  [[ENTRY:.*:]]
-// CHECK-64-NEXT:    [[J:%.*]] = alloca i32, align
-// CHECK-64-NEXT:    [[SAVED_STACK:%.*]] = alloca ptr, align
-// CHECK-64-NEXT:    [[A:%.*]] = alloca i32, align
-// CHECK-64-NEXT:    [[B:%.*]] = alloca i32, align
-// CHECK-64-NEXT:    [[C:%.*]] = alloca i32, align
-// CHECK-64-NEXT:    [[D:%.*]] = alloca i32, align
-// CHECK-64-NEXT:    store i32 2, ptr [[J]], align
-// CHECK-64-NEXT:    [[TMP0:%.*]] = call ptr @llvm.stacksave.p0()
-// CHECK-64-NEXT:    store ptr [[TMP0]], ptr [[SAVED_STACK]], align
-// CHECK-64-NEXT:    [[VLA:%.*]] = alloca i32, i64 120, align
-// CHECK-64-NEXT:    store i32 1, ptr [[A]], align
-// CHECK-64-NEXT:    store i32 4, ptr [[B]], align
-// CHECK-64-NEXT:    store i32 5, ptr [[C]], align
-// CHECK-64-NEXT:    store i32 6, ptr [[D]], align
-// CHECK-64-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[SAVED_STACK]], align
-// CHECK-64-NEXT:    call void @llvm.stackrestore.p0(ptr [[TMP1]])
-// CHECK-64-NEXT:    ret void
-//
 // CHECK-32-LABEL: define dso_local void @test5(
 // CHECK-32-SAME: ) #[[ATTR0]] {
 // CHECK-32-NEXT:  [[ENTRY:.*:]]
-// CHECK-32-NEXT:    [[J:%.*]] = alloca i32, align
-// CHECK-32-NEXT:    [[SAVED_STACK:%.*]] = alloca ptr, align
-// CHECK-32-NEXT:    [[A:%.*]] = alloca i32, align
-// CHECK-32-NEXT:    [[B:%.*]] = alloca i32, align
-// CHECK-32-NEXT:    [[C:%.*]] = alloca i32, align
-// CHECK-32-NEXT:    [[D:%.*]] = alloca i32, align
-// CHECK-32-NEXT:    store i32 2, ptr [[J]], align
+// CHECK-32-NEXT:    [[J:%.*]] = alloca i32, align 4
+// CHECK-32-NEXT:    [[SAVED_STACK:%.*]] = alloca ptr, align 4
+// CHECK-32-NEXT:    [[A:%.*]] = alloca i32, align 4
+// CHECK-32-NEXT:    [[B:%.*]] = alloca i32, align 4
+// CHECK-32-NEXT:    [[C:%.*]] = alloca i32, align 4
+// CHECK-32-NEXT:    [[D:%.*]] = alloca i32, align 4
+// CHECK-32-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-32-NEXT:    store i32 [[FREEZE_POISON]], ptr [[J]], align 4
+// CHECK-32-NEXT:    store i32 2, ptr [[J]], align 4
 // CHECK-32-NEXT:    [[TMP0:%.*]] = call ptr @llvm.stacksave.p0()
-// CHECK-32-NEXT:    store ptr [[TMP0]], ptr [[SAVED_STACK]], align
-// CHECK-32-NEXT:    [[VLA:%.*]] = alloca i32, i32 120, align
-// CHECK-32-NEXT:    store i32 1, ptr [[A]], align
-// CHECK-32-NEXT:    store i32 4, ptr [[B]], align
-// CHECK-32-NEXT:    store i32 5, ptr [[C]], align
-// CHECK-32-NEXT:    store i32 6, ptr [[D]], align
-// CHECK-32-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[SAVED_STACK]], align
+// CHECK-32-NEXT:    store ptr [[TMP0]], ptr [[SAVED_STACK]], align 4
+// CHECK-32-NEXT:    [[VLA:%.*]] = alloca i32, i32 120, align 4
+// CHECK-32-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-32-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[A]], align 4
+// CHECK-32-NEXT:    store i32 1, ptr [[A]], align 4
+// CHECK-32-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-32-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[B]], align 4
+// CHECK-32-NEXT:    store i32 4, ptr [[B]], align 4
+// CHECK-32-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK-32-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[C]], align 4
+// CHECK-32-NEXT:    store i32 5, ptr [[C]], align 4
+// CHECK-32-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK-32-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[D]], align 4
+// CHECK-32-NEXT:    store i32 6, ptr [[D]], align 4
+// CHECK-32-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[SAVED_STACK]], align 4, !freeze_bits [[META3]]
 // CHECK-32-NEXT:    call void @llvm.stackrestore.p0(ptr [[TMP1]])
 // CHECK-32-NEXT:    ret void
 //
@@ -218,3 +147,8 @@ void test5() {
   int c = _Countof **arr;
   int d = _Countof ***arr;
 }
+//.
+// CHECK-32: [[META3]] = !{}
+//.
+//// NOTE: These prefixes are unused and the list is autogenerated. Do not add tests below this line:
+// CHECK-64: {{.*}}

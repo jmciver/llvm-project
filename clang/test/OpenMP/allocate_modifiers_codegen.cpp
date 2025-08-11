@@ -94,8 +94,10 @@ void bar(int a, float &z) {
 // CHECK-NEXT:    [[B:%.*]] = alloca double, align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1:[0-9]+]])
 // CHECK-NEXT:    store i32 0, ptr [[RETVAL]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[V]], align 4
 // CHECK-NEXT:    [[DOTA__VOID_ADDR:%.*]] = call ptr @__kmpc_alloc(i32 [[TMP0]], i64 4, ptr inttoptr (i64 7 to ptr))
-// CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr [[DOTA__VOID_ADDR]], align 4
+// CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr [[DOTA__VOID_ADDR]], align 4, !freeze_bits [[META3:![0-9]+]]
 // CHECK-NEXT:    [[INC:%.*]] = add nsw i32 [[TMP1]], 1
 // CHECK-NEXT:    store i32 [[INC]], ptr [[DOTA__VOID_ADDR]], align 4
 // CHECK-NEXT:    call void @__kmpc_free(i32 [[TMP0]], ptr [[DOTA__VOID_ADDR]], ptr inttoptr (i64 7 to ptr))
@@ -105,31 +107,31 @@ void bar(int a, float &z) {
 // CHECK-NEXT:    call void @__kmpc_free(i32 [[TMP0]], ptr [[DOTA__VOID_ADDR1]], ptr inttoptr (i64 8 to ptr))
 // CHECK-NEXT:    call void @__kmpc_barrier(ptr @[[GLOB2]], i32 [[TMP0]])
 // CHECK-NEXT:    [[DOTV__VOID_ADDR:%.*]] = call ptr @__kmpc_aligned_alloc(i32 [[TMP0]], i64 4, i64 4, ptr null)
-// CHECK-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTV__VOID_ADDR]], align 4
+// CHECK-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTV__VOID_ADDR]], align 4, !freeze_bits [[META3]]
 // CHECK-NEXT:    [[INC2:%.*]] = add nsw i32 [[TMP2]], 1
 // CHECK-NEXT:    store i32 [[INC2]], ptr [[DOTV__VOID_ADDR]], align 4
 // CHECK-NEXT:    call void @__kmpc_free(i32 [[TMP0]], ptr [[DOTV__VOID_ADDR]], ptr null)
 // CHECK-NEXT:    call void @__kmpc_barrier(ptr @[[GLOB2]], i32 [[TMP0]])
 // CHECK-NEXT:    [[DOTV__VOID_ADDR3:%.*]] = call ptr @__kmpc_alloc(i32 [[TMP0]], i64 4, ptr inttoptr (i64 1 to ptr))
-// CHECK-NEXT:    [[TMP3:%.*]] = load i32, ptr [[DOTV__VOID_ADDR3]], align 4
+// CHECK-NEXT:    [[TMP3:%.*]] = load i32, ptr [[DOTV__VOID_ADDR3]], align 4, !freeze_bits [[META3]]
 // CHECK-NEXT:    [[INC4:%.*]] = add nsw i32 [[TMP3]], 1
 // CHECK-NEXT:    store i32 [[INC4]], ptr [[DOTV__VOID_ADDR3]], align 4
 // CHECK-NEXT:    call void @__kmpc_free(i32 [[TMP0]], ptr [[DOTV__VOID_ADDR3]], ptr inttoptr (i64 1 to ptr))
 // CHECK-NEXT:    call void @__kmpc_barrier(ptr @[[GLOB2]], i32 [[TMP0]])
 // CHECK-NEXT:    [[DOTV__VOID_ADDR5:%.*]] = call ptr @__kmpc_aligned_alloc(i32 [[TMP0]], i64 8, i64 4, ptr inttoptr (i64 2 to ptr))
-// CHECK-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTV__VOID_ADDR5]], align 4
+// CHECK-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTV__VOID_ADDR5]], align 4, !freeze_bits [[META3]]
 // CHECK-NEXT:    [[INC6:%.*]] = add nsw i32 [[TMP4]], 1
 // CHECK-NEXT:    store i32 [[INC6]], ptr [[DOTV__VOID_ADDR5]], align 4
 // CHECK-NEXT:    call void @__kmpc_free(i32 [[TMP0]], ptr [[DOTV__VOID_ADDR5]], ptr inttoptr (i64 2 to ptr))
 // CHECK-NEXT:    call void @__kmpc_barrier(ptr @[[GLOB2]], i32 [[TMP0]])
 // CHECK-NEXT:    [[DOTV__VOID_ADDR7:%.*]] = call ptr @__kmpc_aligned_alloc(i32 [[TMP0]], i64 4, i64 4, ptr null)
-// CHECK-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTV__VOID_ADDR7]], align 4
+// CHECK-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTV__VOID_ADDR7]], align 4, !freeze_bits [[META3]]
 // CHECK-NEXT:    [[INC8:%.*]] = add nsw i32 [[TMP5]], 1
 // CHECK-NEXT:    store i32 [[INC8]], ptr [[DOTV__VOID_ADDR7]], align 4
 // CHECK-NEXT:    call void @__kmpc_free(i32 [[TMP0]], ptr [[DOTV__VOID_ADDR7]], ptr null)
 // CHECK-NEXT:    call void @__kmpc_barrier(ptr @[[GLOB2]], i32 [[TMP0]])
 // CHECK-NEXT:    [[DOTV__VOID_ADDR9:%.*]] = call ptr @__kmpc_aligned_alloc(i32 [[TMP0]], i64 4, i64 4, ptr inttoptr (i64 1 to ptr))
-// CHECK-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTV__VOID_ADDR9]], align 4
+// CHECK-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTV__VOID_ADDR9]], align 4, !freeze_bits [[META3]]
 // CHECK-NEXT:    [[INC10:%.*]] = add nsw i32 [[TMP6]], 1
 // CHECK-NEXT:    store i32 [[INC10]], ptr [[DOTV__VOID_ADDR9]], align 4
 // CHECK-NEXT:    call void @__kmpc_free(i32 [[TMP0]], ptr [[DOTV__VOID_ADDR9]], ptr inttoptr (i64 1 to ptr))
@@ -137,25 +139,27 @@ void bar(int a, float &z) {
 // CHECK-NEXT:    [[CALL:%.*]] = call noundef i64 @_Z3foov()
 // CHECK-NEXT:    [[CONV:%.*]] = inttoptr i64 [[CALL]] to ptr
 // CHECK-NEXT:    [[DOTV__VOID_ADDR11:%.*]] = call ptr @__kmpc_aligned_alloc(i32 [[TMP0]], i64 8, i64 4, ptr [[CONV]])
-// CHECK-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTV__VOID_ADDR11]], align 4
+// CHECK-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTV__VOID_ADDR11]], align 4, !freeze_bits [[META3]]
 // CHECK-NEXT:    [[INC12:%.*]] = add nsw i32 [[TMP7]], 1
 // CHECK-NEXT:    store i32 [[INC12]], ptr [[DOTV__VOID_ADDR11]], align 4
 // CHECK-NEXT:    [[CALL13:%.*]] = call noundef i64 @_Z3foov()
 // CHECK-NEXT:    [[CONV14:%.*]] = inttoptr i64 [[CALL13]] to ptr
 // CHECK-NEXT:    call void @__kmpc_free(i32 [[TMP0]], ptr [[DOTV__VOID_ADDR11]], ptr [[CONV14]])
 // CHECK-NEXT:    call void @__kmpc_barrier(ptr @[[GLOB2]], i32 [[TMP0]])
+// CHECK-NEXT:    [[FREEZE_POISON15:%.*]] = freeze double poison
+// CHECK-NEXT:    store double [[FREEZE_POISON15]], ptr [[B]], align 8
 // CHECK-NEXT:    store double 3.000000e+00, ptr [[B]], align 8
 // CHECK-NEXT:    [[DOTTEMP__VOID_ADDR:%.*]] = call ptr @__kmpc_alloc(i32 [[TMP0]], i64 4, ptr null)
-// CHECK-NEXT:    [[CALL15:%.*]] = call noundef i32 @_Z3fooIiL22omp_allocator_handle_t6ELj8EET_v()
-// CHECK-NEXT:    [[TMP8:%.*]] = load i32, ptr [[DOTTEMP__VOID_ADDR]], align 4
-// CHECK-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP8]], [[CALL15]]
+// CHECK-NEXT:    [[CALL16:%.*]] = call noundef i32 @_Z3fooIiL22omp_allocator_handle_t6ELj8EET_v()
+// CHECK-NEXT:    [[TMP8:%.*]] = load i32, ptr [[DOTTEMP__VOID_ADDR]], align 4, !freeze_bits [[META3]]
+// CHECK-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP8]], [[CALL16]]
 // CHECK-NEXT:    store i32 [[ADD]], ptr [[DOTTEMP__VOID_ADDR]], align 4
 // CHECK-NEXT:    call void @__kmpc_free(i32 [[TMP0]], ptr [[DOTTEMP__VOID_ADDR]], ptr null)
 // CHECK-NEXT:    call void @__kmpc_barrier(ptr @[[GLOB2]], i32 [[TMP0]])
-// CHECK-NEXT:    [[TMP9:%.*]] = load i32, ptr @_ZZ4mainE4temp, align 4
-// CHECK-NEXT:    [[TMP10:%.*]] = load i32, ptr @_ZN2ns1aE, align 4
-// CHECK-NEXT:    [[ADD16:%.*]] = add nsw i32 [[TMP9]], [[TMP10]]
-// CHECK-NEXT:    ret i32 [[ADD16]]
+// CHECK-NEXT:    [[TMP9:%.*]] = load i32, ptr @_ZZ4mainE4temp, align 4, !freeze_bits [[META3]]
+// CHECK-NEXT:    [[TMP10:%.*]] = load i32, ptr @_ZN2ns1aE, align 4, !freeze_bits [[META3]]
+// CHECK-NEXT:    [[ADD17:%.*]] = add nsw i32 [[TMP9]], [[TMP10]]
+// CHECK-NEXT:    ret i32 [[ADD17]]
 //
 //
 // CHECK-LABEL: define linkonce_odr noundef i32 @_Z3fooIiL22omp_allocator_handle_t6ELj8EET_v(
@@ -163,13 +167,15 @@ void bar(int a, float &z) {
 // CHECK-NEXT:  [[ENTRY:.*:]]
 // CHECK-NEXT:    [[V:%.*]] = alloca i32, align 4
 // CHECK-NEXT:    [[TMP0:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1]])
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[V]], align 4
 // CHECK-NEXT:    [[DOTV__VOID_ADDR:%.*]] = call ptr @__kmpc_alloc(i32 [[TMP0]], i64 4, ptr inttoptr (i64 6 to ptr))
-// CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr @_ZN2STIiE1mE, align 4
+// CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr @_ZN2STIiE1mE, align 4, !freeze_bits [[META3]]
 // CHECK-NEXT:    store i32 [[TMP1]], ptr [[DOTV__VOID_ADDR]], align 4
 // CHECK-NEXT:    call void @__kmpc_free(i32 [[TMP0]], ptr [[DOTV__VOID_ADDR]], ptr inttoptr (i64 6 to ptr))
 // CHECK-NEXT:    call void @__kmpc_barrier(ptr @[[GLOB2]], i32 [[TMP0]])
 // CHECK-NEXT:    [[DOTV__VOID_ADDR1:%.*]] = call ptr @__kmpc_aligned_alloc(i32 [[TMP0]], i64 8, i64 4, ptr inttoptr (i64 6 to ptr))
-// CHECK-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTV__VOID_ADDR1]], align 4
+// CHECK-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTV__VOID_ADDR1]], align 4, !freeze_bits [[META3]]
 // CHECK-NEXT:    [[INC:%.*]] = add nsw i32 [[TMP2]], 1
 // CHECK-NEXT:    store i32 [[INC]], ptr [[DOTV__VOID_ADDR1]], align 4
 // CHECK-NEXT:    call void @__kmpc_free(i32 [[TMP0]], ptr [[DOTV__VOID_ADDR1]], ptr inttoptr (i64 6 to ptr))
@@ -190,10 +196,10 @@ void bar(int a, float &z) {
 // CHECK-NEXT:    [[DOTA__VOID_ADDR:%.*]] = call ptr @__kmpc_aligned_alloc(i32 [[TMP0]], i64 8, i64 4, ptr inttoptr (i64 1 to ptr))
 // CHECK-NEXT:    [[DOTZ__VOID_ADDR:%.*]] = call ptr @__kmpc_aligned_alloc(i32 [[TMP0]], i64 8, i64 4, ptr inttoptr (i64 1 to ptr))
 // CHECK-NEXT:    store ptr [[DOTZ__VOID_ADDR]], ptr [[TMP]], align 8
-// CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[TMP]], align 8
-// CHECK-NEXT:    [[TMP2:%.*]] = load float, ptr [[TMP1]], align 4
+// CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[TMP]], align 8, !nonnull [[META3]], !align [[META4:![0-9]+]], !freeze_bits [[META3]]
+// CHECK-NEXT:    [[TMP2:%.*]] = load float, ptr [[TMP1]], align 4, !freeze_bits [[META3]]
 // CHECK-NEXT:    [[ADD:%.*]] = fadd float 8.000000e+00, [[TMP2]]
-// CHECK-NEXT:    [[TMP3:%.*]] = load i32, ptr [[DOTA__VOID_ADDR]], align 4
+// CHECK-NEXT:    [[TMP3:%.*]] = load i32, ptr [[DOTA__VOID_ADDR]], align 4, !freeze_bits [[META3]]
 // CHECK-NEXT:    [[CONV:%.*]] = sitofp i32 [[TMP3]] to float
 // CHECK-NEXT:    [[ADD1:%.*]] = fadd float [[CONV]], [[ADD]]
 // CHECK-NEXT:    [[CONV2:%.*]] = fptosi float [[ADD1]] to i32
@@ -212,8 +218,10 @@ void bar(int a, float &z) {
 // CHECK-TLS-NEXT:    [[B:%.*]] = alloca double, align 8
 // CHECK-TLS-NEXT:    [[TMP0:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1:[0-9]+]])
 // CHECK-TLS-NEXT:    store i32 0, ptr [[RETVAL]], align 4
+// CHECK-TLS-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-TLS-NEXT:    store i32 [[FREEZE_POISON]], ptr [[V]], align 4
 // CHECK-TLS-NEXT:    [[DOTA__VOID_ADDR:%.*]] = call ptr @__kmpc_alloc(i32 [[TMP0]], i64 4, ptr inttoptr (i64 7 to ptr))
-// CHECK-TLS-NEXT:    [[TMP1:%.*]] = load i32, ptr [[DOTA__VOID_ADDR]], align 4
+// CHECK-TLS-NEXT:    [[TMP1:%.*]] = load i32, ptr [[DOTA__VOID_ADDR]], align 4, !freeze_bits [[META3:![0-9]+]]
 // CHECK-TLS-NEXT:    [[INC:%.*]] = add nsw i32 [[TMP1]], 1
 // CHECK-TLS-NEXT:    store i32 [[INC]], ptr [[DOTA__VOID_ADDR]], align 4
 // CHECK-TLS-NEXT:    call void @__kmpc_free(i32 [[TMP0]], ptr [[DOTA__VOID_ADDR]], ptr inttoptr (i64 7 to ptr))
@@ -223,31 +231,31 @@ void bar(int a, float &z) {
 // CHECK-TLS-NEXT:    call void @__kmpc_free(i32 [[TMP0]], ptr [[DOTA__VOID_ADDR1]], ptr inttoptr (i64 8 to ptr))
 // CHECK-TLS-NEXT:    call void @__kmpc_barrier(ptr @[[GLOB2]], i32 [[TMP0]])
 // CHECK-TLS-NEXT:    [[DOTV__VOID_ADDR:%.*]] = call ptr @__kmpc_aligned_alloc(i32 [[TMP0]], i64 4, i64 4, ptr null)
-// CHECK-TLS-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTV__VOID_ADDR]], align 4
+// CHECK-TLS-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTV__VOID_ADDR]], align 4, !freeze_bits [[META3]]
 // CHECK-TLS-NEXT:    [[INC2:%.*]] = add nsw i32 [[TMP2]], 1
 // CHECK-TLS-NEXT:    store i32 [[INC2]], ptr [[DOTV__VOID_ADDR]], align 4
 // CHECK-TLS-NEXT:    call void @__kmpc_free(i32 [[TMP0]], ptr [[DOTV__VOID_ADDR]], ptr null)
 // CHECK-TLS-NEXT:    call void @__kmpc_barrier(ptr @[[GLOB2]], i32 [[TMP0]])
 // CHECK-TLS-NEXT:    [[DOTV__VOID_ADDR3:%.*]] = call ptr @__kmpc_alloc(i32 [[TMP0]], i64 4, ptr inttoptr (i64 1 to ptr))
-// CHECK-TLS-NEXT:    [[TMP3:%.*]] = load i32, ptr [[DOTV__VOID_ADDR3]], align 4
+// CHECK-TLS-NEXT:    [[TMP3:%.*]] = load i32, ptr [[DOTV__VOID_ADDR3]], align 4, !freeze_bits [[META3]]
 // CHECK-TLS-NEXT:    [[INC4:%.*]] = add nsw i32 [[TMP3]], 1
 // CHECK-TLS-NEXT:    store i32 [[INC4]], ptr [[DOTV__VOID_ADDR3]], align 4
 // CHECK-TLS-NEXT:    call void @__kmpc_free(i32 [[TMP0]], ptr [[DOTV__VOID_ADDR3]], ptr inttoptr (i64 1 to ptr))
 // CHECK-TLS-NEXT:    call void @__kmpc_barrier(ptr @[[GLOB2]], i32 [[TMP0]])
 // CHECK-TLS-NEXT:    [[DOTV__VOID_ADDR5:%.*]] = call ptr @__kmpc_aligned_alloc(i32 [[TMP0]], i64 8, i64 4, ptr inttoptr (i64 2 to ptr))
-// CHECK-TLS-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTV__VOID_ADDR5]], align 4
+// CHECK-TLS-NEXT:    [[TMP4:%.*]] = load i32, ptr [[DOTV__VOID_ADDR5]], align 4, !freeze_bits [[META3]]
 // CHECK-TLS-NEXT:    [[INC6:%.*]] = add nsw i32 [[TMP4]], 1
 // CHECK-TLS-NEXT:    store i32 [[INC6]], ptr [[DOTV__VOID_ADDR5]], align 4
 // CHECK-TLS-NEXT:    call void @__kmpc_free(i32 [[TMP0]], ptr [[DOTV__VOID_ADDR5]], ptr inttoptr (i64 2 to ptr))
 // CHECK-TLS-NEXT:    call void @__kmpc_barrier(ptr @[[GLOB2]], i32 [[TMP0]])
 // CHECK-TLS-NEXT:    [[DOTV__VOID_ADDR7:%.*]] = call ptr @__kmpc_aligned_alloc(i32 [[TMP0]], i64 4, i64 4, ptr null)
-// CHECK-TLS-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTV__VOID_ADDR7]], align 4
+// CHECK-TLS-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTV__VOID_ADDR7]], align 4, !freeze_bits [[META3]]
 // CHECK-TLS-NEXT:    [[INC8:%.*]] = add nsw i32 [[TMP5]], 1
 // CHECK-TLS-NEXT:    store i32 [[INC8]], ptr [[DOTV__VOID_ADDR7]], align 4
 // CHECK-TLS-NEXT:    call void @__kmpc_free(i32 [[TMP0]], ptr [[DOTV__VOID_ADDR7]], ptr null)
 // CHECK-TLS-NEXT:    call void @__kmpc_barrier(ptr @[[GLOB2]], i32 [[TMP0]])
 // CHECK-TLS-NEXT:    [[DOTV__VOID_ADDR9:%.*]] = call ptr @__kmpc_aligned_alloc(i32 [[TMP0]], i64 4, i64 4, ptr inttoptr (i64 1 to ptr))
-// CHECK-TLS-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTV__VOID_ADDR9]], align 4
+// CHECK-TLS-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTV__VOID_ADDR9]], align 4, !freeze_bits [[META3]]
 // CHECK-TLS-NEXT:    [[INC10:%.*]] = add nsw i32 [[TMP6]], 1
 // CHECK-TLS-NEXT:    store i32 [[INC10]], ptr [[DOTV__VOID_ADDR9]], align 4
 // CHECK-TLS-NEXT:    call void @__kmpc_free(i32 [[TMP0]], ptr [[DOTV__VOID_ADDR9]], ptr inttoptr (i64 1 to ptr))
@@ -255,25 +263,27 @@ void bar(int a, float &z) {
 // CHECK-TLS-NEXT:    [[CALL:%.*]] = call noundef i64 @_Z3foov()
 // CHECK-TLS-NEXT:    [[CONV:%.*]] = inttoptr i64 [[CALL]] to ptr
 // CHECK-TLS-NEXT:    [[DOTV__VOID_ADDR11:%.*]] = call ptr @__kmpc_aligned_alloc(i32 [[TMP0]], i64 8, i64 4, ptr [[CONV]])
-// CHECK-TLS-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTV__VOID_ADDR11]], align 4
+// CHECK-TLS-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTV__VOID_ADDR11]], align 4, !freeze_bits [[META3]]
 // CHECK-TLS-NEXT:    [[INC12:%.*]] = add nsw i32 [[TMP7]], 1
 // CHECK-TLS-NEXT:    store i32 [[INC12]], ptr [[DOTV__VOID_ADDR11]], align 4
 // CHECK-TLS-NEXT:    [[CALL13:%.*]] = call noundef i64 @_Z3foov()
 // CHECK-TLS-NEXT:    [[CONV14:%.*]] = inttoptr i64 [[CALL13]] to ptr
 // CHECK-TLS-NEXT:    call void @__kmpc_free(i32 [[TMP0]], ptr [[DOTV__VOID_ADDR11]], ptr [[CONV14]])
 // CHECK-TLS-NEXT:    call void @__kmpc_barrier(ptr @[[GLOB2]], i32 [[TMP0]])
+// CHECK-TLS-NEXT:    [[FREEZE_POISON15:%.*]] = freeze double poison
+// CHECK-TLS-NEXT:    store double [[FREEZE_POISON15]], ptr [[B]], align 8
 // CHECK-TLS-NEXT:    store double 3.000000e+00, ptr [[B]], align 8
 // CHECK-TLS-NEXT:    [[DOTTEMP__VOID_ADDR:%.*]] = call ptr @__kmpc_alloc(i32 [[TMP0]], i64 4, ptr null)
-// CHECK-TLS-NEXT:    [[CALL15:%.*]] = call noundef i32 @_Z3fooIiL22omp_allocator_handle_t6ELj8EET_v()
-// CHECK-TLS-NEXT:    [[TMP8:%.*]] = load i32, ptr [[DOTTEMP__VOID_ADDR]], align 4
-// CHECK-TLS-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP8]], [[CALL15]]
+// CHECK-TLS-NEXT:    [[CALL16:%.*]] = call noundef i32 @_Z3fooIiL22omp_allocator_handle_t6ELj8EET_v()
+// CHECK-TLS-NEXT:    [[TMP8:%.*]] = load i32, ptr [[DOTTEMP__VOID_ADDR]], align 4, !freeze_bits [[META3]]
+// CHECK-TLS-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP8]], [[CALL16]]
 // CHECK-TLS-NEXT:    store i32 [[ADD]], ptr [[DOTTEMP__VOID_ADDR]], align 4
 // CHECK-TLS-NEXT:    call void @__kmpc_free(i32 [[TMP0]], ptr [[DOTTEMP__VOID_ADDR]], ptr null)
 // CHECK-TLS-NEXT:    call void @__kmpc_barrier(ptr @[[GLOB2]], i32 [[TMP0]])
-// CHECK-TLS-NEXT:    [[TMP9:%.*]] = load i32, ptr @_ZZ4mainE4temp, align 4
-// CHECK-TLS-NEXT:    [[TMP10:%.*]] = load i32, ptr @_ZN2ns1aE, align 4
-// CHECK-TLS-NEXT:    [[ADD16:%.*]] = add nsw i32 [[TMP9]], [[TMP10]]
-// CHECK-TLS-NEXT:    ret i32 [[ADD16]]
+// CHECK-TLS-NEXT:    [[TMP9:%.*]] = load i32, ptr @_ZZ4mainE4temp, align 4, !freeze_bits [[META3]]
+// CHECK-TLS-NEXT:    [[TMP10:%.*]] = load i32, ptr @_ZN2ns1aE, align 4, !freeze_bits [[META3]]
+// CHECK-TLS-NEXT:    [[ADD17:%.*]] = add nsw i32 [[TMP9]], [[TMP10]]
+// CHECK-TLS-NEXT:    ret i32 [[ADD17]]
 //
 //
 // CHECK-TLS-LABEL: define linkonce_odr noundef i32 @_Z3fooIiL22omp_allocator_handle_t6ELj8EET_v(
@@ -281,13 +291,15 @@ void bar(int a, float &z) {
 // CHECK-TLS-NEXT:  [[ENTRY:.*:]]
 // CHECK-TLS-NEXT:    [[V:%.*]] = alloca i32, align 4
 // CHECK-TLS-NEXT:    [[TMP0:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1]])
+// CHECK-TLS-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-TLS-NEXT:    store i32 [[FREEZE_POISON]], ptr [[V]], align 4
 // CHECK-TLS-NEXT:    [[DOTV__VOID_ADDR:%.*]] = call ptr @__kmpc_alloc(i32 [[TMP0]], i64 4, ptr inttoptr (i64 6 to ptr))
-// CHECK-TLS-NEXT:    [[TMP1:%.*]] = load i32, ptr @_ZN2STIiE1mE, align 4
+// CHECK-TLS-NEXT:    [[TMP1:%.*]] = load i32, ptr @_ZN2STIiE1mE, align 4, !freeze_bits [[META3]]
 // CHECK-TLS-NEXT:    store i32 [[TMP1]], ptr [[DOTV__VOID_ADDR]], align 4
 // CHECK-TLS-NEXT:    call void @__kmpc_free(i32 [[TMP0]], ptr [[DOTV__VOID_ADDR]], ptr inttoptr (i64 6 to ptr))
 // CHECK-TLS-NEXT:    call void @__kmpc_barrier(ptr @[[GLOB2]], i32 [[TMP0]])
 // CHECK-TLS-NEXT:    [[DOTV__VOID_ADDR1:%.*]] = call ptr @__kmpc_aligned_alloc(i32 [[TMP0]], i64 8, i64 4, ptr inttoptr (i64 6 to ptr))
-// CHECK-TLS-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTV__VOID_ADDR1]], align 4
+// CHECK-TLS-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTV__VOID_ADDR1]], align 4, !freeze_bits [[META3]]
 // CHECK-TLS-NEXT:    [[INC:%.*]] = add nsw i32 [[TMP2]], 1
 // CHECK-TLS-NEXT:    store i32 [[INC]], ptr [[DOTV__VOID_ADDR1]], align 4
 // CHECK-TLS-NEXT:    call void @__kmpc_free(i32 [[TMP0]], ptr [[DOTV__VOID_ADDR1]], ptr inttoptr (i64 6 to ptr))
@@ -308,10 +320,10 @@ void bar(int a, float &z) {
 // CHECK-TLS-NEXT:    [[DOTA__VOID_ADDR:%.*]] = call ptr @__kmpc_aligned_alloc(i32 [[TMP0]], i64 8, i64 4, ptr inttoptr (i64 1 to ptr))
 // CHECK-TLS-NEXT:    [[DOTZ__VOID_ADDR:%.*]] = call ptr @__kmpc_aligned_alloc(i32 [[TMP0]], i64 8, i64 4, ptr inttoptr (i64 1 to ptr))
 // CHECK-TLS-NEXT:    store ptr [[DOTZ__VOID_ADDR]], ptr [[TMP]], align 8
-// CHECK-TLS-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[TMP]], align 8
-// CHECK-TLS-NEXT:    [[TMP2:%.*]] = load float, ptr [[TMP1]], align 4
+// CHECK-TLS-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[TMP]], align 8, !nonnull [[META3]], !align [[META4:![0-9]+]], !freeze_bits [[META3]]
+// CHECK-TLS-NEXT:    [[TMP2:%.*]] = load float, ptr [[TMP1]], align 4, !freeze_bits [[META3]]
 // CHECK-TLS-NEXT:    [[ADD:%.*]] = fadd float 8.000000e+00, [[TMP2]]
-// CHECK-TLS-NEXT:    [[TMP3:%.*]] = load i32, ptr [[DOTA__VOID_ADDR]], align 4
+// CHECK-TLS-NEXT:    [[TMP3:%.*]] = load i32, ptr [[DOTA__VOID_ADDR]], align 4, !freeze_bits [[META3]]
 // CHECK-TLS-NEXT:    [[CONV:%.*]] = sitofp i32 [[TMP3]] to float
 // CHECK-TLS-NEXT:    [[ADD1:%.*]] = fadd float [[CONV]], [[ADD]]
 // CHECK-TLS-NEXT:    [[CONV2:%.*]] = fptosi float [[ADD1]] to i32
@@ -328,47 +340,69 @@ void bar(int a, float &z) {
 // SIMD-ONLY0-NEXT:    [[RETVAL:%.*]] = alloca i32, align 4
 // SIMD-ONLY0-NEXT:    [[V:%.*]] = alloca i32, align 4
 // SIMD-ONLY0-NEXT:    [[A:%.*]] = alloca i32, align 4
-// SIMD-ONLY0-NEXT:    [[A1:%.*]] = alloca i32, align 4
-// SIMD-ONLY0-NEXT:    [[V2:%.*]] = alloca i32, align 4
+// SIMD-ONLY0-NEXT:    [[A2:%.*]] = alloca i32, align 4
 // SIMD-ONLY0-NEXT:    [[V4:%.*]] = alloca i32, align 4
-// SIMD-ONLY0-NEXT:    [[V6:%.*]] = alloca i32, align 4
-// SIMD-ONLY0-NEXT:    [[V8:%.*]] = alloca i32, align 4
+// SIMD-ONLY0-NEXT:    [[V7:%.*]] = alloca i32, align 4
 // SIMD-ONLY0-NEXT:    [[V10:%.*]] = alloca i32, align 4
-// SIMD-ONLY0-NEXT:    [[V12:%.*]] = alloca i32, align 4
+// SIMD-ONLY0-NEXT:    [[V13:%.*]] = alloca i32, align 4
+// SIMD-ONLY0-NEXT:    [[V16:%.*]] = alloca i32, align 4
+// SIMD-ONLY0-NEXT:    [[V19:%.*]] = alloca i32, align 4
 // SIMD-ONLY0-NEXT:    [[B:%.*]] = alloca double, align 8
 // SIMD-ONLY0-NEXT:    [[TEMP:%.*]] = alloca i32, align 4
 // SIMD-ONLY0-NEXT:    store i32 0, ptr [[RETVAL]], align 4
+// SIMD-ONLY0-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// SIMD-ONLY0-NEXT:    store i32 [[FREEZE_POISON]], ptr [[V]], align 4
+// SIMD-ONLY0-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// SIMD-ONLY0-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[A]], align 4
 // SIMD-ONLY0-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A]], align 4
 // SIMD-ONLY0-NEXT:    [[INC:%.*]] = add nsw i32 [[TMP0]], 1
 // SIMD-ONLY0-NEXT:    store i32 [[INC]], ptr [[A]], align 4
-// SIMD-ONLY0-NEXT:    store i32 2, ptr [[A1]], align 4
-// SIMD-ONLY0-NEXT:    [[TMP1:%.*]] = load i32, ptr [[V2]], align 4
-// SIMD-ONLY0-NEXT:    [[INC3:%.*]] = add nsw i32 [[TMP1]], 1
-// SIMD-ONLY0-NEXT:    store i32 [[INC3]], ptr [[V2]], align 4
-// SIMD-ONLY0-NEXT:    [[TMP2:%.*]] = load i32, ptr [[V4]], align 4
-// SIMD-ONLY0-NEXT:    [[INC5:%.*]] = add nsw i32 [[TMP2]], 1
-// SIMD-ONLY0-NEXT:    store i32 [[INC5]], ptr [[V4]], align 4
-// SIMD-ONLY0-NEXT:    [[TMP3:%.*]] = load i32, ptr [[V6]], align 4
-// SIMD-ONLY0-NEXT:    [[INC7:%.*]] = add nsw i32 [[TMP3]], 1
-// SIMD-ONLY0-NEXT:    store i32 [[INC7]], ptr [[V6]], align 4
-// SIMD-ONLY0-NEXT:    [[TMP4:%.*]] = load i32, ptr [[V8]], align 4
-// SIMD-ONLY0-NEXT:    [[INC9:%.*]] = add nsw i32 [[TMP4]], 1
-// SIMD-ONLY0-NEXT:    store i32 [[INC9]], ptr [[V8]], align 4
-// SIMD-ONLY0-NEXT:    [[TMP5:%.*]] = load i32, ptr [[V10]], align 4
-// SIMD-ONLY0-NEXT:    [[INC11:%.*]] = add nsw i32 [[TMP5]], 1
-// SIMD-ONLY0-NEXT:    store i32 [[INC11]], ptr [[V10]], align 4
-// SIMD-ONLY0-NEXT:    [[TMP6:%.*]] = load i32, ptr [[V12]], align 4
-// SIMD-ONLY0-NEXT:    [[INC13:%.*]] = add nsw i32 [[TMP6]], 1
-// SIMD-ONLY0-NEXT:    store i32 [[INC13]], ptr [[V12]], align 4
+// SIMD-ONLY0-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// SIMD-ONLY0-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[A2]], align 4
+// SIMD-ONLY0-NEXT:    store i32 2, ptr [[A2]], align 4
+// SIMD-ONLY0-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// SIMD-ONLY0-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[V4]], align 4
+// SIMD-ONLY0-NEXT:    [[TMP1:%.*]] = load i32, ptr [[V4]], align 4
+// SIMD-ONLY0-NEXT:    [[INC6:%.*]] = add nsw i32 [[TMP1]], 1
+// SIMD-ONLY0-NEXT:    store i32 [[INC6]], ptr [[V4]], align 4
+// SIMD-ONLY0-NEXT:    [[FREEZE_POISON8:%.*]] = freeze i32 poison
+// SIMD-ONLY0-NEXT:    store i32 [[FREEZE_POISON8]], ptr [[V7]], align 4
+// SIMD-ONLY0-NEXT:    [[TMP2:%.*]] = load i32, ptr [[V7]], align 4
+// SIMD-ONLY0-NEXT:    [[INC9:%.*]] = add nsw i32 [[TMP2]], 1
+// SIMD-ONLY0-NEXT:    store i32 [[INC9]], ptr [[V7]], align 4
+// SIMD-ONLY0-NEXT:    [[FREEZE_POISON11:%.*]] = freeze i32 poison
+// SIMD-ONLY0-NEXT:    store i32 [[FREEZE_POISON11]], ptr [[V10]], align 4
+// SIMD-ONLY0-NEXT:    [[TMP3:%.*]] = load i32, ptr [[V10]], align 4
+// SIMD-ONLY0-NEXT:    [[INC12:%.*]] = add nsw i32 [[TMP3]], 1
+// SIMD-ONLY0-NEXT:    store i32 [[INC12]], ptr [[V10]], align 4
+// SIMD-ONLY0-NEXT:    [[FREEZE_POISON14:%.*]] = freeze i32 poison
+// SIMD-ONLY0-NEXT:    store i32 [[FREEZE_POISON14]], ptr [[V13]], align 4
+// SIMD-ONLY0-NEXT:    [[TMP4:%.*]] = load i32, ptr [[V13]], align 4
+// SIMD-ONLY0-NEXT:    [[INC15:%.*]] = add nsw i32 [[TMP4]], 1
+// SIMD-ONLY0-NEXT:    store i32 [[INC15]], ptr [[V13]], align 4
+// SIMD-ONLY0-NEXT:    [[FREEZE_POISON17:%.*]] = freeze i32 poison
+// SIMD-ONLY0-NEXT:    store i32 [[FREEZE_POISON17]], ptr [[V16]], align 4
+// SIMD-ONLY0-NEXT:    [[TMP5:%.*]] = load i32, ptr [[V16]], align 4
+// SIMD-ONLY0-NEXT:    [[INC18:%.*]] = add nsw i32 [[TMP5]], 1
+// SIMD-ONLY0-NEXT:    store i32 [[INC18]], ptr [[V16]], align 4
+// SIMD-ONLY0-NEXT:    [[FREEZE_POISON20:%.*]] = freeze i32 poison
+// SIMD-ONLY0-NEXT:    store i32 [[FREEZE_POISON20]], ptr [[V19]], align 4
+// SIMD-ONLY0-NEXT:    [[TMP6:%.*]] = load i32, ptr [[V19]], align 4
+// SIMD-ONLY0-NEXT:    [[INC21:%.*]] = add nsw i32 [[TMP6]], 1
+// SIMD-ONLY0-NEXT:    store i32 [[INC21]], ptr [[V19]], align 4
+// SIMD-ONLY0-NEXT:    [[FREEZE_POISON22:%.*]] = freeze double poison
+// SIMD-ONLY0-NEXT:    store double [[FREEZE_POISON22]], ptr [[B]], align 8
 // SIMD-ONLY0-NEXT:    store double 3.000000e+00, ptr [[B]], align 8
+// SIMD-ONLY0-NEXT:    [[FREEZE_POISON23:%.*]] = freeze i32 poison
+// SIMD-ONLY0-NEXT:    store i32 [[FREEZE_POISON23]], ptr [[TEMP]], align 4
 // SIMD-ONLY0-NEXT:    [[CALL:%.*]] = call noundef i32 @_Z3fooIiL22omp_allocator_handle_t6ELj8EET_v()
 // SIMD-ONLY0-NEXT:    [[TMP7:%.*]] = load i32, ptr [[TEMP]], align 4
 // SIMD-ONLY0-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP7]], [[CALL]]
 // SIMD-ONLY0-NEXT:    store i32 [[ADD]], ptr [[TEMP]], align 4
-// SIMD-ONLY0-NEXT:    [[TMP8:%.*]] = load i32, ptr @_ZZ4mainE4temp, align 4
-// SIMD-ONLY0-NEXT:    [[TMP9:%.*]] = load i32, ptr @_ZN2ns1aE, align 4
-// SIMD-ONLY0-NEXT:    [[ADD14:%.*]] = add nsw i32 [[TMP8]], [[TMP9]]
-// SIMD-ONLY0-NEXT:    ret i32 [[ADD14]]
+// SIMD-ONLY0-NEXT:    [[TMP8:%.*]] = load i32, ptr @_ZZ4mainE4temp, align 4, !freeze_bits [[META2:![0-9]+]]
+// SIMD-ONLY0-NEXT:    [[TMP9:%.*]] = load i32, ptr @_ZN2ns1aE, align 4, !freeze_bits [[META2]]
+// SIMD-ONLY0-NEXT:    [[ADD24:%.*]] = add nsw i32 [[TMP8]], [[TMP9]]
+// SIMD-ONLY0-NEXT:    ret i32 [[ADD24]]
 //
 //
 // SIMD-ONLY0-LABEL: define linkonce_odr noundef i32 @_Z3fooIiL22omp_allocator_handle_t6ELj8EET_v(
@@ -376,12 +410,18 @@ void bar(int a, float &z) {
 // SIMD-ONLY0-NEXT:  [[ENTRY:.*:]]
 // SIMD-ONLY0-NEXT:    [[V:%.*]] = alloca i32, align 4
 // SIMD-ONLY0-NEXT:    [[V1:%.*]] = alloca i32, align 4
-// SIMD-ONLY0-NEXT:    [[V2:%.*]] = alloca i32, align 4
-// SIMD-ONLY0-NEXT:    [[TMP0:%.*]] = load i32, ptr @_ZN2STIiE1mE, align 4
+// SIMD-ONLY0-NEXT:    [[V3:%.*]] = alloca i32, align 4
+// SIMD-ONLY0-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// SIMD-ONLY0-NEXT:    store i32 [[FREEZE_POISON]], ptr [[V]], align 4
+// SIMD-ONLY0-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// SIMD-ONLY0-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[V1]], align 4
+// SIMD-ONLY0-NEXT:    [[TMP0:%.*]] = load i32, ptr @_ZN2STIiE1mE, align 4, !freeze_bits [[META2]]
 // SIMD-ONLY0-NEXT:    store i32 [[TMP0]], ptr [[V1]], align 4
-// SIMD-ONLY0-NEXT:    [[TMP1:%.*]] = load i32, ptr [[V2]], align 4
+// SIMD-ONLY0-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// SIMD-ONLY0-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[V3]], align 4
+// SIMD-ONLY0-NEXT:    [[TMP1:%.*]] = load i32, ptr [[V3]], align 4
 // SIMD-ONLY0-NEXT:    [[INC:%.*]] = add nsw i32 [[TMP1]], 1
-// SIMD-ONLY0-NEXT:    store i32 [[INC]], ptr [[V2]], align 4
+// SIMD-ONLY0-NEXT:    store i32 [[INC]], ptr [[V3]], align 4
 // SIMD-ONLY0-NEXT:    [[TMP2:%.*]] = load i32, ptr [[V]], align 4
 // SIMD-ONLY0-NEXT:    ret i32 [[TMP2]]
 //
@@ -396,14 +436,28 @@ void bar(int a, float &z) {
 // SIMD-ONLY0-NEXT:    [[TMP:%.*]] = alloca ptr, align 8
 // SIMD-ONLY0-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
 // SIMD-ONLY0-NEXT:    store ptr [[Z]], ptr [[Z_ADDR]], align 8
+// SIMD-ONLY0-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// SIMD-ONLY0-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A1]], align 4
+// SIMD-ONLY0-NEXT:    [[FREEZE_POISON3:%.*]] = freeze float poison
+// SIMD-ONLY0-NEXT:    store float [[FREEZE_POISON3]], ptr [[Z2]], align 4
 // SIMD-ONLY0-NEXT:    store ptr [[Z2]], ptr [[TMP]], align 8
-// SIMD-ONLY0-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[TMP]], align 8
-// SIMD-ONLY0-NEXT:    [[TMP1:%.*]] = load float, ptr [[TMP0]], align 4
+// SIMD-ONLY0-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[TMP]], align 8, !nonnull [[META2]], !align [[META3:![0-9]+]], !freeze_bits [[META2]]
+// SIMD-ONLY0-NEXT:    [[TMP1:%.*]] = load float, ptr [[TMP0]], align 4, !freeze_bits [[META2]]
 // SIMD-ONLY0-NEXT:    [[ADD:%.*]] = fadd float 8.000000e+00, [[TMP1]]
 // SIMD-ONLY0-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A1]], align 4
 // SIMD-ONLY0-NEXT:    [[CONV:%.*]] = sitofp i32 [[TMP2]] to float
-// SIMD-ONLY0-NEXT:    [[ADD3:%.*]] = fadd float [[CONV]], [[ADD]]
-// SIMD-ONLY0-NEXT:    [[CONV4:%.*]] = fptosi float [[ADD3]] to i32
-// SIMD-ONLY0-NEXT:    store i32 [[CONV4]], ptr [[A1]], align 4
+// SIMD-ONLY0-NEXT:    [[ADD4:%.*]] = fadd float [[CONV]], [[ADD]]
+// SIMD-ONLY0-NEXT:    [[CONV5:%.*]] = fptosi float [[ADD4]] to i32
+// SIMD-ONLY0-NEXT:    store i32 [[CONV5]], ptr [[A1]], align 4
 // SIMD-ONLY0-NEXT:    ret void
 //
+//.
+// CHECK: [[META3]] = !{}
+// CHECK: [[META4]] = !{i64 4}
+//.
+// CHECK-TLS: [[META3]] = !{}
+// CHECK-TLS: [[META4]] = !{i64 4}
+//.
+// SIMD-ONLY0: [[META2]] = !{}
+// SIMD-ONLY0: [[META3]] = !{i64 4}
+//.

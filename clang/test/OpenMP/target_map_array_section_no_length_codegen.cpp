@@ -59,6 +59,8 @@ void array_section_no_length_map_clause(float *d, int index) {
 // CHECK-NEXT:    [[KERNEL_ARGS25:%.*]] = alloca [[STRUCT___TGT_KERNEL_ARGUMENTS]], align 8
 // CHECK-NEXT:    store ptr [[D]], ptr [[D_ADDR]], align 4
 // CHECK-NEXT:    store i32 [[INDEX]], ptr [[INDEX_ADDR]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[F]], align 4
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[D_ADDR]], align 4
 // CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[D_ADDR]], align 4
 // CHECK-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[D_ADDR]], align 4
@@ -152,7 +154,7 @@ void array_section_no_length_map_clause(float *d, int index) {
 // CHECK-NEXT:    [[TMP46:%.*]] = load ptr, ptr [[F]], align 4
 // CHECK-NEXT:    [[TMP47:%.*]] = load i32, ptr [[INDEX_ADDR]], align 4
 // CHECK-NEXT:    store i32 [[TMP47]], ptr [[INDEX_CASTED]], align 4
-// CHECK-NEXT:    [[TMP48:%.*]] = load i32, ptr [[INDEX_CASTED]], align 4
+// CHECK-NEXT:    [[TMP48:%.*]] = load i32, ptr [[INDEX_CASTED]], align 4, !freeze_bits [[META12:![0-9]+]]
 // CHECK-NEXT:    [[TMP49:%.*]] = load ptr, ptr [[F]], align 4
 // CHECK-NEXT:    [[TMP50:%.*]] = load ptr, ptr [[F]], align 4
 // CHECK-NEXT:    [[TMP51:%.*]] = load i32, ptr [[INDEX_ADDR]], align 4
@@ -160,7 +162,7 @@ void array_section_no_length_map_clause(float *d, int index) {
 // CHECK-NEXT:    [[TMP52:%.*]] = load ptr, ptr [[F]], align 4
 // CHECK-NEXT:    [[TMP53:%.*]] = load i32, ptr [[INDEX_ADDR]], align 4
 // CHECK-NEXT:    [[ARRAYIDX9:%.*]] = getelementptr inbounds ptr, ptr [[TMP52]], i32 [[TMP53]]
-// CHECK-NEXT:    [[TMP54:%.*]] = load ptr, ptr [[ARRAYIDX9]], align 4
+// CHECK-NEXT:    [[TMP54:%.*]] = load ptr, ptr [[ARRAYIDX9]], align 4, !freeze_bits [[META12]]
 // CHECK-NEXT:    [[ARRAYIDX10:%.*]] = getelementptr inbounds nuw float, ptr [[TMP54]], i32 0
 // CHECK-NEXT:    [[TMP55:%.*]] = getelementptr inbounds [3 x ptr], ptr [[DOTOFFLOAD_BASEPTRS11]], i32 0, i32 0
 // CHECK-NEXT:    store ptr [[TMP49]], ptr [[TMP55]], align 4
@@ -218,7 +220,7 @@ void array_section_no_length_map_clause(float *d, int index) {
 // CHECK-NEXT:    [[TMP81:%.*]] = load ptr, ptr [[F]], align 4
 // CHECK-NEXT:    [[TMP82:%.*]] = load i32, ptr [[INDEX_ADDR]], align 4
 // CHECK-NEXT:    store i32 [[TMP82]], ptr [[INDEX_CASTED17]], align 4
-// CHECK-NEXT:    [[TMP83:%.*]] = load i32, ptr [[INDEX_CASTED17]], align 4
+// CHECK-NEXT:    [[TMP83:%.*]] = load i32, ptr [[INDEX_CASTED17]], align 4, !freeze_bits [[META12]]
 // CHECK-NEXT:    [[TMP84:%.*]] = load ptr, ptr [[F]], align 4
 // CHECK-NEXT:    [[TMP85:%.*]] = load ptr, ptr [[F]], align 4
 // CHECK-NEXT:    [[TMP86:%.*]] = load i32, ptr [[INDEX_ADDR]], align 4
@@ -228,7 +230,7 @@ void array_section_no_length_map_clause(float *d, int index) {
 // CHECK-NEXT:    [[TMP88:%.*]] = load ptr, ptr [[F]], align 4
 // CHECK-NEXT:    [[TMP89:%.*]] = load i32, ptr [[INDEX_ADDR]], align 4
 // CHECK-NEXT:    [[ARRAYIDX19:%.*]] = getelementptr inbounds ptr, ptr [[TMP88]], i32 [[TMP89]]
-// CHECK-NEXT:    [[TMP90:%.*]] = load ptr, ptr [[ARRAYIDX19]], align 4
+// CHECK-NEXT:    [[TMP90:%.*]] = load ptr, ptr [[ARRAYIDX19]], align 4, !freeze_bits [[META12]]
 // CHECK-NEXT:    [[ARRAYIDX20:%.*]] = getelementptr inbounds nuw float, ptr [[TMP90]], i32 [[ADD]]
 // CHECK-NEXT:    [[TMP91:%.*]] = load i32, ptr [[INDEX_ADDR]], align 4
 // CHECK-NEXT:    [[ADD21:%.*]] = add nsw i32 [[TMP91]], 1
@@ -304,7 +306,7 @@ void array_section_no_length_map_clause(float *d, int index) {
 // CHECK-NEXT:    store ptr [[D]], ptr [[D_ADDR]], align 4
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[D_ADDR]], align 4
 // CHECK-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds float, ptr [[TMP0]], i32 3
-// CHECK-NEXT:    [[TMP1:%.*]] = load float, ptr [[ARRAYIDX]], align 4
+// CHECK-NEXT:    [[TMP1:%.*]] = load float, ptr [[ARRAYIDX]], align 4, !freeze_bits [[META12]]
 // CHECK-NEXT:    [[ADD:%.*]] = fadd float [[TMP1]], 2.000000e+00
 // CHECK-NEXT:    store float [[ADD]], ptr [[ARRAYIDX]], align 4
 // CHECK-NEXT:    ret void
@@ -317,7 +319,7 @@ void array_section_no_length_map_clause(float *d, int index) {
 // CHECK-NEXT:    store ptr [[D]], ptr [[D_ADDR]], align 4
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[D_ADDR]], align 4
 // CHECK-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds float, ptr [[TMP0]], i32 3
-// CHECK-NEXT:    [[TMP1:%.*]] = load float, ptr [[ARRAYIDX]], align 4
+// CHECK-NEXT:    [[TMP1:%.*]] = load float, ptr [[ARRAYIDX]], align 4, !freeze_bits [[META12]]
 // CHECK-NEXT:    [[ADD:%.*]] = fadd float [[TMP1]], 3.000000e+00
 // CHECK-NEXT:    store float [[ADD]], ptr [[ARRAYIDX]], align 4
 // CHECK-NEXT:    ret void
@@ -331,11 +333,11 @@ void array_section_no_length_map_clause(float *d, int index) {
 // CHECK-NEXT:    store ptr [[F]], ptr [[F_ADDR]], align 4
 // CHECK-NEXT:    store i32 [[INDEX]], ptr [[INDEX_ADDR]], align 4
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[F_ADDR]], align 4
-// CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr [[INDEX_ADDR]], align 4
+// CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr [[INDEX_ADDR]], align 4, !freeze_bits [[META12]]
 // CHECK-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds ptr, ptr [[TMP0]], i32 [[TMP1]]
-// CHECK-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[ARRAYIDX]], align 4
+// CHECK-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[ARRAYIDX]], align 4, !freeze_bits [[META12]]
 // CHECK-NEXT:    [[ARRAYIDX1:%.*]] = getelementptr inbounds float, ptr [[TMP2]], i32 2
-// CHECK-NEXT:    [[TMP3:%.*]] = load float, ptr [[ARRAYIDX1]], align 4
+// CHECK-NEXT:    [[TMP3:%.*]] = load float, ptr [[ARRAYIDX1]], align 4, !freeze_bits [[META12]]
 // CHECK-NEXT:    [[ADD:%.*]] = fadd float [[TMP3]], 4.000000e+00
 // CHECK-NEXT:    store float [[ADD]], ptr [[ARRAYIDX1]], align 4
 // CHECK-NEXT:    ret void
@@ -349,13 +351,16 @@ void array_section_no_length_map_clause(float *d, int index) {
 // CHECK-NEXT:    store ptr [[F]], ptr [[F_ADDR]], align 4
 // CHECK-NEXT:    store i32 [[INDEX]], ptr [[INDEX_ADDR]], align 4
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[F_ADDR]], align 4
-// CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr [[INDEX_ADDR]], align 4
+// CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr [[INDEX_ADDR]], align 4, !freeze_bits [[META12]]
 // CHECK-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds ptr, ptr [[TMP0]], i32 [[TMP1]]
-// CHECK-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[ARRAYIDX]], align 4
-// CHECK-NEXT:    [[TMP3:%.*]] = load i32, ptr [[INDEX_ADDR]], align 4
+// CHECK-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[ARRAYIDX]], align 4, !freeze_bits [[META12]]
+// CHECK-NEXT:    [[TMP3:%.*]] = load i32, ptr [[INDEX_ADDR]], align 4, !freeze_bits [[META12]]
 // CHECK-NEXT:    [[ARRAYIDX1:%.*]] = getelementptr inbounds float, ptr [[TMP2]], i32 [[TMP3]]
-// CHECK-NEXT:    [[TMP4:%.*]] = load float, ptr [[ARRAYIDX1]], align 4
+// CHECK-NEXT:    [[TMP4:%.*]] = load float, ptr [[ARRAYIDX1]], align 4, !freeze_bits [[META12]]
 // CHECK-NEXT:    [[ADD:%.*]] = fadd float [[TMP4]], 5.000000e+00
 // CHECK-NEXT:    store float [[ADD]], ptr [[ARRAYIDX1]], align 4
 // CHECK-NEXT:    ret void
 //
+//.
+// CHECK: [[META12]] = !{}
+//.

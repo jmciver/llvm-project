@@ -1201,6 +1201,8 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    [[R:%.*]] = alloca i32, align 4
 // CHECK-NTARGET-NEXT:    [[R_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON]], ptr [[R]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
 // CHECK-NTARGET-NEXT:    store i32 [[TMP0]], ptr [[R]], align 4
 // CHECK-NTARGET-NEXT:    call void @_ZN2SA3fooEv(ptr noundef nonnull align 4 dereferenceable(16) @_ZL2a1)
@@ -1214,11 +1216,11 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    call void @_ZN2STILi1000EE3fooEv(ptr noundef nonnull align 4 dereferenceable(4512) @t2)
 // CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[R]], align 4
 // CHECK-NTARGET-NEXT:    store i32 [[TMP1]], ptr [[R_CASTED]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP2:%.*]] = load i64, ptr [[R_CASTED]], align 8
+// CHECK-NTARGET-NEXT:    [[TMP2:%.*]] = load i64, ptr [[R_CASTED]], align 8, !freeze_bits [[META3:![0-9]+]]
 // CHECK-NTARGET-NEXT:    call void @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__Z3bari_l267(i64 [[TMP2]]) #[[ATTR2:[0-9]+]]
 // CHECK-NTARGET-NEXT:    [[TMP3:%.*]] = load i32, ptr [[R]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-NEXT:    [[TMP5:%.*]] = load i32, ptr [[TMP4]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
+// CHECK-NTARGET-NEXT:    [[TMP5:%.*]] = load i32, ptr [[TMP4]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP3]], [[TMP5]]
 // CHECK-NTARGET-NEXT:    ret i32 [[ADD]]
 //
@@ -1230,14 +1232,16 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    [[A:%.*]] = alloca i32, align 4
 // CHECK-NTARGET-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NTARGET-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP2]], 1
 // CHECK-NTARGET-NEXT:    store i32 [[ADD]], ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8
+// CHECK-NTARGET-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // CHECK-NTARGET-NEXT:    ret void
 //
@@ -1250,15 +1254,17 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NTARGET-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    store i32 [[TMP2]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    call void @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2SB3fooEv_l122(i64 [[TMP3]]) #[[ATTR2]]
 // CHECK-NTARGET-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8
+// CHECK-NTARGET-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP4]], ptr [[TMP5]], align 4
 // CHECK-NTARGET-NEXT:    ret void
 //
@@ -1270,14 +1276,16 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    [[A:%.*]] = alloca i32, align 4
 // CHECK-NTARGET-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NTARGET-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP2]], 7
 // CHECK-NTARGET-NEXT:    store i32 [[ADD]], ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8
+// CHECK-NTARGET-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // CHECK-NTARGET-NEXT:    ret void
 //
@@ -1289,14 +1297,16 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    [[A:%.*]] = alloca i32, align 4
 // CHECK-NTARGET-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NTARGET-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP2]], 10
 // CHECK-NTARGET-NEXT:    store i32 [[ADD]], ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8
+// CHECK-NTARGET-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // CHECK-NTARGET-NEXT:    ret void
 //
@@ -1309,15 +1319,17 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NTARGET-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    store i32 [[TMP2]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    call void @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2SE3fooEv_l185(i64 [[TMP3]]) #[[ATTR2]]
 // CHECK-NTARGET-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8
+// CHECK-NTARGET-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP4]], ptr [[TMP5]], align 4
 // CHECK-NTARGET-NEXT:    ret void
 //
@@ -1330,15 +1342,17 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NTARGET-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    store i32 [[TMP2]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    call void @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2STILi100EE3fooEv_l211(i64 [[TMP3]]) #[[ATTR2]]
 // CHECK-NTARGET-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8
+// CHECK-NTARGET-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP4]], ptr [[TMP5]], align 4
 // CHECK-NTARGET-NEXT:    ret void
 //
@@ -1351,15 +1365,17 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NTARGET-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    store i32 [[TMP2]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    call void @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2STILi1000EE3fooEv_l211(i64 [[TMP3]]) #[[ATTR2]]
 // CHECK-NTARGET-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8
+// CHECK-NTARGET-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP4]], ptr [[TMP5]], align 4
 // CHECK-NTARGET-NEXT:    ret void
 //
@@ -1370,9 +1386,9 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    [[R_ADDR:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-NEXT:    [[R_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-NEXT:    store i64 [[R]], ptr [[R_ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load i32, ptr [[R_ADDR]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load i32, ptr [[R_ADDR]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP0]], ptr [[R_CASTED]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i64, ptr [[R_CASTED]], align 8
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i64, ptr [[R_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB2:[0-9]+]], i32 1, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__Z3bari_l267.omp_outlined, i64 [[TMP1]])
 // CHECK-NTARGET-NEXT:    ret void
 //
@@ -1393,12 +1409,24 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK-NTARGET-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK-NTARGET-NEXT:    store i64 [[R]], ptr [[R_ADDR]], align 8
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // CHECK-NTARGET-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // CHECK-NTARGET-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // CHECK-NTARGET-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1:[0-9]+]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK-NTARGET-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[TMP2]], 9
@@ -1417,14 +1445,14 @@ int bar(int a){
 // CHECK-NTARGET:       omp.inner.for.cond:
 // CHECK-NTARGET-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// CHECK-NTARGET-NEXT:    [[CMP1:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
-// CHECK-NTARGET-NEXT:    br i1 [[CMP1]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// CHECK-NTARGET-NEXT:    [[CMP6:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
+// CHECK-NTARGET-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // CHECK-NTARGET:       omp.inner.for.body:
 // CHECK-NTARGET-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-NEXT:    [[MUL:%.*]] = mul nsw i32 [[TMP7]], 1
 // CHECK-NTARGET-NEXT:    [[ADD:%.*]] = add nsw i32 0, [[MUL]]
 // CHECK-NTARGET-NEXT:    store i32 [[ADD]], ptr [[I]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP8:%.*]] = load i32, ptr [[R_ADDR]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP8:%.*]] = load i32, ptr [[R_ADDR]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    [[INC:%.*]] = add nsw i32 [[TMP8]], 1
 // CHECK-NTARGET-NEXT:    store i32 [[INC]], ptr [[R_ADDR]], align 4
 // CHECK-NTARGET-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
@@ -1432,8 +1460,8 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // CHECK-NTARGET:       omp.inner.for.inc:
 // CHECK-NTARGET-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// CHECK-NTARGET-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP9]], 1
-// CHECK-NTARGET-NEXT:    store i32 [[ADD2]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP9]], 1
+// CHECK-NTARGET-NEXT:    store i32 [[ADD7]], ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // CHECK-NTARGET:       omp.inner.for.end:
 // CHECK-NTARGET-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
@@ -1477,14 +1505,16 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    [[A:%.*]] = alloca i32, align 4
 // CHECK-NTARGET-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NTARGET-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP2]], 2
 // CHECK-NTARGET-NEXT:    store i32 [[ADD]], ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8
+// CHECK-NTARGET-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // CHECK-NTARGET-NEXT:    ret void
 //
@@ -1496,14 +1526,16 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    [[A:%.*]] = alloca i32, align 4
 // CHECK-NTARGET-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NTARGET-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP2]], 3
 // CHECK-NTARGET-NEXT:    store i32 [[ADD]], ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8
+// CHECK-NTARGET-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // CHECK-NTARGET-NEXT:    ret void
 //
@@ -1551,14 +1583,16 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    [[A:%.*]] = alloca i32, align 4
 // CHECK-NTARGET-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NTARGET-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP2]], 5
 // CHECK-NTARGET-NEXT:    store i32 [[ADD]], ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8
+// CHECK-NTARGET-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // CHECK-NTARGET-NEXT:    ret void
 //
@@ -1570,14 +1604,16 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    [[A:%.*]] = alloca i32, align 4
 // CHECK-NTARGET-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NTARGET-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP2]], 6
 // CHECK-NTARGET-NEXT:    store i32 [[ADD]], ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8
+// CHECK-NTARGET-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // CHECK-NTARGET-NEXT:    ret void
 //
@@ -1626,15 +1662,17 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NTARGET-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    store i32 [[TMP2]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    call void @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2SCC1Ev_l148(i64 [[TMP3]]) #[[ATTR2]]
 // CHECK-NTARGET-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8
+// CHECK-NTARGET-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP4]], ptr [[TMP5]], align 4
 // CHECK-NTARGET-NEXT:    ret void
 //
@@ -1645,9 +1683,9 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    [[A_ADDR:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP0]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB2]], i32 1, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2SCC1Ev_l148.omp_outlined, i64 [[TMP1]])
 // CHECK-NTARGET-NEXT:    ret void
 //
@@ -1668,12 +1706,24 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK-NTARGET-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK-NTARGET-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // CHECK-NTARGET-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // CHECK-NTARGET-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // CHECK-NTARGET-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK-NTARGET-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[TMP2]], 9
@@ -1692,23 +1742,23 @@ int bar(int a){
 // CHECK-NTARGET:       omp.inner.for.cond:
 // CHECK-NTARGET-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// CHECK-NTARGET-NEXT:    [[CMP1:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
-// CHECK-NTARGET-NEXT:    br i1 [[CMP1]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// CHECK-NTARGET-NEXT:    [[CMP6:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
+// CHECK-NTARGET-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // CHECK-NTARGET:       omp.inner.for.body:
 // CHECK-NTARGET-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-NEXT:    [[MUL:%.*]] = mul nsw i32 [[TMP7]], 1
 // CHECK-NTARGET-NEXT:    [[ADD:%.*]] = add nsw i32 0, [[MUL]]
 // CHECK-NTARGET-NEXT:    store i32 [[ADD]], ptr [[I]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4
-// CHECK-NTARGET-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP8]], 8
-// CHECK-NTARGET-NEXT:    store i32 [[ADD2]], ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
+// CHECK-NTARGET-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP8]], 8
+// CHECK-NTARGET-NEXT:    store i32 [[ADD7]], ptr [[A_ADDR]], align 4
 // CHECK-NTARGET-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // CHECK-NTARGET:       omp.body.continue:
 // CHECK-NTARGET-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // CHECK-NTARGET:       omp.inner.for.inc:
 // CHECK-NTARGET-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// CHECK-NTARGET-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP9]], 1
-// CHECK-NTARGET-NEXT:    store i32 [[ADD3]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP9]], 1
+// CHECK-NTARGET-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // CHECK-NTARGET:       omp.inner.for.end:
 // CHECK-NTARGET-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
@@ -1724,14 +1774,16 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    [[A:%.*]] = alloca i32, align 4
 // CHECK-NTARGET-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NTARGET-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP2]], 9
 // CHECK-NTARGET-NEXT:    store i32 [[ADD]], ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8
+// CHECK-NTARGET-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // CHECK-NTARGET-NEXT:    ret void
 //
@@ -1771,14 +1823,16 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    [[A:%.*]] = alloca i32, align 4
 // CHECK-NTARGET-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NTARGET-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP2]], 11
 // CHECK-NTARGET-NEXT:    store i32 [[ADD]], ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8
+// CHECK-NTARGET-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // CHECK-NTARGET-NEXT:    ret void
 //
@@ -1791,15 +1845,17 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NTARGET-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    store i32 [[TMP2]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    call void @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2SDD1Ev_l174(i64 [[TMP3]]) #[[ATTR2]]
 // CHECK-NTARGET-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8
+// CHECK-NTARGET-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP4]], ptr [[TMP5]], align 4
 // CHECK-NTARGET-NEXT:    ret void
 //
@@ -1810,9 +1866,9 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    [[A_ADDR:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP0]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB2]], i32 1, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2SDD1Ev_l174.omp_outlined, i64 [[TMP1]])
 // CHECK-NTARGET-NEXT:    ret void
 //
@@ -1833,12 +1889,24 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK-NTARGET-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK-NTARGET-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // CHECK-NTARGET-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // CHECK-NTARGET-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // CHECK-NTARGET-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK-NTARGET-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[TMP2]], 9
@@ -1857,23 +1925,23 @@ int bar(int a){
 // CHECK-NTARGET:       omp.inner.for.cond:
 // CHECK-NTARGET-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// CHECK-NTARGET-NEXT:    [[CMP1:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
-// CHECK-NTARGET-NEXT:    br i1 [[CMP1]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// CHECK-NTARGET-NEXT:    [[CMP6:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
+// CHECK-NTARGET-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // CHECK-NTARGET:       omp.inner.for.body:
 // CHECK-NTARGET-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-NEXT:    [[MUL:%.*]] = mul nsw i32 [[TMP7]], 1
 // CHECK-NTARGET-NEXT:    [[ADD:%.*]] = add nsw i32 0, [[MUL]]
 // CHECK-NTARGET-NEXT:    store i32 [[ADD]], ptr [[I]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4
-// CHECK-NTARGET-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP8]], 12
-// CHECK-NTARGET-NEXT:    store i32 [[ADD2]], ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
+// CHECK-NTARGET-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP8]], 12
+// CHECK-NTARGET-NEXT:    store i32 [[ADD7]], ptr [[A_ADDR]], align 4
 // CHECK-NTARGET-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // CHECK-NTARGET:       omp.body.continue:
 // CHECK-NTARGET-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // CHECK-NTARGET:       omp.inner.for.inc:
 // CHECK-NTARGET-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// CHECK-NTARGET-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP9]], 1
-// CHECK-NTARGET-NEXT:    store i32 [[ADD3]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP9]], 1
+// CHECK-NTARGET-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // CHECK-NTARGET:       omp.inner.for.end:
 // CHECK-NTARGET-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
@@ -1918,15 +1986,17 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NTARGET-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    store i32 [[TMP2]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    call void @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2SEC1Ev_l192(i64 [[TMP3]]) #[[ATTR2]]
 // CHECK-NTARGET-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8
+// CHECK-NTARGET-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP4]], ptr [[TMP5]], align 4
 // CHECK-NTARGET-NEXT:    ret void
 //
@@ -1937,9 +2007,9 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    [[A_ADDR:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP0]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB2]], i32 1, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2SEC1Ev_l192.omp_outlined, i64 [[TMP1]])
 // CHECK-NTARGET-NEXT:    ret void
 //
@@ -1960,12 +2030,24 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK-NTARGET-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK-NTARGET-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // CHECK-NTARGET-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // CHECK-NTARGET-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // CHECK-NTARGET-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK-NTARGET-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[TMP2]], 9
@@ -1984,23 +2066,23 @@ int bar(int a){
 // CHECK-NTARGET:       omp.inner.for.cond:
 // CHECK-NTARGET-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// CHECK-NTARGET-NEXT:    [[CMP1:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
-// CHECK-NTARGET-NEXT:    br i1 [[CMP1]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// CHECK-NTARGET-NEXT:    [[CMP6:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
+// CHECK-NTARGET-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // CHECK-NTARGET:       omp.inner.for.body:
 // CHECK-NTARGET-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-NEXT:    [[MUL:%.*]] = mul nsw i32 [[TMP7]], 1
 // CHECK-NTARGET-NEXT:    [[ADD:%.*]] = add nsw i32 0, [[MUL]]
 // CHECK-NTARGET-NEXT:    store i32 [[ADD]], ptr [[I]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4
-// CHECK-NTARGET-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP8]], 14
-// CHECK-NTARGET-NEXT:    store i32 [[ADD2]], ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
+// CHECK-NTARGET-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP8]], 14
+// CHECK-NTARGET-NEXT:    store i32 [[ADD7]], ptr [[A_ADDR]], align 4
 // CHECK-NTARGET-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // CHECK-NTARGET:       omp.body.continue:
 // CHECK-NTARGET-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // CHECK-NTARGET:       omp.inner.for.inc:
 // CHECK-NTARGET-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// CHECK-NTARGET-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP9]], 1
-// CHECK-NTARGET-NEXT:    store i32 [[ADD3]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP9]], 1
+// CHECK-NTARGET-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // CHECK-NTARGET:       omp.inner.for.end:
 // CHECK-NTARGET-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
@@ -2017,15 +2099,17 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NTARGET-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    store i32 [[TMP2]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    call void @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2SED1Ev_l199(i64 [[TMP3]]) #[[ATTR2]]
 // CHECK-NTARGET-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8
+// CHECK-NTARGET-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP4]], ptr [[TMP5]], align 4
 // CHECK-NTARGET-NEXT:    ret void
 //
@@ -2036,9 +2120,9 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    [[A_ADDR:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP0]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB2]], i32 1, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2SED1Ev_l199.omp_outlined, i64 [[TMP1]])
 // CHECK-NTARGET-NEXT:    ret void
 //
@@ -2059,12 +2143,24 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK-NTARGET-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK-NTARGET-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // CHECK-NTARGET-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // CHECK-NTARGET-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // CHECK-NTARGET-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK-NTARGET-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[TMP2]], 9
@@ -2083,23 +2179,23 @@ int bar(int a){
 // CHECK-NTARGET:       omp.inner.for.cond:
 // CHECK-NTARGET-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// CHECK-NTARGET-NEXT:    [[CMP1:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
-// CHECK-NTARGET-NEXT:    br i1 [[CMP1]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// CHECK-NTARGET-NEXT:    [[CMP6:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
+// CHECK-NTARGET-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // CHECK-NTARGET:       omp.inner.for.body:
 // CHECK-NTARGET-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-NEXT:    [[MUL:%.*]] = mul nsw i32 [[TMP7]], 1
 // CHECK-NTARGET-NEXT:    [[ADD:%.*]] = add nsw i32 0, [[MUL]]
 // CHECK-NTARGET-NEXT:    store i32 [[ADD]], ptr [[I]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4
-// CHECK-NTARGET-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP8]], 15
-// CHECK-NTARGET-NEXT:    store i32 [[ADD2]], ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
+// CHECK-NTARGET-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP8]], 15
+// CHECK-NTARGET-NEXT:    store i32 [[ADD7]], ptr [[A_ADDR]], align 4
 // CHECK-NTARGET-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // CHECK-NTARGET:       omp.body.continue:
 // CHECK-NTARGET-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // CHECK-NTARGET:       omp.inner.for.inc:
 // CHECK-NTARGET-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// CHECK-NTARGET-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP9]], 1
-// CHECK-NTARGET-NEXT:    store i32 [[ADD3]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP9]], 1
+// CHECK-NTARGET-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // CHECK-NTARGET:       omp.inner.for.end:
 // CHECK-NTARGET-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
@@ -2144,15 +2240,17 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NTARGET-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    store i32 [[TMP2]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    call void @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2STILi100EEC1Ev_l218(i64 [[TMP3]]) #[[ATTR2]]
 // CHECK-NTARGET-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8
+// CHECK-NTARGET-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP4]], ptr [[TMP5]], align 4
 // CHECK-NTARGET-NEXT:    ret void
 //
@@ -2163,9 +2261,9 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    [[A_ADDR:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP0]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB2]], i32 1, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2STILi100EEC1Ev_l218.omp_outlined, i64 [[TMP1]])
 // CHECK-NTARGET-NEXT:    ret void
 //
@@ -2186,12 +2284,24 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK-NTARGET-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK-NTARGET-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // CHECK-NTARGET-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // CHECK-NTARGET-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // CHECK-NTARGET-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK-NTARGET-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[TMP2]], 9
@@ -2210,23 +2320,23 @@ int bar(int a){
 // CHECK-NTARGET:       omp.inner.for.cond:
 // CHECK-NTARGET-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// CHECK-NTARGET-NEXT:    [[CMP1:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
-// CHECK-NTARGET-NEXT:    br i1 [[CMP1]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// CHECK-NTARGET-NEXT:    [[CMP6:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
+// CHECK-NTARGET-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // CHECK-NTARGET:       omp.inner.for.body:
 // CHECK-NTARGET-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-NEXT:    [[MUL:%.*]] = mul nsw i32 [[TMP7]], 1
 // CHECK-NTARGET-NEXT:    [[ADD:%.*]] = add nsw i32 0, [[MUL]]
 // CHECK-NTARGET-NEXT:    store i32 [[ADD]], ptr [[I]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4
-// CHECK-NTARGET-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP8]], 117
-// CHECK-NTARGET-NEXT:    store i32 [[ADD2]], ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
+// CHECK-NTARGET-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP8]], 117
+// CHECK-NTARGET-NEXT:    store i32 [[ADD7]], ptr [[A_ADDR]], align 4
 // CHECK-NTARGET-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // CHECK-NTARGET:       omp.body.continue:
 // CHECK-NTARGET-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // CHECK-NTARGET:       omp.inner.for.inc:
 // CHECK-NTARGET-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// CHECK-NTARGET-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP9]], 1
-// CHECK-NTARGET-NEXT:    store i32 [[ADD3]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP9]], 1
+// CHECK-NTARGET-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // CHECK-NTARGET:       omp.inner.for.end:
 // CHECK-NTARGET-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
@@ -2243,15 +2353,17 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NTARGET-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    store i32 [[TMP2]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    call void @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2STILi100EED1Ev_l225(i64 [[TMP3]]) #[[ATTR2]]
 // CHECK-NTARGET-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8
+// CHECK-NTARGET-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP4]], ptr [[TMP5]], align 4
 // CHECK-NTARGET-NEXT:    ret void
 //
@@ -2262,9 +2374,9 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    [[A_ADDR:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP0]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB2]], i32 1, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2STILi100EED1Ev_l225.omp_outlined, i64 [[TMP1]])
 // CHECK-NTARGET-NEXT:    ret void
 //
@@ -2285,12 +2397,24 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK-NTARGET-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK-NTARGET-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // CHECK-NTARGET-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // CHECK-NTARGET-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // CHECK-NTARGET-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK-NTARGET-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[TMP2]], 9
@@ -2309,23 +2433,23 @@ int bar(int a){
 // CHECK-NTARGET:       omp.inner.for.cond:
 // CHECK-NTARGET-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// CHECK-NTARGET-NEXT:    [[CMP1:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
-// CHECK-NTARGET-NEXT:    br i1 [[CMP1]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// CHECK-NTARGET-NEXT:    [[CMP6:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
+// CHECK-NTARGET-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // CHECK-NTARGET:       omp.inner.for.body:
 // CHECK-NTARGET-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-NEXT:    [[MUL:%.*]] = mul nsw i32 [[TMP7]], 1
 // CHECK-NTARGET-NEXT:    [[ADD:%.*]] = add nsw i32 0, [[MUL]]
 // CHECK-NTARGET-NEXT:    store i32 [[ADD]], ptr [[I]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4
-// CHECK-NTARGET-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP8]], 118
-// CHECK-NTARGET-NEXT:    store i32 [[ADD2]], ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
+// CHECK-NTARGET-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP8]], 118
+// CHECK-NTARGET-NEXT:    store i32 [[ADD7]], ptr [[A_ADDR]], align 4
 // CHECK-NTARGET-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // CHECK-NTARGET:       omp.body.continue:
 // CHECK-NTARGET-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // CHECK-NTARGET:       omp.inner.for.inc:
 // CHECK-NTARGET-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// CHECK-NTARGET-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP9]], 1
-// CHECK-NTARGET-NEXT:    store i32 [[ADD3]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP9]], 1
+// CHECK-NTARGET-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // CHECK-NTARGET:       omp.inner.for.end:
 // CHECK-NTARGET-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
@@ -2370,15 +2494,17 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NTARGET-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    store i32 [[TMP2]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    call void @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2STILi1000EEC1Ev_l218(i64 [[TMP3]]) #[[ATTR2]]
 // CHECK-NTARGET-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8
+// CHECK-NTARGET-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP4]], ptr [[TMP5]], align 4
 // CHECK-NTARGET-NEXT:    ret void
 //
@@ -2389,9 +2515,9 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    [[A_ADDR:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP0]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB2]], i32 1, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2STILi1000EEC1Ev_l218.omp_outlined, i64 [[TMP1]])
 // CHECK-NTARGET-NEXT:    ret void
 //
@@ -2412,12 +2538,24 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK-NTARGET-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK-NTARGET-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // CHECK-NTARGET-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // CHECK-NTARGET-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // CHECK-NTARGET-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK-NTARGET-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[TMP2]], 9
@@ -2436,23 +2574,23 @@ int bar(int a){
 // CHECK-NTARGET:       omp.inner.for.cond:
 // CHECK-NTARGET-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// CHECK-NTARGET-NEXT:    [[CMP1:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
-// CHECK-NTARGET-NEXT:    br i1 [[CMP1]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// CHECK-NTARGET-NEXT:    [[CMP6:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
+// CHECK-NTARGET-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // CHECK-NTARGET:       omp.inner.for.body:
 // CHECK-NTARGET-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-NEXT:    [[MUL:%.*]] = mul nsw i32 [[TMP7]], 1
 // CHECK-NTARGET-NEXT:    [[ADD:%.*]] = add nsw i32 0, [[MUL]]
 // CHECK-NTARGET-NEXT:    store i32 [[ADD]], ptr [[I]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4
-// CHECK-NTARGET-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP8]], 1017
-// CHECK-NTARGET-NEXT:    store i32 [[ADD2]], ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
+// CHECK-NTARGET-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP8]], 1017
+// CHECK-NTARGET-NEXT:    store i32 [[ADD7]], ptr [[A_ADDR]], align 4
 // CHECK-NTARGET-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // CHECK-NTARGET:       omp.body.continue:
 // CHECK-NTARGET-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // CHECK-NTARGET:       omp.inner.for.inc:
 // CHECK-NTARGET-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// CHECK-NTARGET-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP9]], 1
-// CHECK-NTARGET-NEXT:    store i32 [[ADD3]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP9]], 1
+// CHECK-NTARGET-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // CHECK-NTARGET:       omp.inner.for.end:
 // CHECK-NTARGET-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
@@ -2469,15 +2607,17 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NTARGET-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // CHECK-NTARGET-NEXT:    store i32 [[TMP2]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    call void @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2STILi1000EED1Ev_l225(i64 [[TMP3]]) #[[ATTR2]]
 // CHECK-NTARGET-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8
+// CHECK-NTARGET-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP4]], ptr [[TMP5]], align 4
 // CHECK-NTARGET-NEXT:    ret void
 //
@@ -2488,9 +2628,9 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    [[A_ADDR:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP0]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB2]], i32 1, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2STILi1000EED1Ev_l225.omp_outlined, i64 [[TMP1]])
 // CHECK-NTARGET-NEXT:    ret void
 //
@@ -2511,12 +2651,24 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK-NTARGET-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK-NTARGET-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // CHECK-NTARGET-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // CHECK-NTARGET-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // CHECK-NTARGET-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK-NTARGET-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[TMP2]], 9
@@ -2535,23 +2687,23 @@ int bar(int a){
 // CHECK-NTARGET:       omp.inner.for.cond:
 // CHECK-NTARGET-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// CHECK-NTARGET-NEXT:    [[CMP1:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
-// CHECK-NTARGET-NEXT:    br i1 [[CMP1]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// CHECK-NTARGET-NEXT:    [[CMP6:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
+// CHECK-NTARGET-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // CHECK-NTARGET:       omp.inner.for.body:
 // CHECK-NTARGET-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-NEXT:    [[MUL:%.*]] = mul nsw i32 [[TMP7]], 1
 // CHECK-NTARGET-NEXT:    [[ADD:%.*]] = add nsw i32 0, [[MUL]]
 // CHECK-NTARGET-NEXT:    store i32 [[ADD]], ptr [[I]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4
-// CHECK-NTARGET-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP8]], 1018
-// CHECK-NTARGET-NEXT:    store i32 [[ADD2]], ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
+// CHECK-NTARGET-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP8]], 1018
+// CHECK-NTARGET-NEXT:    store i32 [[ADD7]], ptr [[A_ADDR]], align 4
 // CHECK-NTARGET-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // CHECK-NTARGET:       omp.body.continue:
 // CHECK-NTARGET-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // CHECK-NTARGET:       omp.inner.for.inc:
 // CHECK-NTARGET-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// CHECK-NTARGET-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP9]], 1
-// CHECK-NTARGET-NEXT:    store i32 [[ADD3]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP9]], 1
+// CHECK-NTARGET-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // CHECK-NTARGET:       omp.inner.for.end:
 // CHECK-NTARGET-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
@@ -2566,9 +2718,9 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    [[A_ADDR:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP0]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB2]], i32 1, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2SB3fooEv_l122.omp_outlined, i64 [[TMP1]])
 // CHECK-NTARGET-NEXT:    ret void
 //
@@ -2589,12 +2741,24 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK-NTARGET-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK-NTARGET-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // CHECK-NTARGET-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // CHECK-NTARGET-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // CHECK-NTARGET-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK-NTARGET-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[TMP2]], 9
@@ -2613,23 +2777,23 @@ int bar(int a){
 // CHECK-NTARGET:       omp.inner.for.cond:
 // CHECK-NTARGET-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// CHECK-NTARGET-NEXT:    [[CMP1:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
-// CHECK-NTARGET-NEXT:    br i1 [[CMP1]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// CHECK-NTARGET-NEXT:    [[CMP6:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
+// CHECK-NTARGET-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // CHECK-NTARGET:       omp.inner.for.body:
 // CHECK-NTARGET-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-NEXT:    [[MUL:%.*]] = mul nsw i32 [[TMP7]], 1
 // CHECK-NTARGET-NEXT:    [[ADD:%.*]] = add nsw i32 0, [[MUL]]
 // CHECK-NTARGET-NEXT:    store i32 [[ADD]], ptr [[I]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4
-// CHECK-NTARGET-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP8]], 4
-// CHECK-NTARGET-NEXT:    store i32 [[ADD2]], ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
+// CHECK-NTARGET-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP8]], 4
+// CHECK-NTARGET-NEXT:    store i32 [[ADD7]], ptr [[A_ADDR]], align 4
 // CHECK-NTARGET-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // CHECK-NTARGET:       omp.body.continue:
 // CHECK-NTARGET-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // CHECK-NTARGET:       omp.inner.for.inc:
 // CHECK-NTARGET-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// CHECK-NTARGET-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP9]], 1
-// CHECK-NTARGET-NEXT:    store i32 [[ADD3]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP9]], 1
+// CHECK-NTARGET-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // CHECK-NTARGET:       omp.inner.for.end:
 // CHECK-NTARGET-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
@@ -2644,9 +2808,9 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    [[A_ADDR:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP0]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB2]], i32 1, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2SE3fooEv_l185.omp_outlined, i64 [[TMP1]])
 // CHECK-NTARGET-NEXT:    ret void
 //
@@ -2667,12 +2831,24 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK-NTARGET-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK-NTARGET-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // CHECK-NTARGET-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // CHECK-NTARGET-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // CHECK-NTARGET-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK-NTARGET-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[TMP2]], 9
@@ -2691,23 +2867,23 @@ int bar(int a){
 // CHECK-NTARGET:       omp.inner.for.cond:
 // CHECK-NTARGET-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// CHECK-NTARGET-NEXT:    [[CMP1:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
-// CHECK-NTARGET-NEXT:    br i1 [[CMP1]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// CHECK-NTARGET-NEXT:    [[CMP6:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
+// CHECK-NTARGET-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // CHECK-NTARGET:       omp.inner.for.body:
 // CHECK-NTARGET-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-NEXT:    [[MUL:%.*]] = mul nsw i32 [[TMP7]], 1
 // CHECK-NTARGET-NEXT:    [[ADD:%.*]] = add nsw i32 0, [[MUL]]
 // CHECK-NTARGET-NEXT:    store i32 [[ADD]], ptr [[I]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4
-// CHECK-NTARGET-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP8]], 13
-// CHECK-NTARGET-NEXT:    store i32 [[ADD2]], ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
+// CHECK-NTARGET-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP8]], 13
+// CHECK-NTARGET-NEXT:    store i32 [[ADD7]], ptr [[A_ADDR]], align 4
 // CHECK-NTARGET-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // CHECK-NTARGET:       omp.body.continue:
 // CHECK-NTARGET-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // CHECK-NTARGET:       omp.inner.for.inc:
 // CHECK-NTARGET-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// CHECK-NTARGET-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP9]], 1
-// CHECK-NTARGET-NEXT:    store i32 [[ADD3]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP9]], 1
+// CHECK-NTARGET-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // CHECK-NTARGET:       omp.inner.for.end:
 // CHECK-NTARGET-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
@@ -2722,9 +2898,9 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    [[A_ADDR:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP0]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB2]], i32 1, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2STILi100EE3fooEv_l211.omp_outlined, i64 [[TMP1]])
 // CHECK-NTARGET-NEXT:    ret void
 //
@@ -2745,12 +2921,24 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK-NTARGET-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK-NTARGET-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // CHECK-NTARGET-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // CHECK-NTARGET-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // CHECK-NTARGET-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK-NTARGET-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[TMP2]], 9
@@ -2769,23 +2957,23 @@ int bar(int a){
 // CHECK-NTARGET:       omp.inner.for.cond:
 // CHECK-NTARGET-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// CHECK-NTARGET-NEXT:    [[CMP1:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
-// CHECK-NTARGET-NEXT:    br i1 [[CMP1]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// CHECK-NTARGET-NEXT:    [[CMP6:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
+// CHECK-NTARGET-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // CHECK-NTARGET:       omp.inner.for.body:
 // CHECK-NTARGET-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-NEXT:    [[MUL:%.*]] = mul nsw i32 [[TMP7]], 1
 // CHECK-NTARGET-NEXT:    [[ADD:%.*]] = add nsw i32 0, [[MUL]]
 // CHECK-NTARGET-NEXT:    store i32 [[ADD]], ptr [[I]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4
-// CHECK-NTARGET-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP8]], 116
-// CHECK-NTARGET-NEXT:    store i32 [[ADD2]], ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
+// CHECK-NTARGET-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP8]], 116
+// CHECK-NTARGET-NEXT:    store i32 [[ADD7]], ptr [[A_ADDR]], align 4
 // CHECK-NTARGET-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // CHECK-NTARGET:       omp.body.continue:
 // CHECK-NTARGET-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // CHECK-NTARGET:       omp.inner.for.inc:
 // CHECK-NTARGET-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// CHECK-NTARGET-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP9]], 1
-// CHECK-NTARGET-NEXT:    store i32 [[ADD3]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP9]], 1
+// CHECK-NTARGET-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // CHECK-NTARGET:       omp.inner.for.end:
 // CHECK-NTARGET-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
@@ -2800,9 +2988,9 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    [[A_ADDR:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    store i32 [[TMP0]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB2]], i32 1, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2STILi1000EE3fooEv_l211.omp_outlined, i64 [[TMP1]])
 // CHECK-NTARGET-NEXT:    ret void
 //
@@ -2823,12 +3011,24 @@ int bar(int a){
 // CHECK-NTARGET-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK-NTARGET-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK-NTARGET-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // CHECK-NTARGET-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // CHECK-NTARGET-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // CHECK-NTARGET-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// CHECK-NTARGET-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK-NTARGET-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK-NTARGET-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[TMP2]], 9
@@ -2847,23 +3047,23 @@ int bar(int a){
 // CHECK-NTARGET:       omp.inner.for.cond:
 // CHECK-NTARGET-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// CHECK-NTARGET-NEXT:    [[CMP1:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
-// CHECK-NTARGET-NEXT:    br i1 [[CMP1]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// CHECK-NTARGET-NEXT:    [[CMP6:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
+// CHECK-NTARGET-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // CHECK-NTARGET:       omp.inner.for.body:
 // CHECK-NTARGET-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-NEXT:    [[MUL:%.*]] = mul nsw i32 [[TMP7]], 1
 // CHECK-NTARGET-NEXT:    [[ADD:%.*]] = add nsw i32 0, [[MUL]]
 // CHECK-NTARGET-NEXT:    store i32 [[ADD]], ptr [[I]], align 4
-// CHECK-NTARGET-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4
-// CHECK-NTARGET-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP8]], 1016
-// CHECK-NTARGET-NEXT:    store i32 [[ADD2]], ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
+// CHECK-NTARGET-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP8]], 1016
+// CHECK-NTARGET-NEXT:    store i32 [[ADD7]], ptr [[A_ADDR]], align 4
 // CHECK-NTARGET-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // CHECK-NTARGET:       omp.body.continue:
 // CHECK-NTARGET-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // CHECK-NTARGET:       omp.inner.for.inc:
 // CHECK-NTARGET-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// CHECK-NTARGET-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP9]], 1
-// CHECK-NTARGET-NEXT:    store i32 [[ADD3]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP9]], 1
+// CHECK-NTARGET-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // CHECK-NTARGET:       omp.inner.for.end:
 // CHECK-NTARGET-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
@@ -3118,6 +3318,8 @@ int bar(int a){
 // SIMD-ONLY2-NEXT:    [[R:%.*]] = alloca i32, align 4
 // SIMD-ONLY2-NEXT:    [[I:%.*]] = alloca i32, align 4
 // SIMD-ONLY2-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
+// SIMD-ONLY2-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// SIMD-ONLY2-NEXT:    store i32 [[FREEZE_POISON]], ptr [[R]], align 4
 // SIMD-ONLY2-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
 // SIMD-ONLY2-NEXT:    store i32 [[TMP0]], ptr [[R]], align 4
 // SIMD-ONLY2-NEXT:    call void @_ZN2SA3fooEv(ptr noundef nonnull align 4 dereferenceable(16) @_ZL2a1)
@@ -3129,6 +3331,8 @@ int bar(int a){
 // SIMD-ONLY2-NEXT:    call void @_ZN2SE3fooEv(ptr noundef nonnull align 4 dereferenceable(256) @e1)
 // SIMD-ONLY2-NEXT:    call void @_ZN2STILi100EE3fooEv(ptr noundef nonnull align 4 dereferenceable(912) @t1)
 // SIMD-ONLY2-NEXT:    call void @_ZN2STILi1000EE3fooEv(ptr noundef nonnull align 4 dereferenceable(4512) @t2)
+// SIMD-ONLY2-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// SIMD-ONLY2-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[I]], align 4
 // SIMD-ONLY2-NEXT:    store i32 0, ptr [[I]], align 4
 // SIMD-ONLY2-NEXT:    br label [[FOR_COND:%.*]]
 // SIMD-ONLY2:       for.cond:
@@ -3142,13 +3346,13 @@ int bar(int a){
 // SIMD-ONLY2-NEXT:    br label [[FOR_INC:%.*]]
 // SIMD-ONLY2:       for.inc:
 // SIMD-ONLY2-NEXT:    [[TMP3:%.*]] = load i32, ptr [[I]], align 4
-// SIMD-ONLY2-NEXT:    [[INC1:%.*]] = add nsw i32 [[TMP3]], 1
-// SIMD-ONLY2-NEXT:    store i32 [[INC1]], ptr [[I]], align 4
+// SIMD-ONLY2-NEXT:    [[INC2:%.*]] = add nsw i32 [[TMP3]], 1
+// SIMD-ONLY2-NEXT:    store i32 [[INC2]], ptr [[I]], align 4
 // SIMD-ONLY2-NEXT:    br label [[FOR_COND]], !llvm.loop [[LOOP2:![0-9]+]]
 // SIMD-ONLY2:       for.end:
 // SIMD-ONLY2-NEXT:    [[TMP4:%.*]] = load i32, ptr [[R]], align 4
-// SIMD-ONLY2-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8
-// SIMD-ONLY2-NEXT:    [[TMP6:%.*]] = load i32, ptr [[TMP5]], align 4
+// SIMD-ONLY2-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META4:![0-9]+]]
+// SIMD-ONLY2-NEXT:    [[TMP6:%.*]] = load i32, ptr [[TMP5]], align 4, !freeze_bits [[META4]]
 // SIMD-ONLY2-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP4]], [[TMP6]]
 // SIMD-ONLY2-NEXT:    ret i32 [[ADD]]
 //
@@ -3160,14 +3364,16 @@ int bar(int a){
 // SIMD-ONLY2-NEXT:    [[A:%.*]] = alloca i32, align 4
 // SIMD-ONLY2-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // SIMD-ONLY2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// SIMD-ONLY2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// SIMD-ONLY2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// SIMD-ONLY2-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// SIMD-ONLY2-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// SIMD-ONLY2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META4]]
+// SIMD-ONLY2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META4]]
 // SIMD-ONLY2-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // SIMD-ONLY2-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // SIMD-ONLY2-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP2]], 1
 // SIMD-ONLY2-NEXT:    store i32 [[ADD]], ptr [[A]], align 4
 // SIMD-ONLY2-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A]], align 4
-// SIMD-ONLY2-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8
+// SIMD-ONLY2-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META4]]
 // SIMD-ONLY2-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // SIMD-ONLY2-NEXT:    ret void
 //
@@ -3180,9 +3386,13 @@ int bar(int a){
 // SIMD-ONLY2-NEXT:    [[I:%.*]] = alloca i32, align 4
 // SIMD-ONLY2-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // SIMD-ONLY2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// SIMD-ONLY2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// SIMD-ONLY2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// SIMD-ONLY2-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// SIMD-ONLY2-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// SIMD-ONLY2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META4]]
+// SIMD-ONLY2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META4]]
 // SIMD-ONLY2-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
+// SIMD-ONLY2-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// SIMD-ONLY2-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[I]], align 4
 // SIMD-ONLY2-NEXT:    store i32 0, ptr [[I]], align 4
 // SIMD-ONLY2-NEXT:    br label [[FOR_COND:%.*]]
 // SIMD-ONLY2:       for.cond:
@@ -3198,10 +3408,10 @@ int bar(int a){
 // SIMD-ONLY2-NEXT:    [[TMP4:%.*]] = load i32, ptr [[I]], align 4
 // SIMD-ONLY2-NEXT:    [[INC:%.*]] = add nsw i32 [[TMP4]], 1
 // SIMD-ONLY2-NEXT:    store i32 [[INC]], ptr [[I]], align 4
-// SIMD-ONLY2-NEXT:    br label [[FOR_COND]], !llvm.loop [[LOOP4:![0-9]+]]
+// SIMD-ONLY2-NEXT:    br label [[FOR_COND]], !llvm.loop [[LOOP5:![0-9]+]]
 // SIMD-ONLY2:       for.end:
 // SIMD-ONLY2-NEXT:    [[TMP5:%.*]] = load i32, ptr [[A]], align 4
-// SIMD-ONLY2-NEXT:    [[TMP6:%.*]] = load ptr, ptr @R, align 8
+// SIMD-ONLY2-NEXT:    [[TMP6:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META4]]
 // SIMD-ONLY2-NEXT:    store i32 [[TMP5]], ptr [[TMP6]], align 4
 // SIMD-ONLY2-NEXT:    ret void
 //
@@ -3213,14 +3423,16 @@ int bar(int a){
 // SIMD-ONLY2-NEXT:    [[A:%.*]] = alloca i32, align 4
 // SIMD-ONLY2-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // SIMD-ONLY2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// SIMD-ONLY2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// SIMD-ONLY2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// SIMD-ONLY2-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// SIMD-ONLY2-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// SIMD-ONLY2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META4]]
+// SIMD-ONLY2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META4]]
 // SIMD-ONLY2-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // SIMD-ONLY2-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // SIMD-ONLY2-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP2]], 7
 // SIMD-ONLY2-NEXT:    store i32 [[ADD]], ptr [[A]], align 4
 // SIMD-ONLY2-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A]], align 4
-// SIMD-ONLY2-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8
+// SIMD-ONLY2-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META4]]
 // SIMD-ONLY2-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // SIMD-ONLY2-NEXT:    ret void
 //
@@ -3232,14 +3444,16 @@ int bar(int a){
 // SIMD-ONLY2-NEXT:    [[A:%.*]] = alloca i32, align 4
 // SIMD-ONLY2-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // SIMD-ONLY2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// SIMD-ONLY2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// SIMD-ONLY2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// SIMD-ONLY2-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// SIMD-ONLY2-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// SIMD-ONLY2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META4]]
+// SIMD-ONLY2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META4]]
 // SIMD-ONLY2-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // SIMD-ONLY2-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // SIMD-ONLY2-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP2]], 10
 // SIMD-ONLY2-NEXT:    store i32 [[ADD]], ptr [[A]], align 4
 // SIMD-ONLY2-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A]], align 4
-// SIMD-ONLY2-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8
+// SIMD-ONLY2-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META4]]
 // SIMD-ONLY2-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // SIMD-ONLY2-NEXT:    ret void
 //
@@ -3252,9 +3466,13 @@ int bar(int a){
 // SIMD-ONLY2-NEXT:    [[I:%.*]] = alloca i32, align 4
 // SIMD-ONLY2-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // SIMD-ONLY2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// SIMD-ONLY2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// SIMD-ONLY2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// SIMD-ONLY2-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// SIMD-ONLY2-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// SIMD-ONLY2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META4]]
+// SIMD-ONLY2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META4]]
 // SIMD-ONLY2-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
+// SIMD-ONLY2-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// SIMD-ONLY2-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[I]], align 4
 // SIMD-ONLY2-NEXT:    store i32 0, ptr [[I]], align 4
 // SIMD-ONLY2-NEXT:    br label [[FOR_COND:%.*]]
 // SIMD-ONLY2:       for.cond:
@@ -3270,10 +3488,10 @@ int bar(int a){
 // SIMD-ONLY2-NEXT:    [[TMP4:%.*]] = load i32, ptr [[I]], align 4
 // SIMD-ONLY2-NEXT:    [[INC:%.*]] = add nsw i32 [[TMP4]], 1
 // SIMD-ONLY2-NEXT:    store i32 [[INC]], ptr [[I]], align 4
-// SIMD-ONLY2-NEXT:    br label [[FOR_COND]], !llvm.loop [[LOOP5:![0-9]+]]
+// SIMD-ONLY2-NEXT:    br label [[FOR_COND]], !llvm.loop [[LOOP6:![0-9]+]]
 // SIMD-ONLY2:       for.end:
 // SIMD-ONLY2-NEXT:    [[TMP5:%.*]] = load i32, ptr [[A]], align 4
-// SIMD-ONLY2-NEXT:    [[TMP6:%.*]] = load ptr, ptr @R, align 8
+// SIMD-ONLY2-NEXT:    [[TMP6:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META4]]
 // SIMD-ONLY2-NEXT:    store i32 [[TMP5]], ptr [[TMP6]], align 4
 // SIMD-ONLY2-NEXT:    ret void
 //
@@ -3286,9 +3504,13 @@ int bar(int a){
 // SIMD-ONLY2-NEXT:    [[I:%.*]] = alloca i32, align 4
 // SIMD-ONLY2-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // SIMD-ONLY2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// SIMD-ONLY2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// SIMD-ONLY2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// SIMD-ONLY2-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// SIMD-ONLY2-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// SIMD-ONLY2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META4]]
+// SIMD-ONLY2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META4]]
 // SIMD-ONLY2-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
+// SIMD-ONLY2-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// SIMD-ONLY2-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[I]], align 4
 // SIMD-ONLY2-NEXT:    store i32 0, ptr [[I]], align 4
 // SIMD-ONLY2-NEXT:    br label [[FOR_COND:%.*]]
 // SIMD-ONLY2:       for.cond:
@@ -3304,10 +3526,10 @@ int bar(int a){
 // SIMD-ONLY2-NEXT:    [[TMP4:%.*]] = load i32, ptr [[I]], align 4
 // SIMD-ONLY2-NEXT:    [[INC:%.*]] = add nsw i32 [[TMP4]], 1
 // SIMD-ONLY2-NEXT:    store i32 [[INC]], ptr [[I]], align 4
-// SIMD-ONLY2-NEXT:    br label [[FOR_COND]], !llvm.loop [[LOOP6:![0-9]+]]
+// SIMD-ONLY2-NEXT:    br label [[FOR_COND]], !llvm.loop [[LOOP7:![0-9]+]]
 // SIMD-ONLY2:       for.end:
 // SIMD-ONLY2-NEXT:    [[TMP5:%.*]] = load i32, ptr [[A]], align 4
-// SIMD-ONLY2-NEXT:    [[TMP6:%.*]] = load ptr, ptr @R, align 8
+// SIMD-ONLY2-NEXT:    [[TMP6:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META4]]
 // SIMD-ONLY2-NEXT:    store i32 [[TMP5]], ptr [[TMP6]], align 4
 // SIMD-ONLY2-NEXT:    ret void
 //
@@ -3320,9 +3542,13 @@ int bar(int a){
 // SIMD-ONLY2-NEXT:    [[I:%.*]] = alloca i32, align 4
 // SIMD-ONLY2-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // SIMD-ONLY2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// SIMD-ONLY2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// SIMD-ONLY2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// SIMD-ONLY2-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// SIMD-ONLY2-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// SIMD-ONLY2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META4]]
+// SIMD-ONLY2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META4]]
 // SIMD-ONLY2-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
+// SIMD-ONLY2-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// SIMD-ONLY2-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[I]], align 4
 // SIMD-ONLY2-NEXT:    store i32 0, ptr [[I]], align 4
 // SIMD-ONLY2-NEXT:    br label [[FOR_COND:%.*]]
 // SIMD-ONLY2:       for.cond:
@@ -3338,10 +3564,10 @@ int bar(int a){
 // SIMD-ONLY2-NEXT:    [[TMP4:%.*]] = load i32, ptr [[I]], align 4
 // SIMD-ONLY2-NEXT:    [[INC:%.*]] = add nsw i32 [[TMP4]], 1
 // SIMD-ONLY2-NEXT:    store i32 [[INC]], ptr [[I]], align 4
-// SIMD-ONLY2-NEXT:    br label [[FOR_COND]], !llvm.loop [[LOOP7:![0-9]+]]
+// SIMD-ONLY2-NEXT:    br label [[FOR_COND]], !llvm.loop [[LOOP8:![0-9]+]]
 // SIMD-ONLY2:       for.end:
 // SIMD-ONLY2-NEXT:    [[TMP5:%.*]] = load i32, ptr [[A]], align 4
-// SIMD-ONLY2-NEXT:    [[TMP6:%.*]] = load ptr, ptr @R, align 8
+// SIMD-ONLY2-NEXT:    [[TMP6:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META4]]
 // SIMD-ONLY2-NEXT:    store i32 [[TMP5]], ptr [[TMP6]], align 4
 // SIMD-ONLY2-NEXT:    ret void
 //
@@ -3353,14 +3579,16 @@ int bar(int a){
 // SIMD-ONLY2-NEXT:    [[A:%.*]] = alloca i32, align 4
 // SIMD-ONLY2-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // SIMD-ONLY2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// SIMD-ONLY2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// SIMD-ONLY2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// SIMD-ONLY2-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// SIMD-ONLY2-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// SIMD-ONLY2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META4]]
+// SIMD-ONLY2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META4]]
 // SIMD-ONLY2-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // SIMD-ONLY2-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // SIMD-ONLY2-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP2]], 2
 // SIMD-ONLY2-NEXT:    store i32 [[ADD]], ptr [[A]], align 4
 // SIMD-ONLY2-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A]], align 4
-// SIMD-ONLY2-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8
+// SIMD-ONLY2-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META4]]
 // SIMD-ONLY2-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // SIMD-ONLY2-NEXT:    ret void
 //
@@ -3372,14 +3600,16 @@ int bar(int a){
 // SIMD-ONLY2-NEXT:    [[A:%.*]] = alloca i32, align 4
 // SIMD-ONLY2-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // SIMD-ONLY2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// SIMD-ONLY2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// SIMD-ONLY2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// SIMD-ONLY2-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// SIMD-ONLY2-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// SIMD-ONLY2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META4]]
+// SIMD-ONLY2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META4]]
 // SIMD-ONLY2-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // SIMD-ONLY2-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // SIMD-ONLY2-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP2]], 3
 // SIMD-ONLY2-NEXT:    store i32 [[ADD]], ptr [[A]], align 4
 // SIMD-ONLY2-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A]], align 4
-// SIMD-ONLY2-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8
+// SIMD-ONLY2-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META4]]
 // SIMD-ONLY2-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // SIMD-ONLY2-NEXT:    ret void
 //
@@ -3391,14 +3621,16 @@ int bar(int a){
 // SIMD-ONLY2-NEXT:    [[A:%.*]] = alloca i32, align 4
 // SIMD-ONLY2-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // SIMD-ONLY2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// SIMD-ONLY2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// SIMD-ONLY2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// SIMD-ONLY2-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// SIMD-ONLY2-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// SIMD-ONLY2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META4]]
+// SIMD-ONLY2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META4]]
 // SIMD-ONLY2-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // SIMD-ONLY2-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // SIMD-ONLY2-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP2]], 5
 // SIMD-ONLY2-NEXT:    store i32 [[ADD]], ptr [[A]], align 4
 // SIMD-ONLY2-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A]], align 4
-// SIMD-ONLY2-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8
+// SIMD-ONLY2-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META4]]
 // SIMD-ONLY2-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // SIMD-ONLY2-NEXT:    ret void
 //
@@ -3410,14 +3642,16 @@ int bar(int a){
 // SIMD-ONLY2-NEXT:    [[A:%.*]] = alloca i32, align 4
 // SIMD-ONLY2-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // SIMD-ONLY2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// SIMD-ONLY2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// SIMD-ONLY2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// SIMD-ONLY2-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// SIMD-ONLY2-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// SIMD-ONLY2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META4]]
+// SIMD-ONLY2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META4]]
 // SIMD-ONLY2-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // SIMD-ONLY2-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // SIMD-ONLY2-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP2]], 6
 // SIMD-ONLY2-NEXT:    store i32 [[ADD]], ptr [[A]], align 4
 // SIMD-ONLY2-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A]], align 4
-// SIMD-ONLY2-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8
+// SIMD-ONLY2-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META4]]
 // SIMD-ONLY2-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // SIMD-ONLY2-NEXT:    ret void
 //
@@ -3430,9 +3664,13 @@ int bar(int a){
 // SIMD-ONLY2-NEXT:    [[I:%.*]] = alloca i32, align 4
 // SIMD-ONLY2-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // SIMD-ONLY2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// SIMD-ONLY2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// SIMD-ONLY2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// SIMD-ONLY2-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// SIMD-ONLY2-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// SIMD-ONLY2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META4]]
+// SIMD-ONLY2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META4]]
 // SIMD-ONLY2-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
+// SIMD-ONLY2-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// SIMD-ONLY2-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[I]], align 4
 // SIMD-ONLY2-NEXT:    store i32 0, ptr [[I]], align 4
 // SIMD-ONLY2-NEXT:    br label [[FOR_COND:%.*]]
 // SIMD-ONLY2:       for.cond:
@@ -3448,10 +3686,10 @@ int bar(int a){
 // SIMD-ONLY2-NEXT:    [[TMP4:%.*]] = load i32, ptr [[I]], align 4
 // SIMD-ONLY2-NEXT:    [[INC:%.*]] = add nsw i32 [[TMP4]], 1
 // SIMD-ONLY2-NEXT:    store i32 [[INC]], ptr [[I]], align 4
-// SIMD-ONLY2-NEXT:    br label [[FOR_COND]], !llvm.loop [[LOOP8:![0-9]+]]
+// SIMD-ONLY2-NEXT:    br label [[FOR_COND]], !llvm.loop [[LOOP9:![0-9]+]]
 // SIMD-ONLY2:       for.end:
 // SIMD-ONLY2-NEXT:    [[TMP5:%.*]] = load i32, ptr [[A]], align 4
-// SIMD-ONLY2-NEXT:    [[TMP6:%.*]] = load ptr, ptr @R, align 8
+// SIMD-ONLY2-NEXT:    [[TMP6:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META4]]
 // SIMD-ONLY2-NEXT:    store i32 [[TMP5]], ptr [[TMP6]], align 4
 // SIMD-ONLY2-NEXT:    ret void
 //
@@ -3463,14 +3701,16 @@ int bar(int a){
 // SIMD-ONLY2-NEXT:    [[A:%.*]] = alloca i32, align 4
 // SIMD-ONLY2-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // SIMD-ONLY2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// SIMD-ONLY2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// SIMD-ONLY2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// SIMD-ONLY2-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// SIMD-ONLY2-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// SIMD-ONLY2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META4]]
+// SIMD-ONLY2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META4]]
 // SIMD-ONLY2-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // SIMD-ONLY2-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // SIMD-ONLY2-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP2]], 9
 // SIMD-ONLY2-NEXT:    store i32 [[ADD]], ptr [[A]], align 4
 // SIMD-ONLY2-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A]], align 4
-// SIMD-ONLY2-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8
+// SIMD-ONLY2-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META4]]
 // SIMD-ONLY2-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // SIMD-ONLY2-NEXT:    ret void
 //
@@ -3482,14 +3722,16 @@ int bar(int a){
 // SIMD-ONLY2-NEXT:    [[A:%.*]] = alloca i32, align 4
 // SIMD-ONLY2-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // SIMD-ONLY2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// SIMD-ONLY2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// SIMD-ONLY2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// SIMD-ONLY2-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// SIMD-ONLY2-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// SIMD-ONLY2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META4]]
+// SIMD-ONLY2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META4]]
 // SIMD-ONLY2-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // SIMD-ONLY2-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // SIMD-ONLY2-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP2]], 11
 // SIMD-ONLY2-NEXT:    store i32 [[ADD]], ptr [[A]], align 4
 // SIMD-ONLY2-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A]], align 4
-// SIMD-ONLY2-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8
+// SIMD-ONLY2-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META4]]
 // SIMD-ONLY2-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // SIMD-ONLY2-NEXT:    ret void
 //
@@ -3502,9 +3744,13 @@ int bar(int a){
 // SIMD-ONLY2-NEXT:    [[I:%.*]] = alloca i32, align 4
 // SIMD-ONLY2-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // SIMD-ONLY2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// SIMD-ONLY2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// SIMD-ONLY2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// SIMD-ONLY2-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// SIMD-ONLY2-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// SIMD-ONLY2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META4]]
+// SIMD-ONLY2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META4]]
 // SIMD-ONLY2-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
+// SIMD-ONLY2-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// SIMD-ONLY2-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[I]], align 4
 // SIMD-ONLY2-NEXT:    store i32 0, ptr [[I]], align 4
 // SIMD-ONLY2-NEXT:    br label [[FOR_COND:%.*]]
 // SIMD-ONLY2:       for.cond:
@@ -3520,10 +3766,10 @@ int bar(int a){
 // SIMD-ONLY2-NEXT:    [[TMP4:%.*]] = load i32, ptr [[I]], align 4
 // SIMD-ONLY2-NEXT:    [[INC:%.*]] = add nsw i32 [[TMP4]], 1
 // SIMD-ONLY2-NEXT:    store i32 [[INC]], ptr [[I]], align 4
-// SIMD-ONLY2-NEXT:    br label [[FOR_COND]], !llvm.loop [[LOOP9:![0-9]+]]
+// SIMD-ONLY2-NEXT:    br label [[FOR_COND]], !llvm.loop [[LOOP10:![0-9]+]]
 // SIMD-ONLY2:       for.end:
 // SIMD-ONLY2-NEXT:    [[TMP5:%.*]] = load i32, ptr [[A]], align 4
-// SIMD-ONLY2-NEXT:    [[TMP6:%.*]] = load ptr, ptr @R, align 8
+// SIMD-ONLY2-NEXT:    [[TMP6:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META4]]
 // SIMD-ONLY2-NEXT:    store i32 [[TMP5]], ptr [[TMP6]], align 4
 // SIMD-ONLY2-NEXT:    ret void
 //
@@ -3536,9 +3782,13 @@ int bar(int a){
 // SIMD-ONLY2-NEXT:    [[I:%.*]] = alloca i32, align 4
 // SIMD-ONLY2-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // SIMD-ONLY2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// SIMD-ONLY2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// SIMD-ONLY2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// SIMD-ONLY2-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// SIMD-ONLY2-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// SIMD-ONLY2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META4]]
+// SIMD-ONLY2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META4]]
 // SIMD-ONLY2-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
+// SIMD-ONLY2-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// SIMD-ONLY2-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[I]], align 4
 // SIMD-ONLY2-NEXT:    store i32 0, ptr [[I]], align 4
 // SIMD-ONLY2-NEXT:    br label [[FOR_COND:%.*]]
 // SIMD-ONLY2:       for.cond:
@@ -3554,10 +3804,10 @@ int bar(int a){
 // SIMD-ONLY2-NEXT:    [[TMP4:%.*]] = load i32, ptr [[I]], align 4
 // SIMD-ONLY2-NEXT:    [[INC:%.*]] = add nsw i32 [[TMP4]], 1
 // SIMD-ONLY2-NEXT:    store i32 [[INC]], ptr [[I]], align 4
-// SIMD-ONLY2-NEXT:    br label [[FOR_COND]], !llvm.loop [[LOOP10:![0-9]+]]
+// SIMD-ONLY2-NEXT:    br label [[FOR_COND]], !llvm.loop [[LOOP11:![0-9]+]]
 // SIMD-ONLY2:       for.end:
 // SIMD-ONLY2-NEXT:    [[TMP5:%.*]] = load i32, ptr [[A]], align 4
-// SIMD-ONLY2-NEXT:    [[TMP6:%.*]] = load ptr, ptr @R, align 8
+// SIMD-ONLY2-NEXT:    [[TMP6:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META4]]
 // SIMD-ONLY2-NEXT:    store i32 [[TMP5]], ptr [[TMP6]], align 4
 // SIMD-ONLY2-NEXT:    ret void
 //
@@ -3570,9 +3820,13 @@ int bar(int a){
 // SIMD-ONLY2-NEXT:    [[I:%.*]] = alloca i32, align 4
 // SIMD-ONLY2-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // SIMD-ONLY2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// SIMD-ONLY2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// SIMD-ONLY2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// SIMD-ONLY2-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// SIMD-ONLY2-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// SIMD-ONLY2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META4]]
+// SIMD-ONLY2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META4]]
 // SIMD-ONLY2-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
+// SIMD-ONLY2-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// SIMD-ONLY2-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[I]], align 4
 // SIMD-ONLY2-NEXT:    store i32 0, ptr [[I]], align 4
 // SIMD-ONLY2-NEXT:    br label [[FOR_COND:%.*]]
 // SIMD-ONLY2:       for.cond:
@@ -3588,10 +3842,10 @@ int bar(int a){
 // SIMD-ONLY2-NEXT:    [[TMP4:%.*]] = load i32, ptr [[I]], align 4
 // SIMD-ONLY2-NEXT:    [[INC:%.*]] = add nsw i32 [[TMP4]], 1
 // SIMD-ONLY2-NEXT:    store i32 [[INC]], ptr [[I]], align 4
-// SIMD-ONLY2-NEXT:    br label [[FOR_COND]], !llvm.loop [[LOOP11:![0-9]+]]
+// SIMD-ONLY2-NEXT:    br label [[FOR_COND]], !llvm.loop [[LOOP12:![0-9]+]]
 // SIMD-ONLY2:       for.end:
 // SIMD-ONLY2-NEXT:    [[TMP5:%.*]] = load i32, ptr [[A]], align 4
-// SIMD-ONLY2-NEXT:    [[TMP6:%.*]] = load ptr, ptr @R, align 8
+// SIMD-ONLY2-NEXT:    [[TMP6:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META4]]
 // SIMD-ONLY2-NEXT:    store i32 [[TMP5]], ptr [[TMP6]], align 4
 // SIMD-ONLY2-NEXT:    ret void
 //
@@ -3604,9 +3858,13 @@ int bar(int a){
 // SIMD-ONLY2-NEXT:    [[I:%.*]] = alloca i32, align 4
 // SIMD-ONLY2-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // SIMD-ONLY2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// SIMD-ONLY2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// SIMD-ONLY2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// SIMD-ONLY2-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// SIMD-ONLY2-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// SIMD-ONLY2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META4]]
+// SIMD-ONLY2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META4]]
 // SIMD-ONLY2-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
+// SIMD-ONLY2-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// SIMD-ONLY2-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[I]], align 4
 // SIMD-ONLY2-NEXT:    store i32 0, ptr [[I]], align 4
 // SIMD-ONLY2-NEXT:    br label [[FOR_COND:%.*]]
 // SIMD-ONLY2:       for.cond:
@@ -3622,10 +3880,10 @@ int bar(int a){
 // SIMD-ONLY2-NEXT:    [[TMP4:%.*]] = load i32, ptr [[I]], align 4
 // SIMD-ONLY2-NEXT:    [[INC:%.*]] = add nsw i32 [[TMP4]], 1
 // SIMD-ONLY2-NEXT:    store i32 [[INC]], ptr [[I]], align 4
-// SIMD-ONLY2-NEXT:    br label [[FOR_COND]], !llvm.loop [[LOOP12:![0-9]+]]
+// SIMD-ONLY2-NEXT:    br label [[FOR_COND]], !llvm.loop [[LOOP13:![0-9]+]]
 // SIMD-ONLY2:       for.end:
 // SIMD-ONLY2-NEXT:    [[TMP5:%.*]] = load i32, ptr [[A]], align 4
-// SIMD-ONLY2-NEXT:    [[TMP6:%.*]] = load ptr, ptr @R, align 8
+// SIMD-ONLY2-NEXT:    [[TMP6:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META4]]
 // SIMD-ONLY2-NEXT:    store i32 [[TMP5]], ptr [[TMP6]], align 4
 // SIMD-ONLY2-NEXT:    ret void
 //
@@ -3638,9 +3896,13 @@ int bar(int a){
 // SIMD-ONLY2-NEXT:    [[I:%.*]] = alloca i32, align 4
 // SIMD-ONLY2-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // SIMD-ONLY2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// SIMD-ONLY2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// SIMD-ONLY2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// SIMD-ONLY2-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// SIMD-ONLY2-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// SIMD-ONLY2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META4]]
+// SIMD-ONLY2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META4]]
 // SIMD-ONLY2-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
+// SIMD-ONLY2-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// SIMD-ONLY2-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[I]], align 4
 // SIMD-ONLY2-NEXT:    store i32 0, ptr [[I]], align 4
 // SIMD-ONLY2-NEXT:    br label [[FOR_COND:%.*]]
 // SIMD-ONLY2:       for.cond:
@@ -3656,10 +3918,10 @@ int bar(int a){
 // SIMD-ONLY2-NEXT:    [[TMP4:%.*]] = load i32, ptr [[I]], align 4
 // SIMD-ONLY2-NEXT:    [[INC:%.*]] = add nsw i32 [[TMP4]], 1
 // SIMD-ONLY2-NEXT:    store i32 [[INC]], ptr [[I]], align 4
-// SIMD-ONLY2-NEXT:    br label [[FOR_COND]], !llvm.loop [[LOOP13:![0-9]+]]
+// SIMD-ONLY2-NEXT:    br label [[FOR_COND]], !llvm.loop [[LOOP14:![0-9]+]]
 // SIMD-ONLY2:       for.end:
 // SIMD-ONLY2-NEXT:    [[TMP5:%.*]] = load i32, ptr [[A]], align 4
-// SIMD-ONLY2-NEXT:    [[TMP6:%.*]] = load ptr, ptr @R, align 8
+// SIMD-ONLY2-NEXT:    [[TMP6:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META4]]
 // SIMD-ONLY2-NEXT:    store i32 [[TMP5]], ptr [[TMP6]], align 4
 // SIMD-ONLY2-NEXT:    ret void
 //
@@ -3672,9 +3934,13 @@ int bar(int a){
 // SIMD-ONLY2-NEXT:    [[I:%.*]] = alloca i32, align 4
 // SIMD-ONLY2-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // SIMD-ONLY2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// SIMD-ONLY2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// SIMD-ONLY2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// SIMD-ONLY2-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// SIMD-ONLY2-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// SIMD-ONLY2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META4]]
+// SIMD-ONLY2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META4]]
 // SIMD-ONLY2-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
+// SIMD-ONLY2-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// SIMD-ONLY2-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[I]], align 4
 // SIMD-ONLY2-NEXT:    store i32 0, ptr [[I]], align 4
 // SIMD-ONLY2-NEXT:    br label [[FOR_COND:%.*]]
 // SIMD-ONLY2:       for.cond:
@@ -3690,10 +3956,10 @@ int bar(int a){
 // SIMD-ONLY2-NEXT:    [[TMP4:%.*]] = load i32, ptr [[I]], align 4
 // SIMD-ONLY2-NEXT:    [[INC:%.*]] = add nsw i32 [[TMP4]], 1
 // SIMD-ONLY2-NEXT:    store i32 [[INC]], ptr [[I]], align 4
-// SIMD-ONLY2-NEXT:    br label [[FOR_COND]], !llvm.loop [[LOOP14:![0-9]+]]
+// SIMD-ONLY2-NEXT:    br label [[FOR_COND]], !llvm.loop [[LOOP15:![0-9]+]]
 // SIMD-ONLY2:       for.end:
 // SIMD-ONLY2-NEXT:    [[TMP5:%.*]] = load i32, ptr [[A]], align 4
-// SIMD-ONLY2-NEXT:    [[TMP6:%.*]] = load ptr, ptr @R, align 8
+// SIMD-ONLY2-NEXT:    [[TMP6:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META4]]
 // SIMD-ONLY2-NEXT:    store i32 [[TMP5]], ptr [[TMP6]], align 4
 // SIMD-ONLY2-NEXT:    ret void
 //
@@ -3706,9 +3972,13 @@ int bar(int a){
 // SIMD-ONLY2-NEXT:    [[I:%.*]] = alloca i32, align 4
 // SIMD-ONLY2-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // SIMD-ONLY2-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// SIMD-ONLY2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// SIMD-ONLY2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// SIMD-ONLY2-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// SIMD-ONLY2-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// SIMD-ONLY2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META4]]
+// SIMD-ONLY2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META4]]
 // SIMD-ONLY2-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
+// SIMD-ONLY2-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// SIMD-ONLY2-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[I]], align 4
 // SIMD-ONLY2-NEXT:    store i32 0, ptr [[I]], align 4
 // SIMD-ONLY2-NEXT:    br label [[FOR_COND:%.*]]
 // SIMD-ONLY2:       for.cond:
@@ -3724,10 +3994,10 @@ int bar(int a){
 // SIMD-ONLY2-NEXT:    [[TMP4:%.*]] = load i32, ptr [[I]], align 4
 // SIMD-ONLY2-NEXT:    [[INC:%.*]] = add nsw i32 [[TMP4]], 1
 // SIMD-ONLY2-NEXT:    store i32 [[INC]], ptr [[I]], align 4
-// SIMD-ONLY2-NEXT:    br label [[FOR_COND]], !llvm.loop [[LOOP15:![0-9]+]]
+// SIMD-ONLY2-NEXT:    br label [[FOR_COND]], !llvm.loop [[LOOP16:![0-9]+]]
 // SIMD-ONLY2:       for.end:
 // SIMD-ONLY2-NEXT:    [[TMP5:%.*]] = load i32, ptr [[A]], align 4
-// SIMD-ONLY2-NEXT:    [[TMP6:%.*]] = load ptr, ptr @R, align 8
+// SIMD-ONLY2-NEXT:    [[TMP6:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META4]]
 // SIMD-ONLY2-NEXT:    store i32 [[TMP5]], ptr [[TMP6]], align 4
 // SIMD-ONLY2-NEXT:    ret void
 //
@@ -4017,14 +4287,16 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    [[A:%.*]] = alloca i32, align 4
 // OMP-DEfAULT-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 4
 // OMP-DEfAULT-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 4, !freeze_bits [[META28:![0-9]+]]
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP2]], 2
 // OMP-DEfAULT-NEXT:    store i32 [[ADD]], ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 4
+// OMP-DEfAULT-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // OMP-DEfAULT-NEXT:    ret void
 //
@@ -4036,14 +4308,16 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    [[A:%.*]] = alloca i32, align 4
 // OMP-DEfAULT-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 4
 // OMP-DEfAULT-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 4, !freeze_bits [[META28]]
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP2]], 3
 // OMP-DEfAULT-NEXT:    store i32 [[ADD]], ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 4
+// OMP-DEfAULT-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // OMP-DEfAULT-NEXT:    ret void
 //
@@ -4091,14 +4365,16 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    [[A:%.*]] = alloca i32, align 4
 // OMP-DEfAULT-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 4
 // OMP-DEfAULT-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 4, !freeze_bits [[META28]]
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP2]], 5
 // OMP-DEfAULT-NEXT:    store i32 [[ADD]], ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 4
+// OMP-DEfAULT-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // OMP-DEfAULT-NEXT:    ret void
 //
@@ -4110,14 +4386,16 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    [[A:%.*]] = alloca i32, align 4
 // OMP-DEfAULT-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 4
 // OMP-DEfAULT-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 4, !freeze_bits [[META28]]
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP2]], 6
 // OMP-DEfAULT-NEXT:    store i32 [[ADD]], ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 4
+// OMP-DEfAULT-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // OMP-DEfAULT-NEXT:    ret void
 //
@@ -4170,12 +4448,14 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    [[KERNEL_ARGS:%.*]] = alloca [[STRUCT___TGT_KERNEL_ARGUMENTS:%.*]], align 8
 // OMP-DEfAULT-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 4
 // OMP-DEfAULT-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 4, !freeze_bits [[META28]]
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    store i32 [[TMP2]], ptr [[A_CASTED]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A_CASTED]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A_CASTED]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOFFLOAD_BASEPTRS]], i32 0, i32 0
 // OMP-DEfAULT-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOFFLOAD_PTRS]], i32 0, i32 0
@@ -4218,7 +4498,7 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    br label [[OMP_OFFLOAD_CONT]]
 // OMP-DEfAULT:       omp_offload.cont:
 // OMP-DEfAULT-NEXT:    [[TMP24:%.*]] = load i32, ptr [[A]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP25:%.*]] = load ptr, ptr @R, align 4
+// OMP-DEfAULT-NEXT:    [[TMP25:%.*]] = load ptr, ptr @R, align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP24]], ptr [[TMP25]], align 4
 // OMP-DEfAULT-NEXT:    ret void
 //
@@ -4229,9 +4509,9 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    [[A_ADDR:%.*]] = alloca i32, align 4
 // OMP-DEfAULT-NEXT:    [[A_CASTED:%.*]] = alloca i32, align 4
 // OMP-DEfAULT-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP0]], ptr [[A_CASTED]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[A_CASTED]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[A_CASTED]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB2]], i32 1, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2SCC1Ev_l148.omp_outlined, i32 [[TMP1]])
 // OMP-DEfAULT-NEXT:    ret void
 //
@@ -4252,12 +4532,24 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 4
 // OMP-DEfAULT-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 4
 // OMP-DEfAULT-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // OMP-DEfAULT-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // OMP-DEfAULT-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // OMP-DEfAULT-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // OMP-DEfAULT-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1:[0-9]+]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // OMP-DEfAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // OMP-DEfAULT-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[TMP2]], 9
@@ -4276,23 +4568,23 @@ int bar(int a){
 // OMP-DEfAULT:       omp.inner.for.cond:
 // OMP-DEfAULT-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// OMP-DEfAULT-NEXT:    [[CMP1:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
-// OMP-DEfAULT-NEXT:    br i1 [[CMP1]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// OMP-DEfAULT-NEXT:    [[CMP6:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
+// OMP-DEfAULT-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // OMP-DEfAULT:       omp.inner.for.body:
 // OMP-DEfAULT-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // OMP-DEfAULT-NEXT:    [[MUL:%.*]] = mul nsw i32 [[TMP7]], 1
 // OMP-DEfAULT-NEXT:    [[ADD:%.*]] = add nsw i32 0, [[MUL]]
 // OMP-DEfAULT-NEXT:    store i32 [[ADD]], ptr [[I]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP8]], 8
-// OMP-DEfAULT-NEXT:    store i32 [[ADD2]], ptr [[A_ADDR]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META28]]
+// OMP-DEfAULT-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP8]], 8
+// OMP-DEfAULT-NEXT:    store i32 [[ADD7]], ptr [[A_ADDR]], align 4
 // OMP-DEfAULT-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // OMP-DEfAULT:       omp.body.continue:
 // OMP-DEfAULT-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // OMP-DEfAULT:       omp.inner.for.inc:
 // OMP-DEfAULT-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// OMP-DEfAULT-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP9]], 1
-// OMP-DEfAULT-NEXT:    store i32 [[ADD3]], ptr [[DOTOMP_IV]], align 4
+// OMP-DEfAULT-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP9]], 1
+// OMP-DEfAULT-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
 // OMP-DEfAULT-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // OMP-DEfAULT:       omp.inner.for.end:
 // OMP-DEfAULT-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
@@ -4308,14 +4600,16 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    [[A:%.*]] = alloca i32, align 4
 // OMP-DEfAULT-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 4
 // OMP-DEfAULT-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 4, !freeze_bits [[META28]]
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP2]], 9
 // OMP-DEfAULT-NEXT:    store i32 [[ADD]], ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 4
+// OMP-DEfAULT-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // OMP-DEfAULT-NEXT:    ret void
 //
@@ -4355,14 +4649,16 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    [[A:%.*]] = alloca i32, align 4
 // OMP-DEfAULT-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 4
 // OMP-DEfAULT-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 4, !freeze_bits [[META28]]
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP2]], 11
 // OMP-DEfAULT-NEXT:    store i32 [[ADD]], ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 4
+// OMP-DEfAULT-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // OMP-DEfAULT-NEXT:    ret void
 //
@@ -4379,12 +4675,14 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    [[KERNEL_ARGS:%.*]] = alloca [[STRUCT___TGT_KERNEL_ARGUMENTS:%.*]], align 8
 // OMP-DEfAULT-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 4
 // OMP-DEfAULT-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 4, !freeze_bits [[META28]]
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    store i32 [[TMP2]], ptr [[A_CASTED]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A_CASTED]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A_CASTED]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOFFLOAD_BASEPTRS]], i32 0, i32 0
 // OMP-DEfAULT-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOFFLOAD_PTRS]], i32 0, i32 0
@@ -4427,7 +4725,7 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    br label [[OMP_OFFLOAD_CONT]]
 // OMP-DEfAULT:       omp_offload.cont:
 // OMP-DEfAULT-NEXT:    [[TMP24:%.*]] = load i32, ptr [[A]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP25:%.*]] = load ptr, ptr @R, align 4
+// OMP-DEfAULT-NEXT:    [[TMP25:%.*]] = load ptr, ptr @R, align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP24]], ptr [[TMP25]], align 4
 // OMP-DEfAULT-NEXT:    ret void
 //
@@ -4438,9 +4736,9 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    [[A_ADDR:%.*]] = alloca i32, align 4
 // OMP-DEfAULT-NEXT:    [[A_CASTED:%.*]] = alloca i32, align 4
 // OMP-DEfAULT-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP0]], ptr [[A_CASTED]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[A_CASTED]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[A_CASTED]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB2]], i32 1, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2SDD1Ev_l174.omp_outlined, i32 [[TMP1]])
 // OMP-DEfAULT-NEXT:    ret void
 //
@@ -4461,12 +4759,24 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 4
 // OMP-DEfAULT-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 4
 // OMP-DEfAULT-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // OMP-DEfAULT-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // OMP-DEfAULT-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // OMP-DEfAULT-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // OMP-DEfAULT-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // OMP-DEfAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // OMP-DEfAULT-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[TMP2]], 9
@@ -4485,23 +4795,23 @@ int bar(int a){
 // OMP-DEfAULT:       omp.inner.for.cond:
 // OMP-DEfAULT-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// OMP-DEfAULT-NEXT:    [[CMP1:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
-// OMP-DEfAULT-NEXT:    br i1 [[CMP1]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// OMP-DEfAULT-NEXT:    [[CMP6:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
+// OMP-DEfAULT-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // OMP-DEfAULT:       omp.inner.for.body:
 // OMP-DEfAULT-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // OMP-DEfAULT-NEXT:    [[MUL:%.*]] = mul nsw i32 [[TMP7]], 1
 // OMP-DEfAULT-NEXT:    [[ADD:%.*]] = add nsw i32 0, [[MUL]]
 // OMP-DEfAULT-NEXT:    store i32 [[ADD]], ptr [[I]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP8]], 12
-// OMP-DEfAULT-NEXT:    store i32 [[ADD2]], ptr [[A_ADDR]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META28]]
+// OMP-DEfAULT-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP8]], 12
+// OMP-DEfAULT-NEXT:    store i32 [[ADD7]], ptr [[A_ADDR]], align 4
 // OMP-DEfAULT-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // OMP-DEfAULT:       omp.body.continue:
 // OMP-DEfAULT-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // OMP-DEfAULT:       omp.inner.for.inc:
 // OMP-DEfAULT-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// OMP-DEfAULT-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP9]], 1
-// OMP-DEfAULT-NEXT:    store i32 [[ADD3]], ptr [[DOTOMP_IV]], align 4
+// OMP-DEfAULT-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP9]], 1
+// OMP-DEfAULT-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
 // OMP-DEfAULT-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // OMP-DEfAULT:       omp.inner.for.end:
 // OMP-DEfAULT-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
@@ -4550,12 +4860,14 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    [[KERNEL_ARGS:%.*]] = alloca [[STRUCT___TGT_KERNEL_ARGUMENTS:%.*]], align 8
 // OMP-DEfAULT-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 4
 // OMP-DEfAULT-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 4, !freeze_bits [[META28]]
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    store i32 [[TMP2]], ptr [[A_CASTED]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A_CASTED]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A_CASTED]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOFFLOAD_BASEPTRS]], i32 0, i32 0
 // OMP-DEfAULT-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOFFLOAD_PTRS]], i32 0, i32 0
@@ -4598,7 +4910,7 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    br label [[OMP_OFFLOAD_CONT]]
 // OMP-DEfAULT:       omp_offload.cont:
 // OMP-DEfAULT-NEXT:    [[TMP24:%.*]] = load i32, ptr [[A]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP25:%.*]] = load ptr, ptr @R, align 4
+// OMP-DEfAULT-NEXT:    [[TMP25:%.*]] = load ptr, ptr @R, align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP24]], ptr [[TMP25]], align 4
 // OMP-DEfAULT-NEXT:    ret void
 //
@@ -4609,9 +4921,9 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    [[A_ADDR:%.*]] = alloca i32, align 4
 // OMP-DEfAULT-NEXT:    [[A_CASTED:%.*]] = alloca i32, align 4
 // OMP-DEfAULT-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP0]], ptr [[A_CASTED]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[A_CASTED]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[A_CASTED]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB2]], i32 1, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2SEC1Ev_l192.omp_outlined, i32 [[TMP1]])
 // OMP-DEfAULT-NEXT:    ret void
 //
@@ -4632,12 +4944,24 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 4
 // OMP-DEfAULT-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 4
 // OMP-DEfAULT-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // OMP-DEfAULT-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // OMP-DEfAULT-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // OMP-DEfAULT-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // OMP-DEfAULT-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // OMP-DEfAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // OMP-DEfAULT-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[TMP2]], 9
@@ -4656,23 +4980,23 @@ int bar(int a){
 // OMP-DEfAULT:       omp.inner.for.cond:
 // OMP-DEfAULT-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// OMP-DEfAULT-NEXT:    [[CMP1:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
-// OMP-DEfAULT-NEXT:    br i1 [[CMP1]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// OMP-DEfAULT-NEXT:    [[CMP6:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
+// OMP-DEfAULT-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // OMP-DEfAULT:       omp.inner.for.body:
 // OMP-DEfAULT-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // OMP-DEfAULT-NEXT:    [[MUL:%.*]] = mul nsw i32 [[TMP7]], 1
 // OMP-DEfAULT-NEXT:    [[ADD:%.*]] = add nsw i32 0, [[MUL]]
 // OMP-DEfAULT-NEXT:    store i32 [[ADD]], ptr [[I]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP8]], 14
-// OMP-DEfAULT-NEXT:    store i32 [[ADD2]], ptr [[A_ADDR]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META28]]
+// OMP-DEfAULT-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP8]], 14
+// OMP-DEfAULT-NEXT:    store i32 [[ADD7]], ptr [[A_ADDR]], align 4
 // OMP-DEfAULT-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // OMP-DEfAULT:       omp.body.continue:
 // OMP-DEfAULT-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // OMP-DEfAULT:       omp.inner.for.inc:
 // OMP-DEfAULT-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// OMP-DEfAULT-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP9]], 1
-// OMP-DEfAULT-NEXT:    store i32 [[ADD3]], ptr [[DOTOMP_IV]], align 4
+// OMP-DEfAULT-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP9]], 1
+// OMP-DEfAULT-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
 // OMP-DEfAULT-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // OMP-DEfAULT:       omp.inner.for.end:
 // OMP-DEfAULT-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
@@ -4693,12 +5017,14 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    [[KERNEL_ARGS:%.*]] = alloca [[STRUCT___TGT_KERNEL_ARGUMENTS:%.*]], align 8
 // OMP-DEfAULT-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 4
 // OMP-DEfAULT-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 4, !freeze_bits [[META28]]
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    store i32 [[TMP2]], ptr [[A_CASTED]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A_CASTED]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A_CASTED]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOFFLOAD_BASEPTRS]], i32 0, i32 0
 // OMP-DEfAULT-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOFFLOAD_PTRS]], i32 0, i32 0
@@ -4741,7 +5067,7 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    br label [[OMP_OFFLOAD_CONT]]
 // OMP-DEfAULT:       omp_offload.cont:
 // OMP-DEfAULT-NEXT:    [[TMP24:%.*]] = load i32, ptr [[A]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP25:%.*]] = load ptr, ptr @R, align 4
+// OMP-DEfAULT-NEXT:    [[TMP25:%.*]] = load ptr, ptr @R, align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP24]], ptr [[TMP25]], align 4
 // OMP-DEfAULT-NEXT:    ret void
 //
@@ -4752,9 +5078,9 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    [[A_ADDR:%.*]] = alloca i32, align 4
 // OMP-DEfAULT-NEXT:    [[A_CASTED:%.*]] = alloca i32, align 4
 // OMP-DEfAULT-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP0]], ptr [[A_CASTED]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[A_CASTED]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[A_CASTED]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB2]], i32 1, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2SED1Ev_l199.omp_outlined, i32 [[TMP1]])
 // OMP-DEfAULT-NEXT:    ret void
 //
@@ -4775,12 +5101,24 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 4
 // OMP-DEfAULT-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 4
 // OMP-DEfAULT-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // OMP-DEfAULT-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // OMP-DEfAULT-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // OMP-DEfAULT-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // OMP-DEfAULT-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // OMP-DEfAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // OMP-DEfAULT-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[TMP2]], 9
@@ -4799,23 +5137,23 @@ int bar(int a){
 // OMP-DEfAULT:       omp.inner.for.cond:
 // OMP-DEfAULT-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// OMP-DEfAULT-NEXT:    [[CMP1:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
-// OMP-DEfAULT-NEXT:    br i1 [[CMP1]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// OMP-DEfAULT-NEXT:    [[CMP6:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
+// OMP-DEfAULT-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // OMP-DEfAULT:       omp.inner.for.body:
 // OMP-DEfAULT-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // OMP-DEfAULT-NEXT:    [[MUL:%.*]] = mul nsw i32 [[TMP7]], 1
 // OMP-DEfAULT-NEXT:    [[ADD:%.*]] = add nsw i32 0, [[MUL]]
 // OMP-DEfAULT-NEXT:    store i32 [[ADD]], ptr [[I]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP8]], 15
-// OMP-DEfAULT-NEXT:    store i32 [[ADD2]], ptr [[A_ADDR]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META28]]
+// OMP-DEfAULT-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP8]], 15
+// OMP-DEfAULT-NEXT:    store i32 [[ADD7]], ptr [[A_ADDR]], align 4
 // OMP-DEfAULT-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // OMP-DEfAULT:       omp.body.continue:
 // OMP-DEfAULT-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // OMP-DEfAULT:       omp.inner.for.inc:
 // OMP-DEfAULT-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// OMP-DEfAULT-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP9]], 1
-// OMP-DEfAULT-NEXT:    store i32 [[ADD3]], ptr [[DOTOMP_IV]], align 4
+// OMP-DEfAULT-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP9]], 1
+// OMP-DEfAULT-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
 // OMP-DEfAULT-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // OMP-DEfAULT:       omp.inner.for.end:
 // OMP-DEfAULT-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
@@ -4864,12 +5202,14 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    [[KERNEL_ARGS:%.*]] = alloca [[STRUCT___TGT_KERNEL_ARGUMENTS:%.*]], align 8
 // OMP-DEfAULT-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 4
 // OMP-DEfAULT-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 4, !freeze_bits [[META28]]
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    store i32 [[TMP2]], ptr [[A_CASTED]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A_CASTED]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A_CASTED]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOFFLOAD_BASEPTRS]], i32 0, i32 0
 // OMP-DEfAULT-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOFFLOAD_PTRS]], i32 0, i32 0
@@ -4912,7 +5252,7 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    br label [[OMP_OFFLOAD_CONT]]
 // OMP-DEfAULT:       omp_offload.cont:
 // OMP-DEfAULT-NEXT:    [[TMP24:%.*]] = load i32, ptr [[A]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP25:%.*]] = load ptr, ptr @R, align 4
+// OMP-DEfAULT-NEXT:    [[TMP25:%.*]] = load ptr, ptr @R, align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP24]], ptr [[TMP25]], align 4
 // OMP-DEfAULT-NEXT:    ret void
 //
@@ -4923,9 +5263,9 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    [[A_ADDR:%.*]] = alloca i32, align 4
 // OMP-DEfAULT-NEXT:    [[A_CASTED:%.*]] = alloca i32, align 4
 // OMP-DEfAULT-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP0]], ptr [[A_CASTED]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[A_CASTED]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[A_CASTED]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB2]], i32 1, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2STILi100EEC1Ev_l218.omp_outlined, i32 [[TMP1]])
 // OMP-DEfAULT-NEXT:    ret void
 //
@@ -4946,12 +5286,24 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 4
 // OMP-DEfAULT-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 4
 // OMP-DEfAULT-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // OMP-DEfAULT-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // OMP-DEfAULT-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // OMP-DEfAULT-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // OMP-DEfAULT-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // OMP-DEfAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // OMP-DEfAULT-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[TMP2]], 9
@@ -4970,23 +5322,23 @@ int bar(int a){
 // OMP-DEfAULT:       omp.inner.for.cond:
 // OMP-DEfAULT-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// OMP-DEfAULT-NEXT:    [[CMP1:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
-// OMP-DEfAULT-NEXT:    br i1 [[CMP1]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// OMP-DEfAULT-NEXT:    [[CMP6:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
+// OMP-DEfAULT-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // OMP-DEfAULT:       omp.inner.for.body:
 // OMP-DEfAULT-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // OMP-DEfAULT-NEXT:    [[MUL:%.*]] = mul nsw i32 [[TMP7]], 1
 // OMP-DEfAULT-NEXT:    [[ADD:%.*]] = add nsw i32 0, [[MUL]]
 // OMP-DEfAULT-NEXT:    store i32 [[ADD]], ptr [[I]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP8]], 117
-// OMP-DEfAULT-NEXT:    store i32 [[ADD2]], ptr [[A_ADDR]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META28]]
+// OMP-DEfAULT-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP8]], 117
+// OMP-DEfAULT-NEXT:    store i32 [[ADD7]], ptr [[A_ADDR]], align 4
 // OMP-DEfAULT-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // OMP-DEfAULT:       omp.body.continue:
 // OMP-DEfAULT-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // OMP-DEfAULT:       omp.inner.for.inc:
 // OMP-DEfAULT-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// OMP-DEfAULT-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP9]], 1
-// OMP-DEfAULT-NEXT:    store i32 [[ADD3]], ptr [[DOTOMP_IV]], align 4
+// OMP-DEfAULT-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP9]], 1
+// OMP-DEfAULT-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
 // OMP-DEfAULT-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // OMP-DEfAULT:       omp.inner.for.end:
 // OMP-DEfAULT-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
@@ -5007,12 +5359,14 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    [[KERNEL_ARGS:%.*]] = alloca [[STRUCT___TGT_KERNEL_ARGUMENTS:%.*]], align 8
 // OMP-DEfAULT-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 4
 // OMP-DEfAULT-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 4, !freeze_bits [[META28]]
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    store i32 [[TMP2]], ptr [[A_CASTED]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A_CASTED]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A_CASTED]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOFFLOAD_BASEPTRS]], i32 0, i32 0
 // OMP-DEfAULT-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOFFLOAD_PTRS]], i32 0, i32 0
@@ -5055,7 +5409,7 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    br label [[OMP_OFFLOAD_CONT]]
 // OMP-DEfAULT:       omp_offload.cont:
 // OMP-DEfAULT-NEXT:    [[TMP24:%.*]] = load i32, ptr [[A]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP25:%.*]] = load ptr, ptr @R, align 4
+// OMP-DEfAULT-NEXT:    [[TMP25:%.*]] = load ptr, ptr @R, align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP24]], ptr [[TMP25]], align 4
 // OMP-DEfAULT-NEXT:    ret void
 //
@@ -5066,9 +5420,9 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    [[A_ADDR:%.*]] = alloca i32, align 4
 // OMP-DEfAULT-NEXT:    [[A_CASTED:%.*]] = alloca i32, align 4
 // OMP-DEfAULT-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP0]], ptr [[A_CASTED]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[A_CASTED]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[A_CASTED]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB2]], i32 1, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2STILi100EED1Ev_l225.omp_outlined, i32 [[TMP1]])
 // OMP-DEfAULT-NEXT:    ret void
 //
@@ -5089,12 +5443,24 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 4
 // OMP-DEfAULT-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 4
 // OMP-DEfAULT-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // OMP-DEfAULT-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // OMP-DEfAULT-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // OMP-DEfAULT-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // OMP-DEfAULT-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // OMP-DEfAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // OMP-DEfAULT-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[TMP2]], 9
@@ -5113,23 +5479,23 @@ int bar(int a){
 // OMP-DEfAULT:       omp.inner.for.cond:
 // OMP-DEfAULT-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// OMP-DEfAULT-NEXT:    [[CMP1:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
-// OMP-DEfAULT-NEXT:    br i1 [[CMP1]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// OMP-DEfAULT-NEXT:    [[CMP6:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
+// OMP-DEfAULT-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // OMP-DEfAULT:       omp.inner.for.body:
 // OMP-DEfAULT-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // OMP-DEfAULT-NEXT:    [[MUL:%.*]] = mul nsw i32 [[TMP7]], 1
 // OMP-DEfAULT-NEXT:    [[ADD:%.*]] = add nsw i32 0, [[MUL]]
 // OMP-DEfAULT-NEXT:    store i32 [[ADD]], ptr [[I]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP8]], 118
-// OMP-DEfAULT-NEXT:    store i32 [[ADD2]], ptr [[A_ADDR]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META28]]
+// OMP-DEfAULT-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP8]], 118
+// OMP-DEfAULT-NEXT:    store i32 [[ADD7]], ptr [[A_ADDR]], align 4
 // OMP-DEfAULT-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // OMP-DEfAULT:       omp.body.continue:
 // OMP-DEfAULT-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // OMP-DEfAULT:       omp.inner.for.inc:
 // OMP-DEfAULT-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// OMP-DEfAULT-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP9]], 1
-// OMP-DEfAULT-NEXT:    store i32 [[ADD3]], ptr [[DOTOMP_IV]], align 4
+// OMP-DEfAULT-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP9]], 1
+// OMP-DEfAULT-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
 // OMP-DEfAULT-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // OMP-DEfAULT:       omp.inner.for.end:
 // OMP-DEfAULT-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
@@ -5178,12 +5544,14 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    [[KERNEL_ARGS:%.*]] = alloca [[STRUCT___TGT_KERNEL_ARGUMENTS:%.*]], align 8
 // OMP-DEfAULT-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 4
 // OMP-DEfAULT-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 4, !freeze_bits [[META28]]
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    store i32 [[TMP2]], ptr [[A_CASTED]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A_CASTED]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A_CASTED]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOFFLOAD_BASEPTRS]], i32 0, i32 0
 // OMP-DEfAULT-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOFFLOAD_PTRS]], i32 0, i32 0
@@ -5226,7 +5594,7 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    br label [[OMP_OFFLOAD_CONT]]
 // OMP-DEfAULT:       omp_offload.cont:
 // OMP-DEfAULT-NEXT:    [[TMP24:%.*]] = load i32, ptr [[A]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP25:%.*]] = load ptr, ptr @R, align 4
+// OMP-DEfAULT-NEXT:    [[TMP25:%.*]] = load ptr, ptr @R, align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP24]], ptr [[TMP25]], align 4
 // OMP-DEfAULT-NEXT:    ret void
 //
@@ -5237,9 +5605,9 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    [[A_ADDR:%.*]] = alloca i32, align 4
 // OMP-DEfAULT-NEXT:    [[A_CASTED:%.*]] = alloca i32, align 4
 // OMP-DEfAULT-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP0]], ptr [[A_CASTED]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[A_CASTED]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[A_CASTED]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB2]], i32 1, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2STILi1000EEC1Ev_l218.omp_outlined, i32 [[TMP1]])
 // OMP-DEfAULT-NEXT:    ret void
 //
@@ -5260,12 +5628,24 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 4
 // OMP-DEfAULT-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 4
 // OMP-DEfAULT-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // OMP-DEfAULT-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // OMP-DEfAULT-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // OMP-DEfAULT-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // OMP-DEfAULT-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // OMP-DEfAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // OMP-DEfAULT-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[TMP2]], 9
@@ -5284,23 +5664,23 @@ int bar(int a){
 // OMP-DEfAULT:       omp.inner.for.cond:
 // OMP-DEfAULT-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// OMP-DEfAULT-NEXT:    [[CMP1:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
-// OMP-DEfAULT-NEXT:    br i1 [[CMP1]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// OMP-DEfAULT-NEXT:    [[CMP6:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
+// OMP-DEfAULT-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // OMP-DEfAULT:       omp.inner.for.body:
 // OMP-DEfAULT-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // OMP-DEfAULT-NEXT:    [[MUL:%.*]] = mul nsw i32 [[TMP7]], 1
 // OMP-DEfAULT-NEXT:    [[ADD:%.*]] = add nsw i32 0, [[MUL]]
 // OMP-DEfAULT-NEXT:    store i32 [[ADD]], ptr [[I]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP8]], 1017
-// OMP-DEfAULT-NEXT:    store i32 [[ADD2]], ptr [[A_ADDR]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META28]]
+// OMP-DEfAULT-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP8]], 1017
+// OMP-DEfAULT-NEXT:    store i32 [[ADD7]], ptr [[A_ADDR]], align 4
 // OMP-DEfAULT-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // OMP-DEfAULT:       omp.body.continue:
 // OMP-DEfAULT-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // OMP-DEfAULT:       omp.inner.for.inc:
 // OMP-DEfAULT-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// OMP-DEfAULT-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP9]], 1
-// OMP-DEfAULT-NEXT:    store i32 [[ADD3]], ptr [[DOTOMP_IV]], align 4
+// OMP-DEfAULT-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP9]], 1
+// OMP-DEfAULT-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
 // OMP-DEfAULT-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // OMP-DEfAULT:       omp.inner.for.end:
 // OMP-DEfAULT-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
@@ -5321,12 +5701,14 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    [[KERNEL_ARGS:%.*]] = alloca [[STRUCT___TGT_KERNEL_ARGUMENTS:%.*]], align 8
 // OMP-DEfAULT-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 4
 // OMP-DEfAULT-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 4, !freeze_bits [[META28]]
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    store i32 [[TMP2]], ptr [[A_CASTED]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A_CASTED]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A_CASTED]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOFFLOAD_BASEPTRS]], i32 0, i32 0
 // OMP-DEfAULT-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOFFLOAD_PTRS]], i32 0, i32 0
@@ -5369,7 +5751,7 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    br label [[OMP_OFFLOAD_CONT]]
 // OMP-DEfAULT:       omp_offload.cont:
 // OMP-DEfAULT-NEXT:    [[TMP24:%.*]] = load i32, ptr [[A]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP25:%.*]] = load ptr, ptr @R, align 4
+// OMP-DEfAULT-NEXT:    [[TMP25:%.*]] = load ptr, ptr @R, align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP24]], ptr [[TMP25]], align 4
 // OMP-DEfAULT-NEXT:    ret void
 //
@@ -5380,9 +5762,9 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    [[A_ADDR:%.*]] = alloca i32, align 4
 // OMP-DEfAULT-NEXT:    [[A_CASTED:%.*]] = alloca i32, align 4
 // OMP-DEfAULT-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP0]], ptr [[A_CASTED]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[A_CASTED]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[A_CASTED]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB2]], i32 1, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2STILi1000EED1Ev_l225.omp_outlined, i32 [[TMP1]])
 // OMP-DEfAULT-NEXT:    ret void
 //
@@ -5403,12 +5785,24 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 4
 // OMP-DEfAULT-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 4
 // OMP-DEfAULT-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // OMP-DEfAULT-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // OMP-DEfAULT-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // OMP-DEfAULT-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // OMP-DEfAULT-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // OMP-DEfAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // OMP-DEfAULT-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[TMP2]], 9
@@ -5427,23 +5821,23 @@ int bar(int a){
 // OMP-DEfAULT:       omp.inner.for.cond:
 // OMP-DEfAULT-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// OMP-DEfAULT-NEXT:    [[CMP1:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
-// OMP-DEfAULT-NEXT:    br i1 [[CMP1]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// OMP-DEfAULT-NEXT:    [[CMP6:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
+// OMP-DEfAULT-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // OMP-DEfAULT:       omp.inner.for.body:
 // OMP-DEfAULT-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // OMP-DEfAULT-NEXT:    [[MUL:%.*]] = mul nsw i32 [[TMP7]], 1
 // OMP-DEfAULT-NEXT:    [[ADD:%.*]] = add nsw i32 0, [[MUL]]
 // OMP-DEfAULT-NEXT:    store i32 [[ADD]], ptr [[I]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP8]], 1018
-// OMP-DEfAULT-NEXT:    store i32 [[ADD2]], ptr [[A_ADDR]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META28]]
+// OMP-DEfAULT-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP8]], 1018
+// OMP-DEfAULT-NEXT:    store i32 [[ADD7]], ptr [[A_ADDR]], align 4
 // OMP-DEfAULT-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // OMP-DEfAULT:       omp.body.continue:
 // OMP-DEfAULT-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // OMP-DEfAULT:       omp.inner.for.inc:
 // OMP-DEfAULT-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// OMP-DEfAULT-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP9]], 1
-// OMP-DEfAULT-NEXT:    store i32 [[ADD3]], ptr [[DOTOMP_IV]], align 4
+// OMP-DEfAULT-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP9]], 1
+// OMP-DEfAULT-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
 // OMP-DEfAULT-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // OMP-DEfAULT:       omp.inner.for.end:
 // OMP-DEfAULT-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
@@ -5463,6 +5857,8 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    [[DOTOFFLOAD_MAPPERS:%.*]] = alloca [1 x ptr], align 4
 // OMP-DEfAULT-NEXT:    [[KERNEL_ARGS:%.*]] = alloca [[STRUCT___TGT_KERNEL_ARGUMENTS:%.*]], align 8
 // OMP-DEfAULT-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[R]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
 // OMP-DEfAULT-NEXT:    store i32 [[TMP0]], ptr [[R]], align 4
 // OMP-DEfAULT-NEXT:    call void @_ZN2SA3fooEv(ptr noundef nonnull align 4 dereferenceable(16) @_ZL2a1)
@@ -5476,7 +5872,7 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    call void @_ZN2STILi1000EE3fooEv(ptr noundef nonnull align 4 dereferenceable(4512) @t2)
 // OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[R]], align 4
 // OMP-DEfAULT-NEXT:    store i32 [[TMP1]], ptr [[R_CASTED]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[R_CASTED]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[R_CASTED]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    [[TMP3:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOFFLOAD_BASEPTRS]], i32 0, i32 0
 // OMP-DEfAULT-NEXT:    store i32 [[TMP2]], ptr [[TMP3]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOFFLOAD_PTRS]], i32 0, i32 0
@@ -5519,8 +5915,8 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    br label [[OMP_OFFLOAD_CONT]]
 // OMP-DEfAULT:       omp_offload.cont:
 // OMP-DEfAULT-NEXT:    [[TMP23:%.*]] = load i32, ptr [[R]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP24:%.*]] = load ptr, ptr @R, align 4
-// OMP-DEfAULT-NEXT:    [[TMP25:%.*]] = load i32, ptr [[TMP24]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP24:%.*]] = load ptr, ptr @R, align 4, !freeze_bits [[META28]]
+// OMP-DEfAULT-NEXT:    [[TMP25:%.*]] = load i32, ptr [[TMP24]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP23]], [[TMP25]]
 // OMP-DEfAULT-NEXT:    ret i32 [[ADD]]
 //
@@ -5532,14 +5928,16 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    [[A:%.*]] = alloca i32, align 4
 // OMP-DEfAULT-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 4
 // OMP-DEfAULT-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 4, !freeze_bits [[META28]]
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP2]], 1
 // OMP-DEfAULT-NEXT:    store i32 [[ADD]], ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 4
+// OMP-DEfAULT-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // OMP-DEfAULT-NEXT:    ret void
 //
@@ -5556,12 +5954,14 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    [[KERNEL_ARGS:%.*]] = alloca [[STRUCT___TGT_KERNEL_ARGUMENTS:%.*]], align 8
 // OMP-DEfAULT-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 4
 // OMP-DEfAULT-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 4, !freeze_bits [[META28]]
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    store i32 [[TMP2]], ptr [[A_CASTED]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A_CASTED]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A_CASTED]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOFFLOAD_BASEPTRS]], i32 0, i32 0
 // OMP-DEfAULT-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOFFLOAD_PTRS]], i32 0, i32 0
@@ -5604,7 +6004,7 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    br label [[OMP_OFFLOAD_CONT]]
 // OMP-DEfAULT:       omp_offload.cont:
 // OMP-DEfAULT-NEXT:    [[TMP24:%.*]] = load i32, ptr [[A]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP25:%.*]] = load ptr, ptr @R, align 4
+// OMP-DEfAULT-NEXT:    [[TMP25:%.*]] = load ptr, ptr @R, align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP24]], ptr [[TMP25]], align 4
 // OMP-DEfAULT-NEXT:    ret void
 //
@@ -5616,14 +6016,16 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    [[A:%.*]] = alloca i32, align 4
 // OMP-DEfAULT-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 4
 // OMP-DEfAULT-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 4, !freeze_bits [[META28]]
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP2]], 7
 // OMP-DEfAULT-NEXT:    store i32 [[ADD]], ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 4
+// OMP-DEfAULT-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // OMP-DEfAULT-NEXT:    ret void
 //
@@ -5635,14 +6037,16 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    [[A:%.*]] = alloca i32, align 4
 // OMP-DEfAULT-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 4
 // OMP-DEfAULT-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 4, !freeze_bits [[META28]]
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP2]], 10
 // OMP-DEfAULT-NEXT:    store i32 [[ADD]], ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 4
+// OMP-DEfAULT-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // OMP-DEfAULT-NEXT:    ret void
 //
@@ -5655,15 +6059,17 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    [[A_CASTED:%.*]] = alloca i32, align 4
 // OMP-DEfAULT-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 4
 // OMP-DEfAULT-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 4, !freeze_bits [[META28]]
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    store i32 [[TMP2]], ptr [[A_CASTED]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A_CASTED]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A_CASTED]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    call void @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2SE3fooEv_l185(i32 [[TMP3]]) #[[ATTR2]]
 // OMP-DEfAULT-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 4
+// OMP-DEfAULT-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP4]], ptr [[TMP5]], align 4
 // OMP-DEfAULT-NEXT:    ret void
 //
@@ -5680,12 +6086,14 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    [[KERNEL_ARGS:%.*]] = alloca [[STRUCT___TGT_KERNEL_ARGUMENTS:%.*]], align 8
 // OMP-DEfAULT-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 4
 // OMP-DEfAULT-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 4, !freeze_bits [[META28]]
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    store i32 [[TMP2]], ptr [[A_CASTED]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A_CASTED]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A_CASTED]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOFFLOAD_BASEPTRS]], i32 0, i32 0
 // OMP-DEfAULT-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOFFLOAD_PTRS]], i32 0, i32 0
@@ -5728,7 +6136,7 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    br label [[OMP_OFFLOAD_CONT]]
 // OMP-DEfAULT:       omp_offload.cont:
 // OMP-DEfAULT-NEXT:    [[TMP24:%.*]] = load i32, ptr [[A]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP25:%.*]] = load ptr, ptr @R, align 4
+// OMP-DEfAULT-NEXT:    [[TMP25:%.*]] = load ptr, ptr @R, align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP24]], ptr [[TMP25]], align 4
 // OMP-DEfAULT-NEXT:    ret void
 //
@@ -5745,12 +6153,14 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    [[KERNEL_ARGS:%.*]] = alloca [[STRUCT___TGT_KERNEL_ARGUMENTS:%.*]], align 8
 // OMP-DEfAULT-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 4
 // OMP-DEfAULT-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 4, !freeze_bits [[META28]]
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // OMP-DEfAULT-NEXT:    store i32 [[TMP2]], ptr [[A_CASTED]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A_CASTED]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A_CASTED]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOFFLOAD_BASEPTRS]], i32 0, i32 0
 // OMP-DEfAULT-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP5:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOFFLOAD_PTRS]], i32 0, i32 0
@@ -5793,7 +6203,7 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    br label [[OMP_OFFLOAD_CONT]]
 // OMP-DEfAULT:       omp_offload.cont:
 // OMP-DEfAULT-NEXT:    [[TMP24:%.*]] = load i32, ptr [[A]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP25:%.*]] = load ptr, ptr @R, align 4
+// OMP-DEfAULT-NEXT:    [[TMP25:%.*]] = load ptr, ptr @R, align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP24]], ptr [[TMP25]], align 4
 // OMP-DEfAULT-NEXT:    ret void
 //
@@ -5804,9 +6214,9 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    [[R_ADDR:%.*]] = alloca i32, align 4
 // OMP-DEfAULT-NEXT:    [[R_CASTED:%.*]] = alloca i32, align 4
 // OMP-DEfAULT-NEXT:    store i32 [[R]], ptr [[R_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[R_ADDR]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[R_ADDR]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP0]], ptr [[R_CASTED]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[R_CASTED]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[R_CASTED]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB2]], i32 1, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__Z3bari_l267.omp_outlined, i32 [[TMP1]])
 // OMP-DEfAULT-NEXT:    ret void
 //
@@ -5827,12 +6237,24 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 4
 // OMP-DEfAULT-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 4
 // OMP-DEfAULT-NEXT:    store i32 [[R]], ptr [[R_ADDR]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // OMP-DEfAULT-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // OMP-DEfAULT-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // OMP-DEfAULT-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // OMP-DEfAULT-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // OMP-DEfAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // OMP-DEfAULT-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[TMP2]], 9
@@ -5851,14 +6273,14 @@ int bar(int a){
 // OMP-DEfAULT:       omp.inner.for.cond:
 // OMP-DEfAULT-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// OMP-DEfAULT-NEXT:    [[CMP1:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
-// OMP-DEfAULT-NEXT:    br i1 [[CMP1]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// OMP-DEfAULT-NEXT:    [[CMP6:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
+// OMP-DEfAULT-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // OMP-DEfAULT:       omp.inner.for.body:
 // OMP-DEfAULT-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // OMP-DEfAULT-NEXT:    [[MUL:%.*]] = mul nsw i32 [[TMP7]], 1
 // OMP-DEfAULT-NEXT:    [[ADD:%.*]] = add nsw i32 0, [[MUL]]
 // OMP-DEfAULT-NEXT:    store i32 [[ADD]], ptr [[I]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[R_ADDR]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[R_ADDR]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    [[INC:%.*]] = add nsw i32 [[TMP8]], 1
 // OMP-DEfAULT-NEXT:    store i32 [[INC]], ptr [[R_ADDR]], align 4
 // OMP-DEfAULT-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
@@ -5866,8 +6288,8 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // OMP-DEfAULT:       omp.inner.for.inc:
 // OMP-DEfAULT-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// OMP-DEfAULT-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP9]], 1
-// OMP-DEfAULT-NEXT:    store i32 [[ADD2]], ptr [[DOTOMP_IV]], align 4
+// OMP-DEfAULT-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP9]], 1
+// OMP-DEfAULT-NEXT:    store i32 [[ADD7]], ptr [[DOTOMP_IV]], align 4
 // OMP-DEfAULT-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // OMP-DEfAULT:       omp.inner.for.end:
 // OMP-DEfAULT-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
@@ -5882,9 +6304,9 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    [[A_ADDR:%.*]] = alloca i32, align 4
 // OMP-DEfAULT-NEXT:    [[A_CASTED:%.*]] = alloca i32, align 4
 // OMP-DEfAULT-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP0]], ptr [[A_CASTED]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[A_CASTED]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[A_CASTED]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB2]], i32 1, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2SB3fooEv_l122.omp_outlined, i32 [[TMP1]])
 // OMP-DEfAULT-NEXT:    ret void
 //
@@ -5905,12 +6327,24 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 4
 // OMP-DEfAULT-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 4
 // OMP-DEfAULT-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // OMP-DEfAULT-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // OMP-DEfAULT-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // OMP-DEfAULT-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // OMP-DEfAULT-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // OMP-DEfAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // OMP-DEfAULT-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[TMP2]], 9
@@ -5929,23 +6363,23 @@ int bar(int a){
 // OMP-DEfAULT:       omp.inner.for.cond:
 // OMP-DEfAULT-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// OMP-DEfAULT-NEXT:    [[CMP1:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
-// OMP-DEfAULT-NEXT:    br i1 [[CMP1]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// OMP-DEfAULT-NEXT:    [[CMP6:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
+// OMP-DEfAULT-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // OMP-DEfAULT:       omp.inner.for.body:
 // OMP-DEfAULT-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // OMP-DEfAULT-NEXT:    [[MUL:%.*]] = mul nsw i32 [[TMP7]], 1
 // OMP-DEfAULT-NEXT:    [[ADD:%.*]] = add nsw i32 0, [[MUL]]
 // OMP-DEfAULT-NEXT:    store i32 [[ADD]], ptr [[I]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP8]], 4
-// OMP-DEfAULT-NEXT:    store i32 [[ADD2]], ptr [[A_ADDR]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META28]]
+// OMP-DEfAULT-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP8]], 4
+// OMP-DEfAULT-NEXT:    store i32 [[ADD7]], ptr [[A_ADDR]], align 4
 // OMP-DEfAULT-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // OMP-DEfAULT:       omp.body.continue:
 // OMP-DEfAULT-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // OMP-DEfAULT:       omp.inner.for.inc:
 // OMP-DEfAULT-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// OMP-DEfAULT-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP9]], 1
-// OMP-DEfAULT-NEXT:    store i32 [[ADD3]], ptr [[DOTOMP_IV]], align 4
+// OMP-DEfAULT-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP9]], 1
+// OMP-DEfAULT-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
 // OMP-DEfAULT-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // OMP-DEfAULT:       omp.inner.for.end:
 // OMP-DEfAULT-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
@@ -5960,9 +6394,9 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    [[A_ADDR:%.*]] = alloca i32, align 4
 // OMP-DEfAULT-NEXT:    [[A_CASTED:%.*]] = alloca i32, align 4
 // OMP-DEfAULT-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP0]], ptr [[A_CASTED]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[A_CASTED]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[A_CASTED]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB2]], i32 1, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2SE3fooEv_l185.omp_outlined, i32 [[TMP1]])
 // OMP-DEfAULT-NEXT:    ret void
 //
@@ -5983,12 +6417,24 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 4
 // OMP-DEfAULT-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 4
 // OMP-DEfAULT-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // OMP-DEfAULT-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // OMP-DEfAULT-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // OMP-DEfAULT-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // OMP-DEfAULT-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // OMP-DEfAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // OMP-DEfAULT-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[TMP2]], 9
@@ -6007,23 +6453,23 @@ int bar(int a){
 // OMP-DEfAULT:       omp.inner.for.cond:
 // OMP-DEfAULT-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// OMP-DEfAULT-NEXT:    [[CMP1:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
-// OMP-DEfAULT-NEXT:    br i1 [[CMP1]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// OMP-DEfAULT-NEXT:    [[CMP6:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
+// OMP-DEfAULT-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // OMP-DEfAULT:       omp.inner.for.body:
 // OMP-DEfAULT-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // OMP-DEfAULT-NEXT:    [[MUL:%.*]] = mul nsw i32 [[TMP7]], 1
 // OMP-DEfAULT-NEXT:    [[ADD:%.*]] = add nsw i32 0, [[MUL]]
 // OMP-DEfAULT-NEXT:    store i32 [[ADD]], ptr [[I]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP8]], 13
-// OMP-DEfAULT-NEXT:    store i32 [[ADD2]], ptr [[A_ADDR]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META28]]
+// OMP-DEfAULT-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP8]], 13
+// OMP-DEfAULT-NEXT:    store i32 [[ADD7]], ptr [[A_ADDR]], align 4
 // OMP-DEfAULT-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // OMP-DEfAULT:       omp.body.continue:
 // OMP-DEfAULT-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // OMP-DEfAULT:       omp.inner.for.inc:
 // OMP-DEfAULT-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// OMP-DEfAULT-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP9]], 1
-// OMP-DEfAULT-NEXT:    store i32 [[ADD3]], ptr [[DOTOMP_IV]], align 4
+// OMP-DEfAULT-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP9]], 1
+// OMP-DEfAULT-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
 // OMP-DEfAULT-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // OMP-DEfAULT:       omp.inner.for.end:
 // OMP-DEfAULT-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
@@ -6038,9 +6484,9 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    [[A_ADDR:%.*]] = alloca i32, align 4
 // OMP-DEfAULT-NEXT:    [[A_CASTED:%.*]] = alloca i32, align 4
 // OMP-DEfAULT-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP0]], ptr [[A_CASTED]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[A_CASTED]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[A_CASTED]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB2]], i32 1, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2STILi100EE3fooEv_l211.omp_outlined, i32 [[TMP1]])
 // OMP-DEfAULT-NEXT:    ret void
 //
@@ -6061,12 +6507,24 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 4
 // OMP-DEfAULT-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 4
 // OMP-DEfAULT-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // OMP-DEfAULT-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // OMP-DEfAULT-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // OMP-DEfAULT-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // OMP-DEfAULT-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // OMP-DEfAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // OMP-DEfAULT-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[TMP2]], 9
@@ -6085,23 +6543,23 @@ int bar(int a){
 // OMP-DEfAULT:       omp.inner.for.cond:
 // OMP-DEfAULT-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// OMP-DEfAULT-NEXT:    [[CMP1:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
-// OMP-DEfAULT-NEXT:    br i1 [[CMP1]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// OMP-DEfAULT-NEXT:    [[CMP6:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
+// OMP-DEfAULT-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // OMP-DEfAULT:       omp.inner.for.body:
 // OMP-DEfAULT-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // OMP-DEfAULT-NEXT:    [[MUL:%.*]] = mul nsw i32 [[TMP7]], 1
 // OMP-DEfAULT-NEXT:    [[ADD:%.*]] = add nsw i32 0, [[MUL]]
 // OMP-DEfAULT-NEXT:    store i32 [[ADD]], ptr [[I]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP8]], 116
-// OMP-DEfAULT-NEXT:    store i32 [[ADD2]], ptr [[A_ADDR]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META28]]
+// OMP-DEfAULT-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP8]], 116
+// OMP-DEfAULT-NEXT:    store i32 [[ADD7]], ptr [[A_ADDR]], align 4
 // OMP-DEfAULT-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // OMP-DEfAULT:       omp.body.continue:
 // OMP-DEfAULT-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // OMP-DEfAULT:       omp.inner.for.inc:
 // OMP-DEfAULT-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// OMP-DEfAULT-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP9]], 1
-// OMP-DEfAULT-NEXT:    store i32 [[ADD3]], ptr [[DOTOMP_IV]], align 4
+// OMP-DEfAULT-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP9]], 1
+// OMP-DEfAULT-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
 // OMP-DEfAULT-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // OMP-DEfAULT:       omp.inner.for.end:
 // OMP-DEfAULT-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
@@ -6116,9 +6574,9 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    [[A_ADDR:%.*]] = alloca i32, align 4
 // OMP-DEfAULT-NEXT:    [[A_CASTED:%.*]] = alloca i32, align 4
 // OMP-DEfAULT-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    store i32 [[TMP0]], ptr [[A_CASTED]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[A_CASTED]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[A_CASTED]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB2]], i32 1, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2STILi1000EE3fooEv_l211.omp_outlined, i32 [[TMP1]])
 // OMP-DEfAULT-NEXT:    ret void
 //
@@ -6139,12 +6597,24 @@ int bar(int a){
 // OMP-DEfAULT-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 4
 // OMP-DEfAULT-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 4
 // OMP-DEfAULT-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // OMP-DEfAULT-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // OMP-DEfAULT-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // OMP-DEfAULT-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // OMP-DEfAULT-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// OMP-DEfAULT-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// OMP-DEfAULT-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META28]]
 // OMP-DEfAULT-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // OMP-DEfAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // OMP-DEfAULT-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[TMP2]], 9
@@ -6163,23 +6633,23 @@ int bar(int a){
 // OMP-DEfAULT:       omp.inner.for.cond:
 // OMP-DEfAULT-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // OMP-DEfAULT-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// OMP-DEfAULT-NEXT:    [[CMP1:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
-// OMP-DEfAULT-NEXT:    br i1 [[CMP1]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// OMP-DEfAULT-NEXT:    [[CMP6:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
+// OMP-DEfAULT-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // OMP-DEfAULT:       omp.inner.for.body:
 // OMP-DEfAULT-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // OMP-DEfAULT-NEXT:    [[MUL:%.*]] = mul nsw i32 [[TMP7]], 1
 // OMP-DEfAULT-NEXT:    [[ADD:%.*]] = add nsw i32 0, [[MUL]]
 // OMP-DEfAULT-NEXT:    store i32 [[ADD]], ptr [[I]], align 4
-// OMP-DEfAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4
-// OMP-DEfAULT-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP8]], 1016
-// OMP-DEfAULT-NEXT:    store i32 [[ADD2]], ptr [[A_ADDR]], align 4
+// OMP-DEfAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META28]]
+// OMP-DEfAULT-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP8]], 1016
+// OMP-DEfAULT-NEXT:    store i32 [[ADD7]], ptr [[A_ADDR]], align 4
 // OMP-DEfAULT-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // OMP-DEfAULT:       omp.body.continue:
 // OMP-DEfAULT-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // OMP-DEfAULT:       omp.inner.for.inc:
 // OMP-DEfAULT-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// OMP-DEfAULT-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP9]], 1
-// OMP-DEfAULT-NEXT:    store i32 [[ADD3]], ptr [[DOTOMP_IV]], align 4
+// OMP-DEfAULT-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP9]], 1
+// OMP-DEfAULT-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
 // OMP-DEfAULT-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // OMP-DEfAULT:       omp.inner.for.end:
 // OMP-DEfAULT-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
@@ -6696,14 +7166,16 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A:%.*]] = alloca i32, align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3:![0-9]+]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP2]], 2
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD]], ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    ret void
 //
@@ -6715,14 +7187,16 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A:%.*]] = alloca i32, align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP2]], 3
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD]], ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    ret void
 //
@@ -6770,14 +7244,16 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A:%.*]] = alloca i32, align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP2]], 5
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD]], ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    ret void
 //
@@ -6789,14 +7265,16 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A:%.*]] = alloca i32, align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP2]], 6
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD]], ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    ret void
 //
@@ -6845,15 +7323,17 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP2]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    call void @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2SCC1Ev_l148(i64 [[TMP3]]) #[[ATTR2]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP4]], ptr [[TMP5]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    ret void
 //
@@ -6864,9 +7344,9 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A_ADDR:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP0]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB2:[0-9]+]], i32 1, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2SCC1Ev_l148.omp_outlined, i64 [[TMP1]])
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    ret void
 //
@@ -6887,12 +7367,24 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1:[0-9]+]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[TMP2]], 9
@@ -6911,23 +7403,23 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.cond:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[CMP1:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    br i1 [[CMP1]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[CMP6:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.body:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[MUL:%.*]] = mul nsw i32 [[TMP7]], 1
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD:%.*]] = add nsw i32 0, [[MUL]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD]], ptr [[I]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP8]], 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD2]], ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP8]], 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD7]], ptr [[A_ADDR]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.body.continue:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.inc:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP9]], 1
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD3]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP9]], 1
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.end:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
@@ -6943,14 +7435,16 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A:%.*]] = alloca i32, align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP2]], 9
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD]], ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    ret void
 //
@@ -6990,14 +7484,16 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A:%.*]] = alloca i32, align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP2]], 11
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD]], ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    ret void
 //
@@ -7010,15 +7506,17 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP2]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    call void @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2SDD1Ev_l174(i64 [[TMP3]]) #[[ATTR2]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP4]], ptr [[TMP5]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    ret void
 //
@@ -7029,9 +7527,9 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A_ADDR:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP0]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB2]], i32 1, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2SDD1Ev_l174.omp_outlined, i64 [[TMP1]])
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    ret void
 //
@@ -7052,12 +7550,24 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[TMP2]], 9
@@ -7076,23 +7586,23 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.cond:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[CMP1:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    br i1 [[CMP1]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[CMP6:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.body:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[MUL:%.*]] = mul nsw i32 [[TMP7]], 1
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD:%.*]] = add nsw i32 0, [[MUL]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD]], ptr [[I]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP8]], 12
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD2]], ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP8]], 12
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD7]], ptr [[A_ADDR]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.body.continue:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.inc:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP9]], 1
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD3]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP9]], 1
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.end:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
@@ -7137,15 +7647,17 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP2]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    call void @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2SEC1Ev_l192(i64 [[TMP3]]) #[[ATTR2]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP4]], ptr [[TMP5]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    ret void
 //
@@ -7156,9 +7668,9 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A_ADDR:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP0]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB2]], i32 1, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2SEC1Ev_l192.omp_outlined, i64 [[TMP1]])
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    ret void
 //
@@ -7179,12 +7691,24 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[TMP2]], 9
@@ -7203,23 +7727,23 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.cond:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[CMP1:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    br i1 [[CMP1]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[CMP6:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.body:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[MUL:%.*]] = mul nsw i32 [[TMP7]], 1
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD:%.*]] = add nsw i32 0, [[MUL]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD]], ptr [[I]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP8]], 14
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD2]], ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP8]], 14
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD7]], ptr [[A_ADDR]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.body.continue:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.inc:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP9]], 1
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD3]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP9]], 1
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.end:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
@@ -7236,15 +7760,17 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP2]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    call void @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2SED1Ev_l199(i64 [[TMP3]]) #[[ATTR2]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP4]], ptr [[TMP5]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    ret void
 //
@@ -7255,9 +7781,9 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A_ADDR:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP0]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB2]], i32 1, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2SED1Ev_l199.omp_outlined, i64 [[TMP1]])
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    ret void
 //
@@ -7278,12 +7804,24 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[TMP2]], 9
@@ -7302,23 +7840,23 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.cond:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[CMP1:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    br i1 [[CMP1]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[CMP6:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.body:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[MUL:%.*]] = mul nsw i32 [[TMP7]], 1
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD:%.*]] = add nsw i32 0, [[MUL]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD]], ptr [[I]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP8]], 15
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD2]], ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP8]], 15
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD7]], ptr [[A_ADDR]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.body.continue:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.inc:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP9]], 1
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD3]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP9]], 1
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.end:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
@@ -7363,15 +7901,17 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP2]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    call void @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2STILi100EEC1Ev_l218(i64 [[TMP3]]) #[[ATTR2]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP4]], ptr [[TMP5]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    ret void
 //
@@ -7382,9 +7922,9 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A_ADDR:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP0]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB2]], i32 1, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2STILi100EEC1Ev_l218.omp_outlined, i64 [[TMP1]])
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    ret void
 //
@@ -7405,12 +7945,24 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[TMP2]], 9
@@ -7429,23 +7981,23 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.cond:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[CMP1:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    br i1 [[CMP1]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[CMP6:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.body:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[MUL:%.*]] = mul nsw i32 [[TMP7]], 1
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD:%.*]] = add nsw i32 0, [[MUL]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD]], ptr [[I]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP8]], 117
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD2]], ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP8]], 117
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD7]], ptr [[A_ADDR]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.body.continue:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.inc:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP9]], 1
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD3]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP9]], 1
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.end:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
@@ -7462,15 +8014,17 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP2]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    call void @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2STILi100EED1Ev_l225(i64 [[TMP3]]) #[[ATTR2]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP4]], ptr [[TMP5]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    ret void
 //
@@ -7481,9 +8035,9 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A_ADDR:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP0]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB2]], i32 1, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2STILi100EED1Ev_l225.omp_outlined, i64 [[TMP1]])
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    ret void
 //
@@ -7504,12 +8058,24 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[TMP2]], 9
@@ -7528,23 +8094,23 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.cond:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[CMP1:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    br i1 [[CMP1]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[CMP6:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.body:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[MUL:%.*]] = mul nsw i32 [[TMP7]], 1
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD:%.*]] = add nsw i32 0, [[MUL]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD]], ptr [[I]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP8]], 118
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD2]], ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP8]], 118
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD7]], ptr [[A_ADDR]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.body.continue:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.inc:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP9]], 1
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD3]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP9]], 1
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.end:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
@@ -7589,15 +8155,17 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP2]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    call void @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2STILi1000EEC1Ev_l218(i64 [[TMP3]]) #[[ATTR2]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP4]], ptr [[TMP5]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    ret void
 //
@@ -7608,9 +8176,9 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A_ADDR:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP0]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB2]], i32 1, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2STILi1000EEC1Ev_l218.omp_outlined, i64 [[TMP1]])
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    ret void
 //
@@ -7631,12 +8199,24 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[TMP2]], 9
@@ -7655,23 +8235,23 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.cond:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[CMP1:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    br i1 [[CMP1]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[CMP6:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.body:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[MUL:%.*]] = mul nsw i32 [[TMP7]], 1
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD:%.*]] = add nsw i32 0, [[MUL]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD]], ptr [[I]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP8]], 1017
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD2]], ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP8]], 1017
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD7]], ptr [[A_ADDR]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.body.continue:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.inc:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP9]], 1
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD3]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP9]], 1
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.end:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
@@ -7688,15 +8268,17 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP2]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    call void @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2STILi1000EED1Ev_l225(i64 [[TMP3]]) #[[ATTR2]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP4]], ptr [[TMP5]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    ret void
 //
@@ -7707,9 +8289,9 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A_ADDR:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP0]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB2]], i32 1, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2STILi1000EED1Ev_l225.omp_outlined, i64 [[TMP1]])
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    ret void
 //
@@ -7730,12 +8312,24 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[TMP2]], 9
@@ -7754,23 +8348,23 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.cond:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[CMP1:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    br i1 [[CMP1]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[CMP6:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.body:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[MUL:%.*]] = mul nsw i32 [[TMP7]], 1
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD:%.*]] = add nsw i32 0, [[MUL]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD]], ptr [[I]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP8]], 1018
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD2]], ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP8]], 1018
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD7]], ptr [[A_ADDR]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.body.continue:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.inc:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP9]], 1
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD3]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP9]], 1
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.end:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
@@ -7786,6 +8380,8 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[R:%.*]] = alloca i32, align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[R_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[A]], ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[R]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP0]], ptr [[R]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    call void @_ZN2SA3fooEv(ptr noundef nonnull align 4 dereferenceable(16) @_ZL2a1)
@@ -7799,11 +8395,11 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    call void @_ZN2STILi1000EE3fooEv(ptr noundef nonnull align 4 dereferenceable(4512) @t2)
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[R]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP1]], ptr [[R_CASTED]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP2:%.*]] = load i64, ptr [[R_CASTED]], align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP2:%.*]] = load i64, ptr [[R_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    call void @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__Z3bari_l267(i64 [[TMP2]]) #[[ATTR2]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP3:%.*]] = load i32, ptr [[R]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP5:%.*]] = load i32, ptr [[TMP4]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP5:%.*]] = load i32, ptr [[TMP4]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP3]], [[TMP5]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    ret i32 [[ADD]]
 //
@@ -7815,14 +8411,16 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A:%.*]] = alloca i32, align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP2]], 1
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD]], ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    ret void
 //
@@ -7835,15 +8433,17 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP2]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    call void @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2SB3fooEv_l122(i64 [[TMP3]]) #[[ATTR2]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP4]], ptr [[TMP5]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    ret void
 //
@@ -7855,14 +8455,16 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A:%.*]] = alloca i32, align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP2]], 7
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD]], ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    ret void
 //
@@ -7874,14 +8476,16 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A:%.*]] = alloca i32, align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP2]], 10
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD]], ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP3:%.*]] = load i32, ptr [[A]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP4:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP3]], ptr [[TMP4]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    ret void
 //
@@ -7894,15 +8498,17 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP2]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    call void @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2SE3fooEv_l185(i64 [[TMP3]]) #[[ATTR2]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP4]], ptr [[TMP5]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    ret void
 //
@@ -7915,15 +8521,17 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP2]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    call void @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2STILi100EE3fooEv_l211(i64 [[TMP3]]) #[[ATTR2]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP4]], ptr [[TMP5]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    ret void
 //
@@ -7936,15 +8544,17 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[A]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP1]], ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[A]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP2]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP3:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    call void @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2STILi1000EE3fooEv_l211(i64 [[TMP3]]) #[[ATTR2]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP4:%.*]] = load i32, ptr [[A]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP5:%.*]] = load ptr, ptr @R, align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP4]], ptr [[TMP5]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    ret void
 //
@@ -7955,9 +8565,9 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[R_ADDR:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[R_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i64 [[R]], ptr [[R_ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[R_ADDR]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[R_ADDR]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP0]], ptr [[R_CASTED]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i64, ptr [[R_CASTED]], align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i64, ptr [[R_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB2]], i32 1, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__Z3bari_l267.omp_outlined, i64 [[TMP1]])
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    ret void
 //
@@ -7978,12 +8588,24 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i64 [[R]], ptr [[R_ADDR]], align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[TMP2]], 9
@@ -8002,14 +8624,14 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.cond:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[CMP1:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    br i1 [[CMP1]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[CMP6:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.body:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[MUL:%.*]] = mul nsw i32 [[TMP7]], 1
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD:%.*]] = add nsw i32 0, [[MUL]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD]], ptr [[I]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[R_ADDR]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[R_ADDR]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[INC:%.*]] = add nsw i32 [[TMP8]], 1
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[INC]], ptr [[R_ADDR]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
@@ -8017,8 +8639,8 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.inc:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP9]], 1
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD2]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP9]], 1
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD7]], ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.end:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
@@ -8033,9 +8655,9 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A_ADDR:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP0]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB2]], i32 1, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2SB3fooEv_l122.omp_outlined, i64 [[TMP1]])
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    ret void
 //
@@ -8056,12 +8678,24 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[TMP2]], 9
@@ -8080,23 +8714,23 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.cond:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[CMP1:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    br i1 [[CMP1]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[CMP6:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.body:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[MUL:%.*]] = mul nsw i32 [[TMP7]], 1
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD:%.*]] = add nsw i32 0, [[MUL]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD]], ptr [[I]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP8]], 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD2]], ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP8]], 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD7]], ptr [[A_ADDR]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.body.continue:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.inc:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP9]], 1
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD3]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP9]], 1
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.end:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
@@ -8111,9 +8745,9 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A_ADDR:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP0]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB2]], i32 1, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2SE3fooEv_l185.omp_outlined, i64 [[TMP1]])
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    ret void
 //
@@ -8134,12 +8768,24 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[TMP2]], 9
@@ -8158,23 +8804,23 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.cond:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[CMP1:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    br i1 [[CMP1]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[CMP6:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.body:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[MUL:%.*]] = mul nsw i32 [[TMP7]], 1
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD:%.*]] = add nsw i32 0, [[MUL]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD]], ptr [[I]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP8]], 13
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD2]], ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP8]], 13
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD7]], ptr [[A_ADDR]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.body.continue:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.inc:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP9]], 1
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD3]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP9]], 1
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.end:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
@@ -8189,9 +8835,9 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A_ADDR:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP0]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB2]], i32 1, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2STILi100EE3fooEv_l211.omp_outlined, i64 [[TMP1]])
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    ret void
 //
@@ -8212,12 +8858,24 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[TMP2]], 9
@@ -8236,23 +8894,23 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.cond:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[CMP1:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    br i1 [[CMP1]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[CMP6:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.body:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[MUL:%.*]] = mul nsw i32 [[TMP7]], 1
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD:%.*]] = add nsw i32 0, [[MUL]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD]], ptr [[I]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP8]], 116
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD2]], ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP8]], 116
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD7]], ptr [[A_ADDR]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.body.continue:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.inc:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP9]], 1
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD3]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP9]], 1
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.end:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
@@ -8267,9 +8925,9 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A_ADDR:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[A_CASTED:%.*]] = alloca i64, align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[TMP0]], ptr [[A_CASTED]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i64, ptr [[A_CASTED]], align 8, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB2]], i32 1, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__ZN2STILi1000EE3fooEv_l211.omp_outlined, i64 [[TMP1]])
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    ret void
 //
@@ -8290,12 +8948,24 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i64 [[A]], ptr [[A_ADDR]], align 8
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 9, ptr [[DOTOMP_UB]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[TMP2]], 9
@@ -8314,23 +8984,23 @@ int bar(int a){
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.cond:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[CMP1:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    br i1 [[CMP1]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[CMP6:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.body:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[MUL:%.*]] = mul nsw i32 [[TMP7]], 1
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD:%.*]] = add nsw i32 0, [[MUL]]
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD]], ptr [[I]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP8]], 1016
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD2]], ptr [[A_ADDR]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP8:%.*]] = load i32, ptr [[A_ADDR]], align 4, !freeze_bits [[META3]]
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP8]], 1016
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD7]], ptr [[A_ADDR]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.body.continue:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.inc:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD3:%.*]] = add nsw i32 [[TMP9]], 1
-// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD3]], ptr [[DOTOMP_IV]], align 4
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    [[ADD8:%.*]] = add nsw i32 [[TMP9]], 1
+// CHECK-NTARGET-OMP-DEFAULT-NEXT:    store i32 [[ADD8]], ptr [[DOTOMP_IV]], align 4
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // CHECK-NTARGET-OMP-DEFAULT:       omp.inner.for.end:
 // CHECK-NTARGET-OMP-DEFAULT-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]

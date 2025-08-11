@@ -15,6 +15,8 @@
 // DEFAULT-NEXT:  [[ENTRY:.*:]]
 // DEFAULT-NEXT:    [[D1:%.*]] = alloca float, align 4, addrspace(5)
 // DEFAULT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
+// DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// DEFAULT-NEXT:    store float [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 4
 // DEFAULT-NEXT:    [[TMP0:%.*]] = call { float, i32 } @llvm.frexp.f32.i32(float 0x40301999A0000000)
 // DEFAULT-NEXT:    [[TMP1:%.*]] = extractvalue { float, i32 } [[TMP0]], 1
 // DEFAULT-NEXT:    [[TMP2:%.*]] = add nsw i32 [[TMP1]], -1
@@ -31,6 +33,8 @@
 // IGNORE-NEXT:  [[ENTRY:.*:]]
 // IGNORE-NEXT:    [[D1:%.*]] = alloca float, align 4, addrspace(5)
 // IGNORE-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
+// IGNORE-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// IGNORE-NEXT:    store float [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 4
 // IGNORE-NEXT:    [[TMP0:%.*]] = call { float, i32 } @llvm.frexp.f32.i32(float 0x40301999A0000000)
 // IGNORE-NEXT:    [[TMP1:%.*]] = extractvalue { float, i32 } [[TMP0]], 1
 // IGNORE-NEXT:    [[TMP2:%.*]] = add nsw i32 [[TMP1]], -1
@@ -47,6 +51,8 @@
 // STRICT-NEXT:  [[ENTRY:.*:]]
 // STRICT-NEXT:    [[D1:%.*]] = alloca float, align 4, addrspace(5)
 // STRICT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
+// STRICT-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// STRICT-NEXT:    store float [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 4
 // STRICT-NEXT:    [[TMP0:%.*]] = call { float, i32 } @llvm.frexp.f32.i32(float 0x40301999A0000000)
 // STRICT-NEXT:    [[TMP1:%.*]] = extractvalue { float, i32 } [[TMP0]], 1
 // STRICT-NEXT:    [[TMP2:%.*]] = add nsw i32 [[TMP1]], -1
@@ -63,6 +69,8 @@
 // MAYTRAP-NEXT:  [[ENTRY:.*:]]
 // MAYTRAP-NEXT:    [[D1:%.*]] = alloca float, align 4, addrspace(5)
 // MAYTRAP-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
+// MAYTRAP-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// MAYTRAP-NEXT:    store float [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 4
 // MAYTRAP-NEXT:    [[TMP0:%.*]] = call { float, i32 } @llvm.frexp.f32.i32(float 0x40301999A0000000)
 // MAYTRAP-NEXT:    [[TMP1:%.*]] = extractvalue { float, i32 } [[TMP0]], 1
 // MAYTRAP-NEXT:    [[TMP2:%.*]] = add nsw i32 [[TMP1]], -1
@@ -79,6 +87,8 @@
 // ERRNO-NEXT:  [[ENTRY:.*:]]
 // ERRNO-NEXT:    [[D1:%.*]] = alloca float, align 4, addrspace(5)
 // ERRNO-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
+// ERRNO-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// ERRNO-NEXT:    store float [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 4
 // ERRNO-NEXT:    [[CALL:%.*]] = call float @logbf(float noundef 0x40301999A0000000) #[[ATTR2:[0-9]+]]
 // ERRNO-NEXT:    store float [[CALL]], ptr [[D1_ASCAST]], align 4
 // ERRNO-NEXT:    ret void
@@ -88,6 +98,8 @@
 // AMDGCNSPIRV-DEFAULT-NEXT:  [[ENTRY:.*:]]
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[D1:%.*]] = alloca float, align 4
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
+// AMDGCNSPIRV-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// AMDGCNSPIRV-DEFAULT-NEXT:    store float [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 4
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[TMP0:%.*]] = call addrspace(4) { float, i32 } @llvm.frexp.f32.i32(float 0x40301999A0000000)
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[TMP1:%.*]] = extractvalue { float, i32 } [[TMP0]], 1
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[TMP2:%.*]] = add nsw i32 [[TMP1]], -1
@@ -104,6 +116,8 @@
 // AMDGCNSPIRV-IGNORE-NEXT:  [[ENTRY:.*:]]
 // AMDGCNSPIRV-IGNORE-NEXT:    [[D1:%.*]] = alloca float, align 4
 // AMDGCNSPIRV-IGNORE-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
+// AMDGCNSPIRV-IGNORE-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// AMDGCNSPIRV-IGNORE-NEXT:    store float [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 4
 // AMDGCNSPIRV-IGNORE-NEXT:    [[TMP0:%.*]] = call addrspace(4) { float, i32 } @llvm.frexp.f32.i32(float 0x40301999A0000000)
 // AMDGCNSPIRV-IGNORE-NEXT:    [[TMP1:%.*]] = extractvalue { float, i32 } [[TMP0]], 1
 // AMDGCNSPIRV-IGNORE-NEXT:    [[TMP2:%.*]] = add nsw i32 [[TMP1]], -1
@@ -120,6 +134,8 @@
 // AMDGCNSPIRV-STRICT-NEXT:  [[ENTRY:.*:]]
 // AMDGCNSPIRV-STRICT-NEXT:    [[D1:%.*]] = alloca float, align 4
 // AMDGCNSPIRV-STRICT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
+// AMDGCNSPIRV-STRICT-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// AMDGCNSPIRV-STRICT-NEXT:    store float [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 4
 // AMDGCNSPIRV-STRICT-NEXT:    [[TMP0:%.*]] = call addrspace(4) { float, i32 } @llvm.frexp.f32.i32(float 0x40301999A0000000)
 // AMDGCNSPIRV-STRICT-NEXT:    [[TMP1:%.*]] = extractvalue { float, i32 } [[TMP0]], 1
 // AMDGCNSPIRV-STRICT-NEXT:    [[TMP2:%.*]] = add nsw i32 [[TMP1]], -1
@@ -136,6 +152,8 @@
 // AMDGCNSPIRV-MAYTRAP-NEXT:  [[ENTRY:.*:]]
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[D1:%.*]] = alloca float, align 4
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
+// AMDGCNSPIRV-MAYTRAP-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// AMDGCNSPIRV-MAYTRAP-NEXT:    store float [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 4
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[TMP0:%.*]] = call addrspace(4) { float, i32 } @llvm.frexp.f32.i32(float 0x40301999A0000000)
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[TMP1:%.*]] = extractvalue { float, i32 } [[TMP0]], 1
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[TMP2:%.*]] = add nsw i32 [[TMP1]], -1
@@ -152,6 +170,8 @@
 // AMDGCNSPIRV-ERRNO-NEXT:  [[ENTRY:.*:]]
 // AMDGCNSPIRV-ERRNO-NEXT:    [[D1:%.*]] = alloca float, align 4
 // AMDGCNSPIRV-ERRNO-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
+// AMDGCNSPIRV-ERRNO-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// AMDGCNSPIRV-ERRNO-NEXT:    store float [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 4
 // AMDGCNSPIRV-ERRNO-NEXT:    [[CALL:%.*]] = call spir_func addrspace(4) float @logbf(float noundef 0x40301999A0000000) #[[ATTR2:[0-9]+]]
 // AMDGCNSPIRV-ERRNO-NEXT:    store float [[CALL]], ptr addrspace(4) [[D1_ASCAST]], align 4
 // AMDGCNSPIRV-ERRNO-NEXT:    ret void
@@ -167,6 +187,8 @@ void test_logbf() {
 // DEFAULT-NEXT:    [[A_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[A_ADDR]] to ptr
 // DEFAULT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
 // DEFAULT-NEXT:    store float [[A]], ptr [[A_ADDR_ASCAST]], align 4
+// DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// DEFAULT-NEXT:    store float [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 4
 // DEFAULT-NEXT:    [[TMP0:%.*]] = load float, ptr [[A_ADDR_ASCAST]], align 4
 // DEFAULT-NEXT:    [[TMP1:%.*]] = call { float, i32 } @llvm.frexp.f32.i32(float [[TMP0]])
 // DEFAULT-NEXT:    [[TMP2:%.*]] = extractvalue { float, i32 } [[TMP1]], 1
@@ -189,6 +211,8 @@ void test_logbf() {
 // IGNORE-NEXT:    [[A_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[A_ADDR]] to ptr
 // IGNORE-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
 // IGNORE-NEXT:    store float [[A]], ptr [[A_ADDR_ASCAST]], align 4
+// IGNORE-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// IGNORE-NEXT:    store float [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 4
 // IGNORE-NEXT:    [[TMP0:%.*]] = load float, ptr [[A_ADDR_ASCAST]], align 4
 // IGNORE-NEXT:    [[TMP1:%.*]] = call { float, i32 } @llvm.frexp.f32.i32(float [[TMP0]])
 // IGNORE-NEXT:    [[TMP2:%.*]] = extractvalue { float, i32 } [[TMP1]], 1
@@ -211,6 +235,8 @@ void test_logbf() {
 // STRICT-NEXT:    [[A_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[A_ADDR]] to ptr
 // STRICT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
 // STRICT-NEXT:    store float [[A]], ptr [[A_ADDR_ASCAST]], align 4
+// STRICT-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// STRICT-NEXT:    store float [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 4
 // STRICT-NEXT:    [[TMP0:%.*]] = load float, ptr [[A_ADDR_ASCAST]], align 4
 // STRICT-NEXT:    [[TMP1:%.*]] = call { float, i32 } @llvm.frexp.f32.i32(float [[TMP0]])
 // STRICT-NEXT:    [[TMP2:%.*]] = extractvalue { float, i32 } [[TMP1]], 1
@@ -233,6 +259,8 @@ void test_logbf() {
 // MAYTRAP-NEXT:    [[A_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[A_ADDR]] to ptr
 // MAYTRAP-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
 // MAYTRAP-NEXT:    store float [[A]], ptr [[A_ADDR_ASCAST]], align 4
+// MAYTRAP-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// MAYTRAP-NEXT:    store float [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 4
 // MAYTRAP-NEXT:    [[TMP0:%.*]] = load float, ptr [[A_ADDR_ASCAST]], align 4
 // MAYTRAP-NEXT:    [[TMP1:%.*]] = call { float, i32 } @llvm.frexp.f32.i32(float [[TMP0]])
 // MAYTRAP-NEXT:    [[TMP2:%.*]] = extractvalue { float, i32 } [[TMP1]], 1
@@ -255,6 +283,8 @@ void test_logbf() {
 // ERRNO-NEXT:    [[A_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[A_ADDR]] to ptr
 // ERRNO-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
 // ERRNO-NEXT:    store float [[A]], ptr [[A_ADDR_ASCAST]], align 4
+// ERRNO-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// ERRNO-NEXT:    store float [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 4
 // ERRNO-NEXT:    [[TMP0:%.*]] = load float, ptr [[A_ADDR_ASCAST]], align 4
 // ERRNO-NEXT:    [[CALL:%.*]] = call float @logbf(float noundef [[TMP0]]) #[[ATTR2]]
 // ERRNO-NEXT:    store float [[CALL]], ptr [[D1_ASCAST]], align 4
@@ -268,6 +298,8 @@ void test_logbf() {
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[A_ADDR_ASCAST:%.*]] = addrspacecast ptr [[A_ADDR]] to ptr addrspace(4)
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
 // AMDGCNSPIRV-DEFAULT-NEXT:    store float [[A]], ptr addrspace(4) [[A_ADDR_ASCAST]], align 4
+// AMDGCNSPIRV-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// AMDGCNSPIRV-DEFAULT-NEXT:    store float [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 4
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[TMP0:%.*]] = load float, ptr addrspace(4) [[A_ADDR_ASCAST]], align 4
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[TMP1:%.*]] = call addrspace(4) { float, i32 } @llvm.frexp.f32.i32(float [[TMP0]])
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[TMP2:%.*]] = extractvalue { float, i32 } [[TMP1]], 1
@@ -290,6 +322,8 @@ void test_logbf() {
 // AMDGCNSPIRV-IGNORE-NEXT:    [[A_ADDR_ASCAST:%.*]] = addrspacecast ptr [[A_ADDR]] to ptr addrspace(4)
 // AMDGCNSPIRV-IGNORE-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
 // AMDGCNSPIRV-IGNORE-NEXT:    store float [[A]], ptr addrspace(4) [[A_ADDR_ASCAST]], align 4
+// AMDGCNSPIRV-IGNORE-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// AMDGCNSPIRV-IGNORE-NEXT:    store float [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 4
 // AMDGCNSPIRV-IGNORE-NEXT:    [[TMP0:%.*]] = load float, ptr addrspace(4) [[A_ADDR_ASCAST]], align 4
 // AMDGCNSPIRV-IGNORE-NEXT:    [[TMP1:%.*]] = call addrspace(4) { float, i32 } @llvm.frexp.f32.i32(float [[TMP0]])
 // AMDGCNSPIRV-IGNORE-NEXT:    [[TMP2:%.*]] = extractvalue { float, i32 } [[TMP1]], 1
@@ -312,6 +346,8 @@ void test_logbf() {
 // AMDGCNSPIRV-STRICT-NEXT:    [[A_ADDR_ASCAST:%.*]] = addrspacecast ptr [[A_ADDR]] to ptr addrspace(4)
 // AMDGCNSPIRV-STRICT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
 // AMDGCNSPIRV-STRICT-NEXT:    store float [[A]], ptr addrspace(4) [[A_ADDR_ASCAST]], align 4
+// AMDGCNSPIRV-STRICT-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// AMDGCNSPIRV-STRICT-NEXT:    store float [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 4
 // AMDGCNSPIRV-STRICT-NEXT:    [[TMP0:%.*]] = load float, ptr addrspace(4) [[A_ADDR_ASCAST]], align 4
 // AMDGCNSPIRV-STRICT-NEXT:    [[TMP1:%.*]] = call addrspace(4) { float, i32 } @llvm.frexp.f32.i32(float [[TMP0]])
 // AMDGCNSPIRV-STRICT-NEXT:    [[TMP2:%.*]] = extractvalue { float, i32 } [[TMP1]], 1
@@ -334,6 +370,8 @@ void test_logbf() {
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[A_ADDR_ASCAST:%.*]] = addrspacecast ptr [[A_ADDR]] to ptr addrspace(4)
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
 // AMDGCNSPIRV-MAYTRAP-NEXT:    store float [[A]], ptr addrspace(4) [[A_ADDR_ASCAST]], align 4
+// AMDGCNSPIRV-MAYTRAP-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// AMDGCNSPIRV-MAYTRAP-NEXT:    store float [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 4
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[TMP0:%.*]] = load float, ptr addrspace(4) [[A_ADDR_ASCAST]], align 4
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[TMP1:%.*]] = call addrspace(4) { float, i32 } @llvm.frexp.f32.i32(float [[TMP0]])
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[TMP2:%.*]] = extractvalue { float, i32 } [[TMP1]], 1
@@ -356,6 +394,8 @@ void test_logbf() {
 // AMDGCNSPIRV-ERRNO-NEXT:    [[A_ADDR_ASCAST:%.*]] = addrspacecast ptr [[A_ADDR]] to ptr addrspace(4)
 // AMDGCNSPIRV-ERRNO-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
 // AMDGCNSPIRV-ERRNO-NEXT:    store float [[A]], ptr addrspace(4) [[A_ADDR_ASCAST]], align 4
+// AMDGCNSPIRV-ERRNO-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// AMDGCNSPIRV-ERRNO-NEXT:    store float [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 4
 // AMDGCNSPIRV-ERRNO-NEXT:    [[TMP0:%.*]] = load float, ptr addrspace(4) [[A_ADDR_ASCAST]], align 4
 // AMDGCNSPIRV-ERRNO-NEXT:    [[CALL:%.*]] = call spir_func addrspace(4) float @logbf(float noundef [[TMP0]]) #[[ATTR2]]
 // AMDGCNSPIRV-ERRNO-NEXT:    store float [[CALL]], ptr addrspace(4) [[D1_ASCAST]], align 4
@@ -384,6 +424,8 @@ void test_logbf_var(float a) {
 // DEFAULT-NEXT:  [[ENTRY:.*:]]
 // DEFAULT-NEXT:    [[D1:%.*]] = alloca double, align 8, addrspace(5)
 // DEFAULT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
+// DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// DEFAULT-NEXT:    store double [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 8
 // DEFAULT-NEXT:    [[TMP0:%.*]] = call { double, i32 } @llvm.frexp.f64.i32(double 1.510000e+01)
 // DEFAULT-NEXT:    [[TMP1:%.*]] = extractvalue { double, i32 } [[TMP0]], 1
 // DEFAULT-NEXT:    [[TMP2:%.*]] = add nsw i32 [[TMP1]], -1
@@ -400,6 +442,8 @@ void test_logbf_var(float a) {
 // IGNORE-NEXT:  [[ENTRY:.*:]]
 // IGNORE-NEXT:    [[D1:%.*]] = alloca double, align 8, addrspace(5)
 // IGNORE-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
+// IGNORE-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// IGNORE-NEXT:    store double [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 8
 // IGNORE-NEXT:    [[TMP0:%.*]] = call { double, i32 } @llvm.frexp.f64.i32(double 1.510000e+01)
 // IGNORE-NEXT:    [[TMP1:%.*]] = extractvalue { double, i32 } [[TMP0]], 1
 // IGNORE-NEXT:    [[TMP2:%.*]] = add nsw i32 [[TMP1]], -1
@@ -416,6 +460,8 @@ void test_logbf_var(float a) {
 // STRICT-NEXT:  [[ENTRY:.*:]]
 // STRICT-NEXT:    [[D1:%.*]] = alloca double, align 8, addrspace(5)
 // STRICT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
+// STRICT-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// STRICT-NEXT:    store double [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 8
 // STRICT-NEXT:    [[TMP0:%.*]] = call { double, i32 } @llvm.frexp.f64.i32(double 1.510000e+01)
 // STRICT-NEXT:    [[TMP1:%.*]] = extractvalue { double, i32 } [[TMP0]], 1
 // STRICT-NEXT:    [[TMP2:%.*]] = add nsw i32 [[TMP1]], -1
@@ -432,6 +478,8 @@ void test_logbf_var(float a) {
 // MAYTRAP-NEXT:  [[ENTRY:.*:]]
 // MAYTRAP-NEXT:    [[D1:%.*]] = alloca double, align 8, addrspace(5)
 // MAYTRAP-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
+// MAYTRAP-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// MAYTRAP-NEXT:    store double [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 8
 // MAYTRAP-NEXT:    [[TMP0:%.*]] = call { double, i32 } @llvm.frexp.f64.i32(double 1.510000e+01)
 // MAYTRAP-NEXT:    [[TMP1:%.*]] = extractvalue { double, i32 } [[TMP0]], 1
 // MAYTRAP-NEXT:    [[TMP2:%.*]] = add nsw i32 [[TMP1]], -1
@@ -448,6 +496,8 @@ void test_logbf_var(float a) {
 // ERRNO-NEXT:  [[ENTRY:.*:]]
 // ERRNO-NEXT:    [[D1:%.*]] = alloca double, align 8, addrspace(5)
 // ERRNO-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
+// ERRNO-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// ERRNO-NEXT:    store double [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 8
 // ERRNO-NEXT:    [[CALL:%.*]] = call double @logb(double noundef 1.510000e+01) #[[ATTR2]]
 // ERRNO-NEXT:    store double [[CALL]], ptr [[D1_ASCAST]], align 8
 // ERRNO-NEXT:    ret void
@@ -457,6 +507,8 @@ void test_logbf_var(float a) {
 // AMDGCNSPIRV-DEFAULT-NEXT:  [[ENTRY:.*:]]
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[D1:%.*]] = alloca double, align 8
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
+// AMDGCNSPIRV-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// AMDGCNSPIRV-DEFAULT-NEXT:    store double [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 8
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[TMP0:%.*]] = call addrspace(4) { double, i32 } @llvm.frexp.f64.i32(double 1.510000e+01)
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[TMP1:%.*]] = extractvalue { double, i32 } [[TMP0]], 1
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[TMP2:%.*]] = add nsw i32 [[TMP1]], -1
@@ -473,6 +525,8 @@ void test_logbf_var(float a) {
 // AMDGCNSPIRV-IGNORE-NEXT:  [[ENTRY:.*:]]
 // AMDGCNSPIRV-IGNORE-NEXT:    [[D1:%.*]] = alloca double, align 8
 // AMDGCNSPIRV-IGNORE-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
+// AMDGCNSPIRV-IGNORE-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// AMDGCNSPIRV-IGNORE-NEXT:    store double [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 8
 // AMDGCNSPIRV-IGNORE-NEXT:    [[TMP0:%.*]] = call addrspace(4) { double, i32 } @llvm.frexp.f64.i32(double 1.510000e+01)
 // AMDGCNSPIRV-IGNORE-NEXT:    [[TMP1:%.*]] = extractvalue { double, i32 } [[TMP0]], 1
 // AMDGCNSPIRV-IGNORE-NEXT:    [[TMP2:%.*]] = add nsw i32 [[TMP1]], -1
@@ -489,6 +543,8 @@ void test_logbf_var(float a) {
 // AMDGCNSPIRV-STRICT-NEXT:  [[ENTRY:.*:]]
 // AMDGCNSPIRV-STRICT-NEXT:    [[D1:%.*]] = alloca double, align 8
 // AMDGCNSPIRV-STRICT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
+// AMDGCNSPIRV-STRICT-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// AMDGCNSPIRV-STRICT-NEXT:    store double [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 8
 // AMDGCNSPIRV-STRICT-NEXT:    [[TMP0:%.*]] = call addrspace(4) { double, i32 } @llvm.frexp.f64.i32(double 1.510000e+01)
 // AMDGCNSPIRV-STRICT-NEXT:    [[TMP1:%.*]] = extractvalue { double, i32 } [[TMP0]], 1
 // AMDGCNSPIRV-STRICT-NEXT:    [[TMP2:%.*]] = add nsw i32 [[TMP1]], -1
@@ -505,6 +561,8 @@ void test_logbf_var(float a) {
 // AMDGCNSPIRV-MAYTRAP-NEXT:  [[ENTRY:.*:]]
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[D1:%.*]] = alloca double, align 8
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
+// AMDGCNSPIRV-MAYTRAP-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// AMDGCNSPIRV-MAYTRAP-NEXT:    store double [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 8
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[TMP0:%.*]] = call addrspace(4) { double, i32 } @llvm.frexp.f64.i32(double 1.510000e+01)
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[TMP1:%.*]] = extractvalue { double, i32 } [[TMP0]], 1
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[TMP2:%.*]] = add nsw i32 [[TMP1]], -1
@@ -521,6 +579,8 @@ void test_logbf_var(float a) {
 // AMDGCNSPIRV-ERRNO-NEXT:  [[ENTRY:.*:]]
 // AMDGCNSPIRV-ERRNO-NEXT:    [[D1:%.*]] = alloca double, align 8
 // AMDGCNSPIRV-ERRNO-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
+// AMDGCNSPIRV-ERRNO-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// AMDGCNSPIRV-ERRNO-NEXT:    store double [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 8
 // AMDGCNSPIRV-ERRNO-NEXT:    [[CALL:%.*]] = call spir_func addrspace(4) double @logb(double noundef 1.510000e+01) #[[ATTR2]]
 // AMDGCNSPIRV-ERRNO-NEXT:    store double [[CALL]], ptr addrspace(4) [[D1_ASCAST]], align 8
 // AMDGCNSPIRV-ERRNO-NEXT:    ret void
@@ -557,6 +617,8 @@ void test_logb() {
 // DEFAULT-NEXT:    [[A_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[A_ADDR]] to ptr
 // DEFAULT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
 // DEFAULT-NEXT:    store double [[A]], ptr [[A_ADDR_ASCAST]], align 8
+// DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// DEFAULT-NEXT:    store double [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 8
 // DEFAULT-NEXT:    [[TMP0:%.*]] = load double, ptr [[A_ADDR_ASCAST]], align 8
 // DEFAULT-NEXT:    [[TMP1:%.*]] = call { double, i32 } @llvm.frexp.f64.i32(double [[TMP0]])
 // DEFAULT-NEXT:    [[TMP2:%.*]] = extractvalue { double, i32 } [[TMP1]], 1
@@ -579,6 +641,8 @@ void test_logb() {
 // IGNORE-NEXT:    [[A_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[A_ADDR]] to ptr
 // IGNORE-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
 // IGNORE-NEXT:    store double [[A]], ptr [[A_ADDR_ASCAST]], align 8
+// IGNORE-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// IGNORE-NEXT:    store double [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 8
 // IGNORE-NEXT:    [[TMP0:%.*]] = load double, ptr [[A_ADDR_ASCAST]], align 8
 // IGNORE-NEXT:    [[TMP1:%.*]] = call { double, i32 } @llvm.frexp.f64.i32(double [[TMP0]])
 // IGNORE-NEXT:    [[TMP2:%.*]] = extractvalue { double, i32 } [[TMP1]], 1
@@ -601,6 +665,8 @@ void test_logb() {
 // STRICT-NEXT:    [[A_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[A_ADDR]] to ptr
 // STRICT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
 // STRICT-NEXT:    store double [[A]], ptr [[A_ADDR_ASCAST]], align 8
+// STRICT-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// STRICT-NEXT:    store double [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 8
 // STRICT-NEXT:    [[TMP0:%.*]] = load double, ptr [[A_ADDR_ASCAST]], align 8
 // STRICT-NEXT:    [[TMP1:%.*]] = call { double, i32 } @llvm.frexp.f64.i32(double [[TMP0]])
 // STRICT-NEXT:    [[TMP2:%.*]] = extractvalue { double, i32 } [[TMP1]], 1
@@ -623,6 +689,8 @@ void test_logb() {
 // MAYTRAP-NEXT:    [[A_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[A_ADDR]] to ptr
 // MAYTRAP-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
 // MAYTRAP-NEXT:    store double [[A]], ptr [[A_ADDR_ASCAST]], align 8
+// MAYTRAP-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// MAYTRAP-NEXT:    store double [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 8
 // MAYTRAP-NEXT:    [[TMP0:%.*]] = load double, ptr [[A_ADDR_ASCAST]], align 8
 // MAYTRAP-NEXT:    [[TMP1:%.*]] = call { double, i32 } @llvm.frexp.f64.i32(double [[TMP0]])
 // MAYTRAP-NEXT:    [[TMP2:%.*]] = extractvalue { double, i32 } [[TMP1]], 1
@@ -645,6 +713,8 @@ void test_logb() {
 // ERRNO-NEXT:    [[A_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[A_ADDR]] to ptr
 // ERRNO-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
 // ERRNO-NEXT:    store double [[A]], ptr [[A_ADDR_ASCAST]], align 8
+// ERRNO-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// ERRNO-NEXT:    store double [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 8
 // ERRNO-NEXT:    [[TMP0:%.*]] = load double, ptr [[A_ADDR_ASCAST]], align 8
 // ERRNO-NEXT:    [[CALL:%.*]] = call double @logb(double noundef [[TMP0]]) #[[ATTR2]]
 // ERRNO-NEXT:    store double [[CALL]], ptr [[D1_ASCAST]], align 8
@@ -658,6 +728,8 @@ void test_logb() {
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[A_ADDR_ASCAST:%.*]] = addrspacecast ptr [[A_ADDR]] to ptr addrspace(4)
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
 // AMDGCNSPIRV-DEFAULT-NEXT:    store double [[A]], ptr addrspace(4) [[A_ADDR_ASCAST]], align 8
+// AMDGCNSPIRV-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// AMDGCNSPIRV-DEFAULT-NEXT:    store double [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 8
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[TMP0:%.*]] = load double, ptr addrspace(4) [[A_ADDR_ASCAST]], align 8
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[TMP1:%.*]] = call addrspace(4) { double, i32 } @llvm.frexp.f64.i32(double [[TMP0]])
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[TMP2:%.*]] = extractvalue { double, i32 } [[TMP1]], 1
@@ -680,6 +752,8 @@ void test_logb() {
 // AMDGCNSPIRV-IGNORE-NEXT:    [[A_ADDR_ASCAST:%.*]] = addrspacecast ptr [[A_ADDR]] to ptr addrspace(4)
 // AMDGCNSPIRV-IGNORE-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
 // AMDGCNSPIRV-IGNORE-NEXT:    store double [[A]], ptr addrspace(4) [[A_ADDR_ASCAST]], align 8
+// AMDGCNSPIRV-IGNORE-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// AMDGCNSPIRV-IGNORE-NEXT:    store double [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 8
 // AMDGCNSPIRV-IGNORE-NEXT:    [[TMP0:%.*]] = load double, ptr addrspace(4) [[A_ADDR_ASCAST]], align 8
 // AMDGCNSPIRV-IGNORE-NEXT:    [[TMP1:%.*]] = call addrspace(4) { double, i32 } @llvm.frexp.f64.i32(double [[TMP0]])
 // AMDGCNSPIRV-IGNORE-NEXT:    [[TMP2:%.*]] = extractvalue { double, i32 } [[TMP1]], 1
@@ -702,6 +776,8 @@ void test_logb() {
 // AMDGCNSPIRV-STRICT-NEXT:    [[A_ADDR_ASCAST:%.*]] = addrspacecast ptr [[A_ADDR]] to ptr addrspace(4)
 // AMDGCNSPIRV-STRICT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
 // AMDGCNSPIRV-STRICT-NEXT:    store double [[A]], ptr addrspace(4) [[A_ADDR_ASCAST]], align 8
+// AMDGCNSPIRV-STRICT-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// AMDGCNSPIRV-STRICT-NEXT:    store double [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 8
 // AMDGCNSPIRV-STRICT-NEXT:    [[TMP0:%.*]] = load double, ptr addrspace(4) [[A_ADDR_ASCAST]], align 8
 // AMDGCNSPIRV-STRICT-NEXT:    [[TMP1:%.*]] = call addrspace(4) { double, i32 } @llvm.frexp.f64.i32(double [[TMP0]])
 // AMDGCNSPIRV-STRICT-NEXT:    [[TMP2:%.*]] = extractvalue { double, i32 } [[TMP1]], 1
@@ -724,6 +800,8 @@ void test_logb() {
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[A_ADDR_ASCAST:%.*]] = addrspacecast ptr [[A_ADDR]] to ptr addrspace(4)
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
 // AMDGCNSPIRV-MAYTRAP-NEXT:    store double [[A]], ptr addrspace(4) [[A_ADDR_ASCAST]], align 8
+// AMDGCNSPIRV-MAYTRAP-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// AMDGCNSPIRV-MAYTRAP-NEXT:    store double [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 8
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[TMP0:%.*]] = load double, ptr addrspace(4) [[A_ADDR_ASCAST]], align 8
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[TMP1:%.*]] = call addrspace(4) { double, i32 } @llvm.frexp.f64.i32(double [[TMP0]])
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[TMP2:%.*]] = extractvalue { double, i32 } [[TMP1]], 1
@@ -746,6 +824,8 @@ void test_logb() {
 // AMDGCNSPIRV-ERRNO-NEXT:    [[A_ADDR_ASCAST:%.*]] = addrspacecast ptr [[A_ADDR]] to ptr addrspace(4)
 // AMDGCNSPIRV-ERRNO-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
 // AMDGCNSPIRV-ERRNO-NEXT:    store double [[A]], ptr addrspace(4) [[A_ADDR_ASCAST]], align 8
+// AMDGCNSPIRV-ERRNO-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// AMDGCNSPIRV-ERRNO-NEXT:    store double [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 8
 // AMDGCNSPIRV-ERRNO-NEXT:    [[TMP0:%.*]] = load double, ptr addrspace(4) [[A_ADDR_ASCAST]], align 8
 // AMDGCNSPIRV-ERRNO-NEXT:    [[CALL:%.*]] = call spir_func addrspace(4) double @logb(double noundef [[TMP0]]) #[[ATTR2]]
 // AMDGCNSPIRV-ERRNO-NEXT:    store double [[CALL]], ptr addrspace(4) [[D1_ASCAST]], align 8
@@ -768,6 +848,8 @@ void test_logb_var(double a) {
 // DEFAULT-NEXT:  [[ENTRY:.*:]]
 // DEFAULT-NEXT:    [[D1:%.*]] = alloca float, align 4, addrspace(5)
 // DEFAULT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
+// DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// DEFAULT-NEXT:    store float [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 4
 // DEFAULT-NEXT:    [[TMP0:%.*]] = call float @llvm.ldexp.f32.i32(float 0x4030B33340000000, i32 10)
 // DEFAULT-NEXT:    store float [[TMP0]], ptr [[D1_ASCAST]], align 4
 // DEFAULT-NEXT:    ret void
@@ -777,6 +859,8 @@ void test_logb_var(double a) {
 // IGNORE-NEXT:  [[ENTRY:.*:]]
 // IGNORE-NEXT:    [[D1:%.*]] = alloca float, align 4, addrspace(5)
 // IGNORE-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
+// IGNORE-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// IGNORE-NEXT:    store float [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 4
 // IGNORE-NEXT:    [[TMP0:%.*]] = call float @llvm.ldexp.f32.i32(float 0x4030B33340000000, i32 10)
 // IGNORE-NEXT:    store float [[TMP0]], ptr [[D1_ASCAST]], align 4
 // IGNORE-NEXT:    ret void
@@ -786,6 +870,8 @@ void test_logb_var(double a) {
 // STRICT-NEXT:  [[ENTRY:.*:]]
 // STRICT-NEXT:    [[D1:%.*]] = alloca float, align 4, addrspace(5)
 // STRICT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
+// STRICT-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// STRICT-NEXT:    store float [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 4
 // STRICT-NEXT:    [[TMP0:%.*]] = call float @llvm.ldexp.f32.i32(float 0x4030B33340000000, i32 10)
 // STRICT-NEXT:    store float [[TMP0]], ptr [[D1_ASCAST]], align 4
 // STRICT-NEXT:    ret void
@@ -795,6 +881,8 @@ void test_logb_var(double a) {
 // MAYTRAP-NEXT:  [[ENTRY:.*:]]
 // MAYTRAP-NEXT:    [[D1:%.*]] = alloca float, align 4, addrspace(5)
 // MAYTRAP-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
+// MAYTRAP-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// MAYTRAP-NEXT:    store float [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 4
 // MAYTRAP-NEXT:    [[TMP0:%.*]] = call float @llvm.ldexp.f32.i32(float 0x4030B33340000000, i32 10)
 // MAYTRAP-NEXT:    store float [[TMP0]], ptr [[D1_ASCAST]], align 4
 // MAYTRAP-NEXT:    ret void
@@ -804,6 +892,8 @@ void test_logb_var(double a) {
 // ERRNO-NEXT:  [[ENTRY:.*:]]
 // ERRNO-NEXT:    [[D1:%.*]] = alloca float, align 4, addrspace(5)
 // ERRNO-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
+// ERRNO-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// ERRNO-NEXT:    store float [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 4
 // ERRNO-NEXT:    [[CALL:%.*]] = call float @scalbnf(float noundef 0x4030B33340000000, i32 noundef 10) #[[ATTR2]]
 // ERRNO-NEXT:    store float [[CALL]], ptr [[D1_ASCAST]], align 4
 // ERRNO-NEXT:    ret void
@@ -813,6 +903,8 @@ void test_logb_var(double a) {
 // AMDGCNSPIRV-DEFAULT-NEXT:  [[ENTRY:.*:]]
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[D1:%.*]] = alloca float, align 4
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
+// AMDGCNSPIRV-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// AMDGCNSPIRV-DEFAULT-NEXT:    store float [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 4
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[TMP0:%.*]] = call addrspace(4) float @llvm.ldexp.f32.i32(float 0x4030B33340000000, i32 10)
 // AMDGCNSPIRV-DEFAULT-NEXT:    store float [[TMP0]], ptr addrspace(4) [[D1_ASCAST]], align 4
 // AMDGCNSPIRV-DEFAULT-NEXT:    ret void
@@ -822,6 +914,8 @@ void test_logb_var(double a) {
 // AMDGCNSPIRV-IGNORE-NEXT:  [[ENTRY:.*:]]
 // AMDGCNSPIRV-IGNORE-NEXT:    [[D1:%.*]] = alloca float, align 4
 // AMDGCNSPIRV-IGNORE-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
+// AMDGCNSPIRV-IGNORE-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// AMDGCNSPIRV-IGNORE-NEXT:    store float [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 4
 // AMDGCNSPIRV-IGNORE-NEXT:    [[TMP0:%.*]] = call addrspace(4) float @llvm.ldexp.f32.i32(float 0x4030B33340000000, i32 10)
 // AMDGCNSPIRV-IGNORE-NEXT:    store float [[TMP0]], ptr addrspace(4) [[D1_ASCAST]], align 4
 // AMDGCNSPIRV-IGNORE-NEXT:    ret void
@@ -831,6 +925,8 @@ void test_logb_var(double a) {
 // AMDGCNSPIRV-STRICT-NEXT:  [[ENTRY:.*:]]
 // AMDGCNSPIRV-STRICT-NEXT:    [[D1:%.*]] = alloca float, align 4
 // AMDGCNSPIRV-STRICT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
+// AMDGCNSPIRV-STRICT-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// AMDGCNSPIRV-STRICT-NEXT:    store float [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 4
 // AMDGCNSPIRV-STRICT-NEXT:    [[TMP0:%.*]] = call addrspace(4) float @llvm.ldexp.f32.i32(float 0x4030B33340000000, i32 10)
 // AMDGCNSPIRV-STRICT-NEXT:    store float [[TMP0]], ptr addrspace(4) [[D1_ASCAST]], align 4
 // AMDGCNSPIRV-STRICT-NEXT:    ret void
@@ -840,6 +936,8 @@ void test_logb_var(double a) {
 // AMDGCNSPIRV-MAYTRAP-NEXT:  [[ENTRY:.*:]]
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[D1:%.*]] = alloca float, align 4
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
+// AMDGCNSPIRV-MAYTRAP-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// AMDGCNSPIRV-MAYTRAP-NEXT:    store float [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 4
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[TMP0:%.*]] = call addrspace(4) float @llvm.ldexp.f32.i32(float 0x4030B33340000000, i32 10)
 // AMDGCNSPIRV-MAYTRAP-NEXT:    store float [[TMP0]], ptr addrspace(4) [[D1_ASCAST]], align 4
 // AMDGCNSPIRV-MAYTRAP-NEXT:    ret void
@@ -849,6 +947,8 @@ void test_logb_var(double a) {
 // AMDGCNSPIRV-ERRNO-NEXT:  [[ENTRY:.*:]]
 // AMDGCNSPIRV-ERRNO-NEXT:    [[D1:%.*]] = alloca float, align 4
 // AMDGCNSPIRV-ERRNO-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
+// AMDGCNSPIRV-ERRNO-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// AMDGCNSPIRV-ERRNO-NEXT:    store float [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 4
 // AMDGCNSPIRV-ERRNO-NEXT:    [[CALL:%.*]] = call spir_func addrspace(4) float @scalbnf(float noundef 0x4030B33340000000, i32 noundef 10) #[[ATTR2]]
 // AMDGCNSPIRV-ERRNO-NEXT:    store float [[CALL]], ptr addrspace(4) [[D1_ASCAST]], align 4
 // AMDGCNSPIRV-ERRNO-NEXT:    ret void
@@ -876,6 +976,8 @@ void test_scalbnf() {
 // DEFAULT-NEXT:    [[A_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[A_ADDR]] to ptr
 // DEFAULT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
 // DEFAULT-NEXT:    store float [[A]], ptr [[A_ADDR_ASCAST]], align 4
+// DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// DEFAULT-NEXT:    store float [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 4
 // DEFAULT-NEXT:    [[TMP0:%.*]] = load float, ptr [[A_ADDR_ASCAST]], align 4
 // DEFAULT-NEXT:    [[TMP1:%.*]] = call float @llvm.ldexp.f32.i32(float [[TMP0]], i32 9)
 // DEFAULT-NEXT:    store float [[TMP1]], ptr [[D1_ASCAST]], align 4
@@ -889,6 +991,8 @@ void test_scalbnf() {
 // IGNORE-NEXT:    [[A_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[A_ADDR]] to ptr
 // IGNORE-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
 // IGNORE-NEXT:    store float [[A]], ptr [[A_ADDR_ASCAST]], align 4
+// IGNORE-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// IGNORE-NEXT:    store float [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 4
 // IGNORE-NEXT:    [[TMP0:%.*]] = load float, ptr [[A_ADDR_ASCAST]], align 4
 // IGNORE-NEXT:    [[TMP1:%.*]] = call float @llvm.ldexp.f32.i32(float [[TMP0]], i32 9)
 // IGNORE-NEXT:    store float [[TMP1]], ptr [[D1_ASCAST]], align 4
@@ -902,6 +1006,8 @@ void test_scalbnf() {
 // STRICT-NEXT:    [[A_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[A_ADDR]] to ptr
 // STRICT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
 // STRICT-NEXT:    store float [[A]], ptr [[A_ADDR_ASCAST]], align 4
+// STRICT-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// STRICT-NEXT:    store float [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 4
 // STRICT-NEXT:    [[TMP0:%.*]] = load float, ptr [[A_ADDR_ASCAST]], align 4
 // STRICT-NEXT:    [[TMP1:%.*]] = call float @llvm.ldexp.f32.i32(float [[TMP0]], i32 9)
 // STRICT-NEXT:    store float [[TMP1]], ptr [[D1_ASCAST]], align 4
@@ -915,6 +1021,8 @@ void test_scalbnf() {
 // MAYTRAP-NEXT:    [[A_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[A_ADDR]] to ptr
 // MAYTRAP-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
 // MAYTRAP-NEXT:    store float [[A]], ptr [[A_ADDR_ASCAST]], align 4
+// MAYTRAP-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// MAYTRAP-NEXT:    store float [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 4
 // MAYTRAP-NEXT:    [[TMP0:%.*]] = load float, ptr [[A_ADDR_ASCAST]], align 4
 // MAYTRAP-NEXT:    [[TMP1:%.*]] = call float @llvm.ldexp.f32.i32(float [[TMP0]], i32 9)
 // MAYTRAP-NEXT:    store float [[TMP1]], ptr [[D1_ASCAST]], align 4
@@ -928,6 +1036,8 @@ void test_scalbnf() {
 // ERRNO-NEXT:    [[A_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[A_ADDR]] to ptr
 // ERRNO-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
 // ERRNO-NEXT:    store float [[A]], ptr [[A_ADDR_ASCAST]], align 4
+// ERRNO-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// ERRNO-NEXT:    store float [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 4
 // ERRNO-NEXT:    [[TMP0:%.*]] = load float, ptr [[A_ADDR_ASCAST]], align 4
 // ERRNO-NEXT:    [[CALL:%.*]] = call float @scalbnf(float noundef [[TMP0]], i32 noundef 9) #[[ATTR2]]
 // ERRNO-NEXT:    store float [[CALL]], ptr [[D1_ASCAST]], align 4
@@ -941,6 +1051,8 @@ void test_scalbnf() {
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[A_ADDR_ASCAST:%.*]] = addrspacecast ptr [[A_ADDR]] to ptr addrspace(4)
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
 // AMDGCNSPIRV-DEFAULT-NEXT:    store float [[A]], ptr addrspace(4) [[A_ADDR_ASCAST]], align 4
+// AMDGCNSPIRV-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// AMDGCNSPIRV-DEFAULT-NEXT:    store float [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 4
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[TMP0:%.*]] = load float, ptr addrspace(4) [[A_ADDR_ASCAST]], align 4
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[TMP1:%.*]] = call addrspace(4) float @llvm.ldexp.f32.i32(float [[TMP0]], i32 9)
 // AMDGCNSPIRV-DEFAULT-NEXT:    store float [[TMP1]], ptr addrspace(4) [[D1_ASCAST]], align 4
@@ -954,6 +1066,8 @@ void test_scalbnf() {
 // AMDGCNSPIRV-IGNORE-NEXT:    [[A_ADDR_ASCAST:%.*]] = addrspacecast ptr [[A_ADDR]] to ptr addrspace(4)
 // AMDGCNSPIRV-IGNORE-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
 // AMDGCNSPIRV-IGNORE-NEXT:    store float [[A]], ptr addrspace(4) [[A_ADDR_ASCAST]], align 4
+// AMDGCNSPIRV-IGNORE-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// AMDGCNSPIRV-IGNORE-NEXT:    store float [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 4
 // AMDGCNSPIRV-IGNORE-NEXT:    [[TMP0:%.*]] = load float, ptr addrspace(4) [[A_ADDR_ASCAST]], align 4
 // AMDGCNSPIRV-IGNORE-NEXT:    [[TMP1:%.*]] = call addrspace(4) float @llvm.ldexp.f32.i32(float [[TMP0]], i32 9)
 // AMDGCNSPIRV-IGNORE-NEXT:    store float [[TMP1]], ptr addrspace(4) [[D1_ASCAST]], align 4
@@ -967,6 +1081,8 @@ void test_scalbnf() {
 // AMDGCNSPIRV-STRICT-NEXT:    [[A_ADDR_ASCAST:%.*]] = addrspacecast ptr [[A_ADDR]] to ptr addrspace(4)
 // AMDGCNSPIRV-STRICT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
 // AMDGCNSPIRV-STRICT-NEXT:    store float [[A]], ptr addrspace(4) [[A_ADDR_ASCAST]], align 4
+// AMDGCNSPIRV-STRICT-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// AMDGCNSPIRV-STRICT-NEXT:    store float [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 4
 // AMDGCNSPIRV-STRICT-NEXT:    [[TMP0:%.*]] = load float, ptr addrspace(4) [[A_ADDR_ASCAST]], align 4
 // AMDGCNSPIRV-STRICT-NEXT:    [[TMP1:%.*]] = call addrspace(4) float @llvm.ldexp.f32.i32(float [[TMP0]], i32 9)
 // AMDGCNSPIRV-STRICT-NEXT:    store float [[TMP1]], ptr addrspace(4) [[D1_ASCAST]], align 4
@@ -980,6 +1096,8 @@ void test_scalbnf() {
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[A_ADDR_ASCAST:%.*]] = addrspacecast ptr [[A_ADDR]] to ptr addrspace(4)
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
 // AMDGCNSPIRV-MAYTRAP-NEXT:    store float [[A]], ptr addrspace(4) [[A_ADDR_ASCAST]], align 4
+// AMDGCNSPIRV-MAYTRAP-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// AMDGCNSPIRV-MAYTRAP-NEXT:    store float [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 4
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[TMP0:%.*]] = load float, ptr addrspace(4) [[A_ADDR_ASCAST]], align 4
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[TMP1:%.*]] = call addrspace(4) float @llvm.ldexp.f32.i32(float [[TMP0]], i32 9)
 // AMDGCNSPIRV-MAYTRAP-NEXT:    store float [[TMP1]], ptr addrspace(4) [[D1_ASCAST]], align 4
@@ -993,6 +1111,8 @@ void test_scalbnf() {
 // AMDGCNSPIRV-ERRNO-NEXT:    [[A_ADDR_ASCAST:%.*]] = addrspacecast ptr [[A_ADDR]] to ptr addrspace(4)
 // AMDGCNSPIRV-ERRNO-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
 // AMDGCNSPIRV-ERRNO-NEXT:    store float [[A]], ptr addrspace(4) [[A_ADDR_ASCAST]], align 4
+// AMDGCNSPIRV-ERRNO-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// AMDGCNSPIRV-ERRNO-NEXT:    store float [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 4
 // AMDGCNSPIRV-ERRNO-NEXT:    [[TMP0:%.*]] = load float, ptr addrspace(4) [[A_ADDR_ASCAST]], align 4
 // AMDGCNSPIRV-ERRNO-NEXT:    [[CALL:%.*]] = call spir_func addrspace(4) float @scalbnf(float noundef [[TMP0]], i32 noundef 9) #[[ATTR2]]
 // AMDGCNSPIRV-ERRNO-NEXT:    store float [[CALL]], ptr addrspace(4) [[D1_ASCAST]], align 4
@@ -1021,6 +1141,8 @@ void test_scalbnf_var1(float a) {
 // DEFAULT-NEXT:    [[B_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[B_ADDR]] to ptr
 // DEFAULT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
 // DEFAULT-NEXT:    store i32 [[B]], ptr [[B_ADDR_ASCAST]], align 4
+// DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// DEFAULT-NEXT:    store float [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 4
 // DEFAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[B_ADDR_ASCAST]], align 4
 // DEFAULT-NEXT:    [[TMP1:%.*]] = call float @llvm.ldexp.f32.i32(float 0x402E666660000000, i32 [[TMP0]])
 // DEFAULT-NEXT:    store float [[TMP1]], ptr [[D1_ASCAST]], align 4
@@ -1034,6 +1156,8 @@ void test_scalbnf_var1(float a) {
 // IGNORE-NEXT:    [[B_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[B_ADDR]] to ptr
 // IGNORE-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
 // IGNORE-NEXT:    store i32 [[B]], ptr [[B_ADDR_ASCAST]], align 4
+// IGNORE-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// IGNORE-NEXT:    store float [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 4
 // IGNORE-NEXT:    [[TMP0:%.*]] = load i32, ptr [[B_ADDR_ASCAST]], align 4
 // IGNORE-NEXT:    [[TMP1:%.*]] = call float @llvm.ldexp.f32.i32(float 0x402E666660000000, i32 [[TMP0]])
 // IGNORE-NEXT:    store float [[TMP1]], ptr [[D1_ASCAST]], align 4
@@ -1047,6 +1171,8 @@ void test_scalbnf_var1(float a) {
 // STRICT-NEXT:    [[B_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[B_ADDR]] to ptr
 // STRICT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
 // STRICT-NEXT:    store i32 [[B]], ptr [[B_ADDR_ASCAST]], align 4
+// STRICT-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// STRICT-NEXT:    store float [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 4
 // STRICT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[B_ADDR_ASCAST]], align 4
 // STRICT-NEXT:    [[TMP1:%.*]] = call float @llvm.ldexp.f32.i32(float 0x402E666660000000, i32 [[TMP0]])
 // STRICT-NEXT:    store float [[TMP1]], ptr [[D1_ASCAST]], align 4
@@ -1060,6 +1186,8 @@ void test_scalbnf_var1(float a) {
 // MAYTRAP-NEXT:    [[B_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[B_ADDR]] to ptr
 // MAYTRAP-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
 // MAYTRAP-NEXT:    store i32 [[B]], ptr [[B_ADDR_ASCAST]], align 4
+// MAYTRAP-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// MAYTRAP-NEXT:    store float [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 4
 // MAYTRAP-NEXT:    [[TMP0:%.*]] = load i32, ptr [[B_ADDR_ASCAST]], align 4
 // MAYTRAP-NEXT:    [[TMP1:%.*]] = call float @llvm.ldexp.f32.i32(float 0x402E666660000000, i32 [[TMP0]])
 // MAYTRAP-NEXT:    store float [[TMP1]], ptr [[D1_ASCAST]], align 4
@@ -1073,6 +1201,8 @@ void test_scalbnf_var1(float a) {
 // ERRNO-NEXT:    [[B_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[B_ADDR]] to ptr
 // ERRNO-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
 // ERRNO-NEXT:    store i32 [[B]], ptr [[B_ADDR_ASCAST]], align 4
+// ERRNO-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// ERRNO-NEXT:    store float [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 4
 // ERRNO-NEXT:    [[TMP0:%.*]] = load i32, ptr [[B_ADDR_ASCAST]], align 4
 // ERRNO-NEXT:    [[CALL:%.*]] = call float @scalbnf(float noundef 0x402E666660000000, i32 noundef [[TMP0]]) #[[ATTR2]]
 // ERRNO-NEXT:    store float [[CALL]], ptr [[D1_ASCAST]], align 4
@@ -1086,6 +1216,8 @@ void test_scalbnf_var1(float a) {
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[B_ADDR_ASCAST:%.*]] = addrspacecast ptr [[B_ADDR]] to ptr addrspace(4)
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
 // AMDGCNSPIRV-DEFAULT-NEXT:    store i32 [[B]], ptr addrspace(4) [[B_ADDR_ASCAST]], align 4
+// AMDGCNSPIRV-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// AMDGCNSPIRV-DEFAULT-NEXT:    store float [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 4
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr addrspace(4) [[B_ADDR_ASCAST]], align 4
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[TMP1:%.*]] = call addrspace(4) float @llvm.ldexp.f32.i32(float 0x402E666660000000, i32 [[TMP0]])
 // AMDGCNSPIRV-DEFAULT-NEXT:    store float [[TMP1]], ptr addrspace(4) [[D1_ASCAST]], align 4
@@ -1099,6 +1231,8 @@ void test_scalbnf_var1(float a) {
 // AMDGCNSPIRV-IGNORE-NEXT:    [[B_ADDR_ASCAST:%.*]] = addrspacecast ptr [[B_ADDR]] to ptr addrspace(4)
 // AMDGCNSPIRV-IGNORE-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
 // AMDGCNSPIRV-IGNORE-NEXT:    store i32 [[B]], ptr addrspace(4) [[B_ADDR_ASCAST]], align 4
+// AMDGCNSPIRV-IGNORE-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// AMDGCNSPIRV-IGNORE-NEXT:    store float [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 4
 // AMDGCNSPIRV-IGNORE-NEXT:    [[TMP0:%.*]] = load i32, ptr addrspace(4) [[B_ADDR_ASCAST]], align 4
 // AMDGCNSPIRV-IGNORE-NEXT:    [[TMP1:%.*]] = call addrspace(4) float @llvm.ldexp.f32.i32(float 0x402E666660000000, i32 [[TMP0]])
 // AMDGCNSPIRV-IGNORE-NEXT:    store float [[TMP1]], ptr addrspace(4) [[D1_ASCAST]], align 4
@@ -1112,6 +1246,8 @@ void test_scalbnf_var1(float a) {
 // AMDGCNSPIRV-STRICT-NEXT:    [[B_ADDR_ASCAST:%.*]] = addrspacecast ptr [[B_ADDR]] to ptr addrspace(4)
 // AMDGCNSPIRV-STRICT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
 // AMDGCNSPIRV-STRICT-NEXT:    store i32 [[B]], ptr addrspace(4) [[B_ADDR_ASCAST]], align 4
+// AMDGCNSPIRV-STRICT-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// AMDGCNSPIRV-STRICT-NEXT:    store float [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 4
 // AMDGCNSPIRV-STRICT-NEXT:    [[TMP0:%.*]] = load i32, ptr addrspace(4) [[B_ADDR_ASCAST]], align 4
 // AMDGCNSPIRV-STRICT-NEXT:    [[TMP1:%.*]] = call addrspace(4) float @llvm.ldexp.f32.i32(float 0x402E666660000000, i32 [[TMP0]])
 // AMDGCNSPIRV-STRICT-NEXT:    store float [[TMP1]], ptr addrspace(4) [[D1_ASCAST]], align 4
@@ -1125,6 +1261,8 @@ void test_scalbnf_var1(float a) {
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[B_ADDR_ASCAST:%.*]] = addrspacecast ptr [[B_ADDR]] to ptr addrspace(4)
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
 // AMDGCNSPIRV-MAYTRAP-NEXT:    store i32 [[B]], ptr addrspace(4) [[B_ADDR_ASCAST]], align 4
+// AMDGCNSPIRV-MAYTRAP-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// AMDGCNSPIRV-MAYTRAP-NEXT:    store float [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 4
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[TMP0:%.*]] = load i32, ptr addrspace(4) [[B_ADDR_ASCAST]], align 4
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[TMP1:%.*]] = call addrspace(4) float @llvm.ldexp.f32.i32(float 0x402E666660000000, i32 [[TMP0]])
 // AMDGCNSPIRV-MAYTRAP-NEXT:    store float [[TMP1]], ptr addrspace(4) [[D1_ASCAST]], align 4
@@ -1138,6 +1276,8 @@ void test_scalbnf_var1(float a) {
 // AMDGCNSPIRV-ERRNO-NEXT:    [[B_ADDR_ASCAST:%.*]] = addrspacecast ptr [[B_ADDR]] to ptr addrspace(4)
 // AMDGCNSPIRV-ERRNO-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
 // AMDGCNSPIRV-ERRNO-NEXT:    store i32 [[B]], ptr addrspace(4) [[B_ADDR_ASCAST]], align 4
+// AMDGCNSPIRV-ERRNO-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// AMDGCNSPIRV-ERRNO-NEXT:    store float [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 4
 // AMDGCNSPIRV-ERRNO-NEXT:    [[TMP0:%.*]] = load i32, ptr addrspace(4) [[B_ADDR_ASCAST]], align 4
 // AMDGCNSPIRV-ERRNO-NEXT:    [[CALL:%.*]] = call spir_func addrspace(4) float @scalbnf(float noundef 0x402E666660000000, i32 noundef [[TMP0]]) #[[ATTR2]]
 // AMDGCNSPIRV-ERRNO-NEXT:    store float [[CALL]], ptr addrspace(4) [[D1_ASCAST]], align 4
@@ -1173,6 +1313,8 @@ void test_scalbnf_var2(int b) {
 // DEFAULT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
 // DEFAULT-NEXT:    store float [[A]], ptr [[A_ADDR_ASCAST]], align 4
 // DEFAULT-NEXT:    store i32 [[B]], ptr [[B_ADDR_ASCAST]], align 4
+// DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// DEFAULT-NEXT:    store float [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 4
 // DEFAULT-NEXT:    [[TMP0:%.*]] = load float, ptr [[A_ADDR_ASCAST]], align 4
 // DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[B_ADDR_ASCAST]], align 4
 // DEFAULT-NEXT:    [[TMP2:%.*]] = call float @llvm.ldexp.f32.i32(float [[TMP0]], i32 [[TMP1]])
@@ -1190,6 +1332,8 @@ void test_scalbnf_var2(int b) {
 // IGNORE-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
 // IGNORE-NEXT:    store float [[A]], ptr [[A_ADDR_ASCAST]], align 4
 // IGNORE-NEXT:    store i32 [[B]], ptr [[B_ADDR_ASCAST]], align 4
+// IGNORE-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// IGNORE-NEXT:    store float [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 4
 // IGNORE-NEXT:    [[TMP0:%.*]] = load float, ptr [[A_ADDR_ASCAST]], align 4
 // IGNORE-NEXT:    [[TMP1:%.*]] = load i32, ptr [[B_ADDR_ASCAST]], align 4
 // IGNORE-NEXT:    [[TMP2:%.*]] = call float @llvm.ldexp.f32.i32(float [[TMP0]], i32 [[TMP1]])
@@ -1207,6 +1351,8 @@ void test_scalbnf_var2(int b) {
 // STRICT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
 // STRICT-NEXT:    store float [[A]], ptr [[A_ADDR_ASCAST]], align 4
 // STRICT-NEXT:    store i32 [[B]], ptr [[B_ADDR_ASCAST]], align 4
+// STRICT-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// STRICT-NEXT:    store float [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 4
 // STRICT-NEXT:    [[TMP0:%.*]] = load float, ptr [[A_ADDR_ASCAST]], align 4
 // STRICT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[B_ADDR_ASCAST]], align 4
 // STRICT-NEXT:    [[TMP2:%.*]] = call float @llvm.ldexp.f32.i32(float [[TMP0]], i32 [[TMP1]])
@@ -1224,6 +1370,8 @@ void test_scalbnf_var2(int b) {
 // MAYTRAP-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
 // MAYTRAP-NEXT:    store float [[A]], ptr [[A_ADDR_ASCAST]], align 4
 // MAYTRAP-NEXT:    store i32 [[B]], ptr [[B_ADDR_ASCAST]], align 4
+// MAYTRAP-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// MAYTRAP-NEXT:    store float [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 4
 // MAYTRAP-NEXT:    [[TMP0:%.*]] = load float, ptr [[A_ADDR_ASCAST]], align 4
 // MAYTRAP-NEXT:    [[TMP1:%.*]] = load i32, ptr [[B_ADDR_ASCAST]], align 4
 // MAYTRAP-NEXT:    [[TMP2:%.*]] = call float @llvm.ldexp.f32.i32(float [[TMP0]], i32 [[TMP1]])
@@ -1241,6 +1389,8 @@ void test_scalbnf_var2(int b) {
 // ERRNO-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
 // ERRNO-NEXT:    store float [[A]], ptr [[A_ADDR_ASCAST]], align 4
 // ERRNO-NEXT:    store i32 [[B]], ptr [[B_ADDR_ASCAST]], align 4
+// ERRNO-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// ERRNO-NEXT:    store float [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 4
 // ERRNO-NEXT:    [[TMP0:%.*]] = load float, ptr [[A_ADDR_ASCAST]], align 4
 // ERRNO-NEXT:    [[TMP1:%.*]] = load i32, ptr [[B_ADDR_ASCAST]], align 4
 // ERRNO-NEXT:    [[CALL:%.*]] = call float @scalbnf(float noundef [[TMP0]], i32 noundef [[TMP1]]) #[[ATTR2]]
@@ -1258,6 +1408,8 @@ void test_scalbnf_var2(int b) {
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
 // AMDGCNSPIRV-DEFAULT-NEXT:    store float [[A]], ptr addrspace(4) [[A_ADDR_ASCAST]], align 4
 // AMDGCNSPIRV-DEFAULT-NEXT:    store i32 [[B]], ptr addrspace(4) [[B_ADDR_ASCAST]], align 4
+// AMDGCNSPIRV-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// AMDGCNSPIRV-DEFAULT-NEXT:    store float [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 4
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[TMP0:%.*]] = load float, ptr addrspace(4) [[A_ADDR_ASCAST]], align 4
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr addrspace(4) [[B_ADDR_ASCAST]], align 4
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[TMP2:%.*]] = call addrspace(4) float @llvm.ldexp.f32.i32(float [[TMP0]], i32 [[TMP1]])
@@ -1275,6 +1427,8 @@ void test_scalbnf_var2(int b) {
 // AMDGCNSPIRV-IGNORE-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
 // AMDGCNSPIRV-IGNORE-NEXT:    store float [[A]], ptr addrspace(4) [[A_ADDR_ASCAST]], align 4
 // AMDGCNSPIRV-IGNORE-NEXT:    store i32 [[B]], ptr addrspace(4) [[B_ADDR_ASCAST]], align 4
+// AMDGCNSPIRV-IGNORE-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// AMDGCNSPIRV-IGNORE-NEXT:    store float [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 4
 // AMDGCNSPIRV-IGNORE-NEXT:    [[TMP0:%.*]] = load float, ptr addrspace(4) [[A_ADDR_ASCAST]], align 4
 // AMDGCNSPIRV-IGNORE-NEXT:    [[TMP1:%.*]] = load i32, ptr addrspace(4) [[B_ADDR_ASCAST]], align 4
 // AMDGCNSPIRV-IGNORE-NEXT:    [[TMP2:%.*]] = call addrspace(4) float @llvm.ldexp.f32.i32(float [[TMP0]], i32 [[TMP1]])
@@ -1292,6 +1446,8 @@ void test_scalbnf_var2(int b) {
 // AMDGCNSPIRV-STRICT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
 // AMDGCNSPIRV-STRICT-NEXT:    store float [[A]], ptr addrspace(4) [[A_ADDR_ASCAST]], align 4
 // AMDGCNSPIRV-STRICT-NEXT:    store i32 [[B]], ptr addrspace(4) [[B_ADDR_ASCAST]], align 4
+// AMDGCNSPIRV-STRICT-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// AMDGCNSPIRV-STRICT-NEXT:    store float [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 4
 // AMDGCNSPIRV-STRICT-NEXT:    [[TMP0:%.*]] = load float, ptr addrspace(4) [[A_ADDR_ASCAST]], align 4
 // AMDGCNSPIRV-STRICT-NEXT:    [[TMP1:%.*]] = load i32, ptr addrspace(4) [[B_ADDR_ASCAST]], align 4
 // AMDGCNSPIRV-STRICT-NEXT:    [[TMP2:%.*]] = call addrspace(4) float @llvm.ldexp.f32.i32(float [[TMP0]], i32 [[TMP1]])
@@ -1309,6 +1465,8 @@ void test_scalbnf_var2(int b) {
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
 // AMDGCNSPIRV-MAYTRAP-NEXT:    store float [[A]], ptr addrspace(4) [[A_ADDR_ASCAST]], align 4
 // AMDGCNSPIRV-MAYTRAP-NEXT:    store i32 [[B]], ptr addrspace(4) [[B_ADDR_ASCAST]], align 4
+// AMDGCNSPIRV-MAYTRAP-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// AMDGCNSPIRV-MAYTRAP-NEXT:    store float [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 4
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[TMP0:%.*]] = load float, ptr addrspace(4) [[A_ADDR_ASCAST]], align 4
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[TMP1:%.*]] = load i32, ptr addrspace(4) [[B_ADDR_ASCAST]], align 4
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[TMP2:%.*]] = call addrspace(4) float @llvm.ldexp.f32.i32(float [[TMP0]], i32 [[TMP1]])
@@ -1326,6 +1484,8 @@ void test_scalbnf_var2(int b) {
 // AMDGCNSPIRV-ERRNO-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
 // AMDGCNSPIRV-ERRNO-NEXT:    store float [[A]], ptr addrspace(4) [[A_ADDR_ASCAST]], align 4
 // AMDGCNSPIRV-ERRNO-NEXT:    store i32 [[B]], ptr addrspace(4) [[B_ADDR_ASCAST]], align 4
+// AMDGCNSPIRV-ERRNO-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// AMDGCNSPIRV-ERRNO-NEXT:    store float [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 4
 // AMDGCNSPIRV-ERRNO-NEXT:    [[TMP0:%.*]] = load float, ptr addrspace(4) [[A_ADDR_ASCAST]], align 4
 // AMDGCNSPIRV-ERRNO-NEXT:    [[TMP1:%.*]] = load i32, ptr addrspace(4) [[B_ADDR_ASCAST]], align 4
 // AMDGCNSPIRV-ERRNO-NEXT:    [[CALL:%.*]] = call spir_func addrspace(4) float @scalbnf(float noundef [[TMP0]], i32 noundef [[TMP1]]) #[[ATTR2]]
@@ -1349,6 +1509,8 @@ void test_scalbnf_var3(float a, int b) {
 // DEFAULT-NEXT:  [[ENTRY:.*:]]
 // DEFAULT-NEXT:    [[D1:%.*]] = alloca double, align 8, addrspace(5)
 // DEFAULT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
+// DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// DEFAULT-NEXT:    store double [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 8
 // DEFAULT-NEXT:    [[TMP0:%.*]] = call double @llvm.ldexp.f64.i32(double 1.720000e+01, i32 10)
 // DEFAULT-NEXT:    store double [[TMP0]], ptr [[D1_ASCAST]], align 8
 // DEFAULT-NEXT:    ret void
@@ -1358,6 +1520,8 @@ void test_scalbnf_var3(float a, int b) {
 // IGNORE-NEXT:  [[ENTRY:.*:]]
 // IGNORE-NEXT:    [[D1:%.*]] = alloca double, align 8, addrspace(5)
 // IGNORE-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
+// IGNORE-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// IGNORE-NEXT:    store double [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 8
 // IGNORE-NEXT:    [[TMP0:%.*]] = call double @llvm.ldexp.f64.i32(double 1.720000e+01, i32 10)
 // IGNORE-NEXT:    store double [[TMP0]], ptr [[D1_ASCAST]], align 8
 // IGNORE-NEXT:    ret void
@@ -1367,6 +1531,8 @@ void test_scalbnf_var3(float a, int b) {
 // STRICT-NEXT:  [[ENTRY:.*:]]
 // STRICT-NEXT:    [[D1:%.*]] = alloca double, align 8, addrspace(5)
 // STRICT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
+// STRICT-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// STRICT-NEXT:    store double [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 8
 // STRICT-NEXT:    [[TMP0:%.*]] = call double @llvm.ldexp.f64.i32(double 1.720000e+01, i32 10)
 // STRICT-NEXT:    store double [[TMP0]], ptr [[D1_ASCAST]], align 8
 // STRICT-NEXT:    ret void
@@ -1376,6 +1542,8 @@ void test_scalbnf_var3(float a, int b) {
 // MAYTRAP-NEXT:  [[ENTRY:.*:]]
 // MAYTRAP-NEXT:    [[D1:%.*]] = alloca double, align 8, addrspace(5)
 // MAYTRAP-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
+// MAYTRAP-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// MAYTRAP-NEXT:    store double [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 8
 // MAYTRAP-NEXT:    [[TMP0:%.*]] = call double @llvm.ldexp.f64.i32(double 1.720000e+01, i32 10)
 // MAYTRAP-NEXT:    store double [[TMP0]], ptr [[D1_ASCAST]], align 8
 // MAYTRAP-NEXT:    ret void
@@ -1385,6 +1553,8 @@ void test_scalbnf_var3(float a, int b) {
 // ERRNO-NEXT:  [[ENTRY:.*:]]
 // ERRNO-NEXT:    [[D1:%.*]] = alloca double, align 8, addrspace(5)
 // ERRNO-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
+// ERRNO-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// ERRNO-NEXT:    store double [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 8
 // ERRNO-NEXT:    [[CALL:%.*]] = call double @scalbn(double noundef 1.720000e+01, i32 noundef 10) #[[ATTR2]]
 // ERRNO-NEXT:    store double [[CALL]], ptr [[D1_ASCAST]], align 8
 // ERRNO-NEXT:    ret void
@@ -1394,6 +1564,8 @@ void test_scalbnf_var3(float a, int b) {
 // AMDGCNSPIRV-DEFAULT-NEXT:  [[ENTRY:.*:]]
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[D1:%.*]] = alloca double, align 8
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
+// AMDGCNSPIRV-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// AMDGCNSPIRV-DEFAULT-NEXT:    store double [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 8
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[TMP0:%.*]] = call addrspace(4) double @llvm.ldexp.f64.i32(double 1.720000e+01, i32 10)
 // AMDGCNSPIRV-DEFAULT-NEXT:    store double [[TMP0]], ptr addrspace(4) [[D1_ASCAST]], align 8
 // AMDGCNSPIRV-DEFAULT-NEXT:    ret void
@@ -1403,6 +1575,8 @@ void test_scalbnf_var3(float a, int b) {
 // AMDGCNSPIRV-IGNORE-NEXT:  [[ENTRY:.*:]]
 // AMDGCNSPIRV-IGNORE-NEXT:    [[D1:%.*]] = alloca double, align 8
 // AMDGCNSPIRV-IGNORE-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
+// AMDGCNSPIRV-IGNORE-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// AMDGCNSPIRV-IGNORE-NEXT:    store double [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 8
 // AMDGCNSPIRV-IGNORE-NEXT:    [[TMP0:%.*]] = call addrspace(4) double @llvm.ldexp.f64.i32(double 1.720000e+01, i32 10)
 // AMDGCNSPIRV-IGNORE-NEXT:    store double [[TMP0]], ptr addrspace(4) [[D1_ASCAST]], align 8
 // AMDGCNSPIRV-IGNORE-NEXT:    ret void
@@ -1412,6 +1586,8 @@ void test_scalbnf_var3(float a, int b) {
 // AMDGCNSPIRV-STRICT-NEXT:  [[ENTRY:.*:]]
 // AMDGCNSPIRV-STRICT-NEXT:    [[D1:%.*]] = alloca double, align 8
 // AMDGCNSPIRV-STRICT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
+// AMDGCNSPIRV-STRICT-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// AMDGCNSPIRV-STRICT-NEXT:    store double [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 8
 // AMDGCNSPIRV-STRICT-NEXT:    [[TMP0:%.*]] = call addrspace(4) double @llvm.ldexp.f64.i32(double 1.720000e+01, i32 10)
 // AMDGCNSPIRV-STRICT-NEXT:    store double [[TMP0]], ptr addrspace(4) [[D1_ASCAST]], align 8
 // AMDGCNSPIRV-STRICT-NEXT:    ret void
@@ -1421,6 +1597,8 @@ void test_scalbnf_var3(float a, int b) {
 // AMDGCNSPIRV-MAYTRAP-NEXT:  [[ENTRY:.*:]]
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[D1:%.*]] = alloca double, align 8
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
+// AMDGCNSPIRV-MAYTRAP-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// AMDGCNSPIRV-MAYTRAP-NEXT:    store double [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 8
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[TMP0:%.*]] = call addrspace(4) double @llvm.ldexp.f64.i32(double 1.720000e+01, i32 10)
 // AMDGCNSPIRV-MAYTRAP-NEXT:    store double [[TMP0]], ptr addrspace(4) [[D1_ASCAST]], align 8
 // AMDGCNSPIRV-MAYTRAP-NEXT:    ret void
@@ -1430,6 +1608,8 @@ void test_scalbnf_var3(float a, int b) {
 // AMDGCNSPIRV-ERRNO-NEXT:  [[ENTRY:.*:]]
 // AMDGCNSPIRV-ERRNO-NEXT:    [[D1:%.*]] = alloca double, align 8
 // AMDGCNSPIRV-ERRNO-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
+// AMDGCNSPIRV-ERRNO-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// AMDGCNSPIRV-ERRNO-NEXT:    store double [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 8
 // AMDGCNSPIRV-ERRNO-NEXT:    [[CALL:%.*]] = call spir_func addrspace(4) double @scalbn(double noundef 1.720000e+01, i32 noundef 10) #[[ATTR2]]
 // AMDGCNSPIRV-ERRNO-NEXT:    store double [[CALL]], ptr addrspace(4) [[D1_ASCAST]], align 8
 // AMDGCNSPIRV-ERRNO-NEXT:    ret void
@@ -1457,6 +1637,8 @@ void test_scalbn() {
 // DEFAULT-NEXT:    [[A_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[A_ADDR]] to ptr
 // DEFAULT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
 // DEFAULT-NEXT:    store double [[A]], ptr [[A_ADDR_ASCAST]], align 8
+// DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// DEFAULT-NEXT:    store double [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 8
 // DEFAULT-NEXT:    [[TMP0:%.*]] = load double, ptr [[A_ADDR_ASCAST]], align 8
 // DEFAULT-NEXT:    [[TMP1:%.*]] = call double @llvm.ldexp.f64.i32(double [[TMP0]], i32 9)
 // DEFAULT-NEXT:    store double [[TMP1]], ptr [[D1_ASCAST]], align 8
@@ -1470,6 +1652,8 @@ void test_scalbn() {
 // IGNORE-NEXT:    [[A_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[A_ADDR]] to ptr
 // IGNORE-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
 // IGNORE-NEXT:    store double [[A]], ptr [[A_ADDR_ASCAST]], align 8
+// IGNORE-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// IGNORE-NEXT:    store double [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 8
 // IGNORE-NEXT:    [[TMP0:%.*]] = load double, ptr [[A_ADDR_ASCAST]], align 8
 // IGNORE-NEXT:    [[TMP1:%.*]] = call double @llvm.ldexp.f64.i32(double [[TMP0]], i32 9)
 // IGNORE-NEXT:    store double [[TMP1]], ptr [[D1_ASCAST]], align 8
@@ -1483,6 +1667,8 @@ void test_scalbn() {
 // STRICT-NEXT:    [[A_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[A_ADDR]] to ptr
 // STRICT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
 // STRICT-NEXT:    store double [[A]], ptr [[A_ADDR_ASCAST]], align 8
+// STRICT-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// STRICT-NEXT:    store double [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 8
 // STRICT-NEXT:    [[TMP0:%.*]] = load double, ptr [[A_ADDR_ASCAST]], align 8
 // STRICT-NEXT:    [[TMP1:%.*]] = call double @llvm.ldexp.f64.i32(double [[TMP0]], i32 9)
 // STRICT-NEXT:    store double [[TMP1]], ptr [[D1_ASCAST]], align 8
@@ -1496,6 +1682,8 @@ void test_scalbn() {
 // MAYTRAP-NEXT:    [[A_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[A_ADDR]] to ptr
 // MAYTRAP-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
 // MAYTRAP-NEXT:    store double [[A]], ptr [[A_ADDR_ASCAST]], align 8
+// MAYTRAP-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// MAYTRAP-NEXT:    store double [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 8
 // MAYTRAP-NEXT:    [[TMP0:%.*]] = load double, ptr [[A_ADDR_ASCAST]], align 8
 // MAYTRAP-NEXT:    [[TMP1:%.*]] = call double @llvm.ldexp.f64.i32(double [[TMP0]], i32 9)
 // MAYTRAP-NEXT:    store double [[TMP1]], ptr [[D1_ASCAST]], align 8
@@ -1509,6 +1697,8 @@ void test_scalbn() {
 // ERRNO-NEXT:    [[A_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[A_ADDR]] to ptr
 // ERRNO-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
 // ERRNO-NEXT:    store double [[A]], ptr [[A_ADDR_ASCAST]], align 8
+// ERRNO-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// ERRNO-NEXT:    store double [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 8
 // ERRNO-NEXT:    [[TMP0:%.*]] = load double, ptr [[A_ADDR_ASCAST]], align 8
 // ERRNO-NEXT:    [[CALL:%.*]] = call double @scalbn(double noundef [[TMP0]], i32 noundef 9) #[[ATTR2]]
 // ERRNO-NEXT:    store double [[CALL]], ptr [[D1_ASCAST]], align 8
@@ -1522,6 +1712,8 @@ void test_scalbn() {
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[A_ADDR_ASCAST:%.*]] = addrspacecast ptr [[A_ADDR]] to ptr addrspace(4)
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
 // AMDGCNSPIRV-DEFAULT-NEXT:    store double [[A]], ptr addrspace(4) [[A_ADDR_ASCAST]], align 8
+// AMDGCNSPIRV-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// AMDGCNSPIRV-DEFAULT-NEXT:    store double [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 8
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[TMP0:%.*]] = load double, ptr addrspace(4) [[A_ADDR_ASCAST]], align 8
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[TMP1:%.*]] = call addrspace(4) double @llvm.ldexp.f64.i32(double [[TMP0]], i32 9)
 // AMDGCNSPIRV-DEFAULT-NEXT:    store double [[TMP1]], ptr addrspace(4) [[D1_ASCAST]], align 8
@@ -1535,6 +1727,8 @@ void test_scalbn() {
 // AMDGCNSPIRV-IGNORE-NEXT:    [[A_ADDR_ASCAST:%.*]] = addrspacecast ptr [[A_ADDR]] to ptr addrspace(4)
 // AMDGCNSPIRV-IGNORE-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
 // AMDGCNSPIRV-IGNORE-NEXT:    store double [[A]], ptr addrspace(4) [[A_ADDR_ASCAST]], align 8
+// AMDGCNSPIRV-IGNORE-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// AMDGCNSPIRV-IGNORE-NEXT:    store double [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 8
 // AMDGCNSPIRV-IGNORE-NEXT:    [[TMP0:%.*]] = load double, ptr addrspace(4) [[A_ADDR_ASCAST]], align 8
 // AMDGCNSPIRV-IGNORE-NEXT:    [[TMP1:%.*]] = call addrspace(4) double @llvm.ldexp.f64.i32(double [[TMP0]], i32 9)
 // AMDGCNSPIRV-IGNORE-NEXT:    store double [[TMP1]], ptr addrspace(4) [[D1_ASCAST]], align 8
@@ -1548,6 +1742,8 @@ void test_scalbn() {
 // AMDGCNSPIRV-STRICT-NEXT:    [[A_ADDR_ASCAST:%.*]] = addrspacecast ptr [[A_ADDR]] to ptr addrspace(4)
 // AMDGCNSPIRV-STRICT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
 // AMDGCNSPIRV-STRICT-NEXT:    store double [[A]], ptr addrspace(4) [[A_ADDR_ASCAST]], align 8
+// AMDGCNSPIRV-STRICT-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// AMDGCNSPIRV-STRICT-NEXT:    store double [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 8
 // AMDGCNSPIRV-STRICT-NEXT:    [[TMP0:%.*]] = load double, ptr addrspace(4) [[A_ADDR_ASCAST]], align 8
 // AMDGCNSPIRV-STRICT-NEXT:    [[TMP1:%.*]] = call addrspace(4) double @llvm.ldexp.f64.i32(double [[TMP0]], i32 9)
 // AMDGCNSPIRV-STRICT-NEXT:    store double [[TMP1]], ptr addrspace(4) [[D1_ASCAST]], align 8
@@ -1561,6 +1757,8 @@ void test_scalbn() {
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[A_ADDR_ASCAST:%.*]] = addrspacecast ptr [[A_ADDR]] to ptr addrspace(4)
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
 // AMDGCNSPIRV-MAYTRAP-NEXT:    store double [[A]], ptr addrspace(4) [[A_ADDR_ASCAST]], align 8
+// AMDGCNSPIRV-MAYTRAP-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// AMDGCNSPIRV-MAYTRAP-NEXT:    store double [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 8
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[TMP0:%.*]] = load double, ptr addrspace(4) [[A_ADDR_ASCAST]], align 8
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[TMP1:%.*]] = call addrspace(4) double @llvm.ldexp.f64.i32(double [[TMP0]], i32 9)
 // AMDGCNSPIRV-MAYTRAP-NEXT:    store double [[TMP1]], ptr addrspace(4) [[D1_ASCAST]], align 8
@@ -1574,6 +1772,8 @@ void test_scalbn() {
 // AMDGCNSPIRV-ERRNO-NEXT:    [[A_ADDR_ASCAST:%.*]] = addrspacecast ptr [[A_ADDR]] to ptr addrspace(4)
 // AMDGCNSPIRV-ERRNO-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
 // AMDGCNSPIRV-ERRNO-NEXT:    store double [[A]], ptr addrspace(4) [[A_ADDR_ASCAST]], align 8
+// AMDGCNSPIRV-ERRNO-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// AMDGCNSPIRV-ERRNO-NEXT:    store double [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 8
 // AMDGCNSPIRV-ERRNO-NEXT:    [[TMP0:%.*]] = load double, ptr addrspace(4) [[A_ADDR_ASCAST]], align 8
 // AMDGCNSPIRV-ERRNO-NEXT:    [[CALL:%.*]] = call spir_func addrspace(4) double @scalbn(double noundef [[TMP0]], i32 noundef 9) #[[ATTR2]]
 // AMDGCNSPIRV-ERRNO-NEXT:    store double [[CALL]], ptr addrspace(4) [[D1_ASCAST]], align 8
@@ -1602,6 +1802,8 @@ void test_scalbn_var1(double a) {
 // DEFAULT-NEXT:    [[B_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[B_ADDR]] to ptr
 // DEFAULT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
 // DEFAULT-NEXT:    store i32 [[B]], ptr [[B_ADDR_ASCAST]], align 4
+// DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// DEFAULT-NEXT:    store double [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 8
 // DEFAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[B_ADDR_ASCAST]], align 4
 // DEFAULT-NEXT:    [[TMP1:%.*]] = call double @llvm.ldexp.f64.i32(double 1.540000e+01, i32 [[TMP0]])
 // DEFAULT-NEXT:    store double [[TMP1]], ptr [[D1_ASCAST]], align 8
@@ -1615,6 +1817,8 @@ void test_scalbn_var1(double a) {
 // IGNORE-NEXT:    [[B_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[B_ADDR]] to ptr
 // IGNORE-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
 // IGNORE-NEXT:    store i32 [[B]], ptr [[B_ADDR_ASCAST]], align 4
+// IGNORE-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// IGNORE-NEXT:    store double [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 8
 // IGNORE-NEXT:    [[TMP0:%.*]] = load i32, ptr [[B_ADDR_ASCAST]], align 4
 // IGNORE-NEXT:    [[TMP1:%.*]] = call double @llvm.ldexp.f64.i32(double 1.540000e+01, i32 [[TMP0]])
 // IGNORE-NEXT:    store double [[TMP1]], ptr [[D1_ASCAST]], align 8
@@ -1628,6 +1832,8 @@ void test_scalbn_var1(double a) {
 // STRICT-NEXT:    [[B_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[B_ADDR]] to ptr
 // STRICT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
 // STRICT-NEXT:    store i32 [[B]], ptr [[B_ADDR_ASCAST]], align 4
+// STRICT-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// STRICT-NEXT:    store double [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 8
 // STRICT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[B_ADDR_ASCAST]], align 4
 // STRICT-NEXT:    [[TMP1:%.*]] = call double @llvm.ldexp.f64.i32(double 1.540000e+01, i32 [[TMP0]])
 // STRICT-NEXT:    store double [[TMP1]], ptr [[D1_ASCAST]], align 8
@@ -1641,6 +1847,8 @@ void test_scalbn_var1(double a) {
 // MAYTRAP-NEXT:    [[B_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[B_ADDR]] to ptr
 // MAYTRAP-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
 // MAYTRAP-NEXT:    store i32 [[B]], ptr [[B_ADDR_ASCAST]], align 4
+// MAYTRAP-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// MAYTRAP-NEXT:    store double [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 8
 // MAYTRAP-NEXT:    [[TMP0:%.*]] = load i32, ptr [[B_ADDR_ASCAST]], align 4
 // MAYTRAP-NEXT:    [[TMP1:%.*]] = call double @llvm.ldexp.f64.i32(double 1.540000e+01, i32 [[TMP0]])
 // MAYTRAP-NEXT:    store double [[TMP1]], ptr [[D1_ASCAST]], align 8
@@ -1654,6 +1862,8 @@ void test_scalbn_var1(double a) {
 // ERRNO-NEXT:    [[B_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[B_ADDR]] to ptr
 // ERRNO-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
 // ERRNO-NEXT:    store i32 [[B]], ptr [[B_ADDR_ASCAST]], align 4
+// ERRNO-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// ERRNO-NEXT:    store double [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 8
 // ERRNO-NEXT:    [[TMP0:%.*]] = load i32, ptr [[B_ADDR_ASCAST]], align 4
 // ERRNO-NEXT:    [[CALL:%.*]] = call double @scalbn(double noundef 1.540000e+01, i32 noundef [[TMP0]]) #[[ATTR2]]
 // ERRNO-NEXT:    store double [[CALL]], ptr [[D1_ASCAST]], align 8
@@ -1667,6 +1877,8 @@ void test_scalbn_var1(double a) {
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[B_ADDR_ASCAST:%.*]] = addrspacecast ptr [[B_ADDR]] to ptr addrspace(4)
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
 // AMDGCNSPIRV-DEFAULT-NEXT:    store i32 [[B]], ptr addrspace(4) [[B_ADDR_ASCAST]], align 4
+// AMDGCNSPIRV-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// AMDGCNSPIRV-DEFAULT-NEXT:    store double [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 8
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[TMP0:%.*]] = load i32, ptr addrspace(4) [[B_ADDR_ASCAST]], align 4
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[TMP1:%.*]] = call addrspace(4) double @llvm.ldexp.f64.i32(double 1.540000e+01, i32 [[TMP0]])
 // AMDGCNSPIRV-DEFAULT-NEXT:    store double [[TMP1]], ptr addrspace(4) [[D1_ASCAST]], align 8
@@ -1680,6 +1892,8 @@ void test_scalbn_var1(double a) {
 // AMDGCNSPIRV-IGNORE-NEXT:    [[B_ADDR_ASCAST:%.*]] = addrspacecast ptr [[B_ADDR]] to ptr addrspace(4)
 // AMDGCNSPIRV-IGNORE-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
 // AMDGCNSPIRV-IGNORE-NEXT:    store i32 [[B]], ptr addrspace(4) [[B_ADDR_ASCAST]], align 4
+// AMDGCNSPIRV-IGNORE-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// AMDGCNSPIRV-IGNORE-NEXT:    store double [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 8
 // AMDGCNSPIRV-IGNORE-NEXT:    [[TMP0:%.*]] = load i32, ptr addrspace(4) [[B_ADDR_ASCAST]], align 4
 // AMDGCNSPIRV-IGNORE-NEXT:    [[TMP1:%.*]] = call addrspace(4) double @llvm.ldexp.f64.i32(double 1.540000e+01, i32 [[TMP0]])
 // AMDGCNSPIRV-IGNORE-NEXT:    store double [[TMP1]], ptr addrspace(4) [[D1_ASCAST]], align 8
@@ -1693,6 +1907,8 @@ void test_scalbn_var1(double a) {
 // AMDGCNSPIRV-STRICT-NEXT:    [[B_ADDR_ASCAST:%.*]] = addrspacecast ptr [[B_ADDR]] to ptr addrspace(4)
 // AMDGCNSPIRV-STRICT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
 // AMDGCNSPIRV-STRICT-NEXT:    store i32 [[B]], ptr addrspace(4) [[B_ADDR_ASCAST]], align 4
+// AMDGCNSPIRV-STRICT-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// AMDGCNSPIRV-STRICT-NEXT:    store double [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 8
 // AMDGCNSPIRV-STRICT-NEXT:    [[TMP0:%.*]] = load i32, ptr addrspace(4) [[B_ADDR_ASCAST]], align 4
 // AMDGCNSPIRV-STRICT-NEXT:    [[TMP1:%.*]] = call addrspace(4) double @llvm.ldexp.f64.i32(double 1.540000e+01, i32 [[TMP0]])
 // AMDGCNSPIRV-STRICT-NEXT:    store double [[TMP1]], ptr addrspace(4) [[D1_ASCAST]], align 8
@@ -1706,6 +1922,8 @@ void test_scalbn_var1(double a) {
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[B_ADDR_ASCAST:%.*]] = addrspacecast ptr [[B_ADDR]] to ptr addrspace(4)
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
 // AMDGCNSPIRV-MAYTRAP-NEXT:    store i32 [[B]], ptr addrspace(4) [[B_ADDR_ASCAST]], align 4
+// AMDGCNSPIRV-MAYTRAP-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// AMDGCNSPIRV-MAYTRAP-NEXT:    store double [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 8
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[TMP0:%.*]] = load i32, ptr addrspace(4) [[B_ADDR_ASCAST]], align 4
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[TMP1:%.*]] = call addrspace(4) double @llvm.ldexp.f64.i32(double 1.540000e+01, i32 [[TMP0]])
 // AMDGCNSPIRV-MAYTRAP-NEXT:    store double [[TMP1]], ptr addrspace(4) [[D1_ASCAST]], align 8
@@ -1719,6 +1937,8 @@ void test_scalbn_var1(double a) {
 // AMDGCNSPIRV-ERRNO-NEXT:    [[B_ADDR_ASCAST:%.*]] = addrspacecast ptr [[B_ADDR]] to ptr addrspace(4)
 // AMDGCNSPIRV-ERRNO-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
 // AMDGCNSPIRV-ERRNO-NEXT:    store i32 [[B]], ptr addrspace(4) [[B_ADDR_ASCAST]], align 4
+// AMDGCNSPIRV-ERRNO-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// AMDGCNSPIRV-ERRNO-NEXT:    store double [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 8
 // AMDGCNSPIRV-ERRNO-NEXT:    [[TMP0:%.*]] = load i32, ptr addrspace(4) [[B_ADDR_ASCAST]], align 4
 // AMDGCNSPIRV-ERRNO-NEXT:    [[CALL:%.*]] = call spir_func addrspace(4) double @scalbn(double noundef 1.540000e+01, i32 noundef [[TMP0]]) #[[ATTR2]]
 // AMDGCNSPIRV-ERRNO-NEXT:    store double [[CALL]], ptr addrspace(4) [[D1_ASCAST]], align 8
@@ -1754,6 +1974,8 @@ void test_scalbn_var2(int b) {
 // DEFAULT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
 // DEFAULT-NEXT:    store double [[A]], ptr [[A_ADDR_ASCAST]], align 8
 // DEFAULT-NEXT:    store i32 [[B]], ptr [[B_ADDR_ASCAST]], align 4
+// DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// DEFAULT-NEXT:    store double [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 8
 // DEFAULT-NEXT:    [[TMP0:%.*]] = load double, ptr [[A_ADDR_ASCAST]], align 8
 // DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[B_ADDR_ASCAST]], align 4
 // DEFAULT-NEXT:    [[TMP2:%.*]] = call double @llvm.ldexp.f64.i32(double [[TMP0]], i32 [[TMP1]])
@@ -1771,6 +1993,8 @@ void test_scalbn_var2(int b) {
 // IGNORE-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
 // IGNORE-NEXT:    store double [[A]], ptr [[A_ADDR_ASCAST]], align 8
 // IGNORE-NEXT:    store i32 [[B]], ptr [[B_ADDR_ASCAST]], align 4
+// IGNORE-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// IGNORE-NEXT:    store double [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 8
 // IGNORE-NEXT:    [[TMP0:%.*]] = load double, ptr [[A_ADDR_ASCAST]], align 8
 // IGNORE-NEXT:    [[TMP1:%.*]] = load i32, ptr [[B_ADDR_ASCAST]], align 4
 // IGNORE-NEXT:    [[TMP2:%.*]] = call double @llvm.ldexp.f64.i32(double [[TMP0]], i32 [[TMP1]])
@@ -1788,6 +2012,8 @@ void test_scalbn_var2(int b) {
 // STRICT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
 // STRICT-NEXT:    store double [[A]], ptr [[A_ADDR_ASCAST]], align 8
 // STRICT-NEXT:    store i32 [[B]], ptr [[B_ADDR_ASCAST]], align 4
+// STRICT-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// STRICT-NEXT:    store double [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 8
 // STRICT-NEXT:    [[TMP0:%.*]] = load double, ptr [[A_ADDR_ASCAST]], align 8
 // STRICT-NEXT:    [[TMP1:%.*]] = load i32, ptr [[B_ADDR_ASCAST]], align 4
 // STRICT-NEXT:    [[TMP2:%.*]] = call double @llvm.ldexp.f64.i32(double [[TMP0]], i32 [[TMP1]])
@@ -1805,6 +2031,8 @@ void test_scalbn_var2(int b) {
 // MAYTRAP-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
 // MAYTRAP-NEXT:    store double [[A]], ptr [[A_ADDR_ASCAST]], align 8
 // MAYTRAP-NEXT:    store i32 [[B]], ptr [[B_ADDR_ASCAST]], align 4
+// MAYTRAP-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// MAYTRAP-NEXT:    store double [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 8
 // MAYTRAP-NEXT:    [[TMP0:%.*]] = load double, ptr [[A_ADDR_ASCAST]], align 8
 // MAYTRAP-NEXT:    [[TMP1:%.*]] = load i32, ptr [[B_ADDR_ASCAST]], align 4
 // MAYTRAP-NEXT:    [[TMP2:%.*]] = call double @llvm.ldexp.f64.i32(double [[TMP0]], i32 [[TMP1]])
@@ -1822,6 +2050,8 @@ void test_scalbn_var2(int b) {
 // ERRNO-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[D1]] to ptr
 // ERRNO-NEXT:    store double [[A]], ptr [[A_ADDR_ASCAST]], align 8
 // ERRNO-NEXT:    store i32 [[B]], ptr [[B_ADDR_ASCAST]], align 4
+// ERRNO-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// ERRNO-NEXT:    store double [[FREEZE_POISON]], ptr [[D1_ASCAST]], align 8
 // ERRNO-NEXT:    [[TMP0:%.*]] = load double, ptr [[A_ADDR_ASCAST]], align 8
 // ERRNO-NEXT:    [[TMP1:%.*]] = load i32, ptr [[B_ADDR_ASCAST]], align 4
 // ERRNO-NEXT:    [[CALL:%.*]] = call double @scalbn(double noundef [[TMP0]], i32 noundef [[TMP1]]) #[[ATTR2]]
@@ -1839,6 +2069,8 @@ void test_scalbn_var2(int b) {
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
 // AMDGCNSPIRV-DEFAULT-NEXT:    store double [[A]], ptr addrspace(4) [[A_ADDR_ASCAST]], align 8
 // AMDGCNSPIRV-DEFAULT-NEXT:    store i32 [[B]], ptr addrspace(4) [[B_ADDR_ASCAST]], align 4
+// AMDGCNSPIRV-DEFAULT-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// AMDGCNSPIRV-DEFAULT-NEXT:    store double [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 8
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[TMP0:%.*]] = load double, ptr addrspace(4) [[A_ADDR_ASCAST]], align 8
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[TMP1:%.*]] = load i32, ptr addrspace(4) [[B_ADDR_ASCAST]], align 4
 // AMDGCNSPIRV-DEFAULT-NEXT:    [[TMP2:%.*]] = call addrspace(4) double @llvm.ldexp.f64.i32(double [[TMP0]], i32 [[TMP1]])
@@ -1856,6 +2088,8 @@ void test_scalbn_var2(int b) {
 // AMDGCNSPIRV-IGNORE-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
 // AMDGCNSPIRV-IGNORE-NEXT:    store double [[A]], ptr addrspace(4) [[A_ADDR_ASCAST]], align 8
 // AMDGCNSPIRV-IGNORE-NEXT:    store i32 [[B]], ptr addrspace(4) [[B_ADDR_ASCAST]], align 4
+// AMDGCNSPIRV-IGNORE-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// AMDGCNSPIRV-IGNORE-NEXT:    store double [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 8
 // AMDGCNSPIRV-IGNORE-NEXT:    [[TMP0:%.*]] = load double, ptr addrspace(4) [[A_ADDR_ASCAST]], align 8
 // AMDGCNSPIRV-IGNORE-NEXT:    [[TMP1:%.*]] = load i32, ptr addrspace(4) [[B_ADDR_ASCAST]], align 4
 // AMDGCNSPIRV-IGNORE-NEXT:    [[TMP2:%.*]] = call addrspace(4) double @llvm.ldexp.f64.i32(double [[TMP0]], i32 [[TMP1]])
@@ -1873,6 +2107,8 @@ void test_scalbn_var2(int b) {
 // AMDGCNSPIRV-STRICT-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
 // AMDGCNSPIRV-STRICT-NEXT:    store double [[A]], ptr addrspace(4) [[A_ADDR_ASCAST]], align 8
 // AMDGCNSPIRV-STRICT-NEXT:    store i32 [[B]], ptr addrspace(4) [[B_ADDR_ASCAST]], align 4
+// AMDGCNSPIRV-STRICT-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// AMDGCNSPIRV-STRICT-NEXT:    store double [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 8
 // AMDGCNSPIRV-STRICT-NEXT:    [[TMP0:%.*]] = load double, ptr addrspace(4) [[A_ADDR_ASCAST]], align 8
 // AMDGCNSPIRV-STRICT-NEXT:    [[TMP1:%.*]] = load i32, ptr addrspace(4) [[B_ADDR_ASCAST]], align 4
 // AMDGCNSPIRV-STRICT-NEXT:    [[TMP2:%.*]] = call addrspace(4) double @llvm.ldexp.f64.i32(double [[TMP0]], i32 [[TMP1]])
@@ -1890,6 +2126,8 @@ void test_scalbn_var2(int b) {
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
 // AMDGCNSPIRV-MAYTRAP-NEXT:    store double [[A]], ptr addrspace(4) [[A_ADDR_ASCAST]], align 8
 // AMDGCNSPIRV-MAYTRAP-NEXT:    store i32 [[B]], ptr addrspace(4) [[B_ADDR_ASCAST]], align 4
+// AMDGCNSPIRV-MAYTRAP-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// AMDGCNSPIRV-MAYTRAP-NEXT:    store double [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 8
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[TMP0:%.*]] = load double, ptr addrspace(4) [[A_ADDR_ASCAST]], align 8
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[TMP1:%.*]] = load i32, ptr addrspace(4) [[B_ADDR_ASCAST]], align 4
 // AMDGCNSPIRV-MAYTRAP-NEXT:    [[TMP2:%.*]] = call addrspace(4) double @llvm.ldexp.f64.i32(double [[TMP0]], i32 [[TMP1]])
@@ -1907,6 +2145,8 @@ void test_scalbn_var2(int b) {
 // AMDGCNSPIRV-ERRNO-NEXT:    [[D1_ASCAST:%.*]] = addrspacecast ptr [[D1]] to ptr addrspace(4)
 // AMDGCNSPIRV-ERRNO-NEXT:    store double [[A]], ptr addrspace(4) [[A_ADDR_ASCAST]], align 8
 // AMDGCNSPIRV-ERRNO-NEXT:    store i32 [[B]], ptr addrspace(4) [[B_ADDR_ASCAST]], align 4
+// AMDGCNSPIRV-ERRNO-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// AMDGCNSPIRV-ERRNO-NEXT:    store double [[FREEZE_POISON]], ptr addrspace(4) [[D1_ASCAST]], align 8
 // AMDGCNSPIRV-ERRNO-NEXT:    [[TMP0:%.*]] = load double, ptr addrspace(4) [[A_ADDR_ASCAST]], align 8
 // AMDGCNSPIRV-ERRNO-NEXT:    [[TMP1:%.*]] = load i32, ptr addrspace(4) [[B_ADDR_ASCAST]], align 4
 // AMDGCNSPIRV-ERRNO-NEXT:    [[CALL:%.*]] = call spir_func addrspace(4) double @scalbn(double noundef [[TMP0]], i32 noundef [[TMP1]]) #[[ATTR2]]

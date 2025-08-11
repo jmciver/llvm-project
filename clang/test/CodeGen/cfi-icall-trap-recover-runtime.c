@@ -45,6 +45,8 @@ void xf();
 // TRAP-NEXT:    [[B_ADDR:%.*]] = alloca i32, align 4
 // TRAP-NEXT:    [[FP:%.*]] = alloca ptr, align 8
 // TRAP-NEXT:    store i32 [[B]], ptr [[B_ADDR]], align 4
+// TRAP-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// TRAP-NEXT:    store ptr [[FREEZE_POISON]], ptr [[FP]], align 8
 // TRAP-NEXT:    [[TMP0:%.*]] = load i32, ptr [[B_ADDR]], align 4
 // TRAP-NEXT:    [[TOBOOL:%.*]] = icmp ne i32 [[TMP0]], 0
 // TRAP-NEXT:    [[TMP1:%.*]] = zext i1 [[TOBOOL]] to i64
@@ -66,6 +68,8 @@ void xf();
 // ABORT-NEXT:    [[B_ADDR:%.*]] = alloca i32, align 4
 // ABORT-NEXT:    [[FP:%.*]] = alloca ptr, align 8
 // ABORT-NEXT:    store i32 [[B]], ptr [[B_ADDR]], align 4
+// ABORT-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// ABORT-NEXT:    store ptr [[FREEZE_POISON]], ptr [[FP]], align 8
 // ABORT-NEXT:    [[TMP0:%.*]] = load i32, ptr [[B_ADDR]], align 4
 // ABORT-NEXT:    [[TOBOOL:%.*]] = icmp ne i32 [[TMP0]], 0
 // ABORT-NEXT:    [[TMP1:%.*]] = zext i1 [[TOBOOL]] to i64
@@ -88,6 +92,8 @@ void xf();
 // RECOVER-NEXT:    [[B_ADDR:%.*]] = alloca i32, align 4
 // RECOVER-NEXT:    [[FP:%.*]] = alloca ptr, align 8
 // RECOVER-NEXT:    store i32 [[B]], ptr [[B_ADDR]], align 4
+// RECOVER-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// RECOVER-NEXT:    store ptr [[FREEZE_POISON]], ptr [[FP]], align 8
 // RECOVER-NEXT:    [[TMP0:%.*]] = load i32, ptr [[B_ADDR]], align 4
 // RECOVER-NEXT:    [[TOBOOL:%.*]] = icmp ne i32 [[TMP0]], 0
 // RECOVER-NEXT:    [[TMP1:%.*]] = zext i1 [[TOBOOL]] to i64
@@ -110,6 +116,8 @@ void xf();
 // ABORT_MIN-NEXT:    [[B_ADDR:%.*]] = alloca i32, align 4
 // ABORT_MIN-NEXT:    [[FP:%.*]] = alloca ptr, align 8
 // ABORT_MIN-NEXT:    store i32 [[B]], ptr [[B_ADDR]], align 4
+// ABORT_MIN-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// ABORT_MIN-NEXT:    store ptr [[FREEZE_POISON]], ptr [[FP]], align 8
 // ABORT_MIN-NEXT:    [[TMP0:%.*]] = load i32, ptr [[B_ADDR]], align 4
 // ABORT_MIN-NEXT:    [[TOBOOL:%.*]] = icmp ne i32 [[TMP0]], 0
 // ABORT_MIN-NEXT:    [[TMP1:%.*]] = zext i1 [[TOBOOL]] to i64
@@ -131,6 +139,8 @@ void xf();
 // RECOVER_MIN-NEXT:    [[B_ADDR:%.*]] = alloca i32, align 4
 // RECOVER_MIN-NEXT:    [[FP:%.*]] = alloca ptr, align 8
 // RECOVER_MIN-NEXT:    store i32 [[B]], ptr [[B_ADDR]], align 4
+// RECOVER_MIN-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// RECOVER_MIN-NEXT:    store ptr [[FREEZE_POISON]], ptr [[FP]], align 8
 // RECOVER_MIN-NEXT:    [[TMP0:%.*]] = load i32, ptr [[B_ADDR]], align 4
 // RECOVER_MIN-NEXT:    [[TOBOOL:%.*]] = icmp ne i32 [[TMP0]], 0
 // RECOVER_MIN-NEXT:    [[TMP1:%.*]] = zext i1 [[TOBOOL]] to i64

@@ -29,44 +29,62 @@
 // CHECK-NEXT:    [[SELECT_NULL_ASCAST:%.*]] = addrspacecast ptr [[SELECT_NULL]] to ptr addrspace(4)
 // CHECK-NEXT:    [[SELECT_STR_TRIVIAL1_ASCAST:%.*]] = addrspacecast ptr [[SELECT_STR_TRIVIAL1]] to ptr addrspace(4)
 // CHECK-NEXT:    [[SELECT_STR_TRIVIAL2_ASCAST:%.*]] = addrspacecast ptr [[SELECT_STR_TRIVIAL2]] to ptr addrspace(4)
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr addrspace(4) [[I_ASCAST]], align 4
 // CHECK-NEXT:    store i32 0, ptr addrspace(4) [[I_ASCAST]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze ptr addrspace(4) poison
+// CHECK-NEXT:    store ptr addrspace(4) [[FREEZE_POISON1]], ptr addrspace(4) [[PPTR_ASCAST]], align 8
 // CHECK-NEXT:    store ptr addrspace(4) [[I_ASCAST]], ptr addrspace(4) [[PPTR_ASCAST]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i8 poison
+// CHECK-NEXT:    store i8 [[FREEZE_POISON2]], ptr addrspace(4) [[IS_I_PTR_ASCAST]], align 1
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr addrspace(4), ptr addrspace(4) [[PPTR_ASCAST]], align 8
 // CHECK-NEXT:    [[CMP:%.*]] = icmp eq ptr addrspace(4) [[TMP0]], [[I_ASCAST]]
 // CHECK-NEXT:    [[STOREDV:%.*]] = zext i1 [[CMP]] to i8
 // CHECK-NEXT:    store i8 [[STOREDV]], ptr addrspace(4) [[IS_I_PTR_ASCAST]], align 1
 // CHECK-NEXT:    [[TMP1:%.*]] = load ptr addrspace(4), ptr addrspace(4) [[PPTR_ASCAST]], align 8
 // CHECK-NEXT:    store i32 66, ptr addrspace(4) [[TMP1]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON3]], ptr addrspace(4) [[VAR23_ASCAST]], align 4
 // CHECK-NEXT:    store i32 23, ptr addrspace(4) [[VAR23_ASCAST]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON4:%.*]] = freeze ptr addrspace(4) poison
+// CHECK-NEXT:    store ptr addrspace(4) [[FREEZE_POISON4]], ptr addrspace(4) [[CP_ASCAST]], align 8
 // CHECK-NEXT:    store ptr addrspace(4) [[VAR23_ASCAST]], ptr addrspace(4) [[CP_ASCAST]], align 8
 // CHECK-NEXT:    [[TMP2:%.*]] = load ptr addrspace(4), ptr addrspace(4) [[CP_ASCAST]], align 8
 // CHECK-NEXT:    store i8 41, ptr addrspace(4) [[TMP2]], align 1
+// CHECK-NEXT:    [[FREEZE_POISON5:%.*]] = freeze ptr addrspace(4) poison
+// CHECK-NEXT:    store ptr addrspace(4) [[FREEZE_POISON5]], ptr addrspace(4) [[CPP_ASCAST]], align 8
 // CHECK-NEXT:    [[ARRAYDECAY:%.*]] = getelementptr inbounds [42 x i32], ptr addrspace(4) [[ARR_ASCAST]], i64 0, i64 0
 // CHECK-NEXT:    store ptr addrspace(4) [[ARRAYDECAY]], ptr addrspace(4) [[CPP_ASCAST]], align 8
 // CHECK-NEXT:    [[TMP3:%.*]] = load ptr addrspace(4), ptr addrspace(4) [[CPP_ASCAST]], align 8
 // CHECK-NEXT:    store i8 43, ptr addrspace(4) [[TMP3]], align 1
-// CHECK-NEXT:    [[ARRAYDECAY1:%.*]] = getelementptr inbounds [42 x i32], ptr addrspace(4) [[ARR_ASCAST]], i64 0, i64 0
-// CHECK-NEXT:    [[ADD_PTR:%.*]] = getelementptr inbounds i32, ptr addrspace(4) [[ARRAYDECAY1]], i64 10
+// CHECK-NEXT:    [[FREEZE_POISON6:%.*]] = freeze ptr addrspace(4) poison
+// CHECK-NEXT:    store ptr addrspace(4) [[FREEZE_POISON6]], ptr addrspace(4) [[APTR_ASCAST]], align 8
+// CHECK-NEXT:    [[ARRAYDECAY7:%.*]] = getelementptr inbounds [42 x i32], ptr addrspace(4) [[ARR_ASCAST]], i64 0, i64 0
+// CHECK-NEXT:    [[ADD_PTR:%.*]] = getelementptr inbounds i32, ptr addrspace(4) [[ARRAYDECAY7]], i64 10
 // CHECK-NEXT:    store ptr addrspace(4) [[ADD_PTR]], ptr addrspace(4) [[APTR_ASCAST]], align 8
 // CHECK-NEXT:    [[TMP4:%.*]] = load ptr addrspace(4), ptr addrspace(4) [[APTR_ASCAST]], align 8
-// CHECK-NEXT:    [[ARRAYDECAY2:%.*]] = getelementptr inbounds [42 x i32], ptr addrspace(4) [[ARR_ASCAST]], i64 0, i64 0
-// CHECK-NEXT:    [[ADD_PTR3:%.*]] = getelementptr inbounds nuw i32, ptr addrspace(4) [[ARRAYDECAY2]], i64 168
-// CHECK-NEXT:    [[CMP4:%.*]] = icmp ult ptr addrspace(4) [[TMP4]], [[ADD_PTR3]]
-// CHECK-NEXT:    br i1 [[CMP4]], label [[IF_THEN:%.*]], label [[IF_END:%.*]]
+// CHECK-NEXT:    [[ARRAYDECAY8:%.*]] = getelementptr inbounds [42 x i32], ptr addrspace(4) [[ARR_ASCAST]], i64 0, i64 0
+// CHECK-NEXT:    [[ADD_PTR9:%.*]] = getelementptr inbounds nuw i32, ptr addrspace(4) [[ARRAYDECAY8]], i64 168
+// CHECK-NEXT:    [[CMP10:%.*]] = icmp ult ptr addrspace(4) [[TMP4]], [[ADD_PTR9]]
+// CHECK-NEXT:    br i1 [[CMP10]], label [[IF_THEN:%.*]], label [[IF_END:%.*]]
 // CHECK:       if.then:
 // CHECK-NEXT:    [[TMP5:%.*]] = load ptr addrspace(4), ptr addrspace(4) [[APTR_ASCAST]], align 8
 // CHECK-NEXT:    store i32 44, ptr addrspace(4) [[TMP5]], align 4
 // CHECK-NEXT:    br label [[IF_END]]
 // CHECK:       if.end:
+// CHECK-NEXT:    [[FREEZE_POISON11:%.*]] = freeze ptr addrspace(4) poison
+// CHECK-NEXT:    store ptr addrspace(4) [[FREEZE_POISON11]], ptr addrspace(4) [[STR_ASCAST]], align 8
 // CHECK-NEXT:    store ptr addrspace(4) addrspacecast (ptr addrspace(1) @.str to ptr addrspace(4)), ptr addrspace(4) [[STR_ASCAST]], align 8
 // CHECK-NEXT:    [[TMP6:%.*]] = load ptr addrspace(4), ptr addrspace(4) [[STR_ASCAST]], align 8
 // CHECK-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds i8, ptr addrspace(4) [[TMP6]], i64 0
-// CHECK-NEXT:    [[TMP7:%.*]] = load i8, ptr addrspace(4) [[ARRAYIDX]], align 1
+// CHECK-NEXT:    [[TMP7:%.*]] = load i8, ptr addrspace(4) [[ARRAYIDX]], align 1, !freeze_bits [[META2:![0-9]+]]
 // CHECK-NEXT:    [[CONV:%.*]] = sext i8 [[TMP7]] to i32
 // CHECK-NEXT:    store i32 [[CONV]], ptr addrspace(4) [[I_ASCAST]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON12:%.*]] = freeze ptr addrspace(4) poison
+// CHECK-NEXT:    store ptr addrspace(4) [[FREEZE_POISON12]], ptr addrspace(4) [[PHI_STR_ASCAST]], align 8
 // CHECK-NEXT:    [[TMP8:%.*]] = load i32, ptr addrspace(4) [[I_ASCAST]], align 4
-// CHECK-NEXT:    [[CMP5:%.*]] = icmp sgt i32 [[TMP8]], 2
-// CHECK-NEXT:    br i1 [[CMP5]], label [[COND_TRUE:%.*]], label [[COND_FALSE:%.*]]
+// CHECK-NEXT:    [[CMP13:%.*]] = icmp sgt i32 [[TMP8]], 2
+// CHECK-NEXT:    br i1 [[CMP13]], label [[COND_TRUE:%.*]], label [[COND_FALSE:%.*]]
 // CHECK:       cond.true:
 // CHECK-NEXT:    [[TMP9:%.*]] = load ptr addrspace(4), ptr addrspace(4) [[STR_ASCAST]], align 8
 // CHECK-NEXT:    br label [[COND_END:%.*]]
@@ -75,13 +93,19 @@
 // CHECK:       cond.end:
 // CHECK-NEXT:    [[COND:%.*]] = phi ptr addrspace(4) [ [[TMP9]], [[COND_TRUE]] ], [ addrspacecast (ptr addrspace(1) @.str.1 to ptr addrspace(4)), [[COND_FALSE]] ]
 // CHECK-NEXT:    store ptr addrspace(4) [[COND]], ptr addrspace(4) [[PHI_STR_ASCAST]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON14:%.*]] = freeze ptr addrspace(4) poison
+// CHECK-NEXT:    store ptr addrspace(4) [[FREEZE_POISON14]], ptr addrspace(4) [[SELECT_NULL_ASCAST]], align 8
 // CHECK-NEXT:    [[TMP10:%.*]] = load i32, ptr addrspace(4) [[I_ASCAST]], align 4
-// CHECK-NEXT:    [[CMP6:%.*]] = icmp sgt i32 [[TMP10]], 2
-// CHECK-NEXT:    [[TMP11:%.*]] = zext i1 [[CMP6]] to i64
-// CHECK-NEXT:    [[COND7:%.*]] = select i1 [[CMP6]], ptr addrspace(4) addrspacecast (ptr addrspace(1) @.str.2 to ptr addrspace(4)), ptr addrspace(4) null
-// CHECK-NEXT:    store ptr addrspace(4) [[COND7]], ptr addrspace(4) [[SELECT_NULL_ASCAST]], align 8
+// CHECK-NEXT:    [[CMP15:%.*]] = icmp sgt i32 [[TMP10]], 2
+// CHECK-NEXT:    [[TMP11:%.*]] = zext i1 [[CMP15]] to i64
+// CHECK-NEXT:    [[COND16:%.*]] = select i1 [[CMP15]], ptr addrspace(4) addrspacecast (ptr addrspace(1) @.str.2 to ptr addrspace(4)), ptr addrspace(4) null
+// CHECK-NEXT:    store ptr addrspace(4) [[COND16]], ptr addrspace(4) [[SELECT_NULL_ASCAST]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON17:%.*]] = freeze ptr addrspace(4) poison
+// CHECK-NEXT:    store ptr addrspace(4) [[FREEZE_POISON17]], ptr addrspace(4) [[SELECT_STR_TRIVIAL1_ASCAST]], align 8
 // CHECK-NEXT:    [[TMP12:%.*]] = load ptr addrspace(4), ptr addrspace(4) [[STR_ASCAST]], align 8
 // CHECK-NEXT:    store ptr addrspace(4) [[TMP12]], ptr addrspace(4) [[SELECT_STR_TRIVIAL1_ASCAST]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON18:%.*]] = freeze ptr addrspace(4) poison
+// CHECK-NEXT:    store ptr addrspace(4) [[FREEZE_POISON18]], ptr addrspace(4) [[SELECT_STR_TRIVIAL2_ASCAST]], align 8
 // CHECK-NEXT:    store ptr addrspace(4) addrspacecast (ptr addrspace(1) @.str.1 to ptr addrspace(4)), ptr addrspace(4) [[SELECT_STR_TRIVIAL2_ASCAST]], align 8
 // CHECK-NEXT:    ret void
 //

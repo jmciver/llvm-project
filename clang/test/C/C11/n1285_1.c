@@ -13,12 +13,14 @@ struct X f(void);
 // CHECK-NEXT:  [[ENTRY:.*:]]
 // CHECK-NEXT:    [[P:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    [[REF_TMP:%.*]] = alloca [[STRUCT_X:%.*]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[P]], align 8
 // CHECK-NEXT:    call void @f(ptr dead_on_unwind writable sret([[STRUCT_X]]) align 4 [[REF_TMP]])
 // CHECK-NEXT:    [[A:%.*]] = getelementptr inbounds nuw [[STRUCT_X]], ptr [[REF_TMP]], i32 0, i32 0
 // CHECK-NEXT:    [[ARRAYDECAY:%.*]] = getelementptr inbounds [5 x i32], ptr [[A]], i64 0, i64 0
 // CHECK-NEXT:    store ptr [[ARRAYDECAY]], ptr [[P]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[P]], align 8
-// CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META2:![0-9]+]]
 // CHECK-NEXT:    ret i32 [[TMP1]]
 //
 // C11-O2-LABEL: define dso_local i32 @func_return(
@@ -27,6 +29,8 @@ struct X f(void);
 // C11-O2-NEXT:    [[P:%.*]] = alloca ptr, align 8
 // C11-O2-NEXT:    [[REF_TMP:%.*]] = alloca [[STRUCT_X:%.*]], align 4
 // C11-O2-NEXT:    call void @llvm.lifetime.start.p0(i64 8, ptr [[P]]) #[[ATTR5:[0-9]+]]
+// C11-O2-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// C11-O2-NEXT:    store ptr [[FREEZE_POISON]], ptr [[P]], align 8
 // C11-O2-NEXT:    call void @llvm.lifetime.start.p0(i64 20, ptr [[REF_TMP]]) #[[ATTR5]]
 // C11-O2-NEXT:    call void @f(ptr dead_on_unwind writable sret([[STRUCT_X]]) align 4 [[REF_TMP]])
 // C11-O2-NEXT:    [[A:%.*]] = getelementptr inbounds nuw [[STRUCT_X]], ptr [[REF_TMP]], i32 0, i32 0
@@ -34,7 +38,7 @@ struct X f(void);
 // C11-O2-NEXT:    call void @llvm.lifetime.end.p0(i64 20, ptr [[REF_TMP]]) #[[ATTR5]]
 // C11-O2-NEXT:    store ptr [[ARRAYDECAY]], ptr [[P]], align 8, !tbaa [[TBAA2:![0-9]+]]
 // C11-O2-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[P]], align 8, !tbaa [[TBAA2]]
-// C11-O2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !tbaa [[TBAA7:![0-9]+]]
+// C11-O2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !tbaa [[TBAA7:![0-9]+]], !freeze_bits [[META9:![0-9]+]]
 // C11-O2-NEXT:    call void @llvm.lifetime.end.p0(i64 8, ptr [[P]]) #[[ATTR5]]
 // C11-O2-NEXT:    ret i32 [[TMP1]]
 //
@@ -61,15 +65,17 @@ int func_return(void) {
 // CHECK-NEXT:    [[A1:%.*]] = getelementptr inbounds nuw [[STRUCT_X]], ptr [[REF_TMP]], i32 0, i32 0
 // CHECK-NEXT:    [[ARRAYDECAY:%.*]] = getelementptr inbounds [5 x i32], ptr [[A1]], i64 0, i64 0
 // CHECK-NEXT:    store ptr [[ARRAYDECAY]], ptr @p, align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[Q]], align 8
 // CHECK-NEXT:    call void @llvm.memset.p0.i64(ptr align 4 [[DOTCOMPOUNDLITERAL]], i8 0, i64 20, i1 false)
 // CHECK-NEXT:    [[A2:%.*]] = getelementptr inbounds nuw [[STRUCT_X]], ptr [[DOTCOMPOUNDLITERAL]], i32 0, i32 0
 // CHECK-NEXT:    [[A3:%.*]] = getelementptr inbounds nuw [[STRUCT_X]], ptr [[DOTCOMPOUNDLITERAL]], i32 0, i32 0
 // CHECK-NEXT:    [[ARRAYDECAY4:%.*]] = getelementptr inbounds [5 x i32], ptr [[A3]], i64 0, i64 0
 // CHECK-NEXT:    store ptr [[ARRAYDECAY4]], ptr [[Q]], align 8
-// CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr @p, align 8
-// CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr @p, align 8, !freeze_bits [[META2]]
+// CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META2]]
 // CHECK-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[Q]], align 8
-// CHECK-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4
+// CHECK-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4, !freeze_bits [[META2]]
 // CHECK-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP1]], [[TMP3]]
 // CHECK-NEXT:    ret i32 [[ADD]]
 //
@@ -94,15 +100,17 @@ int func_return(void) {
 // C11-O2-NEXT:    store ptr [[ARRAYDECAY]], ptr @p, align 8, !tbaa [[TBAA2]]
 // C11-O2-NEXT:    call void @llvm.lifetime.end.p0(i64 20, ptr [[REF_TMP]]) #[[ATTR5]]
 // C11-O2-NEXT:    call void @llvm.lifetime.start.p0(i64 8, ptr [[Q]]) #[[ATTR5]]
+// C11-O2-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// C11-O2-NEXT:    store ptr [[FREEZE_POISON]], ptr [[Q]], align 8
 // C11-O2-NEXT:    call void @llvm.memset.p0.i64(ptr align 4 [[DOTCOMPOUNDLITERAL]], i8 0, i64 20, i1 false)
 // C11-O2-NEXT:    [[A2:%.*]] = getelementptr inbounds nuw [[STRUCT_X]], ptr [[DOTCOMPOUNDLITERAL]], i32 0, i32 0
 // C11-O2-NEXT:    [[A3:%.*]] = getelementptr inbounds nuw [[STRUCT_X]], ptr [[DOTCOMPOUNDLITERAL]], i32 0, i32 0
 // C11-O2-NEXT:    [[ARRAYDECAY4:%.*]] = getelementptr inbounds [5 x i32], ptr [[A3]], i64 0, i64 0
 // C11-O2-NEXT:    store ptr [[ARRAYDECAY4]], ptr [[Q]], align 8, !tbaa [[TBAA2]]
-// C11-O2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @p, align 8, !tbaa [[TBAA2]]
-// C11-O2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !tbaa [[TBAA7]]
+// C11-O2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @p, align 8, !tbaa [[TBAA2]], !freeze_bits [[META9]]
+// C11-O2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !tbaa [[TBAA7]], !freeze_bits [[META9]]
 // C11-O2-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[Q]], align 8, !tbaa [[TBAA2]]
-// C11-O2-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4, !tbaa [[TBAA7]]
+// C11-O2-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4, !tbaa [[TBAA7]], !freeze_bits [[META9]]
 // C11-O2-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP1]], [[TMP3]]
 // C11-O2-NEXT:    call void @llvm.lifetime.end.p0(i64 8, ptr [[Q]]) #[[ATTR5]]
 // C11-O2-NEXT:    ret i32 [[ADD]]
@@ -124,8 +132,8 @@ int ternary(void) {
 // CHECK-NEXT:    [[A:%.*]] = getelementptr inbounds nuw [[STRUCT_X]], ptr [[REF_TMP]], i32 0, i32 0
 // CHECK-NEXT:    [[ARRAYDECAY:%.*]] = getelementptr inbounds [5 x i32], ptr [[A]], i64 0, i64 0
 // CHECK-NEXT:    store ptr [[ARRAYDECAY]], ptr @p, align 8
-// CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr @p, align 8
-// CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr @p, align 8, !freeze_bits [[META2]]
+// CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META2]]
 // CHECK-NEXT:    ret i32 [[TMP1]]
 //
 // C11-O2-LABEL: define dso_local i32 @comma(
@@ -135,13 +143,13 @@ int ternary(void) {
 // C11-O2-NEXT:    [[REF_TMP:%.*]] = alloca [[STRUCT_X]], align 4
 // C11-O2-NEXT:    call void @llvm.lifetime.start.p0(i64 20, ptr [[X]]) #[[ATTR5]]
 // C11-O2-NEXT:    call void @llvm.lifetime.start.p0(i64 20, ptr [[REF_TMP]]) #[[ATTR5]]
-// C11-O2-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 4 [[REF_TMP]], ptr align 4 [[X]], i64 20, i1 false), !tbaa.struct [[TBAA_STRUCT9:![0-9]+]]
+// C11-O2-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 4 [[REF_TMP]], ptr align 4 [[X]], i64 20, i1 false), !tbaa.struct [[TBAA_STRUCT10:![0-9]+]]
 // C11-O2-NEXT:    [[A:%.*]] = getelementptr inbounds nuw [[STRUCT_X]], ptr [[REF_TMP]], i32 0, i32 0
 // C11-O2-NEXT:    [[ARRAYDECAY:%.*]] = getelementptr inbounds [5 x i32], ptr [[A]], i64 0, i64 0
 // C11-O2-NEXT:    store ptr [[ARRAYDECAY]], ptr @p, align 8, !tbaa [[TBAA2]]
 // C11-O2-NEXT:    call void @llvm.lifetime.end.p0(i64 20, ptr [[REF_TMP]]) #[[ATTR5]]
-// C11-O2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @p, align 8, !tbaa [[TBAA2]]
-// C11-O2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !tbaa [[TBAA7]]
+// C11-O2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @p, align 8, !tbaa [[TBAA2]], !freeze_bits [[META9]]
+// C11-O2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !tbaa [[TBAA7]], !freeze_bits [[META9]]
 // C11-O2-NEXT:    call void @llvm.lifetime.end.p0(i64 20, ptr [[X]]) #[[ATTR5]]
 // C11-O2-NEXT:    ret i32 [[TMP1]]
 //
@@ -161,8 +169,8 @@ int comma(void) {
 // CHECK-NEXT:    [[A:%.*]] = getelementptr inbounds nuw [[STRUCT_X]], ptr [[REF_TMP]], i32 0, i32 0
 // CHECK-NEXT:    [[ARRAYDECAY:%.*]] = getelementptr inbounds [5 x i32], ptr [[A]], i64 0, i64 0
 // CHECK-NEXT:    store ptr [[ARRAYDECAY]], ptr @p, align 8
-// CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr @p, align 8
-// CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr @p, align 8, !freeze_bits [[META2]]
+// CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META2]]
 // CHECK-NEXT:    ret i32 [[TMP1]]
 //
 // C11-O2-LABEL: define dso_local i32 @cast(
@@ -172,13 +180,13 @@ int comma(void) {
 // C11-O2-NEXT:    [[REF_TMP:%.*]] = alloca [[STRUCT_X]], align 4
 // C11-O2-NEXT:    call void @llvm.lifetime.start.p0(i64 20, ptr [[X]]) #[[ATTR5]]
 // C11-O2-NEXT:    call void @llvm.lifetime.start.p0(i64 20, ptr [[REF_TMP]]) #[[ATTR5]]
-// C11-O2-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 4 [[REF_TMP]], ptr align 4 [[X]], i64 20, i1 false), !tbaa.struct [[TBAA_STRUCT9]]
+// C11-O2-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 4 [[REF_TMP]], ptr align 4 [[X]], i64 20, i1 false), !tbaa.struct [[TBAA_STRUCT10]]
 // C11-O2-NEXT:    [[A:%.*]] = getelementptr inbounds nuw [[STRUCT_X]], ptr [[REF_TMP]], i32 0, i32 0
 // C11-O2-NEXT:    [[ARRAYDECAY:%.*]] = getelementptr inbounds [5 x i32], ptr [[A]], i64 0, i64 0
 // C11-O2-NEXT:    store ptr [[ARRAYDECAY]], ptr @p, align 8, !tbaa [[TBAA2]]
 // C11-O2-NEXT:    call void @llvm.lifetime.end.p0(i64 20, ptr [[REF_TMP]]) #[[ATTR5]]
-// C11-O2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @p, align 8, !tbaa [[TBAA2]]
-// C11-O2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !tbaa [[TBAA7]]
+// C11-O2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @p, align 8, !tbaa [[TBAA2]], !freeze_bits [[META9]]
+// C11-O2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !tbaa [[TBAA7]], !freeze_bits [[META9]]
 // C11-O2-NEXT:    call void @llvm.lifetime.end.p0(i64 20, ptr [[X]]) #[[ATTR5]]
 // C11-O2-NEXT:    ret i32 [[TMP1]]
 //
@@ -200,8 +208,8 @@ int cast(void) {
 // CHECK-NEXT:    [[A:%.*]] = getelementptr inbounds nuw [[STRUCT_X]], ptr [[REF_TMP]], i32 0, i32 0
 // CHECK-NEXT:    [[ARRAYDECAY:%.*]] = getelementptr inbounds [5 x i32], ptr [[A]], i64 0, i64 0
 // CHECK-NEXT:    store ptr [[ARRAYDECAY]], ptr @p, align 8
-// CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr @p, align 8
-// CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr @p, align 8, !freeze_bits [[META2]]
+// CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META2]]
 // CHECK-NEXT:    ret i32 [[TMP1]]
 //
 // C11-O2-LABEL: define dso_local i32 @assign(
@@ -213,14 +221,14 @@ int cast(void) {
 // C11-O2-NEXT:    call void @llvm.lifetime.start.p0(i64 20, ptr [[X]]) #[[ATTR5]]
 // C11-O2-NEXT:    call void @llvm.lifetime.start.p0(i64 20, ptr [[S]]) #[[ATTR5]]
 // C11-O2-NEXT:    call void @llvm.lifetime.start.p0(i64 20, ptr [[REF_TMP]]) #[[ATTR5]]
-// C11-O2-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 4 [[X]], ptr align 4 [[S]], i64 20, i1 false), !tbaa.struct [[TBAA_STRUCT9]]
-// C11-O2-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 4 [[REF_TMP]], ptr align 4 [[X]], i64 20, i1 false), !tbaa.struct [[TBAA_STRUCT9]]
+// C11-O2-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 4 [[X]], ptr align 4 [[S]], i64 20, i1 false), !tbaa.struct [[TBAA_STRUCT10]]
+// C11-O2-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 4 [[REF_TMP]], ptr align 4 [[X]], i64 20, i1 false), !tbaa.struct [[TBAA_STRUCT10]]
 // C11-O2-NEXT:    [[A:%.*]] = getelementptr inbounds nuw [[STRUCT_X]], ptr [[REF_TMP]], i32 0, i32 0
 // C11-O2-NEXT:    [[ARRAYDECAY:%.*]] = getelementptr inbounds [5 x i32], ptr [[A]], i64 0, i64 0
 // C11-O2-NEXT:    store ptr [[ARRAYDECAY]], ptr @p, align 8, !tbaa [[TBAA2]]
 // C11-O2-NEXT:    call void @llvm.lifetime.end.p0(i64 20, ptr [[REF_TMP]]) #[[ATTR5]]
-// C11-O2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @p, align 8, !tbaa [[TBAA2]]
-// C11-O2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !tbaa [[TBAA7]]
+// C11-O2-NEXT:    [[TMP0:%.*]] = load ptr, ptr @p, align 8, !tbaa [[TBAA2]], !freeze_bits [[META9]]
+// C11-O2-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !tbaa [[TBAA7]], !freeze_bits [[META9]]
 // C11-O2-NEXT:    call void @llvm.lifetime.end.p0(i64 20, ptr [[S]]) #[[ATTR5]]
 // C11-O2-NEXT:    call void @llvm.lifetime.end.p0(i64 20, ptr [[X]]) #[[ATTR5]]
 // C11-O2-NEXT:    ret i32 [[TMP1]]
@@ -232,6 +240,8 @@ int assign(void) {
   return *p;
 }
 //.
+// CHECK: [[META2]] = !{}
+//.
 // C11-O2: [[TBAA2]] = !{[[META3:![0-9]+]], [[META3]], i64 0}
 // C11-O2: [[META3]] = !{!"p1 int", [[META4:![0-9]+]], i64 0}
 // C11-O2: [[META4]] = !{!"any pointer", [[META5:![0-9]+]], i64 0}
@@ -239,6 +249,7 @@ int assign(void) {
 // C11-O2: [[META6]] = !{!"Simple C/C++ TBAA"}
 // C11-O2: [[TBAA7]] = !{[[META8:![0-9]+]], [[META8]], i64 0}
 // C11-O2: [[META8]] = !{!"int", [[META5]], i64 0}
-// C11-O2: [[TBAA_STRUCT9]] = !{i64 0, i64 20, [[META10:![0-9]+]]}
-// C11-O2: [[META10]] = !{[[META5]], [[META5]], i64 0}
+// C11-O2: [[META9]] = !{}
+// C11-O2: [[TBAA_STRUCT10]] = !{i64 0, i64 20, [[META11:![0-9]+]]}
+// C11-O2: [[META11]] = !{[[META5]], [[META5]], i64 0}
 //.

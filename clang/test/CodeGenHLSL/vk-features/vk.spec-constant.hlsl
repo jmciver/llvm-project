@@ -90,33 +90,67 @@ void main() {
 // CHECK-NEXT:    [[F:%.*]] = alloca float, align 4
 // CHECK-NEXT:    [[D:%.*]] = alloca double, align 8
 // CHECK-NEXT:    [[E:%.*]] = alloca i32, align 4
-// CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr addrspace(10) @_ZL10bool_const, align 4
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[B]], align 4
+// CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr addrspace(10) @_ZL10bool_const, align 4, !freeze_bits [[META2:![0-9]+]]
 // CHECK-NEXT:    [[LOADEDV:%.*]] = trunc i32 [[TMP1]] to i1
 // CHECK-NEXT:    [[STOREDV:%.*]] = zext i1 [[LOADEDV]] to i32
 // CHECK-NEXT:    store i32 [[STOREDV]], ptr [[B]], align 4
-// CHECK-NEXT:    [[TMP2:%.*]] = load i16, ptr addrspace(10) @_ZL11short_const, align 2
+// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i16 poison
+// CHECK-NEXT:    store i16 [[FREEZE_POISON1]], ptr [[S]], align 2
+// CHECK-NEXT:    [[TMP2:%.*]] = load i16, ptr addrspace(10) @_ZL11short_const, align 2, !freeze_bits [[META2]]
 // CHECK-NEXT:    store i16 [[TMP2]], ptr [[S]], align 2
-// CHECK-NEXT:    [[TMP3:%.*]] = load i32, ptr addrspace(10) @_ZL9int_const, align 4
+// CHECK-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[I]], align 4
+// CHECK-NEXT:    [[TMP3:%.*]] = load i32, ptr addrspace(10) @_ZL9int_const, align 4, !freeze_bits [[META2]]
 // CHECK-NEXT:    store i32 [[TMP3]], ptr [[I]], align 4
-// CHECK-NEXT:    [[TMP4:%.*]] = load i64, ptr addrspace(10) @_ZL10long_const, align 8
+// CHECK-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i64 poison
+// CHECK-NEXT:    store i64 [[FREEZE_POISON3]], ptr [[L]], align 8
+// CHECK-NEXT:    [[TMP4:%.*]] = load i64, ptr addrspace(10) @_ZL10long_const, align 8, !freeze_bits [[META2]]
 // CHECK-NEXT:    store i64 [[TMP4]], ptr [[L]], align 8
-// CHECK-NEXT:    [[TMP5:%.*]] = load i16, ptr addrspace(10) @_ZL12ushort_const, align 2
+// CHECK-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i16 poison
+// CHECK-NEXT:    store i16 [[FREEZE_POISON4]], ptr [[US]], align 2
+// CHECK-NEXT:    [[TMP5:%.*]] = load i16, ptr addrspace(10) @_ZL12ushort_const, align 2, !freeze_bits [[META2]]
 // CHECK-NEXT:    store i16 [[TMP5]], ptr [[US]], align 2
-// CHECK-NEXT:    [[TMP6:%.*]] = load i32, ptr addrspace(10) @_ZL10uint_const, align 4
+// CHECK-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[UI]], align 4
+// CHECK-NEXT:    [[TMP6:%.*]] = load i32, ptr addrspace(10) @_ZL10uint_const, align 4, !freeze_bits [[META2]]
 // CHECK-NEXT:    store i32 [[TMP6]], ptr [[UI]], align 4
-// CHECK-NEXT:    [[TMP7:%.*]] = load i32, ptr addrspace(10) @_ZL12uint_const_2, align 4
+// CHECK-NEXT:    [[FREEZE_POISON6:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON6]], ptr [[UI2]], align 4
+// CHECK-NEXT:    [[TMP7:%.*]] = load i32, ptr addrspace(10) @_ZL12uint_const_2, align 4, !freeze_bits [[META2]]
 // CHECK-NEXT:    store i32 [[TMP7]], ptr [[UI2]], align 4
-// CHECK-NEXT:    [[TMP8:%.*]] = load i64, ptr addrspace(10) @_ZL11ulong_const, align 8
+// CHECK-NEXT:    [[FREEZE_POISON7:%.*]] = freeze i64 poison
+// CHECK-NEXT:    store i64 [[FREEZE_POISON7]], ptr [[UL]], align 8
+// CHECK-NEXT:    [[TMP8:%.*]] = load i64, ptr addrspace(10) @_ZL11ulong_const, align 8, !freeze_bits [[META2]]
 // CHECK-NEXT:    store i64 [[TMP8]], ptr [[UL]], align 8
-// CHECK-NEXT:    [[TMP9:%.*]] = load float, ptr addrspace(10) @_ZL10half_const, align 4
+// CHECK-NEXT:    [[FREEZE_POISON8:%.*]] = freeze float poison
+// CHECK-NEXT:    store float [[FREEZE_POISON8]], ptr [[H]], align 4
+// CHECK-NEXT:    [[TMP9:%.*]] = load float, ptr addrspace(10) @_ZL10half_const, align 4, !freeze_bits [[META2]]
 // CHECK-NEXT:    store float [[TMP9]], ptr [[H]], align 4
-// CHECK-NEXT:    [[TMP10:%.*]] = load float, ptr addrspace(10) @_ZL11float_const, align 4
+// CHECK-NEXT:    [[FREEZE_POISON9:%.*]] = freeze float poison
+// CHECK-NEXT:    store float [[FREEZE_POISON9]], ptr [[F]], align 4
+// CHECK-NEXT:    [[TMP10:%.*]] = load float, ptr addrspace(10) @_ZL11float_const, align 4, !freeze_bits [[META2]]
 // CHECK-NEXT:    store float [[TMP10]], ptr [[F]], align 4
-// CHECK-NEXT:    [[TMP11:%.*]] = load double, ptr addrspace(10) @_ZL12double_const, align 8
+// CHECK-NEXT:    [[FREEZE_POISON10:%.*]] = freeze double poison
+// CHECK-NEXT:    store double [[FREEZE_POISON10]], ptr [[D]], align 8
+// CHECK-NEXT:    [[TMP11:%.*]] = load double, ptr addrspace(10) @_ZL12double_const, align 8, !freeze_bits [[META2]]
 // CHECK-NEXT:    store double [[TMP11]], ptr [[D]], align 8
-// CHECK-NEXT:    [[TMP12:%.*]] = load i32, ptr addrspace(10) @_ZL10enum_const, align 4
+// CHECK-NEXT:    [[FREEZE_POISON11:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON11]], ptr [[E]], align 4
+// CHECK-NEXT:    [[TMP12:%.*]] = load i32, ptr addrspace(10) @_ZL10enum_const, align 4, !freeze_bits [[META2]]
 // CHECK-NEXT:    store i32 [[TMP12]], ptr [[E]], align 4
 // CHECK-NEXT:    ret void
+//
+//
+// CHECK-LABEL: define void @main(
+// CHECK-SAME: ) #[[ATTR1:[0-9]+]] {
+// CHECK-NEXT:  [[ENTRY:.*:]]
+// CHECK-NEXT:    [[TMP0:%.*]] = call token @llvm.experimental.convergence.entry()
+// CHECK-NEXT:    call spir_func void @_GLOBAL__sub_I_vk.spec_constant.hlsl() [ "convergencectrl"(token [[TMP0]]) ]
+// CHECK-NEXT:    call spir_func void @_Z4mainv() [ "convergencectrl"(token [[TMP0]]) ]
+// CHECK-NEXT:    ret void
+//
 //
 // CHECK-LABEL: define internal spir_func void @__cxx_global_var_init(
 // CHECK-SAME: ) #[[ATTR3:[0-9]+]] {
@@ -225,3 +259,33 @@ void main() {
 // CHECK-NEXT:    [[TMP1:%.*]] = call i32 @_Z20__spirv_SpecConstantii(i32 10, i32 30)
 // CHECK-NEXT:    store i32 [[TMP1]], ptr addrspace(10) @_ZL10enum_const, align 4
 // CHECK-NEXT:    ret void
+//
+//
+// CHECK-LABEL: define internal spir_func void @_GLOBAL__sub_I_vk.spec_constant.hlsl(
+// CHECK-SAME: ) #[[ATTR3]] {
+// CHECK-NEXT:  [[ENTRY:.*:]]
+// CHECK-NEXT:    [[TMP0:%.*]] = call token @llvm.experimental.convergence.entry()
+// CHECK-NEXT:    call spir_func void @__cxx_global_var_init() [ "convergencectrl"(token [[TMP0]]) ]
+// CHECK-NEXT:    call spir_func void @__cxx_global_var_init.1() [ "convergencectrl"(token [[TMP0]]) ]
+// CHECK-NEXT:    call spir_func void @__cxx_global_var_init.2() [ "convergencectrl"(token [[TMP0]]) ]
+// CHECK-NEXT:    call spir_func void @__cxx_global_var_init.3() [ "convergencectrl"(token [[TMP0]]) ]
+// CHECK-NEXT:    call spir_func void @__cxx_global_var_init.4() [ "convergencectrl"(token [[TMP0]]) ]
+// CHECK-NEXT:    call spir_func void @__cxx_global_var_init.5() [ "convergencectrl"(token [[TMP0]]) ]
+// CHECK-NEXT:    call spir_func void @__cxx_global_var_init.6() [ "convergencectrl"(token [[TMP0]]) ]
+// CHECK-NEXT:    call spir_func void @__cxx_global_var_init.7() [ "convergencectrl"(token [[TMP0]]) ]
+// CHECK-NEXT:    call spir_func void @__cxx_global_var_init.8() [ "convergencectrl"(token [[TMP0]]) ]
+// CHECK-NEXT:    call spir_func void @__cxx_global_var_init.9() [ "convergencectrl"(token [[TMP0]]) ]
+// CHECK-NEXT:    call spir_func void @__cxx_global_var_init.10() [ "convergencectrl"(token [[TMP0]]) ]
+// CHECK-NEXT:    call spir_func void @__cxx_global_var_init.11() [ "convergencectrl"(token [[TMP0]]) ]
+// CHECK-NEXT:    ret void
+//
+//.
+// CHECK: attributes #[[ATTR0]] = { alwaysinline convergent mustprogress norecurse nounwind "approx-func-fp-math"="true" "no-infs-fp-math"="true" "no-nans-fp-math"="true" "no-signed-zeros-fp-math"="true" "no-trapping-math"="true" "stack-protector-buffer-size"="8" }
+// CHECK: attributes #[[ATTR1]] = { convergent noinline norecurse optnone "approx-func-fp-math"="true" "hlsl.numthreads"="1,1,1" "hlsl.shader"="compute" "no-infs-fp-math"="true" "no-nans-fp-math"="true" "no-signed-zeros-fp-math"="true" "no-trapping-math"="true" "stack-protector-buffer-size"="8" }
+// CHECK: attributes #[[ATTR2:[0-9]+]] = { convergent nocallback nofree nosync nounwind willreturn memory(none) }
+// CHECK: attributes #[[ATTR3]] = { alwaysinline convergent nounwind "approx-func-fp-math"="true" "no-infs-fp-math"="true" "no-nans-fp-math"="true" "no-signed-zeros-fp-math"="true" "no-trapping-math"="true" "stack-protector-buffer-size"="8" }
+//.
+// CHECK: [[META0:![0-9]+]] = !{i32 1, !"wchar_size", i32 4}
+// CHECK: [[META1:![0-9]+]] = !{!"{{.*}}clang version {{.*}}"}
+// CHECK: [[META2]] = !{}
+//.

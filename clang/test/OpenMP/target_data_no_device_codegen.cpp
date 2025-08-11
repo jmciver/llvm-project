@@ -31,10 +31,14 @@ template class A<0>;
 // CHECK-NEXT:    [[CAPTURE:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // CHECK-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[PTR]], align 8
 // CHECK-NEXT:    [[PTR2:%.*]] = getelementptr inbounds nuw [[CLASS_A:%.*]], ptr [[THIS1]], i32 0, i32 0
 // CHECK-NEXT:    store ptr [[PTR2]], ptr [[PTR]], align 8
-// CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[PTR]], align 8
-// CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[TMP0]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON3:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON3]], ptr [[CAPTURE]], align 8
+// CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[PTR]], align 8, !nonnull [[META3:![0-9]+]], !align [[META4:![0-9]+]]
+// CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[TMP0]], align 8, !freeze_bits [[META3]]
 // CHECK-NEXT:    store ptr [[TMP1]], ptr [[CAPTURE]], align 8
 // CHECK-NEXT:    ret void
 //
@@ -48,12 +52,16 @@ template class A<0>;
 // SIMD-ONLY0-NEXT:    [[CAPTURE:%.*]] = alloca ptr, align 8
 // SIMD-ONLY0-NEXT:    store ptr [[THIS]], ptr [[THIS_ADDR]], align 8
 // SIMD-ONLY0-NEXT:    [[THIS1:%.*]] = load ptr, ptr [[THIS_ADDR]], align 8
+// SIMD-ONLY0-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// SIMD-ONLY0-NEXT:    store ptr [[FREEZE_POISON]], ptr [[PTR]], align 8
 // SIMD-ONLY0-NEXT:    [[PTR2:%.*]] = getelementptr inbounds nuw [[CLASS_A:%.*]], ptr [[THIS1]], i32 0, i32 0
 // SIMD-ONLY0-NEXT:    store ptr [[PTR2]], ptr [[PTR]], align 8
-// SIMD-ONLY0-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[PTR]], align 8
+// SIMD-ONLY0-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[PTR]], align 8, !nonnull [[META2:![0-9]+]], !align [[META3:![0-9]+]]
 // SIMD-ONLY0-NEXT:    store ptr [[TMP0]], ptr [[TMP]], align 8
-// SIMD-ONLY0-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[TMP]], align 8
-// SIMD-ONLY0-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[TMP1]], align 8
+// SIMD-ONLY0-NEXT:    [[FREEZE_POISON3:%.*]] = freeze ptr poison
+// SIMD-ONLY0-NEXT:    store ptr [[FREEZE_POISON3]], ptr [[CAPTURE]], align 8
+// SIMD-ONLY0-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[TMP]], align 8, !nonnull [[META2]], !align [[META3]], !freeze_bits [[META2]]
+// SIMD-ONLY0-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[TMP1]], align 8, !freeze_bits [[META2]]
 // SIMD-ONLY0-NEXT:    store ptr [[TMP2]], ptr [[CAPTURE]], align 8
 // SIMD-ONLY0-NEXT:    ret void
 //

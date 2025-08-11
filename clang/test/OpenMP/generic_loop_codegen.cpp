@@ -28,118 +28,146 @@ void foo(int t) {
 // IR-NEXT:    [[J:%.*]] = alloca i32, align 4
 // IR-NEXT:    [[Z:%.*]] = alloca i32, align 4
 // IR-NEXT:    [[TMP:%.*]] = alloca i32, align 4
-// IR-NEXT:    [[TMP2TMP1:%.*]] = alloca i32, align 4
+// IR-NEXT:    [[TMP2TMP3:%.*]] = alloca i32, align 4
 // IR-NEXT:    [[DOTCAPTURE_EXPR_:%.*]] = alloca i32, align 4
-// IR-NEXT:    [[DOTCAPTURE_EXPR_2:%.*]] = alloca i32, align 4
-// IR-NEXT:    [[DOTCAPTURE_EXPR_3:%.*]] = alloca i64, align 8
+// IR-NEXT:    [[DOTCAPTURE_EXPR_5:%.*]] = alloca i32, align 4
+// IR-NEXT:    [[DOTCAPTURE_EXPR_7:%.*]] = alloca i64, align 8
 // IR-NEXT:    [[DOTOMP_LB:%.*]] = alloca i64, align 8
 // IR-NEXT:    [[DOTOMP_UB:%.*]] = alloca i64, align 8
-// IR-NEXT:    [[I8:%.*]] = alloca i32, align 4
-// IR-NEXT:    [[J9:%.*]] = alloca i32, align 4
+// IR-NEXT:    [[I15:%.*]] = alloca i32, align 4
+// IR-NEXT:    [[J17:%.*]] = alloca i32, align 4
 // IR-NEXT:    [[DOTOMP_IV:%.*]] = alloca i64, align 8
-// IR-NEXT:    [[I11:%.*]] = alloca i32, align 4
-// IR-NEXT:    [[J12:%.*]] = alloca i32, align 4
-// IR-NEXT:    [[Z13:%.*]] = alloca i32, align 4
+// IR-NEXT:    [[I21:%.*]] = alloca i32, align 4
+// IR-NEXT:    [[J23:%.*]] = alloca i32, align 4
+// IR-NEXT:    [[Z25:%.*]] = alloca i32, align 4
 // IR-NEXT:    store i32 [[T]], ptr [[T_ADDR]], align 4
+// IR-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// IR-NEXT:    store i32 [[FREEZE_POISON]], ptr [[I]], align 4
+// IR-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// IR-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[J]], align 4
+// IR-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// IR-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[Z]], align 4
+// IR-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// IR-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTCAPTURE_EXPR_]], align 4
 // IR-NEXT:    [[TMP0:%.*]] = load i32, ptr [[T_ADDR]], align 4
 // IR-NEXT:    store i32 [[TMP0]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// IR-NEXT:    [[FREEZE_POISON6:%.*]] = freeze i32 poison
+// IR-NEXT:    store i32 [[FREEZE_POISON6]], ptr [[DOTCAPTURE_EXPR_5]], align 4
 // IR-NEXT:    [[TMP1:%.*]] = load i32, ptr [[T_ADDR]], align 4
-// IR-NEXT:    store i32 [[TMP1]], ptr [[DOTCAPTURE_EXPR_2]], align 4
+// IR-NEXT:    store i32 [[TMP1]], ptr [[DOTCAPTURE_EXPR_5]], align 4
+// IR-NEXT:    [[FREEZE_POISON8:%.*]] = freeze i64 poison
+// IR-NEXT:    store i64 [[FREEZE_POISON8]], ptr [[DOTCAPTURE_EXPR_7]], align 8
 // IR-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // IR-NEXT:    [[SUB:%.*]] = sub nsw i32 [[TMP2]], 0
 // IR-NEXT:    [[DIV:%.*]] = sdiv i32 [[SUB]], 1
 // IR-NEXT:    [[CONV:%.*]] = sext i32 [[DIV]] to i64
-// IR-NEXT:    [[TMP3:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
-// IR-NEXT:    [[SUB4:%.*]] = sub nsw i32 [[TMP3]], 0
-// IR-NEXT:    [[DIV5:%.*]] = sdiv i32 [[SUB4]], 1
-// IR-NEXT:    [[CONV6:%.*]] = sext i32 [[DIV5]] to i64
-// IR-NEXT:    [[MUL:%.*]] = mul nsw i64 [[CONV]], [[CONV6]]
-// IR-NEXT:    [[SUB7:%.*]] = sub nsw i64 [[MUL]], 1
-// IR-NEXT:    store i64 [[SUB7]], ptr [[DOTCAPTURE_EXPR_3]], align 8
+// IR-NEXT:    [[TMP3:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_5]], align 4
+// IR-NEXT:    [[SUB9:%.*]] = sub nsw i32 [[TMP3]], 0
+// IR-NEXT:    [[DIV10:%.*]] = sdiv i32 [[SUB9]], 1
+// IR-NEXT:    [[CONV11:%.*]] = sext i32 [[DIV10]] to i64
+// IR-NEXT:    [[MUL:%.*]] = mul nsw i64 [[CONV]], [[CONV11]]
+// IR-NEXT:    [[SUB12:%.*]] = sub nsw i64 [[MUL]], 1
+// IR-NEXT:    store i64 [[SUB12]], ptr [[DOTCAPTURE_EXPR_7]], align 8
+// IR-NEXT:    [[FREEZE_POISON13:%.*]] = freeze i64 poison
+// IR-NEXT:    store i64 [[FREEZE_POISON13]], ptr [[DOTOMP_LB]], align 8
 // IR-NEXT:    store i64 0, ptr [[DOTOMP_LB]], align 8
-// IR-NEXT:    [[TMP4:%.*]] = load i64, ptr [[DOTCAPTURE_EXPR_3]], align 8
+// IR-NEXT:    [[FREEZE_POISON14:%.*]] = freeze i64 poison
+// IR-NEXT:    store i64 [[FREEZE_POISON14]], ptr [[DOTOMP_UB]], align 8
+// IR-NEXT:    [[TMP4:%.*]] = load i64, ptr [[DOTCAPTURE_EXPR_7]], align 8
 // IR-NEXT:    store i64 [[TMP4]], ptr [[DOTOMP_UB]], align 8
-// IR-NEXT:    store i32 0, ptr [[I8]], align 4
-// IR-NEXT:    store i32 0, ptr [[J9]], align 4
+// IR-NEXT:    [[FREEZE_POISON16:%.*]] = freeze i32 poison
+// IR-NEXT:    store i32 [[FREEZE_POISON16]], ptr [[I15]], align 4
+// IR-NEXT:    [[FREEZE_POISON18:%.*]] = freeze i32 poison
+// IR-NEXT:    store i32 [[FREEZE_POISON18]], ptr [[J17]], align 4
+// IR-NEXT:    store i32 0, ptr [[I15]], align 4
+// IR-NEXT:    store i32 0, ptr [[J17]], align 4
 // IR-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // IR-NEXT:    [[CMP:%.*]] = icmp slt i32 0, [[TMP5]]
 // IR-NEXT:    br i1 [[CMP]], label [[LAND_LHS_TRUE:%.*]], label [[SIMD_IF_END:%.*]]
 // IR:       land.lhs.true:
-// IR-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
-// IR-NEXT:    [[CMP10:%.*]] = icmp slt i32 0, [[TMP6]]
-// IR-NEXT:    br i1 [[CMP10]], label [[SIMD_IF_THEN:%.*]], label [[SIMD_IF_END]]
+// IR-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_5]], align 4
+// IR-NEXT:    [[CMP19:%.*]] = icmp slt i32 0, [[TMP6]]
+// IR-NEXT:    br i1 [[CMP19]], label [[SIMD_IF_THEN:%.*]], label [[SIMD_IF_END]]
 // IR:       simd.if.then:
+// IR-NEXT:    [[FREEZE_POISON20:%.*]] = freeze i64 poison
+// IR-NEXT:    store i64 [[FREEZE_POISON20]], ptr [[DOTOMP_IV]], align 8
 // IR-NEXT:    [[TMP7:%.*]] = load i64, ptr [[DOTOMP_LB]], align 8
 // IR-NEXT:    store i64 [[TMP7]], ptr [[DOTOMP_IV]], align 8
-// IR-NEXT:    store i32 0, ptr [[Z13]], align 4
+// IR-NEXT:    [[FREEZE_POISON22:%.*]] = freeze i32 poison
+// IR-NEXT:    store i32 [[FREEZE_POISON22]], ptr [[I21]], align 4
+// IR-NEXT:    [[FREEZE_POISON24:%.*]] = freeze i32 poison
+// IR-NEXT:    store i32 [[FREEZE_POISON24]], ptr [[J23]], align 4
+// IR-NEXT:    [[FREEZE_POISON26:%.*]] = freeze i32 poison
+// IR-NEXT:    store i32 [[FREEZE_POISON26]], ptr [[Z25]], align 4
+// IR-NEXT:    store i32 0, ptr [[Z25]], align 4
 // IR-NEXT:    br label [[OMP_INNER_FOR_COND:%.*]]
 // IR:       omp.inner.for.cond:
 // IR-NEXT:    [[TMP8:%.*]] = load i64, ptr [[DOTOMP_IV]], align 8, !llvm.access.group [[ACC_GRP3:![0-9]+]]
 // IR-NEXT:    [[TMP9:%.*]] = load i64, ptr [[DOTOMP_UB]], align 8, !llvm.access.group [[ACC_GRP3]]
-// IR-NEXT:    [[CMP14:%.*]] = icmp sle i64 [[TMP8]], [[TMP9]]
-// IR-NEXT:    br i1 [[CMP14]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// IR-NEXT:    [[CMP27:%.*]] = icmp sle i64 [[TMP8]], [[TMP9]]
+// IR-NEXT:    br i1 [[CMP27]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // IR:       omp.inner.for.body:
 // IR-NEXT:    [[TMP10:%.*]] = load i64, ptr [[DOTOMP_IV]], align 8, !llvm.access.group [[ACC_GRP3]]
-// IR-NEXT:    [[TMP11:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4, !llvm.access.group [[ACC_GRP3]]
-// IR-NEXT:    [[SUB15:%.*]] = sub nsw i32 [[TMP11]], 0
-// IR-NEXT:    [[DIV16:%.*]] = sdiv i32 [[SUB15]], 1
-// IR-NEXT:    [[MUL17:%.*]] = mul nsw i32 1, [[DIV16]]
-// IR-NEXT:    [[CONV18:%.*]] = sext i32 [[MUL17]] to i64
-// IR-NEXT:    [[DIV19:%.*]] = sdiv i64 [[TMP10]], [[CONV18]]
-// IR-NEXT:    [[MUL20:%.*]] = mul nsw i64 [[DIV19]], 1
-// IR-NEXT:    [[ADD21:%.*]] = add nsw i64 0, [[MUL20]]
-// IR-NEXT:    [[CONV22:%.*]] = trunc i64 [[ADD21]] to i32
-// IR-NEXT:    store i32 [[CONV22]], ptr [[I11]], align 4, !llvm.access.group [[ACC_GRP3]]
-// IR-NEXT:    [[TMP12:%.*]] = load i64, ptr [[DOTOMP_IV]], align 8, !llvm.access.group [[ACC_GRP3]]
-// IR-NEXT:    [[TMP13:%.*]] = load i64, ptr [[DOTOMP_IV]], align 8, !llvm.access.group [[ACC_GRP3]]
-// IR-NEXT:    [[TMP14:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4, !llvm.access.group [[ACC_GRP3]]
-// IR-NEXT:    [[SUB23:%.*]] = sub nsw i32 [[TMP14]], 0
-// IR-NEXT:    [[DIV24:%.*]] = sdiv i32 [[SUB23]], 1
-// IR-NEXT:    [[MUL25:%.*]] = mul nsw i32 1, [[DIV24]]
-// IR-NEXT:    [[CONV26:%.*]] = sext i32 [[MUL25]] to i64
-// IR-NEXT:    [[DIV27:%.*]] = sdiv i64 [[TMP13]], [[CONV26]]
-// IR-NEXT:    [[TMP15:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4, !llvm.access.group [[ACC_GRP3]]
-// IR-NEXT:    [[SUB28:%.*]] = sub nsw i32 [[TMP15]], 0
+// IR-NEXT:    [[TMP11:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_5]], align 4, !llvm.access.group [[ACC_GRP3]]
+// IR-NEXT:    [[SUB28:%.*]] = sub nsw i32 [[TMP11]], 0
 // IR-NEXT:    [[DIV29:%.*]] = sdiv i32 [[SUB28]], 1
 // IR-NEXT:    [[MUL30:%.*]] = mul nsw i32 1, [[DIV29]]
 // IR-NEXT:    [[CONV31:%.*]] = sext i32 [[MUL30]] to i64
-// IR-NEXT:    [[MUL32:%.*]] = mul nsw i64 [[DIV27]], [[CONV31]]
-// IR-NEXT:    [[SUB33:%.*]] = sub nsw i64 [[TMP12]], [[MUL32]]
-// IR-NEXT:    [[MUL34:%.*]] = mul nsw i64 [[SUB33]], 1
-// IR-NEXT:    [[ADD35:%.*]] = add nsw i64 0, [[MUL34]]
-// IR-NEXT:    [[CONV36:%.*]] = trunc i64 [[ADD35]] to i32
-// IR-NEXT:    store i32 [[CONV36]], ptr [[J12]], align 4, !llvm.access.group [[ACC_GRP3]]
-// IR-NEXT:    [[TMP16:%.*]] = load i32, ptr [[I11]], align 4, !llvm.access.group [[ACC_GRP3]]
-// IR-NEXT:    [[TMP17:%.*]] = load i32, ptr [[J12]], align 4, !llvm.access.group [[ACC_GRP3]]
-// IR-NEXT:    [[ADD37:%.*]] = add nsw i32 [[TMP16]], [[TMP17]]
-// IR-NEXT:    [[TMP18:%.*]] = load i32, ptr [[Z13]], align 4, !llvm.access.group [[ACC_GRP3]]
-// IR-NEXT:    [[ADD38:%.*]] = add nsw i32 [[TMP18]], [[ADD37]]
-// IR-NEXT:    store i32 [[ADD38]], ptr [[Z13]], align 4, !llvm.access.group [[ACC_GRP3]]
+// IR-NEXT:    [[DIV32:%.*]] = sdiv i64 [[TMP10]], [[CONV31]]
+// IR-NEXT:    [[MUL33:%.*]] = mul nsw i64 [[DIV32]], 1
+// IR-NEXT:    [[ADD:%.*]] = add nsw i64 0, [[MUL33]]
+// IR-NEXT:    [[CONV34:%.*]] = trunc i64 [[ADD]] to i32
+// IR-NEXT:    store i32 [[CONV34]], ptr [[I21]], align 4, !llvm.access.group [[ACC_GRP3]]
+// IR-NEXT:    [[TMP12:%.*]] = load i64, ptr [[DOTOMP_IV]], align 8, !llvm.access.group [[ACC_GRP3]]
+// IR-NEXT:    [[TMP13:%.*]] = load i64, ptr [[DOTOMP_IV]], align 8, !llvm.access.group [[ACC_GRP3]]
+// IR-NEXT:    [[TMP14:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_5]], align 4, !llvm.access.group [[ACC_GRP3]]
+// IR-NEXT:    [[SUB35:%.*]] = sub nsw i32 [[TMP14]], 0
+// IR-NEXT:    [[DIV36:%.*]] = sdiv i32 [[SUB35]], 1
+// IR-NEXT:    [[MUL37:%.*]] = mul nsw i32 1, [[DIV36]]
+// IR-NEXT:    [[CONV38:%.*]] = sext i32 [[MUL37]] to i64
+// IR-NEXT:    [[DIV39:%.*]] = sdiv i64 [[TMP13]], [[CONV38]]
+// IR-NEXT:    [[TMP15:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_5]], align 4, !llvm.access.group [[ACC_GRP3]]
+// IR-NEXT:    [[SUB40:%.*]] = sub nsw i32 [[TMP15]], 0
+// IR-NEXT:    [[DIV41:%.*]] = sdiv i32 [[SUB40]], 1
+// IR-NEXT:    [[MUL42:%.*]] = mul nsw i32 1, [[DIV41]]
+// IR-NEXT:    [[CONV43:%.*]] = sext i32 [[MUL42]] to i64
+// IR-NEXT:    [[MUL44:%.*]] = mul nsw i64 [[DIV39]], [[CONV43]]
+// IR-NEXT:    [[SUB45:%.*]] = sub nsw i64 [[TMP12]], [[MUL44]]
+// IR-NEXT:    [[MUL46:%.*]] = mul nsw i64 [[SUB45]], 1
+// IR-NEXT:    [[ADD47:%.*]] = add nsw i64 0, [[MUL46]]
+// IR-NEXT:    [[CONV48:%.*]] = trunc i64 [[ADD47]] to i32
+// IR-NEXT:    store i32 [[CONV48]], ptr [[J23]], align 4, !llvm.access.group [[ACC_GRP3]]
+// IR-NEXT:    [[TMP16:%.*]] = load i32, ptr [[I21]], align 4, !llvm.access.group [[ACC_GRP3]]
+// IR-NEXT:    [[TMP17:%.*]] = load i32, ptr [[J23]], align 4, !llvm.access.group [[ACC_GRP3]]
+// IR-NEXT:    [[ADD49:%.*]] = add nsw i32 [[TMP16]], [[TMP17]]
+// IR-NEXT:    [[TMP18:%.*]] = load i32, ptr [[Z25]], align 4, !llvm.access.group [[ACC_GRP3]]
+// IR-NEXT:    [[ADD50:%.*]] = add nsw i32 [[TMP18]], [[ADD49]]
+// IR-NEXT:    store i32 [[ADD50]], ptr [[Z25]], align 4, !llvm.access.group [[ACC_GRP3]]
 // IR-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // IR:       omp.body.continue:
 // IR-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // IR:       omp.inner.for.inc:
 // IR-NEXT:    [[TMP19:%.*]] = load i64, ptr [[DOTOMP_IV]], align 8, !llvm.access.group [[ACC_GRP3]]
-// IR-NEXT:    [[ADD39:%.*]] = add nsw i64 [[TMP19]], 1
-// IR-NEXT:    store i64 [[ADD39]], ptr [[DOTOMP_IV]], align 8, !llvm.access.group [[ACC_GRP3]]
+// IR-NEXT:    [[ADD51:%.*]] = add nsw i64 [[TMP19]], 1
+// IR-NEXT:    store i64 [[ADD51]], ptr [[DOTOMP_IV]], align 8, !llvm.access.group [[ACC_GRP3]]
 // IR-NEXT:    br label [[OMP_INNER_FOR_COND]], !llvm.loop [[LOOP4:![0-9]+]]
 // IR:       omp.inner.for.end:
 // IR-NEXT:    [[TMP20:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
-// IR-NEXT:    [[SUB40:%.*]] = sub nsw i32 [[TMP20]], 0
-// IR-NEXT:    [[DIV41:%.*]] = sdiv i32 [[SUB40]], 1
-// IR-NEXT:    [[MUL42:%.*]] = mul nsw i32 [[DIV41]], 1
-// IR-NEXT:    [[ADD43:%.*]] = add nsw i32 0, [[MUL42]]
-// IR-NEXT:    store i32 [[ADD43]], ptr [[I11]], align 4
-// IR-NEXT:    [[TMP21:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
-// IR-NEXT:    [[SUB44:%.*]] = sub nsw i32 [[TMP21]], 0
-// IR-NEXT:    [[DIV45:%.*]] = sdiv i32 [[SUB44]], 1
-// IR-NEXT:    [[MUL46:%.*]] = mul nsw i32 [[DIV45]], 1
-// IR-NEXT:    [[ADD47:%.*]] = add nsw i32 0, [[MUL46]]
-// IR-NEXT:    store i32 [[ADD47]], ptr [[J]], align 4
+// IR-NEXT:    [[SUB52:%.*]] = sub nsw i32 [[TMP20]], 0
+// IR-NEXT:    [[DIV53:%.*]] = sdiv i32 [[SUB52]], 1
+// IR-NEXT:    [[MUL54:%.*]] = mul nsw i32 [[DIV53]], 1
+// IR-NEXT:    [[ADD55:%.*]] = add nsw i32 0, [[MUL54]]
+// IR-NEXT:    store i32 [[ADD55]], ptr [[I21]], align 4
+// IR-NEXT:    [[TMP21:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_5]], align 4
+// IR-NEXT:    [[SUB56:%.*]] = sub nsw i32 [[TMP21]], 0
+// IR-NEXT:    [[DIV57:%.*]] = sdiv i32 [[SUB56]], 1
+// IR-NEXT:    [[MUL58:%.*]] = mul nsw i32 [[DIV57]], 1
+// IR-NEXT:    [[ADD59:%.*]] = add nsw i32 0, [[MUL58]]
+// IR-NEXT:    store i32 [[ADD59]], ptr [[J]], align 4
 // IR-NEXT:    [[TMP22:%.*]] = load i32, ptr [[Z]], align 4
-// IR-NEXT:    [[TMP23:%.*]] = load i32, ptr [[Z13]], align 4
-// IR-NEXT:    [[ADD48:%.*]] = add nsw i32 [[TMP22]], [[TMP23]]
-// IR-NEXT:    store i32 [[ADD48]], ptr [[Z]], align 4
+// IR-NEXT:    [[TMP23:%.*]] = load i32, ptr [[Z25]], align 4
+// IR-NEXT:    [[ADD60:%.*]] = add nsw i32 [[TMP22]], [[TMP23]]
+// IR-NEXT:    store i32 [[ADD60]], ptr [[Z]], align 4
 // IR-NEXT:    br label [[SIMD_IF_END]]
 // IR:       simd.if.end:
 // IR-NEXT:    ret void
@@ -153,118 +181,146 @@ void foo(int t) {
 // IR-PCH-NEXT:    [[J:%.*]] = alloca i32, align 4
 // IR-PCH-NEXT:    [[Z:%.*]] = alloca i32, align 4
 // IR-PCH-NEXT:    [[TMP:%.*]] = alloca i32, align 4
-// IR-PCH-NEXT:    [[TMP2TMP1:%.*]] = alloca i32, align 4
+// IR-PCH-NEXT:    [[TMP2TMP3:%.*]] = alloca i32, align 4
 // IR-PCH-NEXT:    [[DOTCAPTURE_EXPR_:%.*]] = alloca i32, align 4
-// IR-PCH-NEXT:    [[DOTCAPTURE_EXPR_2:%.*]] = alloca i32, align 4
-// IR-PCH-NEXT:    [[DOTCAPTURE_EXPR_3:%.*]] = alloca i64, align 8
+// IR-PCH-NEXT:    [[DOTCAPTURE_EXPR_5:%.*]] = alloca i32, align 4
+// IR-PCH-NEXT:    [[DOTCAPTURE_EXPR_7:%.*]] = alloca i64, align 8
 // IR-PCH-NEXT:    [[DOTOMP_LB:%.*]] = alloca i64, align 8
 // IR-PCH-NEXT:    [[DOTOMP_UB:%.*]] = alloca i64, align 8
-// IR-PCH-NEXT:    [[I8:%.*]] = alloca i32, align 4
-// IR-PCH-NEXT:    [[J9:%.*]] = alloca i32, align 4
+// IR-PCH-NEXT:    [[I15:%.*]] = alloca i32, align 4
+// IR-PCH-NEXT:    [[J17:%.*]] = alloca i32, align 4
 // IR-PCH-NEXT:    [[DOTOMP_IV:%.*]] = alloca i64, align 8
-// IR-PCH-NEXT:    [[I11:%.*]] = alloca i32, align 4
-// IR-PCH-NEXT:    [[J12:%.*]] = alloca i32, align 4
-// IR-PCH-NEXT:    [[Z13:%.*]] = alloca i32, align 4
+// IR-PCH-NEXT:    [[I21:%.*]] = alloca i32, align 4
+// IR-PCH-NEXT:    [[J23:%.*]] = alloca i32, align 4
+// IR-PCH-NEXT:    [[Z25:%.*]] = alloca i32, align 4
 // IR-PCH-NEXT:    store i32 [[T]], ptr [[T_ADDR]], align 4
+// IR-PCH-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// IR-PCH-NEXT:    store i32 [[FREEZE_POISON]], ptr [[I]], align 4
+// IR-PCH-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// IR-PCH-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[J]], align 4
+// IR-PCH-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// IR-PCH-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[Z]], align 4
+// IR-PCH-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// IR-PCH-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTCAPTURE_EXPR_]], align 4
 // IR-PCH-NEXT:    [[TMP0:%.*]] = load i32, ptr [[T_ADDR]], align 4
 // IR-PCH-NEXT:    store i32 [[TMP0]], ptr [[DOTCAPTURE_EXPR_]], align 4
+// IR-PCH-NEXT:    [[FREEZE_POISON6:%.*]] = freeze i32 poison
+// IR-PCH-NEXT:    store i32 [[FREEZE_POISON6]], ptr [[DOTCAPTURE_EXPR_5]], align 4
 // IR-PCH-NEXT:    [[TMP1:%.*]] = load i32, ptr [[T_ADDR]], align 4
-// IR-PCH-NEXT:    store i32 [[TMP1]], ptr [[DOTCAPTURE_EXPR_2]], align 4
+// IR-PCH-NEXT:    store i32 [[TMP1]], ptr [[DOTCAPTURE_EXPR_5]], align 4
+// IR-PCH-NEXT:    [[FREEZE_POISON8:%.*]] = freeze i64 poison
+// IR-PCH-NEXT:    store i64 [[FREEZE_POISON8]], ptr [[DOTCAPTURE_EXPR_7]], align 8
 // IR-PCH-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // IR-PCH-NEXT:    [[SUB:%.*]] = sub nsw i32 [[TMP2]], 0
 // IR-PCH-NEXT:    [[DIV:%.*]] = sdiv i32 [[SUB]], 1
 // IR-PCH-NEXT:    [[CONV:%.*]] = sext i32 [[DIV]] to i64
-// IR-PCH-NEXT:    [[TMP3:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
-// IR-PCH-NEXT:    [[SUB4:%.*]] = sub nsw i32 [[TMP3]], 0
-// IR-PCH-NEXT:    [[DIV5:%.*]] = sdiv i32 [[SUB4]], 1
-// IR-PCH-NEXT:    [[CONV6:%.*]] = sext i32 [[DIV5]] to i64
-// IR-PCH-NEXT:    [[MUL:%.*]] = mul nsw i64 [[CONV]], [[CONV6]]
-// IR-PCH-NEXT:    [[SUB7:%.*]] = sub nsw i64 [[MUL]], 1
-// IR-PCH-NEXT:    store i64 [[SUB7]], ptr [[DOTCAPTURE_EXPR_3]], align 8
+// IR-PCH-NEXT:    [[TMP3:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_5]], align 4
+// IR-PCH-NEXT:    [[SUB9:%.*]] = sub nsw i32 [[TMP3]], 0
+// IR-PCH-NEXT:    [[DIV10:%.*]] = sdiv i32 [[SUB9]], 1
+// IR-PCH-NEXT:    [[CONV11:%.*]] = sext i32 [[DIV10]] to i64
+// IR-PCH-NEXT:    [[MUL:%.*]] = mul nsw i64 [[CONV]], [[CONV11]]
+// IR-PCH-NEXT:    [[SUB12:%.*]] = sub nsw i64 [[MUL]], 1
+// IR-PCH-NEXT:    store i64 [[SUB12]], ptr [[DOTCAPTURE_EXPR_7]], align 8
+// IR-PCH-NEXT:    [[FREEZE_POISON13:%.*]] = freeze i64 poison
+// IR-PCH-NEXT:    store i64 [[FREEZE_POISON13]], ptr [[DOTOMP_LB]], align 8
 // IR-PCH-NEXT:    store i64 0, ptr [[DOTOMP_LB]], align 8
-// IR-PCH-NEXT:    [[TMP4:%.*]] = load i64, ptr [[DOTCAPTURE_EXPR_3]], align 8
+// IR-PCH-NEXT:    [[FREEZE_POISON14:%.*]] = freeze i64 poison
+// IR-PCH-NEXT:    store i64 [[FREEZE_POISON14]], ptr [[DOTOMP_UB]], align 8
+// IR-PCH-NEXT:    [[TMP4:%.*]] = load i64, ptr [[DOTCAPTURE_EXPR_7]], align 8
 // IR-PCH-NEXT:    store i64 [[TMP4]], ptr [[DOTOMP_UB]], align 8
-// IR-PCH-NEXT:    store i32 0, ptr [[I8]], align 4
-// IR-PCH-NEXT:    store i32 0, ptr [[J9]], align 4
+// IR-PCH-NEXT:    [[FREEZE_POISON16:%.*]] = freeze i32 poison
+// IR-PCH-NEXT:    store i32 [[FREEZE_POISON16]], ptr [[I15]], align 4
+// IR-PCH-NEXT:    [[FREEZE_POISON18:%.*]] = freeze i32 poison
+// IR-PCH-NEXT:    store i32 [[FREEZE_POISON18]], ptr [[J17]], align 4
+// IR-PCH-NEXT:    store i32 0, ptr [[I15]], align 4
+// IR-PCH-NEXT:    store i32 0, ptr [[J17]], align 4
 // IR-PCH-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
 // IR-PCH-NEXT:    [[CMP:%.*]] = icmp slt i32 0, [[TMP5]]
 // IR-PCH-NEXT:    br i1 [[CMP]], label [[LAND_LHS_TRUE:%.*]], label [[SIMD_IF_END:%.*]]
 // IR-PCH:       land.lhs.true:
-// IR-PCH-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
-// IR-PCH-NEXT:    [[CMP10:%.*]] = icmp slt i32 0, [[TMP6]]
-// IR-PCH-NEXT:    br i1 [[CMP10]], label [[SIMD_IF_THEN:%.*]], label [[SIMD_IF_END]]
+// IR-PCH-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_5]], align 4
+// IR-PCH-NEXT:    [[CMP19:%.*]] = icmp slt i32 0, [[TMP6]]
+// IR-PCH-NEXT:    br i1 [[CMP19]], label [[SIMD_IF_THEN:%.*]], label [[SIMD_IF_END]]
 // IR-PCH:       simd.if.then:
+// IR-PCH-NEXT:    [[FREEZE_POISON20:%.*]] = freeze i64 poison
+// IR-PCH-NEXT:    store i64 [[FREEZE_POISON20]], ptr [[DOTOMP_IV]], align 8
 // IR-PCH-NEXT:    [[TMP7:%.*]] = load i64, ptr [[DOTOMP_LB]], align 8
 // IR-PCH-NEXT:    store i64 [[TMP7]], ptr [[DOTOMP_IV]], align 8
-// IR-PCH-NEXT:    store i32 0, ptr [[Z13]], align 4
+// IR-PCH-NEXT:    [[FREEZE_POISON22:%.*]] = freeze i32 poison
+// IR-PCH-NEXT:    store i32 [[FREEZE_POISON22]], ptr [[I21]], align 4
+// IR-PCH-NEXT:    [[FREEZE_POISON24:%.*]] = freeze i32 poison
+// IR-PCH-NEXT:    store i32 [[FREEZE_POISON24]], ptr [[J23]], align 4
+// IR-PCH-NEXT:    [[FREEZE_POISON26:%.*]] = freeze i32 poison
+// IR-PCH-NEXT:    store i32 [[FREEZE_POISON26]], ptr [[Z25]], align 4
+// IR-PCH-NEXT:    store i32 0, ptr [[Z25]], align 4
 // IR-PCH-NEXT:    br label [[OMP_INNER_FOR_COND:%.*]]
 // IR-PCH:       omp.inner.for.cond:
 // IR-PCH-NEXT:    [[TMP8:%.*]] = load i64, ptr [[DOTOMP_IV]], align 8, !llvm.access.group [[ACC_GRP3:![0-9]+]]
 // IR-PCH-NEXT:    [[TMP9:%.*]] = load i64, ptr [[DOTOMP_UB]], align 8, !llvm.access.group [[ACC_GRP3]]
-// IR-PCH-NEXT:    [[CMP14:%.*]] = icmp sle i64 [[TMP8]], [[TMP9]]
-// IR-PCH-NEXT:    br i1 [[CMP14]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// IR-PCH-NEXT:    [[CMP27:%.*]] = icmp sle i64 [[TMP8]], [[TMP9]]
+// IR-PCH-NEXT:    br i1 [[CMP27]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // IR-PCH:       omp.inner.for.body:
 // IR-PCH-NEXT:    [[TMP10:%.*]] = load i64, ptr [[DOTOMP_IV]], align 8, !llvm.access.group [[ACC_GRP3]]
-// IR-PCH-NEXT:    [[TMP11:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4, !llvm.access.group [[ACC_GRP3]]
-// IR-PCH-NEXT:    [[SUB15:%.*]] = sub nsw i32 [[TMP11]], 0
-// IR-PCH-NEXT:    [[DIV16:%.*]] = sdiv i32 [[SUB15]], 1
-// IR-PCH-NEXT:    [[MUL17:%.*]] = mul nsw i32 1, [[DIV16]]
-// IR-PCH-NEXT:    [[CONV18:%.*]] = sext i32 [[MUL17]] to i64
-// IR-PCH-NEXT:    [[DIV19:%.*]] = sdiv i64 [[TMP10]], [[CONV18]]
-// IR-PCH-NEXT:    [[MUL20:%.*]] = mul nsw i64 [[DIV19]], 1
-// IR-PCH-NEXT:    [[ADD21:%.*]] = add nsw i64 0, [[MUL20]]
-// IR-PCH-NEXT:    [[CONV22:%.*]] = trunc i64 [[ADD21]] to i32
-// IR-PCH-NEXT:    store i32 [[CONV22]], ptr [[I11]], align 4, !llvm.access.group [[ACC_GRP3]]
-// IR-PCH-NEXT:    [[TMP12:%.*]] = load i64, ptr [[DOTOMP_IV]], align 8, !llvm.access.group [[ACC_GRP3]]
-// IR-PCH-NEXT:    [[TMP13:%.*]] = load i64, ptr [[DOTOMP_IV]], align 8, !llvm.access.group [[ACC_GRP3]]
-// IR-PCH-NEXT:    [[TMP14:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4, !llvm.access.group [[ACC_GRP3]]
-// IR-PCH-NEXT:    [[SUB23:%.*]] = sub nsw i32 [[TMP14]], 0
-// IR-PCH-NEXT:    [[DIV24:%.*]] = sdiv i32 [[SUB23]], 1
-// IR-PCH-NEXT:    [[MUL25:%.*]] = mul nsw i32 1, [[DIV24]]
-// IR-PCH-NEXT:    [[CONV26:%.*]] = sext i32 [[MUL25]] to i64
-// IR-PCH-NEXT:    [[DIV27:%.*]] = sdiv i64 [[TMP13]], [[CONV26]]
-// IR-PCH-NEXT:    [[TMP15:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4, !llvm.access.group [[ACC_GRP3]]
-// IR-PCH-NEXT:    [[SUB28:%.*]] = sub nsw i32 [[TMP15]], 0
+// IR-PCH-NEXT:    [[TMP11:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_5]], align 4, !llvm.access.group [[ACC_GRP3]]
+// IR-PCH-NEXT:    [[SUB28:%.*]] = sub nsw i32 [[TMP11]], 0
 // IR-PCH-NEXT:    [[DIV29:%.*]] = sdiv i32 [[SUB28]], 1
 // IR-PCH-NEXT:    [[MUL30:%.*]] = mul nsw i32 1, [[DIV29]]
 // IR-PCH-NEXT:    [[CONV31:%.*]] = sext i32 [[MUL30]] to i64
-// IR-PCH-NEXT:    [[MUL32:%.*]] = mul nsw i64 [[DIV27]], [[CONV31]]
-// IR-PCH-NEXT:    [[SUB33:%.*]] = sub nsw i64 [[TMP12]], [[MUL32]]
-// IR-PCH-NEXT:    [[MUL34:%.*]] = mul nsw i64 [[SUB33]], 1
-// IR-PCH-NEXT:    [[ADD35:%.*]] = add nsw i64 0, [[MUL34]]
-// IR-PCH-NEXT:    [[CONV36:%.*]] = trunc i64 [[ADD35]] to i32
-// IR-PCH-NEXT:    store i32 [[CONV36]], ptr [[J12]], align 4, !llvm.access.group [[ACC_GRP3]]
-// IR-PCH-NEXT:    [[TMP16:%.*]] = load i32, ptr [[I11]], align 4, !llvm.access.group [[ACC_GRP3]]
-// IR-PCH-NEXT:    [[TMP17:%.*]] = load i32, ptr [[J12]], align 4, !llvm.access.group [[ACC_GRP3]]
-// IR-PCH-NEXT:    [[ADD37:%.*]] = add nsw i32 [[TMP16]], [[TMP17]]
-// IR-PCH-NEXT:    [[TMP18:%.*]] = load i32, ptr [[Z13]], align 4, !llvm.access.group [[ACC_GRP3]]
-// IR-PCH-NEXT:    [[ADD38:%.*]] = add nsw i32 [[TMP18]], [[ADD37]]
-// IR-PCH-NEXT:    store i32 [[ADD38]], ptr [[Z13]], align 4, !llvm.access.group [[ACC_GRP3]]
+// IR-PCH-NEXT:    [[DIV32:%.*]] = sdiv i64 [[TMP10]], [[CONV31]]
+// IR-PCH-NEXT:    [[MUL33:%.*]] = mul nsw i64 [[DIV32]], 1
+// IR-PCH-NEXT:    [[ADD:%.*]] = add nsw i64 0, [[MUL33]]
+// IR-PCH-NEXT:    [[CONV34:%.*]] = trunc i64 [[ADD]] to i32
+// IR-PCH-NEXT:    store i32 [[CONV34]], ptr [[I21]], align 4, !llvm.access.group [[ACC_GRP3]]
+// IR-PCH-NEXT:    [[TMP12:%.*]] = load i64, ptr [[DOTOMP_IV]], align 8, !llvm.access.group [[ACC_GRP3]]
+// IR-PCH-NEXT:    [[TMP13:%.*]] = load i64, ptr [[DOTOMP_IV]], align 8, !llvm.access.group [[ACC_GRP3]]
+// IR-PCH-NEXT:    [[TMP14:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_5]], align 4, !llvm.access.group [[ACC_GRP3]]
+// IR-PCH-NEXT:    [[SUB35:%.*]] = sub nsw i32 [[TMP14]], 0
+// IR-PCH-NEXT:    [[DIV36:%.*]] = sdiv i32 [[SUB35]], 1
+// IR-PCH-NEXT:    [[MUL37:%.*]] = mul nsw i32 1, [[DIV36]]
+// IR-PCH-NEXT:    [[CONV38:%.*]] = sext i32 [[MUL37]] to i64
+// IR-PCH-NEXT:    [[DIV39:%.*]] = sdiv i64 [[TMP13]], [[CONV38]]
+// IR-PCH-NEXT:    [[TMP15:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_5]], align 4, !llvm.access.group [[ACC_GRP3]]
+// IR-PCH-NEXT:    [[SUB40:%.*]] = sub nsw i32 [[TMP15]], 0
+// IR-PCH-NEXT:    [[DIV41:%.*]] = sdiv i32 [[SUB40]], 1
+// IR-PCH-NEXT:    [[MUL42:%.*]] = mul nsw i32 1, [[DIV41]]
+// IR-PCH-NEXT:    [[CONV43:%.*]] = sext i32 [[MUL42]] to i64
+// IR-PCH-NEXT:    [[MUL44:%.*]] = mul nsw i64 [[DIV39]], [[CONV43]]
+// IR-PCH-NEXT:    [[SUB45:%.*]] = sub nsw i64 [[TMP12]], [[MUL44]]
+// IR-PCH-NEXT:    [[MUL46:%.*]] = mul nsw i64 [[SUB45]], 1
+// IR-PCH-NEXT:    [[ADD47:%.*]] = add nsw i64 0, [[MUL46]]
+// IR-PCH-NEXT:    [[CONV48:%.*]] = trunc i64 [[ADD47]] to i32
+// IR-PCH-NEXT:    store i32 [[CONV48]], ptr [[J23]], align 4, !llvm.access.group [[ACC_GRP3]]
+// IR-PCH-NEXT:    [[TMP16:%.*]] = load i32, ptr [[I21]], align 4, !llvm.access.group [[ACC_GRP3]]
+// IR-PCH-NEXT:    [[TMP17:%.*]] = load i32, ptr [[J23]], align 4, !llvm.access.group [[ACC_GRP3]]
+// IR-PCH-NEXT:    [[ADD49:%.*]] = add nsw i32 [[TMP16]], [[TMP17]]
+// IR-PCH-NEXT:    [[TMP18:%.*]] = load i32, ptr [[Z25]], align 4, !llvm.access.group [[ACC_GRP3]]
+// IR-PCH-NEXT:    [[ADD50:%.*]] = add nsw i32 [[TMP18]], [[ADD49]]
+// IR-PCH-NEXT:    store i32 [[ADD50]], ptr [[Z25]], align 4, !llvm.access.group [[ACC_GRP3]]
 // IR-PCH-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // IR-PCH:       omp.body.continue:
 // IR-PCH-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // IR-PCH:       omp.inner.for.inc:
 // IR-PCH-NEXT:    [[TMP19:%.*]] = load i64, ptr [[DOTOMP_IV]], align 8, !llvm.access.group [[ACC_GRP3]]
-// IR-PCH-NEXT:    [[ADD39:%.*]] = add nsw i64 [[TMP19]], 1
-// IR-PCH-NEXT:    store i64 [[ADD39]], ptr [[DOTOMP_IV]], align 8, !llvm.access.group [[ACC_GRP3]]
+// IR-PCH-NEXT:    [[ADD51:%.*]] = add nsw i64 [[TMP19]], 1
+// IR-PCH-NEXT:    store i64 [[ADD51]], ptr [[DOTOMP_IV]], align 8, !llvm.access.group [[ACC_GRP3]]
 // IR-PCH-NEXT:    br label [[OMP_INNER_FOR_COND]], !llvm.loop [[LOOP4:![0-9]+]]
 // IR-PCH:       omp.inner.for.end:
 // IR-PCH-NEXT:    [[TMP20:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4
-// IR-PCH-NEXT:    [[SUB40:%.*]] = sub nsw i32 [[TMP20]], 0
-// IR-PCH-NEXT:    [[DIV41:%.*]] = sdiv i32 [[SUB40]], 1
-// IR-PCH-NEXT:    [[MUL42:%.*]] = mul nsw i32 [[DIV41]], 1
-// IR-PCH-NEXT:    [[ADD43:%.*]] = add nsw i32 0, [[MUL42]]
-// IR-PCH-NEXT:    store i32 [[ADD43]], ptr [[I11]], align 4
-// IR-PCH-NEXT:    [[TMP21:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_2]], align 4
-// IR-PCH-NEXT:    [[SUB44:%.*]] = sub nsw i32 [[TMP21]], 0
-// IR-PCH-NEXT:    [[DIV45:%.*]] = sdiv i32 [[SUB44]], 1
-// IR-PCH-NEXT:    [[MUL46:%.*]] = mul nsw i32 [[DIV45]], 1
-// IR-PCH-NEXT:    [[ADD47:%.*]] = add nsw i32 0, [[MUL46]]
-// IR-PCH-NEXT:    store i32 [[ADD47]], ptr [[J]], align 4
+// IR-PCH-NEXT:    [[SUB52:%.*]] = sub nsw i32 [[TMP20]], 0
+// IR-PCH-NEXT:    [[DIV53:%.*]] = sdiv i32 [[SUB52]], 1
+// IR-PCH-NEXT:    [[MUL54:%.*]] = mul nsw i32 [[DIV53]], 1
+// IR-PCH-NEXT:    [[ADD55:%.*]] = add nsw i32 0, [[MUL54]]
+// IR-PCH-NEXT:    store i32 [[ADD55]], ptr [[I21]], align 4
+// IR-PCH-NEXT:    [[TMP21:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_5]], align 4
+// IR-PCH-NEXT:    [[SUB56:%.*]] = sub nsw i32 [[TMP21]], 0
+// IR-PCH-NEXT:    [[DIV57:%.*]] = sdiv i32 [[SUB56]], 1
+// IR-PCH-NEXT:    [[MUL58:%.*]] = mul nsw i32 [[DIV57]], 1
+// IR-PCH-NEXT:    [[ADD59:%.*]] = add nsw i32 0, [[MUL58]]
+// IR-PCH-NEXT:    store i32 [[ADD59]], ptr [[J]], align 4
 // IR-PCH-NEXT:    [[TMP22:%.*]] = load i32, ptr [[Z]], align 4
-// IR-PCH-NEXT:    [[TMP23:%.*]] = load i32, ptr [[Z13]], align 4
-// IR-PCH-NEXT:    [[ADD48:%.*]] = add nsw i32 [[TMP22]], [[TMP23]]
-// IR-PCH-NEXT:    store i32 [[ADD48]], ptr [[Z]], align 4
+// IR-PCH-NEXT:    [[TMP23:%.*]] = load i32, ptr [[Z25]], align 4
+// IR-PCH-NEXT:    [[ADD60:%.*]] = add nsw i32 [[TMP22]], [[TMP23]]
+// IR-PCH-NEXT:    store i32 [[ADD60]], ptr [[Z]], align 4
 // IR-PCH-NEXT:    br label [[SIMD_IF_END]]
 // IR-PCH:       simd.if.end:
 // IR-PCH-NEXT:    ret void

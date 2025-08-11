@@ -69,6 +69,8 @@ void w_branch_elided(unsigned e){
 // CHECK-NEXT:    [[I:%.*]] = alloca i32, align 4
 // CHECK-NEXT:    store i32 [[E:%.*]], ptr [[E_ADDR]], align 4, !tbaa [[TBAA2]]
 // CHECK-NEXT:    call void @llvm.lifetime.start.p0(i64 4, ptr [[I]]) #[[ATTR3:[0-9]+]]
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[I]], align 4
 // CHECK-NEXT:    store i32 0, ptr [[I]], align 4, !tbaa [[TBAA2]]
 // CHECK-NEXT:    br label [[FOR_COND:%.*]]
 // CHECK:       for.cond:
@@ -101,6 +103,8 @@ void fl(unsigned e)
 // CHECK-NEXT:    [[I:%.*]] = alloca i32, align 4
 // CHECK-NEXT:    store i32 [[E:%.*]], ptr [[E_ADDR]], align 4, !tbaa [[TBAA2]]
 // CHECK-NEXT:    call void @llvm.lifetime.start.p0(i64 4, ptr [[I]]) #[[ATTR3]]
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[I]], align 4
 // CHECK-NEXT:    store i32 0, ptr [[I]], align 4, !tbaa [[TBAA2]]
 // CHECK-NEXT:    br label [[FOR_COND:%.*]]
 // CHECK:       for.cond:
@@ -147,16 +151,22 @@ void f_branch_elided()
 // CHECK-NEXT:    [[I:%.*]] = alloca i32, align 4
 // CHECK-NEXT:    store ptr [[E:%.*]], ptr [[E_ADDR]], align 8, !tbaa [[TBAA14:![0-9]+]]
 // CHECK-NEXT:    call void @llvm.lifetime.start.p0(i64 8, ptr [[__RANGE1]]) #[[ATTR3]]
-// CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[E_ADDR]], align 8, !tbaa [[TBAA14]]
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[__RANGE1]], align 8
+// CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[E_ADDR]], align 8, !tbaa [[TBAA14]], !nonnull [[META17:![0-9]+]], !align [[META18:![0-9]+]]
 // CHECK-NEXT:    store ptr [[TMP0]], ptr [[__RANGE1]], align 8, !tbaa [[TBAA14]]
 // CHECK-NEXT:    call void @llvm.lifetime.start.p0(i64 8, ptr [[__BEGIN1]]) #[[ATTR3]]
-// CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[__RANGE1]], align 8, !tbaa [[TBAA14]]
+// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON1]], ptr [[__BEGIN1]], align 8
+// CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[__RANGE1]], align 8, !tbaa [[TBAA14]], !nonnull [[META17]], !align [[META18]]
 // CHECK-NEXT:    [[ARRAYDECAY:%.*]] = getelementptr inbounds [4 x i32], ptr [[TMP1]], i64 0, i64 0
 // CHECK-NEXT:    store ptr [[ARRAYDECAY]], ptr [[__BEGIN1]], align 8, !tbaa [[TBAA14]]
 // CHECK-NEXT:    call void @llvm.lifetime.start.p0(i64 8, ptr [[__END1]]) #[[ATTR3]]
-// CHECK-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[__RANGE1]], align 8, !tbaa [[TBAA14]]
-// CHECK-NEXT:    [[ARRAYDECAY1:%.*]] = getelementptr inbounds [4 x i32], ptr [[TMP2]], i64 0, i64 0
-// CHECK-NEXT:    [[ADD_PTR:%.*]] = getelementptr inbounds i32, ptr [[ARRAYDECAY1]], i64 4
+// CHECK-NEXT:    [[FREEZE_POISON2:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON2]], ptr [[__END1]], align 8
+// CHECK-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[__RANGE1]], align 8, !tbaa [[TBAA14]], !nonnull [[META17]], !align [[META18]]
+// CHECK-NEXT:    [[ARRAYDECAY3:%.*]] = getelementptr inbounds [4 x i32], ptr [[TMP2]], i64 0, i64 0
+// CHECK-NEXT:    [[ADD_PTR:%.*]] = getelementptr inbounds i32, ptr [[ARRAYDECAY3]], i64 4
 // CHECK-NEXT:    store ptr [[ADD_PTR]], ptr [[__END1]], align 8, !tbaa [[TBAA14]]
 // CHECK-NEXT:    br label [[FOR_COND:%.*]]
 // CHECK:       for.cond:
@@ -172,8 +182,10 @@ void f_branch_elided()
 // CHECK-NEXT:    br label [[FOR_END:%.*]]
 // CHECK:       for.body:
 // CHECK-NEXT:    call void @llvm.lifetime.start.p0(i64 4, ptr [[I]]) #[[ATTR3]]
+// CHECK-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[I]], align 4
 // CHECK-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[__BEGIN1]], align 8, !tbaa [[TBAA14]]
-// CHECK-NEXT:    [[TMP6:%.*]] = load i32, ptr [[TMP5]], align 4, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP6:%.*]] = load i32, ptr [[TMP5]], align 4, !tbaa [[TBAA2]], !freeze_bits [[META17]]
 // CHECK-NEXT:    store i32 [[TMP6]], ptr [[I]], align 4, !tbaa [[TBAA2]]
 // CHECK-NEXT:    call void @llvm.lifetime.end.p0(i64 4, ptr [[I]]) #[[ATTR3]]
 // CHECK-NEXT:    br label [[FOR_INC:%.*]]
@@ -181,7 +193,7 @@ void f_branch_elided()
 // CHECK-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[__BEGIN1]], align 8, !tbaa [[TBAA14]]
 // CHECK-NEXT:    [[INCDEC_PTR:%.*]] = getelementptr inbounds nuw i32, ptr [[TMP7]], i32 1
 // CHECK-NEXT:    store ptr [[INCDEC_PTR]], ptr [[__BEGIN1]], align 8, !tbaa [[TBAA14]]
-// CHECK-NEXT:    br label [[FOR_COND]], !llvm.loop [[LOOP16:![0-9]+]]
+// CHECK-NEXT:    br label [[FOR_COND]], !llvm.loop [[LOOP19:![0-9]+]]
 // CHECK:       for.end:
 // CHECK-NEXT:    ret void
 //
@@ -199,16 +211,22 @@ void frl(int (&&e) [4])
 // CHECK-NEXT:    [[I:%.*]] = alloca i32, align 4
 // CHECK-NEXT:    store ptr [[E:%.*]], ptr [[E_ADDR]], align 8, !tbaa [[TBAA14]]
 // CHECK-NEXT:    call void @llvm.lifetime.start.p0(i64 8, ptr [[__RANGE1]]) #[[ATTR3]]
-// CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[E_ADDR]], align 8, !tbaa [[TBAA14]]
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[__RANGE1]], align 8
+// CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[E_ADDR]], align 8, !tbaa [[TBAA14]], !nonnull [[META17]], !align [[META18]]
 // CHECK-NEXT:    store ptr [[TMP0]], ptr [[__RANGE1]], align 8, !tbaa [[TBAA14]]
 // CHECK-NEXT:    call void @llvm.lifetime.start.p0(i64 8, ptr [[__BEGIN1]]) #[[ATTR3]]
-// CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[__RANGE1]], align 8, !tbaa [[TBAA14]]
+// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON1]], ptr [[__BEGIN1]], align 8
+// CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[__RANGE1]], align 8, !tbaa [[TBAA14]], !nonnull [[META17]], !align [[META18]]
 // CHECK-NEXT:    [[ARRAYDECAY:%.*]] = getelementptr inbounds [4 x i32], ptr [[TMP1]], i64 0, i64 0
 // CHECK-NEXT:    store ptr [[ARRAYDECAY]], ptr [[__BEGIN1]], align 8, !tbaa [[TBAA14]]
 // CHECK-NEXT:    call void @llvm.lifetime.start.p0(i64 8, ptr [[__END1]]) #[[ATTR3]]
-// CHECK-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[__RANGE1]], align 8, !tbaa [[TBAA14]]
-// CHECK-NEXT:    [[ARRAYDECAY1:%.*]] = getelementptr inbounds [4 x i32], ptr [[TMP2]], i64 0, i64 0
-// CHECK-NEXT:    [[ADD_PTR:%.*]] = getelementptr inbounds i32, ptr [[ARRAYDECAY1]], i64 4
+// CHECK-NEXT:    [[FREEZE_POISON2:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON2]], ptr [[__END1]], align 8
+// CHECK-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[__RANGE1]], align 8, !tbaa [[TBAA14]], !nonnull [[META17]], !align [[META18]]
+// CHECK-NEXT:    [[ARRAYDECAY3:%.*]] = getelementptr inbounds [4 x i32], ptr [[TMP2]], i64 0, i64 0
+// CHECK-NEXT:    [[ADD_PTR:%.*]] = getelementptr inbounds i32, ptr [[ARRAYDECAY3]], i64 4
 // CHECK-NEXT:    store ptr [[ADD_PTR]], ptr [[__END1]], align 8, !tbaa [[TBAA14]]
 // CHECK-NEXT:    br label [[FOR_COND:%.*]]
 // CHECK:       for.cond:
@@ -224,8 +242,10 @@ void frl(int (&&e) [4])
 // CHECK-NEXT:    br label [[FOR_END:%.*]]
 // CHECK:       for.body:
 // CHECK-NEXT:    call void @llvm.lifetime.start.p0(i64 4, ptr [[I]]) #[[ATTR3]]
+// CHECK-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[I]], align 4
 // CHECK-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[__BEGIN1]], align 8, !tbaa [[TBAA14]]
-// CHECK-NEXT:    [[TMP6:%.*]] = load i32, ptr [[TMP5]], align 4, !tbaa [[TBAA2]]
+// CHECK-NEXT:    [[TMP6:%.*]] = load i32, ptr [[TMP5]], align 4, !tbaa [[TBAA2]], !freeze_bits [[META17]]
 // CHECK-NEXT:    store i32 [[TMP6]], ptr [[I]], align 4, !tbaa [[TBAA2]]
 // CHECK-NEXT:    call void @llvm.lifetime.end.p0(i64 4, ptr [[I]]) #[[ATTR3]]
 // CHECK-NEXT:    br label [[FOR_INC:%.*]]
@@ -233,7 +253,7 @@ void frl(int (&&e) [4])
 // CHECK-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[__BEGIN1]], align 8, !tbaa [[TBAA14]]
 // CHECK-NEXT:    [[INCDEC_PTR:%.*]] = getelementptr inbounds nuw i32, ptr [[TMP7]], i32 1
 // CHECK-NEXT:    store ptr [[INCDEC_PTR]], ptr [[__BEGIN1]], align 8, !tbaa [[TBAA14]]
-// CHECK-NEXT:    br label [[FOR_COND]], !llvm.loop [[LOOP17:![0-9]+]]
+// CHECK-NEXT:    br label [[FOR_COND]], !llvm.loop [[LOOP20:![0-9]+]]
 // CHECK:       for.end:
 // CHECK-NEXT:    ret void
 //

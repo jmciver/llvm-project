@@ -64,16 +64,18 @@ int main() {
 // CHECK1-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK1-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK1-NEXT:    invoke void @"?foo@@YAXXZ"()
-// CHECK1-NEXT:    to label [[INVOKE_CONT:%.*]] unwind label [[CATCH_DISPATCH:%.*]]
+// CHECK1-NEXT:            to label [[INVOKE_CONT:%.*]] unwind label [[CATCH_DISPATCH:%.*]]
 // CHECK1:       catch.dispatch:
 // CHECK1-NEXT:    [[TMP0:%.*]] = catchswitch within none [label %catch] unwind label [[TERMINATE:%.*]]
 // CHECK1:       catch:
 // CHECK1-NEXT:    [[TMP1:%.*]] = catchpad within [[TMP0]] [ptr @"??_R0H@8", i32 0, ptr %t]
+// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK1-NEXT:    store i32 [[FREEZE_POISON]], ptr [[T]], align 4
 // CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// CHECK1-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4
+// CHECK1-NEXT:    [[TMP3:%.*]] = load i32, ptr [[TMP2]], align 4, !freeze_bits [[META7:![0-9]+]]
 // CHECK1-NEXT:    call void @__kmpc_critical(ptr @[[GLOB1]], i32 [[TMP3]], ptr @.gomp_critical_user_.var) [ "funclet"(token [[TMP1]]) ]
 // CHECK1-NEXT:    invoke void @"?bar@@YAXXZ"() [ "funclet"(token [[TMP1]]) ]
-// CHECK1-NEXT:    to label [[INVOKE_CONT1:%.*]] unwind label [[TERMINATE2:%.*]]
+// CHECK1-NEXT:            to label [[INVOKE_CONT1:%.*]] unwind label [[TERMINATE2:%.*]]
 // CHECK1:       invoke.cont1:
 // CHECK1-NEXT:    call void @__kmpc_end_critical(ptr @[[GLOB1]], i32 [[TMP3]], ptr @.gomp_critical_user_.var) [ "funclet"(token [[TMP1]]) ]
 // CHECK1-NEXT:    catchret from [[TMP1]] to label [[CATCHRET_DEST:%.*]]
@@ -103,10 +105,10 @@ int main() {
 // CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // CHECK1-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // CHECK1-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP2]], i64 0, i64 0
-// CHECK1-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[TMP4]], align 8
+// CHECK1-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[TMP4]], align 8, !freeze_bits [[META7]]
 // CHECK1-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP3]], i64 0, i64 0
-// CHECK1-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[TMP6]], align 8
-// CHECK1-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP7]], align 4
+// CHECK1-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[TMP6]], align 8, !freeze_bits [[META7]]
+// CHECK1-NEXT:    [[TMP8:%.*]] = load i32, ptr [[TMP7]], align 4, !freeze_bits [[META7]]
 // CHECK1-NEXT:    store i32 [[TMP8]], ptr [[TMP5]], align 4
 // CHECK1-NEXT:    ret void
 //

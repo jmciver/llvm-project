@@ -192,32 +192,32 @@ int tbar2(short a, short b, short c, short d){
 // CHECK1-NEXT:    store i16 [[D]], ptr [[D_ADDR]], align 2
 // CHECK1-NEXT:    [[TMP0:%.*]] = load i16, ptr [[B_ADDR]], align 2
 // CHECK1-NEXT:    store i16 [[TMP0]], ptr [[B_CASTED]], align 2
-// CHECK1-NEXT:    [[TMP1:%.*]] = load i64, ptr [[B_CASTED]], align 8
-// CHECK1-NEXT:    [[TMP2:%.*]] = load double, ptr @Gb, align 8
+// CHECK1-NEXT:    [[TMP1:%.*]] = load i64, ptr [[B_CASTED]], align 8, !freeze_bits [[META9:![0-9]+]]
+// CHECK1-NEXT:    [[TMP2:%.*]] = load double, ptr @Gb, align 8, !freeze_bits [[META9]]
 // CHECK1-NEXT:    store double [[TMP2]], ptr [[GB_CASTED]], align 8
-// CHECK1-NEXT:    [[TMP3:%.*]] = load i64, ptr [[GB_CASTED]], align 8
-// CHECK1-NEXT:    [[TMP4:%.*]] = load float, ptr @_ZZ3foossssE2Sb, align 4
+// CHECK1-NEXT:    [[TMP3:%.*]] = load i64, ptr [[GB_CASTED]], align 8, !freeze_bits [[META9]]
+// CHECK1-NEXT:    [[TMP4:%.*]] = load float, ptr @_ZZ3foossssE2Sb, align 4, !freeze_bits [[META9]]
 // CHECK1-NEXT:    store float [[TMP4]], ptr [[SB_CASTED]], align 4
-// CHECK1-NEXT:    [[TMP5:%.*]] = load i64, ptr [[SB_CASTED]], align 8
-// CHECK1-NEXT:    [[TMP6:%.*]] = load double, ptr @Gc, align 8
+// CHECK1-NEXT:    [[TMP5:%.*]] = load i64, ptr [[SB_CASTED]], align 8, !freeze_bits [[META9]]
+// CHECK1-NEXT:    [[TMP6:%.*]] = load double, ptr @Gc, align 8, !freeze_bits [[META9]]
 // CHECK1-NEXT:    store double [[TMP6]], ptr [[GC_CASTED]], align 8
-// CHECK1-NEXT:    [[TMP7:%.*]] = load i64, ptr [[GC_CASTED]], align 8
+// CHECK1-NEXT:    [[TMP7:%.*]] = load i64, ptr [[GC_CASTED]], align 8, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[TMP8:%.*]] = load i16, ptr [[C_ADDR]], align 2
 // CHECK1-NEXT:    store i16 [[TMP8]], ptr [[C_CASTED]], align 2
-// CHECK1-NEXT:    [[TMP9:%.*]] = load i64, ptr [[C_CASTED]], align 8
-// CHECK1-NEXT:    [[TMP10:%.*]] = load float, ptr @_ZZ3foossssE2Sc, align 4
+// CHECK1-NEXT:    [[TMP9:%.*]] = load i64, ptr [[C_CASTED]], align 8, !freeze_bits [[META9]]
+// CHECK1-NEXT:    [[TMP10:%.*]] = load float, ptr @_ZZ3foossssE2Sc, align 4, !freeze_bits [[META9]]
 // CHECK1-NEXT:    store float [[TMP10]], ptr [[SC_CASTED]], align 4
-// CHECK1-NEXT:    [[TMP11:%.*]] = load i64, ptr [[SC_CASTED]], align 8
+// CHECK1-NEXT:    [[TMP11:%.*]] = load i64, ptr [[SC_CASTED]], align 8, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[TMP12:%.*]] = load i16, ptr [[D_ADDR]], align 2
 // CHECK1-NEXT:    store i16 [[TMP12]], ptr [[D_CASTED]], align 2
-// CHECK1-NEXT:    [[TMP13:%.*]] = load i64, ptr [[D_CASTED]], align 8
-// CHECK1-NEXT:    [[TMP14:%.*]] = load double, ptr @Gd, align 8
+// CHECK1-NEXT:    [[TMP13:%.*]] = load i64, ptr [[D_CASTED]], align 8, !freeze_bits [[META9]]
+// CHECK1-NEXT:    [[TMP14:%.*]] = load double, ptr @Gd, align 8, !freeze_bits [[META9]]
 // CHECK1-NEXT:    store double [[TMP14]], ptr [[GD_CASTED]], align 8
-// CHECK1-NEXT:    [[TMP15:%.*]] = load i64, ptr [[GD_CASTED]], align 8
-// CHECK1-NEXT:    [[TMP16:%.*]] = load float, ptr @_ZZ3foossssE2Sd, align 4
+// CHECK1-NEXT:    [[TMP15:%.*]] = load i64, ptr [[GD_CASTED]], align 8, !freeze_bits [[META9]]
+// CHECK1-NEXT:    [[TMP16:%.*]] = load float, ptr @_ZZ3foossssE2Sd, align 4, !freeze_bits [[META9]]
 // CHECK1-NEXT:    store float [[TMP16]], ptr [[SD_CASTED]], align 4
-// CHECK1-NEXT:    [[TMP17:%.*]] = load i64, ptr [[SD_CASTED]], align 8
-// CHECK1-NEXT:    [[TMP18:%.*]] = load double, ptr @Ga, align 8
+// CHECK1-NEXT:    [[TMP17:%.*]] = load i64, ptr [[SD_CASTED]], align 8, !freeze_bits [[META9]]
+// CHECK1-NEXT:    [[TMP18:%.*]] = load double, ptr @Ga, align 8, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[CMP:%.*]] = fcmp ogt double [[TMP18]], 0.000000e+00
 // CHECK1-NEXT:    br i1 [[CMP]], label [[LAND_LHS_TRUE:%.*]], label [[OMP_IF_ELSE:%.*]]
 // CHECK1:       land.lhs.true:
@@ -226,7 +226,7 @@ int tbar2(short a, short b, short c, short d){
 // CHECK1-NEXT:    [[CMP1:%.*]] = icmp sgt i32 [[CONV]], 0
 // CHECK1-NEXT:    br i1 [[CMP1]], label [[LAND_LHS_TRUE2:%.*]], label [[OMP_IF_ELSE]]
 // CHECK1:       land.lhs.true2:
-// CHECK1-NEXT:    [[TMP20:%.*]] = load float, ptr @_ZZ3foossssE2Sa, align 4
+// CHECK1-NEXT:    [[TMP20:%.*]] = load float, ptr @_ZZ3foossssE2Sa, align 4, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[CONV3:%.*]] = fpext float [[TMP20]] to double
 // CHECK1-NEXT:    [[CMP4:%.*]] = fcmp ogt double [[CONV3]], 0.000000e+00
 // CHECK1-NEXT:    br i1 [[CMP4]], label [[OMP_IF_THEN:%.*]], label [[OMP_IF_ELSE]]
@@ -336,16 +336,16 @@ int tbar2(short a, short b, short c, short d){
 // CHECK1-NEXT:    [[TMP68:%.*]] = load i16, ptr [[D_ADDR]], align 2
 // CHECK1-NEXT:    [[CONV9:%.*]] = sext i16 [[TMP68]] to i32
 // CHECK1-NEXT:    [[ADD10:%.*]] = add nsw i32 [[ADD8]], [[CONV9]]
-// CHECK1-NEXT:    [[TMP69:%.*]] = load float, ptr @_ZZ3foossssE2Sa, align 4
+// CHECK1-NEXT:    [[TMP69:%.*]] = load float, ptr @_ZZ3foossssE2Sa, align 4, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[CONV11:%.*]] = fptosi float [[TMP69]] to i32
 // CHECK1-NEXT:    [[ADD12:%.*]] = add nsw i32 [[ADD10]], [[CONV11]]
-// CHECK1-NEXT:    [[TMP70:%.*]] = load float, ptr @_ZZ3foossssE2Sb, align 4
+// CHECK1-NEXT:    [[TMP70:%.*]] = load float, ptr @_ZZ3foossssE2Sb, align 4, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[CONV13:%.*]] = fptosi float [[TMP70]] to i32
 // CHECK1-NEXT:    [[ADD14:%.*]] = add nsw i32 [[ADD12]], [[CONV13]]
-// CHECK1-NEXT:    [[TMP71:%.*]] = load float, ptr @_ZZ3foossssE2Sc, align 4
+// CHECK1-NEXT:    [[TMP71:%.*]] = load float, ptr @_ZZ3foossssE2Sc, align 4, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[CONV15:%.*]] = fptosi float [[TMP71]] to i32
 // CHECK1-NEXT:    [[ADD16:%.*]] = add nsw i32 [[ADD14]], [[CONV15]]
-// CHECK1-NEXT:    [[TMP72:%.*]] = load float, ptr @_ZZ3foossssE2Sd, align 4
+// CHECK1-NEXT:    [[TMP72:%.*]] = load float, ptr @_ZZ3foossssE2Sd, align 4, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[CONV17:%.*]] = fptosi float [[TMP72]] to i32
 // CHECK1-NEXT:    [[ADD18:%.*]] = add nsw i32 [[ADD16]], [[CONV17]]
 // CHECK1-NEXT:    ret i32 [[ADD18]]
@@ -375,29 +375,29 @@ int tbar2(short a, short b, short c, short d){
 // CHECK1-NEXT:    store i64 [[D]], ptr [[D_ADDR]], align 8
 // CHECK1-NEXT:    store i64 [[GD]], ptr [[GD_ADDR]], align 8
 // CHECK1-NEXT:    store i64 [[SD]], ptr [[SD_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP1:%.*]] = load i16, ptr [[B_ADDR]], align 2
+// CHECK1-NEXT:    [[TMP1:%.*]] = load i16, ptr [[B_ADDR]], align 2, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[CONV:%.*]] = sext i16 [[TMP1]] to i32
 // CHECK1-NEXT:    [[ADD:%.*]] = add nsw i32 [[CONV]], 1
 // CHECK1-NEXT:    [[CONV1:%.*]] = trunc i32 [[ADD]] to i16
 // CHECK1-NEXT:    store i16 [[CONV1]], ptr [[B_ADDR]], align 2
-// CHECK1-NEXT:    [[TMP2:%.*]] = load double, ptr [[GB_ADDR]], align 8
+// CHECK1-NEXT:    [[TMP2:%.*]] = load double, ptr [[GB_ADDR]], align 8, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[ADD2:%.*]] = fadd double [[TMP2]], 1.000000e+00
 // CHECK1-NEXT:    store double [[ADD2]], ptr [[GB_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP3:%.*]] = load float, ptr [[SB_ADDR]], align 4
+// CHECK1-NEXT:    [[TMP3:%.*]] = load float, ptr [[SB_ADDR]], align 4, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[CONV3:%.*]] = fpext float [[TMP3]] to double
 // CHECK1-NEXT:    [[ADD4:%.*]] = fadd double [[CONV3]], 1.000000e+00
 // CHECK1-NEXT:    [[CONV5:%.*]] = fptrunc double [[ADD4]] to float
 // CHECK1-NEXT:    store float [[CONV5]], ptr [[SB_ADDR]], align 4
-// CHECK1-NEXT:    [[TMP4:%.*]] = load double, ptr [[GC_ADDR]], align 8
+// CHECK1-NEXT:    [[TMP4:%.*]] = load double, ptr [[GC_ADDR]], align 8, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[CMP:%.*]] = fcmp ogt double [[TMP4]], 0.000000e+00
 // CHECK1-NEXT:    br i1 [[CMP]], label [[LAND_LHS_TRUE:%.*]], label [[OMP_IF_ELSE:%.*]]
 // CHECK1:       land.lhs.true:
-// CHECK1-NEXT:    [[TMP5:%.*]] = load i16, ptr [[C_ADDR]], align 2
+// CHECK1-NEXT:    [[TMP5:%.*]] = load i16, ptr [[C_ADDR]], align 2, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[CONV6:%.*]] = sext i16 [[TMP5]] to i32
 // CHECK1-NEXT:    [[CMP7:%.*]] = icmp sgt i32 [[CONV6]], 0
 // CHECK1-NEXT:    br i1 [[CMP7]], label [[LAND_LHS_TRUE8:%.*]], label [[OMP_IF_ELSE]]
 // CHECK1:       land.lhs.true8:
-// CHECK1-NEXT:    [[TMP6:%.*]] = load float, ptr [[SC_ADDR]], align 4
+// CHECK1-NEXT:    [[TMP6:%.*]] = load float, ptr [[SC_ADDR]], align 4, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[CONV9:%.*]] = fpext float [[TMP6]] to double
 // CHECK1-NEXT:    [[CMP10:%.*]] = fcmp ogt double [[CONV9]], 0.000000e+00
 // CHECK1-NEXT:    br i1 [[CMP10]], label [[OMP_IF_THEN:%.*]], label [[OMP_IF_ELSE]]
@@ -428,18 +428,18 @@ int tbar2(short a, short b, short c, short d){
 // CHECK1-NEXT:    store ptr [[D]], ptr [[D_ADDR]], align 8
 // CHECK1-NEXT:    store ptr [[GD]], ptr [[GD_ADDR]], align 8
 // CHECK1-NEXT:    store ptr [[SD]], ptr [[SD_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[D_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[GD_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[SD_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP3:%.*]] = load i16, ptr [[TMP0]], align 2
+// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[D_ADDR]], align 8, !nonnull [[META9]], !align [[META10:![0-9]+]]
+// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[GD_ADDR]], align 8, !nonnull [[META9]], !align [[META11:![0-9]+]]
+// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[SD_ADDR]], align 8, !nonnull [[META9]], !align [[META12:![0-9]+]]
+// CHECK1-NEXT:    [[TMP3:%.*]] = load i16, ptr [[TMP0]], align 2, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[CONV:%.*]] = sext i16 [[TMP3]] to i32
 // CHECK1-NEXT:    [[ADD:%.*]] = add nsw i32 [[CONV]], 1
 // CHECK1-NEXT:    [[CONV1:%.*]] = trunc i32 [[ADD]] to i16
 // CHECK1-NEXT:    store i16 [[CONV1]], ptr [[TMP0]], align 2
-// CHECK1-NEXT:    [[TMP4:%.*]] = load double, ptr [[TMP1]], align 8
+// CHECK1-NEXT:    [[TMP4:%.*]] = load double, ptr [[TMP1]], align 8, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[ADD2:%.*]] = fadd double [[TMP4]], 1.000000e+00
 // CHECK1-NEXT:    store double [[ADD2]], ptr [[TMP1]], align 8
-// CHECK1-NEXT:    [[TMP5:%.*]] = load float, ptr [[TMP2]], align 4
+// CHECK1-NEXT:    [[TMP5:%.*]] = load float, ptr [[TMP2]], align 4, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[CONV3:%.*]] = fpext float [[TMP5]] to double
 // CHECK1-NEXT:    [[ADD4:%.*]] = fadd double [[CONV3]], 1.000000e+00
 // CHECK1-NEXT:    [[CONV5:%.*]] = fptrunc double [[ADD4]] to float
@@ -470,16 +470,16 @@ int tbar2(short a, short b, short c, short d){
 // CHECK1-NEXT:    [[TMP3:%.*]] = load i16, ptr [[D_ADDR]], align 2
 // CHECK1-NEXT:    [[CONV4:%.*]] = sext i16 [[TMP3]] to i32
 // CHECK1-NEXT:    [[ADD5:%.*]] = add nsw i32 [[ADD3]], [[CONV4]]
-// CHECK1-NEXT:    [[TMP4:%.*]] = load float, ptr @_ZZ3barssssE2Sa, align 4
+// CHECK1-NEXT:    [[TMP4:%.*]] = load float, ptr @_ZZ3barssssE2Sa, align 4, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[CONV6:%.*]] = fptosi float [[TMP4]] to i32
 // CHECK1-NEXT:    [[ADD7:%.*]] = add nsw i32 [[ADD5]], [[CONV6]]
-// CHECK1-NEXT:    [[TMP5:%.*]] = load float, ptr @_ZZ3barssssE2Sb, align 4
+// CHECK1-NEXT:    [[TMP5:%.*]] = load float, ptr @_ZZ3barssssE2Sb, align 4, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[CONV8:%.*]] = fptosi float [[TMP5]] to i32
 // CHECK1-NEXT:    [[ADD9:%.*]] = add nsw i32 [[ADD7]], [[CONV8]]
-// CHECK1-NEXT:    [[TMP6:%.*]] = load float, ptr @_ZZ3barssssE2Sc, align 4
+// CHECK1-NEXT:    [[TMP6:%.*]] = load float, ptr @_ZZ3barssssE2Sc, align 4, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[CONV10:%.*]] = fptosi float [[TMP6]] to i32
 // CHECK1-NEXT:    [[ADD11:%.*]] = add nsw i32 [[ADD9]], [[CONV10]]
-// CHECK1-NEXT:    [[TMP7:%.*]] = load float, ptr @_ZZ3barssssE2Sd, align 4
+// CHECK1-NEXT:    [[TMP7:%.*]] = load float, ptr @_ZZ3barssssE2Sd, align 4, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[CONV12:%.*]] = fptosi float [[TMP7]] to i32
 // CHECK1-NEXT:    [[ADD13:%.*]] = add nsw i32 [[ADD11]], [[CONV12]]
 // CHECK1-NEXT:    ret i32 [[ADD13]]
@@ -513,47 +513,47 @@ int tbar2(short a, short b, short c, short d){
 // CHECK1-NEXT:    store ptr [[B]], ptr [[B_ADDR]], align 8
 // CHECK1-NEXT:    store ptr [[C]], ptr [[C_ADDR]], align 8
 // CHECK1-NEXT:    store ptr [[D]], ptr [[D_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[A_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[B_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[C_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[D_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP4:%.*]] = load i16, ptr [[TMP1]], align 2
+// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[A_ADDR]], align 8, !nonnull [[META9]], !align [[META10]]
+// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[B_ADDR]], align 8, !nonnull [[META9]], !align [[META10]]
+// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[C_ADDR]], align 8, !nonnull [[META9]], !align [[META10]]
+// CHECK1-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[D_ADDR]], align 8, !nonnull [[META9]], !align [[META10]]
+// CHECK1-NEXT:    [[TMP4:%.*]] = load i16, ptr [[TMP1]], align 2, !freeze_bits [[META9]]
 // CHECK1-NEXT:    store i16 [[TMP4]], ptr [[B_CASTED]], align 2
-// CHECK1-NEXT:    [[TMP5:%.*]] = load i64, ptr [[B_CASTED]], align 8
-// CHECK1-NEXT:    [[TMP6:%.*]] = load double, ptr @Gb, align 8
+// CHECK1-NEXT:    [[TMP5:%.*]] = load i64, ptr [[B_CASTED]], align 8, !freeze_bits [[META9]]
+// CHECK1-NEXT:    [[TMP6:%.*]] = load double, ptr @Gb, align 8, !freeze_bits [[META9]]
 // CHECK1-NEXT:    store double [[TMP6]], ptr [[GB_CASTED]], align 8
-// CHECK1-NEXT:    [[TMP7:%.*]] = load i64, ptr [[GB_CASTED]], align 8
-// CHECK1-NEXT:    [[TMP8:%.*]] = load float, ptr @_ZZ3barssssE2Sb, align 4
+// CHECK1-NEXT:    [[TMP7:%.*]] = load i64, ptr [[GB_CASTED]], align 8, !freeze_bits [[META9]]
+// CHECK1-NEXT:    [[TMP8:%.*]] = load float, ptr @_ZZ3barssssE2Sb, align 4, !freeze_bits [[META9]]
 // CHECK1-NEXT:    store float [[TMP8]], ptr [[SB_CASTED]], align 4
-// CHECK1-NEXT:    [[TMP9:%.*]] = load i64, ptr [[SB_CASTED]], align 8
-// CHECK1-NEXT:    [[TMP10:%.*]] = load double, ptr @Gc, align 8
+// CHECK1-NEXT:    [[TMP9:%.*]] = load i64, ptr [[SB_CASTED]], align 8, !freeze_bits [[META9]]
+// CHECK1-NEXT:    [[TMP10:%.*]] = load double, ptr @Gc, align 8, !freeze_bits [[META9]]
 // CHECK1-NEXT:    store double [[TMP10]], ptr [[GC_CASTED]], align 8
-// CHECK1-NEXT:    [[TMP11:%.*]] = load i64, ptr [[GC_CASTED]], align 8
-// CHECK1-NEXT:    [[TMP12:%.*]] = load i16, ptr [[TMP2]], align 2
+// CHECK1-NEXT:    [[TMP11:%.*]] = load i64, ptr [[GC_CASTED]], align 8, !freeze_bits [[META9]]
+// CHECK1-NEXT:    [[TMP12:%.*]] = load i16, ptr [[TMP2]], align 2, !freeze_bits [[META9]]
 // CHECK1-NEXT:    store i16 [[TMP12]], ptr [[C_CASTED]], align 2
-// CHECK1-NEXT:    [[TMP13:%.*]] = load i64, ptr [[C_CASTED]], align 8
-// CHECK1-NEXT:    [[TMP14:%.*]] = load float, ptr @_ZZ3barssssE2Sc, align 4
+// CHECK1-NEXT:    [[TMP13:%.*]] = load i64, ptr [[C_CASTED]], align 8, !freeze_bits [[META9]]
+// CHECK1-NEXT:    [[TMP14:%.*]] = load float, ptr @_ZZ3barssssE2Sc, align 4, !freeze_bits [[META9]]
 // CHECK1-NEXT:    store float [[TMP14]], ptr [[SC_CASTED]], align 4
-// CHECK1-NEXT:    [[TMP15:%.*]] = load i64, ptr [[SC_CASTED]], align 8
-// CHECK1-NEXT:    [[TMP16:%.*]] = load i16, ptr [[TMP3]], align 2
+// CHECK1-NEXT:    [[TMP15:%.*]] = load i64, ptr [[SC_CASTED]], align 8, !freeze_bits [[META9]]
+// CHECK1-NEXT:    [[TMP16:%.*]] = load i16, ptr [[TMP3]], align 2, !freeze_bits [[META9]]
 // CHECK1-NEXT:    store i16 [[TMP16]], ptr [[D_CASTED]], align 2
-// CHECK1-NEXT:    [[TMP17:%.*]] = load i64, ptr [[D_CASTED]], align 8
-// CHECK1-NEXT:    [[TMP18:%.*]] = load double, ptr @Gd, align 8
+// CHECK1-NEXT:    [[TMP17:%.*]] = load i64, ptr [[D_CASTED]], align 8, !freeze_bits [[META9]]
+// CHECK1-NEXT:    [[TMP18:%.*]] = load double, ptr @Gd, align 8, !freeze_bits [[META9]]
 // CHECK1-NEXT:    store double [[TMP18]], ptr [[GD_CASTED]], align 8
-// CHECK1-NEXT:    [[TMP19:%.*]] = load i64, ptr [[GD_CASTED]], align 8
-// CHECK1-NEXT:    [[TMP20:%.*]] = load float, ptr @_ZZ3barssssE2Sd, align 4
+// CHECK1-NEXT:    [[TMP19:%.*]] = load i64, ptr [[GD_CASTED]], align 8, !freeze_bits [[META9]]
+// CHECK1-NEXT:    [[TMP20:%.*]] = load float, ptr @_ZZ3barssssE2Sd, align 4, !freeze_bits [[META9]]
 // CHECK1-NEXT:    store float [[TMP20]], ptr [[SD_CASTED]], align 4
-// CHECK1-NEXT:    [[TMP21:%.*]] = load i64, ptr [[SD_CASTED]], align 8
-// CHECK1-NEXT:    [[TMP22:%.*]] = load double, ptr @Ga, align 8
+// CHECK1-NEXT:    [[TMP21:%.*]] = load i64, ptr [[SD_CASTED]], align 8, !freeze_bits [[META9]]
+// CHECK1-NEXT:    [[TMP22:%.*]] = load double, ptr @Ga, align 8, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[CMP:%.*]] = fcmp ogt double [[TMP22]], 0.000000e+00
 // CHECK1-NEXT:    br i1 [[CMP]], label [[LAND_LHS_TRUE:%.*]], label [[OMP_IF_ELSE:%.*]]
 // CHECK1:       land.lhs.true:
-// CHECK1-NEXT:    [[TMP23:%.*]] = load i16, ptr [[TMP0]], align 2
+// CHECK1-NEXT:    [[TMP23:%.*]] = load i16, ptr [[TMP0]], align 2, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[CONV:%.*]] = sext i16 [[TMP23]] to i32
 // CHECK1-NEXT:    [[CMP1:%.*]] = icmp sgt i32 [[CONV]], 0
 // CHECK1-NEXT:    br i1 [[CMP1]], label [[LAND_LHS_TRUE2:%.*]], label [[OMP_IF_ELSE]]
 // CHECK1:       land.lhs.true2:
-// CHECK1-NEXT:    [[TMP24:%.*]] = load float, ptr @_ZZ3barssssE2Sa, align 4
+// CHECK1-NEXT:    [[TMP24:%.*]] = load float, ptr @_ZZ3barssssE2Sa, align 4, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[CONV3:%.*]] = fpext float [[TMP24]] to double
 // CHECK1-NEXT:    [[CMP4:%.*]] = fcmp ogt double [[CONV3]], 0.000000e+00
 // CHECK1-NEXT:    br i1 [[CMP4]], label [[OMP_IF_THEN:%.*]], label [[OMP_IF_ELSE]]
@@ -679,29 +679,29 @@ int tbar2(short a, short b, short c, short d){
 // CHECK1-NEXT:    store i64 [[D]], ptr [[D_ADDR]], align 8
 // CHECK1-NEXT:    store i64 [[GD]], ptr [[GD_ADDR]], align 8
 // CHECK1-NEXT:    store i64 [[SD]], ptr [[SD_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP1:%.*]] = load i16, ptr [[B_ADDR]], align 2
+// CHECK1-NEXT:    [[TMP1:%.*]] = load i16, ptr [[B_ADDR]], align 2, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[CONV:%.*]] = sext i16 [[TMP1]] to i32
 // CHECK1-NEXT:    [[ADD:%.*]] = add nsw i32 [[CONV]], 1
 // CHECK1-NEXT:    [[CONV1:%.*]] = trunc i32 [[ADD]] to i16
 // CHECK1-NEXT:    store i16 [[CONV1]], ptr [[B_ADDR]], align 2
-// CHECK1-NEXT:    [[TMP2:%.*]] = load double, ptr [[GB_ADDR]], align 8
+// CHECK1-NEXT:    [[TMP2:%.*]] = load double, ptr [[GB_ADDR]], align 8, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[ADD2:%.*]] = fadd double [[TMP2]], 1.000000e+00
 // CHECK1-NEXT:    store double [[ADD2]], ptr [[GB_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP3:%.*]] = load float, ptr [[SB_ADDR]], align 4
+// CHECK1-NEXT:    [[TMP3:%.*]] = load float, ptr [[SB_ADDR]], align 4, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[CONV3:%.*]] = fpext float [[TMP3]] to double
 // CHECK1-NEXT:    [[ADD4:%.*]] = fadd double [[CONV3]], 1.000000e+00
 // CHECK1-NEXT:    [[CONV5:%.*]] = fptrunc double [[ADD4]] to float
 // CHECK1-NEXT:    store float [[CONV5]], ptr [[SB_ADDR]], align 4
-// CHECK1-NEXT:    [[TMP4:%.*]] = load double, ptr [[GC_ADDR]], align 8
+// CHECK1-NEXT:    [[TMP4:%.*]] = load double, ptr [[GC_ADDR]], align 8, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[CMP:%.*]] = fcmp ogt double [[TMP4]], 0.000000e+00
 // CHECK1-NEXT:    br i1 [[CMP]], label [[LAND_LHS_TRUE:%.*]], label [[OMP_IF_ELSE:%.*]]
 // CHECK1:       land.lhs.true:
-// CHECK1-NEXT:    [[TMP5:%.*]] = load i16, ptr [[C_ADDR]], align 2
+// CHECK1-NEXT:    [[TMP5:%.*]] = load i16, ptr [[C_ADDR]], align 2, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[CONV6:%.*]] = sext i16 [[TMP5]] to i32
 // CHECK1-NEXT:    [[CMP7:%.*]] = icmp sgt i32 [[CONV6]], 0
 // CHECK1-NEXT:    br i1 [[CMP7]], label [[LAND_LHS_TRUE8:%.*]], label [[OMP_IF_ELSE]]
 // CHECK1:       land.lhs.true8:
-// CHECK1-NEXT:    [[TMP6:%.*]] = load float, ptr [[SC_ADDR]], align 4
+// CHECK1-NEXT:    [[TMP6:%.*]] = load float, ptr [[SC_ADDR]], align 4, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[CONV9:%.*]] = fpext float [[TMP6]] to double
 // CHECK1-NEXT:    [[CMP10:%.*]] = fcmp ogt double [[CONV9]], 0.000000e+00
 // CHECK1-NEXT:    br i1 [[CMP10]], label [[OMP_IF_THEN:%.*]], label [[OMP_IF_ELSE]]
@@ -732,18 +732,18 @@ int tbar2(short a, short b, short c, short d){
 // CHECK1-NEXT:    store ptr [[D]], ptr [[D_ADDR]], align 8
 // CHECK1-NEXT:    store ptr [[GD]], ptr [[GD_ADDR]], align 8
 // CHECK1-NEXT:    store ptr [[SD]], ptr [[SD_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[D_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[GD_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[SD_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP3:%.*]] = load i16, ptr [[TMP0]], align 2
+// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[D_ADDR]], align 8, !nonnull [[META9]], !align [[META10]]
+// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[GD_ADDR]], align 8, !nonnull [[META9]], !align [[META11]]
+// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[SD_ADDR]], align 8, !nonnull [[META9]], !align [[META12]]
+// CHECK1-NEXT:    [[TMP3:%.*]] = load i16, ptr [[TMP0]], align 2, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[CONV:%.*]] = sext i16 [[TMP3]] to i32
 // CHECK1-NEXT:    [[ADD:%.*]] = add nsw i32 [[CONV]], 1
 // CHECK1-NEXT:    [[CONV1:%.*]] = trunc i32 [[ADD]] to i16
 // CHECK1-NEXT:    store i16 [[CONV1]], ptr [[TMP0]], align 2
-// CHECK1-NEXT:    [[TMP4:%.*]] = load double, ptr [[TMP1]], align 8
+// CHECK1-NEXT:    [[TMP4:%.*]] = load double, ptr [[TMP1]], align 8, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[ADD2:%.*]] = fadd double [[TMP4]], 1.000000e+00
 // CHECK1-NEXT:    store double [[ADD2]], ptr [[TMP1]], align 8
-// CHECK1-NEXT:    [[TMP5:%.*]] = load float, ptr [[TMP2]], align 4
+// CHECK1-NEXT:    [[TMP5:%.*]] = load float, ptr [[TMP2]], align 4, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[CONV3:%.*]] = fpext float [[TMP5]] to double
 // CHECK1-NEXT:    [[ADD4:%.*]] = fadd double [[CONV3]], 1.000000e+00
 // CHECK1-NEXT:    [[CONV5:%.*]] = fptrunc double [[ADD4]] to float
@@ -793,16 +793,16 @@ int tbar2(short a, short b, short c, short d){
 // CHECK1-NEXT:    [[TMP3:%.*]] = load i16, ptr [[D_ADDR]], align 2
 // CHECK1-NEXT:    [[CONV4:%.*]] = sext i16 [[TMP3]] to i32
 // CHECK1-NEXT:    [[ADD5:%.*]] = add nsw i32 [[ADD3]], [[CONV4]]
-// CHECK1-NEXT:    [[TMP4:%.*]] = load float, ptr @_ZZ4tbarIsEiT_S0_S0_S0_E2Sa, align 4
+// CHECK1-NEXT:    [[TMP4:%.*]] = load float, ptr @_ZZ4tbarIsEiT_S0_S0_S0_E2Sa, align 4, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[CONV6:%.*]] = fptosi float [[TMP4]] to i32
 // CHECK1-NEXT:    [[ADD7:%.*]] = add nsw i32 [[ADD5]], [[CONV6]]
-// CHECK1-NEXT:    [[TMP5:%.*]] = load float, ptr @_ZZ4tbarIsEiT_S0_S0_S0_E2Sb, align 4
+// CHECK1-NEXT:    [[TMP5:%.*]] = load float, ptr @_ZZ4tbarIsEiT_S0_S0_S0_E2Sb, align 4, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[CONV8:%.*]] = fptosi float [[TMP5]] to i32
 // CHECK1-NEXT:    [[ADD9:%.*]] = add nsw i32 [[ADD7]], [[CONV8]]
-// CHECK1-NEXT:    [[TMP6:%.*]] = load float, ptr @_ZZ4tbarIsEiT_S0_S0_S0_E2Sc, align 4
+// CHECK1-NEXT:    [[TMP6:%.*]] = load float, ptr @_ZZ4tbarIsEiT_S0_S0_S0_E2Sc, align 4, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[CONV10:%.*]] = fptosi float [[TMP6]] to i32
 // CHECK1-NEXT:    [[ADD11:%.*]] = add nsw i32 [[ADD9]], [[CONV10]]
-// CHECK1-NEXT:    [[TMP7:%.*]] = load float, ptr @_ZZ4tbarIsEiT_S0_S0_S0_E2Sd, align 4
+// CHECK1-NEXT:    [[TMP7:%.*]] = load float, ptr @_ZZ4tbarIsEiT_S0_S0_S0_E2Sd, align 4, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[CONV12:%.*]] = fptosi float [[TMP7]] to i32
 // CHECK1-NEXT:    [[ADD13:%.*]] = add nsw i32 [[ADD11]], [[CONV12]]
 // CHECK1-NEXT:    ret i32 [[ADD13]]
@@ -836,47 +836,47 @@ int tbar2(short a, short b, short c, short d){
 // CHECK1-NEXT:    store ptr [[B]], ptr [[B_ADDR]], align 8
 // CHECK1-NEXT:    store ptr [[C]], ptr [[C_ADDR]], align 8
 // CHECK1-NEXT:    store ptr [[D]], ptr [[D_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[A_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[B_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[C_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[D_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP4:%.*]] = load i16, ptr [[TMP1]], align 2
+// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[A_ADDR]], align 8, !nonnull [[META9]], !align [[META10]]
+// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[B_ADDR]], align 8, !nonnull [[META9]], !align [[META10]]
+// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[C_ADDR]], align 8, !nonnull [[META9]], !align [[META10]]
+// CHECK1-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[D_ADDR]], align 8, !nonnull [[META9]], !align [[META10]]
+// CHECK1-NEXT:    [[TMP4:%.*]] = load i16, ptr [[TMP1]], align 2, !freeze_bits [[META9]]
 // CHECK1-NEXT:    store i16 [[TMP4]], ptr [[B_CASTED]], align 2
-// CHECK1-NEXT:    [[TMP5:%.*]] = load i64, ptr [[B_CASTED]], align 8
-// CHECK1-NEXT:    [[TMP6:%.*]] = load double, ptr @Gb, align 8
+// CHECK1-NEXT:    [[TMP5:%.*]] = load i64, ptr [[B_CASTED]], align 8, !freeze_bits [[META9]]
+// CHECK1-NEXT:    [[TMP6:%.*]] = load double, ptr @Gb, align 8, !freeze_bits [[META9]]
 // CHECK1-NEXT:    store double [[TMP6]], ptr [[GB_CASTED]], align 8
-// CHECK1-NEXT:    [[TMP7:%.*]] = load i64, ptr [[GB_CASTED]], align 8
-// CHECK1-NEXT:    [[TMP8:%.*]] = load float, ptr @_ZZ4tbarIsEiT_S0_S0_S0_E2Sb, align 4
+// CHECK1-NEXT:    [[TMP7:%.*]] = load i64, ptr [[GB_CASTED]], align 8, !freeze_bits [[META9]]
+// CHECK1-NEXT:    [[TMP8:%.*]] = load float, ptr @_ZZ4tbarIsEiT_S0_S0_S0_E2Sb, align 4, !freeze_bits [[META9]]
 // CHECK1-NEXT:    store float [[TMP8]], ptr [[SB_CASTED]], align 4
-// CHECK1-NEXT:    [[TMP9:%.*]] = load i64, ptr [[SB_CASTED]], align 8
-// CHECK1-NEXT:    [[TMP10:%.*]] = load double, ptr @Gc, align 8
+// CHECK1-NEXT:    [[TMP9:%.*]] = load i64, ptr [[SB_CASTED]], align 8, !freeze_bits [[META9]]
+// CHECK1-NEXT:    [[TMP10:%.*]] = load double, ptr @Gc, align 8, !freeze_bits [[META9]]
 // CHECK1-NEXT:    store double [[TMP10]], ptr [[GC_CASTED]], align 8
-// CHECK1-NEXT:    [[TMP11:%.*]] = load i64, ptr [[GC_CASTED]], align 8
-// CHECK1-NEXT:    [[TMP12:%.*]] = load i16, ptr [[TMP2]], align 2
+// CHECK1-NEXT:    [[TMP11:%.*]] = load i64, ptr [[GC_CASTED]], align 8, !freeze_bits [[META9]]
+// CHECK1-NEXT:    [[TMP12:%.*]] = load i16, ptr [[TMP2]], align 2, !freeze_bits [[META9]]
 // CHECK1-NEXT:    store i16 [[TMP12]], ptr [[C_CASTED]], align 2
-// CHECK1-NEXT:    [[TMP13:%.*]] = load i64, ptr [[C_CASTED]], align 8
-// CHECK1-NEXT:    [[TMP14:%.*]] = load float, ptr @_ZZ4tbarIsEiT_S0_S0_S0_E2Sc, align 4
+// CHECK1-NEXT:    [[TMP13:%.*]] = load i64, ptr [[C_CASTED]], align 8, !freeze_bits [[META9]]
+// CHECK1-NEXT:    [[TMP14:%.*]] = load float, ptr @_ZZ4tbarIsEiT_S0_S0_S0_E2Sc, align 4, !freeze_bits [[META9]]
 // CHECK1-NEXT:    store float [[TMP14]], ptr [[SC_CASTED]], align 4
-// CHECK1-NEXT:    [[TMP15:%.*]] = load i64, ptr [[SC_CASTED]], align 8
-// CHECK1-NEXT:    [[TMP16:%.*]] = load i16, ptr [[TMP3]], align 2
+// CHECK1-NEXT:    [[TMP15:%.*]] = load i64, ptr [[SC_CASTED]], align 8, !freeze_bits [[META9]]
+// CHECK1-NEXT:    [[TMP16:%.*]] = load i16, ptr [[TMP3]], align 2, !freeze_bits [[META9]]
 // CHECK1-NEXT:    store i16 [[TMP16]], ptr [[D_CASTED]], align 2
-// CHECK1-NEXT:    [[TMP17:%.*]] = load i64, ptr [[D_CASTED]], align 8
-// CHECK1-NEXT:    [[TMP18:%.*]] = load double, ptr @Gd, align 8
+// CHECK1-NEXT:    [[TMP17:%.*]] = load i64, ptr [[D_CASTED]], align 8, !freeze_bits [[META9]]
+// CHECK1-NEXT:    [[TMP18:%.*]] = load double, ptr @Gd, align 8, !freeze_bits [[META9]]
 // CHECK1-NEXT:    store double [[TMP18]], ptr [[GD_CASTED]], align 8
-// CHECK1-NEXT:    [[TMP19:%.*]] = load i64, ptr [[GD_CASTED]], align 8
-// CHECK1-NEXT:    [[TMP20:%.*]] = load float, ptr @_ZZ4tbarIsEiT_S0_S0_S0_E2Sd, align 4
+// CHECK1-NEXT:    [[TMP19:%.*]] = load i64, ptr [[GD_CASTED]], align 8, !freeze_bits [[META9]]
+// CHECK1-NEXT:    [[TMP20:%.*]] = load float, ptr @_ZZ4tbarIsEiT_S0_S0_S0_E2Sd, align 4, !freeze_bits [[META9]]
 // CHECK1-NEXT:    store float [[TMP20]], ptr [[SD_CASTED]], align 4
-// CHECK1-NEXT:    [[TMP21:%.*]] = load i64, ptr [[SD_CASTED]], align 8
-// CHECK1-NEXT:    [[TMP22:%.*]] = load double, ptr @Ga, align 8
+// CHECK1-NEXT:    [[TMP21:%.*]] = load i64, ptr [[SD_CASTED]], align 8, !freeze_bits [[META9]]
+// CHECK1-NEXT:    [[TMP22:%.*]] = load double, ptr @Ga, align 8, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[CMP:%.*]] = fcmp ogt double [[TMP22]], 0.000000e+00
 // CHECK1-NEXT:    br i1 [[CMP]], label [[LAND_LHS_TRUE:%.*]], label [[OMP_IF_ELSE:%.*]]
 // CHECK1:       land.lhs.true:
-// CHECK1-NEXT:    [[TMP23:%.*]] = load i16, ptr [[TMP0]], align 2
+// CHECK1-NEXT:    [[TMP23:%.*]] = load i16, ptr [[TMP0]], align 2, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[CONV:%.*]] = sext i16 [[TMP23]] to i32
 // CHECK1-NEXT:    [[CMP1:%.*]] = icmp sgt i32 [[CONV]], 0
 // CHECK1-NEXT:    br i1 [[CMP1]], label [[LAND_LHS_TRUE2:%.*]], label [[OMP_IF_ELSE]]
 // CHECK1:       land.lhs.true2:
-// CHECK1-NEXT:    [[TMP24:%.*]] = load float, ptr @_ZZ4tbarIsEiT_S0_S0_S0_E2Sa, align 4
+// CHECK1-NEXT:    [[TMP24:%.*]] = load float, ptr @_ZZ4tbarIsEiT_S0_S0_S0_E2Sa, align 4, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[CONV3:%.*]] = fpext float [[TMP24]] to double
 // CHECK1-NEXT:    [[CMP4:%.*]] = fcmp ogt double [[CONV3]], 0.000000e+00
 // CHECK1-NEXT:    br i1 [[CMP4]], label [[OMP_IF_THEN:%.*]], label [[OMP_IF_ELSE]]
@@ -1002,29 +1002,29 @@ int tbar2(short a, short b, short c, short d){
 // CHECK1-NEXT:    store i64 [[D]], ptr [[D_ADDR]], align 8
 // CHECK1-NEXT:    store i64 [[GD]], ptr [[GD_ADDR]], align 8
 // CHECK1-NEXT:    store i64 [[SD]], ptr [[SD_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP1:%.*]] = load i16, ptr [[B_ADDR]], align 2
+// CHECK1-NEXT:    [[TMP1:%.*]] = load i16, ptr [[B_ADDR]], align 2, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[CONV:%.*]] = sext i16 [[TMP1]] to i32
 // CHECK1-NEXT:    [[ADD:%.*]] = add nsw i32 [[CONV]], 1
 // CHECK1-NEXT:    [[CONV1:%.*]] = trunc i32 [[ADD]] to i16
 // CHECK1-NEXT:    store i16 [[CONV1]], ptr [[B_ADDR]], align 2
-// CHECK1-NEXT:    [[TMP2:%.*]] = load double, ptr [[GB_ADDR]], align 8
+// CHECK1-NEXT:    [[TMP2:%.*]] = load double, ptr [[GB_ADDR]], align 8, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[ADD2:%.*]] = fadd double [[TMP2]], 1.000000e+00
 // CHECK1-NEXT:    store double [[ADD2]], ptr [[GB_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP3:%.*]] = load float, ptr [[SB_ADDR]], align 4
+// CHECK1-NEXT:    [[TMP3:%.*]] = load float, ptr [[SB_ADDR]], align 4, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[CONV3:%.*]] = fpext float [[TMP3]] to double
 // CHECK1-NEXT:    [[ADD4:%.*]] = fadd double [[CONV3]], 1.000000e+00
 // CHECK1-NEXT:    [[CONV5:%.*]] = fptrunc double [[ADD4]] to float
 // CHECK1-NEXT:    store float [[CONV5]], ptr [[SB_ADDR]], align 4
-// CHECK1-NEXT:    [[TMP4:%.*]] = load double, ptr [[GC_ADDR]], align 8
+// CHECK1-NEXT:    [[TMP4:%.*]] = load double, ptr [[GC_ADDR]], align 8, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[CMP:%.*]] = fcmp ogt double [[TMP4]], 0.000000e+00
 // CHECK1-NEXT:    br i1 [[CMP]], label [[LAND_LHS_TRUE:%.*]], label [[OMP_IF_ELSE:%.*]]
 // CHECK1:       land.lhs.true:
-// CHECK1-NEXT:    [[TMP5:%.*]] = load i16, ptr [[C_ADDR]], align 2
+// CHECK1-NEXT:    [[TMP5:%.*]] = load i16, ptr [[C_ADDR]], align 2, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[CONV6:%.*]] = sext i16 [[TMP5]] to i32
 // CHECK1-NEXT:    [[CMP7:%.*]] = icmp sgt i32 [[CONV6]], 0
 // CHECK1-NEXT:    br i1 [[CMP7]], label [[LAND_LHS_TRUE8:%.*]], label [[OMP_IF_ELSE]]
 // CHECK1:       land.lhs.true8:
-// CHECK1-NEXT:    [[TMP6:%.*]] = load float, ptr [[SC_ADDR]], align 4
+// CHECK1-NEXT:    [[TMP6:%.*]] = load float, ptr [[SC_ADDR]], align 4, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[CONV9:%.*]] = fpext float [[TMP6]] to double
 // CHECK1-NEXT:    [[CMP10:%.*]] = fcmp ogt double [[CONV9]], 0.000000e+00
 // CHECK1-NEXT:    br i1 [[CMP10]], label [[OMP_IF_THEN:%.*]], label [[OMP_IF_ELSE]]
@@ -1055,18 +1055,18 @@ int tbar2(short a, short b, short c, short d){
 // CHECK1-NEXT:    store ptr [[D]], ptr [[D_ADDR]], align 8
 // CHECK1-NEXT:    store ptr [[GD]], ptr [[GD_ADDR]], align 8
 // CHECK1-NEXT:    store ptr [[SD]], ptr [[SD_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[D_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[GD_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[SD_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP3:%.*]] = load i16, ptr [[TMP0]], align 2
+// CHECK1-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[D_ADDR]], align 8, !nonnull [[META9]], !align [[META10]]
+// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[GD_ADDR]], align 8, !nonnull [[META9]], !align [[META11]]
+// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[SD_ADDR]], align 8, !nonnull [[META9]], !align [[META12]]
+// CHECK1-NEXT:    [[TMP3:%.*]] = load i16, ptr [[TMP0]], align 2, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[CONV:%.*]] = sext i16 [[TMP3]] to i32
 // CHECK1-NEXT:    [[ADD:%.*]] = add nsw i32 [[CONV]], 1
 // CHECK1-NEXT:    [[CONV1:%.*]] = trunc i32 [[ADD]] to i16
 // CHECK1-NEXT:    store i16 [[CONV1]], ptr [[TMP0]], align 2
-// CHECK1-NEXT:    [[TMP4:%.*]] = load double, ptr [[TMP1]], align 8
+// CHECK1-NEXT:    [[TMP4:%.*]] = load double, ptr [[TMP1]], align 8, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[ADD2:%.*]] = fadd double [[TMP4]], 1.000000e+00
 // CHECK1-NEXT:    store double [[ADD2]], ptr [[TMP1]], align 8
-// CHECK1-NEXT:    [[TMP5:%.*]] = load float, ptr [[TMP2]], align 4
+// CHECK1-NEXT:    [[TMP5:%.*]] = load float, ptr [[TMP2]], align 4, !freeze_bits [[META9]]
 // CHECK1-NEXT:    [[CONV3:%.*]] = fpext float [[TMP5]] to double
 // CHECK1-NEXT:    [[ADD4:%.*]] = fadd double [[CONV3]], 1.000000e+00
 // CHECK1-NEXT:    [[CONV5:%.*]] = fptrunc double [[ADD4]] to float
@@ -1097,23 +1097,23 @@ int tbar2(short a, short b, short c, short d){
 // CHECK3-NEXT:    store i16 [[D]], ptr [[D_ADDR]], align 2
 // CHECK3-NEXT:    [[TMP0:%.*]] = load i16, ptr [[B_ADDR]], align 2
 // CHECK3-NEXT:    store i16 [[TMP0]], ptr [[B_CASTED]], align 2
-// CHECK3-NEXT:    [[TMP1:%.*]] = load i32, ptr [[B_CASTED]], align 4
-// CHECK3-NEXT:    [[TMP2:%.*]] = load float, ptr @_ZZ3foossssE2Sb, align 4
+// CHECK3-NEXT:    [[TMP1:%.*]] = load i32, ptr [[B_CASTED]], align 4, !freeze_bits [[META10:![0-9]+]]
+// CHECK3-NEXT:    [[TMP2:%.*]] = load float, ptr @_ZZ3foossssE2Sb, align 4, !freeze_bits [[META10]]
 // CHECK3-NEXT:    store float [[TMP2]], ptr [[SB_CASTED]], align 4
-// CHECK3-NEXT:    [[TMP3:%.*]] = load i32, ptr [[SB_CASTED]], align 4
+// CHECK3-NEXT:    [[TMP3:%.*]] = load i32, ptr [[SB_CASTED]], align 4, !freeze_bits [[META10]]
 // CHECK3-NEXT:    [[TMP4:%.*]] = load i16, ptr [[C_ADDR]], align 2
 // CHECK3-NEXT:    store i16 [[TMP4]], ptr [[C_CASTED]], align 2
-// CHECK3-NEXT:    [[TMP5:%.*]] = load i32, ptr [[C_CASTED]], align 4
-// CHECK3-NEXT:    [[TMP6:%.*]] = load float, ptr @_ZZ3foossssE2Sc, align 4
+// CHECK3-NEXT:    [[TMP5:%.*]] = load i32, ptr [[C_CASTED]], align 4, !freeze_bits [[META10]]
+// CHECK3-NEXT:    [[TMP6:%.*]] = load float, ptr @_ZZ3foossssE2Sc, align 4, !freeze_bits [[META10]]
 // CHECK3-NEXT:    store float [[TMP6]], ptr [[SC_CASTED]], align 4
-// CHECK3-NEXT:    [[TMP7:%.*]] = load i32, ptr [[SC_CASTED]], align 4
+// CHECK3-NEXT:    [[TMP7:%.*]] = load i32, ptr [[SC_CASTED]], align 4, !freeze_bits [[META10]]
 // CHECK3-NEXT:    [[TMP8:%.*]] = load i16, ptr [[D_ADDR]], align 2
 // CHECK3-NEXT:    store i16 [[TMP8]], ptr [[D_CASTED]], align 2
-// CHECK3-NEXT:    [[TMP9:%.*]] = load i32, ptr [[D_CASTED]], align 4
-// CHECK3-NEXT:    [[TMP10:%.*]] = load float, ptr @_ZZ3foossssE2Sd, align 4
+// CHECK3-NEXT:    [[TMP9:%.*]] = load i32, ptr [[D_CASTED]], align 4, !freeze_bits [[META10]]
+// CHECK3-NEXT:    [[TMP10:%.*]] = load float, ptr @_ZZ3foossssE2Sd, align 4, !freeze_bits [[META10]]
 // CHECK3-NEXT:    store float [[TMP10]], ptr [[SD_CASTED]], align 4
-// CHECK3-NEXT:    [[TMP11:%.*]] = load i32, ptr [[SD_CASTED]], align 4
-// CHECK3-NEXT:    [[TMP12:%.*]] = load double, ptr @Ga, align 8
+// CHECK3-NEXT:    [[TMP11:%.*]] = load i32, ptr [[SD_CASTED]], align 4, !freeze_bits [[META10]]
+// CHECK3-NEXT:    [[TMP12:%.*]] = load double, ptr @Ga, align 8, !freeze_bits [[META10]]
 // CHECK3-NEXT:    [[CMP:%.*]] = fcmp ogt double [[TMP12]], 0.000000e+00
 // CHECK3-NEXT:    br i1 [[CMP]], label [[LAND_LHS_TRUE:%.*]], label [[OMP_IF_ELSE:%.*]]
 // CHECK3:       land.lhs.true:
@@ -1122,7 +1122,7 @@ int tbar2(short a, short b, short c, short d){
 // CHECK3-NEXT:    [[CMP1:%.*]] = icmp sgt i32 [[CONV]], 0
 // CHECK3-NEXT:    br i1 [[CMP1]], label [[LAND_LHS_TRUE2:%.*]], label [[OMP_IF_ELSE]]
 // CHECK3:       land.lhs.true2:
-// CHECK3-NEXT:    [[TMP14:%.*]] = load float, ptr @_ZZ3foossssE2Sa, align 4
+// CHECK3-NEXT:    [[TMP14:%.*]] = load float, ptr @_ZZ3foossssE2Sa, align 4, !freeze_bits [[META10]]
 // CHECK3-NEXT:    [[CONV3:%.*]] = fpext float [[TMP14]] to double
 // CHECK3-NEXT:    [[CMP4:%.*]] = fcmp ogt double [[CONV3]], 0.000000e+00
 // CHECK3-NEXT:    br i1 [[CMP4]], label [[OMP_IF_THEN:%.*]], label [[OMP_IF_ELSE]]
@@ -1232,16 +1232,16 @@ int tbar2(short a, short b, short c, short d){
 // CHECK3-NEXT:    [[TMP62:%.*]] = load i16, ptr [[D_ADDR]], align 2
 // CHECK3-NEXT:    [[CONV9:%.*]] = sext i16 [[TMP62]] to i32
 // CHECK3-NEXT:    [[ADD10:%.*]] = add nsw i32 [[ADD8]], [[CONV9]]
-// CHECK3-NEXT:    [[TMP63:%.*]] = load float, ptr @_ZZ3foossssE2Sa, align 4
+// CHECK3-NEXT:    [[TMP63:%.*]] = load float, ptr @_ZZ3foossssE2Sa, align 4, !freeze_bits [[META10]]
 // CHECK3-NEXT:    [[CONV11:%.*]] = fptosi float [[TMP63]] to i32
 // CHECK3-NEXT:    [[ADD12:%.*]] = add nsw i32 [[ADD10]], [[CONV11]]
-// CHECK3-NEXT:    [[TMP64:%.*]] = load float, ptr @_ZZ3foossssE2Sb, align 4
+// CHECK3-NEXT:    [[TMP64:%.*]] = load float, ptr @_ZZ3foossssE2Sb, align 4, !freeze_bits [[META10]]
 // CHECK3-NEXT:    [[CONV13:%.*]] = fptosi float [[TMP64]] to i32
 // CHECK3-NEXT:    [[ADD14:%.*]] = add nsw i32 [[ADD12]], [[CONV13]]
-// CHECK3-NEXT:    [[TMP65:%.*]] = load float, ptr @_ZZ3foossssE2Sc, align 4
+// CHECK3-NEXT:    [[TMP65:%.*]] = load float, ptr @_ZZ3foossssE2Sc, align 4, !freeze_bits [[META10]]
 // CHECK3-NEXT:    [[CONV15:%.*]] = fptosi float [[TMP65]] to i32
 // CHECK3-NEXT:    [[ADD16:%.*]] = add nsw i32 [[ADD14]], [[CONV15]]
-// CHECK3-NEXT:    [[TMP66:%.*]] = load float, ptr @_ZZ3foossssE2Sd, align 4
+// CHECK3-NEXT:    [[TMP66:%.*]] = load float, ptr @_ZZ3foossssE2Sd, align 4, !freeze_bits [[META10]]
 // CHECK3-NEXT:    [[CONV17:%.*]] = fptosi float [[TMP66]] to i32
 // CHECK3-NEXT:    [[ADD18:%.*]] = add nsw i32 [[ADD16]], [[CONV17]]
 // CHECK3-NEXT:    ret i32 [[ADD18]]
@@ -1261,7 +1261,7 @@ int tbar2(short a, short b, short c, short d){
 // CHECK3-NEXT:    [[SD_ADDR:%.*]] = alloca i32, align 4
 // CHECK3-NEXT:    [[GB1:%.*]] = alloca double, align 8
 // CHECK3-NEXT:    [[GC2:%.*]] = alloca double, align 8
-// CHECK3-NEXT:    [[GD3:%.*]] = alloca double, align 8
+// CHECK3-NEXT:    [[GD4:%.*]] = alloca double, align 8
 // CHECK3-NEXT:    [[DOTTHREADID_TEMP_:%.*]] = alloca i32, align 4
 // CHECK3-NEXT:    [[DOTBOUND_ZERO_ADDR:%.*]] = alloca i32, align 4
 // CHECK3-NEXT:    [[TMP0:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1]])
@@ -1274,49 +1274,55 @@ int tbar2(short a, short b, short c, short d){
 // CHECK3-NEXT:    store i32 [[D]], ptr [[D_ADDR]], align 4
 // CHECK3-NEXT:    store ptr [[GD]], ptr [[GD_ADDR]], align 4
 // CHECK3-NEXT:    store i32 [[SD]], ptr [[SD_ADDR]], align 4
-// CHECK3-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[GB_ADDR]], align 4
-// CHECK3-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[GC_ADDR]], align 4
-// CHECK3-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[GD_ADDR]], align 4
-// CHECK3-NEXT:    [[TMP4:%.*]] = load double, ptr [[TMP1]], align 8
+// CHECK3-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[GB_ADDR]], align 4, !nonnull [[META10]], !align [[META11:![0-9]+]]
+// CHECK3-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[GC_ADDR]], align 4, !nonnull [[META10]], !align [[META11]]
+// CHECK3-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[GD_ADDR]], align 4, !nonnull [[META10]], !align [[META11]]
+// CHECK3-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// CHECK3-NEXT:    store double [[FREEZE_POISON]], ptr [[GB1]], align 8
+// CHECK3-NEXT:    [[TMP4:%.*]] = load double, ptr [[TMP1]], align 8, !freeze_bits [[META10]]
 // CHECK3-NEXT:    store double [[TMP4]], ptr [[GB1]], align 8
-// CHECK3-NEXT:    [[TMP5:%.*]] = load double, ptr [[TMP2]], align 8
+// CHECK3-NEXT:    [[FREEZE_POISON3:%.*]] = freeze double poison
+// CHECK3-NEXT:    store double [[FREEZE_POISON3]], ptr [[GC2]], align 8
+// CHECK3-NEXT:    [[TMP5:%.*]] = load double, ptr [[TMP2]], align 8, !freeze_bits [[META10]]
 // CHECK3-NEXT:    store double [[TMP5]], ptr [[GC2]], align 8
-// CHECK3-NEXT:    [[TMP6:%.*]] = load double, ptr [[TMP3]], align 8
-// CHECK3-NEXT:    store double [[TMP6]], ptr [[GD3]], align 8
-// CHECK3-NEXT:    [[TMP7:%.*]] = load i16, ptr [[B_ADDR]], align 2
+// CHECK3-NEXT:    [[FREEZE_POISON5:%.*]] = freeze double poison
+// CHECK3-NEXT:    store double [[FREEZE_POISON5]], ptr [[GD4]], align 8
+// CHECK3-NEXT:    [[TMP6:%.*]] = load double, ptr [[TMP3]], align 8, !freeze_bits [[META10]]
+// CHECK3-NEXT:    store double [[TMP6]], ptr [[GD4]], align 8
+// CHECK3-NEXT:    [[TMP7:%.*]] = load i16, ptr [[B_ADDR]], align 2, !freeze_bits [[META10]]
 // CHECK3-NEXT:    [[CONV:%.*]] = sext i16 [[TMP7]] to i32
 // CHECK3-NEXT:    [[ADD:%.*]] = add nsw i32 [[CONV]], 1
-// CHECK3-NEXT:    [[CONV4:%.*]] = trunc i32 [[ADD]] to i16
-// CHECK3-NEXT:    store i16 [[CONV4]], ptr [[B_ADDR]], align 2
+// CHECK3-NEXT:    [[CONV6:%.*]] = trunc i32 [[ADD]] to i16
+// CHECK3-NEXT:    store i16 [[CONV6]], ptr [[B_ADDR]], align 2
 // CHECK3-NEXT:    [[TMP8:%.*]] = load double, ptr [[GB1]], align 8
-// CHECK3-NEXT:    [[ADD5:%.*]] = fadd double [[TMP8]], 1.000000e+00
-// CHECK3-NEXT:    store double [[ADD5]], ptr [[GB1]], align 8
-// CHECK3-NEXT:    [[TMP9:%.*]] = load float, ptr [[SB_ADDR]], align 4
-// CHECK3-NEXT:    [[CONV6:%.*]] = fpext float [[TMP9]] to double
-// CHECK3-NEXT:    [[ADD7:%.*]] = fadd double [[CONV6]], 1.000000e+00
-// CHECK3-NEXT:    [[CONV8:%.*]] = fptrunc double [[ADD7]] to float
-// CHECK3-NEXT:    store float [[CONV8]], ptr [[SB_ADDR]], align 4
+// CHECK3-NEXT:    [[ADD7:%.*]] = fadd double [[TMP8]], 1.000000e+00
+// CHECK3-NEXT:    store double [[ADD7]], ptr [[GB1]], align 8
+// CHECK3-NEXT:    [[TMP9:%.*]] = load float, ptr [[SB_ADDR]], align 4, !freeze_bits [[META10]]
+// CHECK3-NEXT:    [[CONV8:%.*]] = fpext float [[TMP9]] to double
+// CHECK3-NEXT:    [[ADD9:%.*]] = fadd double [[CONV8]], 1.000000e+00
+// CHECK3-NEXT:    [[CONV10:%.*]] = fptrunc double [[ADD9]] to float
+// CHECK3-NEXT:    store float [[CONV10]], ptr [[SB_ADDR]], align 4
 // CHECK3-NEXT:    [[TMP10:%.*]] = load double, ptr [[GC2]], align 8
 // CHECK3-NEXT:    [[CMP:%.*]] = fcmp ogt double [[TMP10]], 0.000000e+00
 // CHECK3-NEXT:    br i1 [[CMP]], label [[LAND_LHS_TRUE:%.*]], label [[OMP_IF_ELSE:%.*]]
 // CHECK3:       land.lhs.true:
-// CHECK3-NEXT:    [[TMP11:%.*]] = load i16, ptr [[C_ADDR]], align 2
-// CHECK3-NEXT:    [[CONV9:%.*]] = sext i16 [[TMP11]] to i32
-// CHECK3-NEXT:    [[CMP10:%.*]] = icmp sgt i32 [[CONV9]], 0
-// CHECK3-NEXT:    br i1 [[CMP10]], label [[LAND_LHS_TRUE11:%.*]], label [[OMP_IF_ELSE]]
-// CHECK3:       land.lhs.true11:
-// CHECK3-NEXT:    [[TMP12:%.*]] = load float, ptr [[SC_ADDR]], align 4
-// CHECK3-NEXT:    [[CONV12:%.*]] = fpext float [[TMP12]] to double
-// CHECK3-NEXT:    [[CMP13:%.*]] = fcmp ogt double [[CONV12]], 0.000000e+00
-// CHECK3-NEXT:    br i1 [[CMP13]], label [[OMP_IF_THEN:%.*]], label [[OMP_IF_ELSE]]
+// CHECK3-NEXT:    [[TMP11:%.*]] = load i16, ptr [[C_ADDR]], align 2, !freeze_bits [[META10]]
+// CHECK3-NEXT:    [[CONV11:%.*]] = sext i16 [[TMP11]] to i32
+// CHECK3-NEXT:    [[CMP12:%.*]] = icmp sgt i32 [[CONV11]], 0
+// CHECK3-NEXT:    br i1 [[CMP12]], label [[LAND_LHS_TRUE13:%.*]], label [[OMP_IF_ELSE]]
+// CHECK3:       land.lhs.true13:
+// CHECK3-NEXT:    [[TMP12:%.*]] = load float, ptr [[SC_ADDR]], align 4, !freeze_bits [[META10]]
+// CHECK3-NEXT:    [[CONV14:%.*]] = fpext float [[TMP12]] to double
+// CHECK3-NEXT:    [[CMP15:%.*]] = fcmp ogt double [[CONV14]], 0.000000e+00
+// CHECK3-NEXT:    br i1 [[CMP15]], label [[OMP_IF_THEN:%.*]], label [[OMP_IF_ELSE]]
 // CHECK3:       omp_if.then:
-// CHECK3-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB1]], i32 3, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__Z3foossss_l49.omp_outlined, ptr [[D_ADDR]], ptr [[GD3]], ptr [[SD_ADDR]])
+// CHECK3-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB1]], i32 3, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__Z3foossss_l49.omp_outlined, ptr [[D_ADDR]], ptr [[GD4]], ptr [[SD_ADDR]])
 // CHECK3-NEXT:    br label [[OMP_IF_END:%.*]]
 // CHECK3:       omp_if.else:
 // CHECK3-NEXT:    call void @__kmpc_serialized_parallel(ptr @[[GLOB1]], i32 [[TMP0]])
 // CHECK3-NEXT:    store i32 [[TMP0]], ptr [[DOTTHREADID_TEMP_]], align 4
 // CHECK3-NEXT:    store i32 0, ptr [[DOTBOUND_ZERO_ADDR]], align 4
-// CHECK3-NEXT:    call void @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__Z3foossss_l49.omp_outlined(ptr [[DOTTHREADID_TEMP_]], ptr [[DOTBOUND_ZERO_ADDR]], ptr [[D_ADDR]], ptr [[GD3]], ptr [[SD_ADDR]]) #[[ATTR2]]
+// CHECK3-NEXT:    call void @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__Z3foossss_l49.omp_outlined(ptr [[DOTTHREADID_TEMP_]], ptr [[DOTBOUND_ZERO_ADDR]], ptr [[D_ADDR]], ptr [[GD4]], ptr [[SD_ADDR]]) #[[ATTR2]]
 // CHECK3-NEXT:    call void @__kmpc_end_serialized_parallel(ptr @[[GLOB1]], i32 [[TMP0]])
 // CHECK3-NEXT:    br label [[OMP_IF_END]]
 // CHECK3:       omp_if.end:
@@ -1336,18 +1342,18 @@ int tbar2(short a, short b, short c, short d){
 // CHECK3-NEXT:    store ptr [[D]], ptr [[D_ADDR]], align 4
 // CHECK3-NEXT:    store ptr [[GD]], ptr [[GD_ADDR]], align 4
 // CHECK3-NEXT:    store ptr [[SD]], ptr [[SD_ADDR]], align 4
-// CHECK3-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[D_ADDR]], align 4
-// CHECK3-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[GD_ADDR]], align 4
-// CHECK3-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[SD_ADDR]], align 4
-// CHECK3-NEXT:    [[TMP3:%.*]] = load i16, ptr [[TMP0]], align 2
+// CHECK3-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[D_ADDR]], align 4, !nonnull [[META10]], !align [[META12:![0-9]+]]
+// CHECK3-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[GD_ADDR]], align 4, !nonnull [[META10]], !align [[META11]]
+// CHECK3-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[SD_ADDR]], align 4, !nonnull [[META10]], !align [[META11]]
+// CHECK3-NEXT:    [[TMP3:%.*]] = load i16, ptr [[TMP0]], align 2, !freeze_bits [[META10]]
 // CHECK3-NEXT:    [[CONV:%.*]] = sext i16 [[TMP3]] to i32
 // CHECK3-NEXT:    [[ADD:%.*]] = add nsw i32 [[CONV]], 1
 // CHECK3-NEXT:    [[CONV1:%.*]] = trunc i32 [[ADD]] to i16
 // CHECK3-NEXT:    store i16 [[CONV1]], ptr [[TMP0]], align 2
-// CHECK3-NEXT:    [[TMP4:%.*]] = load double, ptr [[TMP1]], align 8
+// CHECK3-NEXT:    [[TMP4:%.*]] = load double, ptr [[TMP1]], align 8, !freeze_bits [[META10]]
 // CHECK3-NEXT:    [[ADD2:%.*]] = fadd double [[TMP4]], 1.000000e+00
 // CHECK3-NEXT:    store double [[ADD2]], ptr [[TMP1]], align 8
-// CHECK3-NEXT:    [[TMP5:%.*]] = load float, ptr [[TMP2]], align 4
+// CHECK3-NEXT:    [[TMP5:%.*]] = load float, ptr [[TMP2]], align 4, !freeze_bits [[META10]]
 // CHECK3-NEXT:    [[CONV3:%.*]] = fpext float [[TMP5]] to double
 // CHECK3-NEXT:    [[ADD4:%.*]] = fadd double [[CONV3]], 1.000000e+00
 // CHECK3-NEXT:    [[CONV5:%.*]] = fptrunc double [[ADD4]] to float
@@ -1378,16 +1384,16 @@ int tbar2(short a, short b, short c, short d){
 // CHECK3-NEXT:    [[TMP3:%.*]] = load i16, ptr [[D_ADDR]], align 2
 // CHECK3-NEXT:    [[CONV4:%.*]] = sext i16 [[TMP3]] to i32
 // CHECK3-NEXT:    [[ADD5:%.*]] = add nsw i32 [[ADD3]], [[CONV4]]
-// CHECK3-NEXT:    [[TMP4:%.*]] = load float, ptr @_ZZ3barssssE2Sa, align 4
+// CHECK3-NEXT:    [[TMP4:%.*]] = load float, ptr @_ZZ3barssssE2Sa, align 4, !freeze_bits [[META10]]
 // CHECK3-NEXT:    [[CONV6:%.*]] = fptosi float [[TMP4]] to i32
 // CHECK3-NEXT:    [[ADD7:%.*]] = add nsw i32 [[ADD5]], [[CONV6]]
-// CHECK3-NEXT:    [[TMP5:%.*]] = load float, ptr @_ZZ3barssssE2Sb, align 4
+// CHECK3-NEXT:    [[TMP5:%.*]] = load float, ptr @_ZZ3barssssE2Sb, align 4, !freeze_bits [[META10]]
 // CHECK3-NEXT:    [[CONV8:%.*]] = fptosi float [[TMP5]] to i32
 // CHECK3-NEXT:    [[ADD9:%.*]] = add nsw i32 [[ADD7]], [[CONV8]]
-// CHECK3-NEXT:    [[TMP6:%.*]] = load float, ptr @_ZZ3barssssE2Sc, align 4
+// CHECK3-NEXT:    [[TMP6:%.*]] = load float, ptr @_ZZ3barssssE2Sc, align 4, !freeze_bits [[META10]]
 // CHECK3-NEXT:    [[CONV10:%.*]] = fptosi float [[TMP6]] to i32
 // CHECK3-NEXT:    [[ADD11:%.*]] = add nsw i32 [[ADD9]], [[CONV10]]
-// CHECK3-NEXT:    [[TMP7:%.*]] = load float, ptr @_ZZ3barssssE2Sd, align 4
+// CHECK3-NEXT:    [[TMP7:%.*]] = load float, ptr @_ZZ3barssssE2Sd, align 4, !freeze_bits [[META10]]
 // CHECK3-NEXT:    [[CONV12:%.*]] = fptosi float [[TMP7]] to i32
 // CHECK3-NEXT:    [[ADD13:%.*]] = add nsw i32 [[ADD11]], [[CONV12]]
 // CHECK3-NEXT:    ret i32 [[ADD13]]
@@ -1418,38 +1424,38 @@ int tbar2(short a, short b, short c, short d){
 // CHECK3-NEXT:    store ptr [[B]], ptr [[B_ADDR]], align 4
 // CHECK3-NEXT:    store ptr [[C]], ptr [[C_ADDR]], align 4
 // CHECK3-NEXT:    store ptr [[D]], ptr [[D_ADDR]], align 4
-// CHECK3-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[A_ADDR]], align 4
-// CHECK3-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[B_ADDR]], align 4
-// CHECK3-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[C_ADDR]], align 4
-// CHECK3-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[D_ADDR]], align 4
-// CHECK3-NEXT:    [[TMP4:%.*]] = load i16, ptr [[TMP1]], align 2
+// CHECK3-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[A_ADDR]], align 4, !nonnull [[META10]], !align [[META12]]
+// CHECK3-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[B_ADDR]], align 4, !nonnull [[META10]], !align [[META12]]
+// CHECK3-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[C_ADDR]], align 4, !nonnull [[META10]], !align [[META12]]
+// CHECK3-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[D_ADDR]], align 4, !nonnull [[META10]], !align [[META12]]
+// CHECK3-NEXT:    [[TMP4:%.*]] = load i16, ptr [[TMP1]], align 2, !freeze_bits [[META10]]
 // CHECK3-NEXT:    store i16 [[TMP4]], ptr [[B_CASTED]], align 2
-// CHECK3-NEXT:    [[TMP5:%.*]] = load i32, ptr [[B_CASTED]], align 4
-// CHECK3-NEXT:    [[TMP6:%.*]] = load float, ptr @_ZZ3barssssE2Sb, align 4
+// CHECK3-NEXT:    [[TMP5:%.*]] = load i32, ptr [[B_CASTED]], align 4, !freeze_bits [[META10]]
+// CHECK3-NEXT:    [[TMP6:%.*]] = load float, ptr @_ZZ3barssssE2Sb, align 4, !freeze_bits [[META10]]
 // CHECK3-NEXT:    store float [[TMP6]], ptr [[SB_CASTED]], align 4
-// CHECK3-NEXT:    [[TMP7:%.*]] = load i32, ptr [[SB_CASTED]], align 4
-// CHECK3-NEXT:    [[TMP8:%.*]] = load i16, ptr [[TMP2]], align 2
+// CHECK3-NEXT:    [[TMP7:%.*]] = load i32, ptr [[SB_CASTED]], align 4, !freeze_bits [[META10]]
+// CHECK3-NEXT:    [[TMP8:%.*]] = load i16, ptr [[TMP2]], align 2, !freeze_bits [[META10]]
 // CHECK3-NEXT:    store i16 [[TMP8]], ptr [[C_CASTED]], align 2
-// CHECK3-NEXT:    [[TMP9:%.*]] = load i32, ptr [[C_CASTED]], align 4
-// CHECK3-NEXT:    [[TMP10:%.*]] = load float, ptr @_ZZ3barssssE2Sc, align 4
+// CHECK3-NEXT:    [[TMP9:%.*]] = load i32, ptr [[C_CASTED]], align 4, !freeze_bits [[META10]]
+// CHECK3-NEXT:    [[TMP10:%.*]] = load float, ptr @_ZZ3barssssE2Sc, align 4, !freeze_bits [[META10]]
 // CHECK3-NEXT:    store float [[TMP10]], ptr [[SC_CASTED]], align 4
-// CHECK3-NEXT:    [[TMP11:%.*]] = load i32, ptr [[SC_CASTED]], align 4
-// CHECK3-NEXT:    [[TMP12:%.*]] = load i16, ptr [[TMP3]], align 2
+// CHECK3-NEXT:    [[TMP11:%.*]] = load i32, ptr [[SC_CASTED]], align 4, !freeze_bits [[META10]]
+// CHECK3-NEXT:    [[TMP12:%.*]] = load i16, ptr [[TMP3]], align 2, !freeze_bits [[META10]]
 // CHECK3-NEXT:    store i16 [[TMP12]], ptr [[D_CASTED]], align 2
-// CHECK3-NEXT:    [[TMP13:%.*]] = load i32, ptr [[D_CASTED]], align 4
-// CHECK3-NEXT:    [[TMP14:%.*]] = load float, ptr @_ZZ3barssssE2Sd, align 4
+// CHECK3-NEXT:    [[TMP13:%.*]] = load i32, ptr [[D_CASTED]], align 4, !freeze_bits [[META10]]
+// CHECK3-NEXT:    [[TMP14:%.*]] = load float, ptr @_ZZ3barssssE2Sd, align 4, !freeze_bits [[META10]]
 // CHECK3-NEXT:    store float [[TMP14]], ptr [[SD_CASTED]], align 4
-// CHECK3-NEXT:    [[TMP15:%.*]] = load i32, ptr [[SD_CASTED]], align 4
-// CHECK3-NEXT:    [[TMP16:%.*]] = load double, ptr @Ga, align 8
+// CHECK3-NEXT:    [[TMP15:%.*]] = load i32, ptr [[SD_CASTED]], align 4, !freeze_bits [[META10]]
+// CHECK3-NEXT:    [[TMP16:%.*]] = load double, ptr @Ga, align 8, !freeze_bits [[META10]]
 // CHECK3-NEXT:    [[CMP:%.*]] = fcmp ogt double [[TMP16]], 0.000000e+00
 // CHECK3-NEXT:    br i1 [[CMP]], label [[LAND_LHS_TRUE:%.*]], label [[OMP_IF_ELSE:%.*]]
 // CHECK3:       land.lhs.true:
-// CHECK3-NEXT:    [[TMP17:%.*]] = load i16, ptr [[TMP0]], align 2
+// CHECK3-NEXT:    [[TMP17:%.*]] = load i16, ptr [[TMP0]], align 2, !freeze_bits [[META10]]
 // CHECK3-NEXT:    [[CONV:%.*]] = sext i16 [[TMP17]] to i32
 // CHECK3-NEXT:    [[CMP1:%.*]] = icmp sgt i32 [[CONV]], 0
 // CHECK3-NEXT:    br i1 [[CMP1]], label [[LAND_LHS_TRUE2:%.*]], label [[OMP_IF_ELSE]]
 // CHECK3:       land.lhs.true2:
-// CHECK3-NEXT:    [[TMP18:%.*]] = load float, ptr @_ZZ3barssssE2Sa, align 4
+// CHECK3-NEXT:    [[TMP18:%.*]] = load float, ptr @_ZZ3barssssE2Sa, align 4, !freeze_bits [[META10]]
 // CHECK3-NEXT:    [[CONV3:%.*]] = fpext float [[TMP18]] to double
 // CHECK3-NEXT:    [[CMP4:%.*]] = fcmp ogt double [[CONV3]], 0.000000e+00
 // CHECK3-NEXT:    br i1 [[CMP4]], label [[OMP_IF_THEN:%.*]], label [[OMP_IF_ELSE]]
@@ -1565,7 +1571,7 @@ int tbar2(short a, short b, short c, short d){
 // CHECK3-NEXT:    [[SD_ADDR:%.*]] = alloca i32, align 4
 // CHECK3-NEXT:    [[GB1:%.*]] = alloca double, align 8
 // CHECK3-NEXT:    [[GC2:%.*]] = alloca double, align 8
-// CHECK3-NEXT:    [[GD3:%.*]] = alloca double, align 8
+// CHECK3-NEXT:    [[GD4:%.*]] = alloca double, align 8
 // CHECK3-NEXT:    [[DOTTHREADID_TEMP_:%.*]] = alloca i32, align 4
 // CHECK3-NEXT:    [[DOTBOUND_ZERO_ADDR:%.*]] = alloca i32, align 4
 // CHECK3-NEXT:    [[TMP0:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1]])
@@ -1578,49 +1584,55 @@ int tbar2(short a, short b, short c, short d){
 // CHECK3-NEXT:    store i32 [[D]], ptr [[D_ADDR]], align 4
 // CHECK3-NEXT:    store ptr [[GD]], ptr [[GD_ADDR]], align 4
 // CHECK3-NEXT:    store i32 [[SD]], ptr [[SD_ADDR]], align 4
-// CHECK3-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[GB_ADDR]], align 4
-// CHECK3-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[GC_ADDR]], align 4
-// CHECK3-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[GD_ADDR]], align 4
-// CHECK3-NEXT:    [[TMP4:%.*]] = load double, ptr [[TMP1]], align 8
+// CHECK3-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[GB_ADDR]], align 4, !nonnull [[META10]], !align [[META11]]
+// CHECK3-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[GC_ADDR]], align 4, !nonnull [[META10]], !align [[META11]]
+// CHECK3-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[GD_ADDR]], align 4, !nonnull [[META10]], !align [[META11]]
+// CHECK3-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// CHECK3-NEXT:    store double [[FREEZE_POISON]], ptr [[GB1]], align 8
+// CHECK3-NEXT:    [[TMP4:%.*]] = load double, ptr [[TMP1]], align 8, !freeze_bits [[META10]]
 // CHECK3-NEXT:    store double [[TMP4]], ptr [[GB1]], align 8
-// CHECK3-NEXT:    [[TMP5:%.*]] = load double, ptr [[TMP2]], align 8
+// CHECK3-NEXT:    [[FREEZE_POISON3:%.*]] = freeze double poison
+// CHECK3-NEXT:    store double [[FREEZE_POISON3]], ptr [[GC2]], align 8
+// CHECK3-NEXT:    [[TMP5:%.*]] = load double, ptr [[TMP2]], align 8, !freeze_bits [[META10]]
 // CHECK3-NEXT:    store double [[TMP5]], ptr [[GC2]], align 8
-// CHECK3-NEXT:    [[TMP6:%.*]] = load double, ptr [[TMP3]], align 8
-// CHECK3-NEXT:    store double [[TMP6]], ptr [[GD3]], align 8
-// CHECK3-NEXT:    [[TMP7:%.*]] = load i16, ptr [[B_ADDR]], align 2
+// CHECK3-NEXT:    [[FREEZE_POISON5:%.*]] = freeze double poison
+// CHECK3-NEXT:    store double [[FREEZE_POISON5]], ptr [[GD4]], align 8
+// CHECK3-NEXT:    [[TMP6:%.*]] = load double, ptr [[TMP3]], align 8, !freeze_bits [[META10]]
+// CHECK3-NEXT:    store double [[TMP6]], ptr [[GD4]], align 8
+// CHECK3-NEXT:    [[TMP7:%.*]] = load i16, ptr [[B_ADDR]], align 2, !freeze_bits [[META10]]
 // CHECK3-NEXT:    [[CONV:%.*]] = sext i16 [[TMP7]] to i32
 // CHECK3-NEXT:    [[ADD:%.*]] = add nsw i32 [[CONV]], 1
-// CHECK3-NEXT:    [[CONV4:%.*]] = trunc i32 [[ADD]] to i16
-// CHECK3-NEXT:    store i16 [[CONV4]], ptr [[B_ADDR]], align 2
+// CHECK3-NEXT:    [[CONV6:%.*]] = trunc i32 [[ADD]] to i16
+// CHECK3-NEXT:    store i16 [[CONV6]], ptr [[B_ADDR]], align 2
 // CHECK3-NEXT:    [[TMP8:%.*]] = load double, ptr [[GB1]], align 8
-// CHECK3-NEXT:    [[ADD5:%.*]] = fadd double [[TMP8]], 1.000000e+00
-// CHECK3-NEXT:    store double [[ADD5]], ptr [[GB1]], align 8
-// CHECK3-NEXT:    [[TMP9:%.*]] = load float, ptr [[SB_ADDR]], align 4
-// CHECK3-NEXT:    [[CONV6:%.*]] = fpext float [[TMP9]] to double
-// CHECK3-NEXT:    [[ADD7:%.*]] = fadd double [[CONV6]], 1.000000e+00
-// CHECK3-NEXT:    [[CONV8:%.*]] = fptrunc double [[ADD7]] to float
-// CHECK3-NEXT:    store float [[CONV8]], ptr [[SB_ADDR]], align 4
+// CHECK3-NEXT:    [[ADD7:%.*]] = fadd double [[TMP8]], 1.000000e+00
+// CHECK3-NEXT:    store double [[ADD7]], ptr [[GB1]], align 8
+// CHECK3-NEXT:    [[TMP9:%.*]] = load float, ptr [[SB_ADDR]], align 4, !freeze_bits [[META10]]
+// CHECK3-NEXT:    [[CONV8:%.*]] = fpext float [[TMP9]] to double
+// CHECK3-NEXT:    [[ADD9:%.*]] = fadd double [[CONV8]], 1.000000e+00
+// CHECK3-NEXT:    [[CONV10:%.*]] = fptrunc double [[ADD9]] to float
+// CHECK3-NEXT:    store float [[CONV10]], ptr [[SB_ADDR]], align 4
 // CHECK3-NEXT:    [[TMP10:%.*]] = load double, ptr [[GC2]], align 8
 // CHECK3-NEXT:    [[CMP:%.*]] = fcmp ogt double [[TMP10]], 0.000000e+00
 // CHECK3-NEXT:    br i1 [[CMP]], label [[LAND_LHS_TRUE:%.*]], label [[OMP_IF_ELSE:%.*]]
 // CHECK3:       land.lhs.true:
-// CHECK3-NEXT:    [[TMP11:%.*]] = load i16, ptr [[C_ADDR]], align 2
-// CHECK3-NEXT:    [[CONV9:%.*]] = sext i16 [[TMP11]] to i32
-// CHECK3-NEXT:    [[CMP10:%.*]] = icmp sgt i32 [[CONV9]], 0
-// CHECK3-NEXT:    br i1 [[CMP10]], label [[LAND_LHS_TRUE11:%.*]], label [[OMP_IF_ELSE]]
-// CHECK3:       land.lhs.true11:
-// CHECK3-NEXT:    [[TMP12:%.*]] = load float, ptr [[SC_ADDR]], align 4
-// CHECK3-NEXT:    [[CONV12:%.*]] = fpext float [[TMP12]] to double
-// CHECK3-NEXT:    [[CMP13:%.*]] = fcmp ogt double [[CONV12]], 0.000000e+00
-// CHECK3-NEXT:    br i1 [[CMP13]], label [[OMP_IF_THEN:%.*]], label [[OMP_IF_ELSE]]
+// CHECK3-NEXT:    [[TMP11:%.*]] = load i16, ptr [[C_ADDR]], align 2, !freeze_bits [[META10]]
+// CHECK3-NEXT:    [[CONV11:%.*]] = sext i16 [[TMP11]] to i32
+// CHECK3-NEXT:    [[CMP12:%.*]] = icmp sgt i32 [[CONV11]], 0
+// CHECK3-NEXT:    br i1 [[CMP12]], label [[LAND_LHS_TRUE13:%.*]], label [[OMP_IF_ELSE]]
+// CHECK3:       land.lhs.true13:
+// CHECK3-NEXT:    [[TMP12:%.*]] = load float, ptr [[SC_ADDR]], align 4, !freeze_bits [[META10]]
+// CHECK3-NEXT:    [[CONV14:%.*]] = fpext float [[TMP12]] to double
+// CHECK3-NEXT:    [[CMP15:%.*]] = fcmp ogt double [[CONV14]], 0.000000e+00
+// CHECK3-NEXT:    br i1 [[CMP15]], label [[OMP_IF_THEN:%.*]], label [[OMP_IF_ELSE]]
 // CHECK3:       omp_if.then:
-// CHECK3-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB1]], i32 3, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__Z3barssss_l94.omp_outlined, ptr [[D_ADDR]], ptr [[GD3]], ptr [[SD_ADDR]])
+// CHECK3-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB1]], i32 3, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__Z3barssss_l94.omp_outlined, ptr [[D_ADDR]], ptr [[GD4]], ptr [[SD_ADDR]])
 // CHECK3-NEXT:    br label [[OMP_IF_END:%.*]]
 // CHECK3:       omp_if.else:
 // CHECK3-NEXT:    call void @__kmpc_serialized_parallel(ptr @[[GLOB1]], i32 [[TMP0]])
 // CHECK3-NEXT:    store i32 [[TMP0]], ptr [[DOTTHREADID_TEMP_]], align 4
 // CHECK3-NEXT:    store i32 0, ptr [[DOTBOUND_ZERO_ADDR]], align 4
-// CHECK3-NEXT:    call void @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__Z3barssss_l94.omp_outlined(ptr [[DOTTHREADID_TEMP_]], ptr [[DOTBOUND_ZERO_ADDR]], ptr [[D_ADDR]], ptr [[GD3]], ptr [[SD_ADDR]]) #[[ATTR2]]
+// CHECK3-NEXT:    call void @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__Z3barssss_l94.omp_outlined(ptr [[DOTTHREADID_TEMP_]], ptr [[DOTBOUND_ZERO_ADDR]], ptr [[D_ADDR]], ptr [[GD4]], ptr [[SD_ADDR]]) #[[ATTR2]]
 // CHECK3-NEXT:    call void @__kmpc_end_serialized_parallel(ptr @[[GLOB1]], i32 [[TMP0]])
 // CHECK3-NEXT:    br label [[OMP_IF_END]]
 // CHECK3:       omp_if.end:
@@ -1640,18 +1652,18 @@ int tbar2(short a, short b, short c, short d){
 // CHECK3-NEXT:    store ptr [[D]], ptr [[D_ADDR]], align 4
 // CHECK3-NEXT:    store ptr [[GD]], ptr [[GD_ADDR]], align 4
 // CHECK3-NEXT:    store ptr [[SD]], ptr [[SD_ADDR]], align 4
-// CHECK3-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[D_ADDR]], align 4
-// CHECK3-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[GD_ADDR]], align 4
-// CHECK3-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[SD_ADDR]], align 4
-// CHECK3-NEXT:    [[TMP3:%.*]] = load i16, ptr [[TMP0]], align 2
+// CHECK3-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[D_ADDR]], align 4, !nonnull [[META10]], !align [[META12]]
+// CHECK3-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[GD_ADDR]], align 4, !nonnull [[META10]], !align [[META11]]
+// CHECK3-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[SD_ADDR]], align 4, !nonnull [[META10]], !align [[META11]]
+// CHECK3-NEXT:    [[TMP3:%.*]] = load i16, ptr [[TMP0]], align 2, !freeze_bits [[META10]]
 // CHECK3-NEXT:    [[CONV:%.*]] = sext i16 [[TMP3]] to i32
 // CHECK3-NEXT:    [[ADD:%.*]] = add nsw i32 [[CONV]], 1
 // CHECK3-NEXT:    [[CONV1:%.*]] = trunc i32 [[ADD]] to i16
 // CHECK3-NEXT:    store i16 [[CONV1]], ptr [[TMP0]], align 2
-// CHECK3-NEXT:    [[TMP4:%.*]] = load double, ptr [[TMP1]], align 8
+// CHECK3-NEXT:    [[TMP4:%.*]] = load double, ptr [[TMP1]], align 8, !freeze_bits [[META10]]
 // CHECK3-NEXT:    [[ADD2:%.*]] = fadd double [[TMP4]], 1.000000e+00
 // CHECK3-NEXT:    store double [[ADD2]], ptr [[TMP1]], align 8
-// CHECK3-NEXT:    [[TMP5:%.*]] = load float, ptr [[TMP2]], align 4
+// CHECK3-NEXT:    [[TMP5:%.*]] = load float, ptr [[TMP2]], align 4, !freeze_bits [[META10]]
 // CHECK3-NEXT:    [[CONV3:%.*]] = fpext float [[TMP5]] to double
 // CHECK3-NEXT:    [[ADD4:%.*]] = fadd double [[CONV3]], 1.000000e+00
 // CHECK3-NEXT:    [[CONV5:%.*]] = fptrunc double [[ADD4]] to float
@@ -1701,16 +1713,16 @@ int tbar2(short a, short b, short c, short d){
 // CHECK3-NEXT:    [[TMP3:%.*]] = load i16, ptr [[D_ADDR]], align 2
 // CHECK3-NEXT:    [[CONV4:%.*]] = sext i16 [[TMP3]] to i32
 // CHECK3-NEXT:    [[ADD5:%.*]] = add nsw i32 [[ADD3]], [[CONV4]]
-// CHECK3-NEXT:    [[TMP4:%.*]] = load float, ptr @_ZZ4tbarIsEiT_S0_S0_S0_E2Sa, align 4
+// CHECK3-NEXT:    [[TMP4:%.*]] = load float, ptr @_ZZ4tbarIsEiT_S0_S0_S0_E2Sa, align 4, !freeze_bits [[META10]]
 // CHECK3-NEXT:    [[CONV6:%.*]] = fptosi float [[TMP4]] to i32
 // CHECK3-NEXT:    [[ADD7:%.*]] = add nsw i32 [[ADD5]], [[CONV6]]
-// CHECK3-NEXT:    [[TMP5:%.*]] = load float, ptr @_ZZ4tbarIsEiT_S0_S0_S0_E2Sb, align 4
+// CHECK3-NEXT:    [[TMP5:%.*]] = load float, ptr @_ZZ4tbarIsEiT_S0_S0_S0_E2Sb, align 4, !freeze_bits [[META10]]
 // CHECK3-NEXT:    [[CONV8:%.*]] = fptosi float [[TMP5]] to i32
 // CHECK3-NEXT:    [[ADD9:%.*]] = add nsw i32 [[ADD7]], [[CONV8]]
-// CHECK3-NEXT:    [[TMP6:%.*]] = load float, ptr @_ZZ4tbarIsEiT_S0_S0_S0_E2Sc, align 4
+// CHECK3-NEXT:    [[TMP6:%.*]] = load float, ptr @_ZZ4tbarIsEiT_S0_S0_S0_E2Sc, align 4, !freeze_bits [[META10]]
 // CHECK3-NEXT:    [[CONV10:%.*]] = fptosi float [[TMP6]] to i32
 // CHECK3-NEXT:    [[ADD11:%.*]] = add nsw i32 [[ADD9]], [[CONV10]]
-// CHECK3-NEXT:    [[TMP7:%.*]] = load float, ptr @_ZZ4tbarIsEiT_S0_S0_S0_E2Sd, align 4
+// CHECK3-NEXT:    [[TMP7:%.*]] = load float, ptr @_ZZ4tbarIsEiT_S0_S0_S0_E2Sd, align 4, !freeze_bits [[META10]]
 // CHECK3-NEXT:    [[CONV12:%.*]] = fptosi float [[TMP7]] to i32
 // CHECK3-NEXT:    [[ADD13:%.*]] = add nsw i32 [[ADD11]], [[CONV12]]
 // CHECK3-NEXT:    ret i32 [[ADD13]]
@@ -1741,38 +1753,38 @@ int tbar2(short a, short b, short c, short d){
 // CHECK3-NEXT:    store ptr [[B]], ptr [[B_ADDR]], align 4
 // CHECK3-NEXT:    store ptr [[C]], ptr [[C_ADDR]], align 4
 // CHECK3-NEXT:    store ptr [[D]], ptr [[D_ADDR]], align 4
-// CHECK3-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[A_ADDR]], align 4
-// CHECK3-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[B_ADDR]], align 4
-// CHECK3-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[C_ADDR]], align 4
-// CHECK3-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[D_ADDR]], align 4
-// CHECK3-NEXT:    [[TMP4:%.*]] = load i16, ptr [[TMP1]], align 2
+// CHECK3-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[A_ADDR]], align 4, !nonnull [[META10]], !align [[META12]]
+// CHECK3-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[B_ADDR]], align 4, !nonnull [[META10]], !align [[META12]]
+// CHECK3-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[C_ADDR]], align 4, !nonnull [[META10]], !align [[META12]]
+// CHECK3-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[D_ADDR]], align 4, !nonnull [[META10]], !align [[META12]]
+// CHECK3-NEXT:    [[TMP4:%.*]] = load i16, ptr [[TMP1]], align 2, !freeze_bits [[META10]]
 // CHECK3-NEXT:    store i16 [[TMP4]], ptr [[B_CASTED]], align 2
-// CHECK3-NEXT:    [[TMP5:%.*]] = load i32, ptr [[B_CASTED]], align 4
-// CHECK3-NEXT:    [[TMP6:%.*]] = load float, ptr @_ZZ4tbarIsEiT_S0_S0_S0_E2Sb, align 4
+// CHECK3-NEXT:    [[TMP5:%.*]] = load i32, ptr [[B_CASTED]], align 4, !freeze_bits [[META10]]
+// CHECK3-NEXT:    [[TMP6:%.*]] = load float, ptr @_ZZ4tbarIsEiT_S0_S0_S0_E2Sb, align 4, !freeze_bits [[META10]]
 // CHECK3-NEXT:    store float [[TMP6]], ptr [[SB_CASTED]], align 4
-// CHECK3-NEXT:    [[TMP7:%.*]] = load i32, ptr [[SB_CASTED]], align 4
-// CHECK3-NEXT:    [[TMP8:%.*]] = load i16, ptr [[TMP2]], align 2
+// CHECK3-NEXT:    [[TMP7:%.*]] = load i32, ptr [[SB_CASTED]], align 4, !freeze_bits [[META10]]
+// CHECK3-NEXT:    [[TMP8:%.*]] = load i16, ptr [[TMP2]], align 2, !freeze_bits [[META10]]
 // CHECK3-NEXT:    store i16 [[TMP8]], ptr [[C_CASTED]], align 2
-// CHECK3-NEXT:    [[TMP9:%.*]] = load i32, ptr [[C_CASTED]], align 4
-// CHECK3-NEXT:    [[TMP10:%.*]] = load float, ptr @_ZZ4tbarIsEiT_S0_S0_S0_E2Sc, align 4
+// CHECK3-NEXT:    [[TMP9:%.*]] = load i32, ptr [[C_CASTED]], align 4, !freeze_bits [[META10]]
+// CHECK3-NEXT:    [[TMP10:%.*]] = load float, ptr @_ZZ4tbarIsEiT_S0_S0_S0_E2Sc, align 4, !freeze_bits [[META10]]
 // CHECK3-NEXT:    store float [[TMP10]], ptr [[SC_CASTED]], align 4
-// CHECK3-NEXT:    [[TMP11:%.*]] = load i32, ptr [[SC_CASTED]], align 4
-// CHECK3-NEXT:    [[TMP12:%.*]] = load i16, ptr [[TMP3]], align 2
+// CHECK3-NEXT:    [[TMP11:%.*]] = load i32, ptr [[SC_CASTED]], align 4, !freeze_bits [[META10]]
+// CHECK3-NEXT:    [[TMP12:%.*]] = load i16, ptr [[TMP3]], align 2, !freeze_bits [[META10]]
 // CHECK3-NEXT:    store i16 [[TMP12]], ptr [[D_CASTED]], align 2
-// CHECK3-NEXT:    [[TMP13:%.*]] = load i32, ptr [[D_CASTED]], align 4
-// CHECK3-NEXT:    [[TMP14:%.*]] = load float, ptr @_ZZ4tbarIsEiT_S0_S0_S0_E2Sd, align 4
+// CHECK3-NEXT:    [[TMP13:%.*]] = load i32, ptr [[D_CASTED]], align 4, !freeze_bits [[META10]]
+// CHECK3-NEXT:    [[TMP14:%.*]] = load float, ptr @_ZZ4tbarIsEiT_S0_S0_S0_E2Sd, align 4, !freeze_bits [[META10]]
 // CHECK3-NEXT:    store float [[TMP14]], ptr [[SD_CASTED]], align 4
-// CHECK3-NEXT:    [[TMP15:%.*]] = load i32, ptr [[SD_CASTED]], align 4
-// CHECK3-NEXT:    [[TMP16:%.*]] = load double, ptr @Ga, align 8
+// CHECK3-NEXT:    [[TMP15:%.*]] = load i32, ptr [[SD_CASTED]], align 4, !freeze_bits [[META10]]
+// CHECK3-NEXT:    [[TMP16:%.*]] = load double, ptr @Ga, align 8, !freeze_bits [[META10]]
 // CHECK3-NEXT:    [[CMP:%.*]] = fcmp ogt double [[TMP16]], 0.000000e+00
 // CHECK3-NEXT:    br i1 [[CMP]], label [[LAND_LHS_TRUE:%.*]], label [[OMP_IF_ELSE:%.*]]
 // CHECK3:       land.lhs.true:
-// CHECK3-NEXT:    [[TMP17:%.*]] = load i16, ptr [[TMP0]], align 2
+// CHECK3-NEXT:    [[TMP17:%.*]] = load i16, ptr [[TMP0]], align 2, !freeze_bits [[META10]]
 // CHECK3-NEXT:    [[CONV:%.*]] = sext i16 [[TMP17]] to i32
 // CHECK3-NEXT:    [[CMP1:%.*]] = icmp sgt i32 [[CONV]], 0
 // CHECK3-NEXT:    br i1 [[CMP1]], label [[LAND_LHS_TRUE2:%.*]], label [[OMP_IF_ELSE]]
 // CHECK3:       land.lhs.true2:
-// CHECK3-NEXT:    [[TMP18:%.*]] = load float, ptr @_ZZ4tbarIsEiT_S0_S0_S0_E2Sa, align 4
+// CHECK3-NEXT:    [[TMP18:%.*]] = load float, ptr @_ZZ4tbarIsEiT_S0_S0_S0_E2Sa, align 4, !freeze_bits [[META10]]
 // CHECK3-NEXT:    [[CONV3:%.*]] = fpext float [[TMP18]] to double
 // CHECK3-NEXT:    [[CMP4:%.*]] = fcmp ogt double [[CONV3]], 0.000000e+00
 // CHECK3-NEXT:    br i1 [[CMP4]], label [[OMP_IF_THEN:%.*]], label [[OMP_IF_ELSE]]
@@ -1888,7 +1900,7 @@ int tbar2(short a, short b, short c, short d){
 // CHECK3-NEXT:    [[SD_ADDR:%.*]] = alloca i32, align 4
 // CHECK3-NEXT:    [[GB1:%.*]] = alloca double, align 8
 // CHECK3-NEXT:    [[GC2:%.*]] = alloca double, align 8
-// CHECK3-NEXT:    [[GD3:%.*]] = alloca double, align 8
+// CHECK3-NEXT:    [[GD4:%.*]] = alloca double, align 8
 // CHECK3-NEXT:    [[DOTTHREADID_TEMP_:%.*]] = alloca i32, align 4
 // CHECK3-NEXT:    [[DOTBOUND_ZERO_ADDR:%.*]] = alloca i32, align 4
 // CHECK3-NEXT:    [[TMP0:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1]])
@@ -1901,49 +1913,55 @@ int tbar2(short a, short b, short c, short d){
 // CHECK3-NEXT:    store i32 [[D]], ptr [[D_ADDR]], align 4
 // CHECK3-NEXT:    store ptr [[GD]], ptr [[GD_ADDR]], align 4
 // CHECK3-NEXT:    store i32 [[SD]], ptr [[SD_ADDR]], align 4
-// CHECK3-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[GB_ADDR]], align 4
-// CHECK3-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[GC_ADDR]], align 4
-// CHECK3-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[GD_ADDR]], align 4
-// CHECK3-NEXT:    [[TMP4:%.*]] = load double, ptr [[TMP1]], align 8
+// CHECK3-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[GB_ADDR]], align 4, !nonnull [[META10]], !align [[META11]]
+// CHECK3-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[GC_ADDR]], align 4, !nonnull [[META10]], !align [[META11]]
+// CHECK3-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[GD_ADDR]], align 4, !nonnull [[META10]], !align [[META11]]
+// CHECK3-NEXT:    [[FREEZE_POISON:%.*]] = freeze double poison
+// CHECK3-NEXT:    store double [[FREEZE_POISON]], ptr [[GB1]], align 8
+// CHECK3-NEXT:    [[TMP4:%.*]] = load double, ptr [[TMP1]], align 8, !freeze_bits [[META10]]
 // CHECK3-NEXT:    store double [[TMP4]], ptr [[GB1]], align 8
-// CHECK3-NEXT:    [[TMP5:%.*]] = load double, ptr [[TMP2]], align 8
+// CHECK3-NEXT:    [[FREEZE_POISON3:%.*]] = freeze double poison
+// CHECK3-NEXT:    store double [[FREEZE_POISON3]], ptr [[GC2]], align 8
+// CHECK3-NEXT:    [[TMP5:%.*]] = load double, ptr [[TMP2]], align 8, !freeze_bits [[META10]]
 // CHECK3-NEXT:    store double [[TMP5]], ptr [[GC2]], align 8
-// CHECK3-NEXT:    [[TMP6:%.*]] = load double, ptr [[TMP3]], align 8
-// CHECK3-NEXT:    store double [[TMP6]], ptr [[GD3]], align 8
-// CHECK3-NEXT:    [[TMP7:%.*]] = load i16, ptr [[B_ADDR]], align 2
+// CHECK3-NEXT:    [[FREEZE_POISON5:%.*]] = freeze double poison
+// CHECK3-NEXT:    store double [[FREEZE_POISON5]], ptr [[GD4]], align 8
+// CHECK3-NEXT:    [[TMP6:%.*]] = load double, ptr [[TMP3]], align 8, !freeze_bits [[META10]]
+// CHECK3-NEXT:    store double [[TMP6]], ptr [[GD4]], align 8
+// CHECK3-NEXT:    [[TMP7:%.*]] = load i16, ptr [[B_ADDR]], align 2, !freeze_bits [[META10]]
 // CHECK3-NEXT:    [[CONV:%.*]] = sext i16 [[TMP7]] to i32
 // CHECK3-NEXT:    [[ADD:%.*]] = add nsw i32 [[CONV]], 1
-// CHECK3-NEXT:    [[CONV4:%.*]] = trunc i32 [[ADD]] to i16
-// CHECK3-NEXT:    store i16 [[CONV4]], ptr [[B_ADDR]], align 2
+// CHECK3-NEXT:    [[CONV6:%.*]] = trunc i32 [[ADD]] to i16
+// CHECK3-NEXT:    store i16 [[CONV6]], ptr [[B_ADDR]], align 2
 // CHECK3-NEXT:    [[TMP8:%.*]] = load double, ptr [[GB1]], align 8
-// CHECK3-NEXT:    [[ADD5:%.*]] = fadd double [[TMP8]], 1.000000e+00
-// CHECK3-NEXT:    store double [[ADD5]], ptr [[GB1]], align 8
-// CHECK3-NEXT:    [[TMP9:%.*]] = load float, ptr [[SB_ADDR]], align 4
-// CHECK3-NEXT:    [[CONV6:%.*]] = fpext float [[TMP9]] to double
-// CHECK3-NEXT:    [[ADD7:%.*]] = fadd double [[CONV6]], 1.000000e+00
-// CHECK3-NEXT:    [[CONV8:%.*]] = fptrunc double [[ADD7]] to float
-// CHECK3-NEXT:    store float [[CONV8]], ptr [[SB_ADDR]], align 4
+// CHECK3-NEXT:    [[ADD7:%.*]] = fadd double [[TMP8]], 1.000000e+00
+// CHECK3-NEXT:    store double [[ADD7]], ptr [[GB1]], align 8
+// CHECK3-NEXT:    [[TMP9:%.*]] = load float, ptr [[SB_ADDR]], align 4, !freeze_bits [[META10]]
+// CHECK3-NEXT:    [[CONV8:%.*]] = fpext float [[TMP9]] to double
+// CHECK3-NEXT:    [[ADD9:%.*]] = fadd double [[CONV8]], 1.000000e+00
+// CHECK3-NEXT:    [[CONV10:%.*]] = fptrunc double [[ADD9]] to float
+// CHECK3-NEXT:    store float [[CONV10]], ptr [[SB_ADDR]], align 4
 // CHECK3-NEXT:    [[TMP10:%.*]] = load double, ptr [[GC2]], align 8
 // CHECK3-NEXT:    [[CMP:%.*]] = fcmp ogt double [[TMP10]], 0.000000e+00
 // CHECK3-NEXT:    br i1 [[CMP]], label [[LAND_LHS_TRUE:%.*]], label [[OMP_IF_ELSE:%.*]]
 // CHECK3:       land.lhs.true:
-// CHECK3-NEXT:    [[TMP11:%.*]] = load i16, ptr [[C_ADDR]], align 2
-// CHECK3-NEXT:    [[CONV9:%.*]] = sext i16 [[TMP11]] to i32
-// CHECK3-NEXT:    [[CMP10:%.*]] = icmp sgt i32 [[CONV9]], 0
-// CHECK3-NEXT:    br i1 [[CMP10]], label [[LAND_LHS_TRUE11:%.*]], label [[OMP_IF_ELSE]]
-// CHECK3:       land.lhs.true11:
-// CHECK3-NEXT:    [[TMP12:%.*]] = load float, ptr [[SC_ADDR]], align 4
-// CHECK3-NEXT:    [[CONV12:%.*]] = fpext float [[TMP12]] to double
-// CHECK3-NEXT:    [[CMP13:%.*]] = fcmp ogt double [[CONV12]], 0.000000e+00
-// CHECK3-NEXT:    br i1 [[CMP13]], label [[OMP_IF_THEN:%.*]], label [[OMP_IF_ELSE]]
+// CHECK3-NEXT:    [[TMP11:%.*]] = load i16, ptr [[C_ADDR]], align 2, !freeze_bits [[META10]]
+// CHECK3-NEXT:    [[CONV11:%.*]] = sext i16 [[TMP11]] to i32
+// CHECK3-NEXT:    [[CMP12:%.*]] = icmp sgt i32 [[CONV11]], 0
+// CHECK3-NEXT:    br i1 [[CMP12]], label [[LAND_LHS_TRUE13:%.*]], label [[OMP_IF_ELSE]]
+// CHECK3:       land.lhs.true13:
+// CHECK3-NEXT:    [[TMP12:%.*]] = load float, ptr [[SC_ADDR]], align 4, !freeze_bits [[META10]]
+// CHECK3-NEXT:    [[CONV14:%.*]] = fpext float [[TMP12]] to double
+// CHECK3-NEXT:    [[CMP15:%.*]] = fcmp ogt double [[CONV14]], 0.000000e+00
+// CHECK3-NEXT:    br i1 [[CMP15]], label [[OMP_IF_THEN:%.*]], label [[OMP_IF_ELSE]]
 // CHECK3:       omp_if.then:
-// CHECK3-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB1]], i32 3, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__Z4tbarIsEiT_S0_S0_S0__l145.omp_outlined, ptr [[D_ADDR]], ptr [[GD3]], ptr [[SD_ADDR]])
+// CHECK3-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB1]], i32 3, ptr @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__Z4tbarIsEiT_S0_S0_S0__l145.omp_outlined, ptr [[D_ADDR]], ptr [[GD4]], ptr [[SD_ADDR]])
 // CHECK3-NEXT:    br label [[OMP_IF_END:%.*]]
 // CHECK3:       omp_if.else:
 // CHECK3-NEXT:    call void @__kmpc_serialized_parallel(ptr @[[GLOB1]], i32 [[TMP0]])
 // CHECK3-NEXT:    store i32 [[TMP0]], ptr [[DOTTHREADID_TEMP_]], align 4
 // CHECK3-NEXT:    store i32 0, ptr [[DOTBOUND_ZERO_ADDR]], align 4
-// CHECK3-NEXT:    call void @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__Z4tbarIsEiT_S0_S0_S0__l145.omp_outlined(ptr [[DOTTHREADID_TEMP_]], ptr [[DOTBOUND_ZERO_ADDR]], ptr [[D_ADDR]], ptr [[GD3]], ptr [[SD_ADDR]]) #[[ATTR2]]
+// CHECK3-NEXT:    call void @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__Z4tbarIsEiT_S0_S0_S0__l145.omp_outlined(ptr [[DOTTHREADID_TEMP_]], ptr [[DOTBOUND_ZERO_ADDR]], ptr [[D_ADDR]], ptr [[GD4]], ptr [[SD_ADDR]]) #[[ATTR2]]
 // CHECK3-NEXT:    call void @__kmpc_end_serialized_parallel(ptr @[[GLOB1]], i32 [[TMP0]])
 // CHECK3-NEXT:    br label [[OMP_IF_END]]
 // CHECK3:       omp_if.end:
@@ -1963,18 +1981,18 @@ int tbar2(short a, short b, short c, short d){
 // CHECK3-NEXT:    store ptr [[D]], ptr [[D_ADDR]], align 4
 // CHECK3-NEXT:    store ptr [[GD]], ptr [[GD_ADDR]], align 4
 // CHECK3-NEXT:    store ptr [[SD]], ptr [[SD_ADDR]], align 4
-// CHECK3-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[D_ADDR]], align 4
-// CHECK3-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[GD_ADDR]], align 4
-// CHECK3-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[SD_ADDR]], align 4
-// CHECK3-NEXT:    [[TMP3:%.*]] = load i16, ptr [[TMP0]], align 2
+// CHECK3-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[D_ADDR]], align 4, !nonnull [[META10]], !align [[META12]]
+// CHECK3-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[GD_ADDR]], align 4, !nonnull [[META10]], !align [[META11]]
+// CHECK3-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[SD_ADDR]], align 4, !nonnull [[META10]], !align [[META11]]
+// CHECK3-NEXT:    [[TMP3:%.*]] = load i16, ptr [[TMP0]], align 2, !freeze_bits [[META10]]
 // CHECK3-NEXT:    [[CONV:%.*]] = sext i16 [[TMP3]] to i32
 // CHECK3-NEXT:    [[ADD:%.*]] = add nsw i32 [[CONV]], 1
 // CHECK3-NEXT:    [[CONV1:%.*]] = trunc i32 [[ADD]] to i16
 // CHECK3-NEXT:    store i16 [[CONV1]], ptr [[TMP0]], align 2
-// CHECK3-NEXT:    [[TMP4:%.*]] = load double, ptr [[TMP1]], align 8
+// CHECK3-NEXT:    [[TMP4:%.*]] = load double, ptr [[TMP1]], align 8, !freeze_bits [[META10]]
 // CHECK3-NEXT:    [[ADD2:%.*]] = fadd double [[TMP4]], 1.000000e+00
 // CHECK3-NEXT:    store double [[ADD2]], ptr [[TMP1]], align 8
-// CHECK3-NEXT:    [[TMP5:%.*]] = load float, ptr [[TMP2]], align 4
+// CHECK3-NEXT:    [[TMP5:%.*]] = load float, ptr [[TMP2]], align 4, !freeze_bits [[META10]]
 // CHECK3-NEXT:    [[CONV3:%.*]] = fpext float [[TMP5]] to double
 // CHECK3-NEXT:    [[ADD4:%.*]] = fadd double [[CONV3]], 1.000000e+00
 // CHECK3-NEXT:    [[CONV5:%.*]] = fptrunc double [[ADD4]] to float

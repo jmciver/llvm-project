@@ -67,9 +67,12 @@
 // FULL-NEXT:    [[CALL:%.*]] = call <2 x float> @__divsc3(float noundef [[A_SROA_0_0_VEC_EXTRACT]], float noundef [[A_SROA_0_4_VEC_EXTRACT]], float noundef [[B_SROA_0_0_VEC_EXTRACT]], float noundef [[B_SROA_0_4_VEC_EXTRACT]]) #[[ATTR2:[0-9]+]]
 // FULL-NEXT:    [[COERCE_SROA_0_0_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[CALL]], i32 0
 // FULL-NEXT:    [[COERCE_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[CALL]], i32 1
-// FULL-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[COERCE_SROA_0_0_VEC_EXTRACT]], i32 0
-// FULL-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[COERCE_SROA_0_4_VEC_EXTRACT]], i32 1
-// FULL-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// FULL-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// FULL-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[COERCE_SROA_0_0_VEC_EXTRACT]], i32 0
+// FULL-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// FULL-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[COERCE_SROA_0_4_VEC_EXTRACT]], i32 1
+// FULL-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// FULL-NEXT:    ret <2 x float> [[FREEZE_LOAD2]]
 //
 // BASIC-LABEL: define dso_local <2 x float> @divf(
 // BASIC-SAME: <2 x float> noundef [[A_COERCE:%.*]], <2 x float> noundef [[B_COERCE:%.*]]) #[[ATTR0:[0-9]+]] {
@@ -89,9 +92,12 @@
 // BASIC-NEXT:    [[TMP8:%.*]] = fsub float [[TMP6]], [[TMP7]]
 // BASIC-NEXT:    [[TMP9:%.*]] = fdiv float [[TMP2]], [[TMP5]]
 // BASIC-NEXT:    [[TMP10:%.*]] = fdiv float [[TMP8]], [[TMP5]]
-// BASIC-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[TMP9]], i32 0
-// BASIC-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[TMP10]], i32 1
-// BASIC-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// BASIC-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// BASIC-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[TMP9]], i32 0
+// BASIC-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// BASIC-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[TMP10]], i32 1
+// BASIC-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// BASIC-NEXT:    ret <2 x float> [[FREEZE_LOAD2]]
 //
 // IMPRVD-LABEL: define dso_local <2 x float> @divf(
 // IMPRVD-SAME: <2 x float> noundef [[A_COERCE:%.*]], <2 x float> noundef [[B_COERCE:%.*]]) #[[ATTR0:[0-9]+]] {
@@ -129,9 +135,12 @@
 // IMPRVD:       complex_div:
 // IMPRVD-NEXT:    [[TMP20:%.*]] = phi float [ [[TMP7]], [[ABS_RHSR_GREATER_OR_EQUAL_ABS_RHSI]] ], [ [[TMP16]], [[ABS_RHSR_LESS_THAN_ABS_RHSI]] ]
 // IMPRVD-NEXT:    [[TMP21:%.*]] = phi float [ [[TMP10]], [[ABS_RHSR_GREATER_OR_EQUAL_ABS_RHSI]] ], [ [[TMP19]], [[ABS_RHSR_LESS_THAN_ABS_RHSI]] ]
-// IMPRVD-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[TMP20]], i32 0
-// IMPRVD-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[TMP21]], i32 1
-// IMPRVD-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// IMPRVD-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// IMPRVD-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[TMP20]], i32 0
+// IMPRVD-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// IMPRVD-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[TMP21]], i32 1
+// IMPRVD-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// IMPRVD-NEXT:    ret <2 x float> [[FREEZE_LOAD2]]
 //
 // PRMTD-LABEL: define dso_local <2 x float> @divf(
 // PRMTD-SAME: <2 x float> noundef [[A_COERCE:%.*]], <2 x float> noundef [[B_COERCE:%.*]]) #[[ATTR0:[0-9]+]] {
@@ -157,9 +166,12 @@
 // PRMTD-NEXT:    [[TMP10:%.*]] = fdiv double [[TMP8]], [[TMP5]]
 // PRMTD-NEXT:    [[UNPROMOTION:%.*]] = fptrunc double [[TMP9]] to float
 // PRMTD-NEXT:    [[UNPROMOTION4:%.*]] = fptrunc double [[TMP10]] to float
-// PRMTD-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[UNPROMOTION]], i32 0
-// PRMTD-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[UNPROMOTION4]], i32 1
-// PRMTD-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// PRMTD-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// PRMTD-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[UNPROMOTION]], i32 0
+// PRMTD-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// PRMTD-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[UNPROMOTION4]], i32 1
+// PRMTD-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// PRMTD-NEXT:    ret <2 x float> [[FREEZE_LOAD2]]
 //
 // X86WINPRMTD-LABEL: define dso_local i64 @divf(
 // X86WINPRMTD-SAME: i64 noundef [[A_COERCE:%.*]], i64 noundef [[B_COERCE:%.*]]) #[[ATTR0:[0-9]+]] {
@@ -280,9 +292,12 @@
 // BASIC_FAST-NEXT:    [[TMP8:%.*]] = fsub reassoc nnan ninf nsz arcp afn float [[TMP6]], [[TMP7]]
 // BASIC_FAST-NEXT:    [[TMP9:%.*]] = fdiv reassoc nnan ninf nsz arcp afn float [[TMP2]], [[TMP5]]
 // BASIC_FAST-NEXT:    [[TMP10:%.*]] = fdiv reassoc nnan ninf nsz arcp afn float [[TMP8]], [[TMP5]]
-// BASIC_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[TMP9]], i32 0
-// BASIC_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[TMP10]], i32 1
-// BASIC_FAST-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// BASIC_FAST-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// BASIC_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[TMP9]], i32 0
+// BASIC_FAST-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// BASIC_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[TMP10]], i32 1
+// BASIC_FAST-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// BASIC_FAST-NEXT:    ret <2 x float> [[FREEZE_LOAD2]]
 //
 // FULL_FAST-LABEL: define dso_local nofpclass(nan inf) <2 x float> @divf(
 // FULL_FAST-SAME: <2 x float> noundef nofpclass(nan inf) [[A_COERCE:%.*]], <2 x float> noundef nofpclass(nan inf) [[B_COERCE:%.*]]) #[[ATTR0:[0-9]+]] {
@@ -294,9 +309,12 @@
 // FULL_FAST-NEXT:    [[CALL:%.*]] = call reassoc nnan ninf nsz arcp afn nofpclass(nan inf) <2 x float> @__divsc3(float noundef nofpclass(nan inf) [[A_SROA_0_0_VEC_EXTRACT]], float noundef nofpclass(nan inf) [[A_SROA_0_4_VEC_EXTRACT]], float noundef nofpclass(nan inf) [[B_SROA_0_0_VEC_EXTRACT]], float noundef nofpclass(nan inf) [[B_SROA_0_4_VEC_EXTRACT]]) #[[ATTR2:[0-9]+]]
 // FULL_FAST-NEXT:    [[COERCE_SROA_0_0_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[CALL]], i32 0
 // FULL_FAST-NEXT:    [[COERCE_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[CALL]], i32 1
-// FULL_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[COERCE_SROA_0_0_VEC_EXTRACT]], i32 0
-// FULL_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[COERCE_SROA_0_4_VEC_EXTRACT]], i32 1
-// FULL_FAST-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// FULL_FAST-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// FULL_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[COERCE_SROA_0_0_VEC_EXTRACT]], i32 0
+// FULL_FAST-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// FULL_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[COERCE_SROA_0_4_VEC_EXTRACT]], i32 1
+// FULL_FAST-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// FULL_FAST-NEXT:    ret <2 x float> [[FREEZE_LOAD2]]
 //
 // IMPRVD_FAST-LABEL: define dso_local nofpclass(nan inf) <2 x float> @divf(
 // IMPRVD_FAST-SAME: <2 x float> noundef nofpclass(nan inf) [[A_COERCE:%.*]], <2 x float> noundef nofpclass(nan inf) [[B_COERCE:%.*]]) #[[ATTR0:[0-9]+]] {
@@ -334,9 +352,12 @@
 // IMPRVD_FAST:       complex_div:
 // IMPRVD_FAST-NEXT:    [[TMP20:%.*]] = phi reassoc nnan ninf nsz arcp afn float [ [[TMP7]], [[ABS_RHSR_GREATER_OR_EQUAL_ABS_RHSI]] ], [ [[TMP16]], [[ABS_RHSR_LESS_THAN_ABS_RHSI]] ]
 // IMPRVD_FAST-NEXT:    [[TMP21:%.*]] = phi reassoc nnan ninf nsz arcp afn float [ [[TMP10]], [[ABS_RHSR_GREATER_OR_EQUAL_ABS_RHSI]] ], [ [[TMP19]], [[ABS_RHSR_LESS_THAN_ABS_RHSI]] ]
-// IMPRVD_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[TMP20]], i32 0
-// IMPRVD_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[TMP21]], i32 1
-// IMPRVD_FAST-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// IMPRVD_FAST-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// IMPRVD_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[TMP20]], i32 0
+// IMPRVD_FAST-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// IMPRVD_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[TMP21]], i32 1
+// IMPRVD_FAST-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// IMPRVD_FAST-NEXT:    ret <2 x float> [[FREEZE_LOAD2]]
 //
 // PRMTD_FAST-LABEL: define dso_local nofpclass(nan inf) <2 x float> @divf(
 // PRMTD_FAST-SAME: <2 x float> noundef nofpclass(nan inf) [[A_COERCE:%.*]], <2 x float> noundef nofpclass(nan inf) [[B_COERCE:%.*]]) #[[ATTR0:[0-9]+]] {
@@ -362,9 +383,12 @@
 // PRMTD_FAST-NEXT:    [[TMP10:%.*]] = fdiv reassoc nnan ninf nsz arcp afn double [[TMP8]], [[TMP5]]
 // PRMTD_FAST-NEXT:    [[UNPROMOTION:%.*]] = fptrunc reassoc nnan ninf nsz arcp afn double [[TMP9]] to float
 // PRMTD_FAST-NEXT:    [[UNPROMOTION4:%.*]] = fptrunc reassoc nnan ninf nsz arcp afn double [[TMP10]] to float
-// PRMTD_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[UNPROMOTION]], i32 0
-// PRMTD_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[UNPROMOTION4]], i32 1
-// PRMTD_FAST-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// PRMTD_FAST-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// PRMTD_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[UNPROMOTION]], i32 0
+// PRMTD_FAST-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// PRMTD_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[UNPROMOTION4]], i32 1
+// PRMTD_FAST-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// PRMTD_FAST-NEXT:    ret <2 x float> [[FREEZE_LOAD2]]
 //
 // X86WINPRMTD_STRICT-LABEL: define dso_local i64 @divf(
 // X86WINPRMTD_STRICT-SAME: i64 noundef [[A_COERCE:%.*]], i64 noundef [[B_COERCE:%.*]]) #[[ATTR0:[0-9]+]] {
@@ -431,9 +455,12 @@
 // PRMTD_STRICT-NEXT:    [[TMP10:%.*]] = call double @llvm.experimental.constrained.fdiv.f64(double [[TMP8]], double [[TMP5]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR4]]
 // PRMTD_STRICT-NEXT:    [[UNPROMOTION:%.*]] = call float @llvm.experimental.constrained.fptrunc.f32.f64(double [[TMP9]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR4]]
 // PRMTD_STRICT-NEXT:    [[UNPROMOTION4:%.*]] = call float @llvm.experimental.constrained.fptrunc.f32.f64(double [[TMP10]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR4]]
-// PRMTD_STRICT-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[UNPROMOTION]], i32 0
-// PRMTD_STRICT-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[UNPROMOTION4]], i32 1
-// PRMTD_STRICT-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// PRMTD_STRICT-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// PRMTD_STRICT-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[UNPROMOTION]], i32 0
+// PRMTD_STRICT-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// PRMTD_STRICT-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[UNPROMOTION4]], i32 1
+// PRMTD_STRICT-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// PRMTD_STRICT-NEXT:    ret <2 x float> [[FREEZE_LOAD2]]
 //
 _Complex float divf(_Complex float a, _Complex float b) {
   return a / b;
@@ -445,9 +472,9 @@ _Complex float divf(_Complex float a, _Complex float b) {
 // FULL-NEXT:    [[B_SROA_0_0_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[B_COERCE]], i32 0
 // FULL-NEXT:    [[B_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[B_COERCE]], i32 1
 // FULL-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
-// FULL-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4
+// FULL-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4, !freeze_bits [[META2:![0-9]+]]
 // FULL-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 1
-// FULL-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4
+// FULL-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4, !freeze_bits [[META2]]
 // FULL-NEXT:    [[CALL:%.*]] = call <2 x float> @__divsc3(float noundef [[DOTREAL]], float noundef [[DOTIMAG]], float noundef [[B_SROA_0_0_VEC_EXTRACT]], float noundef [[B_SROA_0_4_VEC_EXTRACT]]) #[[ATTR2]]
 // FULL-NEXT:    [[COERCE_SROA_0_0_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[CALL]], i32 0
 // FULL-NEXT:    [[COERCE_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[CALL]], i32 1
@@ -463,9 +490,9 @@ _Complex float divf(_Complex float a, _Complex float b) {
 // BASIC-NEXT:    [[B_SROA_0_0_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[B_COERCE]], i32 0
 // BASIC-NEXT:    [[B_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[B_COERCE]], i32 1
 // BASIC-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
-// BASIC-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4
+// BASIC-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4, !freeze_bits [[META2:![0-9]+]]
 // BASIC-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 1
-// BASIC-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4
+// BASIC-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4, !freeze_bits [[META2]]
 // BASIC-NEXT:    [[TMP0:%.*]] = fmul float [[DOTREAL]], [[B_SROA_0_0_VEC_EXTRACT]]
 // BASIC-NEXT:    [[TMP1:%.*]] = fmul float [[DOTIMAG]], [[B_SROA_0_4_VEC_EXTRACT]]
 // BASIC-NEXT:    [[TMP2:%.*]] = fadd float [[TMP0]], [[TMP1]]
@@ -489,9 +516,9 @@ _Complex float divf(_Complex float a, _Complex float b) {
 // IMPRVD-NEXT:    [[B_SROA_0_0_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[B_COERCE]], i32 0
 // IMPRVD-NEXT:    [[B_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[B_COERCE]], i32 1
 // IMPRVD-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
-// IMPRVD-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4
+// IMPRVD-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4, !freeze_bits [[META2:![0-9]+]]
 // IMPRVD-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 1
-// IMPRVD-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4
+// IMPRVD-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4, !freeze_bits [[META2]]
 // IMPRVD-NEXT:    [[TMP0:%.*]] = call float @llvm.fabs.f32(float [[B_SROA_0_0_VEC_EXTRACT]])
 // IMPRVD-NEXT:    [[TMP1:%.*]] = call float @llvm.fabs.f32(float [[B_SROA_0_4_VEC_EXTRACT]])
 // IMPRVD-NEXT:    [[ABS_CMP:%.*]] = fcmp ugt float [[TMP0]], [[TMP1]]
@@ -535,9 +562,9 @@ _Complex float divf(_Complex float a, _Complex float b) {
 // PRMTD-NEXT:    [[EXT:%.*]] = fpext float [[B_SROA_0_0_VEC_EXTRACT]] to double
 // PRMTD-NEXT:    [[EXT1:%.*]] = fpext float [[B_SROA_0_4_VEC_EXTRACT]] to double
 // PRMTD-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
-// PRMTD-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4
+// PRMTD-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4, !freeze_bits [[META2:![0-9]+]]
 // PRMTD-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 1
-// PRMTD-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4
+// PRMTD-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4, !freeze_bits [[META2]]
 // PRMTD-NEXT:    [[CONV:%.*]] = fpext float [[DOTREAL]] to double
 // PRMTD-NEXT:    [[CONV2:%.*]] = fpext float [[DOTIMAG]] to double
 // PRMTD-NEXT:    [[TMP0:%.*]] = fmul double [[CONV]], [[EXT]]
@@ -570,9 +597,9 @@ _Complex float divf(_Complex float a, _Complex float b) {
 // X86WINPRMTD-NEXT:    [[EXT:%.*]] = fpext float [[TMP0]] to double
 // X86WINPRMTD-NEXT:    [[EXT1:%.*]] = fpext float [[TMP1]] to double
 // X86WINPRMTD-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
-// X86WINPRMTD-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4
+// X86WINPRMTD-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4, !freeze_bits [[META6:![0-9]+]]
 // X86WINPRMTD-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 1
-// X86WINPRMTD-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4
+// X86WINPRMTD-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[CONV:%.*]] = fpext float [[DOTREAL]] to double
 // X86WINPRMTD-NEXT:    [[CONV2:%.*]] = fpext float [[DOTIMAG]] to double
 // X86WINPRMTD-NEXT:    [[TMP2:%.*]] = fmul double [[CONV]], [[EXT]]
@@ -598,9 +625,9 @@ _Complex float divf(_Complex float a, _Complex float b) {
 // AVRFP32-SAME: ptr noundef [[A:%.*]], float noundef [[B_COERCE0:%.*]], float noundef [[B_COERCE1:%.*]]) addrspace(1) #[[ATTR0]] {
 // AVRFP32-NEXT:  entry:
 // AVRFP32-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
-// AVRFP32-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 1
+// AVRFP32-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 1, !freeze_bits [[META2:![0-9]+]]
 // AVRFP32-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 1
-// AVRFP32-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 1
+// AVRFP32-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 1, !freeze_bits [[META2]]
 // AVRFP32-NEXT:    [[TMP0:%.*]] = call addrspace(1) float @llvm.fabs.f32(float [[B_COERCE0]])
 // AVRFP32-NEXT:    [[TMP1:%.*]] = call addrspace(1) float @llvm.fabs.f32(float [[B_COERCE1]])
 // AVRFP32-NEXT:    [[ABS_CMP:%.*]] = fcmp ugt float [[TMP0]], [[TMP1]]
@@ -642,9 +669,9 @@ _Complex float divf(_Complex float a, _Complex float b) {
 // AVRFP64-NEXT:    [[EXT:%.*]] = fpext float [[B_COERCE0]] to double
 // AVRFP64-NEXT:    [[EXT1:%.*]] = fpext float [[B_COERCE1]] to double
 // AVRFP64-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
-// AVRFP64-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 1
+// AVRFP64-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 1, !freeze_bits [[META2:![0-9]+]]
 // AVRFP64-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 1
-// AVRFP64-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 1
+// AVRFP64-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 1, !freeze_bits [[META2]]
 // AVRFP64-NEXT:    [[CONV:%.*]] = fpext float [[DOTREAL]] to double
 // AVRFP64-NEXT:    [[CONV2:%.*]] = fpext float [[DOTIMAG]] to double
 // AVRFP64-NEXT:    [[TMP0:%.*]] = fmul double [[CONV]], [[EXT]]
@@ -672,9 +699,9 @@ _Complex float divf(_Complex float a, _Complex float b) {
 // BASIC_FAST-NEXT:    [[B_SROA_0_0_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[B_COERCE]], i32 0
 // BASIC_FAST-NEXT:    [[B_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[B_COERCE]], i32 1
 // BASIC_FAST-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
-// BASIC_FAST-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4
+// BASIC_FAST-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4, !freeze_bits [[META2:![0-9]+]]
 // BASIC_FAST-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 1
-// BASIC_FAST-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4
+// BASIC_FAST-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4, !freeze_bits [[META2]]
 // BASIC_FAST-NEXT:    [[TMP0:%.*]] = fmul reassoc nnan ninf nsz arcp afn float [[DOTREAL]], [[B_SROA_0_0_VEC_EXTRACT]]
 // BASIC_FAST-NEXT:    [[TMP1:%.*]] = fmul reassoc nnan ninf nsz arcp afn float [[DOTIMAG]], [[B_SROA_0_4_VEC_EXTRACT]]
 // BASIC_FAST-NEXT:    [[TMP2:%.*]] = fadd reassoc nnan ninf nsz arcp afn float [[TMP0]], [[TMP1]]
@@ -698,9 +725,9 @@ _Complex float divf(_Complex float a, _Complex float b) {
 // FULL_FAST-NEXT:    [[B_SROA_0_0_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[B_COERCE]], i32 0
 // FULL_FAST-NEXT:    [[B_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[B_COERCE]], i32 1
 // FULL_FAST-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
-// FULL_FAST-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4
+// FULL_FAST-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4, !freeze_bits [[META2:![0-9]+]]
 // FULL_FAST-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 1
-// FULL_FAST-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4
+// FULL_FAST-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4, !freeze_bits [[META2]]
 // FULL_FAST-NEXT:    [[CALL:%.*]] = call reassoc nnan ninf nsz arcp afn nofpclass(nan inf) <2 x float> @__divsc3(float noundef nofpclass(nan inf) [[DOTREAL]], float noundef nofpclass(nan inf) [[DOTIMAG]], float noundef nofpclass(nan inf) [[B_SROA_0_0_VEC_EXTRACT]], float noundef nofpclass(nan inf) [[B_SROA_0_4_VEC_EXTRACT]]) #[[ATTR2]]
 // FULL_FAST-NEXT:    [[COERCE_SROA_0_0_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[CALL]], i32 0
 // FULL_FAST-NEXT:    [[COERCE_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[CALL]], i32 1
@@ -716,9 +743,9 @@ _Complex float divf(_Complex float a, _Complex float b) {
 // IMPRVD_FAST-NEXT:    [[B_SROA_0_0_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[B_COERCE]], i32 0
 // IMPRVD_FAST-NEXT:    [[B_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[B_COERCE]], i32 1
 // IMPRVD_FAST-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
-// IMPRVD_FAST-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4
+// IMPRVD_FAST-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4, !freeze_bits [[META2:![0-9]+]]
 // IMPRVD_FAST-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 1
-// IMPRVD_FAST-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4
+// IMPRVD_FAST-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4, !freeze_bits [[META2]]
 // IMPRVD_FAST-NEXT:    [[TMP0:%.*]] = call reassoc nnan ninf nsz arcp afn float @llvm.fabs.f32(float [[B_SROA_0_0_VEC_EXTRACT]])
 // IMPRVD_FAST-NEXT:    [[TMP1:%.*]] = call reassoc nnan ninf nsz arcp afn float @llvm.fabs.f32(float [[B_SROA_0_4_VEC_EXTRACT]])
 // IMPRVD_FAST-NEXT:    [[ABS_CMP:%.*]] = fcmp reassoc nnan ninf nsz arcp afn ugt float [[TMP0]], [[TMP1]]
@@ -762,9 +789,9 @@ _Complex float divf(_Complex float a, _Complex float b) {
 // PRMTD_FAST-NEXT:    [[EXT:%.*]] = fpext reassoc nnan ninf nsz arcp afn float [[B_SROA_0_0_VEC_EXTRACT]] to double
 // PRMTD_FAST-NEXT:    [[EXT1:%.*]] = fpext reassoc nnan ninf nsz arcp afn float [[B_SROA_0_4_VEC_EXTRACT]] to double
 // PRMTD_FAST-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
-// PRMTD_FAST-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4
+// PRMTD_FAST-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4, !freeze_bits [[META2:![0-9]+]]
 // PRMTD_FAST-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 1
-// PRMTD_FAST-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4
+// PRMTD_FAST-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4, !freeze_bits [[META2]]
 // PRMTD_FAST-NEXT:    [[CONV:%.*]] = fpext reassoc nnan ninf nsz arcp afn float [[DOTREAL]] to double
 // PRMTD_FAST-NEXT:    [[CONV2:%.*]] = fpext reassoc nnan ninf nsz arcp afn float [[DOTIMAG]] to double
 // PRMTD_FAST-NEXT:    [[TMP0:%.*]] = fmul reassoc nnan ninf nsz arcp afn double [[CONV]], [[EXT]]
@@ -797,9 +824,9 @@ _Complex float divf(_Complex float a, _Complex float b) {
 // X86WINPRMTD_STRICT-NEXT:    [[EXT:%.*]] = call double @llvm.experimental.constrained.fpext.f64.f32(float [[TMP0]], metadata !"fpexcept.strict") #[[ATTR3]]
 // X86WINPRMTD_STRICT-NEXT:    [[EXT1:%.*]] = call double @llvm.experimental.constrained.fpext.f64.f32(float [[TMP1]], metadata !"fpexcept.strict") #[[ATTR3]]
 // X86WINPRMTD_STRICT-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
-// X86WINPRMTD_STRICT-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4
+// X86WINPRMTD_STRICT-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4, !freeze_bits [[META6:![0-9]+]]
 // X86WINPRMTD_STRICT-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 1
-// X86WINPRMTD_STRICT-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4
+// X86WINPRMTD_STRICT-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[CONV:%.*]] = call double @llvm.experimental.constrained.fpext.f64.f32(float [[DOTREAL]], metadata !"fpexcept.strict") #[[ATTR3]]
 // X86WINPRMTD_STRICT-NEXT:    [[CONV2:%.*]] = call double @llvm.experimental.constrained.fpext.f64.f32(float [[DOTIMAG]], metadata !"fpexcept.strict") #[[ATTR3]]
 // X86WINPRMTD_STRICT-NEXT:    [[TMP2:%.*]] = call double @llvm.experimental.constrained.fmul.f64(double [[CONV]], double [[EXT]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR3]]
@@ -829,9 +856,9 @@ _Complex float divf(_Complex float a, _Complex float b) {
 // PRMTD_STRICT-NEXT:    [[EXT:%.*]] = call double @llvm.experimental.constrained.fpext.f64.f32(float [[B_SROA_0_0_VEC_EXTRACT]], metadata !"fpexcept.strict") #[[ATTR4]]
 // PRMTD_STRICT-NEXT:    [[EXT1:%.*]] = call double @llvm.experimental.constrained.fpext.f64.f32(float [[B_SROA_0_4_VEC_EXTRACT]], metadata !"fpexcept.strict") #[[ATTR4]]
 // PRMTD_STRICT-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
-// PRMTD_STRICT-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4
+// PRMTD_STRICT-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4, !freeze_bits [[META2:![0-9]+]]
 // PRMTD_STRICT-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 1
-// PRMTD_STRICT-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4
+// PRMTD_STRICT-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4, !freeze_bits [[META2]]
 // PRMTD_STRICT-NEXT:    [[CONV:%.*]] = call double @llvm.experimental.constrained.fpext.f64.f32(float [[DOTREAL]], metadata !"fpexcept.strict") #[[ATTR4]]
 // PRMTD_STRICT-NEXT:    [[CONV2:%.*]] = call double @llvm.experimental.constrained.fpext.f64.f32(float [[DOTIMAG]], metadata !"fpexcept.strict") #[[ATTR4]]
 // PRMTD_STRICT-NEXT:    [[TMP0:%.*]] = call double @llvm.experimental.constrained.fmul.f64(double [[CONV]], double [[EXT]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR4]]
@@ -871,10 +898,10 @@ void divassignf(_Complex float *a, _Complex float b) {
 // FULL-NEXT:    [[MUL_R:%.*]] = fsub float [[MUL_AC]], [[MUL_BD]]
 // FULL-NEXT:    [[MUL_I:%.*]] = fadd float [[MUL_AD]], [[MUL_BC]]
 // FULL-NEXT:    [[ISNAN_CMP:%.*]] = fcmp uno float [[MUL_R]], [[MUL_R]]
-// FULL-NEXT:    br i1 [[ISNAN_CMP]], label [[COMPLEX_MUL_IMAG_NAN:%.*]], label [[COMPLEX_MUL_CONT:%.*]], !prof [[PROF2:![0-9]+]]
+// FULL-NEXT:    br i1 [[ISNAN_CMP]], label [[COMPLEX_MUL_IMAG_NAN:%.*]], label [[COMPLEX_MUL_CONT:%.*]], !prof [[PROF3:![0-9]+]]
 // FULL:       complex_mul_imag_nan:
 // FULL-NEXT:    [[ISNAN_CMP1:%.*]] = fcmp uno float [[MUL_I]], [[MUL_I]]
-// FULL-NEXT:    br i1 [[ISNAN_CMP1]], label [[COMPLEX_MUL_LIBCALL:%.*]], label [[COMPLEX_MUL_CONT]], !prof [[PROF2]]
+// FULL-NEXT:    br i1 [[ISNAN_CMP1]], label [[COMPLEX_MUL_LIBCALL:%.*]], label [[COMPLEX_MUL_CONT]], !prof [[PROF3]]
 // FULL:       complex_mul_libcall:
 // FULL-NEXT:    [[CALL:%.*]] = call <2 x float> @__mulsc3(float noundef [[A_SROA_0_0_VEC_EXTRACT]], float noundef [[A_SROA_0_4_VEC_EXTRACT]], float noundef [[B_SROA_0_0_VEC_EXTRACT]], float noundef [[B_SROA_0_4_VEC_EXTRACT]]) #[[ATTR2]]
 // FULL-NEXT:    [[COERCE_SROA_0_0_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[CALL]], i32 0
@@ -883,9 +910,12 @@ void divassignf(_Complex float *a, _Complex float b) {
 // FULL:       complex_mul_cont:
 // FULL-NEXT:    [[REAL_MUL_PHI:%.*]] = phi float [ [[MUL_R]], [[ENTRY:%.*]] ], [ [[MUL_R]], [[COMPLEX_MUL_IMAG_NAN]] ], [ [[COERCE_SROA_0_0_VEC_EXTRACT]], [[COMPLEX_MUL_LIBCALL]] ]
 // FULL-NEXT:    [[IMAG_MUL_PHI:%.*]] = phi float [ [[MUL_I]], [[ENTRY]] ], [ [[MUL_I]], [[COMPLEX_MUL_IMAG_NAN]] ], [ [[COERCE_SROA_0_4_VEC_EXTRACT]], [[COMPLEX_MUL_LIBCALL]] ]
-// FULL-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[REAL_MUL_PHI]], i32 0
-// FULL-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[IMAG_MUL_PHI]], i32 1
-// FULL-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// FULL-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// FULL-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[REAL_MUL_PHI]], i32 0
+// FULL-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// FULL-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[IMAG_MUL_PHI]], i32 1
+// FULL-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// FULL-NEXT:    ret <2 x float> [[FREEZE_LOAD2]]
 //
 // BASIC-LABEL: define dso_local <2 x float> @mulf(
 // BASIC-SAME: <2 x float> noundef [[A_COERCE:%.*]], <2 x float> noundef [[B_COERCE:%.*]]) #[[ATTR0]] {
@@ -900,9 +930,12 @@ void divassignf(_Complex float *a, _Complex float b) {
 // BASIC-NEXT:    [[MUL_BC:%.*]] = fmul float [[A_SROA_0_4_VEC_EXTRACT]], [[B_SROA_0_0_VEC_EXTRACT]]
 // BASIC-NEXT:    [[MUL_R:%.*]] = fsub float [[MUL_AC]], [[MUL_BD]]
 // BASIC-NEXT:    [[MUL_I:%.*]] = fadd float [[MUL_AD]], [[MUL_BC]]
-// BASIC-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[MUL_R]], i32 0
-// BASIC-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[MUL_I]], i32 1
-// BASIC-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// BASIC-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// BASIC-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[MUL_R]], i32 0
+// BASIC-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// BASIC-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[MUL_I]], i32 1
+// BASIC-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// BASIC-NEXT:    ret <2 x float> [[FREEZE_LOAD2]]
 //
 // IMPRVD-LABEL: define dso_local <2 x float> @mulf(
 // IMPRVD-SAME: <2 x float> noundef [[A_COERCE:%.*]], <2 x float> noundef [[B_COERCE:%.*]]) #[[ATTR0]] {
@@ -917,9 +950,12 @@ void divassignf(_Complex float *a, _Complex float b) {
 // IMPRVD-NEXT:    [[MUL_BC:%.*]] = fmul float [[A_SROA_0_4_VEC_EXTRACT]], [[B_SROA_0_0_VEC_EXTRACT]]
 // IMPRVD-NEXT:    [[MUL_R:%.*]] = fsub float [[MUL_AC]], [[MUL_BD]]
 // IMPRVD-NEXT:    [[MUL_I:%.*]] = fadd float [[MUL_AD]], [[MUL_BC]]
-// IMPRVD-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[MUL_R]], i32 0
-// IMPRVD-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[MUL_I]], i32 1
-// IMPRVD-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// IMPRVD-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// IMPRVD-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[MUL_R]], i32 0
+// IMPRVD-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// IMPRVD-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[MUL_I]], i32 1
+// IMPRVD-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// IMPRVD-NEXT:    ret <2 x float> [[FREEZE_LOAD2]]
 //
 // PRMTD-LABEL: define dso_local <2 x float> @mulf(
 // PRMTD-SAME: <2 x float> noundef [[A_COERCE:%.*]], <2 x float> noundef [[B_COERCE:%.*]]) #[[ATTR0]] {
@@ -934,9 +970,12 @@ void divassignf(_Complex float *a, _Complex float b) {
 // PRMTD-NEXT:    [[MUL_BC:%.*]] = fmul float [[A_SROA_0_4_VEC_EXTRACT]], [[B_SROA_0_0_VEC_EXTRACT]]
 // PRMTD-NEXT:    [[MUL_R:%.*]] = fsub float [[MUL_AC]], [[MUL_BD]]
 // PRMTD-NEXT:    [[MUL_I:%.*]] = fadd float [[MUL_AD]], [[MUL_BC]]
-// PRMTD-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[MUL_R]], i32 0
-// PRMTD-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[MUL_I]], i32 1
-// PRMTD-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// PRMTD-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// PRMTD-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[MUL_R]], i32 0
+// PRMTD-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// PRMTD-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[MUL_I]], i32 1
+// PRMTD-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// PRMTD-NEXT:    ret <2 x float> [[FREEZE_LOAD2]]
 //
 // X86WINPRMTD-LABEL: define dso_local i64 @mulf(
 // X86WINPRMTD-SAME: i64 noundef [[A_COERCE:%.*]], i64 noundef [[B_COERCE:%.*]]) #[[ATTR0]] {
@@ -1007,9 +1046,12 @@ void divassignf(_Complex float *a, _Complex float b) {
 // BASIC_FAST-NEXT:    [[MUL_BC:%.*]] = fmul reassoc nnan ninf nsz arcp afn float [[A_SROA_0_4_VEC_EXTRACT]], [[B_SROA_0_0_VEC_EXTRACT]]
 // BASIC_FAST-NEXT:    [[MUL_R:%.*]] = fsub reassoc nnan ninf nsz arcp afn float [[MUL_AC]], [[MUL_BD]]
 // BASIC_FAST-NEXT:    [[MUL_I:%.*]] = fadd reassoc nnan ninf nsz arcp afn float [[MUL_AD]], [[MUL_BC]]
-// BASIC_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[MUL_R]], i32 0
-// BASIC_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[MUL_I]], i32 1
-// BASIC_FAST-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// BASIC_FAST-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// BASIC_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[MUL_R]], i32 0
+// BASIC_FAST-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// BASIC_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[MUL_I]], i32 1
+// BASIC_FAST-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// BASIC_FAST-NEXT:    ret <2 x float> [[FREEZE_LOAD2]]
 //
 // FULL_FAST-LABEL: define dso_local nofpclass(nan inf) <2 x float> @mulf(
 // FULL_FAST-SAME: <2 x float> noundef nofpclass(nan inf) [[A_COERCE:%.*]], <2 x float> noundef nofpclass(nan inf) [[B_COERCE:%.*]]) #[[ATTR0]] {
@@ -1025,10 +1067,10 @@ void divassignf(_Complex float *a, _Complex float b) {
 // FULL_FAST-NEXT:    [[MUL_R:%.*]] = fsub reassoc nnan ninf nsz arcp afn float [[MUL_AC]], [[MUL_BD]]
 // FULL_FAST-NEXT:    [[MUL_I:%.*]] = fadd reassoc nnan ninf nsz arcp afn float [[MUL_AD]], [[MUL_BC]]
 // FULL_FAST-NEXT:    [[ISNAN_CMP:%.*]] = fcmp reassoc nnan ninf nsz arcp afn uno float [[MUL_R]], [[MUL_R]]
-// FULL_FAST-NEXT:    br i1 [[ISNAN_CMP]], label [[COMPLEX_MUL_IMAG_NAN:%.*]], label [[COMPLEX_MUL_CONT:%.*]], !prof [[PROF2:![0-9]+]]
+// FULL_FAST-NEXT:    br i1 [[ISNAN_CMP]], label [[COMPLEX_MUL_IMAG_NAN:%.*]], label [[COMPLEX_MUL_CONT:%.*]], !prof [[PROF3:![0-9]+]]
 // FULL_FAST:       complex_mul_imag_nan:
 // FULL_FAST-NEXT:    [[ISNAN_CMP1:%.*]] = fcmp reassoc nnan ninf nsz arcp afn uno float [[MUL_I]], [[MUL_I]]
-// FULL_FAST-NEXT:    br i1 [[ISNAN_CMP1]], label [[COMPLEX_MUL_LIBCALL:%.*]], label [[COMPLEX_MUL_CONT]], !prof [[PROF2]]
+// FULL_FAST-NEXT:    br i1 [[ISNAN_CMP1]], label [[COMPLEX_MUL_LIBCALL:%.*]], label [[COMPLEX_MUL_CONT]], !prof [[PROF3]]
 // FULL_FAST:       complex_mul_libcall:
 // FULL_FAST-NEXT:    [[CALL:%.*]] = call reassoc nnan ninf nsz arcp afn nofpclass(nan inf) <2 x float> @__mulsc3(float noundef nofpclass(nan inf) [[A_SROA_0_0_VEC_EXTRACT]], float noundef nofpclass(nan inf) [[A_SROA_0_4_VEC_EXTRACT]], float noundef nofpclass(nan inf) [[B_SROA_0_0_VEC_EXTRACT]], float noundef nofpclass(nan inf) [[B_SROA_0_4_VEC_EXTRACT]]) #[[ATTR2]]
 // FULL_FAST-NEXT:    [[COERCE_SROA_0_0_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[CALL]], i32 0
@@ -1037,9 +1079,12 @@ void divassignf(_Complex float *a, _Complex float b) {
 // FULL_FAST:       complex_mul_cont:
 // FULL_FAST-NEXT:    [[REAL_MUL_PHI:%.*]] = phi reassoc nnan ninf nsz arcp afn float [ [[MUL_R]], [[ENTRY:%.*]] ], [ [[MUL_R]], [[COMPLEX_MUL_IMAG_NAN]] ], [ [[COERCE_SROA_0_0_VEC_EXTRACT]], [[COMPLEX_MUL_LIBCALL]] ]
 // FULL_FAST-NEXT:    [[IMAG_MUL_PHI:%.*]] = phi reassoc nnan ninf nsz arcp afn float [ [[MUL_I]], [[ENTRY]] ], [ [[MUL_I]], [[COMPLEX_MUL_IMAG_NAN]] ], [ [[COERCE_SROA_0_4_VEC_EXTRACT]], [[COMPLEX_MUL_LIBCALL]] ]
-// FULL_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[REAL_MUL_PHI]], i32 0
-// FULL_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[IMAG_MUL_PHI]], i32 1
-// FULL_FAST-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// FULL_FAST-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// FULL_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[REAL_MUL_PHI]], i32 0
+// FULL_FAST-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// FULL_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[IMAG_MUL_PHI]], i32 1
+// FULL_FAST-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// FULL_FAST-NEXT:    ret <2 x float> [[FREEZE_LOAD2]]
 //
 // IMPRVD_FAST-LABEL: define dso_local nofpclass(nan inf) <2 x float> @mulf(
 // IMPRVD_FAST-SAME: <2 x float> noundef nofpclass(nan inf) [[A_COERCE:%.*]], <2 x float> noundef nofpclass(nan inf) [[B_COERCE:%.*]]) #[[ATTR0]] {
@@ -1054,9 +1099,12 @@ void divassignf(_Complex float *a, _Complex float b) {
 // IMPRVD_FAST-NEXT:    [[MUL_BC:%.*]] = fmul reassoc nnan ninf nsz arcp afn float [[A_SROA_0_4_VEC_EXTRACT]], [[B_SROA_0_0_VEC_EXTRACT]]
 // IMPRVD_FAST-NEXT:    [[MUL_R:%.*]] = fsub reassoc nnan ninf nsz arcp afn float [[MUL_AC]], [[MUL_BD]]
 // IMPRVD_FAST-NEXT:    [[MUL_I:%.*]] = fadd reassoc nnan ninf nsz arcp afn float [[MUL_AD]], [[MUL_BC]]
-// IMPRVD_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[MUL_R]], i32 0
-// IMPRVD_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[MUL_I]], i32 1
-// IMPRVD_FAST-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// IMPRVD_FAST-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// IMPRVD_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[MUL_R]], i32 0
+// IMPRVD_FAST-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// IMPRVD_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[MUL_I]], i32 1
+// IMPRVD_FAST-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// IMPRVD_FAST-NEXT:    ret <2 x float> [[FREEZE_LOAD2]]
 //
 // PRMTD_FAST-LABEL: define dso_local nofpclass(nan inf) <2 x float> @mulf(
 // PRMTD_FAST-SAME: <2 x float> noundef nofpclass(nan inf) [[A_COERCE:%.*]], <2 x float> noundef nofpclass(nan inf) [[B_COERCE:%.*]]) #[[ATTR0]] {
@@ -1071,9 +1119,12 @@ void divassignf(_Complex float *a, _Complex float b) {
 // PRMTD_FAST-NEXT:    [[MUL_BC:%.*]] = fmul reassoc nnan ninf nsz arcp afn float [[A_SROA_0_4_VEC_EXTRACT]], [[B_SROA_0_0_VEC_EXTRACT]]
 // PRMTD_FAST-NEXT:    [[MUL_R:%.*]] = fsub reassoc nnan ninf nsz arcp afn float [[MUL_AC]], [[MUL_BD]]
 // PRMTD_FAST-NEXT:    [[MUL_I:%.*]] = fadd reassoc nnan ninf nsz arcp afn float [[MUL_AD]], [[MUL_BC]]
-// PRMTD_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[MUL_R]], i32 0
-// PRMTD_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[MUL_I]], i32 1
-// PRMTD_FAST-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// PRMTD_FAST-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// PRMTD_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[MUL_R]], i32 0
+// PRMTD_FAST-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// PRMTD_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[MUL_I]], i32 1
+// PRMTD_FAST-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// PRMTD_FAST-NEXT:    ret <2 x float> [[FREEZE_LOAD2]]
 //
 // X86WINPRMTD_STRICT-LABEL: define dso_local i64 @mulf(
 // X86WINPRMTD_STRICT-SAME: i64 noundef [[A_COERCE:%.*]], i64 noundef [[B_COERCE:%.*]]) #[[ATTR0]] {
@@ -1118,9 +1169,12 @@ void divassignf(_Complex float *a, _Complex float b) {
 // PRMTD_STRICT-NEXT:    [[MUL_BC:%.*]] = call float @llvm.experimental.constrained.fmul.f32(float [[A_SROA_0_4_VEC_EXTRACT]], float [[B_SROA_0_0_VEC_EXTRACT]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR4]]
 // PRMTD_STRICT-NEXT:    [[MUL_R:%.*]] = call float @llvm.experimental.constrained.fsub.f32(float [[MUL_AC]], float [[MUL_BD]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR4]]
 // PRMTD_STRICT-NEXT:    [[MUL_I:%.*]] = call float @llvm.experimental.constrained.fadd.f32(float [[MUL_AD]], float [[MUL_BC]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR4]]
-// PRMTD_STRICT-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[MUL_R]], i32 0
-// PRMTD_STRICT-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[MUL_I]], i32 1
-// PRMTD_STRICT-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// PRMTD_STRICT-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// PRMTD_STRICT-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[MUL_R]], i32 0
+// PRMTD_STRICT-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// PRMTD_STRICT-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[MUL_I]], i32 1
+// PRMTD_STRICT-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// PRMTD_STRICT-NEXT:    ret <2 x float> [[FREEZE_LOAD2]]
 //
 _Complex float mulf(_Complex float a, _Complex float b) {
   return a * b;
@@ -1132,9 +1186,9 @@ _Complex float mulf(_Complex float a, _Complex float b) {
 // FULL-NEXT:    [[B_SROA_0_0_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[B_COERCE]], i32 0
 // FULL-NEXT:    [[B_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[B_COERCE]], i32 1
 // FULL-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
-// FULL-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4
+// FULL-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4, !freeze_bits [[META2]]
 // FULL-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 1
-// FULL-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4
+// FULL-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4, !freeze_bits [[META2]]
 // FULL-NEXT:    [[MUL_AC:%.*]] = fmul float [[DOTREAL]], [[B_SROA_0_0_VEC_EXTRACT]]
 // FULL-NEXT:    [[MUL_BD:%.*]] = fmul float [[DOTIMAG]], [[B_SROA_0_4_VEC_EXTRACT]]
 // FULL-NEXT:    [[MUL_AD:%.*]] = fmul float [[DOTREAL]], [[B_SROA_0_4_VEC_EXTRACT]]
@@ -1142,10 +1196,10 @@ _Complex float mulf(_Complex float a, _Complex float b) {
 // FULL-NEXT:    [[MUL_R:%.*]] = fsub float [[MUL_AC]], [[MUL_BD]]
 // FULL-NEXT:    [[MUL_I:%.*]] = fadd float [[MUL_AD]], [[MUL_BC]]
 // FULL-NEXT:    [[ISNAN_CMP:%.*]] = fcmp uno float [[MUL_R]], [[MUL_R]]
-// FULL-NEXT:    br i1 [[ISNAN_CMP]], label [[COMPLEX_MUL_IMAG_NAN:%.*]], label [[COMPLEX_MUL_CONT:%.*]], !prof [[PROF2]]
+// FULL-NEXT:    br i1 [[ISNAN_CMP]], label [[COMPLEX_MUL_IMAG_NAN:%.*]], label [[COMPLEX_MUL_CONT:%.*]], !prof [[PROF3]]
 // FULL:       complex_mul_imag_nan:
 // FULL-NEXT:    [[ISNAN_CMP1:%.*]] = fcmp uno float [[MUL_I]], [[MUL_I]]
-// FULL-NEXT:    br i1 [[ISNAN_CMP1]], label [[COMPLEX_MUL_LIBCALL:%.*]], label [[COMPLEX_MUL_CONT]], !prof [[PROF2]]
+// FULL-NEXT:    br i1 [[ISNAN_CMP1]], label [[COMPLEX_MUL_LIBCALL:%.*]], label [[COMPLEX_MUL_CONT]], !prof [[PROF3]]
 // FULL:       complex_mul_libcall:
 // FULL-NEXT:    [[CALL:%.*]] = call <2 x float> @__mulsc3(float noundef [[DOTREAL]], float noundef [[DOTIMAG]], float noundef [[B_SROA_0_0_VEC_EXTRACT]], float noundef [[B_SROA_0_4_VEC_EXTRACT]]) #[[ATTR2]]
 // FULL-NEXT:    [[COERCE_SROA_0_0_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[CALL]], i32 0
@@ -1166,9 +1220,9 @@ _Complex float mulf(_Complex float a, _Complex float b) {
 // BASIC-NEXT:    [[B_SROA_0_0_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[B_COERCE]], i32 0
 // BASIC-NEXT:    [[B_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[B_COERCE]], i32 1
 // BASIC-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
-// BASIC-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4
+// BASIC-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4, !freeze_bits [[META2]]
 // BASIC-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 1
-// BASIC-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4
+// BASIC-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4, !freeze_bits [[META2]]
 // BASIC-NEXT:    [[MUL_AC:%.*]] = fmul float [[DOTREAL]], [[B_SROA_0_0_VEC_EXTRACT]]
 // BASIC-NEXT:    [[MUL_BD:%.*]] = fmul float [[DOTIMAG]], [[B_SROA_0_4_VEC_EXTRACT]]
 // BASIC-NEXT:    [[MUL_AD:%.*]] = fmul float [[DOTREAL]], [[B_SROA_0_4_VEC_EXTRACT]]
@@ -1187,9 +1241,9 @@ _Complex float mulf(_Complex float a, _Complex float b) {
 // IMPRVD-NEXT:    [[B_SROA_0_0_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[B_COERCE]], i32 0
 // IMPRVD-NEXT:    [[B_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[B_COERCE]], i32 1
 // IMPRVD-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
-// IMPRVD-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4
+// IMPRVD-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4, !freeze_bits [[META2]]
 // IMPRVD-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 1
-// IMPRVD-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4
+// IMPRVD-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4, !freeze_bits [[META2]]
 // IMPRVD-NEXT:    [[MUL_AC:%.*]] = fmul float [[DOTREAL]], [[B_SROA_0_0_VEC_EXTRACT]]
 // IMPRVD-NEXT:    [[MUL_BD:%.*]] = fmul float [[DOTIMAG]], [[B_SROA_0_4_VEC_EXTRACT]]
 // IMPRVD-NEXT:    [[MUL_AD:%.*]] = fmul float [[DOTREAL]], [[B_SROA_0_4_VEC_EXTRACT]]
@@ -1208,9 +1262,9 @@ _Complex float mulf(_Complex float a, _Complex float b) {
 // PRMTD-NEXT:    [[B_SROA_0_0_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[B_COERCE]], i32 0
 // PRMTD-NEXT:    [[B_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[B_COERCE]], i32 1
 // PRMTD-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
-// PRMTD-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4
+// PRMTD-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4, !freeze_bits [[META2]]
 // PRMTD-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 1
-// PRMTD-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4
+// PRMTD-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4, !freeze_bits [[META2]]
 // PRMTD-NEXT:    [[MUL_AC:%.*]] = fmul float [[DOTREAL]], [[B_SROA_0_0_VEC_EXTRACT]]
 // PRMTD-NEXT:    [[MUL_BD:%.*]] = fmul float [[DOTIMAG]], [[B_SROA_0_4_VEC_EXTRACT]]
 // PRMTD-NEXT:    [[MUL_AD:%.*]] = fmul float [[DOTREAL]], [[B_SROA_0_4_VEC_EXTRACT]]
@@ -1232,9 +1286,9 @@ _Complex float mulf(_Complex float a, _Complex float b) {
 // X86WINPRMTD-NEXT:    [[B_SROA_2_0_EXTRACT_TRUNC:%.*]] = trunc i64 [[B_SROA_2_0_EXTRACT_SHIFT]] to i32
 // X86WINPRMTD-NEXT:    [[TMP1:%.*]] = bitcast i32 [[B_SROA_2_0_EXTRACT_TRUNC]] to float
 // X86WINPRMTD-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
-// X86WINPRMTD-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4
+// X86WINPRMTD-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 1
-// X86WINPRMTD-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4
+// X86WINPRMTD-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[MUL_AC:%.*]] = fmul float [[DOTREAL]], [[TMP0]]
 // X86WINPRMTD-NEXT:    [[MUL_BD:%.*]] = fmul float [[DOTIMAG]], [[TMP1]]
 // X86WINPRMTD-NEXT:    [[MUL_AD:%.*]] = fmul float [[DOTREAL]], [[TMP1]]
@@ -1251,9 +1305,9 @@ _Complex float mulf(_Complex float a, _Complex float b) {
 // AVRFP32-SAME: ptr noundef [[A:%.*]], float noundef [[B_COERCE0:%.*]], float noundef [[B_COERCE1:%.*]]) addrspace(1) #[[ATTR0]] {
 // AVRFP32-NEXT:  entry:
 // AVRFP32-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
-// AVRFP32-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 1
+// AVRFP32-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 1, !freeze_bits [[META2]]
 // AVRFP32-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 1
-// AVRFP32-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 1
+// AVRFP32-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 1, !freeze_bits [[META2]]
 // AVRFP32-NEXT:    [[MUL_AC:%.*]] = fmul float [[DOTREAL]], [[B_COERCE0]]
 // AVRFP32-NEXT:    [[MUL_BD:%.*]] = fmul float [[DOTIMAG]], [[B_COERCE1]]
 // AVRFP32-NEXT:    [[MUL_AD:%.*]] = fmul float [[DOTREAL]], [[B_COERCE1]]
@@ -1270,9 +1324,9 @@ _Complex float mulf(_Complex float a, _Complex float b) {
 // AVRFP64-SAME: ptr noundef [[A:%.*]], float noundef [[B_COERCE0:%.*]], float noundef [[B_COERCE1:%.*]]) addrspace(1) #[[ATTR0]] {
 // AVRFP64-NEXT:  entry:
 // AVRFP64-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
-// AVRFP64-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 1
+// AVRFP64-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 1, !freeze_bits [[META2]]
 // AVRFP64-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 1
-// AVRFP64-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 1
+// AVRFP64-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 1, !freeze_bits [[META2]]
 // AVRFP64-NEXT:    [[MUL_AC:%.*]] = fmul float [[DOTREAL]], [[B_COERCE0]]
 // AVRFP64-NEXT:    [[MUL_BD:%.*]] = fmul float [[DOTIMAG]], [[B_COERCE1]]
 // AVRFP64-NEXT:    [[MUL_AD:%.*]] = fmul float [[DOTREAL]], [[B_COERCE1]]
@@ -1291,9 +1345,9 @@ _Complex float mulf(_Complex float a, _Complex float b) {
 // BASIC_FAST-NEXT:    [[B_SROA_0_0_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[B_COERCE]], i32 0
 // BASIC_FAST-NEXT:    [[B_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[B_COERCE]], i32 1
 // BASIC_FAST-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
-// BASIC_FAST-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4
+// BASIC_FAST-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4, !freeze_bits [[META2]]
 // BASIC_FAST-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 1
-// BASIC_FAST-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4
+// BASIC_FAST-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4, !freeze_bits [[META2]]
 // BASIC_FAST-NEXT:    [[MUL_AC:%.*]] = fmul reassoc nnan ninf nsz arcp afn float [[DOTREAL]], [[B_SROA_0_0_VEC_EXTRACT]]
 // BASIC_FAST-NEXT:    [[MUL_BD:%.*]] = fmul reassoc nnan ninf nsz arcp afn float [[DOTIMAG]], [[B_SROA_0_4_VEC_EXTRACT]]
 // BASIC_FAST-NEXT:    [[MUL_AD:%.*]] = fmul reassoc nnan ninf nsz arcp afn float [[DOTREAL]], [[B_SROA_0_4_VEC_EXTRACT]]
@@ -1312,9 +1366,9 @@ _Complex float mulf(_Complex float a, _Complex float b) {
 // FULL_FAST-NEXT:    [[B_SROA_0_0_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[B_COERCE]], i32 0
 // FULL_FAST-NEXT:    [[B_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[B_COERCE]], i32 1
 // FULL_FAST-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
-// FULL_FAST-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4
+// FULL_FAST-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4, !freeze_bits [[META2]]
 // FULL_FAST-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 1
-// FULL_FAST-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4
+// FULL_FAST-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4, !freeze_bits [[META2]]
 // FULL_FAST-NEXT:    [[MUL_AC:%.*]] = fmul reassoc nnan ninf nsz arcp afn float [[DOTREAL]], [[B_SROA_0_0_VEC_EXTRACT]]
 // FULL_FAST-NEXT:    [[MUL_BD:%.*]] = fmul reassoc nnan ninf nsz arcp afn float [[DOTIMAG]], [[B_SROA_0_4_VEC_EXTRACT]]
 // FULL_FAST-NEXT:    [[MUL_AD:%.*]] = fmul reassoc nnan ninf nsz arcp afn float [[DOTREAL]], [[B_SROA_0_4_VEC_EXTRACT]]
@@ -1322,10 +1376,10 @@ _Complex float mulf(_Complex float a, _Complex float b) {
 // FULL_FAST-NEXT:    [[MUL_R:%.*]] = fsub reassoc nnan ninf nsz arcp afn float [[MUL_AC]], [[MUL_BD]]
 // FULL_FAST-NEXT:    [[MUL_I:%.*]] = fadd reassoc nnan ninf nsz arcp afn float [[MUL_AD]], [[MUL_BC]]
 // FULL_FAST-NEXT:    [[ISNAN_CMP:%.*]] = fcmp reassoc nnan ninf nsz arcp afn uno float [[MUL_R]], [[MUL_R]]
-// FULL_FAST-NEXT:    br i1 [[ISNAN_CMP]], label [[COMPLEX_MUL_IMAG_NAN:%.*]], label [[COMPLEX_MUL_CONT:%.*]], !prof [[PROF2]]
+// FULL_FAST-NEXT:    br i1 [[ISNAN_CMP]], label [[COMPLEX_MUL_IMAG_NAN:%.*]], label [[COMPLEX_MUL_CONT:%.*]], !prof [[PROF3]]
 // FULL_FAST:       complex_mul_imag_nan:
 // FULL_FAST-NEXT:    [[ISNAN_CMP1:%.*]] = fcmp reassoc nnan ninf nsz arcp afn uno float [[MUL_I]], [[MUL_I]]
-// FULL_FAST-NEXT:    br i1 [[ISNAN_CMP1]], label [[COMPLEX_MUL_LIBCALL:%.*]], label [[COMPLEX_MUL_CONT]], !prof [[PROF2]]
+// FULL_FAST-NEXT:    br i1 [[ISNAN_CMP1]], label [[COMPLEX_MUL_LIBCALL:%.*]], label [[COMPLEX_MUL_CONT]], !prof [[PROF3]]
 // FULL_FAST:       complex_mul_libcall:
 // FULL_FAST-NEXT:    [[CALL:%.*]] = call reassoc nnan ninf nsz arcp afn nofpclass(nan inf) <2 x float> @__mulsc3(float noundef nofpclass(nan inf) [[DOTREAL]], float noundef nofpclass(nan inf) [[DOTIMAG]], float noundef nofpclass(nan inf) [[B_SROA_0_0_VEC_EXTRACT]], float noundef nofpclass(nan inf) [[B_SROA_0_4_VEC_EXTRACT]]) #[[ATTR2]]
 // FULL_FAST-NEXT:    [[COERCE_SROA_0_0_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[CALL]], i32 0
@@ -1346,9 +1400,9 @@ _Complex float mulf(_Complex float a, _Complex float b) {
 // IMPRVD_FAST-NEXT:    [[B_SROA_0_0_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[B_COERCE]], i32 0
 // IMPRVD_FAST-NEXT:    [[B_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[B_COERCE]], i32 1
 // IMPRVD_FAST-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
-// IMPRVD_FAST-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4
+// IMPRVD_FAST-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4, !freeze_bits [[META2]]
 // IMPRVD_FAST-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 1
-// IMPRVD_FAST-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4
+// IMPRVD_FAST-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4, !freeze_bits [[META2]]
 // IMPRVD_FAST-NEXT:    [[MUL_AC:%.*]] = fmul reassoc nnan ninf nsz arcp afn float [[DOTREAL]], [[B_SROA_0_0_VEC_EXTRACT]]
 // IMPRVD_FAST-NEXT:    [[MUL_BD:%.*]] = fmul reassoc nnan ninf nsz arcp afn float [[DOTIMAG]], [[B_SROA_0_4_VEC_EXTRACT]]
 // IMPRVD_FAST-NEXT:    [[MUL_AD:%.*]] = fmul reassoc nnan ninf nsz arcp afn float [[DOTREAL]], [[B_SROA_0_4_VEC_EXTRACT]]
@@ -1367,9 +1421,9 @@ _Complex float mulf(_Complex float a, _Complex float b) {
 // PRMTD_FAST-NEXT:    [[B_SROA_0_0_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[B_COERCE]], i32 0
 // PRMTD_FAST-NEXT:    [[B_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[B_COERCE]], i32 1
 // PRMTD_FAST-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
-// PRMTD_FAST-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4
+// PRMTD_FAST-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4, !freeze_bits [[META2]]
 // PRMTD_FAST-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 1
-// PRMTD_FAST-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4
+// PRMTD_FAST-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4, !freeze_bits [[META2]]
 // PRMTD_FAST-NEXT:    [[MUL_AC:%.*]] = fmul reassoc nnan ninf nsz arcp afn float [[DOTREAL]], [[B_SROA_0_0_VEC_EXTRACT]]
 // PRMTD_FAST-NEXT:    [[MUL_BD:%.*]] = fmul reassoc nnan ninf nsz arcp afn float [[DOTIMAG]], [[B_SROA_0_4_VEC_EXTRACT]]
 // PRMTD_FAST-NEXT:    [[MUL_AD:%.*]] = fmul reassoc nnan ninf nsz arcp afn float [[DOTREAL]], [[B_SROA_0_4_VEC_EXTRACT]]
@@ -1391,9 +1445,9 @@ _Complex float mulf(_Complex float a, _Complex float b) {
 // X86WINPRMTD_STRICT-NEXT:    [[B_SROA_2_0_EXTRACT_TRUNC:%.*]] = trunc i64 [[B_SROA_2_0_EXTRACT_SHIFT]] to i32
 // X86WINPRMTD_STRICT-NEXT:    [[TMP1:%.*]] = bitcast i32 [[B_SROA_2_0_EXTRACT_TRUNC]] to float
 // X86WINPRMTD_STRICT-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
-// X86WINPRMTD_STRICT-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4
+// X86WINPRMTD_STRICT-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 1
-// X86WINPRMTD_STRICT-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4
+// X86WINPRMTD_STRICT-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[MUL_AC:%.*]] = call float @llvm.experimental.constrained.fmul.f32(float [[DOTREAL]], float [[TMP0]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR3]]
 // X86WINPRMTD_STRICT-NEXT:    [[MUL_BD:%.*]] = call float @llvm.experimental.constrained.fmul.f32(float [[DOTIMAG]], float [[TMP1]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR3]]
 // X86WINPRMTD_STRICT-NEXT:    [[MUL_AD:%.*]] = call float @llvm.experimental.constrained.fmul.f32(float [[DOTREAL]], float [[TMP1]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR3]]
@@ -1412,9 +1466,9 @@ _Complex float mulf(_Complex float a, _Complex float b) {
 // PRMTD_STRICT-NEXT:    [[B_SROA_0_0_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[B_COERCE]], i32 0
 // PRMTD_STRICT-NEXT:    [[B_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[B_COERCE]], i32 1
 // PRMTD_STRICT-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
-// PRMTD_STRICT-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4
+// PRMTD_STRICT-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4, !freeze_bits [[META2]]
 // PRMTD_STRICT-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 1
-// PRMTD_STRICT-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4
+// PRMTD_STRICT-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4, !freeze_bits [[META2]]
 // PRMTD_STRICT-NEXT:    [[MUL_AC:%.*]] = call float @llvm.experimental.constrained.fmul.f32(float [[DOTREAL]], float [[B_SROA_0_0_VEC_EXTRACT]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR4]]
 // PRMTD_STRICT-NEXT:    [[MUL_BD:%.*]] = call float @llvm.experimental.constrained.fmul.f32(float [[DOTIMAG]], float [[B_SROA_0_4_VEC_EXTRACT]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR4]]
 // PRMTD_STRICT-NEXT:    [[MUL_AD:%.*]] = call float @llvm.experimental.constrained.fmul.f32(float [[DOTREAL]], float [[B_SROA_0_4_VEC_EXTRACT]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR4]]
@@ -1523,13 +1577,13 @@ void mulassignf(_Complex float *a, _Complex float b) {
 // X86WINPRMTD-SAME: ptr dead_on_unwind noalias writable sret({ double, double }) align 8 [[AGG_RESULT:%.*]], ptr dead_on_return noundef [[A:%.*]], ptr dead_on_return noundef [[B:%.*]]) #[[ATTR0]] {
 // X86WINPRMTD-NEXT:  entry:
 // X86WINPRMTD-NEXT:    [[A_REALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
-// X86WINPRMTD-NEXT:    [[A_REAL:%.*]] = load double, ptr [[A_REALP]], align 8
+// X86WINPRMTD-NEXT:    [[A_REAL:%.*]] = load double, ptr [[A_REALP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[A_IMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 1
-// X86WINPRMTD-NEXT:    [[A_IMAG:%.*]] = load double, ptr [[A_IMAGP]], align 8
+// X86WINPRMTD-NEXT:    [[A_IMAG:%.*]] = load double, ptr [[A_IMAGP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[B]], i32 0, i32 0
-// X86WINPRMTD-NEXT:    [[B_REAL:%.*]] = load double, ptr [[B_REALP]], align 8
+// X86WINPRMTD-NEXT:    [[B_REAL:%.*]] = load double, ptr [[B_REALP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[B]], i32 0, i32 1
-// X86WINPRMTD-NEXT:    [[B_IMAG:%.*]] = load double, ptr [[B_IMAGP]], align 8
+// X86WINPRMTD-NEXT:    [[B_IMAG:%.*]] = load double, ptr [[B_IMAGP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[TMP0:%.*]] = call double @llvm.fabs.f64(double [[B_REAL]])
 // X86WINPRMTD-NEXT:    [[TMP1:%.*]] = call double @llvm.fabs.f64(double [[B_IMAG]])
 // X86WINPRMTD-NEXT:    [[ABS_CMP:%.*]] = fcmp ugt double [[TMP0]], [[TMP1]]
@@ -1564,9 +1618,9 @@ void mulassignf(_Complex float *a, _Complex float b) {
 // X86WINPRMTD-NEXT:    store double [[TMP20]], ptr [[AGG_RESULT_REALP]], align 8
 // X86WINPRMTD-NEXT:    store double [[TMP21]], ptr [[AGG_RESULT_IMAGP]], align 8
 // X86WINPRMTD-NEXT:    [[AGG_RESULT_REALP1:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 0
-// X86WINPRMTD-NEXT:    [[AGG_RESULT_REAL:%.*]] = load double, ptr [[AGG_RESULT_REALP1]], align 8
+// X86WINPRMTD-NEXT:    [[AGG_RESULT_REAL:%.*]] = load double, ptr [[AGG_RESULT_REALP1]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[AGG_RESULT_IMAGP2:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 1
-// X86WINPRMTD-NEXT:    [[AGG_RESULT_IMAG:%.*]] = load double, ptr [[AGG_RESULT_IMAGP2]], align 8
+// X86WINPRMTD-NEXT:    [[AGG_RESULT_IMAG:%.*]] = load double, ptr [[AGG_RESULT_IMAGP2]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[AGG_RESULT_REALP3:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 0
 // X86WINPRMTD-NEXT:    [[AGG_RESULT_IMAGP4:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 1
 // X86WINPRMTD-NEXT:    store double [[AGG_RESULT_REAL]], ptr [[AGG_RESULT_REALP3]], align 8
@@ -1646,9 +1700,9 @@ void mulassignf(_Complex float *a, _Complex float b) {
 // AVRFP64-NEXT:    store double [[TMP20]], ptr [[AGG_RESULT_REALP]], align 1
 // AVRFP64-NEXT:    store double [[TMP21]], ptr [[AGG_RESULT_IMAGP]], align 1
 // AVRFP64-NEXT:    [[AGG_RESULT_REALP1:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 0
-// AVRFP64-NEXT:    [[AGG_RESULT_REAL:%.*]] = load double, ptr [[AGG_RESULT_REALP1]], align 1
+// AVRFP64-NEXT:    [[AGG_RESULT_REAL:%.*]] = load double, ptr [[AGG_RESULT_REALP1]], align 1, !freeze_bits [[META2]]
 // AVRFP64-NEXT:    [[AGG_RESULT_IMAGP2:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 1
-// AVRFP64-NEXT:    [[AGG_RESULT_IMAG:%.*]] = load double, ptr [[AGG_RESULT_IMAGP2]], align 1
+// AVRFP64-NEXT:    [[AGG_RESULT_IMAG:%.*]] = load double, ptr [[AGG_RESULT_IMAGP2]], align 1, !freeze_bits [[META2]]
 // AVRFP64-NEXT:    [[AGG_RESULT_REALP3:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 0
 // AVRFP64-NEXT:    [[AGG_RESULT_IMAGP4:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 1
 // AVRFP64-NEXT:    store double [[AGG_RESULT_REAL]], ptr [[AGG_RESULT_REALP3]], align 1
@@ -1747,13 +1801,13 @@ void mulassignf(_Complex float *a, _Complex float b) {
 // X86WINPRMTD_STRICT-SAME: ptr dead_on_unwind noalias writable sret({ double, double }) align 8 [[AGG_RESULT:%.*]], ptr dead_on_return noundef [[A:%.*]], ptr dead_on_return noundef [[B:%.*]]) #[[ATTR0]] {
 // X86WINPRMTD_STRICT-NEXT:  entry:
 // X86WINPRMTD_STRICT-NEXT:    [[A_REALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
-// X86WINPRMTD_STRICT-NEXT:    [[A_REAL:%.*]] = load double, ptr [[A_REALP]], align 8
+// X86WINPRMTD_STRICT-NEXT:    [[A_REAL:%.*]] = load double, ptr [[A_REALP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[A_IMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 1
-// X86WINPRMTD_STRICT-NEXT:    [[A_IMAG:%.*]] = load double, ptr [[A_IMAGP]], align 8
+// X86WINPRMTD_STRICT-NEXT:    [[A_IMAG:%.*]] = load double, ptr [[A_IMAGP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[B]], i32 0, i32 0
-// X86WINPRMTD_STRICT-NEXT:    [[B_REAL:%.*]] = load double, ptr [[B_REALP]], align 8
+// X86WINPRMTD_STRICT-NEXT:    [[B_REAL:%.*]] = load double, ptr [[B_REALP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[B]], i32 0, i32 1
-// X86WINPRMTD_STRICT-NEXT:    [[B_IMAG:%.*]] = load double, ptr [[B_IMAGP]], align 8
+// X86WINPRMTD_STRICT-NEXT:    [[B_IMAG:%.*]] = load double, ptr [[B_IMAGP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[TMP0:%.*]] = call double @llvm.fabs.f64(double [[B_REAL]]) #[[ATTR3]]
 // X86WINPRMTD_STRICT-NEXT:    [[TMP1:%.*]] = call double @llvm.fabs.f64(double [[B_IMAG]]) #[[ATTR3]]
 // X86WINPRMTD_STRICT-NEXT:    [[ABS_CMP:%.*]] = call i1 @llvm.experimental.constrained.fcmp.f64(double [[TMP0]], double [[TMP1]], metadata !"ugt", metadata !"fpexcept.strict") #[[ATTR3]]
@@ -1788,9 +1842,9 @@ void mulassignf(_Complex float *a, _Complex float b) {
 // X86WINPRMTD_STRICT-NEXT:    store double [[TMP20]], ptr [[AGG_RESULT_REALP]], align 8
 // X86WINPRMTD_STRICT-NEXT:    store double [[TMP21]], ptr [[AGG_RESULT_IMAGP]], align 8
 // X86WINPRMTD_STRICT-NEXT:    [[AGG_RESULT_REALP1:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 0
-// X86WINPRMTD_STRICT-NEXT:    [[AGG_RESULT_REAL:%.*]] = load double, ptr [[AGG_RESULT_REALP1]], align 8
+// X86WINPRMTD_STRICT-NEXT:    [[AGG_RESULT_REAL:%.*]] = load double, ptr [[AGG_RESULT_REALP1]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[AGG_RESULT_IMAGP2:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 1
-// X86WINPRMTD_STRICT-NEXT:    [[AGG_RESULT_IMAG:%.*]] = load double, ptr [[AGG_RESULT_IMAGP2]], align 8
+// X86WINPRMTD_STRICT-NEXT:    [[AGG_RESULT_IMAG:%.*]] = load double, ptr [[AGG_RESULT_IMAGP2]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[AGG_RESULT_REALP3:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 0
 // X86WINPRMTD_STRICT-NEXT:    [[AGG_RESULT_IMAGP4:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 1
 // X86WINPRMTD_STRICT-NEXT:    store double [[AGG_RESULT_REAL]], ptr [[AGG_RESULT_REALP3]], align 8
@@ -1829,9 +1883,9 @@ _Complex double divd(_Complex double a, _Complex double b) {
 // FULL-SAME: ptr noundef [[A:%.*]], double noundef [[B_COERCE0:%.*]], double noundef [[B_COERCE1:%.*]]) #[[ATTR1]] {
 // FULL-NEXT:  entry:
 // FULL-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
-// FULL-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8
+// FULL-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8, !freeze_bits [[META2]]
 // FULL-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 1
-// FULL-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8
+// FULL-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8, !freeze_bits [[META2]]
 // FULL-NEXT:    [[CALL:%.*]] = call { double, double } @__divdc3(double noundef [[DOTREAL]], double noundef [[DOTIMAG]], double noundef [[B_COERCE0]], double noundef [[B_COERCE1]]) #[[ATTR2]]
 // FULL-NEXT:    [[TMP0:%.*]] = extractvalue { double, double } [[CALL]], 0
 // FULL-NEXT:    [[TMP1:%.*]] = extractvalue { double, double } [[CALL]], 1
@@ -1845,9 +1899,9 @@ _Complex double divd(_Complex double a, _Complex double b) {
 // BASIC-SAME: ptr noundef [[A:%.*]], double noundef [[B_COERCE0:%.*]], double noundef [[B_COERCE1:%.*]]) #[[ATTR1]] {
 // BASIC-NEXT:  entry:
 // BASIC-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
-// BASIC-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8
+// BASIC-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8, !freeze_bits [[META2]]
 // BASIC-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 1
-// BASIC-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8
+// BASIC-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8, !freeze_bits [[META2]]
 // BASIC-NEXT:    [[TMP0:%.*]] = fmul double [[DOTREAL]], [[B_COERCE0]]
 // BASIC-NEXT:    [[TMP1:%.*]] = fmul double [[DOTIMAG]], [[B_COERCE1]]
 // BASIC-NEXT:    [[TMP2:%.*]] = fadd double [[TMP0]], [[TMP1]]
@@ -1869,9 +1923,9 @@ _Complex double divd(_Complex double a, _Complex double b) {
 // IMPRVD-SAME: ptr noundef [[A:%.*]], double noundef [[B_COERCE0:%.*]], double noundef [[B_COERCE1:%.*]]) #[[ATTR2]] {
 // IMPRVD-NEXT:  entry:
 // IMPRVD-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
-// IMPRVD-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8
+// IMPRVD-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8, !freeze_bits [[META2]]
 // IMPRVD-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 1
-// IMPRVD-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8
+// IMPRVD-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8, !freeze_bits [[META2]]
 // IMPRVD-NEXT:    [[TMP0:%.*]] = call double @llvm.fabs.f64(double [[B_COERCE0]])
 // IMPRVD-NEXT:    [[TMP1:%.*]] = call double @llvm.fabs.f64(double [[B_COERCE1]])
 // IMPRVD-NEXT:    [[ABS_CMP:%.*]] = fcmp ugt double [[TMP0]], [[TMP1]]
@@ -1913,9 +1967,9 @@ _Complex double divd(_Complex double a, _Complex double b) {
 // PRMTD-NEXT:    [[EXT:%.*]] = fpext double [[B_COERCE0]] to x86_fp80
 // PRMTD-NEXT:    [[EXT1:%.*]] = fpext double [[B_COERCE1]] to x86_fp80
 // PRMTD-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
-// PRMTD-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8
+// PRMTD-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8, !freeze_bits [[META2]]
 // PRMTD-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 1
-// PRMTD-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8
+// PRMTD-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8, !freeze_bits [[META2]]
 // PRMTD-NEXT:    [[CONV:%.*]] = fpext double [[DOTREAL]] to x86_fp80
 // PRMTD-NEXT:    [[CONV2:%.*]] = fpext double [[DOTIMAG]] to x86_fp80
 // PRMTD-NEXT:    [[TMP0:%.*]] = fmul x86_fp80 [[CONV]], [[EXT]]
@@ -1941,13 +1995,13 @@ _Complex double divd(_Complex double a, _Complex double b) {
 // X86WINPRMTD-SAME: ptr noundef [[A:%.*]], ptr dead_on_return noundef [[B:%.*]]) #[[ATTR0]] {
 // X86WINPRMTD-NEXT:  entry:
 // X86WINPRMTD-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[B]], i32 0, i32 0
-// X86WINPRMTD-NEXT:    [[B_REAL:%.*]] = load double, ptr [[B_REALP]], align 8
+// X86WINPRMTD-NEXT:    [[B_REAL:%.*]] = load double, ptr [[B_REALP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[B]], i32 0, i32 1
-// X86WINPRMTD-NEXT:    [[B_IMAG:%.*]] = load double, ptr [[B_IMAGP]], align 8
+// X86WINPRMTD-NEXT:    [[B_IMAG:%.*]] = load double, ptr [[B_IMAGP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
-// X86WINPRMTD-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8
+// X86WINPRMTD-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 1
-// X86WINPRMTD-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8
+// X86WINPRMTD-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[TMP0:%.*]] = call double @llvm.fabs.f64(double [[B_REAL]])
 // X86WINPRMTD-NEXT:    [[TMP1:%.*]] = call double @llvm.fabs.f64(double [[B_IMAG]])
 // X86WINPRMTD-NEXT:    [[ABS_CMP:%.*]] = fcmp ugt double [[TMP0]], [[TMP1]]
@@ -1987,9 +2041,9 @@ _Complex double divd(_Complex double a, _Complex double b) {
 // AVRFP32-SAME: ptr noundef [[A:%.*]], float noundef [[B_COERCE0:%.*]], float noundef [[B_COERCE1:%.*]]) addrspace(1) #[[ATTR0]] {
 // AVRFP32-NEXT:  entry:
 // AVRFP32-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
-// AVRFP32-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 1
+// AVRFP32-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 1, !freeze_bits [[META2]]
 // AVRFP32-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 1
-// AVRFP32-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 1
+// AVRFP32-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 1, !freeze_bits [[META2]]
 // AVRFP32-NEXT:    [[TMP0:%.*]] = call addrspace(1) float @llvm.fabs.f32(float [[B_COERCE0]])
 // AVRFP32-NEXT:    [[TMP1:%.*]] = call addrspace(1) float @llvm.fabs.f32(float [[B_COERCE1]])
 // AVRFP32-NEXT:    [[ABS_CMP:%.*]] = fcmp ugt float [[TMP0]], [[TMP1]]
@@ -2029,9 +2083,9 @@ _Complex double divd(_Complex double a, _Complex double b) {
 // AVRFP64-SAME: ptr noundef [[A:%.*]], double noundef [[B_COERCE0:%.*]], double noundef [[B_COERCE1:%.*]]) addrspace(1) #[[ATTR0]] {
 // AVRFP64-NEXT:  entry:
 // AVRFP64-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
-// AVRFP64-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 1
+// AVRFP64-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 1, !freeze_bits [[META2]]
 // AVRFP64-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 1
-// AVRFP64-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 1
+// AVRFP64-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 1, !freeze_bits [[META2]]
 // AVRFP64-NEXT:    [[TMP0:%.*]] = call addrspace(1) double @llvm.fabs.f64(double [[B_COERCE0]])
 // AVRFP64-NEXT:    [[TMP1:%.*]] = call addrspace(1) double @llvm.fabs.f64(double [[B_COERCE1]])
 // AVRFP64-NEXT:    [[ABS_CMP:%.*]] = fcmp ugt double [[TMP0]], [[TMP1]]
@@ -2071,9 +2125,9 @@ _Complex double divd(_Complex double a, _Complex double b) {
 // BASIC_FAST-SAME: ptr noundef [[A:%.*]], double noundef nofpclass(nan inf) [[B_COERCE0:%.*]], double noundef nofpclass(nan inf) [[B_COERCE1:%.*]]) #[[ATTR1]] {
 // BASIC_FAST-NEXT:  entry:
 // BASIC_FAST-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
-// BASIC_FAST-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8
+// BASIC_FAST-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8, !freeze_bits [[META2]]
 // BASIC_FAST-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 1
-// BASIC_FAST-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8
+// BASIC_FAST-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8, !freeze_bits [[META2]]
 // BASIC_FAST-NEXT:    [[TMP0:%.*]] = fmul reassoc nnan ninf nsz arcp afn double [[DOTREAL]], [[B_COERCE0]]
 // BASIC_FAST-NEXT:    [[TMP1:%.*]] = fmul reassoc nnan ninf nsz arcp afn double [[DOTIMAG]], [[B_COERCE1]]
 // BASIC_FAST-NEXT:    [[TMP2:%.*]] = fadd reassoc nnan ninf nsz arcp afn double [[TMP0]], [[TMP1]]
@@ -2095,9 +2149,9 @@ _Complex double divd(_Complex double a, _Complex double b) {
 // FULL_FAST-SAME: ptr noundef [[A:%.*]], double noundef nofpclass(nan inf) [[B_COERCE0:%.*]], double noundef nofpclass(nan inf) [[B_COERCE1:%.*]]) #[[ATTR1]] {
 // FULL_FAST-NEXT:  entry:
 // FULL_FAST-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
-// FULL_FAST-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8
+// FULL_FAST-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8, !freeze_bits [[META2]]
 // FULL_FAST-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 1
-// FULL_FAST-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8
+// FULL_FAST-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8, !freeze_bits [[META2]]
 // FULL_FAST-NEXT:    [[CALL:%.*]] = call reassoc nnan ninf nsz arcp afn nofpclass(nan inf) { double, double } @__divdc3(double noundef nofpclass(nan inf) [[DOTREAL]], double noundef nofpclass(nan inf) [[DOTIMAG]], double noundef nofpclass(nan inf) [[B_COERCE0]], double noundef nofpclass(nan inf) [[B_COERCE1]]) #[[ATTR2]]
 // FULL_FAST-NEXT:    [[TMP0:%.*]] = extractvalue { double, double } [[CALL]], 0
 // FULL_FAST-NEXT:    [[TMP1:%.*]] = extractvalue { double, double } [[CALL]], 1
@@ -2111,9 +2165,9 @@ _Complex double divd(_Complex double a, _Complex double b) {
 // IMPRVD_FAST-SAME: ptr noundef [[A:%.*]], double noundef nofpclass(nan inf) [[B_COERCE0:%.*]], double noundef nofpclass(nan inf) [[B_COERCE1:%.*]]) #[[ATTR2]] {
 // IMPRVD_FAST-NEXT:  entry:
 // IMPRVD_FAST-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
-// IMPRVD_FAST-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8
+// IMPRVD_FAST-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8, !freeze_bits [[META2]]
 // IMPRVD_FAST-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 1
-// IMPRVD_FAST-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8
+// IMPRVD_FAST-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8, !freeze_bits [[META2]]
 // IMPRVD_FAST-NEXT:    [[TMP0:%.*]] = call reassoc nnan ninf nsz arcp afn double @llvm.fabs.f64(double [[B_COERCE0]])
 // IMPRVD_FAST-NEXT:    [[TMP1:%.*]] = call reassoc nnan ninf nsz arcp afn double @llvm.fabs.f64(double [[B_COERCE1]])
 // IMPRVD_FAST-NEXT:    [[ABS_CMP:%.*]] = fcmp reassoc nnan ninf nsz arcp afn ugt double [[TMP0]], [[TMP1]]
@@ -2155,9 +2209,9 @@ _Complex double divd(_Complex double a, _Complex double b) {
 // PRMTD_FAST-NEXT:    [[EXT:%.*]] = fpext reassoc nnan ninf nsz arcp afn double [[B_COERCE0]] to x86_fp80
 // PRMTD_FAST-NEXT:    [[EXT1:%.*]] = fpext reassoc nnan ninf nsz arcp afn double [[B_COERCE1]] to x86_fp80
 // PRMTD_FAST-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
-// PRMTD_FAST-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8
+// PRMTD_FAST-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8, !freeze_bits [[META2]]
 // PRMTD_FAST-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 1
-// PRMTD_FAST-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8
+// PRMTD_FAST-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8, !freeze_bits [[META2]]
 // PRMTD_FAST-NEXT:    [[CONV:%.*]] = fpext reassoc nnan ninf nsz arcp afn double [[DOTREAL]] to x86_fp80
 // PRMTD_FAST-NEXT:    [[CONV2:%.*]] = fpext reassoc nnan ninf nsz arcp afn double [[DOTIMAG]] to x86_fp80
 // PRMTD_FAST-NEXT:    [[TMP0:%.*]] = fmul reassoc nnan ninf nsz arcp afn x86_fp80 [[CONV]], [[EXT]]
@@ -2183,13 +2237,13 @@ _Complex double divd(_Complex double a, _Complex double b) {
 // X86WINPRMTD_STRICT-SAME: ptr noundef [[A:%.*]], ptr dead_on_return noundef [[B:%.*]]) #[[ATTR0]] {
 // X86WINPRMTD_STRICT-NEXT:  entry:
 // X86WINPRMTD_STRICT-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[B]], i32 0, i32 0
-// X86WINPRMTD_STRICT-NEXT:    [[B_REAL:%.*]] = load double, ptr [[B_REALP]], align 8
+// X86WINPRMTD_STRICT-NEXT:    [[B_REAL:%.*]] = load double, ptr [[B_REALP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[B]], i32 0, i32 1
-// X86WINPRMTD_STRICT-NEXT:    [[B_IMAG:%.*]] = load double, ptr [[B_IMAGP]], align 8
+// X86WINPRMTD_STRICT-NEXT:    [[B_IMAG:%.*]] = load double, ptr [[B_IMAGP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
-// X86WINPRMTD_STRICT-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8
+// X86WINPRMTD_STRICT-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 1
-// X86WINPRMTD_STRICT-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8
+// X86WINPRMTD_STRICT-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[TMP0:%.*]] = call double @llvm.fabs.f64(double [[B_REAL]]) #[[ATTR3]]
 // X86WINPRMTD_STRICT-NEXT:    [[TMP1:%.*]] = call double @llvm.fabs.f64(double [[B_IMAG]]) #[[ATTR3]]
 // X86WINPRMTD_STRICT-NEXT:    [[ABS_CMP:%.*]] = call i1 @llvm.experimental.constrained.fcmp.f64(double [[TMP0]], double [[TMP1]], metadata !"ugt", metadata !"fpexcept.strict") #[[ATTR3]]
@@ -2231,9 +2285,9 @@ _Complex double divd(_Complex double a, _Complex double b) {
 // PRMTD_STRICT-NEXT:    [[EXT:%.*]] = call x86_fp80 @llvm.experimental.constrained.fpext.f80.f64(double [[B_COERCE0]], metadata !"fpexcept.strict") #[[ATTR4]]
 // PRMTD_STRICT-NEXT:    [[EXT1:%.*]] = call x86_fp80 @llvm.experimental.constrained.fpext.f80.f64(double [[B_COERCE1]], metadata !"fpexcept.strict") #[[ATTR4]]
 // PRMTD_STRICT-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
-// PRMTD_STRICT-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8
+// PRMTD_STRICT-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8, !freeze_bits [[META2]]
 // PRMTD_STRICT-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 1
-// PRMTD_STRICT-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8
+// PRMTD_STRICT-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8, !freeze_bits [[META2]]
 // PRMTD_STRICT-NEXT:    [[CONV:%.*]] = call x86_fp80 @llvm.experimental.constrained.fpext.f80.f64(double [[DOTREAL]], metadata !"fpexcept.strict") #[[ATTR4]]
 // PRMTD_STRICT-NEXT:    [[CONV2:%.*]] = call x86_fp80 @llvm.experimental.constrained.fpext.f80.f64(double [[DOTIMAG]], metadata !"fpexcept.strict") #[[ATTR4]]
 // PRMTD_STRICT-NEXT:    [[TMP0:%.*]] = call x86_fp80 @llvm.experimental.constrained.fmul.f80(x86_fp80 [[CONV]], x86_fp80 [[EXT]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR4]]
@@ -2269,10 +2323,10 @@ void divassignd(_Complex double *a, _Complex double b) {
 // FULL-NEXT:    [[MUL_R:%.*]] = fsub double [[MUL_AC]], [[MUL_BD]]
 // FULL-NEXT:    [[MUL_I:%.*]] = fadd double [[MUL_AD]], [[MUL_BC]]
 // FULL-NEXT:    [[ISNAN_CMP:%.*]] = fcmp uno double [[MUL_R]], [[MUL_R]]
-// FULL-NEXT:    br i1 [[ISNAN_CMP]], label [[COMPLEX_MUL_IMAG_NAN:%.*]], label [[COMPLEX_MUL_CONT:%.*]], !prof [[PROF2]]
+// FULL-NEXT:    br i1 [[ISNAN_CMP]], label [[COMPLEX_MUL_IMAG_NAN:%.*]], label [[COMPLEX_MUL_CONT:%.*]], !prof [[PROF3]]
 // FULL:       complex_mul_imag_nan:
 // FULL-NEXT:    [[ISNAN_CMP1:%.*]] = fcmp uno double [[MUL_I]], [[MUL_I]]
-// FULL-NEXT:    br i1 [[ISNAN_CMP1]], label [[COMPLEX_MUL_LIBCALL:%.*]], label [[COMPLEX_MUL_CONT]], !prof [[PROF2]]
+// FULL-NEXT:    br i1 [[ISNAN_CMP1]], label [[COMPLEX_MUL_LIBCALL:%.*]], label [[COMPLEX_MUL_CONT]], !prof [[PROF3]]
 // FULL:       complex_mul_libcall:
 // FULL-NEXT:    [[CALL:%.*]] = call { double, double } @__muldc3(double noundef [[A_COERCE0]], double noundef [[A_COERCE1]], double noundef [[B_COERCE0]], double noundef [[B_COERCE1]]) #[[ATTR2]]
 // FULL-NEXT:    [[TMP0:%.*]] = extractvalue { double, double } [[CALL]], 0
@@ -2328,13 +2382,13 @@ void divassignd(_Complex double *a, _Complex double b) {
 // X86WINPRMTD-SAME: ptr dead_on_unwind noalias writable sret({ double, double }) align 8 [[AGG_RESULT:%.*]], ptr dead_on_return noundef [[A:%.*]], ptr dead_on_return noundef [[B:%.*]]) #[[ATTR0]] {
 // X86WINPRMTD-NEXT:  entry:
 // X86WINPRMTD-NEXT:    [[A_REALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
-// X86WINPRMTD-NEXT:    [[A_REAL:%.*]] = load double, ptr [[A_REALP]], align 8
+// X86WINPRMTD-NEXT:    [[A_REAL:%.*]] = load double, ptr [[A_REALP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[A_IMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 1
-// X86WINPRMTD-NEXT:    [[A_IMAG:%.*]] = load double, ptr [[A_IMAGP]], align 8
+// X86WINPRMTD-NEXT:    [[A_IMAG:%.*]] = load double, ptr [[A_IMAGP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[B]], i32 0, i32 0
-// X86WINPRMTD-NEXT:    [[B_REAL:%.*]] = load double, ptr [[B_REALP]], align 8
+// X86WINPRMTD-NEXT:    [[B_REAL:%.*]] = load double, ptr [[B_REALP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[B]], i32 0, i32 1
-// X86WINPRMTD-NEXT:    [[B_IMAG:%.*]] = load double, ptr [[B_IMAGP]], align 8
+// X86WINPRMTD-NEXT:    [[B_IMAG:%.*]] = load double, ptr [[B_IMAGP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[MUL_AC:%.*]] = fmul double [[A_REAL]], [[B_REAL]]
 // X86WINPRMTD-NEXT:    [[MUL_BD:%.*]] = fmul double [[A_IMAG]], [[B_IMAG]]
 // X86WINPRMTD-NEXT:    [[MUL_AD:%.*]] = fmul double [[A_REAL]], [[B_IMAG]]
@@ -2346,9 +2400,9 @@ void divassignd(_Complex double *a, _Complex double b) {
 // X86WINPRMTD-NEXT:    store double [[MUL_R]], ptr [[AGG_RESULT_REALP]], align 8
 // X86WINPRMTD-NEXT:    store double [[MUL_I]], ptr [[AGG_RESULT_IMAGP]], align 8
 // X86WINPRMTD-NEXT:    [[AGG_RESULT_REALP1:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 0
-// X86WINPRMTD-NEXT:    [[AGG_RESULT_REAL:%.*]] = load double, ptr [[AGG_RESULT_REALP1]], align 8
+// X86WINPRMTD-NEXT:    [[AGG_RESULT_REAL:%.*]] = load double, ptr [[AGG_RESULT_REALP1]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[AGG_RESULT_IMAGP2:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 1
-// X86WINPRMTD-NEXT:    [[AGG_RESULT_IMAG:%.*]] = load double, ptr [[AGG_RESULT_IMAGP2]], align 8
+// X86WINPRMTD-NEXT:    [[AGG_RESULT_IMAG:%.*]] = load double, ptr [[AGG_RESULT_IMAGP2]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[AGG_RESULT_REALP3:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 0
 // X86WINPRMTD-NEXT:    [[AGG_RESULT_IMAGP4:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 1
 // X86WINPRMTD-NEXT:    store double [[AGG_RESULT_REAL]], ptr [[AGG_RESULT_REALP3]], align 8
@@ -2382,9 +2436,9 @@ void divassignd(_Complex double *a, _Complex double b) {
 // AVRFP64-NEXT:    store double [[MUL_R]], ptr [[AGG_RESULT_REALP]], align 1
 // AVRFP64-NEXT:    store double [[MUL_I]], ptr [[AGG_RESULT_IMAGP]], align 1
 // AVRFP64-NEXT:    [[AGG_RESULT_REALP1:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 0
-// AVRFP64-NEXT:    [[AGG_RESULT_REAL:%.*]] = load double, ptr [[AGG_RESULT_REALP1]], align 1
+// AVRFP64-NEXT:    [[AGG_RESULT_REAL:%.*]] = load double, ptr [[AGG_RESULT_REALP1]], align 1, !freeze_bits [[META2]]
 // AVRFP64-NEXT:    [[AGG_RESULT_IMAGP2:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 1
-// AVRFP64-NEXT:    [[AGG_RESULT_IMAG:%.*]] = load double, ptr [[AGG_RESULT_IMAGP2]], align 1
+// AVRFP64-NEXT:    [[AGG_RESULT_IMAG:%.*]] = load double, ptr [[AGG_RESULT_IMAGP2]], align 1, !freeze_bits [[META2]]
 // AVRFP64-NEXT:    [[AGG_RESULT_REALP3:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 0
 // AVRFP64-NEXT:    [[AGG_RESULT_IMAGP4:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 1
 // AVRFP64-NEXT:    store double [[AGG_RESULT_REAL]], ptr [[AGG_RESULT_REALP3]], align 1
@@ -2414,10 +2468,10 @@ void divassignd(_Complex double *a, _Complex double b) {
 // FULL_FAST-NEXT:    [[MUL_R:%.*]] = fsub reassoc nnan ninf nsz arcp afn double [[MUL_AC]], [[MUL_BD]]
 // FULL_FAST-NEXT:    [[MUL_I:%.*]] = fadd reassoc nnan ninf nsz arcp afn double [[MUL_AD]], [[MUL_BC]]
 // FULL_FAST-NEXT:    [[ISNAN_CMP:%.*]] = fcmp reassoc nnan ninf nsz arcp afn uno double [[MUL_R]], [[MUL_R]]
-// FULL_FAST-NEXT:    br i1 [[ISNAN_CMP]], label [[COMPLEX_MUL_IMAG_NAN:%.*]], label [[COMPLEX_MUL_CONT:%.*]], !prof [[PROF2]]
+// FULL_FAST-NEXT:    br i1 [[ISNAN_CMP]], label [[COMPLEX_MUL_IMAG_NAN:%.*]], label [[COMPLEX_MUL_CONT:%.*]], !prof [[PROF3]]
 // FULL_FAST:       complex_mul_imag_nan:
 // FULL_FAST-NEXT:    [[ISNAN_CMP1:%.*]] = fcmp reassoc nnan ninf nsz arcp afn uno double [[MUL_I]], [[MUL_I]]
-// FULL_FAST-NEXT:    br i1 [[ISNAN_CMP1]], label [[COMPLEX_MUL_LIBCALL:%.*]], label [[COMPLEX_MUL_CONT]], !prof [[PROF2]]
+// FULL_FAST-NEXT:    br i1 [[ISNAN_CMP1]], label [[COMPLEX_MUL_LIBCALL:%.*]], label [[COMPLEX_MUL_CONT]], !prof [[PROF3]]
 // FULL_FAST:       complex_mul_libcall:
 // FULL_FAST-NEXT:    [[CALL:%.*]] = call reassoc nnan ninf nsz arcp afn nofpclass(nan inf) { double, double } @__muldc3(double noundef nofpclass(nan inf) [[A_COERCE0]], double noundef nofpclass(nan inf) [[A_COERCE1]], double noundef nofpclass(nan inf) [[B_COERCE0]], double noundef nofpclass(nan inf) [[B_COERCE1]]) #[[ATTR2]]
 // FULL_FAST-NEXT:    [[TMP0:%.*]] = extractvalue { double, double } [[CALL]], 0
@@ -2460,13 +2514,13 @@ void divassignd(_Complex double *a, _Complex double b) {
 // X86WINPRMTD_STRICT-SAME: ptr dead_on_unwind noalias writable sret({ double, double }) align 8 [[AGG_RESULT:%.*]], ptr dead_on_return noundef [[A:%.*]], ptr dead_on_return noundef [[B:%.*]]) #[[ATTR0]] {
 // X86WINPRMTD_STRICT-NEXT:  entry:
 // X86WINPRMTD_STRICT-NEXT:    [[A_REALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
-// X86WINPRMTD_STRICT-NEXT:    [[A_REAL:%.*]] = load double, ptr [[A_REALP]], align 8
+// X86WINPRMTD_STRICT-NEXT:    [[A_REAL:%.*]] = load double, ptr [[A_REALP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[A_IMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 1
-// X86WINPRMTD_STRICT-NEXT:    [[A_IMAG:%.*]] = load double, ptr [[A_IMAGP]], align 8
+// X86WINPRMTD_STRICT-NEXT:    [[A_IMAG:%.*]] = load double, ptr [[A_IMAGP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[B]], i32 0, i32 0
-// X86WINPRMTD_STRICT-NEXT:    [[B_REAL:%.*]] = load double, ptr [[B_REALP]], align 8
+// X86WINPRMTD_STRICT-NEXT:    [[B_REAL:%.*]] = load double, ptr [[B_REALP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[B]], i32 0, i32 1
-// X86WINPRMTD_STRICT-NEXT:    [[B_IMAG:%.*]] = load double, ptr [[B_IMAGP]], align 8
+// X86WINPRMTD_STRICT-NEXT:    [[B_IMAG:%.*]] = load double, ptr [[B_IMAGP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[MUL_AC:%.*]] = call double @llvm.experimental.constrained.fmul.f64(double [[A_REAL]], double [[B_REAL]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR3]]
 // X86WINPRMTD_STRICT-NEXT:    [[MUL_BD:%.*]] = call double @llvm.experimental.constrained.fmul.f64(double [[A_IMAG]], double [[B_IMAG]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR3]]
 // X86WINPRMTD_STRICT-NEXT:    [[MUL_AD:%.*]] = call double @llvm.experimental.constrained.fmul.f64(double [[A_REAL]], double [[B_IMAG]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR3]]
@@ -2478,9 +2532,9 @@ void divassignd(_Complex double *a, _Complex double b) {
 // X86WINPRMTD_STRICT-NEXT:    store double [[MUL_R]], ptr [[AGG_RESULT_REALP]], align 8
 // X86WINPRMTD_STRICT-NEXT:    store double [[MUL_I]], ptr [[AGG_RESULT_IMAGP]], align 8
 // X86WINPRMTD_STRICT-NEXT:    [[AGG_RESULT_REALP1:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 0
-// X86WINPRMTD_STRICT-NEXT:    [[AGG_RESULT_REAL:%.*]] = load double, ptr [[AGG_RESULT_REALP1]], align 8
+// X86WINPRMTD_STRICT-NEXT:    [[AGG_RESULT_REAL:%.*]] = load double, ptr [[AGG_RESULT_REALP1]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[AGG_RESULT_IMAGP2:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 1
-// X86WINPRMTD_STRICT-NEXT:    [[AGG_RESULT_IMAG:%.*]] = load double, ptr [[AGG_RESULT_IMAGP2]], align 8
+// X86WINPRMTD_STRICT-NEXT:    [[AGG_RESULT_IMAG:%.*]] = load double, ptr [[AGG_RESULT_IMAGP2]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[AGG_RESULT_REALP3:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 0
 // X86WINPRMTD_STRICT-NEXT:    [[AGG_RESULT_IMAGP4:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 1
 // X86WINPRMTD_STRICT-NEXT:    store double [[AGG_RESULT_REAL]], ptr [[AGG_RESULT_REALP3]], align 8
@@ -2508,9 +2562,9 @@ _Complex double muld(_Complex double a, _Complex double b) {
 // FULL-SAME: ptr noundef [[A:%.*]], double noundef [[B_COERCE0:%.*]], double noundef [[B_COERCE1:%.*]]) #[[ATTR1]] {
 // FULL-NEXT:  entry:
 // FULL-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
-// FULL-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8
+// FULL-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8, !freeze_bits [[META2]]
 // FULL-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 1
-// FULL-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8
+// FULL-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8, !freeze_bits [[META2]]
 // FULL-NEXT:    [[MUL_AC:%.*]] = fmul double [[DOTREAL]], [[B_COERCE0]]
 // FULL-NEXT:    [[MUL_BD:%.*]] = fmul double [[DOTIMAG]], [[B_COERCE1]]
 // FULL-NEXT:    [[MUL_AD:%.*]] = fmul double [[DOTREAL]], [[B_COERCE1]]
@@ -2518,10 +2572,10 @@ _Complex double muld(_Complex double a, _Complex double b) {
 // FULL-NEXT:    [[MUL_R:%.*]] = fsub double [[MUL_AC]], [[MUL_BD]]
 // FULL-NEXT:    [[MUL_I:%.*]] = fadd double [[MUL_AD]], [[MUL_BC]]
 // FULL-NEXT:    [[ISNAN_CMP:%.*]] = fcmp uno double [[MUL_R]], [[MUL_R]]
-// FULL-NEXT:    br i1 [[ISNAN_CMP]], label [[COMPLEX_MUL_IMAG_NAN:%.*]], label [[COMPLEX_MUL_CONT:%.*]], !prof [[PROF2]]
+// FULL-NEXT:    br i1 [[ISNAN_CMP]], label [[COMPLEX_MUL_IMAG_NAN:%.*]], label [[COMPLEX_MUL_CONT:%.*]], !prof [[PROF3]]
 // FULL:       complex_mul_imag_nan:
 // FULL-NEXT:    [[ISNAN_CMP1:%.*]] = fcmp uno double [[MUL_I]], [[MUL_I]]
-// FULL-NEXT:    br i1 [[ISNAN_CMP1]], label [[COMPLEX_MUL_LIBCALL:%.*]], label [[COMPLEX_MUL_CONT]], !prof [[PROF2]]
+// FULL-NEXT:    br i1 [[ISNAN_CMP1]], label [[COMPLEX_MUL_LIBCALL:%.*]], label [[COMPLEX_MUL_CONT]], !prof [[PROF3]]
 // FULL:       complex_mul_libcall:
 // FULL-NEXT:    [[CALL:%.*]] = call { double, double } @__muldc3(double noundef [[DOTREAL]], double noundef [[DOTIMAG]], double noundef [[B_COERCE0]], double noundef [[B_COERCE1]]) #[[ATTR2]]
 // FULL-NEXT:    [[TMP0:%.*]] = extractvalue { double, double } [[CALL]], 0
@@ -2540,9 +2594,9 @@ _Complex double muld(_Complex double a, _Complex double b) {
 // BASIC-SAME: ptr noundef [[A:%.*]], double noundef [[B_COERCE0:%.*]], double noundef [[B_COERCE1:%.*]]) #[[ATTR1]] {
 // BASIC-NEXT:  entry:
 // BASIC-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
-// BASIC-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8
+// BASIC-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8, !freeze_bits [[META2]]
 // BASIC-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 1
-// BASIC-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8
+// BASIC-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8, !freeze_bits [[META2]]
 // BASIC-NEXT:    [[MUL_AC:%.*]] = fmul double [[DOTREAL]], [[B_COERCE0]]
 // BASIC-NEXT:    [[MUL_BD:%.*]] = fmul double [[DOTIMAG]], [[B_COERCE1]]
 // BASIC-NEXT:    [[MUL_AD:%.*]] = fmul double [[DOTREAL]], [[B_COERCE1]]
@@ -2559,9 +2613,9 @@ _Complex double muld(_Complex double a, _Complex double b) {
 // IMPRVD-SAME: ptr noundef [[A:%.*]], double noundef [[B_COERCE0:%.*]], double noundef [[B_COERCE1:%.*]]) #[[ATTR2]] {
 // IMPRVD-NEXT:  entry:
 // IMPRVD-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
-// IMPRVD-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8
+// IMPRVD-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8, !freeze_bits [[META2]]
 // IMPRVD-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 1
-// IMPRVD-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8
+// IMPRVD-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8, !freeze_bits [[META2]]
 // IMPRVD-NEXT:    [[MUL_AC:%.*]] = fmul double [[DOTREAL]], [[B_COERCE0]]
 // IMPRVD-NEXT:    [[MUL_BD:%.*]] = fmul double [[DOTIMAG]], [[B_COERCE1]]
 // IMPRVD-NEXT:    [[MUL_AD:%.*]] = fmul double [[DOTREAL]], [[B_COERCE1]]
@@ -2578,9 +2632,9 @@ _Complex double muld(_Complex double a, _Complex double b) {
 // PRMTD-SAME: ptr noundef [[A:%.*]], double noundef [[B_COERCE0:%.*]], double noundef [[B_COERCE1:%.*]]) #[[ATTR1]] {
 // PRMTD-NEXT:  entry:
 // PRMTD-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
-// PRMTD-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8
+// PRMTD-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8, !freeze_bits [[META2]]
 // PRMTD-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 1
-// PRMTD-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8
+// PRMTD-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8, !freeze_bits [[META2]]
 // PRMTD-NEXT:    [[MUL_AC:%.*]] = fmul double [[DOTREAL]], [[B_COERCE0]]
 // PRMTD-NEXT:    [[MUL_BD:%.*]] = fmul double [[DOTIMAG]], [[B_COERCE1]]
 // PRMTD-NEXT:    [[MUL_AD:%.*]] = fmul double [[DOTREAL]], [[B_COERCE1]]
@@ -2597,13 +2651,13 @@ _Complex double muld(_Complex double a, _Complex double b) {
 // X86WINPRMTD-SAME: ptr noundef [[A:%.*]], ptr dead_on_return noundef [[B:%.*]]) #[[ATTR0]] {
 // X86WINPRMTD-NEXT:  entry:
 // X86WINPRMTD-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[B]], i32 0, i32 0
-// X86WINPRMTD-NEXT:    [[B_REAL:%.*]] = load double, ptr [[B_REALP]], align 8
+// X86WINPRMTD-NEXT:    [[B_REAL:%.*]] = load double, ptr [[B_REALP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[B]], i32 0, i32 1
-// X86WINPRMTD-NEXT:    [[B_IMAG:%.*]] = load double, ptr [[B_IMAGP]], align 8
+// X86WINPRMTD-NEXT:    [[B_IMAG:%.*]] = load double, ptr [[B_IMAGP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
-// X86WINPRMTD-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8
+// X86WINPRMTD-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 1
-// X86WINPRMTD-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8
+// X86WINPRMTD-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[MUL_AC:%.*]] = fmul double [[DOTREAL]], [[B_REAL]]
 // X86WINPRMTD-NEXT:    [[MUL_BD:%.*]] = fmul double [[DOTIMAG]], [[B_IMAG]]
 // X86WINPRMTD-NEXT:    [[MUL_AD:%.*]] = fmul double [[DOTREAL]], [[B_IMAG]]
@@ -2620,9 +2674,9 @@ _Complex double muld(_Complex double a, _Complex double b) {
 // AVRFP32-SAME: ptr noundef [[A:%.*]], float noundef [[B_COERCE0:%.*]], float noundef [[B_COERCE1:%.*]]) addrspace(1) #[[ATTR0]] {
 // AVRFP32-NEXT:  entry:
 // AVRFP32-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
-// AVRFP32-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 1
+// AVRFP32-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 1, !freeze_bits [[META2]]
 // AVRFP32-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 1
-// AVRFP32-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 1
+// AVRFP32-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 1, !freeze_bits [[META2]]
 // AVRFP32-NEXT:    [[MUL_AC:%.*]] = fmul float [[DOTREAL]], [[B_COERCE0]]
 // AVRFP32-NEXT:    [[MUL_BD:%.*]] = fmul float [[DOTIMAG]], [[B_COERCE1]]
 // AVRFP32-NEXT:    [[MUL_AD:%.*]] = fmul float [[DOTREAL]], [[B_COERCE1]]
@@ -2639,9 +2693,9 @@ _Complex double muld(_Complex double a, _Complex double b) {
 // AVRFP64-SAME: ptr noundef [[A:%.*]], double noundef [[B_COERCE0:%.*]], double noundef [[B_COERCE1:%.*]]) addrspace(1) #[[ATTR0]] {
 // AVRFP64-NEXT:  entry:
 // AVRFP64-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
-// AVRFP64-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 1
+// AVRFP64-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 1, !freeze_bits [[META2]]
 // AVRFP64-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 1
-// AVRFP64-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 1
+// AVRFP64-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 1, !freeze_bits [[META2]]
 // AVRFP64-NEXT:    [[MUL_AC:%.*]] = fmul double [[DOTREAL]], [[B_COERCE0]]
 // AVRFP64-NEXT:    [[MUL_BD:%.*]] = fmul double [[DOTIMAG]], [[B_COERCE1]]
 // AVRFP64-NEXT:    [[MUL_AD:%.*]] = fmul double [[DOTREAL]], [[B_COERCE1]]
@@ -2658,9 +2712,9 @@ _Complex double muld(_Complex double a, _Complex double b) {
 // BASIC_FAST-SAME: ptr noundef [[A:%.*]], double noundef nofpclass(nan inf) [[B_COERCE0:%.*]], double noundef nofpclass(nan inf) [[B_COERCE1:%.*]]) #[[ATTR1]] {
 // BASIC_FAST-NEXT:  entry:
 // BASIC_FAST-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
-// BASIC_FAST-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8
+// BASIC_FAST-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8, !freeze_bits [[META2]]
 // BASIC_FAST-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 1
-// BASIC_FAST-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8
+// BASIC_FAST-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8, !freeze_bits [[META2]]
 // BASIC_FAST-NEXT:    [[MUL_AC:%.*]] = fmul reassoc nnan ninf nsz arcp afn double [[DOTREAL]], [[B_COERCE0]]
 // BASIC_FAST-NEXT:    [[MUL_BD:%.*]] = fmul reassoc nnan ninf nsz arcp afn double [[DOTIMAG]], [[B_COERCE1]]
 // BASIC_FAST-NEXT:    [[MUL_AD:%.*]] = fmul reassoc nnan ninf nsz arcp afn double [[DOTREAL]], [[B_COERCE1]]
@@ -2677,9 +2731,9 @@ _Complex double muld(_Complex double a, _Complex double b) {
 // FULL_FAST-SAME: ptr noundef [[A:%.*]], double noundef nofpclass(nan inf) [[B_COERCE0:%.*]], double noundef nofpclass(nan inf) [[B_COERCE1:%.*]]) #[[ATTR1]] {
 // FULL_FAST-NEXT:  entry:
 // FULL_FAST-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
-// FULL_FAST-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8
+// FULL_FAST-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8, !freeze_bits [[META2]]
 // FULL_FAST-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 1
-// FULL_FAST-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8
+// FULL_FAST-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8, !freeze_bits [[META2]]
 // FULL_FAST-NEXT:    [[MUL_AC:%.*]] = fmul reassoc nnan ninf nsz arcp afn double [[DOTREAL]], [[B_COERCE0]]
 // FULL_FAST-NEXT:    [[MUL_BD:%.*]] = fmul reassoc nnan ninf nsz arcp afn double [[DOTIMAG]], [[B_COERCE1]]
 // FULL_FAST-NEXT:    [[MUL_AD:%.*]] = fmul reassoc nnan ninf nsz arcp afn double [[DOTREAL]], [[B_COERCE1]]
@@ -2687,10 +2741,10 @@ _Complex double muld(_Complex double a, _Complex double b) {
 // FULL_FAST-NEXT:    [[MUL_R:%.*]] = fsub reassoc nnan ninf nsz arcp afn double [[MUL_AC]], [[MUL_BD]]
 // FULL_FAST-NEXT:    [[MUL_I:%.*]] = fadd reassoc nnan ninf nsz arcp afn double [[MUL_AD]], [[MUL_BC]]
 // FULL_FAST-NEXT:    [[ISNAN_CMP:%.*]] = fcmp reassoc nnan ninf nsz arcp afn uno double [[MUL_R]], [[MUL_R]]
-// FULL_FAST-NEXT:    br i1 [[ISNAN_CMP]], label [[COMPLEX_MUL_IMAG_NAN:%.*]], label [[COMPLEX_MUL_CONT:%.*]], !prof [[PROF2]]
+// FULL_FAST-NEXT:    br i1 [[ISNAN_CMP]], label [[COMPLEX_MUL_IMAG_NAN:%.*]], label [[COMPLEX_MUL_CONT:%.*]], !prof [[PROF3]]
 // FULL_FAST:       complex_mul_imag_nan:
 // FULL_FAST-NEXT:    [[ISNAN_CMP1:%.*]] = fcmp reassoc nnan ninf nsz arcp afn uno double [[MUL_I]], [[MUL_I]]
-// FULL_FAST-NEXT:    br i1 [[ISNAN_CMP1]], label [[COMPLEX_MUL_LIBCALL:%.*]], label [[COMPLEX_MUL_CONT]], !prof [[PROF2]]
+// FULL_FAST-NEXT:    br i1 [[ISNAN_CMP1]], label [[COMPLEX_MUL_LIBCALL:%.*]], label [[COMPLEX_MUL_CONT]], !prof [[PROF3]]
 // FULL_FAST:       complex_mul_libcall:
 // FULL_FAST-NEXT:    [[CALL:%.*]] = call reassoc nnan ninf nsz arcp afn nofpclass(nan inf) { double, double } @__muldc3(double noundef nofpclass(nan inf) [[DOTREAL]], double noundef nofpclass(nan inf) [[DOTIMAG]], double noundef nofpclass(nan inf) [[B_COERCE0]], double noundef nofpclass(nan inf) [[B_COERCE1]]) #[[ATTR2]]
 // FULL_FAST-NEXT:    [[TMP0:%.*]] = extractvalue { double, double } [[CALL]], 0
@@ -2709,9 +2763,9 @@ _Complex double muld(_Complex double a, _Complex double b) {
 // IMPRVD_FAST-SAME: ptr noundef [[A:%.*]], double noundef nofpclass(nan inf) [[B_COERCE0:%.*]], double noundef nofpclass(nan inf) [[B_COERCE1:%.*]]) #[[ATTR2]] {
 // IMPRVD_FAST-NEXT:  entry:
 // IMPRVD_FAST-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
-// IMPRVD_FAST-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8
+// IMPRVD_FAST-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8, !freeze_bits [[META2]]
 // IMPRVD_FAST-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 1
-// IMPRVD_FAST-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8
+// IMPRVD_FAST-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8, !freeze_bits [[META2]]
 // IMPRVD_FAST-NEXT:    [[MUL_AC:%.*]] = fmul reassoc nnan ninf nsz arcp afn double [[DOTREAL]], [[B_COERCE0]]
 // IMPRVD_FAST-NEXT:    [[MUL_BD:%.*]] = fmul reassoc nnan ninf nsz arcp afn double [[DOTIMAG]], [[B_COERCE1]]
 // IMPRVD_FAST-NEXT:    [[MUL_AD:%.*]] = fmul reassoc nnan ninf nsz arcp afn double [[DOTREAL]], [[B_COERCE1]]
@@ -2728,9 +2782,9 @@ _Complex double muld(_Complex double a, _Complex double b) {
 // PRMTD_FAST-SAME: ptr noundef [[A:%.*]], double noundef nofpclass(nan inf) [[B_COERCE0:%.*]], double noundef nofpclass(nan inf) [[B_COERCE1:%.*]]) #[[ATTR1]] {
 // PRMTD_FAST-NEXT:  entry:
 // PRMTD_FAST-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
-// PRMTD_FAST-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8
+// PRMTD_FAST-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8, !freeze_bits [[META2]]
 // PRMTD_FAST-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 1
-// PRMTD_FAST-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8
+// PRMTD_FAST-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8, !freeze_bits [[META2]]
 // PRMTD_FAST-NEXT:    [[MUL_AC:%.*]] = fmul reassoc nnan ninf nsz arcp afn double [[DOTREAL]], [[B_COERCE0]]
 // PRMTD_FAST-NEXT:    [[MUL_BD:%.*]] = fmul reassoc nnan ninf nsz arcp afn double [[DOTIMAG]], [[B_COERCE1]]
 // PRMTD_FAST-NEXT:    [[MUL_AD:%.*]] = fmul reassoc nnan ninf nsz arcp afn double [[DOTREAL]], [[B_COERCE1]]
@@ -2747,13 +2801,13 @@ _Complex double muld(_Complex double a, _Complex double b) {
 // X86WINPRMTD_STRICT-SAME: ptr noundef [[A:%.*]], ptr dead_on_return noundef [[B:%.*]]) #[[ATTR0]] {
 // X86WINPRMTD_STRICT-NEXT:  entry:
 // X86WINPRMTD_STRICT-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[B]], i32 0, i32 0
-// X86WINPRMTD_STRICT-NEXT:    [[B_REAL:%.*]] = load double, ptr [[B_REALP]], align 8
+// X86WINPRMTD_STRICT-NEXT:    [[B_REAL:%.*]] = load double, ptr [[B_REALP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[B]], i32 0, i32 1
-// X86WINPRMTD_STRICT-NEXT:    [[B_IMAG:%.*]] = load double, ptr [[B_IMAGP]], align 8
+// X86WINPRMTD_STRICT-NEXT:    [[B_IMAG:%.*]] = load double, ptr [[B_IMAGP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
-// X86WINPRMTD_STRICT-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8
+// X86WINPRMTD_STRICT-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 1
-// X86WINPRMTD_STRICT-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8
+// X86WINPRMTD_STRICT-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[MUL_AC:%.*]] = call double @llvm.experimental.constrained.fmul.f64(double [[DOTREAL]], double [[B_REAL]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR3]]
 // X86WINPRMTD_STRICT-NEXT:    [[MUL_BD:%.*]] = call double @llvm.experimental.constrained.fmul.f64(double [[DOTIMAG]], double [[B_IMAG]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR3]]
 // X86WINPRMTD_STRICT-NEXT:    [[MUL_AD:%.*]] = call double @llvm.experimental.constrained.fmul.f64(double [[DOTREAL]], double [[B_IMAG]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR3]]
@@ -2770,9 +2824,9 @@ _Complex double muld(_Complex double a, _Complex double b) {
 // PRMTD_STRICT-SAME: ptr noundef [[A:%.*]], double noundef [[B_COERCE0:%.*]], double noundef [[B_COERCE1:%.*]]) #[[ATTR2]] {
 // PRMTD_STRICT-NEXT:  entry:
 // PRMTD_STRICT-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
-// PRMTD_STRICT-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8
+// PRMTD_STRICT-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8, !freeze_bits [[META2]]
 // PRMTD_STRICT-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 1
-// PRMTD_STRICT-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8
+// PRMTD_STRICT-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8, !freeze_bits [[META2]]
 // PRMTD_STRICT-NEXT:    [[MUL_AC:%.*]] = call double @llvm.experimental.constrained.fmul.f64(double [[DOTREAL]], double [[B_COERCE0]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR4]]
 // PRMTD_STRICT-NEXT:    [[MUL_BD:%.*]] = call double @llvm.experimental.constrained.fmul.f64(double [[DOTIMAG]], double [[B_COERCE1]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR4]]
 // PRMTD_STRICT-NEXT:    [[MUL_AD:%.*]] = call double @llvm.experimental.constrained.fmul.f64(double [[DOTREAL]], double [[B_COERCE1]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR4]]
@@ -2793,13 +2847,13 @@ void mulassignd(_Complex double *a, _Complex double b) {
 // FULL-SAME: ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[A:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]]) #[[ATTR1]] {
 // FULL-NEXT:  entry:
 // FULL-NEXT:    [[A_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// FULL-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16
+// FULL-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16, !freeze_bits [[META2]]
 // FULL-NEXT:    [[A_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// FULL-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16
+// FULL-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16, !freeze_bits [[META2]]
 // FULL-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// FULL-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// FULL-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // FULL-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// FULL-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// FULL-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // FULL-NEXT:    [[CALL:%.*]] = call { x86_fp80, x86_fp80 } @__divxc3(x86_fp80 noundef [[A_REAL]], x86_fp80 noundef [[A_IMAG]], x86_fp80 noundef [[B_REAL]], x86_fp80 noundef [[B_IMAG]]) #[[ATTR2]]
 // FULL-NEXT:    [[TMP0:%.*]] = extractvalue { x86_fp80, x86_fp80 } [[CALL]], 0
 // FULL-NEXT:    [[TMP1:%.*]] = extractvalue { x86_fp80, x86_fp80 } [[CALL]], 1
@@ -2811,13 +2865,13 @@ void mulassignd(_Complex double *a, _Complex double b) {
 // BASIC-SAME: ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[A:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]]) #[[ATTR1]] {
 // BASIC-NEXT:  entry:
 // BASIC-NEXT:    [[A_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// BASIC-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16
+// BASIC-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16, !freeze_bits [[META2]]
 // BASIC-NEXT:    [[A_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// BASIC-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16
+// BASIC-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16, !freeze_bits [[META2]]
 // BASIC-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// BASIC-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// BASIC-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // BASIC-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// BASIC-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// BASIC-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // BASIC-NEXT:    [[TMP0:%.*]] = fmul x86_fp80 [[A_REAL]], [[B_REAL]]
 // BASIC-NEXT:    [[TMP1:%.*]] = fmul x86_fp80 [[A_IMAG]], [[B_IMAG]]
 // BASIC-NEXT:    [[TMP2:%.*]] = fadd x86_fp80 [[TMP0]], [[TMP1]]
@@ -2837,13 +2891,13 @@ void mulassignd(_Complex double *a, _Complex double b) {
 // IMPRVD-SAME: ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[A:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]]) #[[ATTR2]] {
 // IMPRVD-NEXT:  entry:
 // IMPRVD-NEXT:    [[A_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// IMPRVD-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16
+// IMPRVD-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16, !freeze_bits [[META2]]
 // IMPRVD-NEXT:    [[A_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// IMPRVD-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16
+// IMPRVD-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16, !freeze_bits [[META2]]
 // IMPRVD-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// IMPRVD-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// IMPRVD-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // IMPRVD-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// IMPRVD-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// IMPRVD-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // IMPRVD-NEXT:    [[TMP0:%.*]] = call x86_fp80 @llvm.fabs.f80(x86_fp80 [[B_REAL]])
 // IMPRVD-NEXT:    [[TMP1:%.*]] = call x86_fp80 @llvm.fabs.f80(x86_fp80 [[B_IMAG]])
 // IMPRVD-NEXT:    [[ABS_CMP:%.*]] = fcmp ugt x86_fp80 [[TMP0]], [[TMP1]]
@@ -2881,13 +2935,13 @@ void mulassignd(_Complex double *a, _Complex double b) {
 // PRMTD-SAME: ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[A:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]]) #[[ATTR1]] {
 // PRMTD-NEXT:  entry:
 // PRMTD-NEXT:    [[A_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// PRMTD-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16
+// PRMTD-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16, !freeze_bits [[META2]]
 // PRMTD-NEXT:    [[A_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// PRMTD-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16
+// PRMTD-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16, !freeze_bits [[META2]]
 // PRMTD-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// PRMTD-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// PRMTD-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // PRMTD-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// PRMTD-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// PRMTD-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // PRMTD-NEXT:    [[TMP0:%.*]] = call x86_fp80 @llvm.fabs.f80(x86_fp80 [[B_REAL]])
 // PRMTD-NEXT:    [[TMP1:%.*]] = call x86_fp80 @llvm.fabs.f80(x86_fp80 [[B_IMAG]])
 // PRMTD-NEXT:    [[ABS_CMP:%.*]] = fcmp ugt x86_fp80 [[TMP0]], [[TMP1]]
@@ -2925,13 +2979,13 @@ void mulassignd(_Complex double *a, _Complex double b) {
 // X86WINPRMTD-SAME: ptr dead_on_unwind noalias writable sret({ double, double }) align 8 [[AGG_RESULT:%.*]], ptr dead_on_return noundef [[A:%.*]], ptr dead_on_return noundef [[B:%.*]]) #[[ATTR0]] {
 // X86WINPRMTD-NEXT:  entry:
 // X86WINPRMTD-NEXT:    [[A_REALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
-// X86WINPRMTD-NEXT:    [[A_REAL:%.*]] = load double, ptr [[A_REALP]], align 8
+// X86WINPRMTD-NEXT:    [[A_REAL:%.*]] = load double, ptr [[A_REALP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[A_IMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 1
-// X86WINPRMTD-NEXT:    [[A_IMAG:%.*]] = load double, ptr [[A_IMAGP]], align 8
+// X86WINPRMTD-NEXT:    [[A_IMAG:%.*]] = load double, ptr [[A_IMAGP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[B]], i32 0, i32 0
-// X86WINPRMTD-NEXT:    [[B_REAL:%.*]] = load double, ptr [[B_REALP]], align 8
+// X86WINPRMTD-NEXT:    [[B_REAL:%.*]] = load double, ptr [[B_REALP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[B]], i32 0, i32 1
-// X86WINPRMTD-NEXT:    [[B_IMAG:%.*]] = load double, ptr [[B_IMAGP]], align 8
+// X86WINPRMTD-NEXT:    [[B_IMAG:%.*]] = load double, ptr [[B_IMAGP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[TMP0:%.*]] = call double @llvm.fabs.f64(double [[B_REAL]])
 // X86WINPRMTD-NEXT:    [[TMP1:%.*]] = call double @llvm.fabs.f64(double [[B_IMAG]])
 // X86WINPRMTD-NEXT:    [[ABS_CMP:%.*]] = fcmp ugt double [[TMP0]], [[TMP1]]
@@ -2966,9 +3020,9 @@ void mulassignd(_Complex double *a, _Complex double b) {
 // X86WINPRMTD-NEXT:    store double [[TMP20]], ptr [[AGG_RESULT_REALP]], align 8
 // X86WINPRMTD-NEXT:    store double [[TMP21]], ptr [[AGG_RESULT_IMAGP]], align 8
 // X86WINPRMTD-NEXT:    [[AGG_RESULT_REALP1:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 0
-// X86WINPRMTD-NEXT:    [[AGG_RESULT_REAL:%.*]] = load double, ptr [[AGG_RESULT_REALP1]], align 8
+// X86WINPRMTD-NEXT:    [[AGG_RESULT_REAL:%.*]] = load double, ptr [[AGG_RESULT_REALP1]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[AGG_RESULT_IMAGP2:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 1
-// X86WINPRMTD-NEXT:    [[AGG_RESULT_IMAG:%.*]] = load double, ptr [[AGG_RESULT_IMAGP2]], align 8
+// X86WINPRMTD-NEXT:    [[AGG_RESULT_IMAG:%.*]] = load double, ptr [[AGG_RESULT_IMAGP2]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[AGG_RESULT_REALP3:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 0
 // X86WINPRMTD-NEXT:    [[AGG_RESULT_IMAGP4:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 1
 // X86WINPRMTD-NEXT:    store double [[AGG_RESULT_REAL]], ptr [[AGG_RESULT_REALP3]], align 8
@@ -3048,9 +3102,9 @@ void mulassignd(_Complex double *a, _Complex double b) {
 // AVRFP64-NEXT:    store double [[TMP20]], ptr [[AGG_RESULT_REALP]], align 1
 // AVRFP64-NEXT:    store double [[TMP21]], ptr [[AGG_RESULT_IMAGP]], align 1
 // AVRFP64-NEXT:    [[AGG_RESULT_REALP1:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 0
-// AVRFP64-NEXT:    [[AGG_RESULT_REAL:%.*]] = load double, ptr [[AGG_RESULT_REALP1]], align 1
+// AVRFP64-NEXT:    [[AGG_RESULT_REAL:%.*]] = load double, ptr [[AGG_RESULT_REALP1]], align 1, !freeze_bits [[META2]]
 // AVRFP64-NEXT:    [[AGG_RESULT_IMAGP2:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 1
-// AVRFP64-NEXT:    [[AGG_RESULT_IMAG:%.*]] = load double, ptr [[AGG_RESULT_IMAGP2]], align 1
+// AVRFP64-NEXT:    [[AGG_RESULT_IMAG:%.*]] = load double, ptr [[AGG_RESULT_IMAGP2]], align 1, !freeze_bits [[META2]]
 // AVRFP64-NEXT:    [[AGG_RESULT_REALP3:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 0
 // AVRFP64-NEXT:    [[AGG_RESULT_IMAGP4:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 1
 // AVRFP64-NEXT:    store double [[AGG_RESULT_REAL]], ptr [[AGG_RESULT_REALP3]], align 1
@@ -3061,13 +3115,13 @@ void mulassignd(_Complex double *a, _Complex double b) {
 // BASIC_FAST-SAME: ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[A:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]]) #[[ATTR1]] {
 // BASIC_FAST-NEXT:  entry:
 // BASIC_FAST-NEXT:    [[A_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// BASIC_FAST-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16
+// BASIC_FAST-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16, !freeze_bits [[META2]]
 // BASIC_FAST-NEXT:    [[A_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// BASIC_FAST-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16
+// BASIC_FAST-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16, !freeze_bits [[META2]]
 // BASIC_FAST-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// BASIC_FAST-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// BASIC_FAST-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // BASIC_FAST-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// BASIC_FAST-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// BASIC_FAST-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // BASIC_FAST-NEXT:    [[TMP0:%.*]] = fmul reassoc nnan ninf nsz arcp afn x86_fp80 [[A_REAL]], [[B_REAL]]
 // BASIC_FAST-NEXT:    [[TMP1:%.*]] = fmul reassoc nnan ninf nsz arcp afn x86_fp80 [[A_IMAG]], [[B_IMAG]]
 // BASIC_FAST-NEXT:    [[TMP2:%.*]] = fadd reassoc nnan ninf nsz arcp afn x86_fp80 [[TMP0]], [[TMP1]]
@@ -3087,13 +3141,13 @@ void mulassignd(_Complex double *a, _Complex double b) {
 // FULL_FAST-SAME: ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[A:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]]) #[[ATTR1]] {
 // FULL_FAST-NEXT:  entry:
 // FULL_FAST-NEXT:    [[A_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// FULL_FAST-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16
+// FULL_FAST-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16, !freeze_bits [[META2]]
 // FULL_FAST-NEXT:    [[A_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// FULL_FAST-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16
+// FULL_FAST-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16, !freeze_bits [[META2]]
 // FULL_FAST-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// FULL_FAST-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// FULL_FAST-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // FULL_FAST-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// FULL_FAST-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// FULL_FAST-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // FULL_FAST-NEXT:    [[CALL:%.*]] = call reassoc nnan ninf nsz arcp afn nofpclass(nan inf) { x86_fp80, x86_fp80 } @__divxc3(x86_fp80 noundef nofpclass(nan inf) [[A_REAL]], x86_fp80 noundef nofpclass(nan inf) [[A_IMAG]], x86_fp80 noundef nofpclass(nan inf) [[B_REAL]], x86_fp80 noundef nofpclass(nan inf) [[B_IMAG]]) #[[ATTR2]]
 // FULL_FAST-NEXT:    [[TMP0:%.*]] = extractvalue { x86_fp80, x86_fp80 } [[CALL]], 0
 // FULL_FAST-NEXT:    [[TMP1:%.*]] = extractvalue { x86_fp80, x86_fp80 } [[CALL]], 1
@@ -3105,13 +3159,13 @@ void mulassignd(_Complex double *a, _Complex double b) {
 // IMPRVD_FAST-SAME: ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[A:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]]) #[[ATTR2]] {
 // IMPRVD_FAST-NEXT:  entry:
 // IMPRVD_FAST-NEXT:    [[A_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// IMPRVD_FAST-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16
+// IMPRVD_FAST-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16, !freeze_bits [[META2]]
 // IMPRVD_FAST-NEXT:    [[A_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// IMPRVD_FAST-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16
+// IMPRVD_FAST-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16, !freeze_bits [[META2]]
 // IMPRVD_FAST-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// IMPRVD_FAST-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// IMPRVD_FAST-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // IMPRVD_FAST-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// IMPRVD_FAST-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// IMPRVD_FAST-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // IMPRVD_FAST-NEXT:    [[TMP0:%.*]] = call reassoc nnan ninf nsz arcp afn x86_fp80 @llvm.fabs.f80(x86_fp80 [[B_REAL]])
 // IMPRVD_FAST-NEXT:    [[TMP1:%.*]] = call reassoc nnan ninf nsz arcp afn x86_fp80 @llvm.fabs.f80(x86_fp80 [[B_IMAG]])
 // IMPRVD_FAST-NEXT:    [[ABS_CMP:%.*]] = fcmp reassoc nnan ninf nsz arcp afn ugt x86_fp80 [[TMP0]], [[TMP1]]
@@ -3149,13 +3203,13 @@ void mulassignd(_Complex double *a, _Complex double b) {
 // PRMTD_FAST-SAME: ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[A:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]]) #[[ATTR1]] {
 // PRMTD_FAST-NEXT:  entry:
 // PRMTD_FAST-NEXT:    [[A_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// PRMTD_FAST-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16
+// PRMTD_FAST-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16, !freeze_bits [[META2]]
 // PRMTD_FAST-NEXT:    [[A_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// PRMTD_FAST-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16
+// PRMTD_FAST-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16, !freeze_bits [[META2]]
 // PRMTD_FAST-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// PRMTD_FAST-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// PRMTD_FAST-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // PRMTD_FAST-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// PRMTD_FAST-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// PRMTD_FAST-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // PRMTD_FAST-NEXT:    [[TMP0:%.*]] = call reassoc nnan ninf nsz arcp afn x86_fp80 @llvm.fabs.f80(x86_fp80 [[B_REAL]])
 // PRMTD_FAST-NEXT:    [[TMP1:%.*]] = call reassoc nnan ninf nsz arcp afn x86_fp80 @llvm.fabs.f80(x86_fp80 [[B_IMAG]])
 // PRMTD_FAST-NEXT:    [[ABS_CMP:%.*]] = fcmp reassoc nnan ninf nsz arcp afn ugt x86_fp80 [[TMP0]], [[TMP1]]
@@ -3193,13 +3247,13 @@ void mulassignd(_Complex double *a, _Complex double b) {
 // X86WINPRMTD_STRICT-SAME: ptr dead_on_unwind noalias writable sret({ double, double }) align 8 [[AGG_RESULT:%.*]], ptr dead_on_return noundef [[A:%.*]], ptr dead_on_return noundef [[B:%.*]]) #[[ATTR0]] {
 // X86WINPRMTD_STRICT-NEXT:  entry:
 // X86WINPRMTD_STRICT-NEXT:    [[A_REALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
-// X86WINPRMTD_STRICT-NEXT:    [[A_REAL:%.*]] = load double, ptr [[A_REALP]], align 8
+// X86WINPRMTD_STRICT-NEXT:    [[A_REAL:%.*]] = load double, ptr [[A_REALP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[A_IMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 1
-// X86WINPRMTD_STRICT-NEXT:    [[A_IMAG:%.*]] = load double, ptr [[A_IMAGP]], align 8
+// X86WINPRMTD_STRICT-NEXT:    [[A_IMAG:%.*]] = load double, ptr [[A_IMAGP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[B]], i32 0, i32 0
-// X86WINPRMTD_STRICT-NEXT:    [[B_REAL:%.*]] = load double, ptr [[B_REALP]], align 8
+// X86WINPRMTD_STRICT-NEXT:    [[B_REAL:%.*]] = load double, ptr [[B_REALP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[B]], i32 0, i32 1
-// X86WINPRMTD_STRICT-NEXT:    [[B_IMAG:%.*]] = load double, ptr [[B_IMAGP]], align 8
+// X86WINPRMTD_STRICT-NEXT:    [[B_IMAG:%.*]] = load double, ptr [[B_IMAGP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[TMP0:%.*]] = call double @llvm.fabs.f64(double [[B_REAL]]) #[[ATTR3]]
 // X86WINPRMTD_STRICT-NEXT:    [[TMP1:%.*]] = call double @llvm.fabs.f64(double [[B_IMAG]]) #[[ATTR3]]
 // X86WINPRMTD_STRICT-NEXT:    [[ABS_CMP:%.*]] = call i1 @llvm.experimental.constrained.fcmp.f64(double [[TMP0]], double [[TMP1]], metadata !"ugt", metadata !"fpexcept.strict") #[[ATTR3]]
@@ -3234,9 +3288,9 @@ void mulassignd(_Complex double *a, _Complex double b) {
 // X86WINPRMTD_STRICT-NEXT:    store double [[TMP20]], ptr [[AGG_RESULT_REALP]], align 8
 // X86WINPRMTD_STRICT-NEXT:    store double [[TMP21]], ptr [[AGG_RESULT_IMAGP]], align 8
 // X86WINPRMTD_STRICT-NEXT:    [[AGG_RESULT_REALP1:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 0
-// X86WINPRMTD_STRICT-NEXT:    [[AGG_RESULT_REAL:%.*]] = load double, ptr [[AGG_RESULT_REALP1]], align 8
+// X86WINPRMTD_STRICT-NEXT:    [[AGG_RESULT_REAL:%.*]] = load double, ptr [[AGG_RESULT_REALP1]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[AGG_RESULT_IMAGP2:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 1
-// X86WINPRMTD_STRICT-NEXT:    [[AGG_RESULT_IMAG:%.*]] = load double, ptr [[AGG_RESULT_IMAGP2]], align 8
+// X86WINPRMTD_STRICT-NEXT:    [[AGG_RESULT_IMAG:%.*]] = load double, ptr [[AGG_RESULT_IMAGP2]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[AGG_RESULT_REALP3:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 0
 // X86WINPRMTD_STRICT-NEXT:    [[AGG_RESULT_IMAGP4:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 1
 // X86WINPRMTD_STRICT-NEXT:    store double [[AGG_RESULT_REAL]], ptr [[AGG_RESULT_REALP3]], align 8
@@ -3247,13 +3301,13 @@ void mulassignd(_Complex double *a, _Complex double b) {
 // PRMTD_STRICT-SAME: ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[A:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]]) #[[ATTR2]] {
 // PRMTD_STRICT-NEXT:  entry:
 // PRMTD_STRICT-NEXT:    [[A_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// PRMTD_STRICT-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16
+// PRMTD_STRICT-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16, !freeze_bits [[META2]]
 // PRMTD_STRICT-NEXT:    [[A_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// PRMTD_STRICT-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16
+// PRMTD_STRICT-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16, !freeze_bits [[META2]]
 // PRMTD_STRICT-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// PRMTD_STRICT-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// PRMTD_STRICT-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // PRMTD_STRICT-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// PRMTD_STRICT-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// PRMTD_STRICT-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // PRMTD_STRICT-NEXT:    [[TMP0:%.*]] = call x86_fp80 @llvm.fabs.f80(x86_fp80 [[B_REAL]]) #[[ATTR4]]
 // PRMTD_STRICT-NEXT:    [[TMP1:%.*]] = call x86_fp80 @llvm.fabs.f80(x86_fp80 [[B_IMAG]]) #[[ATTR4]]
 // PRMTD_STRICT-NEXT:    [[ABS_CMP:%.*]] = call i1 @llvm.experimental.constrained.fcmp.f80(x86_fp80 [[TMP0]], x86_fp80 [[TMP1]], metadata !"ugt", metadata !"fpexcept.strict") #[[ATTR4]]
@@ -3295,13 +3349,13 @@ _Complex long double divld(_Complex long double a, _Complex long double b) {
 // FULL-SAME: ptr noundef [[A:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]]) #[[ATTR1]] {
 // FULL-NEXT:  entry:
 // FULL-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// FULL-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// FULL-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // FULL-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// FULL-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// FULL-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // FULL-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// FULL-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16
+// FULL-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16, !freeze_bits [[META2]]
 // FULL-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// FULL-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16
+// FULL-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16, !freeze_bits [[META2]]
 // FULL-NEXT:    [[CALL:%.*]] = call { x86_fp80, x86_fp80 } @__divxc3(x86_fp80 noundef [[DOTREAL]], x86_fp80 noundef [[DOTIMAG]], x86_fp80 noundef [[B_REAL]], x86_fp80 noundef [[B_IMAG]]) #[[ATTR2]]
 // FULL-NEXT:    [[TMP0:%.*]] = extractvalue { x86_fp80, x86_fp80 } [[CALL]], 0
 // FULL-NEXT:    [[TMP1:%.*]] = extractvalue { x86_fp80, x86_fp80 } [[CALL]], 1
@@ -3315,13 +3369,13 @@ _Complex long double divld(_Complex long double a, _Complex long double b) {
 // BASIC-SAME: ptr noundef [[A:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]]) #[[ATTR1]] {
 // BASIC-NEXT:  entry:
 // BASIC-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// BASIC-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// BASIC-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // BASIC-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// BASIC-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// BASIC-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // BASIC-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// BASIC-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16
+// BASIC-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16, !freeze_bits [[META2]]
 // BASIC-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// BASIC-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16
+// BASIC-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16, !freeze_bits [[META2]]
 // BASIC-NEXT:    [[TMP0:%.*]] = fmul x86_fp80 [[DOTREAL]], [[B_REAL]]
 // BASIC-NEXT:    [[TMP1:%.*]] = fmul x86_fp80 [[DOTIMAG]], [[B_IMAG]]
 // BASIC-NEXT:    [[TMP2:%.*]] = fadd x86_fp80 [[TMP0]], [[TMP1]]
@@ -3343,13 +3397,13 @@ _Complex long double divld(_Complex long double a, _Complex long double b) {
 // IMPRVD-SAME: ptr noundef [[A:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]]) #[[ATTR2]] {
 // IMPRVD-NEXT:  entry:
 // IMPRVD-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// IMPRVD-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// IMPRVD-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // IMPRVD-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// IMPRVD-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// IMPRVD-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // IMPRVD-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// IMPRVD-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16
+// IMPRVD-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16, !freeze_bits [[META2]]
 // IMPRVD-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// IMPRVD-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16
+// IMPRVD-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16, !freeze_bits [[META2]]
 // IMPRVD-NEXT:    [[TMP0:%.*]] = call x86_fp80 @llvm.fabs.f80(x86_fp80 [[B_REAL]])
 // IMPRVD-NEXT:    [[TMP1:%.*]] = call x86_fp80 @llvm.fabs.f80(x86_fp80 [[B_IMAG]])
 // IMPRVD-NEXT:    [[ABS_CMP:%.*]] = fcmp ugt x86_fp80 [[TMP0]], [[TMP1]]
@@ -3389,13 +3443,13 @@ _Complex long double divld(_Complex long double a, _Complex long double b) {
 // PRMTD-SAME: ptr noundef [[A:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]]) #[[ATTR1]] {
 // PRMTD-NEXT:  entry:
 // PRMTD-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// PRMTD-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// PRMTD-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // PRMTD-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// PRMTD-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// PRMTD-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // PRMTD-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// PRMTD-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16
+// PRMTD-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16, !freeze_bits [[META2]]
 // PRMTD-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// PRMTD-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16
+// PRMTD-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16, !freeze_bits [[META2]]
 // PRMTD-NEXT:    [[TMP0:%.*]] = call x86_fp80 @llvm.fabs.f80(x86_fp80 [[B_REAL]])
 // PRMTD-NEXT:    [[TMP1:%.*]] = call x86_fp80 @llvm.fabs.f80(x86_fp80 [[B_IMAG]])
 // PRMTD-NEXT:    [[ABS_CMP:%.*]] = fcmp ugt x86_fp80 [[TMP0]], [[TMP1]]
@@ -3435,13 +3489,13 @@ _Complex long double divld(_Complex long double a, _Complex long double b) {
 // X86WINPRMTD-SAME: ptr noundef [[A:%.*]], ptr dead_on_return noundef [[B:%.*]]) #[[ATTR0]] {
 // X86WINPRMTD-NEXT:  entry:
 // X86WINPRMTD-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[B]], i32 0, i32 0
-// X86WINPRMTD-NEXT:    [[B_REAL:%.*]] = load double, ptr [[B_REALP]], align 8
+// X86WINPRMTD-NEXT:    [[B_REAL:%.*]] = load double, ptr [[B_REALP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[B]], i32 0, i32 1
-// X86WINPRMTD-NEXT:    [[B_IMAG:%.*]] = load double, ptr [[B_IMAGP]], align 8
+// X86WINPRMTD-NEXT:    [[B_IMAG:%.*]] = load double, ptr [[B_IMAGP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
-// X86WINPRMTD-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8
+// X86WINPRMTD-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 1
-// X86WINPRMTD-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8
+// X86WINPRMTD-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[TMP0:%.*]] = call double @llvm.fabs.f64(double [[B_REAL]])
 // X86WINPRMTD-NEXT:    [[TMP1:%.*]] = call double @llvm.fabs.f64(double [[B_IMAG]])
 // X86WINPRMTD-NEXT:    [[ABS_CMP:%.*]] = fcmp ugt double [[TMP0]], [[TMP1]]
@@ -3481,9 +3535,9 @@ _Complex long double divld(_Complex long double a, _Complex long double b) {
 // AVRFP32-SAME: ptr noundef [[A:%.*]], float noundef [[B_COERCE0:%.*]], float noundef [[B_COERCE1:%.*]]) addrspace(1) #[[ATTR0]] {
 // AVRFP32-NEXT:  entry:
 // AVRFP32-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
-// AVRFP32-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 1
+// AVRFP32-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 1, !freeze_bits [[META2]]
 // AVRFP32-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 1
-// AVRFP32-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 1
+// AVRFP32-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 1, !freeze_bits [[META2]]
 // AVRFP32-NEXT:    [[TMP0:%.*]] = call addrspace(1) float @llvm.fabs.f32(float [[B_COERCE0]])
 // AVRFP32-NEXT:    [[TMP1:%.*]] = call addrspace(1) float @llvm.fabs.f32(float [[B_COERCE1]])
 // AVRFP32-NEXT:    [[ABS_CMP:%.*]] = fcmp ugt float [[TMP0]], [[TMP1]]
@@ -3523,9 +3577,9 @@ _Complex long double divld(_Complex long double a, _Complex long double b) {
 // AVRFP64-SAME: ptr noundef [[A:%.*]], double noundef [[B_COERCE0:%.*]], double noundef [[B_COERCE1:%.*]]) addrspace(1) #[[ATTR0]] {
 // AVRFP64-NEXT:  entry:
 // AVRFP64-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
-// AVRFP64-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 1
+// AVRFP64-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 1, !freeze_bits [[META2]]
 // AVRFP64-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 1
-// AVRFP64-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 1
+// AVRFP64-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 1, !freeze_bits [[META2]]
 // AVRFP64-NEXT:    [[TMP0:%.*]] = call addrspace(1) double @llvm.fabs.f64(double [[B_COERCE0]])
 // AVRFP64-NEXT:    [[TMP1:%.*]] = call addrspace(1) double @llvm.fabs.f64(double [[B_COERCE1]])
 // AVRFP64-NEXT:    [[ABS_CMP:%.*]] = fcmp ugt double [[TMP0]], [[TMP1]]
@@ -3565,13 +3619,13 @@ _Complex long double divld(_Complex long double a, _Complex long double b) {
 // BASIC_FAST-SAME: ptr noundef [[A:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]]) #[[ATTR1]] {
 // BASIC_FAST-NEXT:  entry:
 // BASIC_FAST-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// BASIC_FAST-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// BASIC_FAST-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // BASIC_FAST-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// BASIC_FAST-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// BASIC_FAST-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // BASIC_FAST-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// BASIC_FAST-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16
+// BASIC_FAST-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16, !freeze_bits [[META2]]
 // BASIC_FAST-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// BASIC_FAST-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16
+// BASIC_FAST-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16, !freeze_bits [[META2]]
 // BASIC_FAST-NEXT:    [[TMP0:%.*]] = fmul reassoc nnan ninf nsz arcp afn x86_fp80 [[DOTREAL]], [[B_REAL]]
 // BASIC_FAST-NEXT:    [[TMP1:%.*]] = fmul reassoc nnan ninf nsz arcp afn x86_fp80 [[DOTIMAG]], [[B_IMAG]]
 // BASIC_FAST-NEXT:    [[TMP2:%.*]] = fadd reassoc nnan ninf nsz arcp afn x86_fp80 [[TMP0]], [[TMP1]]
@@ -3593,13 +3647,13 @@ _Complex long double divld(_Complex long double a, _Complex long double b) {
 // FULL_FAST-SAME: ptr noundef [[A:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]]) #[[ATTR1]] {
 // FULL_FAST-NEXT:  entry:
 // FULL_FAST-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// FULL_FAST-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// FULL_FAST-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // FULL_FAST-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// FULL_FAST-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// FULL_FAST-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // FULL_FAST-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// FULL_FAST-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16
+// FULL_FAST-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16, !freeze_bits [[META2]]
 // FULL_FAST-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// FULL_FAST-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16
+// FULL_FAST-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16, !freeze_bits [[META2]]
 // FULL_FAST-NEXT:    [[CALL:%.*]] = call reassoc nnan ninf nsz arcp afn nofpclass(nan inf) { x86_fp80, x86_fp80 } @__divxc3(x86_fp80 noundef nofpclass(nan inf) [[DOTREAL]], x86_fp80 noundef nofpclass(nan inf) [[DOTIMAG]], x86_fp80 noundef nofpclass(nan inf) [[B_REAL]], x86_fp80 noundef nofpclass(nan inf) [[B_IMAG]]) #[[ATTR2]]
 // FULL_FAST-NEXT:    [[TMP0:%.*]] = extractvalue { x86_fp80, x86_fp80 } [[CALL]], 0
 // FULL_FAST-NEXT:    [[TMP1:%.*]] = extractvalue { x86_fp80, x86_fp80 } [[CALL]], 1
@@ -3613,13 +3667,13 @@ _Complex long double divld(_Complex long double a, _Complex long double b) {
 // IMPRVD_FAST-SAME: ptr noundef [[A:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]]) #[[ATTR2]] {
 // IMPRVD_FAST-NEXT:  entry:
 // IMPRVD_FAST-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// IMPRVD_FAST-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// IMPRVD_FAST-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // IMPRVD_FAST-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// IMPRVD_FAST-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// IMPRVD_FAST-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // IMPRVD_FAST-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// IMPRVD_FAST-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16
+// IMPRVD_FAST-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16, !freeze_bits [[META2]]
 // IMPRVD_FAST-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// IMPRVD_FAST-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16
+// IMPRVD_FAST-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16, !freeze_bits [[META2]]
 // IMPRVD_FAST-NEXT:    [[TMP0:%.*]] = call reassoc nnan ninf nsz arcp afn x86_fp80 @llvm.fabs.f80(x86_fp80 [[B_REAL]])
 // IMPRVD_FAST-NEXT:    [[TMP1:%.*]] = call reassoc nnan ninf nsz arcp afn x86_fp80 @llvm.fabs.f80(x86_fp80 [[B_IMAG]])
 // IMPRVD_FAST-NEXT:    [[ABS_CMP:%.*]] = fcmp reassoc nnan ninf nsz arcp afn ugt x86_fp80 [[TMP0]], [[TMP1]]
@@ -3659,13 +3713,13 @@ _Complex long double divld(_Complex long double a, _Complex long double b) {
 // PRMTD_FAST-SAME: ptr noundef [[A:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]]) #[[ATTR1]] {
 // PRMTD_FAST-NEXT:  entry:
 // PRMTD_FAST-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// PRMTD_FAST-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// PRMTD_FAST-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // PRMTD_FAST-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// PRMTD_FAST-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// PRMTD_FAST-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // PRMTD_FAST-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// PRMTD_FAST-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16
+// PRMTD_FAST-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16, !freeze_bits [[META2]]
 // PRMTD_FAST-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// PRMTD_FAST-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16
+// PRMTD_FAST-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16, !freeze_bits [[META2]]
 // PRMTD_FAST-NEXT:    [[TMP0:%.*]] = call reassoc nnan ninf nsz arcp afn x86_fp80 @llvm.fabs.f80(x86_fp80 [[B_REAL]])
 // PRMTD_FAST-NEXT:    [[TMP1:%.*]] = call reassoc nnan ninf nsz arcp afn x86_fp80 @llvm.fabs.f80(x86_fp80 [[B_IMAG]])
 // PRMTD_FAST-NEXT:    [[ABS_CMP:%.*]] = fcmp reassoc nnan ninf nsz arcp afn ugt x86_fp80 [[TMP0]], [[TMP1]]
@@ -3705,13 +3759,13 @@ _Complex long double divld(_Complex long double a, _Complex long double b) {
 // X86WINPRMTD_STRICT-SAME: ptr noundef [[A:%.*]], ptr dead_on_return noundef [[B:%.*]]) #[[ATTR0]] {
 // X86WINPRMTD_STRICT-NEXT:  entry:
 // X86WINPRMTD_STRICT-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[B]], i32 0, i32 0
-// X86WINPRMTD_STRICT-NEXT:    [[B_REAL:%.*]] = load double, ptr [[B_REALP]], align 8
+// X86WINPRMTD_STRICT-NEXT:    [[B_REAL:%.*]] = load double, ptr [[B_REALP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[B]], i32 0, i32 1
-// X86WINPRMTD_STRICT-NEXT:    [[B_IMAG:%.*]] = load double, ptr [[B_IMAGP]], align 8
+// X86WINPRMTD_STRICT-NEXT:    [[B_IMAG:%.*]] = load double, ptr [[B_IMAGP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
-// X86WINPRMTD_STRICT-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8
+// X86WINPRMTD_STRICT-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 1
-// X86WINPRMTD_STRICT-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8
+// X86WINPRMTD_STRICT-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[TMP0:%.*]] = call double @llvm.fabs.f64(double [[B_REAL]]) #[[ATTR3]]
 // X86WINPRMTD_STRICT-NEXT:    [[TMP1:%.*]] = call double @llvm.fabs.f64(double [[B_IMAG]]) #[[ATTR3]]
 // X86WINPRMTD_STRICT-NEXT:    [[ABS_CMP:%.*]] = call i1 @llvm.experimental.constrained.fcmp.f64(double [[TMP0]], double [[TMP1]], metadata !"ugt", metadata !"fpexcept.strict") #[[ATTR3]]
@@ -3751,13 +3805,13 @@ _Complex long double divld(_Complex long double a, _Complex long double b) {
 // PRMTD_STRICT-SAME: ptr noundef [[A:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]]) #[[ATTR2]] {
 // PRMTD_STRICT-NEXT:  entry:
 // PRMTD_STRICT-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// PRMTD_STRICT-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// PRMTD_STRICT-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // PRMTD_STRICT-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// PRMTD_STRICT-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// PRMTD_STRICT-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // PRMTD_STRICT-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// PRMTD_STRICT-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16
+// PRMTD_STRICT-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16, !freeze_bits [[META2]]
 // PRMTD_STRICT-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// PRMTD_STRICT-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16
+// PRMTD_STRICT-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16, !freeze_bits [[META2]]
 // PRMTD_STRICT-NEXT:    [[TMP0:%.*]] = call x86_fp80 @llvm.fabs.f80(x86_fp80 [[B_REAL]]) #[[ATTR4]]
 // PRMTD_STRICT-NEXT:    [[TMP1:%.*]] = call x86_fp80 @llvm.fabs.f80(x86_fp80 [[B_IMAG]]) #[[ATTR4]]
 // PRMTD_STRICT-NEXT:    [[ABS_CMP:%.*]] = call i1 @llvm.experimental.constrained.fcmp.f80(x86_fp80 [[TMP0]], x86_fp80 [[TMP1]], metadata !"ugt", metadata !"fpexcept.strict") #[[ATTR4]]
@@ -3801,13 +3855,13 @@ void divassignld(_Complex long double *a, _Complex long double b) {
 // FULL-SAME: ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[A:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]]) #[[ATTR1]] {
 // FULL-NEXT:  entry:
 // FULL-NEXT:    [[A_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// FULL-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16
+// FULL-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16, !freeze_bits [[META2]]
 // FULL-NEXT:    [[A_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// FULL-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16
+// FULL-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16, !freeze_bits [[META2]]
 // FULL-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// FULL-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// FULL-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // FULL-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// FULL-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// FULL-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // FULL-NEXT:    [[MUL_AC:%.*]] = fmul x86_fp80 [[A_REAL]], [[B_REAL]]
 // FULL-NEXT:    [[MUL_BD:%.*]] = fmul x86_fp80 [[A_IMAG]], [[B_IMAG]]
 // FULL-NEXT:    [[MUL_AD:%.*]] = fmul x86_fp80 [[A_REAL]], [[B_IMAG]]
@@ -3815,10 +3869,10 @@ void divassignld(_Complex long double *a, _Complex long double b) {
 // FULL-NEXT:    [[MUL_R:%.*]] = fsub x86_fp80 [[MUL_AC]], [[MUL_BD]]
 // FULL-NEXT:    [[MUL_I:%.*]] = fadd x86_fp80 [[MUL_AD]], [[MUL_BC]]
 // FULL-NEXT:    [[ISNAN_CMP:%.*]] = fcmp uno x86_fp80 [[MUL_R]], [[MUL_R]]
-// FULL-NEXT:    br i1 [[ISNAN_CMP]], label [[COMPLEX_MUL_IMAG_NAN:%.*]], label [[COMPLEX_MUL_CONT:%.*]], !prof [[PROF2]]
+// FULL-NEXT:    br i1 [[ISNAN_CMP]], label [[COMPLEX_MUL_IMAG_NAN:%.*]], label [[COMPLEX_MUL_CONT:%.*]], !prof [[PROF3]]
 // FULL:       complex_mul_imag_nan:
 // FULL-NEXT:    [[ISNAN_CMP1:%.*]] = fcmp uno x86_fp80 [[MUL_I]], [[MUL_I]]
-// FULL-NEXT:    br i1 [[ISNAN_CMP1]], label [[COMPLEX_MUL_LIBCALL:%.*]], label [[COMPLEX_MUL_CONT]], !prof [[PROF2]]
+// FULL-NEXT:    br i1 [[ISNAN_CMP1]], label [[COMPLEX_MUL_LIBCALL:%.*]], label [[COMPLEX_MUL_CONT]], !prof [[PROF3]]
 // FULL:       complex_mul_libcall:
 // FULL-NEXT:    [[CALL:%.*]] = call { x86_fp80, x86_fp80 } @__mulxc3(x86_fp80 noundef [[A_REAL]], x86_fp80 noundef [[A_IMAG]], x86_fp80 noundef [[B_REAL]], x86_fp80 noundef [[B_IMAG]]) #[[ATTR2]]
 // FULL-NEXT:    [[TMP0:%.*]] = extractvalue { x86_fp80, x86_fp80 } [[CALL]], 0
@@ -3835,13 +3889,13 @@ void divassignld(_Complex long double *a, _Complex long double b) {
 // BASIC-SAME: ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[A:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]]) #[[ATTR1]] {
 // BASIC-NEXT:  entry:
 // BASIC-NEXT:    [[A_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// BASIC-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16
+// BASIC-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16, !freeze_bits [[META2]]
 // BASIC-NEXT:    [[A_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// BASIC-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16
+// BASIC-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16, !freeze_bits [[META2]]
 // BASIC-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// BASIC-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// BASIC-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // BASIC-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// BASIC-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// BASIC-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // BASIC-NEXT:    [[MUL_AC:%.*]] = fmul x86_fp80 [[A_REAL]], [[B_REAL]]
 // BASIC-NEXT:    [[MUL_BD:%.*]] = fmul x86_fp80 [[A_IMAG]], [[B_IMAG]]
 // BASIC-NEXT:    [[MUL_AD:%.*]] = fmul x86_fp80 [[A_REAL]], [[B_IMAG]]
@@ -3856,13 +3910,13 @@ void divassignld(_Complex long double *a, _Complex long double b) {
 // IMPRVD-SAME: ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[A:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]]) #[[ATTR2]] {
 // IMPRVD-NEXT:  entry:
 // IMPRVD-NEXT:    [[A_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// IMPRVD-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16
+// IMPRVD-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16, !freeze_bits [[META2]]
 // IMPRVD-NEXT:    [[A_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// IMPRVD-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16
+// IMPRVD-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16, !freeze_bits [[META2]]
 // IMPRVD-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// IMPRVD-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// IMPRVD-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // IMPRVD-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// IMPRVD-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// IMPRVD-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // IMPRVD-NEXT:    [[MUL_AC:%.*]] = fmul x86_fp80 [[A_REAL]], [[B_REAL]]
 // IMPRVD-NEXT:    [[MUL_BD:%.*]] = fmul x86_fp80 [[A_IMAG]], [[B_IMAG]]
 // IMPRVD-NEXT:    [[MUL_AD:%.*]] = fmul x86_fp80 [[A_REAL]], [[B_IMAG]]
@@ -3877,13 +3931,13 @@ void divassignld(_Complex long double *a, _Complex long double b) {
 // PRMTD-SAME: ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[A:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]]) #[[ATTR1]] {
 // PRMTD-NEXT:  entry:
 // PRMTD-NEXT:    [[A_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// PRMTD-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16
+// PRMTD-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16, !freeze_bits [[META2]]
 // PRMTD-NEXT:    [[A_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// PRMTD-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16
+// PRMTD-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16, !freeze_bits [[META2]]
 // PRMTD-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// PRMTD-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// PRMTD-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // PRMTD-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// PRMTD-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// PRMTD-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // PRMTD-NEXT:    [[MUL_AC:%.*]] = fmul x86_fp80 [[A_REAL]], [[B_REAL]]
 // PRMTD-NEXT:    [[MUL_BD:%.*]] = fmul x86_fp80 [[A_IMAG]], [[B_IMAG]]
 // PRMTD-NEXT:    [[MUL_AD:%.*]] = fmul x86_fp80 [[A_REAL]], [[B_IMAG]]
@@ -3898,13 +3952,13 @@ void divassignld(_Complex long double *a, _Complex long double b) {
 // X86WINPRMTD-SAME: ptr dead_on_unwind noalias writable sret({ double, double }) align 8 [[AGG_RESULT:%.*]], ptr dead_on_return noundef [[A:%.*]], ptr dead_on_return noundef [[B:%.*]]) #[[ATTR0]] {
 // X86WINPRMTD-NEXT:  entry:
 // X86WINPRMTD-NEXT:    [[A_REALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
-// X86WINPRMTD-NEXT:    [[A_REAL:%.*]] = load double, ptr [[A_REALP]], align 8
+// X86WINPRMTD-NEXT:    [[A_REAL:%.*]] = load double, ptr [[A_REALP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[A_IMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 1
-// X86WINPRMTD-NEXT:    [[A_IMAG:%.*]] = load double, ptr [[A_IMAGP]], align 8
+// X86WINPRMTD-NEXT:    [[A_IMAG:%.*]] = load double, ptr [[A_IMAGP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[B]], i32 0, i32 0
-// X86WINPRMTD-NEXT:    [[B_REAL:%.*]] = load double, ptr [[B_REALP]], align 8
+// X86WINPRMTD-NEXT:    [[B_REAL:%.*]] = load double, ptr [[B_REALP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[B]], i32 0, i32 1
-// X86WINPRMTD-NEXT:    [[B_IMAG:%.*]] = load double, ptr [[B_IMAGP]], align 8
+// X86WINPRMTD-NEXT:    [[B_IMAG:%.*]] = load double, ptr [[B_IMAGP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[MUL_AC:%.*]] = fmul double [[A_REAL]], [[B_REAL]]
 // X86WINPRMTD-NEXT:    [[MUL_BD:%.*]] = fmul double [[A_IMAG]], [[B_IMAG]]
 // X86WINPRMTD-NEXT:    [[MUL_AD:%.*]] = fmul double [[A_REAL]], [[B_IMAG]]
@@ -3916,9 +3970,9 @@ void divassignld(_Complex long double *a, _Complex long double b) {
 // X86WINPRMTD-NEXT:    store double [[MUL_R]], ptr [[AGG_RESULT_REALP]], align 8
 // X86WINPRMTD-NEXT:    store double [[MUL_I]], ptr [[AGG_RESULT_IMAGP]], align 8
 // X86WINPRMTD-NEXT:    [[AGG_RESULT_REALP1:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 0
-// X86WINPRMTD-NEXT:    [[AGG_RESULT_REAL:%.*]] = load double, ptr [[AGG_RESULT_REALP1]], align 8
+// X86WINPRMTD-NEXT:    [[AGG_RESULT_REAL:%.*]] = load double, ptr [[AGG_RESULT_REALP1]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[AGG_RESULT_IMAGP2:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 1
-// X86WINPRMTD-NEXT:    [[AGG_RESULT_IMAG:%.*]] = load double, ptr [[AGG_RESULT_IMAGP2]], align 8
+// X86WINPRMTD-NEXT:    [[AGG_RESULT_IMAG:%.*]] = load double, ptr [[AGG_RESULT_IMAGP2]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[AGG_RESULT_REALP3:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 0
 // X86WINPRMTD-NEXT:    [[AGG_RESULT_IMAGP4:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 1
 // X86WINPRMTD-NEXT:    store double [[AGG_RESULT_REAL]], ptr [[AGG_RESULT_REALP3]], align 8
@@ -3952,9 +4006,9 @@ void divassignld(_Complex long double *a, _Complex long double b) {
 // AVRFP64-NEXT:    store double [[MUL_R]], ptr [[AGG_RESULT_REALP]], align 1
 // AVRFP64-NEXT:    store double [[MUL_I]], ptr [[AGG_RESULT_IMAGP]], align 1
 // AVRFP64-NEXT:    [[AGG_RESULT_REALP1:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 0
-// AVRFP64-NEXT:    [[AGG_RESULT_REAL:%.*]] = load double, ptr [[AGG_RESULT_REALP1]], align 1
+// AVRFP64-NEXT:    [[AGG_RESULT_REAL:%.*]] = load double, ptr [[AGG_RESULT_REALP1]], align 1, !freeze_bits [[META2]]
 // AVRFP64-NEXT:    [[AGG_RESULT_IMAGP2:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 1
-// AVRFP64-NEXT:    [[AGG_RESULT_IMAG:%.*]] = load double, ptr [[AGG_RESULT_IMAGP2]], align 1
+// AVRFP64-NEXT:    [[AGG_RESULT_IMAG:%.*]] = load double, ptr [[AGG_RESULT_IMAGP2]], align 1, !freeze_bits [[META2]]
 // AVRFP64-NEXT:    [[AGG_RESULT_REALP3:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 0
 // AVRFP64-NEXT:    [[AGG_RESULT_IMAGP4:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 1
 // AVRFP64-NEXT:    store double [[AGG_RESULT_REAL]], ptr [[AGG_RESULT_REALP3]], align 1
@@ -3965,13 +4019,13 @@ void divassignld(_Complex long double *a, _Complex long double b) {
 // BASIC_FAST-SAME: ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[A:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]]) #[[ATTR1]] {
 // BASIC_FAST-NEXT:  entry:
 // BASIC_FAST-NEXT:    [[A_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// BASIC_FAST-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16
+// BASIC_FAST-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16, !freeze_bits [[META2]]
 // BASIC_FAST-NEXT:    [[A_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// BASIC_FAST-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16
+// BASIC_FAST-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16, !freeze_bits [[META2]]
 // BASIC_FAST-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// BASIC_FAST-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// BASIC_FAST-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // BASIC_FAST-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// BASIC_FAST-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// BASIC_FAST-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // BASIC_FAST-NEXT:    [[MUL_AC:%.*]] = fmul reassoc nnan ninf nsz arcp afn x86_fp80 [[A_REAL]], [[B_REAL]]
 // BASIC_FAST-NEXT:    [[MUL_BD:%.*]] = fmul reassoc nnan ninf nsz arcp afn x86_fp80 [[A_IMAG]], [[B_IMAG]]
 // BASIC_FAST-NEXT:    [[MUL_AD:%.*]] = fmul reassoc nnan ninf nsz arcp afn x86_fp80 [[A_REAL]], [[B_IMAG]]
@@ -3986,13 +4040,13 @@ void divassignld(_Complex long double *a, _Complex long double b) {
 // FULL_FAST-SAME: ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[A:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]]) #[[ATTR1]] {
 // FULL_FAST-NEXT:  entry:
 // FULL_FAST-NEXT:    [[A_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// FULL_FAST-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16
+// FULL_FAST-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16, !freeze_bits [[META2]]
 // FULL_FAST-NEXT:    [[A_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// FULL_FAST-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16
+// FULL_FAST-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16, !freeze_bits [[META2]]
 // FULL_FAST-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// FULL_FAST-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// FULL_FAST-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // FULL_FAST-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// FULL_FAST-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// FULL_FAST-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // FULL_FAST-NEXT:    [[MUL_AC:%.*]] = fmul reassoc nnan ninf nsz arcp afn x86_fp80 [[A_REAL]], [[B_REAL]]
 // FULL_FAST-NEXT:    [[MUL_BD:%.*]] = fmul reassoc nnan ninf nsz arcp afn x86_fp80 [[A_IMAG]], [[B_IMAG]]
 // FULL_FAST-NEXT:    [[MUL_AD:%.*]] = fmul reassoc nnan ninf nsz arcp afn x86_fp80 [[A_REAL]], [[B_IMAG]]
@@ -4000,10 +4054,10 @@ void divassignld(_Complex long double *a, _Complex long double b) {
 // FULL_FAST-NEXT:    [[MUL_R:%.*]] = fsub reassoc nnan ninf nsz arcp afn x86_fp80 [[MUL_AC]], [[MUL_BD]]
 // FULL_FAST-NEXT:    [[MUL_I:%.*]] = fadd reassoc nnan ninf nsz arcp afn x86_fp80 [[MUL_AD]], [[MUL_BC]]
 // FULL_FAST-NEXT:    [[ISNAN_CMP:%.*]] = fcmp reassoc nnan ninf nsz arcp afn uno x86_fp80 [[MUL_R]], [[MUL_R]]
-// FULL_FAST-NEXT:    br i1 [[ISNAN_CMP]], label [[COMPLEX_MUL_IMAG_NAN:%.*]], label [[COMPLEX_MUL_CONT:%.*]], !prof [[PROF2]]
+// FULL_FAST-NEXT:    br i1 [[ISNAN_CMP]], label [[COMPLEX_MUL_IMAG_NAN:%.*]], label [[COMPLEX_MUL_CONT:%.*]], !prof [[PROF3]]
 // FULL_FAST:       complex_mul_imag_nan:
 // FULL_FAST-NEXT:    [[ISNAN_CMP1:%.*]] = fcmp reassoc nnan ninf nsz arcp afn uno x86_fp80 [[MUL_I]], [[MUL_I]]
-// FULL_FAST-NEXT:    br i1 [[ISNAN_CMP1]], label [[COMPLEX_MUL_LIBCALL:%.*]], label [[COMPLEX_MUL_CONT]], !prof [[PROF2]]
+// FULL_FAST-NEXT:    br i1 [[ISNAN_CMP1]], label [[COMPLEX_MUL_LIBCALL:%.*]], label [[COMPLEX_MUL_CONT]], !prof [[PROF3]]
 // FULL_FAST:       complex_mul_libcall:
 // FULL_FAST-NEXT:    [[CALL:%.*]] = call reassoc nnan ninf nsz arcp afn nofpclass(nan inf) { x86_fp80, x86_fp80 } @__mulxc3(x86_fp80 noundef nofpclass(nan inf) [[A_REAL]], x86_fp80 noundef nofpclass(nan inf) [[A_IMAG]], x86_fp80 noundef nofpclass(nan inf) [[B_REAL]], x86_fp80 noundef nofpclass(nan inf) [[B_IMAG]]) #[[ATTR2]]
 // FULL_FAST-NEXT:    [[TMP0:%.*]] = extractvalue { x86_fp80, x86_fp80 } [[CALL]], 0
@@ -4020,13 +4074,13 @@ void divassignld(_Complex long double *a, _Complex long double b) {
 // IMPRVD_FAST-SAME: ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[A:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]]) #[[ATTR2]] {
 // IMPRVD_FAST-NEXT:  entry:
 // IMPRVD_FAST-NEXT:    [[A_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// IMPRVD_FAST-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16
+// IMPRVD_FAST-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16, !freeze_bits [[META2]]
 // IMPRVD_FAST-NEXT:    [[A_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// IMPRVD_FAST-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16
+// IMPRVD_FAST-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16, !freeze_bits [[META2]]
 // IMPRVD_FAST-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// IMPRVD_FAST-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// IMPRVD_FAST-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // IMPRVD_FAST-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// IMPRVD_FAST-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// IMPRVD_FAST-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // IMPRVD_FAST-NEXT:    [[MUL_AC:%.*]] = fmul reassoc nnan ninf nsz arcp afn x86_fp80 [[A_REAL]], [[B_REAL]]
 // IMPRVD_FAST-NEXT:    [[MUL_BD:%.*]] = fmul reassoc nnan ninf nsz arcp afn x86_fp80 [[A_IMAG]], [[B_IMAG]]
 // IMPRVD_FAST-NEXT:    [[MUL_AD:%.*]] = fmul reassoc nnan ninf nsz arcp afn x86_fp80 [[A_REAL]], [[B_IMAG]]
@@ -4041,13 +4095,13 @@ void divassignld(_Complex long double *a, _Complex long double b) {
 // PRMTD_FAST-SAME: ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[A:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]]) #[[ATTR1]] {
 // PRMTD_FAST-NEXT:  entry:
 // PRMTD_FAST-NEXT:    [[A_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// PRMTD_FAST-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16
+// PRMTD_FAST-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16, !freeze_bits [[META2]]
 // PRMTD_FAST-NEXT:    [[A_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// PRMTD_FAST-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16
+// PRMTD_FAST-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16, !freeze_bits [[META2]]
 // PRMTD_FAST-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// PRMTD_FAST-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// PRMTD_FAST-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // PRMTD_FAST-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// PRMTD_FAST-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// PRMTD_FAST-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // PRMTD_FAST-NEXT:    [[MUL_AC:%.*]] = fmul reassoc nnan ninf nsz arcp afn x86_fp80 [[A_REAL]], [[B_REAL]]
 // PRMTD_FAST-NEXT:    [[MUL_BD:%.*]] = fmul reassoc nnan ninf nsz arcp afn x86_fp80 [[A_IMAG]], [[B_IMAG]]
 // PRMTD_FAST-NEXT:    [[MUL_AD:%.*]] = fmul reassoc nnan ninf nsz arcp afn x86_fp80 [[A_REAL]], [[B_IMAG]]
@@ -4062,13 +4116,13 @@ void divassignld(_Complex long double *a, _Complex long double b) {
 // X86WINPRMTD_STRICT-SAME: ptr dead_on_unwind noalias writable sret({ double, double }) align 8 [[AGG_RESULT:%.*]], ptr dead_on_return noundef [[A:%.*]], ptr dead_on_return noundef [[B:%.*]]) #[[ATTR0]] {
 // X86WINPRMTD_STRICT-NEXT:  entry:
 // X86WINPRMTD_STRICT-NEXT:    [[A_REALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
-// X86WINPRMTD_STRICT-NEXT:    [[A_REAL:%.*]] = load double, ptr [[A_REALP]], align 8
+// X86WINPRMTD_STRICT-NEXT:    [[A_REAL:%.*]] = load double, ptr [[A_REALP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[A_IMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 1
-// X86WINPRMTD_STRICT-NEXT:    [[A_IMAG:%.*]] = load double, ptr [[A_IMAGP]], align 8
+// X86WINPRMTD_STRICT-NEXT:    [[A_IMAG:%.*]] = load double, ptr [[A_IMAGP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[B]], i32 0, i32 0
-// X86WINPRMTD_STRICT-NEXT:    [[B_REAL:%.*]] = load double, ptr [[B_REALP]], align 8
+// X86WINPRMTD_STRICT-NEXT:    [[B_REAL:%.*]] = load double, ptr [[B_REALP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[B]], i32 0, i32 1
-// X86WINPRMTD_STRICT-NEXT:    [[B_IMAG:%.*]] = load double, ptr [[B_IMAGP]], align 8
+// X86WINPRMTD_STRICT-NEXT:    [[B_IMAG:%.*]] = load double, ptr [[B_IMAGP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[MUL_AC:%.*]] = call double @llvm.experimental.constrained.fmul.f64(double [[A_REAL]], double [[B_REAL]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR3]]
 // X86WINPRMTD_STRICT-NEXT:    [[MUL_BD:%.*]] = call double @llvm.experimental.constrained.fmul.f64(double [[A_IMAG]], double [[B_IMAG]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR3]]
 // X86WINPRMTD_STRICT-NEXT:    [[MUL_AD:%.*]] = call double @llvm.experimental.constrained.fmul.f64(double [[A_REAL]], double [[B_IMAG]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR3]]
@@ -4080,9 +4134,9 @@ void divassignld(_Complex long double *a, _Complex long double b) {
 // X86WINPRMTD_STRICT-NEXT:    store double [[MUL_R]], ptr [[AGG_RESULT_REALP]], align 8
 // X86WINPRMTD_STRICT-NEXT:    store double [[MUL_I]], ptr [[AGG_RESULT_IMAGP]], align 8
 // X86WINPRMTD_STRICT-NEXT:    [[AGG_RESULT_REALP1:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 0
-// X86WINPRMTD_STRICT-NEXT:    [[AGG_RESULT_REAL:%.*]] = load double, ptr [[AGG_RESULT_REALP1]], align 8
+// X86WINPRMTD_STRICT-NEXT:    [[AGG_RESULT_REAL:%.*]] = load double, ptr [[AGG_RESULT_REALP1]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[AGG_RESULT_IMAGP2:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 1
-// X86WINPRMTD_STRICT-NEXT:    [[AGG_RESULT_IMAG:%.*]] = load double, ptr [[AGG_RESULT_IMAGP2]], align 8
+// X86WINPRMTD_STRICT-NEXT:    [[AGG_RESULT_IMAG:%.*]] = load double, ptr [[AGG_RESULT_IMAGP2]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[AGG_RESULT_REALP3:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 0
 // X86WINPRMTD_STRICT-NEXT:    [[AGG_RESULT_IMAGP4:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[AGG_RESULT]], i32 0, i32 1
 // X86WINPRMTD_STRICT-NEXT:    store double [[AGG_RESULT_REAL]], ptr [[AGG_RESULT_REALP3]], align 8
@@ -4093,13 +4147,13 @@ void divassignld(_Complex long double *a, _Complex long double b) {
 // PRMTD_STRICT-SAME: ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[A:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]]) #[[ATTR2]] {
 // PRMTD_STRICT-NEXT:  entry:
 // PRMTD_STRICT-NEXT:    [[A_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// PRMTD_STRICT-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16
+// PRMTD_STRICT-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16, !freeze_bits [[META2]]
 // PRMTD_STRICT-NEXT:    [[A_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// PRMTD_STRICT-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16
+// PRMTD_STRICT-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16, !freeze_bits [[META2]]
 // PRMTD_STRICT-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// PRMTD_STRICT-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// PRMTD_STRICT-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // PRMTD_STRICT-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// PRMTD_STRICT-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// PRMTD_STRICT-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // PRMTD_STRICT-NEXT:    [[MUL_AC:%.*]] = call x86_fp80 @llvm.experimental.constrained.fmul.f80(x86_fp80 [[A_REAL]], x86_fp80 [[B_REAL]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR4]]
 // PRMTD_STRICT-NEXT:    [[MUL_BD:%.*]] = call x86_fp80 @llvm.experimental.constrained.fmul.f80(x86_fp80 [[A_IMAG]], x86_fp80 [[B_IMAG]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR4]]
 // PRMTD_STRICT-NEXT:    [[MUL_AD:%.*]] = call x86_fp80 @llvm.experimental.constrained.fmul.f80(x86_fp80 [[A_REAL]], x86_fp80 [[B_IMAG]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR4]]
@@ -4118,13 +4172,13 @@ _Complex long double mulld(_Complex long double a, _Complex long double b) {
 // FULL-SAME: ptr noundef [[A:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]]) #[[ATTR1]] {
 // FULL-NEXT:  entry:
 // FULL-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// FULL-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// FULL-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // FULL-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// FULL-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// FULL-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // FULL-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// FULL-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16
+// FULL-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16, !freeze_bits [[META2]]
 // FULL-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// FULL-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16
+// FULL-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16, !freeze_bits [[META2]]
 // FULL-NEXT:    [[MUL_AC:%.*]] = fmul x86_fp80 [[DOTREAL]], [[B_REAL]]
 // FULL-NEXT:    [[MUL_BD:%.*]] = fmul x86_fp80 [[DOTIMAG]], [[B_IMAG]]
 // FULL-NEXT:    [[MUL_AD:%.*]] = fmul x86_fp80 [[DOTREAL]], [[B_IMAG]]
@@ -4132,10 +4186,10 @@ _Complex long double mulld(_Complex long double a, _Complex long double b) {
 // FULL-NEXT:    [[MUL_R:%.*]] = fsub x86_fp80 [[MUL_AC]], [[MUL_BD]]
 // FULL-NEXT:    [[MUL_I:%.*]] = fadd x86_fp80 [[MUL_AD]], [[MUL_BC]]
 // FULL-NEXT:    [[ISNAN_CMP:%.*]] = fcmp uno x86_fp80 [[MUL_R]], [[MUL_R]]
-// FULL-NEXT:    br i1 [[ISNAN_CMP]], label [[COMPLEX_MUL_IMAG_NAN:%.*]], label [[COMPLEX_MUL_CONT:%.*]], !prof [[PROF2]]
+// FULL-NEXT:    br i1 [[ISNAN_CMP]], label [[COMPLEX_MUL_IMAG_NAN:%.*]], label [[COMPLEX_MUL_CONT:%.*]], !prof [[PROF3]]
 // FULL:       complex_mul_imag_nan:
 // FULL-NEXT:    [[ISNAN_CMP1:%.*]] = fcmp uno x86_fp80 [[MUL_I]], [[MUL_I]]
-// FULL-NEXT:    br i1 [[ISNAN_CMP1]], label [[COMPLEX_MUL_LIBCALL:%.*]], label [[COMPLEX_MUL_CONT]], !prof [[PROF2]]
+// FULL-NEXT:    br i1 [[ISNAN_CMP1]], label [[COMPLEX_MUL_LIBCALL:%.*]], label [[COMPLEX_MUL_CONT]], !prof [[PROF3]]
 // FULL:       complex_mul_libcall:
 // FULL-NEXT:    [[CALL:%.*]] = call { x86_fp80, x86_fp80 } @__mulxc3(x86_fp80 noundef [[DOTREAL]], x86_fp80 noundef [[DOTIMAG]], x86_fp80 noundef [[B_REAL]], x86_fp80 noundef [[B_IMAG]]) #[[ATTR2]]
 // FULL-NEXT:    [[TMP0:%.*]] = extractvalue { x86_fp80, x86_fp80 } [[CALL]], 0
@@ -4154,13 +4208,13 @@ _Complex long double mulld(_Complex long double a, _Complex long double b) {
 // BASIC-SAME: ptr noundef [[A:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]]) #[[ATTR1]] {
 // BASIC-NEXT:  entry:
 // BASIC-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// BASIC-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// BASIC-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // BASIC-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// BASIC-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// BASIC-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // BASIC-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// BASIC-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16
+// BASIC-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16, !freeze_bits [[META2]]
 // BASIC-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// BASIC-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16
+// BASIC-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16, !freeze_bits [[META2]]
 // BASIC-NEXT:    [[MUL_AC:%.*]] = fmul x86_fp80 [[DOTREAL]], [[B_REAL]]
 // BASIC-NEXT:    [[MUL_BD:%.*]] = fmul x86_fp80 [[DOTIMAG]], [[B_IMAG]]
 // BASIC-NEXT:    [[MUL_AD:%.*]] = fmul x86_fp80 [[DOTREAL]], [[B_IMAG]]
@@ -4177,13 +4231,13 @@ _Complex long double mulld(_Complex long double a, _Complex long double b) {
 // IMPRVD-SAME: ptr noundef [[A:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]]) #[[ATTR2]] {
 // IMPRVD-NEXT:  entry:
 // IMPRVD-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// IMPRVD-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// IMPRVD-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // IMPRVD-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// IMPRVD-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// IMPRVD-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // IMPRVD-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// IMPRVD-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16
+// IMPRVD-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16, !freeze_bits [[META2]]
 // IMPRVD-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// IMPRVD-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16
+// IMPRVD-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16, !freeze_bits [[META2]]
 // IMPRVD-NEXT:    [[MUL_AC:%.*]] = fmul x86_fp80 [[DOTREAL]], [[B_REAL]]
 // IMPRVD-NEXT:    [[MUL_BD:%.*]] = fmul x86_fp80 [[DOTIMAG]], [[B_IMAG]]
 // IMPRVD-NEXT:    [[MUL_AD:%.*]] = fmul x86_fp80 [[DOTREAL]], [[B_IMAG]]
@@ -4200,13 +4254,13 @@ _Complex long double mulld(_Complex long double a, _Complex long double b) {
 // PRMTD-SAME: ptr noundef [[A:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]]) #[[ATTR1]] {
 // PRMTD-NEXT:  entry:
 // PRMTD-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// PRMTD-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// PRMTD-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // PRMTD-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// PRMTD-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// PRMTD-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // PRMTD-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// PRMTD-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16
+// PRMTD-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16, !freeze_bits [[META2]]
 // PRMTD-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// PRMTD-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16
+// PRMTD-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16, !freeze_bits [[META2]]
 // PRMTD-NEXT:    [[MUL_AC:%.*]] = fmul x86_fp80 [[DOTREAL]], [[B_REAL]]
 // PRMTD-NEXT:    [[MUL_BD:%.*]] = fmul x86_fp80 [[DOTIMAG]], [[B_IMAG]]
 // PRMTD-NEXT:    [[MUL_AD:%.*]] = fmul x86_fp80 [[DOTREAL]], [[B_IMAG]]
@@ -4223,13 +4277,13 @@ _Complex long double mulld(_Complex long double a, _Complex long double b) {
 // X86WINPRMTD-SAME: ptr noundef [[A:%.*]], ptr dead_on_return noundef [[B:%.*]]) #[[ATTR0]] {
 // X86WINPRMTD-NEXT:  entry:
 // X86WINPRMTD-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[B]], i32 0, i32 0
-// X86WINPRMTD-NEXT:    [[B_REAL:%.*]] = load double, ptr [[B_REALP]], align 8
+// X86WINPRMTD-NEXT:    [[B_REAL:%.*]] = load double, ptr [[B_REALP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[B]], i32 0, i32 1
-// X86WINPRMTD-NEXT:    [[B_IMAG:%.*]] = load double, ptr [[B_IMAGP]], align 8
+// X86WINPRMTD-NEXT:    [[B_IMAG:%.*]] = load double, ptr [[B_IMAGP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
-// X86WINPRMTD-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8
+// X86WINPRMTD-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 1
-// X86WINPRMTD-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8
+// X86WINPRMTD-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[MUL_AC:%.*]] = fmul double [[DOTREAL]], [[B_REAL]]
 // X86WINPRMTD-NEXT:    [[MUL_BD:%.*]] = fmul double [[DOTIMAG]], [[B_IMAG]]
 // X86WINPRMTD-NEXT:    [[MUL_AD:%.*]] = fmul double [[DOTREAL]], [[B_IMAG]]
@@ -4246,9 +4300,9 @@ _Complex long double mulld(_Complex long double a, _Complex long double b) {
 // AVRFP32-SAME: ptr noundef [[A:%.*]], float noundef [[B_COERCE0:%.*]], float noundef [[B_COERCE1:%.*]]) addrspace(1) #[[ATTR0]] {
 // AVRFP32-NEXT:  entry:
 // AVRFP32-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
-// AVRFP32-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 1
+// AVRFP32-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 1, !freeze_bits [[META2]]
 // AVRFP32-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 1
-// AVRFP32-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 1
+// AVRFP32-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 1, !freeze_bits [[META2]]
 // AVRFP32-NEXT:    [[MUL_AC:%.*]] = fmul float [[DOTREAL]], [[B_COERCE0]]
 // AVRFP32-NEXT:    [[MUL_BD:%.*]] = fmul float [[DOTIMAG]], [[B_COERCE1]]
 // AVRFP32-NEXT:    [[MUL_AD:%.*]] = fmul float [[DOTREAL]], [[B_COERCE1]]
@@ -4265,9 +4319,9 @@ _Complex long double mulld(_Complex long double a, _Complex long double b) {
 // AVRFP64-SAME: ptr noundef [[A:%.*]], double noundef [[B_COERCE0:%.*]], double noundef [[B_COERCE1:%.*]]) addrspace(1) #[[ATTR0]] {
 // AVRFP64-NEXT:  entry:
 // AVRFP64-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
-// AVRFP64-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 1
+// AVRFP64-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 1, !freeze_bits [[META2]]
 // AVRFP64-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 1
-// AVRFP64-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 1
+// AVRFP64-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 1, !freeze_bits [[META2]]
 // AVRFP64-NEXT:    [[MUL_AC:%.*]] = fmul double [[DOTREAL]], [[B_COERCE0]]
 // AVRFP64-NEXT:    [[MUL_BD:%.*]] = fmul double [[DOTIMAG]], [[B_COERCE1]]
 // AVRFP64-NEXT:    [[MUL_AD:%.*]] = fmul double [[DOTREAL]], [[B_COERCE1]]
@@ -4284,13 +4338,13 @@ _Complex long double mulld(_Complex long double a, _Complex long double b) {
 // BASIC_FAST-SAME: ptr noundef [[A:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]]) #[[ATTR1]] {
 // BASIC_FAST-NEXT:  entry:
 // BASIC_FAST-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// BASIC_FAST-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// BASIC_FAST-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // BASIC_FAST-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// BASIC_FAST-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// BASIC_FAST-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // BASIC_FAST-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// BASIC_FAST-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16
+// BASIC_FAST-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16, !freeze_bits [[META2]]
 // BASIC_FAST-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// BASIC_FAST-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16
+// BASIC_FAST-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16, !freeze_bits [[META2]]
 // BASIC_FAST-NEXT:    [[MUL_AC:%.*]] = fmul reassoc nnan ninf nsz arcp afn x86_fp80 [[DOTREAL]], [[B_REAL]]
 // BASIC_FAST-NEXT:    [[MUL_BD:%.*]] = fmul reassoc nnan ninf nsz arcp afn x86_fp80 [[DOTIMAG]], [[B_IMAG]]
 // BASIC_FAST-NEXT:    [[MUL_AD:%.*]] = fmul reassoc nnan ninf nsz arcp afn x86_fp80 [[DOTREAL]], [[B_IMAG]]
@@ -4307,13 +4361,13 @@ _Complex long double mulld(_Complex long double a, _Complex long double b) {
 // FULL_FAST-SAME: ptr noundef [[A:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]]) #[[ATTR1]] {
 // FULL_FAST-NEXT:  entry:
 // FULL_FAST-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// FULL_FAST-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// FULL_FAST-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // FULL_FAST-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// FULL_FAST-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// FULL_FAST-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // FULL_FAST-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// FULL_FAST-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16
+// FULL_FAST-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16, !freeze_bits [[META2]]
 // FULL_FAST-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// FULL_FAST-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16
+// FULL_FAST-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16, !freeze_bits [[META2]]
 // FULL_FAST-NEXT:    [[MUL_AC:%.*]] = fmul reassoc nnan ninf nsz arcp afn x86_fp80 [[DOTREAL]], [[B_REAL]]
 // FULL_FAST-NEXT:    [[MUL_BD:%.*]] = fmul reassoc nnan ninf nsz arcp afn x86_fp80 [[DOTIMAG]], [[B_IMAG]]
 // FULL_FAST-NEXT:    [[MUL_AD:%.*]] = fmul reassoc nnan ninf nsz arcp afn x86_fp80 [[DOTREAL]], [[B_IMAG]]
@@ -4321,10 +4375,10 @@ _Complex long double mulld(_Complex long double a, _Complex long double b) {
 // FULL_FAST-NEXT:    [[MUL_R:%.*]] = fsub reassoc nnan ninf nsz arcp afn x86_fp80 [[MUL_AC]], [[MUL_BD]]
 // FULL_FAST-NEXT:    [[MUL_I:%.*]] = fadd reassoc nnan ninf nsz arcp afn x86_fp80 [[MUL_AD]], [[MUL_BC]]
 // FULL_FAST-NEXT:    [[ISNAN_CMP:%.*]] = fcmp reassoc nnan ninf nsz arcp afn uno x86_fp80 [[MUL_R]], [[MUL_R]]
-// FULL_FAST-NEXT:    br i1 [[ISNAN_CMP]], label [[COMPLEX_MUL_IMAG_NAN:%.*]], label [[COMPLEX_MUL_CONT:%.*]], !prof [[PROF2]]
+// FULL_FAST-NEXT:    br i1 [[ISNAN_CMP]], label [[COMPLEX_MUL_IMAG_NAN:%.*]], label [[COMPLEX_MUL_CONT:%.*]], !prof [[PROF3]]
 // FULL_FAST:       complex_mul_imag_nan:
 // FULL_FAST-NEXT:    [[ISNAN_CMP1:%.*]] = fcmp reassoc nnan ninf nsz arcp afn uno x86_fp80 [[MUL_I]], [[MUL_I]]
-// FULL_FAST-NEXT:    br i1 [[ISNAN_CMP1]], label [[COMPLEX_MUL_LIBCALL:%.*]], label [[COMPLEX_MUL_CONT]], !prof [[PROF2]]
+// FULL_FAST-NEXT:    br i1 [[ISNAN_CMP1]], label [[COMPLEX_MUL_LIBCALL:%.*]], label [[COMPLEX_MUL_CONT]], !prof [[PROF3]]
 // FULL_FAST:       complex_mul_libcall:
 // FULL_FAST-NEXT:    [[CALL:%.*]] = call reassoc nnan ninf nsz arcp afn nofpclass(nan inf) { x86_fp80, x86_fp80 } @__mulxc3(x86_fp80 noundef nofpclass(nan inf) [[DOTREAL]], x86_fp80 noundef nofpclass(nan inf) [[DOTIMAG]], x86_fp80 noundef nofpclass(nan inf) [[B_REAL]], x86_fp80 noundef nofpclass(nan inf) [[B_IMAG]]) #[[ATTR2]]
 // FULL_FAST-NEXT:    [[TMP0:%.*]] = extractvalue { x86_fp80, x86_fp80 } [[CALL]], 0
@@ -4343,13 +4397,13 @@ _Complex long double mulld(_Complex long double a, _Complex long double b) {
 // IMPRVD_FAST-SAME: ptr noundef [[A:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]]) #[[ATTR2]] {
 // IMPRVD_FAST-NEXT:  entry:
 // IMPRVD_FAST-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// IMPRVD_FAST-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// IMPRVD_FAST-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // IMPRVD_FAST-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// IMPRVD_FAST-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// IMPRVD_FAST-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // IMPRVD_FAST-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// IMPRVD_FAST-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16
+// IMPRVD_FAST-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16, !freeze_bits [[META2]]
 // IMPRVD_FAST-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// IMPRVD_FAST-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16
+// IMPRVD_FAST-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16, !freeze_bits [[META2]]
 // IMPRVD_FAST-NEXT:    [[MUL_AC:%.*]] = fmul reassoc nnan ninf nsz arcp afn x86_fp80 [[DOTREAL]], [[B_REAL]]
 // IMPRVD_FAST-NEXT:    [[MUL_BD:%.*]] = fmul reassoc nnan ninf nsz arcp afn x86_fp80 [[DOTIMAG]], [[B_IMAG]]
 // IMPRVD_FAST-NEXT:    [[MUL_AD:%.*]] = fmul reassoc nnan ninf nsz arcp afn x86_fp80 [[DOTREAL]], [[B_IMAG]]
@@ -4366,13 +4420,13 @@ _Complex long double mulld(_Complex long double a, _Complex long double b) {
 // PRMTD_FAST-SAME: ptr noundef [[A:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]]) #[[ATTR1]] {
 // PRMTD_FAST-NEXT:  entry:
 // PRMTD_FAST-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// PRMTD_FAST-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// PRMTD_FAST-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // PRMTD_FAST-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// PRMTD_FAST-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// PRMTD_FAST-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // PRMTD_FAST-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// PRMTD_FAST-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16
+// PRMTD_FAST-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16, !freeze_bits [[META2]]
 // PRMTD_FAST-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// PRMTD_FAST-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16
+// PRMTD_FAST-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16, !freeze_bits [[META2]]
 // PRMTD_FAST-NEXT:    [[MUL_AC:%.*]] = fmul reassoc nnan ninf nsz arcp afn x86_fp80 [[DOTREAL]], [[B_REAL]]
 // PRMTD_FAST-NEXT:    [[MUL_BD:%.*]] = fmul reassoc nnan ninf nsz arcp afn x86_fp80 [[DOTIMAG]], [[B_IMAG]]
 // PRMTD_FAST-NEXT:    [[MUL_AD:%.*]] = fmul reassoc nnan ninf nsz arcp afn x86_fp80 [[DOTREAL]], [[B_IMAG]]
@@ -4389,13 +4443,13 @@ _Complex long double mulld(_Complex long double a, _Complex long double b) {
 // X86WINPRMTD_STRICT-SAME: ptr noundef [[A:%.*]], ptr dead_on_return noundef [[B:%.*]]) #[[ATTR0]] {
 // X86WINPRMTD_STRICT-NEXT:  entry:
 // X86WINPRMTD_STRICT-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[B]], i32 0, i32 0
-// X86WINPRMTD_STRICT-NEXT:    [[B_REAL:%.*]] = load double, ptr [[B_REALP]], align 8
+// X86WINPRMTD_STRICT-NEXT:    [[B_REAL:%.*]] = load double, ptr [[B_REALP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[B]], i32 0, i32 1
-// X86WINPRMTD_STRICT-NEXT:    [[B_IMAG:%.*]] = load double, ptr [[B_IMAGP]], align 8
+// X86WINPRMTD_STRICT-NEXT:    [[B_IMAG:%.*]] = load double, ptr [[B_IMAGP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
-// X86WINPRMTD_STRICT-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8
+// X86WINPRMTD_STRICT-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 1
-// X86WINPRMTD_STRICT-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8
+// X86WINPRMTD_STRICT-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[MUL_AC:%.*]] = call double @llvm.experimental.constrained.fmul.f64(double [[DOTREAL]], double [[B_REAL]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR3]]
 // X86WINPRMTD_STRICT-NEXT:    [[MUL_BD:%.*]] = call double @llvm.experimental.constrained.fmul.f64(double [[DOTIMAG]], double [[B_IMAG]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR3]]
 // X86WINPRMTD_STRICT-NEXT:    [[MUL_AD:%.*]] = call double @llvm.experimental.constrained.fmul.f64(double [[DOTREAL]], double [[B_IMAG]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR3]]
@@ -4412,13 +4466,13 @@ _Complex long double mulld(_Complex long double a, _Complex long double b) {
 // PRMTD_STRICT-SAME: ptr noundef [[A:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]]) #[[ATTR2]] {
 // PRMTD_STRICT-NEXT:  entry:
 // PRMTD_STRICT-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// PRMTD_STRICT-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// PRMTD_STRICT-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // PRMTD_STRICT-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// PRMTD_STRICT-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// PRMTD_STRICT-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // PRMTD_STRICT-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// PRMTD_STRICT-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16
+// PRMTD_STRICT-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16, !freeze_bits [[META2]]
 // PRMTD_STRICT-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// PRMTD_STRICT-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16
+// PRMTD_STRICT-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16, !freeze_bits [[META2]]
 // PRMTD_STRICT-NEXT:    [[MUL_AC:%.*]] = call x86_fp80 @llvm.experimental.constrained.fmul.f80(x86_fp80 [[DOTREAL]], x86_fp80 [[B_REAL]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR4]]
 // PRMTD_STRICT-NEXT:    [[MUL_BD:%.*]] = call x86_fp80 @llvm.experimental.constrained.fmul.f80(x86_fp80 [[DOTIMAG]], x86_fp80 [[B_IMAG]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR4]]
 // PRMTD_STRICT-NEXT:    [[MUL_AD:%.*]] = call x86_fp80 @llvm.experimental.constrained.fmul.f80(x86_fp80 [[DOTREAL]], x86_fp80 [[B_IMAG]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR4]]
@@ -4439,9 +4493,9 @@ void mulassignld(_Complex long double *a, _Complex long double b) {
 // FULL-SAME: <2 x float> noundef [[A_COERCE:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]], <2 x float> noundef [[C_COERCE:%.*]]) #[[ATTR0]] {
 // FULL-NEXT:  entry:
 // FULL-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// FULL-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// FULL-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // FULL-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// FULL-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// FULL-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // FULL-NEXT:    [[C_SROA_0_0_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[C_COERCE]], i32 0
 // FULL-NEXT:    [[C_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[C_COERCE]], i32 1
 // FULL-NEXT:    [[CONV:%.*]] = fpext float [[C_SROA_0_0_VEC_EXTRACT]] to x86_fp80
@@ -4456,17 +4510,20 @@ void mulassignld(_Complex long double *a, _Complex long double b) {
 // FULL-NEXT:    [[CALL4:%.*]] = call <2 x float> @__divsc3(float noundef [[CONV2]], float noundef [[CONV3]], float noundef [[A_SROA_0_0_VEC_EXTRACT]], float noundef [[A_SROA_0_4_VEC_EXTRACT]]) #[[ATTR2]]
 // FULL-NEXT:    [[COERCE_SROA_0_0_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[CALL4]], i32 0
 // FULL-NEXT:    [[COERCE_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[CALL4]], i32 1
-// FULL-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[COERCE_SROA_0_0_VEC_EXTRACT]], i32 0
-// FULL-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[COERCE_SROA_0_4_VEC_EXTRACT]], i32 1
-// FULL-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// FULL-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// FULL-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[COERCE_SROA_0_0_VEC_EXTRACT]], i32 0
+// FULL-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// FULL-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[COERCE_SROA_0_4_VEC_EXTRACT]], i32 1
+// FULL-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// FULL-NEXT:    ret <2 x float> [[FREEZE_LOAD2]]
 //
 // BASIC-LABEL: define dso_local <2 x float> @f1(
 // BASIC-SAME: <2 x float> noundef [[A_COERCE:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]], <2 x float> noundef [[C_COERCE:%.*]]) #[[ATTR0]] {
 // BASIC-NEXT:  entry:
 // BASIC-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// BASIC-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// BASIC-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // BASIC-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// BASIC-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// BASIC-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // BASIC-NEXT:    [[C_SROA_0_0_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[C_COERCE]], i32 0
 // BASIC-NEXT:    [[C_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[C_COERCE]], i32 1
 // BASIC-NEXT:    [[CONV:%.*]] = fpext float [[C_SROA_0_0_VEC_EXTRACT]] to x86_fp80
@@ -4497,17 +4554,20 @@ void mulassignld(_Complex long double *a, _Complex long double b) {
 // BASIC-NEXT:    [[TMP19:%.*]] = fsub float [[TMP17]], [[TMP18]]
 // BASIC-NEXT:    [[TMP20:%.*]] = fdiv float [[TMP13]], [[TMP16]]
 // BASIC-NEXT:    [[TMP21:%.*]] = fdiv float [[TMP19]], [[TMP16]]
-// BASIC-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[TMP20]], i32 0
-// BASIC-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[TMP21]], i32 1
-// BASIC-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// BASIC-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// BASIC-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[TMP20]], i32 0
+// BASIC-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// BASIC-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[TMP21]], i32 1
+// BASIC-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// BASIC-NEXT:    ret <2 x float> [[FREEZE_LOAD2]]
 //
 // IMPRVD-LABEL: define dso_local <2 x float> @f1(
 // IMPRVD-SAME: <2 x float> noundef [[A_COERCE:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]], <2 x float> noundef [[C_COERCE:%.*]]) #[[ATTR0]] {
 // IMPRVD-NEXT:  entry:
 // IMPRVD-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// IMPRVD-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// IMPRVD-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // IMPRVD-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// IMPRVD-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// IMPRVD-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // IMPRVD-NEXT:    [[C_SROA_0_0_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[C_COERCE]], i32 0
 // IMPRVD-NEXT:    [[C_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[C_COERCE]], i32 1
 // IMPRVD-NEXT:    [[CONV:%.*]] = fpext float [[C_SROA_0_0_VEC_EXTRACT]] to x86_fp80
@@ -4574,17 +4634,20 @@ void mulassignld(_Complex long double *a, _Complex long double b) {
 // IMPRVD:       complex_div7:
 // IMPRVD-NEXT:    [[TMP42:%.*]] = phi float [ [[TMP29]], [[ABS_RHSR_GREATER_OR_EQUAL_ABS_RHSI5]] ], [ [[TMP38]], [[ABS_RHSR_LESS_THAN_ABS_RHSI6]] ]
 // IMPRVD-NEXT:    [[TMP43:%.*]] = phi float [ [[TMP32]], [[ABS_RHSR_GREATER_OR_EQUAL_ABS_RHSI5]] ], [ [[TMP41]], [[ABS_RHSR_LESS_THAN_ABS_RHSI6]] ]
-// IMPRVD-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[TMP42]], i32 0
-// IMPRVD-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[TMP43]], i32 1
-// IMPRVD-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// IMPRVD-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// IMPRVD-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[TMP42]], i32 0
+// IMPRVD-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// IMPRVD-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[TMP43]], i32 1
+// IMPRVD-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// IMPRVD-NEXT:    ret <2 x float> [[FREEZE_LOAD2]]
 //
 // PRMTD-LABEL: define dso_local <2 x float> @f1(
 // PRMTD-SAME: <2 x float> noundef [[A_COERCE:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]], <2 x float> noundef [[C_COERCE:%.*]]) #[[ATTR0]] {
 // PRMTD-NEXT:  entry:
 // PRMTD-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// PRMTD-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// PRMTD-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // PRMTD-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// PRMTD-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// PRMTD-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // PRMTD-NEXT:    [[C_SROA_0_0_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[C_COERCE]], i32 0
 // PRMTD-NEXT:    [[C_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[C_COERCE]], i32 1
 // PRMTD-NEXT:    [[CONV:%.*]] = fpext float [[C_SROA_0_0_VEC_EXTRACT]] to x86_fp80
@@ -4639,9 +4702,12 @@ void mulassignld(_Complex long double *a, _Complex long double b) {
 // PRMTD-NEXT:    [[TMP32:%.*]] = fdiv double [[TMP30]], [[TMP27]]
 // PRMTD-NEXT:    [[UNPROMOTION:%.*]] = fptrunc double [[TMP31]] to float
 // PRMTD-NEXT:    [[UNPROMOTION7:%.*]] = fptrunc double [[TMP32]] to float
-// PRMTD-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[UNPROMOTION]], i32 0
-// PRMTD-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[UNPROMOTION7]], i32 1
-// PRMTD-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// PRMTD-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// PRMTD-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[UNPROMOTION]], i32 0
+// PRMTD-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// PRMTD-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[UNPROMOTION7]], i32 1
+// PRMTD-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// PRMTD-NEXT:    ret <2 x float> [[FREEZE_LOAD2]]
 //
 // X86WINPRMTD-LABEL: define dso_local i64 @f1(
 // X86WINPRMTD-SAME: i64 noundef [[A_COERCE:%.*]], ptr dead_on_return noundef [[B:%.*]], i64 noundef [[C_COERCE:%.*]]) #[[ATTR0]] {
@@ -4657,9 +4723,9 @@ void mulassignld(_Complex long double *a, _Complex long double b) {
 // X86WINPRMTD-NEXT:    [[C_SROA_2_0_EXTRACT_TRUNC:%.*]] = trunc i64 [[C_SROA_2_0_EXTRACT_SHIFT]] to i32
 // X86WINPRMTD-NEXT:    [[TMP3:%.*]] = bitcast i32 [[C_SROA_2_0_EXTRACT_TRUNC]] to float
 // X86WINPRMTD-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[B]], i32 0, i32 0
-// X86WINPRMTD-NEXT:    [[B_REAL:%.*]] = load double, ptr [[B_REALP]], align 8
+// X86WINPRMTD-NEXT:    [[B_REAL:%.*]] = load double, ptr [[B_REALP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[B]], i32 0, i32 1
-// X86WINPRMTD-NEXT:    [[B_IMAG:%.*]] = load double, ptr [[B_IMAGP]], align 8
+// X86WINPRMTD-NEXT:    [[B_IMAG:%.*]] = load double, ptr [[B_IMAGP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD-NEXT:    [[CONV:%.*]] = fpext float [[TMP2]] to double
 // X86WINPRMTD-NEXT:    [[CONV1:%.*]] = fpext float [[TMP3]] to double
 // X86WINPRMTD-NEXT:    [[TMP4:%.*]] = call double @llvm.fabs.f64(double [[CONV]])
@@ -4847,9 +4913,9 @@ void mulassignld(_Complex long double *a, _Complex long double b) {
 // BASIC_FAST-SAME: <2 x float> noundef nofpclass(nan inf) [[A_COERCE:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]], <2 x float> noundef nofpclass(nan inf) [[C_COERCE:%.*]]) #[[ATTR0]] {
 // BASIC_FAST-NEXT:  entry:
 // BASIC_FAST-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// BASIC_FAST-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// BASIC_FAST-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // BASIC_FAST-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// BASIC_FAST-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// BASIC_FAST-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // BASIC_FAST-NEXT:    [[C_SROA_0_0_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[C_COERCE]], i32 0
 // BASIC_FAST-NEXT:    [[C_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[C_COERCE]], i32 1
 // BASIC_FAST-NEXT:    [[CONV:%.*]] = fpext reassoc nnan ninf nsz arcp afn float [[C_SROA_0_0_VEC_EXTRACT]] to x86_fp80
@@ -4880,17 +4946,20 @@ void mulassignld(_Complex long double *a, _Complex long double b) {
 // BASIC_FAST-NEXT:    [[TMP19:%.*]] = fsub reassoc nnan ninf nsz arcp afn float [[TMP17]], [[TMP18]]
 // BASIC_FAST-NEXT:    [[TMP20:%.*]] = fdiv reassoc nnan ninf nsz arcp afn float [[TMP13]], [[TMP16]]
 // BASIC_FAST-NEXT:    [[TMP21:%.*]] = fdiv reassoc nnan ninf nsz arcp afn float [[TMP19]], [[TMP16]]
-// BASIC_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[TMP20]], i32 0
-// BASIC_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[TMP21]], i32 1
-// BASIC_FAST-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// BASIC_FAST-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// BASIC_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[TMP20]], i32 0
+// BASIC_FAST-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// BASIC_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[TMP21]], i32 1
+// BASIC_FAST-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// BASIC_FAST-NEXT:    ret <2 x float> [[FREEZE_LOAD2]]
 //
 // FULL_FAST-LABEL: define dso_local nofpclass(nan inf) <2 x float> @f1(
 // FULL_FAST-SAME: <2 x float> noundef nofpclass(nan inf) [[A_COERCE:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]], <2 x float> noundef nofpclass(nan inf) [[C_COERCE:%.*]]) #[[ATTR0]] {
 // FULL_FAST-NEXT:  entry:
 // FULL_FAST-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// FULL_FAST-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// FULL_FAST-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // FULL_FAST-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// FULL_FAST-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// FULL_FAST-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // FULL_FAST-NEXT:    [[C_SROA_0_0_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[C_COERCE]], i32 0
 // FULL_FAST-NEXT:    [[C_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[C_COERCE]], i32 1
 // FULL_FAST-NEXT:    [[CONV:%.*]] = fpext reassoc nnan ninf nsz arcp afn float [[C_SROA_0_0_VEC_EXTRACT]] to x86_fp80
@@ -4905,17 +4974,20 @@ void mulassignld(_Complex long double *a, _Complex long double b) {
 // FULL_FAST-NEXT:    [[CALL4:%.*]] = call reassoc nnan ninf nsz arcp afn nofpclass(nan inf) <2 x float> @__divsc3(float noundef nofpclass(nan inf) [[CONV2]], float noundef nofpclass(nan inf) [[CONV3]], float noundef nofpclass(nan inf) [[A_SROA_0_0_VEC_EXTRACT]], float noundef nofpclass(nan inf) [[A_SROA_0_4_VEC_EXTRACT]]) #[[ATTR2]]
 // FULL_FAST-NEXT:    [[COERCE_SROA_0_0_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[CALL4]], i32 0
 // FULL_FAST-NEXT:    [[COERCE_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[CALL4]], i32 1
-// FULL_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[COERCE_SROA_0_0_VEC_EXTRACT]], i32 0
-// FULL_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[COERCE_SROA_0_4_VEC_EXTRACT]], i32 1
-// FULL_FAST-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// FULL_FAST-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// FULL_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[COERCE_SROA_0_0_VEC_EXTRACT]], i32 0
+// FULL_FAST-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// FULL_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[COERCE_SROA_0_4_VEC_EXTRACT]], i32 1
+// FULL_FAST-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// FULL_FAST-NEXT:    ret <2 x float> [[FREEZE_LOAD2]]
 //
 // IMPRVD_FAST-LABEL: define dso_local nofpclass(nan inf) <2 x float> @f1(
 // IMPRVD_FAST-SAME: <2 x float> noundef nofpclass(nan inf) [[A_COERCE:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]], <2 x float> noundef nofpclass(nan inf) [[C_COERCE:%.*]]) #[[ATTR0]] {
 // IMPRVD_FAST-NEXT:  entry:
 // IMPRVD_FAST-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// IMPRVD_FAST-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// IMPRVD_FAST-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // IMPRVD_FAST-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// IMPRVD_FAST-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// IMPRVD_FAST-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // IMPRVD_FAST-NEXT:    [[C_SROA_0_0_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[C_COERCE]], i32 0
 // IMPRVD_FAST-NEXT:    [[C_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[C_COERCE]], i32 1
 // IMPRVD_FAST-NEXT:    [[CONV:%.*]] = fpext reassoc nnan ninf nsz arcp afn float [[C_SROA_0_0_VEC_EXTRACT]] to x86_fp80
@@ -4982,17 +5054,20 @@ void mulassignld(_Complex long double *a, _Complex long double b) {
 // IMPRVD_FAST:       complex_div7:
 // IMPRVD_FAST-NEXT:    [[TMP42:%.*]] = phi reassoc nnan ninf nsz arcp afn float [ [[TMP29]], [[ABS_RHSR_GREATER_OR_EQUAL_ABS_RHSI5]] ], [ [[TMP38]], [[ABS_RHSR_LESS_THAN_ABS_RHSI6]] ]
 // IMPRVD_FAST-NEXT:    [[TMP43:%.*]] = phi reassoc nnan ninf nsz arcp afn float [ [[TMP32]], [[ABS_RHSR_GREATER_OR_EQUAL_ABS_RHSI5]] ], [ [[TMP41]], [[ABS_RHSR_LESS_THAN_ABS_RHSI6]] ]
-// IMPRVD_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[TMP42]], i32 0
-// IMPRVD_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[TMP43]], i32 1
-// IMPRVD_FAST-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// IMPRVD_FAST-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// IMPRVD_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[TMP42]], i32 0
+// IMPRVD_FAST-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// IMPRVD_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[TMP43]], i32 1
+// IMPRVD_FAST-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// IMPRVD_FAST-NEXT:    ret <2 x float> [[FREEZE_LOAD2]]
 //
 // PRMTD_FAST-LABEL: define dso_local nofpclass(nan inf) <2 x float> @f1(
 // PRMTD_FAST-SAME: <2 x float> noundef nofpclass(nan inf) [[A_COERCE:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]], <2 x float> noundef nofpclass(nan inf) [[C_COERCE:%.*]]) #[[ATTR0]] {
 // PRMTD_FAST-NEXT:  entry:
 // PRMTD_FAST-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// PRMTD_FAST-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// PRMTD_FAST-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // PRMTD_FAST-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// PRMTD_FAST-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// PRMTD_FAST-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // PRMTD_FAST-NEXT:    [[C_SROA_0_0_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[C_COERCE]], i32 0
 // PRMTD_FAST-NEXT:    [[C_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[C_COERCE]], i32 1
 // PRMTD_FAST-NEXT:    [[CONV:%.*]] = fpext reassoc nnan ninf nsz arcp afn float [[C_SROA_0_0_VEC_EXTRACT]] to x86_fp80
@@ -5047,9 +5122,12 @@ void mulassignld(_Complex long double *a, _Complex long double b) {
 // PRMTD_FAST-NEXT:    [[TMP32:%.*]] = fdiv reassoc nnan ninf nsz arcp afn double [[TMP30]], [[TMP27]]
 // PRMTD_FAST-NEXT:    [[UNPROMOTION:%.*]] = fptrunc reassoc nnan ninf nsz arcp afn double [[TMP31]] to float
 // PRMTD_FAST-NEXT:    [[UNPROMOTION7:%.*]] = fptrunc reassoc nnan ninf nsz arcp afn double [[TMP32]] to float
-// PRMTD_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[UNPROMOTION]], i32 0
-// PRMTD_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[UNPROMOTION7]], i32 1
-// PRMTD_FAST-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// PRMTD_FAST-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// PRMTD_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[UNPROMOTION]], i32 0
+// PRMTD_FAST-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// PRMTD_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[UNPROMOTION7]], i32 1
+// PRMTD_FAST-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// PRMTD_FAST-NEXT:    ret <2 x float> [[FREEZE_LOAD2]]
 //
 // X86WINPRMTD_STRICT-LABEL: define dso_local i64 @f1(
 // X86WINPRMTD_STRICT-SAME: i64 noundef [[A_COERCE:%.*]], ptr dead_on_return noundef [[B:%.*]], i64 noundef [[C_COERCE:%.*]]) #[[ATTR0]] {
@@ -5065,9 +5143,9 @@ void mulassignld(_Complex long double *a, _Complex long double b) {
 // X86WINPRMTD_STRICT-NEXT:    [[C_SROA_2_0_EXTRACT_TRUNC:%.*]] = trunc i64 [[C_SROA_2_0_EXTRACT_SHIFT]] to i32
 // X86WINPRMTD_STRICT-NEXT:    [[TMP3:%.*]] = bitcast i32 [[C_SROA_2_0_EXTRACT_TRUNC]] to float
 // X86WINPRMTD_STRICT-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[B]], i32 0, i32 0
-// X86WINPRMTD_STRICT-NEXT:    [[B_REAL:%.*]] = load double, ptr [[B_REALP]], align 8
+// X86WINPRMTD_STRICT-NEXT:    [[B_REAL:%.*]] = load double, ptr [[B_REALP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[B]], i32 0, i32 1
-// X86WINPRMTD_STRICT-NEXT:    [[B_IMAG:%.*]] = load double, ptr [[B_IMAGP]], align 8
+// X86WINPRMTD_STRICT-NEXT:    [[B_IMAG:%.*]] = load double, ptr [[B_IMAGP]], align 8, !freeze_bits [[META6]]
 // X86WINPRMTD_STRICT-NEXT:    [[CONV:%.*]] = call double @llvm.experimental.constrained.fpext.f64.f32(float [[TMP2]], metadata !"fpexcept.strict") #[[ATTR3]]
 // X86WINPRMTD_STRICT-NEXT:    [[CONV1:%.*]] = call double @llvm.experimental.constrained.fpext.f64.f32(float [[TMP3]], metadata !"fpexcept.strict") #[[ATTR3]]
 // X86WINPRMTD_STRICT-NEXT:    [[TMP4:%.*]] = call double @llvm.fabs.f64(double [[CONV]]) #[[ATTR3]]
@@ -5133,9 +5211,9 @@ void mulassignld(_Complex long double *a, _Complex long double b) {
 // PRMTD_STRICT-SAME: <2 x float> noundef [[A_COERCE:%.*]], ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[B:%.*]], <2 x float> noundef [[C_COERCE:%.*]]) #[[ATTR0]] {
 // PRMTD_STRICT-NEXT:  entry:
 // PRMTD_STRICT-NEXT:    [[B_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 0
-// PRMTD_STRICT-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16
+// PRMTD_STRICT-NEXT:    [[B_REAL:%.*]] = load x86_fp80, ptr [[B_REALP]], align 16, !freeze_bits [[META2]]
 // PRMTD_STRICT-NEXT:    [[B_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[B]], i32 0, i32 1
-// PRMTD_STRICT-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16
+// PRMTD_STRICT-NEXT:    [[B_IMAG:%.*]] = load x86_fp80, ptr [[B_IMAGP]], align 16, !freeze_bits [[META2]]
 // PRMTD_STRICT-NEXT:    [[C_SROA_0_0_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[C_COERCE]], i32 0
 // PRMTD_STRICT-NEXT:    [[C_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[C_COERCE]], i32 1
 // PRMTD_STRICT-NEXT:    [[CONV:%.*]] = call x86_fp80 @llvm.experimental.constrained.fpext.f80.f32(float [[C_SROA_0_0_VEC_EXTRACT]], metadata !"fpexcept.strict") #[[ATTR4]]
@@ -5190,15 +5268,42 @@ void mulassignld(_Complex long double *a, _Complex long double b) {
 // PRMTD_STRICT-NEXT:    [[TMP32:%.*]] = call double @llvm.experimental.constrained.fdiv.f64(double [[TMP30]], double [[TMP27]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR4]]
 // PRMTD_STRICT-NEXT:    [[UNPROMOTION:%.*]] = call float @llvm.experimental.constrained.fptrunc.f32.f64(double [[TMP31]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR4]]
 // PRMTD_STRICT-NEXT:    [[UNPROMOTION7:%.*]] = call float @llvm.experimental.constrained.fptrunc.f32.f64(double [[TMP32]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR4]]
-// PRMTD_STRICT-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[UNPROMOTION]], i32 0
-// PRMTD_STRICT-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[UNPROMOTION7]], i32 1
-// PRMTD_STRICT-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// PRMTD_STRICT-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// PRMTD_STRICT-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[UNPROMOTION]], i32 0
+// PRMTD_STRICT-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// PRMTD_STRICT-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[UNPROMOTION7]], i32 1
+// PRMTD_STRICT-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// PRMTD_STRICT-NEXT:    ret <2 x float> [[FREEZE_LOAD2]]
 //
 _Complex float f1(_Complex float a, _Complex long double b, _Complex float c) {
   return (_Complex float)(b / c) / a;
 }
 //.
-// FULL: [[PROF2]] = !{!"branch_weights", i32 1, i32 1048575}
+// FULL: [[META2]] = !{}
+// FULL: [[PROF3]] = !{!"branch_weights", i32 1, i32 1048575}
 //.
-// FULL_FAST: [[PROF2]] = !{!"branch_weights", i32 1, i32 1048575}
+// BASIC: [[META2]] = !{}
+//.
+// IMPRVD: [[META2]] = !{}
+//.
+// PRMTD: [[META2]] = !{}
+//.
+// X86WINPRMTD: [[META6]] = !{}
+//.
+// AVRFP32: [[META2]] = !{}
+//.
+// AVRFP64: [[META2]] = !{}
+//.
+// BASIC_FAST: [[META2]] = !{}
+//.
+// FULL_FAST: [[META2]] = !{}
+// FULL_FAST: [[PROF3]] = !{!"branch_weights", i32 1, i32 1048575}
+//.
+// IMPRVD_FAST: [[META2]] = !{}
+//.
+// PRMTD_FAST: [[META2]] = !{}
+//.
+// X86WINPRMTD_STRICT: [[META6]] = !{}
+//.
+// PRMTD_STRICT: [[META2]] = !{}
 //.

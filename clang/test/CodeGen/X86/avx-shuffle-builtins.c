@@ -103,48 +103,14 @@ __m256i test_mm256_permute2f128_si256(__m256i a, __m256i b) {
   return _mm256_permute2f128_si256(a, b, 0x20);
 }
 
-// CHECK-LABEL: define dso_local <4 x float> @test_mm_broadcast_ss(
-// CHECK-SAME: ptr noundef [[__A:%.*]]) #[[ATTR1]] {
-// CHECK-NEXT:  [[ENTRY:.*:]]
-// CHECK-NEXT:    [[TMP0:%.*]] = load float, ptr [[__A]], align 1
-// CHECK-NEXT:    [[VECINIT_I:%.*]] = insertelement <4 x float> poison, float [[TMP0]], i32 0
-// CHECK-NEXT:    [[VECINIT2_I:%.*]] = insertelement <4 x float> [[VECINIT_I]], float [[TMP0]], i32 1
-// CHECK-NEXT:    [[VECINIT3_I:%.*]] = insertelement <4 x float> [[VECINIT2_I]], float [[TMP0]], i32 2
-// CHECK-NEXT:    [[VECINIT4_I:%.*]] = insertelement <4 x float> [[VECINIT3_I]], float [[TMP0]], i32 3
-// CHECK-NEXT:    ret <4 x float> [[VECINIT4_I]]
-//
 __m128 test_mm_broadcast_ss(float const *__a) {
   return _mm_broadcast_ss(__a);
 }
 
-// CHECK-LABEL: define dso_local <4 x double> @test_mm256_broadcast_sd(
-// CHECK-SAME: ptr noundef [[__A:%.*]]) #[[ATTR0]] {
-// CHECK-NEXT:  [[ENTRY:.*:]]
-// CHECK-NEXT:    [[TMP0:%.*]] = load double, ptr [[__A]], align 1
-// CHECK-NEXT:    [[VECINIT_I:%.*]] = insertelement <4 x double> poison, double [[TMP0]], i32 0
-// CHECK-NEXT:    [[VECINIT2_I:%.*]] = insertelement <4 x double> [[VECINIT_I]], double [[TMP0]], i32 1
-// CHECK-NEXT:    [[VECINIT3_I:%.*]] = insertelement <4 x double> [[VECINIT2_I]], double [[TMP0]], i32 2
-// CHECK-NEXT:    [[VECINIT4_I:%.*]] = insertelement <4 x double> [[VECINIT3_I]], double [[TMP0]], i32 3
-// CHECK-NEXT:    ret <4 x double> [[VECINIT4_I]]
-//
 __m256d test_mm256_broadcast_sd(double const *__a) {
   return _mm256_broadcast_sd(__a);
 }
 
-// CHECK-LABEL: define dso_local <8 x float> @test_mm256_broadcast_ss(
-// CHECK-SAME: ptr noundef [[__A:%.*]]) #[[ATTR0]] {
-// CHECK-NEXT:  [[ENTRY:.*:]]
-// CHECK-NEXT:    [[TMP0:%.*]] = load float, ptr [[__A]], align 1
-// CHECK-NEXT:    [[VECINIT_I:%.*]] = insertelement <8 x float> poison, float [[TMP0]], i32 0
-// CHECK-NEXT:    [[VECINIT2_I:%.*]] = insertelement <8 x float> [[VECINIT_I]], float [[TMP0]], i32 1
-// CHECK-NEXT:    [[VECINIT3_I:%.*]] = insertelement <8 x float> [[VECINIT2_I]], float [[TMP0]], i32 2
-// CHECK-NEXT:    [[VECINIT4_I:%.*]] = insertelement <8 x float> [[VECINIT3_I]], float [[TMP0]], i32 3
-// CHECK-NEXT:    [[VECINIT5_I:%.*]] = insertelement <8 x float> [[VECINIT4_I]], float [[TMP0]], i32 4
-// CHECK-NEXT:    [[VECINIT6_I:%.*]] = insertelement <8 x float> [[VECINIT5_I]], float [[TMP0]], i32 5
-// CHECK-NEXT:    [[VECINIT7_I:%.*]] = insertelement <8 x float> [[VECINIT6_I]], float [[TMP0]], i32 6
-// CHECK-NEXT:    [[VECINIT8_I:%.*]] = insertelement <8 x float> [[VECINIT7_I]], float [[TMP0]], i32 7
-// CHECK-NEXT:    ret <8 x float> [[VECINIT8_I]]
-//
 __m256 test_mm256_broadcast_ss(float const *__a) {
   return _mm256_broadcast_ss(__a);
 }

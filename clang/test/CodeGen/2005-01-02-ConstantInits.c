@@ -17,7 +17,7 @@ extern int bar();
 // CHECK-LABEL: define {{[^@]+}}@test
 // CHECK-SAME: () #[[ATTR0:[0-9]+]] {
 // CHECK-NEXT:  entry:
-// CHECK-NEXT:    [[TMP0:%.*]] = load i32, ptr @test.i23, align 4
+// CHECK-NEXT:    [[TMP0:%.*]] = load i32, ptr @test.i23, align 4, !freeze_bits [[META2:![0-9]+]]
 // CHECK-NEXT:    ret i32 [[TMP0]]
 //
 int test(void) {
@@ -49,6 +49,8 @@ int foo(int i) { return bar(&Arr[49])+bar(&Arr[i]); }
 // CHECK-NEXT:    [[I_ADDR:%.*]] = alloca i32, align 4
 // CHECK-NEXT:    [[P:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    store i32 [[I]], ptr [[I_ADDR]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[P]], align 8
 // CHECK-NEXT:    store ptr @Arr, ptr [[P]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[P]], align 8
 // CHECK-NEXT:    [[INCDEC_PTR:%.*]] = getelementptr inbounds nuw i32, ptr [[TMP0]], i32 1

@@ -43,7 +43,7 @@ void master() {
 // CHECK-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3:![0-9]+]]
 // CHECK-NEXT:    [[TMP2:%.*]] = call i32 @__kmpc_masked(ptr @[[GLOB1]], i32 [[TMP1]], i32 0)
 // CHECK-NEXT:    [[TMP3:%.*]] = icmp ne i32 [[TMP2]], 0
 // CHECK-NEXT:    br i1 [[TMP3]], label [[OMP_IF_THEN:%.*]], label [[OMP_IF_END:%.*]]
@@ -59,6 +59,8 @@ void master() {
 // CHECK-SAME: () #[[ATTR0]] {
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[TID:%.*]] = alloca i32, align 4
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[TID]], align 4
 // CHECK-NEXT:    store i32 1, ptr [[TID]], align 4
 // CHECK-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_call(ptr @[[GLOB1]], i32 0, ptr @maskedFilter.omp_outlined)
 // CHECK-NEXT:    ret void
@@ -72,7 +74,7 @@ void master() {
 // CHECK-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NEXT:    [[TMP2:%.*]] = call i32 @__kmpc_masked(ptr @[[GLOB1]], i32 [[TMP1]], i32 1)
 // CHECK-NEXT:    [[TMP3:%.*]] = icmp ne i32 [[TMP2]], 0
 // CHECK-NEXT:    br i1 [[TMP3]], label [[OMP_IF_THEN:%.*]], label [[OMP_IF_END:%.*]]
@@ -99,7 +101,7 @@ void master() {
 // CHECK-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3]]
 // CHECK-NEXT:    [[TMP2:%.*]] = call i32 @__kmpc_master(ptr @[[GLOB1]], i32 [[TMP1]])
 // CHECK-NEXT:    [[TMP3:%.*]] = icmp ne i32 [[TMP2]], 0
 // CHECK-NEXT:    br i1 [[TMP3]], label [[OMP_IF_THEN:%.*]], label [[OMP_IF_END:%.*]]

@@ -8,6 +8,10 @@
 // NO-LIFETIME-NEXT:    [[FOO:%.*]] = alloca i32, align 4
 // NO-LIFETIME-NEXT:    [[FOO2:%.*]] = alloca i32, align 4
 // NO-LIFETIME-NEXT:    store i32 0, ptr [[RETVAL]], align 4
+// NO-LIFETIME-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// NO-LIFETIME-NEXT:    store i32 [[FREEZE_POISON]], ptr [[FOO]], align 4
+// NO-LIFETIME-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// NO-LIFETIME-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[FOO2]], align 4
 // NO-LIFETIME-NEXT:    ret i32 0
 //
 // LIFETIME-LABEL: @main(
@@ -17,7 +21,11 @@
 // LIFETIME-NEXT:    [[FOO2:%.*]] = alloca i32, align 4
 // LIFETIME-NEXT:    store i32 0, ptr [[RETVAL]], align 4
 // LIFETIME-NEXT:    call void @llvm.lifetime.start.p0(i64 4, ptr [[FOO]]) #[[ATTR2:[0-9]+]]
+// LIFETIME-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// LIFETIME-NEXT:    store i32 [[FREEZE_POISON]], ptr [[FOO]], align 4
 // LIFETIME-NEXT:    call void @llvm.lifetime.start.p0(i64 4, ptr [[FOO2]]) #[[ATTR2]]
+// LIFETIME-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// LIFETIME-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[FOO2]], align 4
 // LIFETIME-NEXT:    call void @llvm.lifetime.end.p0(i64 4, ptr [[FOO2]]) #[[ATTR2]]
 // LIFETIME-NEXT:    call void @llvm.lifetime.end.p0(i64 4, ptr [[FOO]]) #[[ATTR2]]
 // LIFETIME-NEXT:    ret i32 0

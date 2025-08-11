@@ -8,15 +8,17 @@ enum E : _Atomic(int) {
   Foo
 };
 
-// CHECK-LABEL: define {{.*}} void @test(
+// CHECK-LABEL: define dso_local void @test(
 // CHECK-SAME: i32 noundef [[E:%.*]]) #[[ATTR0:[0-9]+]] {
 // CHECK-NEXT:  [[ENTRY:.*:]]
-// CHECK-NEXT:    [[E_ADDR:%.*]] = alloca i32
-// CHECK-NEXT:    [[X:%.*]] = alloca i32
-// CHECK-NEXT:    store i32 [[E]], ptr [[E_ADDR]]
-// CHECK-NEXT:    [[TMP0:%.*]] = load i32, ptr [[E_ADDR]]
-// CHECK-NEXT:    store i32 [[TMP0]], ptr [[X]]
-// CHECK-NEXT:    store i32 0, ptr [[E_ADDR]]
+// CHECK-NEXT:    [[E_ADDR:%.*]] = alloca i32, align 4
+// CHECK-NEXT:    [[X:%.*]] = alloca i32, align 4
+// CHECK-NEXT:    store i32 [[E]], ptr [[E_ADDR]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr [[X]], align 4
+// CHECK-NEXT:    [[TMP0:%.*]] = load i32, ptr [[E_ADDR]], align 4
+// CHECK-NEXT:    store i32 [[TMP0]], ptr [[X]], align 4
+// CHECK-NEXT:    store i32 0, ptr [[E_ADDR]], align 4
 // CHECK-NEXT:    ret void
 //
 void test(enum E e) {

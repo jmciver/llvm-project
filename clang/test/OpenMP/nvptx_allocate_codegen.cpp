@@ -97,9 +97,9 @@ void bar() {
 // CHECK1-LABEL: define {{[^@]+}}@_Z3fooIiET_v
 // CHECK1-SAME: () #[[ATTR1:[0-9]+]] comdat {
 // CHECK1-NEXT:  entry:
-// CHECK1-NEXT:    [[TMP0:%.*]] = load i32, ptr @_ZN2STIiE1mE, align 4
+// CHECK1-NEXT:    [[TMP0:%.*]] = load i32, ptr @_ZN2STIiE1mE, align 4, !freeze_bits [[META11:![0-9]+]]
 // CHECK1-NEXT:    store i32 [[TMP0]], ptr @v, align 4
-// CHECK1-NEXT:    [[TMP1:%.*]] = load i32, ptr @v, align 4
+// CHECK1-NEXT:    [[TMP1:%.*]] = load i32, ptr @v, align 4, !freeze_bits [[META11]]
 // CHECK1-NEXT:    ret i32 [[TMP1]]
 //
 //
@@ -110,6 +110,10 @@ void bar() {
 // CHECK1-NEXT:    [[BAR_B:%.*]] = alloca double, align 8
 // CHECK1-NEXT:    [[CAPTURED_VARS_ADDRS:%.*]] = alloca [0 x ptr], align 8
 // CHECK1-NEXT:    [[TMP0:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1:[0-9]+]])
+// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// CHECK1-NEXT:    store float [[FREEZE_POISON]], ptr [[BAR_A]], align 4
+// CHECK1-NEXT:    [[FREEZE_POISON1:%.*]] = freeze double poison
+// CHECK1-NEXT:    store double [[FREEZE_POISON1]], ptr [[BAR_B]], align 8
 // CHECK1-NEXT:    call void @__kmpc_parallel_51(ptr @[[GLOB1]], i32 [[TMP0]], i32 1, i32 -1, i32 -1, ptr @_Z3barv_omp_outlined, ptr @_Z3barv_omp_outlined_wrapper, ptr [[CAPTURED_VARS_ADDRS]], i64 0)
 // CHECK1-NEXT:    ret void
 //
@@ -122,6 +126,8 @@ void bar() {
 // CHECK1-NEXT:    [[BAR_A:%.*]] = alloca float, align 4
 // CHECK1-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // CHECK1-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
+// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze float poison
+// CHECK1-NEXT:    store float [[FREEZE_POISON]], ptr [[BAR_A]], align 4
 // CHECK1-NEXT:    [[TMP0:%.*]] = load float, ptr [[BAR_A]], align 4
 // CHECK1-NEXT:    [[CONV:%.*]] = fpext float [[TMP0]] to double
 // CHECK1-NEXT:    store double [[CONV]], ptr addrspacecast (ptr addrspace(3) @bar_b to ptr), align 8

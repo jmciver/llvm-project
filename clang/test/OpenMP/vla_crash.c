@@ -30,10 +30,14 @@ void bar(int n, int *a) {
 // CHECK1-NEXT:    [[DOTTHREADID_TEMP_:%.*]] = alloca i32, align 4
 // CHECK1-NEXT:    [[DOTBOUND_ZERO_ADDR:%.*]] = alloca i32, align 4
 // CHECK1-NEXT:    [[TMP0:%.*]] = call i32 @__kmpc_global_thread_num(ptr @[[GLOB1:[0-9]+]])
-// CHECK1-NEXT:    [[TMP1:%.*]] = load i32, ptr @a, align 4
+// CHECK1-NEXT:    [[TMP1:%.*]] = load i32, ptr @a, align 4, !freeze_bits [[META3:![0-9]+]]
 // CHECK1-NEXT:    [[TMP2:%.*]] = zext i32 [[TMP1]] to i64
-// CHECK1-NEXT:    [[TMP3:%.*]] = load i32, ptr @a, align 4
+// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK1-NEXT:    store ptr [[FREEZE_POISON]], ptr [[B]], align 8
+// CHECK1-NEXT:    [[TMP3:%.*]] = load i32, ptr @a, align 4, !freeze_bits [[META3]]
 // CHECK1-NEXT:    [[TMP4:%.*]] = zext i32 [[TMP3]] to i64
+// CHECK1-NEXT:    [[FREEZE_POISON1:%.*]] = freeze ptr poison
+// CHECK1-NEXT:    store ptr [[FREEZE_POISON1]], ptr [[C]], align 8
 // CHECK1-NEXT:    call void @__kmpc_serialized_parallel(ptr @[[GLOB1]], i32 [[TMP0]])
 // CHECK1-NEXT:    store i32 [[TMP0]], ptr [[DOTTHREADID_TEMP_]], align 4
 // CHECK1-NEXT:    store i32 0, ptr [[DOTBOUND_ZERO_ADDR]], align 4
@@ -57,24 +61,24 @@ void bar(int n, int *a) {
 // CHECK1-NEXT:    store ptr [[B]], ptr [[B_ADDR]], align 8
 // CHECK1-NEXT:    store i64 [[VLA1]], ptr [[VLA_ADDR2]], align 8
 // CHECK1-NEXT:    store ptr [[C]], ptr [[C_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP0:%.*]] = load i64, ptr [[VLA_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[B_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP2:%.*]] = load i64, ptr [[VLA_ADDR2]], align 8
-// CHECK1-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[C_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[TMP3]], align 8
+// CHECK1-NEXT:    [[TMP0:%.*]] = load i64, ptr [[VLA_ADDR]], align 8, !freeze_bits [[META3]]
+// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[B_ADDR]], align 8, !nonnull [[META3]], !align [[META4:![0-9]+]]
+// CHECK1-NEXT:    [[TMP2:%.*]] = load i64, ptr [[VLA_ADDR2]], align 8, !freeze_bits [[META3]]
+// CHECK1-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[C_ADDR]], align 8, !nonnull [[META3]], !align [[META4]]
+// CHECK1-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[TMP3]], align 8, !freeze_bits [[META3]]
 // CHECK1-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds ptr, ptr [[TMP4]], i64 0
-// CHECK1-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[ARRAYIDX]], align 8
-// CHECK1-NEXT:    [[TMP6:%.*]] = load i32, ptr @a, align 4
+// CHECK1-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[ARRAYIDX]], align 8, !freeze_bits [[META3]]
+// CHECK1-NEXT:    [[TMP6:%.*]] = load i32, ptr @a, align 4, !freeze_bits [[META3]]
 // CHECK1-NEXT:    [[IDXPROM:%.*]] = sext i32 [[TMP6]] to i64
 // CHECK1-NEXT:    [[TMP7:%.*]] = mul nsw i64 [[IDXPROM]], [[TMP2]]
 // CHECK1-NEXT:    [[ARRAYIDX3:%.*]] = getelementptr inbounds ptr, ptr [[TMP5]], i64 [[TMP7]]
 // CHECK1-NEXT:    [[ARRAYIDX4:%.*]] = getelementptr inbounds ptr, ptr [[ARRAYIDX3]], i64 0
-// CHECK1-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[ARRAYIDX4]], align 8
-// CHECK1-NEXT:    [[TMP9:%.*]] = load i32, ptr @a, align 4
+// CHECK1-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[ARRAYIDX4]], align 8, !freeze_bits [[META3]]
+// CHECK1-NEXT:    [[TMP9:%.*]] = load i32, ptr @a, align 4, !freeze_bits [[META3]]
 // CHECK1-NEXT:    [[IDXPROM5:%.*]] = sext i32 [[TMP9]] to i64
 // CHECK1-NEXT:    [[ARRAYIDX6:%.*]] = getelementptr inbounds i32, ptr [[TMP8]], i64 [[IDXPROM5]]
-// CHECK1-NEXT:    [[TMP10:%.*]] = load i32, ptr [[ARRAYIDX6]], align 4
-// CHECK1-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[TMP1]], align 8
+// CHECK1-NEXT:    [[TMP10:%.*]] = load i32, ptr [[ARRAYIDX6]], align 4, !freeze_bits [[META3]]
+// CHECK1-NEXT:    [[TMP11:%.*]] = load ptr, ptr [[TMP1]], align 8, !freeze_bits [[META3]]
 // CHECK1-NEXT:    [[TMP12:%.*]] = mul nsw i64 0, [[TMP0]]
 // CHECK1-NEXT:    [[ARRAYIDX7:%.*]] = getelementptr inbounds i32, ptr [[TMP11]], i64 [[TMP12]]
 // CHECK1-NEXT:    [[ARRAYIDX8:%.*]] = getelementptr inbounds i32, ptr [[ARRAYIDX7]], i64 0
@@ -95,6 +99,8 @@ void bar(int n, int *a) {
 // CHECK1-NEXT:    store ptr [[A]], ptr [[A_ADDR]], align 8
 // CHECK1-NEXT:    [[TMP1:%.*]] = load i32, ptr [[N_ADDR]], align 4
 // CHECK1-NEXT:    [[TMP2:%.*]] = zext i32 [[TMP1]] to i64
+// CHECK1-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK1-NEXT:    store ptr [[FREEZE_POISON]], ptr [[P]], align 8
 // CHECK1-NEXT:    store ptr [[A_ADDR]], ptr [[P]], align 8
 // CHECK1-NEXT:    call void @__kmpc_serialized_parallel(ptr @[[GLOB1]], i32 [[TMP0]])
 // CHECK1-NEXT:    store i32 [[TMP0]], ptr [[DOTTHREADID_TEMP_]], align 4
@@ -117,10 +123,10 @@ void bar(int n, int *a) {
 // CHECK1-NEXT:    store i64 [[VLA]], ptr [[VLA_ADDR]], align 8
 // CHECK1-NEXT:    store ptr [[P]], ptr [[P_ADDR]], align 8
 // CHECK1-NEXT:    store ptr [[A]], ptr [[A_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP0:%.*]] = load i64, ptr [[VLA_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[P_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[A_ADDR]], align 8
-// CHECK1-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[TMP1]], align 8
+// CHECK1-NEXT:    [[TMP0:%.*]] = load i64, ptr [[VLA_ADDR]], align 8, !freeze_bits [[META3]]
+// CHECK1-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[P_ADDR]], align 8, !nonnull [[META3]], !align [[META4]]
+// CHECK1-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[A_ADDR]], align 8, !nonnull [[META3]], !align [[META4]]
+// CHECK1-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[TMP1]], align 8, !freeze_bits [[META3]]
 // CHECK1-NEXT:    [[CMP:%.*]] = icmp eq ptr [[TMP3]], [[TMP2]]
 // CHECK1-NEXT:    br i1 [[CMP]], label [[IF_THEN:%.*]], label [[IF_END:%.*]]
 // CHECK1:       if.then:

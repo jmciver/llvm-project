@@ -26,6 +26,8 @@
 // OPENCL12-NEXT:    [[N_ADDR:%.*]] = alloca i32, align 4, addrspace(5)
 // OPENCL12-NEXT:    [[ALLOC_PTR:%.*]] = alloca ptr addrspace(5), align 4, addrspace(5)
 // OPENCL12-NEXT:    store i32 [[N]], ptr addrspace(5) [[N_ADDR]], align 4
+// OPENCL12-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr addrspace(5) poison
+// OPENCL12-NEXT:    store ptr addrspace(5) [[FREEZE_POISON]], ptr addrspace(5) [[ALLOC_PTR]], align 4
 // OPENCL12-NEXT:    [[TMP0:%.*]] = load i32, ptr addrspace(5) [[N_ADDR]], align 4
 // OPENCL12-NEXT:    [[CONV:%.*]] = zext i32 [[TMP0]] to i64
 // OPENCL12-NEXT:    [[MUL:%.*]] = mul i64 [[CONV]], 4
@@ -40,6 +42,8 @@
 // OPENCL20-NEXT:    [[ALLOC_PTR:%.*]] = alloca ptr addrspace(5), align 4, addrspace(5)
 // OPENCL20-NEXT:    [[N_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[N_ADDR]] to ptr
 // OPENCL20-NEXT:    store i32 [[N]], ptr [[N_ADDR_ASCAST]], align 4
+// OPENCL20-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr addrspace(5) poison
+// OPENCL20-NEXT:    store ptr addrspace(5) [[FREEZE_POISON]], ptr addrspace(5) [[ALLOC_PTR]], align 4
 // OPENCL20-NEXT:    [[TMP0:%.*]] = load i32, ptr [[N_ADDR_ASCAST]], align 4
 // OPENCL20-NEXT:    [[CONV:%.*]] = zext i32 [[TMP0]] to i64
 // OPENCL20-NEXT:    [[MUL:%.*]] = mul i64 [[CONV]], 4
@@ -53,6 +57,8 @@
 // OPENCL30-NEXT:    [[N_ADDR:%.*]] = alloca i32, align 4, addrspace(5)
 // OPENCL30-NEXT:    [[ALLOC_PTR:%.*]] = alloca ptr addrspace(5), align 4, addrspace(5)
 // OPENCL30-NEXT:    store i32 [[N]], ptr addrspace(5) [[N_ADDR]], align 4
+// OPENCL30-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr addrspace(5) poison
+// OPENCL30-NEXT:    store ptr addrspace(5) [[FREEZE_POISON]], ptr addrspace(5) [[ALLOC_PTR]], align 4
 // OPENCL30-NEXT:    [[TMP0:%.*]] = load i32, ptr addrspace(5) [[N_ADDR]], align 4
 // OPENCL30-NEXT:    [[CONV:%.*]] = zext i32 [[TMP0]] to i64
 // OPENCL30-NEXT:    [[MUL:%.*]] = mul i64 [[CONV]], 4
@@ -67,6 +73,8 @@
 // OPENCL30GAS-NEXT:    [[ALLOC_PTR:%.*]] = alloca ptr addrspace(5), align 4, addrspace(5)
 // OPENCL30GAS-NEXT:    [[N_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[N_ADDR]] to ptr
 // OPENCL30GAS-NEXT:    store i32 [[N]], ptr [[N_ADDR_ASCAST]], align 4
+// OPENCL30GAS-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr addrspace(5) poison
+// OPENCL30GAS-NEXT:    store ptr addrspace(5) [[FREEZE_POISON]], ptr addrspace(5) [[ALLOC_PTR]], align 4
 // OPENCL30GAS-NEXT:    [[TMP0:%.*]] = load i32, ptr [[N_ADDR_ASCAST]], align 4
 // OPENCL30GAS-NEXT:    [[CONV:%.*]] = zext i32 [[TMP0]] to i64
 // OPENCL30GAS-NEXT:    [[MUL:%.*]] = mul i64 [[CONV]], 4
@@ -96,6 +104,8 @@ void test1_builtin_alloca(unsigned n) {
 // OPENCL12-NEXT:    [[N_ADDR:%.*]] = alloca i32, align 4, addrspace(5)
 // OPENCL12-NEXT:    [[ALLOC_PTR_UNINITIALIZED:%.*]] = alloca ptr addrspace(5), align 4, addrspace(5)
 // OPENCL12-NEXT:    store i32 [[N]], ptr addrspace(5) [[N_ADDR]], align 4
+// OPENCL12-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr addrspace(5) poison
+// OPENCL12-NEXT:    store ptr addrspace(5) [[FREEZE_POISON]], ptr addrspace(5) [[ALLOC_PTR_UNINITIALIZED]], align 4
 // OPENCL12-NEXT:    [[TMP0:%.*]] = load i32, ptr addrspace(5) [[N_ADDR]], align 4
 // OPENCL12-NEXT:    [[CONV:%.*]] = zext i32 [[TMP0]] to i64
 // OPENCL12-NEXT:    [[MUL:%.*]] = mul i64 [[CONV]], 4
@@ -110,6 +120,8 @@ void test1_builtin_alloca(unsigned n) {
 // OPENCL20-NEXT:    [[ALLOC_PTR_UNINITIALIZED:%.*]] = alloca ptr addrspace(5), align 4, addrspace(5)
 // OPENCL20-NEXT:    [[N_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[N_ADDR]] to ptr
 // OPENCL20-NEXT:    store i32 [[N]], ptr [[N_ADDR_ASCAST]], align 4
+// OPENCL20-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr addrspace(5) poison
+// OPENCL20-NEXT:    store ptr addrspace(5) [[FREEZE_POISON]], ptr addrspace(5) [[ALLOC_PTR_UNINITIALIZED]], align 4
 // OPENCL20-NEXT:    [[TMP0:%.*]] = load i32, ptr [[N_ADDR_ASCAST]], align 4
 // OPENCL20-NEXT:    [[CONV:%.*]] = zext i32 [[TMP0]] to i64
 // OPENCL20-NEXT:    [[MUL:%.*]] = mul i64 [[CONV]], 4
@@ -123,6 +135,8 @@ void test1_builtin_alloca(unsigned n) {
 // OPENCL30-NEXT:    [[N_ADDR:%.*]] = alloca i32, align 4, addrspace(5)
 // OPENCL30-NEXT:    [[ALLOC_PTR_UNINITIALIZED:%.*]] = alloca ptr addrspace(5), align 4, addrspace(5)
 // OPENCL30-NEXT:    store i32 [[N]], ptr addrspace(5) [[N_ADDR]], align 4
+// OPENCL30-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr addrspace(5) poison
+// OPENCL30-NEXT:    store ptr addrspace(5) [[FREEZE_POISON]], ptr addrspace(5) [[ALLOC_PTR_UNINITIALIZED]], align 4
 // OPENCL30-NEXT:    [[TMP0:%.*]] = load i32, ptr addrspace(5) [[N_ADDR]], align 4
 // OPENCL30-NEXT:    [[CONV:%.*]] = zext i32 [[TMP0]] to i64
 // OPENCL30-NEXT:    [[MUL:%.*]] = mul i64 [[CONV]], 4
@@ -137,6 +151,8 @@ void test1_builtin_alloca(unsigned n) {
 // OPENCL30GAS-NEXT:    [[ALLOC_PTR_UNINITIALIZED:%.*]] = alloca ptr addrspace(5), align 4, addrspace(5)
 // OPENCL30GAS-NEXT:    [[N_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[N_ADDR]] to ptr
 // OPENCL30GAS-NEXT:    store i32 [[N]], ptr [[N_ADDR_ASCAST]], align 4
+// OPENCL30GAS-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr addrspace(5) poison
+// OPENCL30GAS-NEXT:    store ptr addrspace(5) [[FREEZE_POISON]], ptr addrspace(5) [[ALLOC_PTR_UNINITIALIZED]], align 4
 // OPENCL30GAS-NEXT:    [[TMP0:%.*]] = load i32, ptr [[N_ADDR_ASCAST]], align 4
 // OPENCL30GAS-NEXT:    [[CONV:%.*]] = zext i32 [[TMP0]] to i64
 // OPENCL30GAS-NEXT:    [[MUL:%.*]] = mul i64 [[CONV]], 4
@@ -166,6 +182,8 @@ void test1_builtin_alloca_uninitialized(unsigned n) {
 // OPENCL12-NEXT:    [[N_ADDR:%.*]] = alloca i32, align 4, addrspace(5)
 // OPENCL12-NEXT:    [[ALLOC_PTR_ALIGN:%.*]] = alloca ptr addrspace(5), align 4, addrspace(5)
 // OPENCL12-NEXT:    store i32 [[N]], ptr addrspace(5) [[N_ADDR]], align 4
+// OPENCL12-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr addrspace(5) poison
+// OPENCL12-NEXT:    store ptr addrspace(5) [[FREEZE_POISON]], ptr addrspace(5) [[ALLOC_PTR_ALIGN]], align 4
 // OPENCL12-NEXT:    [[TMP0:%.*]] = load i32, ptr addrspace(5) [[N_ADDR]], align 4
 // OPENCL12-NEXT:    [[CONV:%.*]] = zext i32 [[TMP0]] to i64
 // OPENCL12-NEXT:    [[MUL:%.*]] = mul i64 [[CONV]], 4
@@ -180,6 +198,8 @@ void test1_builtin_alloca_uninitialized(unsigned n) {
 // OPENCL20-NEXT:    [[ALLOC_PTR_ALIGN:%.*]] = alloca ptr addrspace(5), align 4, addrspace(5)
 // OPENCL20-NEXT:    [[N_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[N_ADDR]] to ptr
 // OPENCL20-NEXT:    store i32 [[N]], ptr [[N_ADDR_ASCAST]], align 4
+// OPENCL20-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr addrspace(5) poison
+// OPENCL20-NEXT:    store ptr addrspace(5) [[FREEZE_POISON]], ptr addrspace(5) [[ALLOC_PTR_ALIGN]], align 4
 // OPENCL20-NEXT:    [[TMP0:%.*]] = load i32, ptr [[N_ADDR_ASCAST]], align 4
 // OPENCL20-NEXT:    [[CONV:%.*]] = zext i32 [[TMP0]] to i64
 // OPENCL20-NEXT:    [[MUL:%.*]] = mul i64 [[CONV]], 4
@@ -193,6 +213,8 @@ void test1_builtin_alloca_uninitialized(unsigned n) {
 // OPENCL30-NEXT:    [[N_ADDR:%.*]] = alloca i32, align 4, addrspace(5)
 // OPENCL30-NEXT:    [[ALLOC_PTR_ALIGN:%.*]] = alloca ptr addrspace(5), align 4, addrspace(5)
 // OPENCL30-NEXT:    store i32 [[N]], ptr addrspace(5) [[N_ADDR]], align 4
+// OPENCL30-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr addrspace(5) poison
+// OPENCL30-NEXT:    store ptr addrspace(5) [[FREEZE_POISON]], ptr addrspace(5) [[ALLOC_PTR_ALIGN]], align 4
 // OPENCL30-NEXT:    [[TMP0:%.*]] = load i32, ptr addrspace(5) [[N_ADDR]], align 4
 // OPENCL30-NEXT:    [[CONV:%.*]] = zext i32 [[TMP0]] to i64
 // OPENCL30-NEXT:    [[MUL:%.*]] = mul i64 [[CONV]], 4
@@ -207,6 +229,8 @@ void test1_builtin_alloca_uninitialized(unsigned n) {
 // OPENCL30GAS-NEXT:    [[ALLOC_PTR_ALIGN:%.*]] = alloca ptr addrspace(5), align 4, addrspace(5)
 // OPENCL30GAS-NEXT:    [[N_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[N_ADDR]] to ptr
 // OPENCL30GAS-NEXT:    store i32 [[N]], ptr [[N_ADDR_ASCAST]], align 4
+// OPENCL30GAS-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr addrspace(5) poison
+// OPENCL30GAS-NEXT:    store ptr addrspace(5) [[FREEZE_POISON]], ptr addrspace(5) [[ALLOC_PTR_ALIGN]], align 4
 // OPENCL30GAS-NEXT:    [[TMP0:%.*]] = load i32, ptr [[N_ADDR_ASCAST]], align 4
 // OPENCL30GAS-NEXT:    [[CONV:%.*]] = zext i32 [[TMP0]] to i64
 // OPENCL30GAS-NEXT:    [[MUL:%.*]] = mul i64 [[CONV]], 4
@@ -236,6 +260,8 @@ void test1_builtin_alloca_with_align(unsigned n) {
 // OPENCL12-NEXT:    [[N_ADDR:%.*]] = alloca i32, align 4, addrspace(5)
 // OPENCL12-NEXT:    [[ALLOC_PTR_ALIGN_UNINITIALIZED:%.*]] = alloca ptr addrspace(5), align 4, addrspace(5)
 // OPENCL12-NEXT:    store i32 [[N]], ptr addrspace(5) [[N_ADDR]], align 4
+// OPENCL12-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr addrspace(5) poison
+// OPENCL12-NEXT:    store ptr addrspace(5) [[FREEZE_POISON]], ptr addrspace(5) [[ALLOC_PTR_ALIGN_UNINITIALIZED]], align 4
 // OPENCL12-NEXT:    [[TMP0:%.*]] = load i32, ptr addrspace(5) [[N_ADDR]], align 4
 // OPENCL12-NEXT:    [[CONV:%.*]] = zext i32 [[TMP0]] to i64
 // OPENCL12-NEXT:    [[MUL:%.*]] = mul i64 [[CONV]], 4
@@ -250,6 +276,8 @@ void test1_builtin_alloca_with_align(unsigned n) {
 // OPENCL20-NEXT:    [[ALLOC_PTR_ALIGN_UNINITIALIZED:%.*]] = alloca ptr addrspace(5), align 4, addrspace(5)
 // OPENCL20-NEXT:    [[N_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[N_ADDR]] to ptr
 // OPENCL20-NEXT:    store i32 [[N]], ptr [[N_ADDR_ASCAST]], align 4
+// OPENCL20-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr addrspace(5) poison
+// OPENCL20-NEXT:    store ptr addrspace(5) [[FREEZE_POISON]], ptr addrspace(5) [[ALLOC_PTR_ALIGN_UNINITIALIZED]], align 4
 // OPENCL20-NEXT:    [[TMP0:%.*]] = load i32, ptr [[N_ADDR_ASCAST]], align 4
 // OPENCL20-NEXT:    [[CONV:%.*]] = zext i32 [[TMP0]] to i64
 // OPENCL20-NEXT:    [[MUL:%.*]] = mul i64 [[CONV]], 4
@@ -263,6 +291,8 @@ void test1_builtin_alloca_with_align(unsigned n) {
 // OPENCL30-NEXT:    [[N_ADDR:%.*]] = alloca i32, align 4, addrspace(5)
 // OPENCL30-NEXT:    [[ALLOC_PTR_ALIGN_UNINITIALIZED:%.*]] = alloca ptr addrspace(5), align 4, addrspace(5)
 // OPENCL30-NEXT:    store i32 [[N]], ptr addrspace(5) [[N_ADDR]], align 4
+// OPENCL30-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr addrspace(5) poison
+// OPENCL30-NEXT:    store ptr addrspace(5) [[FREEZE_POISON]], ptr addrspace(5) [[ALLOC_PTR_ALIGN_UNINITIALIZED]], align 4
 // OPENCL30-NEXT:    [[TMP0:%.*]] = load i32, ptr addrspace(5) [[N_ADDR]], align 4
 // OPENCL30-NEXT:    [[CONV:%.*]] = zext i32 [[TMP0]] to i64
 // OPENCL30-NEXT:    [[MUL:%.*]] = mul i64 [[CONV]], 4
@@ -277,6 +307,8 @@ void test1_builtin_alloca_with_align(unsigned n) {
 // OPENCL30GAS-NEXT:    [[ALLOC_PTR_ALIGN_UNINITIALIZED:%.*]] = alloca ptr addrspace(5), align 4, addrspace(5)
 // OPENCL30GAS-NEXT:    [[N_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[N_ADDR]] to ptr
 // OPENCL30GAS-NEXT:    store i32 [[N]], ptr [[N_ADDR_ASCAST]], align 4
+// OPENCL30GAS-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr addrspace(5) poison
+// OPENCL30GAS-NEXT:    store ptr addrspace(5) [[FREEZE_POISON]], ptr addrspace(5) [[ALLOC_PTR_ALIGN_UNINITIALIZED]], align 4
 // OPENCL30GAS-NEXT:    [[TMP0:%.*]] = load i32, ptr [[N_ADDR_ASCAST]], align 4
 // OPENCL30GAS-NEXT:    [[CONV:%.*]] = zext i32 [[TMP0]] to i64
 // OPENCL30GAS-NEXT:    [[MUL:%.*]] = mul i64 [[CONV]], 4
@@ -305,6 +337,8 @@ void test1_builtin_alloca_with_align_uninitialized(unsigned n) {
 // OPENCL12-NEXT:    [[N_ADDR:%.*]] = alloca i32, align 4, addrspace(5)
 // OPENCL12-NEXT:    [[ALLOC_PTR:%.*]] = alloca ptr addrspace(5), align 4, addrspace(5)
 // OPENCL12-NEXT:    store i32 [[N]], ptr addrspace(5) [[N_ADDR]], align 4
+// OPENCL12-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr addrspace(5) poison
+// OPENCL12-NEXT:    store ptr addrspace(5) [[FREEZE_POISON]], ptr addrspace(5) [[ALLOC_PTR]], align 4
 // OPENCL12-NEXT:    [[TMP0:%.*]] = load i32, ptr addrspace(5) [[N_ADDR]], align 4
 // OPENCL12-NEXT:    [[CONV:%.*]] = zext i32 [[TMP0]] to i64
 // OPENCL12-NEXT:    [[TMP1:%.*]] = alloca i8, i64 [[CONV]], align 8, addrspace(5)
@@ -318,6 +352,8 @@ void test1_builtin_alloca_with_align_uninitialized(unsigned n) {
 // OPENCL20-NEXT:    [[ALLOC_PTR:%.*]] = alloca ptr addrspace(5), align 4, addrspace(5)
 // OPENCL20-NEXT:    [[N_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[N_ADDR]] to ptr
 // OPENCL20-NEXT:    store i32 [[N]], ptr [[N_ADDR_ASCAST]], align 4
+// OPENCL20-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr addrspace(5) poison
+// OPENCL20-NEXT:    store ptr addrspace(5) [[FREEZE_POISON]], ptr addrspace(5) [[ALLOC_PTR]], align 4
 // OPENCL20-NEXT:    [[TMP0:%.*]] = load i32, ptr [[N_ADDR_ASCAST]], align 4
 // OPENCL20-NEXT:    [[CONV:%.*]] = zext i32 [[TMP0]] to i64
 // OPENCL20-NEXT:    [[TMP1:%.*]] = alloca i8, i64 [[CONV]], align 8, addrspace(5)
@@ -330,6 +366,8 @@ void test1_builtin_alloca_with_align_uninitialized(unsigned n) {
 // OPENCL30-NEXT:    [[N_ADDR:%.*]] = alloca i32, align 4, addrspace(5)
 // OPENCL30-NEXT:    [[ALLOC_PTR:%.*]] = alloca ptr addrspace(5), align 4, addrspace(5)
 // OPENCL30-NEXT:    store i32 [[N]], ptr addrspace(5) [[N_ADDR]], align 4
+// OPENCL30-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr addrspace(5) poison
+// OPENCL30-NEXT:    store ptr addrspace(5) [[FREEZE_POISON]], ptr addrspace(5) [[ALLOC_PTR]], align 4
 // OPENCL30-NEXT:    [[TMP0:%.*]] = load i32, ptr addrspace(5) [[N_ADDR]], align 4
 // OPENCL30-NEXT:    [[CONV:%.*]] = zext i32 [[TMP0]] to i64
 // OPENCL30-NEXT:    [[TMP1:%.*]] = alloca i8, i64 [[CONV]], align 8, addrspace(5)
@@ -343,6 +381,8 @@ void test1_builtin_alloca_with_align_uninitialized(unsigned n) {
 // OPENCL30GAS-NEXT:    [[ALLOC_PTR:%.*]] = alloca ptr addrspace(5), align 4, addrspace(5)
 // OPENCL30GAS-NEXT:    [[N_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[N_ADDR]] to ptr
 // OPENCL30GAS-NEXT:    store i32 [[N]], ptr [[N_ADDR_ASCAST]], align 4
+// OPENCL30GAS-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr addrspace(5) poison
+// OPENCL30GAS-NEXT:    store ptr addrspace(5) [[FREEZE_POISON]], ptr addrspace(5) [[ALLOC_PTR]], align 4
 // OPENCL30GAS-NEXT:    [[TMP0:%.*]] = load i32, ptr [[N_ADDR_ASCAST]], align 4
 // OPENCL30GAS-NEXT:    [[CONV:%.*]] = zext i32 [[TMP0]] to i64
 // OPENCL30GAS-NEXT:    [[TMP1:%.*]] = alloca i8, i64 [[CONV]], align 8, addrspace(5)
@@ -370,6 +410,8 @@ void test2_builtin_alloca(unsigned n) {
 // OPENCL12-NEXT:    [[N_ADDR:%.*]] = alloca i32, align 4, addrspace(5)
 // OPENCL12-NEXT:    [[ALLOC_PTR_UNINITIALIZED:%.*]] = alloca ptr addrspace(5), align 4, addrspace(5)
 // OPENCL12-NEXT:    store i32 [[N]], ptr addrspace(5) [[N_ADDR]], align 4
+// OPENCL12-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr addrspace(5) poison
+// OPENCL12-NEXT:    store ptr addrspace(5) [[FREEZE_POISON]], ptr addrspace(5) [[ALLOC_PTR_UNINITIALIZED]], align 4
 // OPENCL12-NEXT:    [[TMP0:%.*]] = load i32, ptr addrspace(5) [[N_ADDR]], align 4
 // OPENCL12-NEXT:    [[CONV:%.*]] = zext i32 [[TMP0]] to i64
 // OPENCL12-NEXT:    [[TMP1:%.*]] = alloca i8, i64 [[CONV]], align 8, addrspace(5)
@@ -383,6 +425,8 @@ void test2_builtin_alloca(unsigned n) {
 // OPENCL20-NEXT:    [[ALLOC_PTR_UNINITIALIZED:%.*]] = alloca ptr addrspace(5), align 4, addrspace(5)
 // OPENCL20-NEXT:    [[N_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[N_ADDR]] to ptr
 // OPENCL20-NEXT:    store i32 [[N]], ptr [[N_ADDR_ASCAST]], align 4
+// OPENCL20-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr addrspace(5) poison
+// OPENCL20-NEXT:    store ptr addrspace(5) [[FREEZE_POISON]], ptr addrspace(5) [[ALLOC_PTR_UNINITIALIZED]], align 4
 // OPENCL20-NEXT:    [[TMP0:%.*]] = load i32, ptr [[N_ADDR_ASCAST]], align 4
 // OPENCL20-NEXT:    [[CONV:%.*]] = zext i32 [[TMP0]] to i64
 // OPENCL20-NEXT:    [[TMP1:%.*]] = alloca i8, i64 [[CONV]], align 8, addrspace(5)
@@ -395,6 +439,8 @@ void test2_builtin_alloca(unsigned n) {
 // OPENCL30-NEXT:    [[N_ADDR:%.*]] = alloca i32, align 4, addrspace(5)
 // OPENCL30-NEXT:    [[ALLOC_PTR_UNINITIALIZED:%.*]] = alloca ptr addrspace(5), align 4, addrspace(5)
 // OPENCL30-NEXT:    store i32 [[N]], ptr addrspace(5) [[N_ADDR]], align 4
+// OPENCL30-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr addrspace(5) poison
+// OPENCL30-NEXT:    store ptr addrspace(5) [[FREEZE_POISON]], ptr addrspace(5) [[ALLOC_PTR_UNINITIALIZED]], align 4
 // OPENCL30-NEXT:    [[TMP0:%.*]] = load i32, ptr addrspace(5) [[N_ADDR]], align 4
 // OPENCL30-NEXT:    [[CONV:%.*]] = zext i32 [[TMP0]] to i64
 // OPENCL30-NEXT:    [[TMP1:%.*]] = alloca i8, i64 [[CONV]], align 8, addrspace(5)
@@ -408,6 +454,8 @@ void test2_builtin_alloca(unsigned n) {
 // OPENCL30GAS-NEXT:    [[ALLOC_PTR_UNINITIALIZED:%.*]] = alloca ptr addrspace(5), align 4, addrspace(5)
 // OPENCL30GAS-NEXT:    [[N_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[N_ADDR]] to ptr
 // OPENCL30GAS-NEXT:    store i32 [[N]], ptr [[N_ADDR_ASCAST]], align 4
+// OPENCL30GAS-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr addrspace(5) poison
+// OPENCL30GAS-NEXT:    store ptr addrspace(5) [[FREEZE_POISON]], ptr addrspace(5) [[ALLOC_PTR_UNINITIALIZED]], align 4
 // OPENCL30GAS-NEXT:    [[TMP0:%.*]] = load i32, ptr [[N_ADDR_ASCAST]], align 4
 // OPENCL30GAS-NEXT:    [[CONV:%.*]] = zext i32 [[TMP0]] to i64
 // OPENCL30GAS-NEXT:    [[TMP1:%.*]] = alloca i8, i64 [[CONV]], align 8, addrspace(5)
@@ -435,6 +483,8 @@ void test2_builtin_alloca_uninitialized(unsigned n) {
 // OPENCL12-NEXT:    [[N_ADDR:%.*]] = alloca i32, align 4, addrspace(5)
 // OPENCL12-NEXT:    [[ALLOC_PTR_ALIGN:%.*]] = alloca ptr addrspace(5), align 4, addrspace(5)
 // OPENCL12-NEXT:    store i32 [[N]], ptr addrspace(5) [[N_ADDR]], align 4
+// OPENCL12-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr addrspace(5) poison
+// OPENCL12-NEXT:    store ptr addrspace(5) [[FREEZE_POISON]], ptr addrspace(5) [[ALLOC_PTR_ALIGN]], align 4
 // OPENCL12-NEXT:    [[TMP0:%.*]] = load i32, ptr addrspace(5) [[N_ADDR]], align 4
 // OPENCL12-NEXT:    [[CONV:%.*]] = zext i32 [[TMP0]] to i64
 // OPENCL12-NEXT:    [[TMP1:%.*]] = alloca i8, i64 [[CONV]], align 1, addrspace(5)
@@ -448,6 +498,8 @@ void test2_builtin_alloca_uninitialized(unsigned n) {
 // OPENCL20-NEXT:    [[ALLOC_PTR_ALIGN:%.*]] = alloca ptr addrspace(5), align 4, addrspace(5)
 // OPENCL20-NEXT:    [[N_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[N_ADDR]] to ptr
 // OPENCL20-NEXT:    store i32 [[N]], ptr [[N_ADDR_ASCAST]], align 4
+// OPENCL20-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr addrspace(5) poison
+// OPENCL20-NEXT:    store ptr addrspace(5) [[FREEZE_POISON]], ptr addrspace(5) [[ALLOC_PTR_ALIGN]], align 4
 // OPENCL20-NEXT:    [[TMP0:%.*]] = load i32, ptr [[N_ADDR_ASCAST]], align 4
 // OPENCL20-NEXT:    [[CONV:%.*]] = zext i32 [[TMP0]] to i64
 // OPENCL20-NEXT:    [[TMP1:%.*]] = alloca i8, i64 [[CONV]], align 1, addrspace(5)
@@ -460,6 +512,8 @@ void test2_builtin_alloca_uninitialized(unsigned n) {
 // OPENCL30-NEXT:    [[N_ADDR:%.*]] = alloca i32, align 4, addrspace(5)
 // OPENCL30-NEXT:    [[ALLOC_PTR_ALIGN:%.*]] = alloca ptr addrspace(5), align 4, addrspace(5)
 // OPENCL30-NEXT:    store i32 [[N]], ptr addrspace(5) [[N_ADDR]], align 4
+// OPENCL30-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr addrspace(5) poison
+// OPENCL30-NEXT:    store ptr addrspace(5) [[FREEZE_POISON]], ptr addrspace(5) [[ALLOC_PTR_ALIGN]], align 4
 // OPENCL30-NEXT:    [[TMP0:%.*]] = load i32, ptr addrspace(5) [[N_ADDR]], align 4
 // OPENCL30-NEXT:    [[CONV:%.*]] = zext i32 [[TMP0]] to i64
 // OPENCL30-NEXT:    [[TMP1:%.*]] = alloca i8, i64 [[CONV]], align 1, addrspace(5)
@@ -473,6 +527,8 @@ void test2_builtin_alloca_uninitialized(unsigned n) {
 // OPENCL30GAS-NEXT:    [[ALLOC_PTR_ALIGN:%.*]] = alloca ptr addrspace(5), align 4, addrspace(5)
 // OPENCL30GAS-NEXT:    [[N_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[N_ADDR]] to ptr
 // OPENCL30GAS-NEXT:    store i32 [[N]], ptr [[N_ADDR_ASCAST]], align 4
+// OPENCL30GAS-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr addrspace(5) poison
+// OPENCL30GAS-NEXT:    store ptr addrspace(5) [[FREEZE_POISON]], ptr addrspace(5) [[ALLOC_PTR_ALIGN]], align 4
 // OPENCL30GAS-NEXT:    [[TMP0:%.*]] = load i32, ptr [[N_ADDR_ASCAST]], align 4
 // OPENCL30GAS-NEXT:    [[CONV:%.*]] = zext i32 [[TMP0]] to i64
 // OPENCL30GAS-NEXT:    [[TMP1:%.*]] = alloca i8, i64 [[CONV]], align 1, addrspace(5)
@@ -500,6 +556,8 @@ void test2_builtin_alloca_with_align(unsigned n) {
 // OPENCL12-NEXT:    [[N_ADDR:%.*]] = alloca i32, align 4, addrspace(5)
 // OPENCL12-NEXT:    [[ALLOC_PTR_ALIGN_UNINITIALIZED:%.*]] = alloca ptr addrspace(5), align 4, addrspace(5)
 // OPENCL12-NEXT:    store i32 [[N]], ptr addrspace(5) [[N_ADDR]], align 4
+// OPENCL12-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr addrspace(5) poison
+// OPENCL12-NEXT:    store ptr addrspace(5) [[FREEZE_POISON]], ptr addrspace(5) [[ALLOC_PTR_ALIGN_UNINITIALIZED]], align 4
 // OPENCL12-NEXT:    [[TMP0:%.*]] = load i32, ptr addrspace(5) [[N_ADDR]], align 4
 // OPENCL12-NEXT:    [[CONV:%.*]] = zext i32 [[TMP0]] to i64
 // OPENCL12-NEXT:    [[TMP1:%.*]] = alloca i8, i64 [[CONV]], align 1, addrspace(5)
@@ -513,6 +571,8 @@ void test2_builtin_alloca_with_align(unsigned n) {
 // OPENCL20-NEXT:    [[ALLOC_PTR_ALIGN_UNINITIALIZED:%.*]] = alloca ptr addrspace(5), align 4, addrspace(5)
 // OPENCL20-NEXT:    [[N_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[N_ADDR]] to ptr
 // OPENCL20-NEXT:    store i32 [[N]], ptr [[N_ADDR_ASCAST]], align 4
+// OPENCL20-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr addrspace(5) poison
+// OPENCL20-NEXT:    store ptr addrspace(5) [[FREEZE_POISON]], ptr addrspace(5) [[ALLOC_PTR_ALIGN_UNINITIALIZED]], align 4
 // OPENCL20-NEXT:    [[TMP0:%.*]] = load i32, ptr [[N_ADDR_ASCAST]], align 4
 // OPENCL20-NEXT:    [[CONV:%.*]] = zext i32 [[TMP0]] to i64
 // OPENCL20-NEXT:    [[TMP1:%.*]] = alloca i8, i64 [[CONV]], align 1, addrspace(5)
@@ -525,6 +585,8 @@ void test2_builtin_alloca_with_align(unsigned n) {
 // OPENCL30-NEXT:    [[N_ADDR:%.*]] = alloca i32, align 4, addrspace(5)
 // OPENCL30-NEXT:    [[ALLOC_PTR_ALIGN_UNINITIALIZED:%.*]] = alloca ptr addrspace(5), align 4, addrspace(5)
 // OPENCL30-NEXT:    store i32 [[N]], ptr addrspace(5) [[N_ADDR]], align 4
+// OPENCL30-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr addrspace(5) poison
+// OPENCL30-NEXT:    store ptr addrspace(5) [[FREEZE_POISON]], ptr addrspace(5) [[ALLOC_PTR_ALIGN_UNINITIALIZED]], align 4
 // OPENCL30-NEXT:    [[TMP0:%.*]] = load i32, ptr addrspace(5) [[N_ADDR]], align 4
 // OPENCL30-NEXT:    [[CONV:%.*]] = zext i32 [[TMP0]] to i64
 // OPENCL30-NEXT:    [[TMP1:%.*]] = alloca i8, i64 [[CONV]], align 1, addrspace(5)
@@ -538,6 +600,8 @@ void test2_builtin_alloca_with_align(unsigned n) {
 // OPENCL30GAS-NEXT:    [[ALLOC_PTR_ALIGN_UNINITIALIZED:%.*]] = alloca ptr addrspace(5), align 4, addrspace(5)
 // OPENCL30GAS-NEXT:    [[N_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[N_ADDR]] to ptr
 // OPENCL30GAS-NEXT:    store i32 [[N]], ptr [[N_ADDR_ASCAST]], align 4
+// OPENCL30GAS-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr addrspace(5) poison
+// OPENCL30GAS-NEXT:    store ptr addrspace(5) [[FREEZE_POISON]], ptr addrspace(5) [[ALLOC_PTR_ALIGN_UNINITIALIZED]], align 4
 // OPENCL30GAS-NEXT:    [[TMP0:%.*]] = load i32, ptr [[N_ADDR_ASCAST]], align 4
 // OPENCL30GAS-NEXT:    [[CONV:%.*]] = zext i32 [[TMP0]] to i64
 // OPENCL30GAS-NEXT:    [[TMP1:%.*]] = alloca i8, i64 [[CONV]], align 1, addrspace(5)

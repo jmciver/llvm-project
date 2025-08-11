@@ -24,11 +24,13 @@ struct S {
 // CHECK-NEXT:    [[BUFFER:%.*]] = alloca [12 x i8], align 4
 // CHECK-NEXT:    [[S_PTR:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    call void @llvm.memset.p0.i64(ptr align 4 [[BUFFER]], i8 0, i64 12, i1 false)
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[S_PTR]], align 8
 // CHECK-NEXT:    [[ARRAYDECAY:%.*]] = getelementptr inbounds [12 x i8], ptr [[BUFFER]], i64 0, i64 0
 // CHECK-NEXT:    store ptr [[ARRAYDECAY]], ptr [[S_PTR]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[S_PTR]], align 8
 // CHECK-NEXT:    [[X:%.*]] = getelementptr inbounds nuw [[STRUCT_S:%.*]], ptr [[TMP0]], i32 0, i32 0
-// CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr [[X]], align 4
+// CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr [[X]], align 4, !freeze_bits [[META2:![0-9]+]]
 // CHECK-NEXT:    ret i32 [[TMP1]]
 //
 int foo() {
@@ -46,7 +48,7 @@ int foo() {
 // CHECK-NEXT:    store i8 97, ptr [[C]], align 4
 // CHECK-NEXT:    [[ARRAYDECAY1:%.*]] = getelementptr inbounds [12 x i8], ptr [[BUFFER]], i64 0, i64 0
 // CHECK-NEXT:    [[C2:%.*]] = getelementptr inbounds nuw [[STRUCT_S]], ptr [[ARRAYDECAY1]], i32 0, i32 1
-// CHECK-NEXT:    [[TMP0:%.*]] = load i8, ptr [[C2]], align 4
+// CHECK-NEXT:    [[TMP0:%.*]] = load i8, ptr [[C2]], align 4, !freeze_bits [[META2]]
 // CHECK-NEXT:    ret i8 [[TMP0]]
 //
 char bar() {
@@ -64,7 +66,7 @@ char bar() {
 // CHECK-NEXT:    store float 3.000000e+00, ptr [[F]], align 4
 // CHECK-NEXT:    [[ARRAYDECAY1:%.*]] = getelementptr inbounds [12 x i8], ptr [[BUFFER]], i64 0, i64 0
 // CHECK-NEXT:    [[F2:%.*]] = getelementptr inbounds nuw [[STRUCT_S]], ptr [[ARRAYDECAY1]], i32 0, i32 2
-// CHECK-NEXT:    [[TMP0:%.*]] = load float, ptr [[F2]], align 4
+// CHECK-NEXT:    [[TMP0:%.*]] = load float, ptr [[F2]], align 4, !freeze_bits [[META2]]
 // CHECK-NEXT:    ret float [[TMP0]]
 //
 float baz() {
@@ -83,12 +85,14 @@ struct T {
 // CHECK-NEXT:    [[T:%.*]] = alloca [[STRUCT_T:%.*]], align 4
 // CHECK-NEXT:    [[S_PTR:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    call void @llvm.memset.p0.i64(ptr align 4 [[T]], i8 0, i64 12, i1 false)
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[S_PTR]], align 8
 // CHECK-NEXT:    [[BUFFER:%.*]] = getelementptr inbounds nuw [[STRUCT_T]], ptr [[T]], i32 0, i32 0
 // CHECK-NEXT:    [[ARRAYDECAY:%.*]] = getelementptr inbounds [12 x i8], ptr [[BUFFER]], i64 0, i64 0
 // CHECK-NEXT:    store ptr [[ARRAYDECAY]], ptr [[S_PTR]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[S_PTR]], align 8
 // CHECK-NEXT:    [[C:%.*]] = getelementptr inbounds nuw [[STRUCT_S:%.*]], ptr [[TMP0]], i32 0, i32 1
-// CHECK-NEXT:    [[TMP1:%.*]] = load i8, ptr [[C]], align 4
+// CHECK-NEXT:    [[TMP1:%.*]] = load i8, ptr [[C]], align 4, !freeze_bits [[META2]]
 // CHECK-NEXT:    ret i8 [[TMP1]]
 //
 char quux() {
@@ -104,15 +108,19 @@ char quux() {
 // CHECK-NEXT:    [[T_PTR:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    [[S_PTR:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    call void @llvm.memset.p0.i64(ptr align 4 [[BUFFER]], i8 0, i64 12, i1 false)
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[T_PTR]], align 8
 // CHECK-NEXT:    [[ARRAYDECAY:%.*]] = getelementptr inbounds [12 x i8], ptr [[BUFFER]], i64 0, i64 0
 // CHECK-NEXT:    store ptr [[ARRAYDECAY]], ptr [[T_PTR]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON1]], ptr [[S_PTR]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[T_PTR]], align 8
-// CHECK-NEXT:    [[BUFFER1:%.*]] = getelementptr inbounds nuw [[STRUCT_T:%.*]], ptr [[TMP0]], i32 0, i32 0
-// CHECK-NEXT:    [[ARRAYDECAY2:%.*]] = getelementptr inbounds [12 x i8], ptr [[BUFFER1]], i64 0, i64 0
-// CHECK-NEXT:    store ptr [[ARRAYDECAY2]], ptr [[S_PTR]], align 8
+// CHECK-NEXT:    [[BUFFER2:%.*]] = getelementptr inbounds nuw [[STRUCT_T:%.*]], ptr [[TMP0]], i32 0, i32 0
+// CHECK-NEXT:    [[ARRAYDECAY3:%.*]] = getelementptr inbounds [12 x i8], ptr [[BUFFER2]], i64 0, i64 0
+// CHECK-NEXT:    store ptr [[ARRAYDECAY3]], ptr [[S_PTR]], align 8
 // CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[S_PTR]], align 8
 // CHECK-NEXT:    [[F:%.*]] = getelementptr inbounds nuw [[STRUCT_S:%.*]], ptr [[TMP1]], i32 0, i32 2
-// CHECK-NEXT:    [[TMP2:%.*]] = load float, ptr [[F]], align 4
+// CHECK-NEXT:    [[TMP2:%.*]] = load float, ptr [[F]], align 4, !freeze_bits [[META2]]
 // CHECK-NEXT:    ret float [[TMP2]]
 //
 float quibble() {
@@ -132,13 +140,15 @@ float quibble() {
 // CHECK-NEXT:    [[ARRAYDECAY2:%.*]] = getelementptr inbounds [12 x i8], ptr [[BUFFER1]], i64 0, i64 0
 // CHECK-NEXT:    [[X:%.*]] = getelementptr inbounds nuw [[STRUCT_S:%.*]], ptr [[ARRAYDECAY2]], i32 0, i32 0
 // CHECK-NEXT:    store i32 12, ptr [[X]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[S_PTR]], align 8
 // CHECK-NEXT:    [[ARRAYDECAY3:%.*]] = getelementptr inbounds [12 x i8], ptr [[BUFFER]], i64 0, i64 0
 // CHECK-NEXT:    [[BUFFER4:%.*]] = getelementptr inbounds nuw [[STRUCT_T]], ptr [[ARRAYDECAY3]], i32 0, i32 0
 // CHECK-NEXT:    [[ARRAYDECAY5:%.*]] = getelementptr inbounds [12 x i8], ptr [[BUFFER4]], i64 0, i64 0
 // CHECK-NEXT:    store ptr [[ARRAYDECAY5]], ptr [[S_PTR]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[S_PTR]], align 8
 // CHECK-NEXT:    [[X6:%.*]] = getelementptr inbounds nuw [[STRUCT_S]], ptr [[TMP0]], i32 0, i32 0
-// CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr [[X6]], align 4
+// CHECK-NEXT:    [[TMP1:%.*]] = load i32, ptr [[X6]], align 4, !freeze_bits [[META2]]
 // CHECK-NEXT:    ret i32 [[TMP1]]
 //
 int quorble() {
@@ -147,3 +157,6 @@ int quorble() {
   const struct S *s_ptr = (struct S *)((struct T *)buffer)->buffer;
   return s_ptr->x;
 }
+//.
+// CHECK: [[META2]] = !{}
+//.

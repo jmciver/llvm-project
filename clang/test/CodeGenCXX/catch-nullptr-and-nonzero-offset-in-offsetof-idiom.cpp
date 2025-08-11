@@ -78,6 +78,8 @@ uintptr_t get_offset_of_y_nullptr_t() {
 // CHECK-LABEL: @_Z32get_offset_of_y_nullptr_constantv(
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[NULL:%.*]] = alloca ptr, align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[NULL]], align 8
 // CHECK-NEXT:    store ptr null, ptr [[NULL]], align 8
 // CHECK-NEXT:    ret i64 ptrtoint (ptr getelementptr inbounds nuw ([[STRUCT_S:%.*]], ptr null, i32 0, i32 1) to i64)
 //

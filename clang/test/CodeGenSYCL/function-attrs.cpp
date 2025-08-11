@@ -9,6 +9,8 @@ int foo();
 // CHECK-NEXT:  entry:
 // CHECK-NEXT:    [[A:%.*]] = alloca i32, align 4
 // CHECK-NEXT:    [[A_ASCAST:%.*]] = addrspacecast ptr [[A]] to ptr addrspace(4)
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON]], ptr addrspace(4) [[A_ASCAST]], align 4
 // CHECK-NEXT:    [[CALL:%.*]] = call spir_func noundef i32 @_Z3foov() #[[ATTR1:[0-9]+]]
 // CHECK-NEXT:    store i32 [[CALL]], ptr addrspace(4) [[A_ASCAST]], align 4
 // CHECK-NEXT:    ret void
@@ -49,8 +51,8 @@ int main() {
   return 0;
 }
 //.
-// CHECK: attributes #0 = { convergent mustprogress noinline norecurse nounwind optnone "no-trapping-math"="true" "stack-protector-buffer-size"="8" }
-// CHECK: attributes #1 = { convergent nounwind }
+// CHECK: attributes #[[ATTR0]] = { convergent mustprogress noinline norecurse nounwind optnone "no-trapping-math"="true" "stack-protector-buffer-size"="8" }
+// CHECK: attributes #[[ATTR1]] = { convergent nounwind }
 //.
-// CHECK: !0 = !{i32 1, !"wchar_size", i32 4}
+// CHECK: [[META0:![0-9]+]] = !{i32 1, !"wchar_size", i32 4}
 //.

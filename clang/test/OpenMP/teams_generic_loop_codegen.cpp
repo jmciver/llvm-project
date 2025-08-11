@@ -29,6 +29,10 @@ int foo() {
 // IR-NEXT:    [[I:%.*]] = alloca i32, align 4
 // IR-NEXT:    [[J:%.*]] = alloca i32, align 4
 // IR-NEXT:    [[SUM:%.*]] = alloca [10 x [10 x i32]], align 16
+// IR-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// IR-NEXT:    store i32 [[FREEZE_POISON]], ptr [[I]], align 4
+// IR-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// IR-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[J]], align 4
 // IR-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_teams(ptr @[[GLOB3:[0-9]+]], i32 2, ptr @_Z3foov.omp_outlined, ptr [[J]], ptr [[SUM]])
 // IR-NEXT:    ret i32 0
 //
@@ -48,16 +52,16 @@ int foo() {
 // IR-NEXT:    [[DOTOMP_COMB_UB:%.*]] = alloca i32, align 4
 // IR-NEXT:    [[DOTOMP_STRIDE:%.*]] = alloca i32, align 4
 // IR-NEXT:    [[DOTOMP_IS_LAST:%.*]] = alloca i32, align 4
-// IR-NEXT:    [[J3:%.*]] = alloca i32, align 4
+// IR-NEXT:    [[J7:%.*]] = alloca i32, align 4
 // IR-NEXT:    [[I:%.*]] = alloca i32, align 4
-// IR-NEXT:    [[J4:%.*]] = alloca i32, align 4
+// IR-NEXT:    [[J10:%.*]] = alloca i32, align 4
 // IR-NEXT:    [[DOTOMP_REDUCTION_RED_LIST:%.*]] = alloca [1 x ptr], align 8
 // IR-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // IR-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // IR-NEXT:    store ptr [[J]], ptr [[J_ADDR]], align 8
 // IR-NEXT:    store ptr [[SUM]], ptr [[SUM_ADDR]], align 8
-// IR-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[J_ADDR]], align 8
-// IR-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[SUM_ADDR]], align 8
+// IR-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[J_ADDR]], align 8, !nonnull [[META3:![0-9]+]], !align [[META4:![0-9]+]]
+// IR-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[SUM_ADDR]], align 8, !nonnull [[META3]], !align [[META4]]
 // IR-NEXT:    [[ARRAY_BEGIN:%.*]] = getelementptr inbounds [10 x [10 x i32]], ptr [[SUM1]], i32 0, i32 0, i32 0
 // IR-NEXT:    [[TMP2:%.*]] = getelementptr i32, ptr [[ARRAY_BEGIN]], i64 100
 // IR-NEXT:    [[OMP_ARRAYINIT_ISEMPTY:%.*]] = icmp eq ptr [[ARRAY_BEGIN]], [[TMP2]]
@@ -69,12 +73,28 @@ int foo() {
 // IR-NEXT:    [[OMP_ARRAYCPY_DONE:%.*]] = icmp eq ptr [[OMP_ARRAYCPY_DEST_ELEMENT]], [[TMP2]]
 // IR-NEXT:    br i1 [[OMP_ARRAYCPY_DONE]], label [[OMP_ARRAYINIT_DONE]], label [[OMP_ARRAYINIT_BODY]]
 // IR:       omp.arrayinit.done:
+// IR-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// IR-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// IR-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// IR-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_COMB_LB]], align 4
 // IR-NEXT:    store i32 0, ptr [[DOTOMP_COMB_LB]], align 4
+// IR-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// IR-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_COMB_UB]], align 4
 // IR-NEXT:    store i32 99, ptr [[DOTOMP_COMB_UB]], align 4
+// IR-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// IR-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[DOTOMP_STRIDE]], align 4
 // IR-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// IR-NEXT:    [[FREEZE_POISON6:%.*]] = freeze i32 poison
+// IR-NEXT:    store i32 [[FREEZE_POISON6]], ptr [[DOTOMP_IS_LAST]], align 4
 // IR-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// IR-NEXT:    [[FREEZE_POISON8:%.*]] = freeze i32 poison
+// IR-NEXT:    store i32 [[FREEZE_POISON8]], ptr [[J7]], align 4
+// IR-NEXT:    [[FREEZE_POISON9:%.*]] = freeze i32 poison
+// IR-NEXT:    store i32 [[FREEZE_POISON9]], ptr [[I]], align 4
+// IR-NEXT:    [[FREEZE_POISON11:%.*]] = freeze i32 poison
+// IR-NEXT:    store i32 [[FREEZE_POISON11]], ptr [[J10]], align 4
 // IR-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// IR-NEXT:    [[TMP4:%.*]] = load i32, ptr [[TMP3]], align 4
+// IR-NEXT:    [[TMP4:%.*]] = load i32, ptr [[TMP3]], align 4, !freeze_bits [[META3]]
 // IR-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1:[0-9]+]], i32 [[TMP4]], i32 92, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_COMB_LB]], ptr [[DOTOMP_COMB_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // IR-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4
 // IR-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[TMP5]], 99
@@ -93,8 +113,8 @@ int foo() {
 // IR:       omp.inner.for.cond:
 // IR-NEXT:    [[TMP8:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // IR-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4
-// IR-NEXT:    [[CMP5:%.*]] = icmp sle i32 [[TMP8]], [[TMP9]]
-// IR-NEXT:    br i1 [[CMP5]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// IR-NEXT:    [[CMP12:%.*]] = icmp sle i32 [[TMP8]], [[TMP9]]
+// IR-NEXT:    br i1 [[CMP12]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // IR:       omp.inner.for.body:
 // IR-NEXT:    [[TMP10:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // IR-NEXT:    [[DIV:%.*]] = sdiv i32 [[TMP10]], 10
@@ -103,49 +123,49 @@ int foo() {
 // IR-NEXT:    store i32 [[ADD]], ptr [[I]], align 4
 // IR-NEXT:    [[TMP11:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // IR-NEXT:    [[TMP12:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// IR-NEXT:    [[DIV6:%.*]] = sdiv i32 [[TMP12]], 10
-// IR-NEXT:    [[MUL7:%.*]] = mul nsw i32 [[DIV6]], 10
-// IR-NEXT:    [[SUB:%.*]] = sub nsw i32 [[TMP11]], [[MUL7]]
-// IR-NEXT:    [[MUL8:%.*]] = mul nsw i32 [[SUB]], 1
-// IR-NEXT:    [[ADD9:%.*]] = add nsw i32 0, [[MUL8]]
-// IR-NEXT:    store i32 [[ADD9]], ptr [[J3]], align 4
+// IR-NEXT:    [[DIV13:%.*]] = sdiv i32 [[TMP12]], 10
+// IR-NEXT:    [[MUL14:%.*]] = mul nsw i32 [[DIV13]], 10
+// IR-NEXT:    [[SUB:%.*]] = sub nsw i32 [[TMP11]], [[MUL14]]
+// IR-NEXT:    [[MUL15:%.*]] = mul nsw i32 [[SUB]], 1
+// IR-NEXT:    [[ADD16:%.*]] = add nsw i32 0, [[MUL15]]
+// IR-NEXT:    store i32 [[ADD16]], ptr [[J7]], align 4
 // IR-NEXT:    [[TMP13:%.*]] = load i32, ptr [[I]], align 4
 // IR-NEXT:    [[TMP14:%.*]] = load i32, ptr [[I]], align 4
 // IR-NEXT:    [[IDXPROM:%.*]] = sext i32 [[TMP14]] to i64
 // IR-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [10 x [10 x i32]], ptr [[SUM1]], i64 0, i64 [[IDXPROM]]
-// IR-NEXT:    [[TMP15:%.*]] = load i32, ptr [[J3]], align 4
-// IR-NEXT:    [[IDXPROM10:%.*]] = sext i32 [[TMP15]] to i64
-// IR-NEXT:    [[ARRAYIDX11:%.*]] = getelementptr inbounds [10 x i32], ptr [[ARRAYIDX]], i64 0, i64 [[IDXPROM10]]
-// IR-NEXT:    [[TMP16:%.*]] = load i32, ptr [[ARRAYIDX11]], align 4
-// IR-NEXT:    [[ADD12:%.*]] = add nsw i32 [[TMP16]], [[TMP13]]
-// IR-NEXT:    store i32 [[ADD12]], ptr [[ARRAYIDX11]], align 4
+// IR-NEXT:    [[TMP15:%.*]] = load i32, ptr [[J7]], align 4
+// IR-NEXT:    [[IDXPROM17:%.*]] = sext i32 [[TMP15]] to i64
+// IR-NEXT:    [[ARRAYIDX18:%.*]] = getelementptr inbounds [10 x i32], ptr [[ARRAYIDX]], i64 0, i64 [[IDXPROM17]]
+// IR-NEXT:    [[TMP16:%.*]] = load i32, ptr [[ARRAYIDX18]], align 4, !freeze_bits [[META3]]
+// IR-NEXT:    [[ADD19:%.*]] = add nsw i32 [[TMP16]], [[TMP13]]
+// IR-NEXT:    store i32 [[ADD19]], ptr [[ARRAYIDX18]], align 4
 // IR-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // IR:       omp.body.continue:
 // IR-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // IR:       omp.inner.for.inc:
 // IR-NEXT:    [[TMP17:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// IR-NEXT:    [[ADD13:%.*]] = add nsw i32 [[TMP17]], 1
-// IR-NEXT:    store i32 [[ADD13]], ptr [[DOTOMP_IV]], align 4
+// IR-NEXT:    [[ADD20:%.*]] = add nsw i32 [[TMP17]], 1
+// IR-NEXT:    store i32 [[ADD20]], ptr [[DOTOMP_IV]], align 4
 // IR-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // IR:       omp.inner.for.end:
 // IR-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
 // IR:       omp.loop.exit:
 // IR-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// IR-NEXT:    [[TMP19:%.*]] = load i32, ptr [[TMP18]], align 4
+// IR-NEXT:    [[TMP19:%.*]] = load i32, ptr [[TMP18]], align 4, !freeze_bits [[META3]]
 // IR-NEXT:    call void @__kmpc_for_static_fini(ptr @[[GLOB1]], i32 [[TMP19]])
 // IR-NEXT:    [[TMP20:%.*]] = load i32, ptr [[DOTOMP_IS_LAST]], align 4
 // IR-NEXT:    [[TMP21:%.*]] = icmp ne i32 [[TMP20]], 0
 // IR-NEXT:    br i1 [[TMP21]], label [[DOTOMP_LASTPRIVATE_THEN:%.*]], label [[DOTOMP_LASTPRIVATE_DONE:%.*]]
 // IR:       .omp.lastprivate.then:
-// IR-NEXT:    store i32 10, ptr [[J3]], align 4
-// IR-NEXT:    [[TMP22:%.*]] = load i32, ptr [[J3]], align 4
+// IR-NEXT:    store i32 10, ptr [[J7]], align 4
+// IR-NEXT:    [[TMP22:%.*]] = load i32, ptr [[J7]], align 4
 // IR-NEXT:    store i32 [[TMP22]], ptr [[TMP0]], align 4
 // IR-NEXT:    br label [[DOTOMP_LASTPRIVATE_DONE]]
 // IR:       .omp.lastprivate.done:
 // IR-NEXT:    [[TMP23:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOMP_REDUCTION_RED_LIST]], i64 0, i64 0
 // IR-NEXT:    store ptr [[SUM1]], ptr [[TMP23]], align 8
 // IR-NEXT:    [[TMP24:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// IR-NEXT:    [[TMP25:%.*]] = load i32, ptr [[TMP24]], align 4
+// IR-NEXT:    [[TMP25:%.*]] = load i32, ptr [[TMP24]], align 4, !freeze_bits [[META3]]
 // IR-NEXT:    [[TMP26:%.*]] = call i32 @__kmpc_reduce_nowait(ptr @[[GLOB2:[0-9]+]], i32 [[TMP25]], i32 1, i64 8, ptr [[DOTOMP_REDUCTION_RED_LIST]], ptr @_Z3foov.omp_outlined.omp.reduction.reduction_func, ptr @.gomp_critical_user_.reduction.var)
 // IR-NEXT:    switch i32 [[TMP26]], label [[DOTOMP_REDUCTION_DEFAULT:%.*]] [
 // IR-NEXT:      i32 1, label [[DOTOMP_REDUCTION_CASE1:%.*]]
@@ -154,35 +174,35 @@ int foo() {
 // IR:       .omp.reduction.case1:
 // IR-NEXT:    [[TMP27:%.*]] = getelementptr i32, ptr [[TMP1]], i64 100
 // IR-NEXT:    [[OMP_ARRAYCPY_ISEMPTY:%.*]] = icmp eq ptr [[TMP1]], [[TMP27]]
-// IR-NEXT:    br i1 [[OMP_ARRAYCPY_ISEMPTY]], label [[OMP_ARRAYCPY_DONE18:%.*]], label [[OMP_ARRAYCPY_BODY:%.*]]
+// IR-NEXT:    br i1 [[OMP_ARRAYCPY_ISEMPTY]], label [[OMP_ARRAYCPY_DONE25:%.*]], label [[OMP_ARRAYCPY_BODY:%.*]]
 // IR:       omp.arraycpy.body:
 // IR-NEXT:    [[OMP_ARRAYCPY_SRCELEMENTPAST:%.*]] = phi ptr [ [[SUM1]], [[DOTOMP_REDUCTION_CASE1]] ], [ [[OMP_ARRAYCPY_SRC_ELEMENT:%.*]], [[OMP_ARRAYCPY_BODY]] ]
-// IR-NEXT:    [[OMP_ARRAYCPY_DESTELEMENTPAST14:%.*]] = phi ptr [ [[TMP1]], [[DOTOMP_REDUCTION_CASE1]] ], [ [[OMP_ARRAYCPY_DEST_ELEMENT16:%.*]], [[OMP_ARRAYCPY_BODY]] ]
-// IR-NEXT:    [[TMP28:%.*]] = load i32, ptr [[OMP_ARRAYCPY_DESTELEMENTPAST14]], align 4
-// IR-NEXT:    [[TMP29:%.*]] = load i32, ptr [[OMP_ARRAYCPY_SRCELEMENTPAST]], align 4
-// IR-NEXT:    [[ADD15:%.*]] = add nsw i32 [[TMP28]], [[TMP29]]
-// IR-NEXT:    store i32 [[ADD15]], ptr [[OMP_ARRAYCPY_DESTELEMENTPAST14]], align 4
-// IR-NEXT:    [[OMP_ARRAYCPY_DEST_ELEMENT16]] = getelementptr i32, ptr [[OMP_ARRAYCPY_DESTELEMENTPAST14]], i32 1
+// IR-NEXT:    [[OMP_ARRAYCPY_DESTELEMENTPAST21:%.*]] = phi ptr [ [[TMP1]], [[DOTOMP_REDUCTION_CASE1]] ], [ [[OMP_ARRAYCPY_DEST_ELEMENT23:%.*]], [[OMP_ARRAYCPY_BODY]] ]
+// IR-NEXT:    [[TMP28:%.*]] = load i32, ptr [[OMP_ARRAYCPY_DESTELEMENTPAST21]], align 4, !freeze_bits [[META3]]
+// IR-NEXT:    [[TMP29:%.*]] = load i32, ptr [[OMP_ARRAYCPY_SRCELEMENTPAST]], align 4, !freeze_bits [[META3]]
+// IR-NEXT:    [[ADD22:%.*]] = add nsw i32 [[TMP28]], [[TMP29]]
+// IR-NEXT:    store i32 [[ADD22]], ptr [[OMP_ARRAYCPY_DESTELEMENTPAST21]], align 4
+// IR-NEXT:    [[OMP_ARRAYCPY_DEST_ELEMENT23]] = getelementptr i32, ptr [[OMP_ARRAYCPY_DESTELEMENTPAST21]], i32 1
 // IR-NEXT:    [[OMP_ARRAYCPY_SRC_ELEMENT]] = getelementptr i32, ptr [[OMP_ARRAYCPY_SRCELEMENTPAST]], i32 1
-// IR-NEXT:    [[OMP_ARRAYCPY_DONE17:%.*]] = icmp eq ptr [[OMP_ARRAYCPY_DEST_ELEMENT16]], [[TMP27]]
-// IR-NEXT:    br i1 [[OMP_ARRAYCPY_DONE17]], label [[OMP_ARRAYCPY_DONE18]], label [[OMP_ARRAYCPY_BODY]]
-// IR:       omp.arraycpy.done18:
+// IR-NEXT:    [[OMP_ARRAYCPY_DONE24:%.*]] = icmp eq ptr [[OMP_ARRAYCPY_DEST_ELEMENT23]], [[TMP27]]
+// IR-NEXT:    br i1 [[OMP_ARRAYCPY_DONE24]], label [[OMP_ARRAYCPY_DONE25]], label [[OMP_ARRAYCPY_BODY]]
+// IR:       omp.arraycpy.done25:
 // IR-NEXT:    call void @__kmpc_end_reduce_nowait(ptr @[[GLOB2]], i32 [[TMP25]], ptr @.gomp_critical_user_.reduction.var)
 // IR-NEXT:    br label [[DOTOMP_REDUCTION_DEFAULT]]
 // IR:       .omp.reduction.case2:
 // IR-NEXT:    [[TMP30:%.*]] = getelementptr i32, ptr [[TMP1]], i64 100
-// IR-NEXT:    [[OMP_ARRAYCPY_ISEMPTY19:%.*]] = icmp eq ptr [[TMP1]], [[TMP30]]
-// IR-NEXT:    br i1 [[OMP_ARRAYCPY_ISEMPTY19]], label [[OMP_ARRAYCPY_DONE26:%.*]], label [[OMP_ARRAYCPY_BODY20:%.*]]
-// IR:       omp.arraycpy.body20:
-// IR-NEXT:    [[OMP_ARRAYCPY_SRCELEMENTPAST21:%.*]] = phi ptr [ [[SUM1]], [[DOTOMP_REDUCTION_CASE2]] ], [ [[OMP_ARRAYCPY_SRC_ELEMENT24:%.*]], [[OMP_ARRAYCPY_BODY20]] ]
-// IR-NEXT:    [[OMP_ARRAYCPY_DESTELEMENTPAST22:%.*]] = phi ptr [ [[TMP1]], [[DOTOMP_REDUCTION_CASE2]] ], [ [[OMP_ARRAYCPY_DEST_ELEMENT23:%.*]], [[OMP_ARRAYCPY_BODY20]] ]
-// IR-NEXT:    [[TMP31:%.*]] = load i32, ptr [[OMP_ARRAYCPY_SRCELEMENTPAST21]], align 4
-// IR-NEXT:    [[TMP32:%.*]] = atomicrmw add ptr [[OMP_ARRAYCPY_DESTELEMENTPAST22]], i32 [[TMP31]] monotonic, align 4
-// IR-NEXT:    [[OMP_ARRAYCPY_DEST_ELEMENT23]] = getelementptr i32, ptr [[OMP_ARRAYCPY_DESTELEMENTPAST22]], i32 1
-// IR-NEXT:    [[OMP_ARRAYCPY_SRC_ELEMENT24]] = getelementptr i32, ptr [[OMP_ARRAYCPY_SRCELEMENTPAST21]], i32 1
-// IR-NEXT:    [[OMP_ARRAYCPY_DONE25:%.*]] = icmp eq ptr [[OMP_ARRAYCPY_DEST_ELEMENT23]], [[TMP30]]
-// IR-NEXT:    br i1 [[OMP_ARRAYCPY_DONE25]], label [[OMP_ARRAYCPY_DONE26]], label [[OMP_ARRAYCPY_BODY20]]
-// IR:       omp.arraycpy.done26:
+// IR-NEXT:    [[OMP_ARRAYCPY_ISEMPTY26:%.*]] = icmp eq ptr [[TMP1]], [[TMP30]]
+// IR-NEXT:    br i1 [[OMP_ARRAYCPY_ISEMPTY26]], label [[OMP_ARRAYCPY_DONE33:%.*]], label [[OMP_ARRAYCPY_BODY27:%.*]]
+// IR:       omp.arraycpy.body27:
+// IR-NEXT:    [[OMP_ARRAYCPY_SRCELEMENTPAST28:%.*]] = phi ptr [ [[SUM1]], [[DOTOMP_REDUCTION_CASE2]] ], [ [[OMP_ARRAYCPY_SRC_ELEMENT31:%.*]], [[OMP_ARRAYCPY_BODY27]] ]
+// IR-NEXT:    [[OMP_ARRAYCPY_DESTELEMENTPAST29:%.*]] = phi ptr [ [[TMP1]], [[DOTOMP_REDUCTION_CASE2]] ], [ [[OMP_ARRAYCPY_DEST_ELEMENT30:%.*]], [[OMP_ARRAYCPY_BODY27]] ]
+// IR-NEXT:    [[TMP31:%.*]] = load i32, ptr [[OMP_ARRAYCPY_SRCELEMENTPAST28]], align 4, !freeze_bits [[META3]]
+// IR-NEXT:    [[TMP32:%.*]] = atomicrmw add ptr [[OMP_ARRAYCPY_DESTELEMENTPAST29]], i32 [[TMP31]] monotonic, align 4
+// IR-NEXT:    [[OMP_ARRAYCPY_DEST_ELEMENT30]] = getelementptr i32, ptr [[OMP_ARRAYCPY_DESTELEMENTPAST29]], i32 1
+// IR-NEXT:    [[OMP_ARRAYCPY_SRC_ELEMENT31]] = getelementptr i32, ptr [[OMP_ARRAYCPY_SRCELEMENTPAST28]], i32 1
+// IR-NEXT:    [[OMP_ARRAYCPY_DONE32:%.*]] = icmp eq ptr [[OMP_ARRAYCPY_DEST_ELEMENT30]], [[TMP30]]
+// IR-NEXT:    br i1 [[OMP_ARRAYCPY_DONE32]], label [[OMP_ARRAYCPY_DONE33]], label [[OMP_ARRAYCPY_BODY27]]
+// IR:       omp.arraycpy.done33:
 // IR-NEXT:    br label [[DOTOMP_REDUCTION_DEFAULT]]
 // IR:       .omp.reduction.default:
 // IR-NEXT:    ret void
@@ -198,17 +218,17 @@ int foo() {
 // IR-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // IR-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // IR-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP3]], i64 0, i64 0
-// IR-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[TMP4]], align 8
+// IR-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[TMP4]], align 8, !freeze_bits [[META3]]
 // IR-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP2]], i64 0, i64 0
-// IR-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[TMP6]], align 8
+// IR-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[TMP6]], align 8, !freeze_bits [[META3]]
 // IR-NEXT:    [[TMP8:%.*]] = getelementptr i32, ptr [[TMP7]], i64 100
 // IR-NEXT:    [[OMP_ARRAYCPY_ISEMPTY:%.*]] = icmp eq ptr [[TMP7]], [[TMP8]]
 // IR-NEXT:    br i1 [[OMP_ARRAYCPY_ISEMPTY]], label [[OMP_ARRAYCPY_DONE2:%.*]], label [[OMP_ARRAYCPY_BODY:%.*]]
 // IR:       omp.arraycpy.body:
 // IR-NEXT:    [[OMP_ARRAYCPY_SRCELEMENTPAST:%.*]] = phi ptr [ [[TMP5]], [[ENTRY:%.*]] ], [ [[OMP_ARRAYCPY_SRC_ELEMENT:%.*]], [[OMP_ARRAYCPY_BODY]] ]
 // IR-NEXT:    [[OMP_ARRAYCPY_DESTELEMENTPAST:%.*]] = phi ptr [ [[TMP7]], [[ENTRY]] ], [ [[OMP_ARRAYCPY_DEST_ELEMENT:%.*]], [[OMP_ARRAYCPY_BODY]] ]
-// IR-NEXT:    [[TMP9:%.*]] = load i32, ptr [[OMP_ARRAYCPY_DESTELEMENTPAST]], align 4
-// IR-NEXT:    [[TMP10:%.*]] = load i32, ptr [[OMP_ARRAYCPY_SRCELEMENTPAST]], align 4
+// IR-NEXT:    [[TMP9:%.*]] = load i32, ptr [[OMP_ARRAYCPY_DESTELEMENTPAST]], align 4, !freeze_bits [[META3]]
+// IR-NEXT:    [[TMP10:%.*]] = load i32, ptr [[OMP_ARRAYCPY_SRCELEMENTPAST]], align 4, !freeze_bits [[META3]]
 // IR-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP9]], [[TMP10]]
 // IR-NEXT:    store i32 [[ADD]], ptr [[OMP_ARRAYCPY_DESTELEMENTPAST]], align 4
 // IR-NEXT:    [[OMP_ARRAYCPY_DEST_ELEMENT]] = getelementptr i32, ptr [[OMP_ARRAYCPY_DESTELEMENTPAST]], i32 1
@@ -225,6 +245,10 @@ int foo() {
 // IR-PCH-NEXT:    [[I:%.*]] = alloca i32, align 4
 // IR-PCH-NEXT:    [[J:%.*]] = alloca i32, align 4
 // IR-PCH-NEXT:    [[SUM:%.*]] = alloca [10 x [10 x i32]], align 16
+// IR-PCH-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// IR-PCH-NEXT:    store i32 [[FREEZE_POISON]], ptr [[I]], align 4
+// IR-PCH-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// IR-PCH-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[J]], align 4
 // IR-PCH-NEXT:    call void (ptr, i32, ptr, ...) @__kmpc_fork_teams(ptr @[[GLOB3:[0-9]+]], i32 2, ptr @_Z3foov.omp_outlined, ptr [[J]], ptr [[SUM]])
 // IR-PCH-NEXT:    ret i32 0
 //
@@ -244,16 +268,16 @@ int foo() {
 // IR-PCH-NEXT:    [[DOTOMP_COMB_UB:%.*]] = alloca i32, align 4
 // IR-PCH-NEXT:    [[DOTOMP_STRIDE:%.*]] = alloca i32, align 4
 // IR-PCH-NEXT:    [[DOTOMP_IS_LAST:%.*]] = alloca i32, align 4
-// IR-PCH-NEXT:    [[J3:%.*]] = alloca i32, align 4
+// IR-PCH-NEXT:    [[J7:%.*]] = alloca i32, align 4
 // IR-PCH-NEXT:    [[I:%.*]] = alloca i32, align 4
-// IR-PCH-NEXT:    [[J4:%.*]] = alloca i32, align 4
+// IR-PCH-NEXT:    [[J10:%.*]] = alloca i32, align 4
 // IR-PCH-NEXT:    [[DOTOMP_REDUCTION_RED_LIST:%.*]] = alloca [1 x ptr], align 8
 // IR-PCH-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // IR-PCH-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
 // IR-PCH-NEXT:    store ptr [[J]], ptr [[J_ADDR]], align 8
 // IR-PCH-NEXT:    store ptr [[SUM]], ptr [[SUM_ADDR]], align 8
-// IR-PCH-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[J_ADDR]], align 8
-// IR-PCH-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[SUM_ADDR]], align 8
+// IR-PCH-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[J_ADDR]], align 8, !nonnull [[META3:![0-9]+]], !align [[META4:![0-9]+]]
+// IR-PCH-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[SUM_ADDR]], align 8, !nonnull [[META3]], !align [[META4]]
 // IR-PCH-NEXT:    [[ARRAY_BEGIN:%.*]] = getelementptr inbounds [10 x [10 x i32]], ptr [[SUM1]], i32 0, i32 0, i32 0
 // IR-PCH-NEXT:    [[TMP2:%.*]] = getelementptr i32, ptr [[ARRAY_BEGIN]], i64 100
 // IR-PCH-NEXT:    [[OMP_ARRAYINIT_ISEMPTY:%.*]] = icmp eq ptr [[ARRAY_BEGIN]], [[TMP2]]
@@ -265,12 +289,28 @@ int foo() {
 // IR-PCH-NEXT:    [[OMP_ARRAYCPY_DONE:%.*]] = icmp eq ptr [[OMP_ARRAYCPY_DEST_ELEMENT]], [[TMP2]]
 // IR-PCH-NEXT:    br i1 [[OMP_ARRAYCPY_DONE]], label [[OMP_ARRAYINIT_DONE]], label [[OMP_ARRAYINIT_BODY]]
 // IR-PCH:       omp.arrayinit.done:
+// IR-PCH-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// IR-PCH-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// IR-PCH-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// IR-PCH-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_COMB_LB]], align 4
 // IR-PCH-NEXT:    store i32 0, ptr [[DOTOMP_COMB_LB]], align 4
+// IR-PCH-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// IR-PCH-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_COMB_UB]], align 4
 // IR-PCH-NEXT:    store i32 99, ptr [[DOTOMP_COMB_UB]], align 4
+// IR-PCH-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// IR-PCH-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[DOTOMP_STRIDE]], align 4
 // IR-PCH-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// IR-PCH-NEXT:    [[FREEZE_POISON6:%.*]] = freeze i32 poison
+// IR-PCH-NEXT:    store i32 [[FREEZE_POISON6]], ptr [[DOTOMP_IS_LAST]], align 4
 // IR-PCH-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// IR-PCH-NEXT:    [[FREEZE_POISON8:%.*]] = freeze i32 poison
+// IR-PCH-NEXT:    store i32 [[FREEZE_POISON8]], ptr [[J7]], align 4
+// IR-PCH-NEXT:    [[FREEZE_POISON9:%.*]] = freeze i32 poison
+// IR-PCH-NEXT:    store i32 [[FREEZE_POISON9]], ptr [[I]], align 4
+// IR-PCH-NEXT:    [[FREEZE_POISON11:%.*]] = freeze i32 poison
+// IR-PCH-NEXT:    store i32 [[FREEZE_POISON11]], ptr [[J10]], align 4
 // IR-PCH-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// IR-PCH-NEXT:    [[TMP4:%.*]] = load i32, ptr [[TMP3]], align 4
+// IR-PCH-NEXT:    [[TMP4:%.*]] = load i32, ptr [[TMP3]], align 4, !freeze_bits [[META3]]
 // IR-PCH-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1:[0-9]+]], i32 [[TMP4]], i32 92, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_COMB_LB]], ptr [[DOTOMP_COMB_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // IR-PCH-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4
 // IR-PCH-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[TMP5]], 99
@@ -289,8 +329,8 @@ int foo() {
 // IR-PCH:       omp.inner.for.cond:
 // IR-PCH-NEXT:    [[TMP8:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // IR-PCH-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTOMP_COMB_UB]], align 4
-// IR-PCH-NEXT:    [[CMP5:%.*]] = icmp sle i32 [[TMP8]], [[TMP9]]
-// IR-PCH-NEXT:    br i1 [[CMP5]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// IR-PCH-NEXT:    [[CMP12:%.*]] = icmp sle i32 [[TMP8]], [[TMP9]]
+// IR-PCH-NEXT:    br i1 [[CMP12]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // IR-PCH:       omp.inner.for.body:
 // IR-PCH-NEXT:    [[TMP10:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // IR-PCH-NEXT:    [[DIV:%.*]] = sdiv i32 [[TMP10]], 10
@@ -299,49 +339,49 @@ int foo() {
 // IR-PCH-NEXT:    store i32 [[ADD]], ptr [[I]], align 4
 // IR-PCH-NEXT:    [[TMP11:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // IR-PCH-NEXT:    [[TMP12:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// IR-PCH-NEXT:    [[DIV6:%.*]] = sdiv i32 [[TMP12]], 10
-// IR-PCH-NEXT:    [[MUL7:%.*]] = mul nsw i32 [[DIV6]], 10
-// IR-PCH-NEXT:    [[SUB:%.*]] = sub nsw i32 [[TMP11]], [[MUL7]]
-// IR-PCH-NEXT:    [[MUL8:%.*]] = mul nsw i32 [[SUB]], 1
-// IR-PCH-NEXT:    [[ADD9:%.*]] = add nsw i32 0, [[MUL8]]
-// IR-PCH-NEXT:    store i32 [[ADD9]], ptr [[J3]], align 4
+// IR-PCH-NEXT:    [[DIV13:%.*]] = sdiv i32 [[TMP12]], 10
+// IR-PCH-NEXT:    [[MUL14:%.*]] = mul nsw i32 [[DIV13]], 10
+// IR-PCH-NEXT:    [[SUB:%.*]] = sub nsw i32 [[TMP11]], [[MUL14]]
+// IR-PCH-NEXT:    [[MUL15:%.*]] = mul nsw i32 [[SUB]], 1
+// IR-PCH-NEXT:    [[ADD16:%.*]] = add nsw i32 0, [[MUL15]]
+// IR-PCH-NEXT:    store i32 [[ADD16]], ptr [[J7]], align 4
 // IR-PCH-NEXT:    [[TMP13:%.*]] = load i32, ptr [[I]], align 4
 // IR-PCH-NEXT:    [[TMP14:%.*]] = load i32, ptr [[I]], align 4
 // IR-PCH-NEXT:    [[IDXPROM:%.*]] = sext i32 [[TMP14]] to i64
 // IR-PCH-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [10 x [10 x i32]], ptr [[SUM1]], i64 0, i64 [[IDXPROM]]
-// IR-PCH-NEXT:    [[TMP15:%.*]] = load i32, ptr [[J3]], align 4
-// IR-PCH-NEXT:    [[IDXPROM10:%.*]] = sext i32 [[TMP15]] to i64
-// IR-PCH-NEXT:    [[ARRAYIDX11:%.*]] = getelementptr inbounds [10 x i32], ptr [[ARRAYIDX]], i64 0, i64 [[IDXPROM10]]
-// IR-PCH-NEXT:    [[TMP16:%.*]] = load i32, ptr [[ARRAYIDX11]], align 4
-// IR-PCH-NEXT:    [[ADD12:%.*]] = add nsw i32 [[TMP16]], [[TMP13]]
-// IR-PCH-NEXT:    store i32 [[ADD12]], ptr [[ARRAYIDX11]], align 4
+// IR-PCH-NEXT:    [[TMP15:%.*]] = load i32, ptr [[J7]], align 4
+// IR-PCH-NEXT:    [[IDXPROM17:%.*]] = sext i32 [[TMP15]] to i64
+// IR-PCH-NEXT:    [[ARRAYIDX18:%.*]] = getelementptr inbounds [10 x i32], ptr [[ARRAYIDX]], i64 0, i64 [[IDXPROM17]]
+// IR-PCH-NEXT:    [[TMP16:%.*]] = load i32, ptr [[ARRAYIDX18]], align 4, !freeze_bits [[META3]]
+// IR-PCH-NEXT:    [[ADD19:%.*]] = add nsw i32 [[TMP16]], [[TMP13]]
+// IR-PCH-NEXT:    store i32 [[ADD19]], ptr [[ARRAYIDX18]], align 4
 // IR-PCH-NEXT:    br label [[OMP_BODY_CONTINUE:%.*]]
 // IR-PCH:       omp.body.continue:
 // IR-PCH-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // IR-PCH:       omp.inner.for.inc:
 // IR-PCH-NEXT:    [[TMP17:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// IR-PCH-NEXT:    [[ADD13:%.*]] = add nsw i32 [[TMP17]], 1
-// IR-PCH-NEXT:    store i32 [[ADD13]], ptr [[DOTOMP_IV]], align 4
+// IR-PCH-NEXT:    [[ADD20:%.*]] = add nsw i32 [[TMP17]], 1
+// IR-PCH-NEXT:    store i32 [[ADD20]], ptr [[DOTOMP_IV]], align 4
 // IR-PCH-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // IR-PCH:       omp.inner.for.end:
 // IR-PCH-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
 // IR-PCH:       omp.loop.exit:
 // IR-PCH-NEXT:    [[TMP18:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// IR-PCH-NEXT:    [[TMP19:%.*]] = load i32, ptr [[TMP18]], align 4
+// IR-PCH-NEXT:    [[TMP19:%.*]] = load i32, ptr [[TMP18]], align 4, !freeze_bits [[META3]]
 // IR-PCH-NEXT:    call void @__kmpc_for_static_fini(ptr @[[GLOB1]], i32 [[TMP19]])
 // IR-PCH-NEXT:    [[TMP20:%.*]] = load i32, ptr [[DOTOMP_IS_LAST]], align 4
 // IR-PCH-NEXT:    [[TMP21:%.*]] = icmp ne i32 [[TMP20]], 0
 // IR-PCH-NEXT:    br i1 [[TMP21]], label [[DOTOMP_LASTPRIVATE_THEN:%.*]], label [[DOTOMP_LASTPRIVATE_DONE:%.*]]
 // IR-PCH:       .omp.lastprivate.then:
-// IR-PCH-NEXT:    store i32 10, ptr [[J3]], align 4
-// IR-PCH-NEXT:    [[TMP22:%.*]] = load i32, ptr [[J3]], align 4
+// IR-PCH-NEXT:    store i32 10, ptr [[J7]], align 4
+// IR-PCH-NEXT:    [[TMP22:%.*]] = load i32, ptr [[J7]], align 4
 // IR-PCH-NEXT:    store i32 [[TMP22]], ptr [[TMP0]], align 4
 // IR-PCH-NEXT:    br label [[DOTOMP_LASTPRIVATE_DONE]]
 // IR-PCH:       .omp.lastprivate.done:
 // IR-PCH-NEXT:    [[TMP23:%.*]] = getelementptr inbounds [1 x ptr], ptr [[DOTOMP_REDUCTION_RED_LIST]], i64 0, i64 0
 // IR-PCH-NEXT:    store ptr [[SUM1]], ptr [[TMP23]], align 8
 // IR-PCH-NEXT:    [[TMP24:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// IR-PCH-NEXT:    [[TMP25:%.*]] = load i32, ptr [[TMP24]], align 4
+// IR-PCH-NEXT:    [[TMP25:%.*]] = load i32, ptr [[TMP24]], align 4, !freeze_bits [[META3]]
 // IR-PCH-NEXT:    [[TMP26:%.*]] = call i32 @__kmpc_reduce_nowait(ptr @[[GLOB2:[0-9]+]], i32 [[TMP25]], i32 1, i64 8, ptr [[DOTOMP_REDUCTION_RED_LIST]], ptr @_Z3foov.omp_outlined.omp.reduction.reduction_func, ptr @.gomp_critical_user_.reduction.var)
 // IR-PCH-NEXT:    switch i32 [[TMP26]], label [[DOTOMP_REDUCTION_DEFAULT:%.*]] [
 // IR-PCH-NEXT:      i32 1, label [[DOTOMP_REDUCTION_CASE1:%.*]]
@@ -350,35 +390,35 @@ int foo() {
 // IR-PCH:       .omp.reduction.case1:
 // IR-PCH-NEXT:    [[TMP27:%.*]] = getelementptr i32, ptr [[TMP1]], i64 100
 // IR-PCH-NEXT:    [[OMP_ARRAYCPY_ISEMPTY:%.*]] = icmp eq ptr [[TMP1]], [[TMP27]]
-// IR-PCH-NEXT:    br i1 [[OMP_ARRAYCPY_ISEMPTY]], label [[OMP_ARRAYCPY_DONE18:%.*]], label [[OMP_ARRAYCPY_BODY:%.*]]
+// IR-PCH-NEXT:    br i1 [[OMP_ARRAYCPY_ISEMPTY]], label [[OMP_ARRAYCPY_DONE25:%.*]], label [[OMP_ARRAYCPY_BODY:%.*]]
 // IR-PCH:       omp.arraycpy.body:
 // IR-PCH-NEXT:    [[OMP_ARRAYCPY_SRCELEMENTPAST:%.*]] = phi ptr [ [[SUM1]], [[DOTOMP_REDUCTION_CASE1]] ], [ [[OMP_ARRAYCPY_SRC_ELEMENT:%.*]], [[OMP_ARRAYCPY_BODY]] ]
-// IR-PCH-NEXT:    [[OMP_ARRAYCPY_DESTELEMENTPAST14:%.*]] = phi ptr [ [[TMP1]], [[DOTOMP_REDUCTION_CASE1]] ], [ [[OMP_ARRAYCPY_DEST_ELEMENT16:%.*]], [[OMP_ARRAYCPY_BODY]] ]
-// IR-PCH-NEXT:    [[TMP28:%.*]] = load i32, ptr [[OMP_ARRAYCPY_DESTELEMENTPAST14]], align 4
-// IR-PCH-NEXT:    [[TMP29:%.*]] = load i32, ptr [[OMP_ARRAYCPY_SRCELEMENTPAST]], align 4
-// IR-PCH-NEXT:    [[ADD15:%.*]] = add nsw i32 [[TMP28]], [[TMP29]]
-// IR-PCH-NEXT:    store i32 [[ADD15]], ptr [[OMP_ARRAYCPY_DESTELEMENTPAST14]], align 4
-// IR-PCH-NEXT:    [[OMP_ARRAYCPY_DEST_ELEMENT16]] = getelementptr i32, ptr [[OMP_ARRAYCPY_DESTELEMENTPAST14]], i32 1
+// IR-PCH-NEXT:    [[OMP_ARRAYCPY_DESTELEMENTPAST21:%.*]] = phi ptr [ [[TMP1]], [[DOTOMP_REDUCTION_CASE1]] ], [ [[OMP_ARRAYCPY_DEST_ELEMENT23:%.*]], [[OMP_ARRAYCPY_BODY]] ]
+// IR-PCH-NEXT:    [[TMP28:%.*]] = load i32, ptr [[OMP_ARRAYCPY_DESTELEMENTPAST21]], align 4, !freeze_bits [[META3]]
+// IR-PCH-NEXT:    [[TMP29:%.*]] = load i32, ptr [[OMP_ARRAYCPY_SRCELEMENTPAST]], align 4, !freeze_bits [[META3]]
+// IR-PCH-NEXT:    [[ADD22:%.*]] = add nsw i32 [[TMP28]], [[TMP29]]
+// IR-PCH-NEXT:    store i32 [[ADD22]], ptr [[OMP_ARRAYCPY_DESTELEMENTPAST21]], align 4
+// IR-PCH-NEXT:    [[OMP_ARRAYCPY_DEST_ELEMENT23]] = getelementptr i32, ptr [[OMP_ARRAYCPY_DESTELEMENTPAST21]], i32 1
 // IR-PCH-NEXT:    [[OMP_ARRAYCPY_SRC_ELEMENT]] = getelementptr i32, ptr [[OMP_ARRAYCPY_SRCELEMENTPAST]], i32 1
-// IR-PCH-NEXT:    [[OMP_ARRAYCPY_DONE17:%.*]] = icmp eq ptr [[OMP_ARRAYCPY_DEST_ELEMENT16]], [[TMP27]]
-// IR-PCH-NEXT:    br i1 [[OMP_ARRAYCPY_DONE17]], label [[OMP_ARRAYCPY_DONE18]], label [[OMP_ARRAYCPY_BODY]]
-// IR-PCH:       omp.arraycpy.done18:
+// IR-PCH-NEXT:    [[OMP_ARRAYCPY_DONE24:%.*]] = icmp eq ptr [[OMP_ARRAYCPY_DEST_ELEMENT23]], [[TMP27]]
+// IR-PCH-NEXT:    br i1 [[OMP_ARRAYCPY_DONE24]], label [[OMP_ARRAYCPY_DONE25]], label [[OMP_ARRAYCPY_BODY]]
+// IR-PCH:       omp.arraycpy.done25:
 // IR-PCH-NEXT:    call void @__kmpc_end_reduce_nowait(ptr @[[GLOB2]], i32 [[TMP25]], ptr @.gomp_critical_user_.reduction.var)
 // IR-PCH-NEXT:    br label [[DOTOMP_REDUCTION_DEFAULT]]
 // IR-PCH:       .omp.reduction.case2:
 // IR-PCH-NEXT:    [[TMP30:%.*]] = getelementptr i32, ptr [[TMP1]], i64 100
-// IR-PCH-NEXT:    [[OMP_ARRAYCPY_ISEMPTY19:%.*]] = icmp eq ptr [[TMP1]], [[TMP30]]
-// IR-PCH-NEXT:    br i1 [[OMP_ARRAYCPY_ISEMPTY19]], label [[OMP_ARRAYCPY_DONE26:%.*]], label [[OMP_ARRAYCPY_BODY20:%.*]]
-// IR-PCH:       omp.arraycpy.body20:
-// IR-PCH-NEXT:    [[OMP_ARRAYCPY_SRCELEMENTPAST21:%.*]] = phi ptr [ [[SUM1]], [[DOTOMP_REDUCTION_CASE2]] ], [ [[OMP_ARRAYCPY_SRC_ELEMENT24:%.*]], [[OMP_ARRAYCPY_BODY20]] ]
-// IR-PCH-NEXT:    [[OMP_ARRAYCPY_DESTELEMENTPAST22:%.*]] = phi ptr [ [[TMP1]], [[DOTOMP_REDUCTION_CASE2]] ], [ [[OMP_ARRAYCPY_DEST_ELEMENT23:%.*]], [[OMP_ARRAYCPY_BODY20]] ]
-// IR-PCH-NEXT:    [[TMP31:%.*]] = load i32, ptr [[OMP_ARRAYCPY_SRCELEMENTPAST21]], align 4
-// IR-PCH-NEXT:    [[TMP32:%.*]] = atomicrmw add ptr [[OMP_ARRAYCPY_DESTELEMENTPAST22]], i32 [[TMP31]] monotonic, align 4
-// IR-PCH-NEXT:    [[OMP_ARRAYCPY_DEST_ELEMENT23]] = getelementptr i32, ptr [[OMP_ARRAYCPY_DESTELEMENTPAST22]], i32 1
-// IR-PCH-NEXT:    [[OMP_ARRAYCPY_SRC_ELEMENT24]] = getelementptr i32, ptr [[OMP_ARRAYCPY_SRCELEMENTPAST21]], i32 1
-// IR-PCH-NEXT:    [[OMP_ARRAYCPY_DONE25:%.*]] = icmp eq ptr [[OMP_ARRAYCPY_DEST_ELEMENT23]], [[TMP30]]
-// IR-PCH-NEXT:    br i1 [[OMP_ARRAYCPY_DONE25]], label [[OMP_ARRAYCPY_DONE26]], label [[OMP_ARRAYCPY_BODY20]]
-// IR-PCH:       omp.arraycpy.done26:
+// IR-PCH-NEXT:    [[OMP_ARRAYCPY_ISEMPTY26:%.*]] = icmp eq ptr [[TMP1]], [[TMP30]]
+// IR-PCH-NEXT:    br i1 [[OMP_ARRAYCPY_ISEMPTY26]], label [[OMP_ARRAYCPY_DONE33:%.*]], label [[OMP_ARRAYCPY_BODY27:%.*]]
+// IR-PCH:       omp.arraycpy.body27:
+// IR-PCH-NEXT:    [[OMP_ARRAYCPY_SRCELEMENTPAST28:%.*]] = phi ptr [ [[SUM1]], [[DOTOMP_REDUCTION_CASE2]] ], [ [[OMP_ARRAYCPY_SRC_ELEMENT31:%.*]], [[OMP_ARRAYCPY_BODY27]] ]
+// IR-PCH-NEXT:    [[OMP_ARRAYCPY_DESTELEMENTPAST29:%.*]] = phi ptr [ [[TMP1]], [[DOTOMP_REDUCTION_CASE2]] ], [ [[OMP_ARRAYCPY_DEST_ELEMENT30:%.*]], [[OMP_ARRAYCPY_BODY27]] ]
+// IR-PCH-NEXT:    [[TMP31:%.*]] = load i32, ptr [[OMP_ARRAYCPY_SRCELEMENTPAST28]], align 4, !freeze_bits [[META3]]
+// IR-PCH-NEXT:    [[TMP32:%.*]] = atomicrmw add ptr [[OMP_ARRAYCPY_DESTELEMENTPAST29]], i32 [[TMP31]] monotonic, align 4
+// IR-PCH-NEXT:    [[OMP_ARRAYCPY_DEST_ELEMENT30]] = getelementptr i32, ptr [[OMP_ARRAYCPY_DESTELEMENTPAST29]], i32 1
+// IR-PCH-NEXT:    [[OMP_ARRAYCPY_SRC_ELEMENT31]] = getelementptr i32, ptr [[OMP_ARRAYCPY_SRCELEMENTPAST28]], i32 1
+// IR-PCH-NEXT:    [[OMP_ARRAYCPY_DONE32:%.*]] = icmp eq ptr [[OMP_ARRAYCPY_DEST_ELEMENT30]], [[TMP30]]
+// IR-PCH-NEXT:    br i1 [[OMP_ARRAYCPY_DONE32]], label [[OMP_ARRAYCPY_DONE33]], label [[OMP_ARRAYCPY_BODY27]]
+// IR-PCH:       omp.arraycpy.done33:
 // IR-PCH-NEXT:    br label [[DOTOMP_REDUCTION_DEFAULT]]
 // IR-PCH:       .omp.reduction.default:
 // IR-PCH-NEXT:    ret void
@@ -394,17 +434,17 @@ int foo() {
 // IR-PCH-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[DOTADDR]], align 8
 // IR-PCH-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[DOTADDR1]], align 8
 // IR-PCH-NEXT:    [[TMP4:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP3]], i64 0, i64 0
-// IR-PCH-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[TMP4]], align 8
+// IR-PCH-NEXT:    [[TMP5:%.*]] = load ptr, ptr [[TMP4]], align 8, !freeze_bits [[META3]]
 // IR-PCH-NEXT:    [[TMP6:%.*]] = getelementptr inbounds [1 x ptr], ptr [[TMP2]], i64 0, i64 0
-// IR-PCH-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[TMP6]], align 8
+// IR-PCH-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[TMP6]], align 8, !freeze_bits [[META3]]
 // IR-PCH-NEXT:    [[TMP8:%.*]] = getelementptr i32, ptr [[TMP7]], i64 100
 // IR-PCH-NEXT:    [[OMP_ARRAYCPY_ISEMPTY:%.*]] = icmp eq ptr [[TMP7]], [[TMP8]]
 // IR-PCH-NEXT:    br i1 [[OMP_ARRAYCPY_ISEMPTY]], label [[OMP_ARRAYCPY_DONE2:%.*]], label [[OMP_ARRAYCPY_BODY:%.*]]
 // IR-PCH:       omp.arraycpy.body:
 // IR-PCH-NEXT:    [[OMP_ARRAYCPY_SRCELEMENTPAST:%.*]] = phi ptr [ [[TMP5]], [[ENTRY:%.*]] ], [ [[OMP_ARRAYCPY_SRC_ELEMENT:%.*]], [[OMP_ARRAYCPY_BODY]] ]
 // IR-PCH-NEXT:    [[OMP_ARRAYCPY_DESTELEMENTPAST:%.*]] = phi ptr [ [[TMP7]], [[ENTRY]] ], [ [[OMP_ARRAYCPY_DEST_ELEMENT:%.*]], [[OMP_ARRAYCPY_BODY]] ]
-// IR-PCH-NEXT:    [[TMP9:%.*]] = load i32, ptr [[OMP_ARRAYCPY_DESTELEMENTPAST]], align 4
-// IR-PCH-NEXT:    [[TMP10:%.*]] = load i32, ptr [[OMP_ARRAYCPY_SRCELEMENTPAST]], align 4
+// IR-PCH-NEXT:    [[TMP9:%.*]] = load i32, ptr [[OMP_ARRAYCPY_DESTELEMENTPAST]], align 4, !freeze_bits [[META3]]
+// IR-PCH-NEXT:    [[TMP10:%.*]] = load i32, ptr [[OMP_ARRAYCPY_SRCELEMENTPAST]], align 4, !freeze_bits [[META3]]
 // IR-PCH-NEXT:    [[ADD:%.*]] = add nsw i32 [[TMP9]], [[TMP10]]
 // IR-PCH-NEXT:    store i32 [[ADD]], ptr [[OMP_ARRAYCPY_DESTELEMENTPAST]], align 4
 // IR-PCH-NEXT:    [[OMP_ARRAYCPY_DEST_ELEMENT]] = getelementptr i32, ptr [[OMP_ARRAYCPY_DESTELEMENTPAST]], i32 1

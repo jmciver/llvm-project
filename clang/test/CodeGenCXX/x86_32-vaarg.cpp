@@ -10,6 +10,8 @@ typedef struct {} empty;
 // CHECK-NEXT:    [[LIST:%.*]] = alloca ptr, align 4
 // CHECK-NEXT:    store ptr [[AGG_RESULT:%.*]], ptr [[RESULT_PTR]], align 4
 // CHECK-NEXT:    store i32 [[Z:%.*]], ptr [[Z_ADDR]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[LIST]], align 4
 // CHECK-NEXT:    call void @llvm.va_start.p0(ptr [[LIST]])
 // CHECK-NEXT:    ret void
 //
@@ -32,6 +34,8 @@ typedef struct {
 // CHECK-NEXT:    [[LIST:%.*]] = alloca ptr, align 4
 // CHECK-NEXT:    store ptr [[AGG_RESULT:%.*]], ptr [[RESULT_PTR]], align 4
 // CHECK-NEXT:    store i32 [[Z:%.*]], ptr [[Z_ADDR]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[LIST]], align 4
 // CHECK-NEXT:    call void @llvm.va_start.p0(ptr [[LIST]])
 // CHECK-NEXT:    ret void
 //

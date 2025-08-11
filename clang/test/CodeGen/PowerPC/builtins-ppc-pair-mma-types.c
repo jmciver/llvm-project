@@ -14,13 +14,21 @@
 // CHECK-NEXT:    [[VQ3:%.*]] = alloca <512 x i1>, align 64
 // CHECK-NEXT:    store ptr [[PTR:%.*]], ptr [[PTR_ADDR]], align 8
 // CHECK-NEXT:    store <16 x i8> [[VC:%.*]], ptr [[VC_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[VQP]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[PTR_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[TMP0]], ptr [[VQP]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze <512 x i1> poison
+// CHECK-NEXT:    store <512 x i1> [[FREEZE_POISON1]], ptr [[VQ1]], align 64
 // CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[VQP]], align 8
-// CHECK-NEXT:    [[TMP2:%.*]] = load <512 x i1>, ptr [[TMP1]], align 64
+// CHECK-NEXT:    [[TMP2:%.*]] = load <512 x i1>, ptr [[TMP1]], align 64, !freeze_bits [[META2:![0-9]+]]
 // CHECK-NEXT:    store <512 x i1> [[TMP2]], ptr [[VQ1]], align 64
+// CHECK-NEXT:    [[FREEZE_POISON2:%.*]] = freeze <512 x i1> poison
+// CHECK-NEXT:    store <512 x i1> [[FREEZE_POISON2]], ptr [[VQ2]], align 64
 // CHECK-NEXT:    [[TMP3:%.*]] = call <512 x i1> @llvm.ppc.mma.xxsetaccz()
 // CHECK-NEXT:    store <512 x i1> [[TMP3]], ptr [[VQ2]], align 64
+// CHECK-NEXT:    [[FREEZE_POISON3:%.*]] = freeze <512 x i1> poison
+// CHECK-NEXT:    store <512 x i1> [[FREEZE_POISON3]], ptr [[VQ3]], align 64
 // CHECK-NEXT:    [[TMP4:%.*]] = load <16 x i8>, ptr [[VC_ADDR]], align 16
 // CHECK-NEXT:    [[TMP5:%.*]] = load <16 x i8>, ptr [[VC_ADDR]], align 16
 // CHECK-NEXT:    [[TMP6:%.*]] = call <512 x i1> @llvm.ppc.mma.xvi4ger8(<16 x i8> [[TMP4]], <16 x i8> [[TMP5]])
@@ -40,13 +48,21 @@
 // CHECK-BE-NEXT:    [[VQ3:%.*]] = alloca <512 x i1>, align 64
 // CHECK-BE-NEXT:    store ptr [[PTR:%.*]], ptr [[PTR_ADDR]], align 8
 // CHECK-BE-NEXT:    store <16 x i8> [[VC:%.*]], ptr [[VC_ADDR]], align 16
+// CHECK-BE-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-BE-NEXT:    store ptr [[FREEZE_POISON]], ptr [[VQP]], align 8
 // CHECK-BE-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[PTR_ADDR]], align 8
 // CHECK-BE-NEXT:    store ptr [[TMP0]], ptr [[VQP]], align 8
+// CHECK-BE-NEXT:    [[FREEZE_POISON1:%.*]] = freeze <512 x i1> poison
+// CHECK-BE-NEXT:    store <512 x i1> [[FREEZE_POISON1]], ptr [[VQ1]], align 64
 // CHECK-BE-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[VQP]], align 8
-// CHECK-BE-NEXT:    [[TMP2:%.*]] = load <512 x i1>, ptr [[TMP1]], align 64
+// CHECK-BE-NEXT:    [[TMP2:%.*]] = load <512 x i1>, ptr [[TMP1]], align 64, !freeze_bits [[META2:![0-9]+]]
 // CHECK-BE-NEXT:    store <512 x i1> [[TMP2]], ptr [[VQ1]], align 64
+// CHECK-BE-NEXT:    [[FREEZE_POISON2:%.*]] = freeze <512 x i1> poison
+// CHECK-BE-NEXT:    store <512 x i1> [[FREEZE_POISON2]], ptr [[VQ2]], align 64
 // CHECK-BE-NEXT:    [[TMP3:%.*]] = call <512 x i1> @llvm.ppc.mma.xxsetaccz()
 // CHECK-BE-NEXT:    store <512 x i1> [[TMP3]], ptr [[VQ2]], align 64
+// CHECK-BE-NEXT:    [[FREEZE_POISON3:%.*]] = freeze <512 x i1> poison
+// CHECK-BE-NEXT:    store <512 x i1> [[FREEZE_POISON3]], ptr [[VQ3]], align 64
 // CHECK-BE-NEXT:    [[TMP4:%.*]] = load <16 x i8>, ptr [[VC_ADDR]], align 16
 // CHECK-BE-NEXT:    [[TMP5:%.*]] = load <16 x i8>, ptr [[VC_ADDR]], align 16
 // CHECK-BE-NEXT:    [[TMP6:%.*]] = call <512 x i1> @llvm.ppc.mma.xvi4ger8(<16 x i8> [[TMP4]], <16 x i8> [[TMP5]])
@@ -77,11 +93,17 @@ void testVQLocal(int *ptr, vector unsigned char vc) {
 // CHECK-NEXT:    [[VQ:%.*]] = alloca <512 x i1>, align 64
 // CHECK-NEXT:    store ptr [[PTR:%.*]], ptr [[PTR_ADDR]], align 8
 // CHECK-NEXT:    store <16 x i8> [[VC:%.*]], ptr [[VC_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[VPP]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[PTR_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[TMP0]], ptr [[VPP]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze <256 x i1> poison
+// CHECK-NEXT:    store <256 x i1> [[FREEZE_POISON1]], ptr [[VP1]], align 32
 // CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[VPP]], align 8
-// CHECK-NEXT:    [[TMP2:%.*]] = load <256 x i1>, ptr [[TMP1]], align 32
+// CHECK-NEXT:    [[TMP2:%.*]] = load <256 x i1>, ptr [[TMP1]], align 32, !freeze_bits [[META2]]
 // CHECK-NEXT:    store <256 x i1> [[TMP2]], ptr [[VP1]], align 32
+// CHECK-NEXT:    [[FREEZE_POISON2:%.*]] = freeze <256 x i1> poison
+// CHECK-NEXT:    store <256 x i1> [[FREEZE_POISON2]], ptr [[VP2]], align 32
 // CHECK-NEXT:    [[TMP3:%.*]] = load <16 x i8>, ptr [[VC_ADDR]], align 16
 // CHECK-NEXT:    [[TMP4:%.*]] = load <16 x i8>, ptr [[VC_ADDR]], align 16
 // CHECK-NEXT:    [[TMP5:%.*]] = call <256 x i1> @llvm.ppc.vsx.assemble.pair(<16 x i8> [[TMP3]], <16 x i8> [[TMP4]])
@@ -90,6 +112,10 @@ void testVQLocal(int *ptr, vector unsigned char vc) {
 // CHECK-NEXT:    [[TMP7:%.*]] = load <16 x i8>, ptr [[VC_ADDR]], align 16
 // CHECK-NEXT:    [[TMP8:%.*]] = call <256 x i1> @llvm.ppc.vsx.assemble.pair(<16 x i8> [[TMP7]], <16 x i8> [[TMP6]])
 // CHECK-NEXT:    store <256 x i1> [[TMP8]], ptr [[VP2]], align 32
+// CHECK-NEXT:    [[FREEZE_POISON3:%.*]] = freeze <256 x i1> poison
+// CHECK-NEXT:    store <256 x i1> [[FREEZE_POISON3]], ptr [[VP3]], align 32
+// CHECK-NEXT:    [[FREEZE_POISON4:%.*]] = freeze <512 x i1> poison
+// CHECK-NEXT:    store <512 x i1> [[FREEZE_POISON4]], ptr [[VQ]], align 64
 // CHECK-NEXT:    [[TMP9:%.*]] = load <256 x i1>, ptr [[VP3]], align 32
 // CHECK-NEXT:    [[TMP10:%.*]] = load <16 x i8>, ptr [[VC_ADDR]], align 16
 // CHECK-NEXT:    [[TMP11:%.*]] = call <512 x i1> @llvm.ppc.mma.xvf64ger(<256 x i1> [[TMP9]], <16 x i8> [[TMP10]])
@@ -110,11 +136,17 @@ void testVQLocal(int *ptr, vector unsigned char vc) {
 // CHECK-BE-NEXT:    [[VQ:%.*]] = alloca <512 x i1>, align 64
 // CHECK-BE-NEXT:    store ptr [[PTR:%.*]], ptr [[PTR_ADDR]], align 8
 // CHECK-BE-NEXT:    store <16 x i8> [[VC:%.*]], ptr [[VC_ADDR]], align 16
+// CHECK-BE-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-BE-NEXT:    store ptr [[FREEZE_POISON]], ptr [[VPP]], align 8
 // CHECK-BE-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[PTR_ADDR]], align 8
 // CHECK-BE-NEXT:    store ptr [[TMP0]], ptr [[VPP]], align 8
+// CHECK-BE-NEXT:    [[FREEZE_POISON1:%.*]] = freeze <256 x i1> poison
+// CHECK-BE-NEXT:    store <256 x i1> [[FREEZE_POISON1]], ptr [[VP1]], align 32
 // CHECK-BE-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[VPP]], align 8
-// CHECK-BE-NEXT:    [[TMP2:%.*]] = load <256 x i1>, ptr [[TMP1]], align 32
+// CHECK-BE-NEXT:    [[TMP2:%.*]] = load <256 x i1>, ptr [[TMP1]], align 32, !freeze_bits [[META2]]
 // CHECK-BE-NEXT:    store <256 x i1> [[TMP2]], ptr [[VP1]], align 32
+// CHECK-BE-NEXT:    [[FREEZE_POISON2:%.*]] = freeze <256 x i1> poison
+// CHECK-BE-NEXT:    store <256 x i1> [[FREEZE_POISON2]], ptr [[VP2]], align 32
 // CHECK-BE-NEXT:    [[TMP3:%.*]] = load <16 x i8>, ptr [[VC_ADDR]], align 16
 // CHECK-BE-NEXT:    [[TMP4:%.*]] = load <16 x i8>, ptr [[VC_ADDR]], align 16
 // CHECK-BE-NEXT:    [[TMP5:%.*]] = call <256 x i1> @llvm.ppc.vsx.assemble.pair(<16 x i8> [[TMP3]], <16 x i8> [[TMP4]])
@@ -123,6 +155,10 @@ void testVQLocal(int *ptr, vector unsigned char vc) {
 // CHECK-BE-NEXT:    [[TMP7:%.*]] = load <16 x i8>, ptr [[VC_ADDR]], align 16
 // CHECK-BE-NEXT:    [[TMP8:%.*]] = call <256 x i1> @llvm.ppc.vsx.assemble.pair(<16 x i8> [[TMP6]], <16 x i8> [[TMP7]])
 // CHECK-BE-NEXT:    store <256 x i1> [[TMP8]], ptr [[VP2]], align 32
+// CHECK-BE-NEXT:    [[FREEZE_POISON3:%.*]] = freeze <256 x i1> poison
+// CHECK-BE-NEXT:    store <256 x i1> [[FREEZE_POISON3]], ptr [[VP3]], align 32
+// CHECK-BE-NEXT:    [[FREEZE_POISON4:%.*]] = freeze <512 x i1> poison
+// CHECK-BE-NEXT:    store <512 x i1> [[FREEZE_POISON4]], ptr [[VQ]], align 64
 // CHECK-BE-NEXT:    [[TMP9:%.*]] = load <256 x i1>, ptr [[VP3]], align 32
 // CHECK-BE-NEXT:    [[TMP10:%.*]] = load <16 x i8>, ptr [[VC_ADDR]], align 16
 // CHECK-BE-NEXT:    [[TMP11:%.*]] = call <512 x i1> @llvm.ppc.mma.xvf64ger(<256 x i1> [[TMP9]], <16 x i8> [[TMP10]])
@@ -152,7 +188,7 @@ void testVPLocal(int *ptr, vector unsigned char vc) {
 // CHECK-NEXT:    [[ARRAYDECAY:%.*]] = getelementptr inbounds [4 x <4 x float>], ptr [[ARR]], i64 0, i64 0
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[ACC_ADDR]], align 8
 // CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[ACC_ADDR]], align 8
-// CHECK-NEXT:    [[TMP2:%.*]] = load <512 x i1>, ptr [[TMP1]], align 64
+// CHECK-NEXT:    [[TMP2:%.*]] = load <512 x i1>, ptr [[TMP1]], align 64, !freeze_bits [[META2]]
 // CHECK-NEXT:    [[TMP3:%.*]] = call { <16 x i8>, <16 x i8>, <16 x i8>, <16 x i8> } @llvm.ppc.mma.disassemble.acc(<512 x i1> [[TMP2]])
 // CHECK-NEXT:    [[TMP4:%.*]] = extractvalue { <16 x i8>, <16 x i8>, <16 x i8>, <16 x i8> } [[TMP3]], 0
 // CHECK-NEXT:    [[TMP5:%.*]] = getelementptr inbounds <16 x i8>, ptr [[ARRAYDECAY]], i32 0
@@ -176,7 +212,7 @@ void testVPLocal(int *ptr, vector unsigned char vc) {
 // CHECK-BE-NEXT:    [[ARRAYDECAY:%.*]] = getelementptr inbounds [4 x <4 x float>], ptr [[ARR]], i64 0, i64 0
 // CHECK-BE-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[ACC_ADDR]], align 8
 // CHECK-BE-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[ACC_ADDR]], align 8
-// CHECK-BE-NEXT:    [[TMP2:%.*]] = load <512 x i1>, ptr [[TMP1]], align 64
+// CHECK-BE-NEXT:    [[TMP2:%.*]] = load <512 x i1>, ptr [[TMP1]], align 64, !freeze_bits [[META2]]
 // CHECK-BE-NEXT:    [[TMP3:%.*]] = call { <16 x i8>, <16 x i8>, <16 x i8>, <16 x i8> } @llvm.ppc.mma.disassemble.acc(<512 x i1> [[TMP2]])
 // CHECK-BE-NEXT:    [[TMP4:%.*]] = extractvalue { <16 x i8>, <16 x i8>, <16 x i8>, <16 x i8> } [[TMP3]], 0
 // CHECK-BE-NEXT:    [[TMP5:%.*]] = getelementptr inbounds <16 x i8>, ptr [[ARRAYDECAY]], i32 0
@@ -205,7 +241,7 @@ void testRestrictQualifiedPointer2(__vector_quad *__restrict acc) {
 // CHECK-NEXT:    [[ARRAYDECAY:%.*]] = getelementptr inbounds [4 x <4 x float>], ptr [[ARR]], i64 0, i64 0
 // CHECK-NEXT:    [[TMP0:%.*]] = load volatile ptr, ptr [[ACC_ADDR]], align 8
 // CHECK-NEXT:    [[TMP1:%.*]] = load volatile ptr, ptr [[ACC_ADDR]], align 8
-// CHECK-NEXT:    [[TMP2:%.*]] = load <512 x i1>, ptr [[TMP1]], align 64
+// CHECK-NEXT:    [[TMP2:%.*]] = load <512 x i1>, ptr [[TMP1]], align 64, !freeze_bits [[META2]]
 // CHECK-NEXT:    [[TMP3:%.*]] = call { <16 x i8>, <16 x i8>, <16 x i8>, <16 x i8> } @llvm.ppc.mma.disassemble.acc(<512 x i1> [[TMP2]])
 // CHECK-NEXT:    [[TMP4:%.*]] = extractvalue { <16 x i8>, <16 x i8>, <16 x i8>, <16 x i8> } [[TMP3]], 0
 // CHECK-NEXT:    [[TMP5:%.*]] = getelementptr inbounds <16 x i8>, ptr [[ARRAYDECAY]], i32 0
@@ -229,7 +265,7 @@ void testRestrictQualifiedPointer2(__vector_quad *__restrict acc) {
 // CHECK-BE-NEXT:    [[ARRAYDECAY:%.*]] = getelementptr inbounds [4 x <4 x float>], ptr [[ARR]], i64 0, i64 0
 // CHECK-BE-NEXT:    [[TMP0:%.*]] = load volatile ptr, ptr [[ACC_ADDR]], align 8
 // CHECK-BE-NEXT:    [[TMP1:%.*]] = load volatile ptr, ptr [[ACC_ADDR]], align 8
-// CHECK-BE-NEXT:    [[TMP2:%.*]] = load <512 x i1>, ptr [[TMP1]], align 64
+// CHECK-BE-NEXT:    [[TMP2:%.*]] = load <512 x i1>, ptr [[TMP1]], align 64, !freeze_bits [[META2]]
 // CHECK-BE-NEXT:    [[TMP3:%.*]] = call { <16 x i8>, <16 x i8>, <16 x i8>, <16 x i8> } @llvm.ppc.mma.disassemble.acc(<512 x i1> [[TMP2]])
 // CHECK-BE-NEXT:    [[TMP4:%.*]] = extractvalue { <16 x i8>, <16 x i8>, <16 x i8>, <16 x i8> } [[TMP3]], 0
 // CHECK-BE-NEXT:    [[TMP5:%.*]] = getelementptr inbounds <16 x i8>, ptr [[ARRAYDECAY]], i32 0

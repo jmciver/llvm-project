@@ -3,7 +3,6 @@
 // RUN:   -internal-isystem %S/../../lib/Headers/ \
 // RUN:   -triple amdgcn-amd-amdhsa -emit-llvm %s -o - \
 // RUN: | FileCheck %s --check-prefix=AMDGPU
-//
 // RUN: %clang_cc1 -internal-isystem %S/Inputs/include  \
 // RUN:   -internal-isystem %S/../../lib/Headers/ \
 // RUN:   -target-feature +ptx62 \
@@ -83,10 +82,10 @@ __gpu_kernel void foo() {
 // AMDGPU-NEXT:    [[RETVAL_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[RETVAL]] to ptr
 // AMDGPU-NEXT:    [[TMP0:%.*]] = call align 4 dereferenceable(64) ptr addrspace(4) @llvm.amdgcn.dispatch.ptr()
 // AMDGPU-NEXT:    [[TMP1:%.*]] = getelementptr i8, ptr addrspace(4) [[TMP0]], i32 12
-// AMDGPU-NEXT:    [[TMP2:%.*]] = load i32, ptr addrspace(4) [[TMP1]], align 4, !range [[RNG3:![0-9]+]], !invariant.load [[META4:![0-9]+]]
+// AMDGPU-NEXT:    [[TMP2:%.*]] = load i32, ptr addrspace(4) [[TMP1]], align 4, !range [[RNG3:![0-9]+]], !invariant.load [[META4:![0-9]+]], !freeze_bits [[META4]]
 // AMDGPU-NEXT:    [[TMP3:%.*]] = call align 8 dereferenceable(256) ptr addrspace(4) @llvm.amdgcn.implicitarg.ptr()
 // AMDGPU-NEXT:    [[TMP4:%.*]] = getelementptr i8, ptr addrspace(4) [[TMP3]], i32 12
-// AMDGPU-NEXT:    [[TMP5:%.*]] = load i16, ptr addrspace(4) [[TMP4]], align 2, !range [[RNG5:![0-9]+]], !invariant.load [[META4]], !noundef [[META4]]
+// AMDGPU-NEXT:    [[TMP5:%.*]] = load i16, ptr addrspace(4) [[TMP4]], align 2, !range [[RNG5:![0-9]+]], !invariant.load [[META4]], !noundef [[META4]], !freeze_bits [[META4]]
 // AMDGPU-NEXT:    [[CONV:%.*]] = zext i16 [[TMP5]] to i32
 // AMDGPU-NEXT:    [[DIV:%.*]] = udiv i32 [[TMP2]], [[CONV]]
 // AMDGPU-NEXT:    ret i32 [[DIV]]
@@ -99,10 +98,10 @@ __gpu_kernel void foo() {
 // AMDGPU-NEXT:    [[RETVAL_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[RETVAL]] to ptr
 // AMDGPU-NEXT:    [[TMP0:%.*]] = call align 4 dereferenceable(64) ptr addrspace(4) @llvm.amdgcn.dispatch.ptr()
 // AMDGPU-NEXT:    [[TMP1:%.*]] = getelementptr i8, ptr addrspace(4) [[TMP0]], i32 16
-// AMDGPU-NEXT:    [[TMP2:%.*]] = load i32, ptr addrspace(4) [[TMP1]], align 4, !range [[RNG3]], !invariant.load [[META4]]
+// AMDGPU-NEXT:    [[TMP2:%.*]] = load i32, ptr addrspace(4) [[TMP1]], align 4, !range [[RNG3]], !invariant.load [[META4]], !freeze_bits [[META4]]
 // AMDGPU-NEXT:    [[TMP3:%.*]] = call align 8 dereferenceable(256) ptr addrspace(4) @llvm.amdgcn.implicitarg.ptr()
 // AMDGPU-NEXT:    [[TMP4:%.*]] = getelementptr i8, ptr addrspace(4) [[TMP3]], i32 14
-// AMDGPU-NEXT:    [[TMP5:%.*]] = load i16, ptr addrspace(4) [[TMP4]], align 2, !range [[RNG5]], !invariant.load [[META4]], !noundef [[META4]]
+// AMDGPU-NEXT:    [[TMP5:%.*]] = load i16, ptr addrspace(4) [[TMP4]], align 2, !range [[RNG5]], !invariant.load [[META4]], !noundef [[META4]], !freeze_bits [[META4]]
 // AMDGPU-NEXT:    [[CONV:%.*]] = zext i16 [[TMP5]] to i32
 // AMDGPU-NEXT:    [[DIV:%.*]] = udiv i32 [[TMP2]], [[CONV]]
 // AMDGPU-NEXT:    ret i32 [[DIV]]
@@ -115,10 +114,10 @@ __gpu_kernel void foo() {
 // AMDGPU-NEXT:    [[RETVAL_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[RETVAL]] to ptr
 // AMDGPU-NEXT:    [[TMP0:%.*]] = call align 4 dereferenceable(64) ptr addrspace(4) @llvm.amdgcn.dispatch.ptr()
 // AMDGPU-NEXT:    [[TMP1:%.*]] = getelementptr i8, ptr addrspace(4) [[TMP0]], i32 20
-// AMDGPU-NEXT:    [[TMP2:%.*]] = load i32, ptr addrspace(4) [[TMP1]], align 4, !range [[RNG3]], !invariant.load [[META4]]
+// AMDGPU-NEXT:    [[TMP2:%.*]] = load i32, ptr addrspace(4) [[TMP1]], align 4, !range [[RNG3]], !invariant.load [[META4]], !freeze_bits [[META4]]
 // AMDGPU-NEXT:    [[TMP3:%.*]] = call align 8 dereferenceable(256) ptr addrspace(4) @llvm.amdgcn.implicitarg.ptr()
 // AMDGPU-NEXT:    [[TMP4:%.*]] = getelementptr i8, ptr addrspace(4) [[TMP3]], i32 16
-// AMDGPU-NEXT:    [[TMP5:%.*]] = load i16, ptr addrspace(4) [[TMP4]], align 2, !range [[RNG5]], !invariant.load [[META4]], !noundef [[META4]]
+// AMDGPU-NEXT:    [[TMP5:%.*]] = load i16, ptr addrspace(4) [[TMP4]], align 2, !range [[RNG5]], !invariant.load [[META4]], !noundef [[META4]], !freeze_bits [[META4]]
 // AMDGPU-NEXT:    [[CONV:%.*]] = zext i16 [[TMP5]] to i32
 // AMDGPU-NEXT:    [[DIV:%.*]] = udiv i32 [[TMP2]], [[CONV]]
 // AMDGPU-NEXT:    ret i32 [[DIV]]
@@ -153,7 +152,7 @@ __gpu_kernel void foo() {
 // AMDGPU:       [[SW_DEFAULT]]:
 // AMDGPU-NEXT:    unreachable
 // AMDGPU:       [[RETURN]]:
-// AMDGPU-NEXT:    [[TMP1:%.*]] = load i32, ptr [[RETVAL_ASCAST]], align 4
+// AMDGPU-NEXT:    [[TMP1:%.*]] = load i32, ptr [[RETVAL_ASCAST]], align 4, !freeze_bits [[META4]]
 // AMDGPU-NEXT:    ret i32 [[TMP1]]
 //
 //
@@ -213,7 +212,7 @@ __gpu_kernel void foo() {
 // AMDGPU:       [[SW_DEFAULT]]:
 // AMDGPU-NEXT:    unreachable
 // AMDGPU:       [[RETURN]]:
-// AMDGPU-NEXT:    [[TMP1:%.*]] = load i32, ptr [[RETVAL_ASCAST]], align 4
+// AMDGPU-NEXT:    [[TMP1:%.*]] = load i32, ptr [[RETVAL_ASCAST]], align 4, !freeze_bits [[META4]]
 // AMDGPU-NEXT:    ret i32 [[TMP1]]
 //
 //
@@ -224,7 +223,7 @@ __gpu_kernel void foo() {
 // AMDGPU-NEXT:    [[RETVAL_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[RETVAL]] to ptr
 // AMDGPU-NEXT:    [[TMP0:%.*]] = call align 8 dereferenceable(256) ptr addrspace(4) @llvm.amdgcn.implicitarg.ptr()
 // AMDGPU-NEXT:    [[TMP1:%.*]] = getelementptr i8, ptr addrspace(4) [[TMP0]], i32 12
-// AMDGPU-NEXT:    [[TMP2:%.*]] = load i16, ptr addrspace(4) [[TMP1]], align 2, !range [[RNG5]], !invariant.load [[META4]], !noundef [[META4]]
+// AMDGPU-NEXT:    [[TMP2:%.*]] = load i16, ptr addrspace(4) [[TMP1]], align 2, !range [[RNG5]], !invariant.load [[META4]], !noundef [[META4]], !freeze_bits [[META4]]
 // AMDGPU-NEXT:    [[CONV:%.*]] = zext i16 [[TMP2]] to i32
 // AMDGPU-NEXT:    ret i32 [[CONV]]
 //
@@ -236,7 +235,7 @@ __gpu_kernel void foo() {
 // AMDGPU-NEXT:    [[RETVAL_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[RETVAL]] to ptr
 // AMDGPU-NEXT:    [[TMP0:%.*]] = call align 8 dereferenceable(256) ptr addrspace(4) @llvm.amdgcn.implicitarg.ptr()
 // AMDGPU-NEXT:    [[TMP1:%.*]] = getelementptr i8, ptr addrspace(4) [[TMP0]], i32 14
-// AMDGPU-NEXT:    [[TMP2:%.*]] = load i16, ptr addrspace(4) [[TMP1]], align 2, !range [[RNG5]], !invariant.load [[META4]], !noundef [[META4]]
+// AMDGPU-NEXT:    [[TMP2:%.*]] = load i16, ptr addrspace(4) [[TMP1]], align 2, !range [[RNG5]], !invariant.load [[META4]], !noundef [[META4]], !freeze_bits [[META4]]
 // AMDGPU-NEXT:    [[CONV:%.*]] = zext i16 [[TMP2]] to i32
 // AMDGPU-NEXT:    ret i32 [[CONV]]
 //
@@ -248,7 +247,7 @@ __gpu_kernel void foo() {
 // AMDGPU-NEXT:    [[RETVAL_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[RETVAL]] to ptr
 // AMDGPU-NEXT:    [[TMP0:%.*]] = call align 8 dereferenceable(256) ptr addrspace(4) @llvm.amdgcn.implicitarg.ptr()
 // AMDGPU-NEXT:    [[TMP1:%.*]] = getelementptr i8, ptr addrspace(4) [[TMP0]], i32 16
-// AMDGPU-NEXT:    [[TMP2:%.*]] = load i16, ptr addrspace(4) [[TMP1]], align 2, !range [[RNG5]], !invariant.load [[META4]], !noundef [[META4]]
+// AMDGPU-NEXT:    [[TMP2:%.*]] = load i16, ptr addrspace(4) [[TMP1]], align 2, !range [[RNG5]], !invariant.load [[META4]], !noundef [[META4]], !freeze_bits [[META4]]
 // AMDGPU-NEXT:    [[CONV:%.*]] = zext i16 [[TMP2]] to i32
 // AMDGPU-NEXT:    ret i32 [[CONV]]
 //
@@ -282,7 +281,7 @@ __gpu_kernel void foo() {
 // AMDGPU:       [[SW_DEFAULT]]:
 // AMDGPU-NEXT:    unreachable
 // AMDGPU:       [[RETURN]]:
-// AMDGPU-NEXT:    [[TMP1:%.*]] = load i32, ptr [[RETVAL_ASCAST]], align 4
+// AMDGPU-NEXT:    [[TMP1:%.*]] = load i32, ptr [[RETVAL_ASCAST]], align 4, !freeze_bits [[META4]]
 // AMDGPU-NEXT:    ret i32 [[TMP1]]
 //
 //
@@ -342,7 +341,7 @@ __gpu_kernel void foo() {
 // AMDGPU:       [[SW_DEFAULT]]:
 // AMDGPU-NEXT:    unreachable
 // AMDGPU:       [[RETURN]]:
-// AMDGPU-NEXT:    [[TMP1:%.*]] = load i32, ptr [[RETVAL_ASCAST]], align 4
+// AMDGPU-NEXT:    [[TMP1:%.*]] = load i32, ptr [[RETVAL_ASCAST]], align 4, !freeze_bits [[META4]]
 // AMDGPU-NEXT:    ret i32 [[TMP1]]
 //
 //
@@ -405,25 +404,29 @@ __gpu_kernel void foo() {
 // AMDGPU-NEXT:    [[__LO_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[__LO]] to ptr
 // AMDGPU-NEXT:    store i64 [[__LANE_MASK]], ptr [[__LANE_MASK_ADDR_ASCAST]], align 8
 // AMDGPU-NEXT:    store i64 [[__X]], ptr [[__X_ADDR_ASCAST]], align 8
+// AMDGPU-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// AMDGPU-NEXT:    store i32 [[FREEZE_POISON]], ptr [[__HI_ASCAST]], align 4
 // AMDGPU-NEXT:    [[TMP0:%.*]] = load i64, ptr [[__X_ADDR_ASCAST]], align 8
 // AMDGPU-NEXT:    [[SHR:%.*]] = lshr i64 [[TMP0]], 32
 // AMDGPU-NEXT:    [[CONV:%.*]] = trunc i64 [[SHR]] to i32
 // AMDGPU-NEXT:    store i32 [[CONV]], ptr [[__HI_ASCAST]], align 4
+// AMDGPU-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// AMDGPU-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[__LO_ASCAST]], align 4
 // AMDGPU-NEXT:    [[TMP1:%.*]] = load i64, ptr [[__X_ADDR_ASCAST]], align 8
 // AMDGPU-NEXT:    [[AND:%.*]] = and i64 [[TMP1]], 4294967295
-// AMDGPU-NEXT:    [[CONV1:%.*]] = trunc i64 [[AND]] to i32
-// AMDGPU-NEXT:    store i32 [[CONV1]], ptr [[__LO_ASCAST]], align 4
+// AMDGPU-NEXT:    [[CONV2:%.*]] = trunc i64 [[AND]] to i32
+// AMDGPU-NEXT:    store i32 [[CONV2]], ptr [[__LO_ASCAST]], align 4
 // AMDGPU-NEXT:    [[TMP2:%.*]] = load i64, ptr [[__LANE_MASK_ADDR_ASCAST]], align 8
 // AMDGPU-NEXT:    [[TMP3:%.*]] = load i32, ptr [[__HI_ASCAST]], align 4
 // AMDGPU-NEXT:    [[CALL:%.*]] = call i32 @__gpu_read_first_lane_u32(i64 noundef [[TMP2]], i32 noundef [[TMP3]]) #[[ATTR7]]
-// AMDGPU-NEXT:    [[CONV2:%.*]] = zext i32 [[CALL]] to i64
-// AMDGPU-NEXT:    [[SHL:%.*]] = shl i64 [[CONV2]], 32
+// AMDGPU-NEXT:    [[CONV3:%.*]] = zext i32 [[CALL]] to i64
+// AMDGPU-NEXT:    [[SHL:%.*]] = shl i64 [[CONV3]], 32
 // AMDGPU-NEXT:    [[TMP4:%.*]] = load i64, ptr [[__LANE_MASK_ADDR_ASCAST]], align 8
 // AMDGPU-NEXT:    [[TMP5:%.*]] = load i32, ptr [[__LO_ASCAST]], align 4
-// AMDGPU-NEXT:    [[CALL3:%.*]] = call i32 @__gpu_read_first_lane_u32(i64 noundef [[TMP4]], i32 noundef [[TMP5]]) #[[ATTR7]]
-// AMDGPU-NEXT:    [[CONV4:%.*]] = zext i32 [[CALL3]] to i64
-// AMDGPU-NEXT:    [[AND5:%.*]] = and i64 [[CONV4]], 4294967295
-// AMDGPU-NEXT:    [[OR:%.*]] = or i64 [[SHL]], [[AND5]]
+// AMDGPU-NEXT:    [[CALL4:%.*]] = call i32 @__gpu_read_first_lane_u32(i64 noundef [[TMP4]], i32 noundef [[TMP5]]) #[[ATTR7]]
+// AMDGPU-NEXT:    [[CONV5:%.*]] = zext i32 [[CALL4]] to i64
+// AMDGPU-NEXT:    [[AND6:%.*]] = and i64 [[CONV5]], 4294967295
+// AMDGPU-NEXT:    [[OR:%.*]] = or i64 [[SHL]], [[AND6]]
 // AMDGPU-NEXT:    ret i64 [[OR]]
 //
 //
@@ -484,6 +487,8 @@ __gpu_kernel void foo() {
 // AMDGPU-NEXT:    store i32 [[__IDX]], ptr [[__IDX_ADDR_ASCAST]], align 4
 // AMDGPU-NEXT:    store i32 [[__X]], ptr [[__X_ADDR_ASCAST]], align 4
 // AMDGPU-NEXT:    store i32 [[__WIDTH]], ptr [[__WIDTH_ADDR_ASCAST]], align 4
+// AMDGPU-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// AMDGPU-NEXT:    store i32 [[FREEZE_POISON]], ptr [[__LANE_ASCAST]], align 4
 // AMDGPU-NEXT:    [[TMP0:%.*]] = load i32, ptr [[__IDX_ADDR_ASCAST]], align 4
 // AMDGPU-NEXT:    [[CALL:%.*]] = call i32 @__gpu_lane_id() #[[ATTR7]]
 // AMDGPU-NEXT:    [[TMP1:%.*]] = load i32, ptr [[__WIDTH_ADDR_ASCAST]], align 4
@@ -623,7 +628,7 @@ __gpu_kernel void foo() {
 // NVPTX:       [[SW_DEFAULT]]:
 // NVPTX-NEXT:    unreachable
 // NVPTX:       [[RETURN]]:
-// NVPTX-NEXT:    [[TMP1:%.*]] = load i32, ptr [[RETVAL]], align 4
+// NVPTX-NEXT:    [[TMP1:%.*]] = load i32, ptr [[RETVAL]], align 4, !freeze_bits [[META2:![0-9]+]]
 // NVPTX-NEXT:    ret i32 [[TMP1]]
 //
 //
@@ -675,7 +680,7 @@ __gpu_kernel void foo() {
 // NVPTX:       [[SW_DEFAULT]]:
 // NVPTX-NEXT:    unreachable
 // NVPTX:       [[RETURN]]:
-// NVPTX-NEXT:    [[TMP1:%.*]] = load i32, ptr [[RETVAL]], align 4
+// NVPTX-NEXT:    [[TMP1:%.*]] = load i32, ptr [[RETVAL]], align 4, !freeze_bits [[META2]]
 // NVPTX-NEXT:    ret i32 [[TMP1]]
 //
 //
@@ -727,7 +732,7 @@ __gpu_kernel void foo() {
 // NVPTX:       [[SW_DEFAULT]]:
 // NVPTX-NEXT:    unreachable
 // NVPTX:       [[RETURN]]:
-// NVPTX-NEXT:    [[TMP1:%.*]] = load i32, ptr [[RETVAL]], align 4
+// NVPTX-NEXT:    [[TMP1:%.*]] = load i32, ptr [[RETVAL]], align 4, !freeze_bits [[META2]]
 // NVPTX-NEXT:    ret i32 [[TMP1]]
 //
 //
@@ -779,7 +784,7 @@ __gpu_kernel void foo() {
 // NVPTX:       [[SW_DEFAULT]]:
 // NVPTX-NEXT:    unreachable
 // NVPTX:       [[RETURN]]:
-// NVPTX-NEXT:    [[TMP1:%.*]] = load i32, ptr [[RETVAL]], align 4
+// NVPTX-NEXT:    [[TMP1:%.*]] = load i32, ptr [[RETVAL]], align 4, !freeze_bits [[META2]]
 // NVPTX-NEXT:    ret i32 [[TMP1]]
 //
 //
@@ -814,9 +819,13 @@ __gpu_kernel void foo() {
 // NVPTX-NEXT:    [[__ID:%.*]] = alloca i32, align 4
 // NVPTX-NEXT:    store i64 [[__LANE_MASK]], ptr [[__LANE_MASK_ADDR]], align 8
 // NVPTX-NEXT:    store i32 [[__X]], ptr [[__X_ADDR]], align 4
+// NVPTX-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// NVPTX-NEXT:    store i32 [[FREEZE_POISON]], ptr [[__MASK]], align 4
 // NVPTX-NEXT:    [[TMP0:%.*]] = load i64, ptr [[__LANE_MASK_ADDR]], align 8
 // NVPTX-NEXT:    [[CONV:%.*]] = trunc i64 [[TMP0]] to i32
 // NVPTX-NEXT:    store i32 [[CONV]], ptr [[__MASK]], align 4
+// NVPTX-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// NVPTX-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[__ID]], align 4
 // NVPTX-NEXT:    [[TMP1:%.*]] = load i32, ptr [[__MASK]], align 4
 // NVPTX-NEXT:    [[TMP2:%.*]] = call i32 @llvm.cttz.i32(i32 [[TMP1]], i1 true)
 // NVPTX-NEXT:    [[TMP3:%.*]] = add i32 [[TMP2]], 1
@@ -828,8 +837,8 @@ __gpu_kernel void foo() {
 // NVPTX-NEXT:    [[TMP5:%.*]] = load i32, ptr [[__X_ADDR]], align 4
 // NVPTX-NEXT:    [[TMP6:%.*]] = load i32, ptr [[__ID]], align 4
 // NVPTX-NEXT:    [[CALL:%.*]] = call i32 @__gpu_num_lanes() #[[ATTR6]]
-// NVPTX-NEXT:    [[SUB1:%.*]] = sub i32 [[CALL]], 1
-// NVPTX-NEXT:    [[TMP7:%.*]] = call i32 @llvm.nvvm.shfl.sync.idx.i32(i32 [[TMP4]], i32 [[TMP5]], i32 [[TMP6]], i32 [[SUB1]])
+// NVPTX-NEXT:    [[SUB2:%.*]] = sub i32 [[CALL]], 1
+// NVPTX-NEXT:    [[TMP7:%.*]] = call i32 @llvm.nvvm.shfl.sync.idx.i32(i32 [[TMP4]], i32 [[TMP5]], i32 [[TMP6]], i32 [[SUB2]])
 // NVPTX-NEXT:    ret i32 [[TMP7]]
 //
 //
@@ -842,25 +851,29 @@ __gpu_kernel void foo() {
 // NVPTX-NEXT:    [[__LO:%.*]] = alloca i32, align 4
 // NVPTX-NEXT:    store i64 [[__LANE_MASK]], ptr [[__LANE_MASK_ADDR]], align 8
 // NVPTX-NEXT:    store i64 [[__X]], ptr [[__X_ADDR]], align 8
+// NVPTX-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// NVPTX-NEXT:    store i32 [[FREEZE_POISON]], ptr [[__HI]], align 4
 // NVPTX-NEXT:    [[TMP0:%.*]] = load i64, ptr [[__X_ADDR]], align 8
 // NVPTX-NEXT:    [[SHR:%.*]] = lshr i64 [[TMP0]], 32
 // NVPTX-NEXT:    [[CONV:%.*]] = trunc i64 [[SHR]] to i32
 // NVPTX-NEXT:    store i32 [[CONV]], ptr [[__HI]], align 4
+// NVPTX-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// NVPTX-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[__LO]], align 4
 // NVPTX-NEXT:    [[TMP1:%.*]] = load i64, ptr [[__X_ADDR]], align 8
 // NVPTX-NEXT:    [[AND:%.*]] = and i64 [[TMP1]], 4294967295
-// NVPTX-NEXT:    [[CONV1:%.*]] = trunc i64 [[AND]] to i32
-// NVPTX-NEXT:    store i32 [[CONV1]], ptr [[__LO]], align 4
+// NVPTX-NEXT:    [[CONV2:%.*]] = trunc i64 [[AND]] to i32
+// NVPTX-NEXT:    store i32 [[CONV2]], ptr [[__LO]], align 4
 // NVPTX-NEXT:    [[TMP2:%.*]] = load i64, ptr [[__LANE_MASK_ADDR]], align 8
 // NVPTX-NEXT:    [[TMP3:%.*]] = load i32, ptr [[__HI]], align 4
 // NVPTX-NEXT:    [[CALL:%.*]] = call i32 @__gpu_read_first_lane_u32(i64 noundef [[TMP2]], i32 noundef [[TMP3]]) #[[ATTR6]]
-// NVPTX-NEXT:    [[CONV2:%.*]] = zext i32 [[CALL]] to i64
-// NVPTX-NEXT:    [[SHL:%.*]] = shl i64 [[CONV2]], 32
+// NVPTX-NEXT:    [[CONV3:%.*]] = zext i32 [[CALL]] to i64
+// NVPTX-NEXT:    [[SHL:%.*]] = shl i64 [[CONV3]], 32
 // NVPTX-NEXT:    [[TMP4:%.*]] = load i64, ptr [[__LANE_MASK_ADDR]], align 8
 // NVPTX-NEXT:    [[TMP5:%.*]] = load i32, ptr [[__LO]], align 4
-// NVPTX-NEXT:    [[CALL3:%.*]] = call i32 @__gpu_read_first_lane_u32(i64 noundef [[TMP4]], i32 noundef [[TMP5]]) #[[ATTR6]]
-// NVPTX-NEXT:    [[CONV4:%.*]] = zext i32 [[CALL3]] to i64
-// NVPTX-NEXT:    [[AND5:%.*]] = and i64 [[CONV4]], 4294967295
-// NVPTX-NEXT:    [[OR:%.*]] = or i64 [[SHL]], [[AND5]]
+// NVPTX-NEXT:    [[CALL4:%.*]] = call i32 @__gpu_read_first_lane_u32(i64 noundef [[TMP4]], i32 noundef [[TMP5]]) #[[ATTR6]]
+// NVPTX-NEXT:    [[CONV5:%.*]] = zext i32 [[CALL4]] to i64
+// NVPTX-NEXT:    [[AND6:%.*]] = and i64 [[CONV5]], 4294967295
+// NVPTX-NEXT:    [[OR:%.*]] = or i64 [[SHL]], [[AND6]]
 // NVPTX-NEXT:    ret i64 [[OR]]
 //
 //
@@ -873,6 +886,8 @@ __gpu_kernel void foo() {
 // NVPTX-NEXT:    store i64 [[__LANE_MASK]], ptr [[__LANE_MASK_ADDR]], align 8
 // NVPTX-NEXT:    [[STOREDV:%.*]] = zext i1 [[__X]] to i8
 // NVPTX-NEXT:    store i8 [[STOREDV]], ptr [[__X_ADDR]], align 1
+// NVPTX-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// NVPTX-NEXT:    store i32 [[FREEZE_POISON]], ptr [[__MASK]], align 4
 // NVPTX-NEXT:    [[TMP0:%.*]] = load i64, ptr [[__LANE_MASK_ADDR]], align 8
 // NVPTX-NEXT:    [[CONV:%.*]] = trunc i64 [[TMP0]] to i32
 // NVPTX-NEXT:    store i32 [[CONV]], ptr [[__MASK]], align 4
@@ -915,9 +930,13 @@ __gpu_kernel void foo() {
 // NVPTX-NEXT:    store i32 [[__IDX]], ptr [[__IDX_ADDR]], align 4
 // NVPTX-NEXT:    store i32 [[__X]], ptr [[__X_ADDR]], align 4
 // NVPTX-NEXT:    store i32 [[__WIDTH]], ptr [[__WIDTH_ADDR]], align 4
+// NVPTX-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// NVPTX-NEXT:    store i32 [[FREEZE_POISON]], ptr [[__MASK]], align 4
 // NVPTX-NEXT:    [[TMP0:%.*]] = load i64, ptr [[__LANE_MASK_ADDR]], align 8
 // NVPTX-NEXT:    [[CONV:%.*]] = trunc i64 [[TMP0]] to i32
 // NVPTX-NEXT:    store i32 [[CONV]], ptr [[__MASK]], align 4
+// NVPTX-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i8 poison
+// NVPTX-NEXT:    store i8 [[FREEZE_POISON1]], ptr [[__BITMASK]], align 1
 // NVPTX-NEXT:    [[TMP1:%.*]] = load i32, ptr [[__IDX_ADDR]], align 4
 // NVPTX-NEXT:    [[SH_PROM:%.*]] = zext i32 [[TMP1]] to i64
 // NVPTX-NEXT:    [[SHL:%.*]] = shl i64 1, [[SH_PROM]]
@@ -928,19 +947,19 @@ __gpu_kernel void foo() {
 // NVPTX-NEXT:    store i8 [[STOREDV]], ptr [[__BITMASK]], align 1
 // NVPTX-NEXT:    [[TMP3:%.*]] = load i8, ptr [[__BITMASK]], align 1
 // NVPTX-NEXT:    [[LOADEDV:%.*]] = trunc i8 [[TMP3]] to i1
-// NVPTX-NEXT:    [[CONV1:%.*]] = zext i1 [[LOADEDV]] to i32
-// NVPTX-NEXT:    [[SUB:%.*]] = sub nsw i32 0, [[CONV1]]
+// NVPTX-NEXT:    [[CONV2:%.*]] = zext i1 [[LOADEDV]] to i32
+// NVPTX-NEXT:    [[SUB:%.*]] = sub nsw i32 0, [[CONV2]]
 // NVPTX-NEXT:    [[TMP4:%.*]] = load i32, ptr [[__MASK]], align 4
 // NVPTX-NEXT:    [[TMP5:%.*]] = load i32, ptr [[__X_ADDR]], align 4
 // NVPTX-NEXT:    [[TMP6:%.*]] = load i32, ptr [[__IDX_ADDR]], align 4
 // NVPTX-NEXT:    [[CALL:%.*]] = call i32 @__gpu_num_lanes() #[[ATTR6]]
 // NVPTX-NEXT:    [[TMP7:%.*]] = load i32, ptr [[__WIDTH_ADDR]], align 4
-// NVPTX-NEXT:    [[SUB2:%.*]] = sub i32 [[CALL]], [[TMP7]]
-// NVPTX-NEXT:    [[SHL3:%.*]] = shl i32 [[SUB2]], 8
-// NVPTX-NEXT:    [[OR:%.*]] = or i32 [[SHL3]], 31
+// NVPTX-NEXT:    [[SUB3:%.*]] = sub i32 [[CALL]], [[TMP7]]
+// NVPTX-NEXT:    [[SHL4:%.*]] = shl i32 [[SUB3]], 8
+// NVPTX-NEXT:    [[OR:%.*]] = or i32 [[SHL4]], 31
 // NVPTX-NEXT:    [[TMP8:%.*]] = call i32 @llvm.nvvm.shfl.sync.idx.i32(i32 [[TMP4]], i32 [[TMP5]], i32 [[TMP6]], i32 [[OR]])
-// NVPTX-NEXT:    [[AND4:%.*]] = and i32 [[SUB]], [[TMP8]]
-// NVPTX-NEXT:    ret i32 [[AND4]]
+// NVPTX-NEXT:    [[AND5:%.*]] = and i32 [[SUB]], [[TMP8]]
+// NVPTX-NEXT:    ret i32 [[AND5]]
 //
 //
 // NVPTX-LABEL: define internal i64 @__gpu_first_lane_id(
@@ -982,4 +1001,6 @@ __gpu_kernel void foo() {
 // AMDGPU: [[RNG3]] = !{i32 1, i32 0}
 // AMDGPU: [[META4]] = !{}
 // AMDGPU: [[RNG5]] = !{i16 1, i16 1025}
+//.
+// NVPTX: [[META2]] = !{}
 //.

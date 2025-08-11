@@ -124,6 +124,8 @@ void host_dev(int device) {
 // MANDATORY-NEXT:    [[DOTCAPTURE_EXPR_:%.*]] = alloca i32, align 4
 // MANDATORY-NEXT:    [[KERNEL_ARGS:%.*]] = alloca [[STRUCT___TGT_KERNEL_ARGUMENTS:%.*]], align 8
 // MANDATORY-NEXT:    store i32 [[DEVICE]], ptr [[DEVICE_ADDR]], align 4
+// MANDATORY-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// MANDATORY-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTCAPTURE_EXPR_]], align 4
 // MANDATORY-NEXT:    [[TMP0:%.*]] = load i32, ptr [[DEVICE_ADDR]], align 4
 // MANDATORY-NEXT:    store i32 [[TMP0]], ptr [[DOTCAPTURE_EXPR_]], align 4
 // MANDATORY-NEXT:    [[TMP1:%.*]] = load i32, ptr [[DOTCAPTURE_EXPR_]], align 4

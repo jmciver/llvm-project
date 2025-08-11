@@ -136,8 +136,8 @@ kernel void KernelLargeTwoMember(struct LargeStructTwoMember u) {
 // AMDGCN-NEXT:    [[OUT_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[OUT_ADDR]] to ptr
 // AMDGCN-NEXT:    store ptr addrspace(1) [[IN]], ptr [[IN_ADDR_ASCAST]], align 8
 // AMDGCN-NEXT:    store ptr addrspace(1) [[OUT]], ptr [[OUT_ADDR_ASCAST]], align 8
-// AMDGCN-NEXT:    [[TMP0:%.*]] = load ptr addrspace(1), ptr [[IN_ADDR_ASCAST]], align 8, !freeze_bits [[META4]]
-// AMDGCN-NEXT:    [[TMP1:%.*]] = load ptr addrspace(1), ptr [[OUT_ADDR_ASCAST]], align 8, !freeze_bits [[META4]]
+// AMDGCN-NEXT:    [[TMP0:%.*]] = load ptr addrspace(1), ptr [[IN_ADDR_ASCAST]], align 8
+// AMDGCN-NEXT:    [[TMP1:%.*]] = load ptr addrspace(1), ptr [[OUT_ADDR_ASCAST]], align 8
 // AMDGCN-NEXT:    call void @__clang_ocl_kern_imp_ker(ptr addrspace(1) noundef align 4 [[TMP0]], ptr addrspace(1) noundef align 4 [[TMP1]]) #[[ATTR4:[0-9]+]]
 // AMDGCN-NEXT:    ret void
 //
@@ -152,9 +152,9 @@ kernel void KernelLargeTwoMember(struct LargeStructTwoMember u) {
 // AMDGCN-NEXT:    [[OUT_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[OUT_ADDR]] to ptr
 // AMDGCN-NEXT:    store ptr addrspace(1) [[IN]], ptr [[IN_ADDR_ASCAST]], align 8
 // AMDGCN-NEXT:    store ptr addrspace(1) [[OUT]], ptr [[OUT_ADDR_ASCAST]], align 8
-// AMDGCN-NEXT:    [[TMP0:%.*]] = load ptr addrspace(1), ptr [[OUT_ADDR_ASCAST]], align 8, !freeze_bits [[META4]]
+// AMDGCN-NEXT:    [[TMP0:%.*]] = load ptr addrspace(1), ptr [[OUT_ADDR_ASCAST]], align 8
 // AMDGCN-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [[STRUCT_MAT4X4]], ptr addrspace(1) [[TMP0]], i64 0
-// AMDGCN-NEXT:    [[TMP1:%.*]] = load ptr addrspace(1), ptr [[IN_ADDR_ASCAST]], align 8, !freeze_bits [[META4]]
+// AMDGCN-NEXT:    [[TMP1:%.*]] = load ptr addrspace(1), ptr [[IN_ADDR_ASCAST]], align 8
 // AMDGCN-NEXT:    [[ARRAYIDX1:%.*]] = getelementptr inbounds [[STRUCT_MAT3X3:%.*]], ptr addrspace(1) [[TMP1]], i64 1
 // AMDGCN-NEXT:    [[TMP2:%.*]] = getelementptr inbounds nuw [[STRUCT_MAT3X3]], ptr addrspace(1) [[ARRAYIDX1]], i32 0, i32 0
 // AMDGCN-NEXT:    [[TMP3:%.*]] = load [9 x i32], ptr addrspace(1) [[TMP2]], align 4, !freeze_bits [[META4]]
@@ -184,8 +184,8 @@ kernel void KernelLargeTwoMember(struct LargeStructTwoMember u) {
 // AMDGCN-NEXT:    [[OUT_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[OUT_ADDR]] to ptr
 // AMDGCN-NEXT:    store ptr addrspace(1) [[IN]], ptr [[IN_ADDR_ASCAST]], align 8
 // AMDGCN-NEXT:    store ptr addrspace(1) [[OUT]], ptr [[OUT_ADDR_ASCAST]], align 8
-// AMDGCN-NEXT:    [[TMP0:%.*]] = load ptr addrspace(1), ptr [[IN_ADDR_ASCAST]], align 8, !freeze_bits [[META4]]
-// AMDGCN-NEXT:    [[TMP1:%.*]] = load ptr addrspace(1), ptr [[OUT_ADDR_ASCAST]], align 8, !freeze_bits [[META4]]
+// AMDGCN-NEXT:    [[TMP0:%.*]] = load ptr addrspace(1), ptr [[IN_ADDR_ASCAST]], align 8
+// AMDGCN-NEXT:    [[TMP1:%.*]] = load ptr addrspace(1), ptr [[OUT_ADDR_ASCAST]], align 8
 // AMDGCN-NEXT:    call void @__clang_ocl_kern_imp_ker_large(ptr addrspace(1) noundef align 4 [[TMP0]], ptr addrspace(1) noundef align 4 [[TMP1]]) #[[ATTR4]]
 // AMDGCN-NEXT:    ret void
 //
@@ -201,9 +201,9 @@ kernel void KernelLargeTwoMember(struct LargeStructTwoMember u) {
 // AMDGCN-NEXT:    [[OUT_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[OUT_ADDR]] to ptr
 // AMDGCN-NEXT:    store ptr addrspace(1) [[IN]], ptr [[IN_ADDR_ASCAST]], align 8
 // AMDGCN-NEXT:    store ptr addrspace(1) [[OUT]], ptr [[OUT_ADDR_ASCAST]], align 8
-// AMDGCN-NEXT:    [[TMP0:%.*]] = load ptr addrspace(1), ptr [[OUT_ADDR_ASCAST]], align 8, !freeze_bits [[META4]]
+// AMDGCN-NEXT:    [[TMP0:%.*]] = load ptr addrspace(1), ptr [[OUT_ADDR_ASCAST]], align 8
 // AMDGCN-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [[STRUCT_MAT64X64]], ptr addrspace(1) [[TMP0]], i64 0
-// AMDGCN-NEXT:    [[TMP1:%.*]] = load ptr addrspace(1), ptr [[IN_ADDR_ASCAST]], align 8, !freeze_bits [[META4]]
+// AMDGCN-NEXT:    [[TMP1:%.*]] = load ptr addrspace(1), ptr [[IN_ADDR_ASCAST]], align 8
 // AMDGCN-NEXT:    [[ARRAYIDX1:%.*]] = getelementptr inbounds [[STRUCT_MAT32X32]], ptr addrspace(1) [[TMP1]], i64 1
 // AMDGCN-NEXT:    call void @llvm.memcpy.p5.p1.i64(ptr addrspace(5) align 4 [[BYVAL_TEMP]], ptr addrspace(1) align 4 [[ARRAYIDX1]], i64 4096, i1 false)
 // AMDGCN-NEXT:    call void @foo_large(ptr addrspace(5) dead_on_unwind writable sret([[STRUCT_MAT64X64]]) align 4 [[TMP]], ptr addrspace(5) noundef byref([[STRUCT_MAT32X32]]) align 4 [[BYVAL_TEMP]]) #[[ATTR4]]
@@ -308,7 +308,7 @@ kernel void KernelLargeTwoMember(struct LargeStructTwoMember u) {
 // AMDGCN-NEXT:    [[U_ADDR:%.*]] = alloca ptr addrspace(1), align 8, addrspace(5)
 // AMDGCN-NEXT:    [[U_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[U_ADDR]] to ptr
 // AMDGCN-NEXT:    store ptr addrspace(1) [[U]], ptr [[U_ADDR_ASCAST]], align 8
-// AMDGCN-NEXT:    [[TMP0:%.*]] = load ptr addrspace(1), ptr [[U_ADDR_ASCAST]], align 8, !freeze_bits [[META4]]
+// AMDGCN-NEXT:    [[TMP0:%.*]] = load ptr addrspace(1), ptr [[U_ADDR_ASCAST]], align 8
 // AMDGCN-NEXT:    call void @__clang_ocl_kern_imp_KernelOneMemberSpir(ptr addrspace(1) noundef align 8 [[TMP0]]) #[[ATTR4]]
 // AMDGCN-NEXT:    ret void
 //
@@ -319,7 +319,7 @@ kernel void KernelLargeTwoMember(struct LargeStructTwoMember u) {
 // AMDGCN-NEXT:    [[U_ADDR:%.*]] = alloca ptr addrspace(1), align 8, addrspace(5)
 // AMDGCN-NEXT:    [[U_ADDR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[U_ADDR]] to ptr
 // AMDGCN-NEXT:    store ptr addrspace(1) [[U]], ptr [[U_ADDR_ASCAST]], align 8
-// AMDGCN-NEXT:    [[TMP0:%.*]] = load ptr addrspace(1), ptr [[U_ADDR_ASCAST]], align 8, !freeze_bits [[META4]]
+// AMDGCN-NEXT:    [[TMP0:%.*]] = load ptr addrspace(1), ptr [[U_ADDR_ASCAST]], align 8
 // AMDGCN-NEXT:    [[COERCE_DIVE:%.*]] = getelementptr inbounds nuw [[STRUCT_STRUCTONEMEMBER:%.*]], ptr addrspace(1) [[TMP0]], i32 0, i32 0
 // AMDGCN-NEXT:    [[TMP1:%.*]] = load <2 x i32>, ptr addrspace(1) [[COERCE_DIVE]], align 8, !freeze_bits [[META4]]
 // AMDGCN-NEXT:    call void @FuncOneMember(<2 x i32> [[TMP1]]) #[[ATTR4]]

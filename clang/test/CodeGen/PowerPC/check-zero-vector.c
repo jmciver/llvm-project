@@ -10,7 +10,11 @@
 // POWERPC_64-NEXT:    [[RESULT:%.*]] = alloca i16, align 2
 // POWERPC_64-NEXT:    [[I:%.*]] = alloca i32, align 4
 // POWERPC_64-NEXT:    store ptr [[COLAUTHS]], ptr [[COLAUTHS_ADDR]], align 8
+// POWERPC_64-NEXT:    [[FREEZE_POISON:%.*]] = freeze i16 poison
+// POWERPC_64-NEXT:    store i16 [[FREEZE_POISON]], ptr [[RESULT]], align 2
 // POWERPC_64-NEXT:    store i16 0, ptr [[RESULT]], align 2
+// POWERPC_64-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// POWERPC_64-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[I]], align 4
 // POWERPC_64-NEXT:    store i32 0, ptr [[I]], align 4
 // POWERPC_64-NEXT:    br label %[[FOR_COND:.*]]
 // POWERPC_64:       [[FOR_COND]]:
@@ -22,10 +26,10 @@
 // POWERPC_64-NEXT:    [[TMP2:%.*]] = load i32, ptr [[I]], align 4
 // POWERPC_64-NEXT:    [[IDXPROM:%.*]] = sext i32 [[TMP2]] to i64
 // POWERPC_64-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds i16, ptr [[TMP1]], i64 [[IDXPROM]]
-// POWERPC_64-NEXT:    [[TMP3:%.*]] = load i16, ptr [[ARRAYIDX]], align 2
+// POWERPC_64-NEXT:    [[TMP3:%.*]] = load i16, ptr [[ARRAYIDX]], align 2, !freeze_bits [[META2:![0-9]+]]
 // POWERPC_64-NEXT:    [[CONV:%.*]] = zext i16 [[TMP3]] to i32
-// POWERPC_64-NEXT:    [[CMP1:%.*]] = icmp sgt i32 [[CONV]], 0
-// POWERPC_64-NEXT:    br i1 [[CMP1]], label %[[IF_THEN:.*]], label %[[IF_END:.*]]
+// POWERPC_64-NEXT:    [[CMP2:%.*]] = icmp sgt i32 [[CONV]], 0
+// POWERPC_64-NEXT:    br i1 [[CMP2]], label %[[IF_THEN:.*]], label %[[IF_END:.*]]
 // POWERPC_64:       [[IF_THEN]]:
 // POWERPC_64-NEXT:    [[TMP4:%.*]] = load i16, ptr [[RESULT]], align 2
 // POWERPC_64-NEXT:    [[INC:%.*]] = add i16 [[TMP4]], 1
@@ -35,13 +39,13 @@
 // POWERPC_64-NEXT:    br label %[[FOR_INC:.*]]
 // POWERPC_64:       [[FOR_INC]]:
 // POWERPC_64-NEXT:    [[TMP5:%.*]] = load i32, ptr [[I]], align 4
-// POWERPC_64-NEXT:    [[INC3:%.*]] = add nsw i32 [[TMP5]], 1
-// POWERPC_64-NEXT:    store i32 [[INC3]], ptr [[I]], align 4
-// POWERPC_64-NEXT:    br label %[[FOR_COND]], !llvm.loop [[LOOP2:![0-9]+]]
+// POWERPC_64-NEXT:    [[INC4:%.*]] = add nsw i32 [[TMP5]], 1
+// POWERPC_64-NEXT:    store i32 [[INC4]], ptr [[I]], align 4
+// POWERPC_64-NEXT:    br label %[[FOR_COND]], !llvm.loop [[LOOP3:![0-9]+]]
 // POWERPC_64:       [[FOR_END]]:
 // POWERPC_64-NEXT:    [[TMP6:%.*]] = load i16, ptr [[RESULT]], align 2
-// POWERPC_64-NEXT:    [[CONV4:%.*]] = zext i16 [[TMP6]] to i32
-// POWERPC_64-NEXT:    ret i32 [[CONV4]]
+// POWERPC_64-NEXT:    [[CONV5:%.*]] = zext i16 [[TMP6]] to i32
+// POWERPC_64-NEXT:    ret i32 [[CONV5]]
 //
 // POWERPC_64LE-LABEL: define dso_local signext i32 @test_Greater_than(
 // POWERPC_64LE-SAME: ptr noundef [[COLAUTHS:%.*]]) #[[ATTR0:[0-9]+]] {
@@ -50,7 +54,11 @@
 // POWERPC_64LE-NEXT:    [[RESULT:%.*]] = alloca i16, align 2
 // POWERPC_64LE-NEXT:    [[I:%.*]] = alloca i32, align 4
 // POWERPC_64LE-NEXT:    store ptr [[COLAUTHS]], ptr [[COLAUTHS_ADDR]], align 8
+// POWERPC_64LE-NEXT:    [[FREEZE_POISON:%.*]] = freeze i16 poison
+// POWERPC_64LE-NEXT:    store i16 [[FREEZE_POISON]], ptr [[RESULT]], align 2
 // POWERPC_64LE-NEXT:    store i16 0, ptr [[RESULT]], align 2
+// POWERPC_64LE-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// POWERPC_64LE-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[I]], align 4
 // POWERPC_64LE-NEXT:    store i32 0, ptr [[I]], align 4
 // POWERPC_64LE-NEXT:    br label %[[FOR_COND:.*]]
 // POWERPC_64LE:       [[FOR_COND]]:
@@ -62,10 +70,10 @@
 // POWERPC_64LE-NEXT:    [[TMP2:%.*]] = load i32, ptr [[I]], align 4
 // POWERPC_64LE-NEXT:    [[IDXPROM:%.*]] = sext i32 [[TMP2]] to i64
 // POWERPC_64LE-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds i16, ptr [[TMP1]], i64 [[IDXPROM]]
-// POWERPC_64LE-NEXT:    [[TMP3:%.*]] = load i16, ptr [[ARRAYIDX]], align 2
+// POWERPC_64LE-NEXT:    [[TMP3:%.*]] = load i16, ptr [[ARRAYIDX]], align 2, !freeze_bits [[META2:![0-9]+]]
 // POWERPC_64LE-NEXT:    [[CONV:%.*]] = zext i16 [[TMP3]] to i32
-// POWERPC_64LE-NEXT:    [[CMP1:%.*]] = icmp sgt i32 [[CONV]], 0
-// POWERPC_64LE-NEXT:    br i1 [[CMP1]], label %[[IF_THEN:.*]], label %[[IF_END:.*]]
+// POWERPC_64LE-NEXT:    [[CMP2:%.*]] = icmp sgt i32 [[CONV]], 0
+// POWERPC_64LE-NEXT:    br i1 [[CMP2]], label %[[IF_THEN:.*]], label %[[IF_END:.*]]
 // POWERPC_64LE:       [[IF_THEN]]:
 // POWERPC_64LE-NEXT:    [[TMP4:%.*]] = load i16, ptr [[RESULT]], align 2
 // POWERPC_64LE-NEXT:    [[INC:%.*]] = add i16 [[TMP4]], 1
@@ -75,13 +83,13 @@
 // POWERPC_64LE-NEXT:    br label %[[FOR_INC:.*]]
 // POWERPC_64LE:       [[FOR_INC]]:
 // POWERPC_64LE-NEXT:    [[TMP5:%.*]] = load i32, ptr [[I]], align 4
-// POWERPC_64LE-NEXT:    [[INC3:%.*]] = add nsw i32 [[TMP5]], 1
-// POWERPC_64LE-NEXT:    store i32 [[INC3]], ptr [[I]], align 4
-// POWERPC_64LE-NEXT:    br label %[[FOR_COND]], !llvm.loop [[LOOP2:![0-9]+]]
+// POWERPC_64LE-NEXT:    [[INC4:%.*]] = add nsw i32 [[TMP5]], 1
+// POWERPC_64LE-NEXT:    store i32 [[INC4]], ptr [[I]], align 4
+// POWERPC_64LE-NEXT:    br label %[[FOR_COND]], !llvm.loop [[LOOP3:![0-9]+]]
 // POWERPC_64LE:       [[FOR_END]]:
 // POWERPC_64LE-NEXT:    [[TMP6:%.*]] = load i16, ptr [[RESULT]], align 2
-// POWERPC_64LE-NEXT:    [[CONV4:%.*]] = zext i16 [[TMP6]] to i32
-// POWERPC_64LE-NEXT:    ret i32 [[CONV4]]
+// POWERPC_64LE-NEXT:    [[CONV5:%.*]] = zext i16 [[TMP6]] to i32
+// POWERPC_64LE-NEXT:    ret i32 [[CONV5]]
 //
 // POWERPC_32-LABEL: define i32 @test_Greater_than(
 // POWERPC_32-SAME: ptr noundef [[COLAUTHS:%.*]]) #[[ATTR0:[0-9]+]] {
@@ -90,7 +98,11 @@
 // POWERPC_32-NEXT:    [[RESULT:%.*]] = alloca i16, align 2
 // POWERPC_32-NEXT:    [[I:%.*]] = alloca i32, align 4
 // POWERPC_32-NEXT:    store ptr [[COLAUTHS]], ptr [[COLAUTHS_ADDR]], align 4
+// POWERPC_32-NEXT:    [[FREEZE_POISON:%.*]] = freeze i16 poison
+// POWERPC_32-NEXT:    store i16 [[FREEZE_POISON]], ptr [[RESULT]], align 2
 // POWERPC_32-NEXT:    store i16 0, ptr [[RESULT]], align 2
+// POWERPC_32-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// POWERPC_32-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[I]], align 4
 // POWERPC_32-NEXT:    store i32 0, ptr [[I]], align 4
 // POWERPC_32-NEXT:    br label %[[FOR_COND:.*]]
 // POWERPC_32:       [[FOR_COND]]:
@@ -101,10 +113,10 @@
 // POWERPC_32-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[COLAUTHS_ADDR]], align 4
 // POWERPC_32-NEXT:    [[TMP2:%.*]] = load i32, ptr [[I]], align 4
 // POWERPC_32-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds i16, ptr [[TMP1]], i32 [[TMP2]]
-// POWERPC_32-NEXT:    [[TMP3:%.*]] = load i16, ptr [[ARRAYIDX]], align 2
+// POWERPC_32-NEXT:    [[TMP3:%.*]] = load i16, ptr [[ARRAYIDX]], align 2, !freeze_bits [[META2:![0-9]+]]
 // POWERPC_32-NEXT:    [[CONV:%.*]] = zext i16 [[TMP3]] to i32
-// POWERPC_32-NEXT:    [[CMP1:%.*]] = icmp sgt i32 [[CONV]], 0
-// POWERPC_32-NEXT:    br i1 [[CMP1]], label %[[IF_THEN:.*]], label %[[IF_END:.*]]
+// POWERPC_32-NEXT:    [[CMP2:%.*]] = icmp sgt i32 [[CONV]], 0
+// POWERPC_32-NEXT:    br i1 [[CMP2]], label %[[IF_THEN:.*]], label %[[IF_END:.*]]
 // POWERPC_32:       [[IF_THEN]]:
 // POWERPC_32-NEXT:    [[TMP4:%.*]] = load i16, ptr [[RESULT]], align 2
 // POWERPC_32-NEXT:    [[INC:%.*]] = add i16 [[TMP4]], 1
@@ -114,13 +126,13 @@
 // POWERPC_32-NEXT:    br label %[[FOR_INC:.*]]
 // POWERPC_32:       [[FOR_INC]]:
 // POWERPC_32-NEXT:    [[TMP5:%.*]] = load i32, ptr [[I]], align 4
-// POWERPC_32-NEXT:    [[INC3:%.*]] = add nsw i32 [[TMP5]], 1
-// POWERPC_32-NEXT:    store i32 [[INC3]], ptr [[I]], align 4
-// POWERPC_32-NEXT:    br label %[[FOR_COND]], !llvm.loop [[LOOP2:![0-9]+]]
+// POWERPC_32-NEXT:    [[INC4:%.*]] = add nsw i32 [[TMP5]], 1
+// POWERPC_32-NEXT:    store i32 [[INC4]], ptr [[I]], align 4
+// POWERPC_32-NEXT:    br label %[[FOR_COND]], !llvm.loop [[LOOP3:![0-9]+]]
 // POWERPC_32:       [[FOR_END]]:
 // POWERPC_32-NEXT:    [[TMP6:%.*]] = load i16, ptr [[RESULT]], align 2
-// POWERPC_32-NEXT:    [[CONV4:%.*]] = zext i16 [[TMP6]] to i32
-// POWERPC_32-NEXT:    ret i32 [[CONV4]]
+// POWERPC_32-NEXT:    [[CONV5:%.*]] = zext i16 [[TMP6]] to i32
+// POWERPC_32-NEXT:    ret i32 [[CONV5]]
 //
 int test_Greater_than(unsigned short *colauths) {
   unsigned short result = 0;
@@ -132,12 +144,15 @@ int test_Greater_than(unsigned short *colauths) {
   return result;
 }
 //.
-// POWERPC_64: [[LOOP2]] = distinct !{[[LOOP2]], [[META3:![0-9]+]]}
-// POWERPC_64: [[META3]] = !{!"llvm.loop.mustprogress"}
+// POWERPC_64: [[META2]] = !{}
+// POWERPC_64: [[LOOP3]] = distinct !{[[LOOP3]], [[META4:![0-9]+]]}
+// POWERPC_64: [[META4]] = !{!"llvm.loop.mustprogress"}
 //.
-// POWERPC_64LE: [[LOOP2]] = distinct !{[[LOOP2]], [[META3:![0-9]+]]}
-// POWERPC_64LE: [[META3]] = !{!"llvm.loop.mustprogress"}
+// POWERPC_64LE: [[META2]] = !{}
+// POWERPC_64LE: [[LOOP3]] = distinct !{[[LOOP3]], [[META4:![0-9]+]]}
+// POWERPC_64LE: [[META4]] = !{!"llvm.loop.mustprogress"}
 //.
-// POWERPC_32: [[LOOP2]] = distinct !{[[LOOP2]], [[META3:![0-9]+]]}
-// POWERPC_32: [[META3]] = !{!"llvm.loop.mustprogress"}
+// POWERPC_32: [[META2]] = !{}
+// POWERPC_32: [[LOOP3]] = distinct !{[[LOOP3]], [[META4:![0-9]+]]}
+// POWERPC_32: [[META4]] = !{!"llvm.loop.mustprogress"}
 //.

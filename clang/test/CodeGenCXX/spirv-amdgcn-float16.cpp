@@ -10,6 +10,12 @@
 // CHECK-NEXT:    [[X_ASCAST:%.*]] = addrspacecast ptr [[X]] to ptr addrspace(4)
 // CHECK-NEXT:    [[Y_ASCAST:%.*]] = addrspacecast ptr [[Y]] to ptr addrspace(4)
 // CHECK-NEXT:    [[Z_ASCAST:%.*]] = addrspacecast ptr [[Z]] to ptr addrspace(4)
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze half poison
+// CHECK-NEXT:    store half [[FREEZE_POISON]], ptr addrspace(4) [[X_ASCAST]], align 2
+// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze half poison
+// CHECK-NEXT:    store half [[FREEZE_POISON1]], ptr addrspace(4) [[Y_ASCAST]], align 2
+// CHECK-NEXT:    [[FREEZE_POISON2:%.*]] = freeze half poison
+// CHECK-NEXT:    store half [[FREEZE_POISON2]], ptr addrspace(4) [[Z_ASCAST]], align 2
 // CHECK-NEXT:    [[TMP0:%.*]] = load half, ptr addrspace(4) [[X_ASCAST]], align 2
 // CHECK-NEXT:    [[TMP1:%.*]] = load half, ptr addrspace(4) [[Y_ASCAST]], align 2
 // CHECK-NEXT:    [[ADD:%.*]] = fadd half [[TMP0]], [[TMP1]]

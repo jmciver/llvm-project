@@ -41,8 +41,14 @@ extern B array[5];
 // CHECK-NEXT:    [[__END1:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    [[B:%.*]] = alloca [[STRUCT_B:%.*]], align 1
 // CHECK-NEXT:    call void @_ZN1AC1Ev(ptr noundef nonnull align 1 dereferenceable(1) [[A]])
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[__RANGE1]], align 8
 // CHECK-NEXT:    store ptr @array, ptr [[__RANGE1]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON1]], ptr [[__BEGIN1]], align 8
 // CHECK-NEXT:    store ptr @array, ptr [[__BEGIN1]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON2:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON2]], ptr [[__END1]], align 8
 // CHECK-NEXT:    store ptr getelementptr inbounds ([[STRUCT_B]], ptr @array, i64 5), ptr [[__END1]], align 8
 // CHECK-NEXT:    br label [[FOR_COND:%.*]]
 // CHECK:       for.cond:
@@ -79,14 +85,20 @@ void for_array() {
 // CHECK-NEXT:    [[__END1:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    [[B:%.*]] = alloca [[STRUCT_B:%.*]], align 1
 // CHECK-NEXT:    call void @_ZN1AC1Ev(ptr noundef nonnull align 1 dereferenceable(1) [[A]])
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[__RANGE1]], align 8
 // CHECK-NEXT:    call void @_ZN1CC1Ev(ptr noundef nonnull align 1 dereferenceable(1) [[REF_TMP]])
 // CHECK-NEXT:    store ptr [[REF_TMP]], ptr [[__RANGE1]], align 8
-// CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[__RANGE1]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON1]], ptr [[__BEGIN1]], align 8
+// CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[__RANGE1]], align 8, !nonnull [[META2:![0-9]+]]
 // CHECK-NEXT:    [[CALL:%.*]] = call noundef ptr @_Z5beginR1C(ptr noundef nonnull align 1 dereferenceable(1) [[TMP0]])
 // CHECK-NEXT:    store ptr [[CALL]], ptr [[__BEGIN1]], align 8
-// CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[__RANGE1]], align 8
-// CHECK-NEXT:    [[CALL1:%.*]] = call noundef ptr @_Z3endR1C(ptr noundef nonnull align 1 dereferenceable(1) [[TMP1]])
-// CHECK-NEXT:    store ptr [[CALL1]], ptr [[__END1]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON2:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON2]], ptr [[__END1]], align 8
+// CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[__RANGE1]], align 8, !nonnull [[META2]]
+// CHECK-NEXT:    [[CALL3:%.*]] = call noundef ptr @_Z3endR1C(ptr noundef nonnull align 1 dereferenceable(1) [[TMP1]])
+// CHECK-NEXT:    store ptr [[CALL3]], ptr [[__END1]], align 8
 // CHECK-NEXT:    br label [[FOR_COND:%.*]]
 // CHECK:       for.cond:
 // CHECK-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[__BEGIN1]], align 8
@@ -125,14 +137,20 @@ void for_range() {
 // CHECK-NEXT:    [[__END1:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    [[B:%.*]] = alloca [[STRUCT_B:%.*]], align 1
 // CHECK-NEXT:    call void @_ZN1AC1Ev(ptr noundef nonnull align 1 dereferenceable(1) [[A]])
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[__RANGE1]], align 8
 // CHECK-NEXT:    call void @_ZN1DC1Ev(ptr noundef nonnull align 1 dereferenceable(1) [[REF_TMP]])
 // CHECK-NEXT:    store ptr [[REF_TMP]], ptr [[__RANGE1]], align 8
-// CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[__RANGE1]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON1]], ptr [[__BEGIN1]], align 8
+// CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[__RANGE1]], align 8, !nonnull [[META2]]
 // CHECK-NEXT:    [[CALL:%.*]] = call noundef ptr @_ZN1D5beginEv(ptr noundef nonnull align 1 dereferenceable(1) [[TMP0]])
 // CHECK-NEXT:    store ptr [[CALL]], ptr [[__BEGIN1]], align 8
-// CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[__RANGE1]], align 8
-// CHECK-NEXT:    [[CALL1:%.*]] = call noundef ptr @_ZN1D3endEv(ptr noundef nonnull align 1 dereferenceable(1) [[TMP1]])
-// CHECK-NEXT:    store ptr [[CALL1]], ptr [[__END1]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON2:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON2]], ptr [[__END1]], align 8
+// CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[__RANGE1]], align 8, !nonnull [[META2]]
+// CHECK-NEXT:    [[CALL3:%.*]] = call noundef ptr @_ZN1D3endEv(ptr noundef nonnull align 1 dereferenceable(1) [[TMP1]])
+// CHECK-NEXT:    store ptr [[CALL3]], ptr [[__END1]], align 8
 // CHECK-NEXT:    br label [[FOR_COND:%.*]]
 // CHECK:       for.cond:
 // CHECK-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[__BEGIN1]], align 8

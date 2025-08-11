@@ -34,14 +34,24 @@ void func1(int *x) {
 // CL12-NEXT:    [[LP1:%.*]] = alloca ptr addrspace(5), align 4, addrspace(5)
 // CL12-NEXT:    [[LP2:%.*]] = alloca ptr addrspace(5), align 4, addrspace(5)
 // CL12-NEXT:    [[LVC:%.*]] = alloca i32, align 4, addrspace(5)
+// CL12-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CL12-NEXT:    store i32 [[FREEZE_POISON]], ptr addrspace(5) [[LV1]], align 4
 // CL12-NEXT:    store i32 1, ptr addrspace(5) [[LV1]], align 4
+// CL12-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CL12-NEXT:    store i32 [[FREEZE_POISON1]], ptr addrspace(5) [[LV2]], align 4
 // CL12-NEXT:    store i32 2, ptr addrspace(5) [[LV2]], align 4
 // CL12-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [100 x i32], ptr addrspace(5) [[LA]], i64 0, i64 0
 // CL12-NEXT:    store i32 3, ptr addrspace(5) [[ARRAYIDX]], align 4
+// CL12-NEXT:    [[FREEZE_POISON2:%.*]] = freeze ptr addrspace(5) poison
+// CL12-NEXT:    store ptr addrspace(5) [[FREEZE_POISON2]], ptr addrspace(5) [[LP1]], align 4
 // CL12-NEXT:    store ptr addrspace(5) [[LV1]], ptr addrspace(5) [[LP1]], align 4
+// CL12-NEXT:    [[FREEZE_POISON3:%.*]] = freeze ptr addrspace(5) poison
+// CL12-NEXT:    store ptr addrspace(5) [[FREEZE_POISON3]], ptr addrspace(5) [[LP2]], align 4
 // CL12-NEXT:    [[ARRAYDECAY:%.*]] = getelementptr inbounds [100 x i32], ptr addrspace(5) [[LA]], i64 0, i64 0
 // CL12-NEXT:    store ptr addrspace(5) [[ARRAYDECAY]], ptr addrspace(5) [[LP2]], align 4
 // CL12-NEXT:    call void @func1(ptr addrspace(5) noundef [[LV1]]) #[[ATTR2:[0-9]+]]
+// CL12-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CL12-NEXT:    store i32 [[FREEZE_POISON4]], ptr addrspace(5) [[LVC]], align 4
 // CL12-NEXT:    store i32 4, ptr addrspace(5) [[LVC]], align 4
 // CL12-NEXT:    store i32 4, ptr addrspace(5) [[LV1]], align 4
 // CL12-NEXT:    ret void
@@ -55,17 +65,27 @@ void func1(int *x) {
 // CL20-NEXT:    [[LP1:%.*]] = alloca ptr, align 8, addrspace(5)
 // CL20-NEXT:    [[LP2:%.*]] = alloca ptr, align 8, addrspace(5)
 // CL20-NEXT:    [[LVC:%.*]] = alloca i32, align 4, addrspace(5)
+// CL20-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CL20-NEXT:    store i32 [[FREEZE_POISON]], ptr addrspace(5) [[LV1]], align 4
 // CL20-NEXT:    store i32 1, ptr addrspace(5) [[LV1]], align 4
+// CL20-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CL20-NEXT:    store i32 [[FREEZE_POISON1]], ptr addrspace(5) [[LV2]], align 4
 // CL20-NEXT:    store i32 2, ptr addrspace(5) [[LV2]], align 4
 // CL20-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds [100 x i32], ptr addrspace(5) [[LA]], i64 0, i64 0
 // CL20-NEXT:    store i32 3, ptr addrspace(5) [[ARRAYIDX]], align 4
+// CL20-NEXT:    [[FREEZE_POISON2:%.*]] = freeze ptr poison
+// CL20-NEXT:    store ptr [[FREEZE_POISON2]], ptr addrspace(5) [[LP1]], align 8
 // CL20-NEXT:    [[LV1_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[LV1]] to ptr
 // CL20-NEXT:    store ptr [[LV1_ASCAST]], ptr addrspace(5) [[LP1]], align 8
+// CL20-NEXT:    [[FREEZE_POISON3:%.*]] = freeze ptr poison
+// CL20-NEXT:    store ptr [[FREEZE_POISON3]], ptr addrspace(5) [[LP2]], align 8
 // CL20-NEXT:    [[ARRAYDECAY:%.*]] = getelementptr inbounds [100 x i32], ptr addrspace(5) [[LA]], i64 0, i64 0
 // CL20-NEXT:    [[ARRAYDECAY_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[ARRAYDECAY]] to ptr
 // CL20-NEXT:    store ptr [[ARRAYDECAY_ASCAST]], ptr addrspace(5) [[LP2]], align 8
-// CL20-NEXT:    [[LV1_ASCAST1:%.*]] = addrspacecast ptr addrspace(5) [[LV1]] to ptr
-// CL20-NEXT:    call void @func1(ptr noundef [[LV1_ASCAST1]]) #[[ATTR2:[0-9]+]]
+// CL20-NEXT:    [[LV1_ASCAST4:%.*]] = addrspacecast ptr addrspace(5) [[LV1]] to ptr
+// CL20-NEXT:    call void @func1(ptr noundef [[LV1_ASCAST4]]) #[[ATTR2:[0-9]+]]
+// CL20-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CL20-NEXT:    store i32 [[FREEZE_POISON5]], ptr addrspace(5) [[LVC]], align 4
 // CL20-NEXT:    store i32 4, ptr addrspace(5) [[LVC]], align 4
 // CL20-NEXT:    store i32 4, ptr addrspace(5) [[LV1]], align 4
 // CL20-NEXT:    ret void
@@ -111,7 +131,11 @@ void func3(void) {
 // CL12-NEXT:  [[ENTRY:.*:]]
 // CL12-NEXT:    [[VAR:%.*]] = alloca i64, align 8, addrspace(5)
 // CL12-NEXT:    [[ALLOCA_ADDR:%.*]] = alloca ptr addrspace(5), align 4, addrspace(5)
+// CL12-NEXT:    [[FREEZE_POISON:%.*]] = freeze i64 poison
+// CL12-NEXT:    store i64 [[FREEZE_POISON]], ptr addrspace(5) [[VAR]], align 8
 // CL12-NEXT:    store i64 5, ptr addrspace(5) [[VAR]], align 8
+// CL12-NEXT:    [[FREEZE_POISON1:%.*]] = freeze ptr addrspace(5) poison
+// CL12-NEXT:    store ptr addrspace(5) [[FREEZE_POISON1]], ptr addrspace(5) [[ALLOCA_ADDR]], align 4
 // CL12-NEXT:    store ptr addrspace(5) [[VAR]], ptr addrspace(5) [[ALLOCA_ADDR]], align 4
 // CL12-NEXT:    [[TMP0:%.*]] = load ptr addrspace(5), ptr addrspace(5) [[ALLOCA_ADDR]], align 4
 // CL12-NEXT:    store i64 8, ptr addrspace(5) [[TMP0]], align 8
@@ -122,7 +146,11 @@ void func3(void) {
 // CL20-NEXT:  [[ENTRY:.*:]]
 // CL20-NEXT:    [[VAR:%.*]] = alloca i64, align 8, addrspace(5)
 // CL20-NEXT:    [[ALLOCA_ADDR:%.*]] = alloca ptr addrspace(5), align 4, addrspace(5)
+// CL20-NEXT:    [[FREEZE_POISON:%.*]] = freeze i64 poison
+// CL20-NEXT:    store i64 [[FREEZE_POISON]], ptr addrspace(5) [[VAR]], align 8
 // CL20-NEXT:    store i64 5, ptr addrspace(5) [[VAR]], align 8
+// CL20-NEXT:    [[FREEZE_POISON1:%.*]] = freeze ptr addrspace(5) poison
+// CL20-NEXT:    store ptr addrspace(5) [[FREEZE_POISON1]], ptr addrspace(5) [[ALLOCA_ADDR]], align 4
 // CL20-NEXT:    store ptr addrspace(5) [[VAR]], ptr addrspace(5) [[ALLOCA_ADDR]], align 4
 // CL20-NEXT:    [[TMP0:%.*]] = load ptr addrspace(5), ptr addrspace(5) [[ALLOCA_ADDR]], align 4
 // CL20-NEXT:    store i64 8, ptr addrspace(5) [[TMP0]], align 8
@@ -142,7 +170,11 @@ void wrong_store_type_private_pointer_alloca() {
 // CL12-NEXT:  [[ENTRY:.*:]]
 // CL12-NEXT:    [[VAR:%.*]] = alloca i64, align 8, addrspace(5)
 // CL12-NEXT:    [[ALLOCA_ADDR_AS_GENERIC:%.*]] = alloca ptr addrspace(5), align 4, addrspace(5)
+// CL12-NEXT:    [[FREEZE_POISON:%.*]] = freeze i64 poison
+// CL12-NEXT:    store i64 [[FREEZE_POISON]], ptr addrspace(5) [[VAR]], align 8
 // CL12-NEXT:    store i64 5, ptr addrspace(5) [[VAR]], align 8
+// CL12-NEXT:    [[FREEZE_POISON1:%.*]] = freeze ptr addrspace(5) poison
+// CL12-NEXT:    store ptr addrspace(5) [[FREEZE_POISON1]], ptr addrspace(5) [[ALLOCA_ADDR_AS_GENERIC]], align 4
 // CL12-NEXT:    store ptr addrspace(5) [[VAR]], ptr addrspace(5) [[ALLOCA_ADDR_AS_GENERIC]], align 4
 // CL12-NEXT:    [[TMP0:%.*]] = load ptr addrspace(5), ptr addrspace(5) [[ALLOCA_ADDR_AS_GENERIC]], align 4
 // CL12-NEXT:    store i64 9, ptr addrspace(5) [[TMP0]], align 8
@@ -153,7 +185,11 @@ void wrong_store_type_private_pointer_alloca() {
 // CL20-NEXT:  [[ENTRY:.*:]]
 // CL20-NEXT:    [[VAR:%.*]] = alloca i64, align 8, addrspace(5)
 // CL20-NEXT:    [[ALLOCA_ADDR_AS_GENERIC:%.*]] = alloca ptr, align 8, addrspace(5)
+// CL20-NEXT:    [[FREEZE_POISON:%.*]] = freeze i64 poison
+// CL20-NEXT:    store i64 [[FREEZE_POISON]], ptr addrspace(5) [[VAR]], align 8
 // CL20-NEXT:    store i64 5, ptr addrspace(5) [[VAR]], align 8
+// CL20-NEXT:    [[FREEZE_POISON1:%.*]] = freeze ptr poison
+// CL20-NEXT:    store ptr [[FREEZE_POISON1]], ptr addrspace(5) [[ALLOCA_ADDR_AS_GENERIC]], align 8
 // CL20-NEXT:    [[VAR_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[VAR]] to ptr
 // CL20-NEXT:    store ptr [[VAR_ASCAST]], ptr addrspace(5) [[ALLOCA_ADDR_AS_GENERIC]], align 8
 // CL20-NEXT:    [[TMP0:%.*]] = load ptr, ptr addrspace(5) [[ALLOCA_ADDR_AS_GENERIC]], align 8

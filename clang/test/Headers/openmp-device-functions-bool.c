@@ -31,14 +31,14 @@ typedef _Bool ockl_bool;
 // CHECK-NEXT:    store <2 x half> [[A]], ptr [[A_ADDR_ASCAST]], align 4
 // CHECK-NEXT:    store <2 x half> [[B]], ptr [[B_ADDR_ASCAST]], align 4
 // CHECK-NEXT:    store float [[C]], ptr [[C_ADDR_ASCAST]], align 4
-// CHECK-NEXT:    [[FROMBOOL:%.*]] = zext i1 [[S]] to i8
-// CHECK-NEXT:    store i8 [[FROMBOOL]], ptr [[S_ADDR_ASCAST]], align 1
+// CHECK-NEXT:    [[STOREDV:%.*]] = zext i1 [[S]] to i8
+// CHECK-NEXT:    store i8 [[STOREDV]], ptr [[S_ADDR_ASCAST]], align 1
 // CHECK-NEXT:    [[TMP0:%.*]] = load <2 x half>, ptr [[A_ADDR_ASCAST]], align 4
 // CHECK-NEXT:    [[TMP1:%.*]] = load <2 x half>, ptr [[B_ADDR_ASCAST]], align 4
 // CHECK-NEXT:    [[TMP2:%.*]] = load float, ptr [[C_ADDR_ASCAST]], align 4
 // CHECK-NEXT:    [[TMP3:%.*]] = load i8, ptr [[S_ADDR_ASCAST]], align 1
-// CHECK-NEXT:    [[TOBOOL:%.*]] = trunc i8 [[TMP3]] to i1
-// CHECK-NEXT:    [[CALL:%.*]] = call float @__ockl_fdot2(<2 x half> noundef [[TMP0]], <2 x half> noundef [[TMP1]], float noundef [[TMP2]], i1 noundef zeroext [[TOBOOL]]) #[[ATTR2:[0-9]+]]
+// CHECK-NEXT:    [[LOADEDV:%.*]] = trunc i8 [[TMP3]] to i1
+// CHECK-NEXT:    [[CALL:%.*]] = call float @__ockl_fdot2(<2 x half> noundef [[TMP0]], <2 x half> noundef [[TMP1]], float noundef [[TMP2]], i1 noundef zeroext [[LOADEDV]]) #[[ATTR2:[0-9]+]]
 // CHECK-NEXT:    ret float [[CALL]]
 //
 EXTERN_C float test_fdot2(__2f16 a, __2f16 b, float c, ockl_bool s) {
@@ -65,7 +65,11 @@ enum my_bool {
 // CHECK-C-NEXT:    [[T_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[T]] to ptr
 // CHECK-C-NEXT:    [[F_ASCAST:%.*]] = addrspacecast ptr addrspace(5) [[F]] to ptr
 // CHECK-C-NEXT:    store i32 [[B]], ptr [[B_ADDR_ASCAST]], align 4
+// CHECK-C-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// CHECK-C-NEXT:    store i32 [[FREEZE_POISON]], ptr [[T_ASCAST]], align 4
 // CHECK-C-NEXT:    store volatile i32 1, ptr [[T_ASCAST]], align 4
+// CHECK-C-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// CHECK-C-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[F_ASCAST]], align 4
 // CHECK-C-NEXT:    store volatile i32 0, ptr [[F_ASCAST]], align 4
 // CHECK-C-NEXT:    [[TMP0:%.*]] = load i32, ptr [[B_ADDR_ASCAST]], align 4
 // CHECK-C-NEXT:    [[TOBOOL:%.*]] = icmp ne i32 [[TMP0]], 0

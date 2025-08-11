@@ -15,23 +15,27 @@ void pass_BitInt129(_BitInt(129));
 // LA32-NEXT:    [[L65:%.*]] = alloca i128, align 16
 // LA32-NEXT:    [[L129:%.*]] = alloca [32 x i8], align 16
 // LA32-NEXT:    [[BYVAL_TEMP:%.*]] = alloca i128, align 16
-// LA32-NEXT:    [[BYVAL_TEMP3:%.*]] = alloca [32 x i8], align 16
+// LA32-NEXT:    [[BYVAL_TEMP4:%.*]] = alloca [32 x i8], align 16
+// LA32-NEXT:    [[FREEZE_POISON:%.*]] = freeze i8 poison
+// LA32-NEXT:    store i8 [[FREEZE_POISON]], ptr [[L7]], align 1
 // LA32-NEXT:    store i8 0, ptr [[L7]], align 1
+// LA32-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i128 poison
+// LA32-NEXT:    store i128 [[FREEZE_POISON1]], ptr [[L65]], align 16
 // LA32-NEXT:    store i128 0, ptr [[L65]], align 16
 // LA32-NEXT:    store i256 0, ptr [[L129]], align 16
 // LA32-NEXT:    [[TMP0:%.*]] = load i8, ptr [[L7]], align 1
 // LA32-NEXT:    [[LOADEDV:%.*]] = trunc i8 [[TMP0]] to i7
 // LA32-NEXT:    call void @pass_BitInt7(i7 noundef signext [[LOADEDV]])
 // LA32-NEXT:    [[TMP1:%.*]] = load i128, ptr [[L65]], align 16
-// LA32-NEXT:    [[LOADEDV1:%.*]] = trunc i128 [[TMP1]] to i65
-// LA32-NEXT:    [[STOREDV:%.*]] = sext i65 [[LOADEDV1]] to i128
+// LA32-NEXT:    [[LOADEDV2:%.*]] = trunc i128 [[TMP1]] to i65
+// LA32-NEXT:    [[STOREDV:%.*]] = sext i65 [[LOADEDV2]] to i128
 // LA32-NEXT:    store i128 [[STOREDV]], ptr [[BYVAL_TEMP]], align 16
 // LA32-NEXT:    call void @pass_BitInt65(ptr dead_on_return noundef [[BYVAL_TEMP]])
-// LA32-NEXT:    [[TMP2:%.*]] = load i256, ptr [[L129]], align 16
-// LA32-NEXT:    [[LOADEDV2:%.*]] = trunc i256 [[TMP2]] to i129
-// LA32-NEXT:    [[STOREDV4:%.*]] = sext i129 [[LOADEDV2]] to i256
-// LA32-NEXT:    store i256 [[STOREDV4]], ptr [[BYVAL_TEMP3]], align 16
-// LA32-NEXT:    call void @pass_BitInt129(ptr dead_on_return noundef [[BYVAL_TEMP3]])
+// LA32-NEXT:    [[TMP2:%.*]] = load i256, ptr [[L129]], align 16, !freeze_bits [[META2:![0-9]+]]
+// LA32-NEXT:    [[LOADEDV3:%.*]] = trunc i256 [[TMP2]] to i129
+// LA32-NEXT:    [[STOREDV5:%.*]] = sext i129 [[LOADEDV3]] to i256
+// LA32-NEXT:    store i256 [[STOREDV5]], ptr [[BYVAL_TEMP4]], align 16
+// LA32-NEXT:    call void @pass_BitInt129(ptr dead_on_return noundef [[BYVAL_TEMP4]])
 // LA32-NEXT:    ret void
 //
 // LA64-LABEL: define dso_local void @example_BitInt(
@@ -41,18 +45,24 @@ void pass_BitInt129(_BitInt(129));
 // LA64-NEXT:    [[L65:%.*]] = alloca i128, align 16
 // LA64-NEXT:    [[L129:%.*]] = alloca i256, align 16
 // LA64-NEXT:    [[BYVAL_TEMP:%.*]] = alloca i256, align 16
+// LA64-NEXT:    [[FREEZE_POISON:%.*]] = freeze i8 poison
+// LA64-NEXT:    store i8 [[FREEZE_POISON]], ptr [[L7]], align 1
 // LA64-NEXT:    store i8 0, ptr [[L7]], align 1
+// LA64-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i128 poison
+// LA64-NEXT:    store i128 [[FREEZE_POISON1]], ptr [[L65]], align 16
 // LA64-NEXT:    store i128 0, ptr [[L65]], align 16
+// LA64-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i256 poison
+// LA64-NEXT:    store i256 [[FREEZE_POISON2]], ptr [[L129]], align 16
 // LA64-NEXT:    store i256 0, ptr [[L129]], align 16
 // LA64-NEXT:    [[TMP0:%.*]] = load i8, ptr [[L7]], align 1
 // LA64-NEXT:    [[LOADEDV:%.*]] = trunc i8 [[TMP0]] to i7
 // LA64-NEXT:    call void @pass_BitInt7(i7 noundef signext [[LOADEDV]])
 // LA64-NEXT:    [[TMP1:%.*]] = load i128, ptr [[L65]], align 16
-// LA64-NEXT:    [[LOADEDV1:%.*]] = trunc i128 [[TMP1]] to i65
-// LA64-NEXT:    call void @pass_BitInt65(i65 noundef [[LOADEDV1]])
+// LA64-NEXT:    [[LOADEDV3:%.*]] = trunc i128 [[TMP1]] to i65
+// LA64-NEXT:    call void @pass_BitInt65(i65 noundef [[LOADEDV3]])
 // LA64-NEXT:    [[TMP2:%.*]] = load i256, ptr [[L129]], align 16
-// LA64-NEXT:    [[LOADEDV2:%.*]] = trunc i256 [[TMP2]] to i129
-// LA64-NEXT:    [[STOREDV:%.*]] = sext i129 [[LOADEDV2]] to i256
+// LA64-NEXT:    [[LOADEDV4:%.*]] = trunc i256 [[TMP2]] to i129
+// LA64-NEXT:    [[STOREDV:%.*]] = sext i129 [[LOADEDV4]] to i256
 // LA64-NEXT:    store i256 [[STOREDV]], ptr [[BYVAL_TEMP]], align 16
 // LA64-NEXT:    call void @pass_BitInt129(ptr dead_on_return noundef [[BYVAL_TEMP]])
 // LA64-NEXT:    ret void
@@ -83,7 +93,7 @@ _BitInt(7) return_large_BitInt7(void) { return 0; }
 // LA32-NEXT:    [[RESULT_PTR:%.*]] = alloca ptr, align 4
 // LA32-NEXT:    store ptr [[AGG_RESULT]], ptr [[RESULT_PTR]], align 4
 // LA32-NEXT:    store i128 0, ptr [[AGG_RESULT]], align 16
-// LA32-NEXT:    [[TMP0:%.*]] = load i128, ptr [[AGG_RESULT]], align 16
+// LA32-NEXT:    [[TMP0:%.*]] = load i128, ptr [[AGG_RESULT]], align 16, !freeze_bits [[META2]]
 // LA32-NEXT:    [[LOADEDV:%.*]] = trunc i128 [[TMP0]] to i65
 // LA32-NEXT:    [[STOREDV:%.*]] = sext i65 [[LOADEDV]] to i128
 // LA32-NEXT:    store i128 [[STOREDV]], ptr [[AGG_RESULT]], align 16
@@ -101,7 +111,7 @@ _BitInt(65) return_large_BitInt65(void) { return 0; }
 // LA32-NEXT:    [[RESULT_PTR:%.*]] = alloca ptr, align 4
 // LA32-NEXT:    store ptr [[AGG_RESULT]], ptr [[RESULT_PTR]], align 4
 // LA32-NEXT:    store i256 0, ptr [[AGG_RESULT]], align 16
-// LA32-NEXT:    [[TMP0:%.*]] = load i256, ptr [[AGG_RESULT]], align 16
+// LA32-NEXT:    [[TMP0:%.*]] = load i256, ptr [[AGG_RESULT]], align 16, !freeze_bits [[META2]]
 // LA32-NEXT:    [[LOADEDV:%.*]] = trunc i256 [[TMP0]] to i129
 // LA32-NEXT:    [[STOREDV:%.*]] = sext i129 [[LOADEDV]] to i256
 // LA32-NEXT:    store i256 [[STOREDV]], ptr [[AGG_RESULT]], align 16
@@ -113,10 +123,15 @@ _BitInt(65) return_large_BitInt65(void) { return 0; }
 // LA64-NEXT:    [[RESULT_PTR:%.*]] = alloca ptr, align 8
 // LA64-NEXT:    store ptr [[AGG_RESULT]], ptr [[RESULT_PTR]], align 8
 // LA64-NEXT:    store i256 0, ptr [[AGG_RESULT]], align 16
-// LA64-NEXT:    [[TMP0:%.*]] = load i256, ptr [[AGG_RESULT]], align 16
+// LA64-NEXT:    [[TMP0:%.*]] = load i256, ptr [[AGG_RESULT]], align 16, !freeze_bits [[META2:![0-9]+]]
 // LA64-NEXT:    [[LOADEDV:%.*]] = trunc i256 [[TMP0]] to i129
 // LA64-NEXT:    [[STOREDV:%.*]] = sext i129 [[LOADEDV]] to i256
 // LA64-NEXT:    store i256 [[STOREDV]], ptr [[AGG_RESULT]], align 16
 // LA64-NEXT:    ret void
 //
 _BitInt(129) return_large_BitInt129(void) { return 0; }
+//.
+// LA32: [[META2]] = !{}
+//.
+// LA64: [[META2]] = !{}
+//.

@@ -23,7 +23,7 @@ uint64_t status;
 // CHECK-C-NEXT:    [[TMP0:%.*]] = load ptr, ptr @addr, align 8, !freeze_bits [[META2:![0-9]+]]
 // CHECK-C-NEXT:    call void @llvm.experimental.noalias.scope.decl(metadata [[META3:![0-9]+]])
 // CHECK-C-NEXT:    store ptr [[TMP0]], ptr [[__ADDR_ADDR_I]], align 8, !noalias [[META3]]
-// CHECK-C-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[__ADDR_ADDR_I]], align 8, !noalias [[META3]], !freeze_bits [[META2]]
+// CHECK-C-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[__ADDR_ADDR_I]], align 8, !noalias [[META3]]
 // CHECK-C-NEXT:    [[TMP2:%.*]] = call { i64, i64, i64, i64, i64, i64, i64, i64 } @llvm.aarch64.ld64b(ptr [[TMP1]]), !noalias [[META3]]
 // CHECK-C-NEXT:    [[TMP3:%.*]] = extractvalue { i64, i64, i64, i64, i64, i64, i64, i64 } [[TMP2]], 0
 // CHECK-C-NEXT:    store i64 [[TMP3]], ptr [[TMP]], align 8, !alias.scope [[META3]]
@@ -58,7 +58,7 @@ uint64_t status;
 // CHECK-CXX-NEXT:    [[TMP0:%.*]] = load ptr, ptr @addr, align 8, !freeze_bits [[META2:![0-9]+]]
 // CHECK-CXX-NEXT:    call void @llvm.experimental.noalias.scope.decl(metadata [[META3:![0-9]+]])
 // CHECK-CXX-NEXT:    store ptr [[TMP0]], ptr [[__ADDR_ADDR_I]], align 8, !noalias [[META3]]
-// CHECK-CXX-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[__ADDR_ADDR_I]], align 8, !noalias [[META3]], !freeze_bits [[META2]]
+// CHECK-CXX-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[__ADDR_ADDR_I]], align 8, !noalias [[META3]]
 // CHECK-CXX-NEXT:    [[TMP2:%.*]] = call { i64, i64, i64, i64, i64, i64, i64, i64 } @llvm.aarch64.ld64b(ptr [[TMP1]]), !noalias [[META3]]
 // CHECK-CXX-NEXT:    [[TMP3:%.*]] = extractvalue { i64, i64, i64, i64, i64, i64, i64, i64 } [[TMP2]], 0
 // CHECK-CXX-NEXT:    store i64 [[TMP3]], ptr [[REF_TMP]], align 8, !alias.scope [[META3]]
@@ -100,7 +100,7 @@ EXTERN_C void test_ld64b(void)
 // CHECK-C-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 8 [[BYVAL_TEMP]], ptr align 8 @val, i64 64, i1 false)
 // CHECK-C-NEXT:    store ptr [[TMP0]], ptr [[__ADDR_ADDR_I]], align 8
 // CHECK-C-NEXT:    store ptr [[BYVAL_TEMP]], ptr [[__VALUE_INDIRECT_ADDR_I]], align 8
-// CHECK-C-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[__ADDR_ADDR_I]], align 8, !freeze_bits [[META2]]
+// CHECK-C-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[__ADDR_ADDR_I]], align 8
 // CHECK-C-NEXT:    [[TMP2:%.*]] = load i64, ptr [[BYVAL_TEMP]], align 8, !freeze_bits [[META2]]
 // CHECK-C-NEXT:    [[TMP3:%.*]] = getelementptr i64, ptr [[BYVAL_TEMP]], i32 1
 // CHECK-C-NEXT:    [[TMP4:%.*]] = load i64, ptr [[TMP3]], align 8, !freeze_bits [[META2]]
@@ -128,7 +128,7 @@ EXTERN_C void test_ld64b(void)
 // CHECK-CXX-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 8 [[AGG_TMP]], ptr align 8 @val, i64 64, i1 false)
 // CHECK-CXX-NEXT:    store ptr [[TMP0]], ptr [[__ADDR_ADDR_I]], align 8
 // CHECK-CXX-NEXT:    store ptr [[AGG_TMP]], ptr [[__VALUE_INDIRECT_ADDR_I]], align 8
-// CHECK-CXX-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[__ADDR_ADDR_I]], align 8, !freeze_bits [[META2]]
+// CHECK-CXX-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[__ADDR_ADDR_I]], align 8
 // CHECK-CXX-NEXT:    [[TMP2:%.*]] = load i64, ptr [[AGG_TMP]], align 8, !freeze_bits [[META2]]
 // CHECK-CXX-NEXT:    [[TMP3:%.*]] = getelementptr i64, ptr [[AGG_TMP]], i32 1
 // CHECK-CXX-NEXT:    [[TMP4:%.*]] = load i64, ptr [[TMP3]], align 8, !freeze_bits [[META2]]
@@ -161,7 +161,7 @@ EXTERN_C void test_st64b(void)
 // CHECK-C-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 8 [[BYVAL_TEMP]], ptr align 8 @val, i64 64, i1 false)
 // CHECK-C-NEXT:    store ptr [[TMP0]], ptr [[__ADDR_ADDR_I]], align 8
 // CHECK-C-NEXT:    store ptr [[BYVAL_TEMP]], ptr [[__VALUE_INDIRECT_ADDR_I]], align 8
-// CHECK-C-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[__ADDR_ADDR_I]], align 8, !freeze_bits [[META2]]
+// CHECK-C-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[__ADDR_ADDR_I]], align 8
 // CHECK-C-NEXT:    [[TMP2:%.*]] = load i64, ptr [[BYVAL_TEMP]], align 8, !freeze_bits [[META2]]
 // CHECK-C-NEXT:    [[TMP3:%.*]] = getelementptr i64, ptr [[BYVAL_TEMP]], i32 1
 // CHECK-C-NEXT:    [[TMP4:%.*]] = load i64, ptr [[TMP3]], align 8, !freeze_bits [[META2]]
@@ -190,7 +190,7 @@ EXTERN_C void test_st64b(void)
 // CHECK-CXX-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 8 [[AGG_TMP]], ptr align 8 @val, i64 64, i1 false)
 // CHECK-CXX-NEXT:    store ptr [[TMP0]], ptr [[__ADDR_ADDR_I]], align 8
 // CHECK-CXX-NEXT:    store ptr [[AGG_TMP]], ptr [[__VALUE_INDIRECT_ADDR_I]], align 8
-// CHECK-CXX-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[__ADDR_ADDR_I]], align 8, !freeze_bits [[META2]]
+// CHECK-CXX-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[__ADDR_ADDR_I]], align 8
 // CHECK-CXX-NEXT:    [[TMP2:%.*]] = load i64, ptr [[AGG_TMP]], align 8, !freeze_bits [[META2]]
 // CHECK-CXX-NEXT:    [[TMP3:%.*]] = getelementptr i64, ptr [[AGG_TMP]], i32 1
 // CHECK-CXX-NEXT:    [[TMP4:%.*]] = load i64, ptr [[TMP3]], align 8, !freeze_bits [[META2]]
@@ -224,7 +224,7 @@ EXTERN_C void test_st64bv(void)
 // CHECK-C-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 8 [[BYVAL_TEMP]], ptr align 8 @val, i64 64, i1 false)
 // CHECK-C-NEXT:    store ptr [[TMP0]], ptr [[__ADDR_ADDR_I]], align 8
 // CHECK-C-NEXT:    store ptr [[BYVAL_TEMP]], ptr [[__VALUE_INDIRECT_ADDR_I]], align 8
-// CHECK-C-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[__ADDR_ADDR_I]], align 8, !freeze_bits [[META2]]
+// CHECK-C-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[__ADDR_ADDR_I]], align 8
 // CHECK-C-NEXT:    [[TMP2:%.*]] = load i64, ptr [[BYVAL_TEMP]], align 8, !freeze_bits [[META2]]
 // CHECK-C-NEXT:    [[TMP3:%.*]] = getelementptr i64, ptr [[BYVAL_TEMP]], i32 1
 // CHECK-C-NEXT:    [[TMP4:%.*]] = load i64, ptr [[TMP3]], align 8, !freeze_bits [[META2]]
@@ -253,7 +253,7 @@ EXTERN_C void test_st64bv(void)
 // CHECK-CXX-NEXT:    call void @llvm.memcpy.p0.p0.i64(ptr align 8 [[AGG_TMP]], ptr align 8 @val, i64 64, i1 false)
 // CHECK-CXX-NEXT:    store ptr [[TMP0]], ptr [[__ADDR_ADDR_I]], align 8
 // CHECK-CXX-NEXT:    store ptr [[AGG_TMP]], ptr [[__VALUE_INDIRECT_ADDR_I]], align 8
-// CHECK-CXX-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[__ADDR_ADDR_I]], align 8, !freeze_bits [[META2]]
+// CHECK-CXX-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[__ADDR_ADDR_I]], align 8
 // CHECK-CXX-NEXT:    [[TMP2:%.*]] = load i64, ptr [[AGG_TMP]], align 8, !freeze_bits [[META2]]
 // CHECK-CXX-NEXT:    [[TMP3:%.*]] = getelementptr i64, ptr [[AGG_TMP]], i32 1
 // CHECK-CXX-NEXT:    [[TMP4:%.*]] = load i64, ptr [[TMP3]], align 8, !freeze_bits [[META2]]

@@ -52,12 +52,24 @@ int thread_limit_target_parallel_for() {
 // OMP51-NEXT:    [[I:%.*]] = alloca i32, align 4
 // OMP51-NEXT:    store ptr [[DOTGLOBAL_TID_]], ptr [[DOTGLOBAL_TID__ADDR]], align 8
 // OMP51-NEXT:    store ptr [[DOTBOUND_TID_]], ptr [[DOTBOUND_TID__ADDR]], align 8
+// OMP51-NEXT:    [[FREEZE_POISON:%.*]] = freeze i32 poison
+// OMP51-NEXT:    store i32 [[FREEZE_POISON]], ptr [[DOTOMP_IV]], align 4
+// OMP51-NEXT:    [[FREEZE_POISON1:%.*]] = freeze i32 poison
+// OMP51-NEXT:    store i32 [[FREEZE_POISON1]], ptr [[DOTOMP_LB]], align 4
 // OMP51-NEXT:    store i32 0, ptr [[DOTOMP_LB]], align 4
+// OMP51-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// OMP51-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[DOTOMP_UB]], align 4
 // OMP51-NEXT:    store i32 1, ptr [[DOTOMP_UB]], align 4
+// OMP51-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// OMP51-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[DOTOMP_STRIDE]], align 4
 // OMP51-NEXT:    store i32 1, ptr [[DOTOMP_STRIDE]], align 4
+// OMP51-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// OMP51-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[DOTOMP_IS_LAST]], align 4
 // OMP51-NEXT:    store i32 0, ptr [[DOTOMP_IS_LAST]], align 4
+// OMP51-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// OMP51-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[I]], align 4
 // OMP51-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[DOTGLOBAL_TID__ADDR]], align 8
-// OMP51-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4
+// OMP51-NEXT:    [[TMP1:%.*]] = load i32, ptr [[TMP0]], align 4, !freeze_bits [[META3:![0-9]+]]
 // OMP51-NEXT:    call void @__kmpc_for_static_init_4(ptr @[[GLOB1:[0-9]+]], i32 [[TMP1]], i32 34, ptr [[DOTOMP_IS_LAST]], ptr [[DOTOMP_LB]], ptr [[DOTOMP_UB]], ptr [[DOTOMP_STRIDE]], i32 1, i32 1)
 // OMP51-NEXT:    [[TMP2:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
 // OMP51-NEXT:    [[CMP:%.*]] = icmp sgt i32 [[TMP2]], 1
@@ -76,8 +88,8 @@ int thread_limit_target_parallel_for() {
 // OMP51:       omp.inner.for.cond:
 // OMP51-NEXT:    [[TMP5:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // OMP51-NEXT:    [[TMP6:%.*]] = load i32, ptr [[DOTOMP_UB]], align 4
-// OMP51-NEXT:    [[CMP1:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
-// OMP51-NEXT:    br i1 [[CMP1]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
+// OMP51-NEXT:    [[CMP6:%.*]] = icmp sle i32 [[TMP5]], [[TMP6]]
+// OMP51-NEXT:    br i1 [[CMP6]], label [[OMP_INNER_FOR_BODY:%.*]], label [[OMP_INNER_FOR_END:%.*]]
 // OMP51:       omp.inner.for.body:
 // OMP51-NEXT:    [[TMP7:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
 // OMP51-NEXT:    [[MUL:%.*]] = mul nsw i32 [[TMP7]], 1
@@ -88,8 +100,8 @@ int thread_limit_target_parallel_for() {
 // OMP51-NEXT:    br label [[OMP_INNER_FOR_INC:%.*]]
 // OMP51:       omp.inner.for.inc:
 // OMP51-NEXT:    [[TMP8:%.*]] = load i32, ptr [[DOTOMP_IV]], align 4
-// OMP51-NEXT:    [[ADD2:%.*]] = add nsw i32 [[TMP8]], 1
-// OMP51-NEXT:    store i32 [[ADD2]], ptr [[DOTOMP_IV]], align 4
+// OMP51-NEXT:    [[ADD7:%.*]] = add nsw i32 [[TMP8]], 1
+// OMP51-NEXT:    store i32 [[ADD7]], ptr [[DOTOMP_IV]], align 4
 // OMP51-NEXT:    br label [[OMP_INNER_FOR_COND]]
 // OMP51:       omp.inner.for.end:
 // OMP51-NEXT:    br label [[OMP_LOOP_EXIT:%.*]]
@@ -116,19 +128,19 @@ int thread_limit_target_parallel_for() {
 // OMP51-NEXT:    [[TMP4:%.*]] = getelementptr inbounds nuw [[STRUCT_KMP_TASK_T_WITH_PRIVATES:%.*]], ptr [[TMP3]], i32 0, i32 0
 // OMP51-NEXT:    [[TMP5:%.*]] = getelementptr inbounds nuw [[STRUCT_KMP_TASK_T:%.*]], ptr [[TMP4]], i32 0, i32 2
 // OMP51-NEXT:    [[TMP6:%.*]] = getelementptr inbounds nuw [[STRUCT_KMP_TASK_T]], ptr [[TMP4]], i32 0, i32 0
-// OMP51-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[TMP6]], align 8
-// OMP51-NEXT:    call void @llvm.experimental.noalias.scope.decl(metadata [[META5:![0-9]+]])
-// OMP51-NEXT:    call void @llvm.experimental.noalias.scope.decl(metadata [[META8:![0-9]+]])
-// OMP51-NEXT:    call void @llvm.experimental.noalias.scope.decl(metadata [[META10:![0-9]+]])
-// OMP51-NEXT:    call void @llvm.experimental.noalias.scope.decl(metadata [[META12:![0-9]+]])
-// OMP51-NEXT:    store i32 [[TMP2]], ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias [[META14:![0-9]+]]
-// OMP51-NEXT:    store ptr [[TMP5]], ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias [[META14]]
-// OMP51-NEXT:    store ptr null, ptr [[DOTPRIVATES__ADDR_I]], align 8, !noalias [[META14]]
-// OMP51-NEXT:    store ptr null, ptr [[DOTCOPY_FN__ADDR_I]], align 8, !noalias [[META14]]
-// OMP51-NEXT:    store ptr [[TMP3]], ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias [[META14]]
-// OMP51-NEXT:    store ptr [[TMP7]], ptr [[__CONTEXT_ADDR_I]], align 8, !noalias [[META14]]
-// OMP51-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[__CONTEXT_ADDR_I]], align 8, !noalias [[META14]]
-// OMP51-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias [[META14]]
+// OMP51-NEXT:    [[TMP7:%.*]] = load ptr, ptr [[TMP6]], align 8, !freeze_bits [[META3]]
+// OMP51-NEXT:    call void @llvm.experimental.noalias.scope.decl(metadata [[META6:![0-9]+]])
+// OMP51-NEXT:    call void @llvm.experimental.noalias.scope.decl(metadata [[META9:![0-9]+]])
+// OMP51-NEXT:    call void @llvm.experimental.noalias.scope.decl(metadata [[META11:![0-9]+]])
+// OMP51-NEXT:    call void @llvm.experimental.noalias.scope.decl(metadata [[META13:![0-9]+]])
+// OMP51-NEXT:    store i32 [[TMP2]], ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias [[META15:![0-9]+]]
+// OMP51-NEXT:    store ptr [[TMP5]], ptr [[DOTPART_ID__ADDR_I]], align 8, !noalias [[META15]]
+// OMP51-NEXT:    store ptr null, ptr [[DOTPRIVATES__ADDR_I]], align 8, !noalias [[META15]]
+// OMP51-NEXT:    store ptr null, ptr [[DOTCOPY_FN__ADDR_I]], align 8, !noalias [[META15]]
+// OMP51-NEXT:    store ptr [[TMP3]], ptr [[DOTTASK_T__ADDR_I]], align 8, !noalias [[META15]]
+// OMP51-NEXT:    store ptr [[TMP7]], ptr [[__CONTEXT_ADDR_I]], align 8, !noalias [[META15]]
+// OMP51-NEXT:    [[TMP8:%.*]] = load ptr, ptr [[__CONTEXT_ADDR_I]], align 8, !noalias [[META15]]
+// OMP51-NEXT:    [[TMP9:%.*]] = load i32, ptr [[DOTGLOBAL_TID__ADDR_I]], align 4, !noalias [[META15]]
 // OMP51-NEXT:    call void @__kmpc_set_thread_limit(ptr @[[GLOB2]], i32 [[TMP9]], i32 2)
 // OMP51-NEXT:    call void @{{__omp_offloading_[0-9a-z]+_[0-9a-z]+}}__Z32thread_limit_target_parallel_forv_l14() #[[ATTR2]]
 // OMP51-NEXT:    ret i32 0

@@ -4,11 +4,14 @@
 
 // CHECK-LABEL: define dso_local void @_Z11test_scalarDF16bDF16b
 // CHECK-SAME: (bfloat noundef [[A:%.*]], bfloat noundef [[B:%.*]]) #[[ATTR0:[0-9]+]] {
-// CHECK:         [[A_ADDR:%.*]] = alloca bfloat, align 2
+// CHECK-NEXT:  entry:
+// CHECK-NEXT:    [[A_ADDR:%.*]] = alloca bfloat, align 2
 // CHECK-NEXT:    [[B_ADDR:%.*]] = alloca bfloat, align 2
 // CHECK-NEXT:    [[C:%.*]] = alloca bfloat, align 2
 // CHECK-NEXT:    store bfloat [[A]], ptr [[A_ADDR]], align 2
 // CHECK-NEXT:    store bfloat [[B]], ptr [[B_ADDR]], align 2
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze bfloat poison
+// CHECK-NEXT:    store bfloat [[FREEZE_POISON]], ptr [[C]], align 2
 // CHECK-NEXT:    [[TMP0:%.*]] = load bfloat, ptr [[A_ADDR]], align 2
 // CHECK-NEXT:    [[TMP1:%.*]] = load bfloat, ptr [[B_ADDR]], align 2
 // CHECK-NEXT:    [[ADD:%.*]] = fadd bfloat [[TMP0]], [[TMP1]]
@@ -29,11 +32,14 @@
 //
 // CHECK-NBF16-LABEL: define dso_local void @_Z11test_scalarDF16bDF16b
 // CHECK-NBF16-SAME: (bfloat noundef [[A:%.*]], bfloat noundef [[B:%.*]]) #[[ATTR0:[0-9]+]] {
-// CHECK-NBF16:         [[A_ADDR:%.*]] = alloca bfloat, align 2
+// CHECK-NBF16-NEXT:  entry:
+// CHECK-NBF16-NEXT:    [[A_ADDR:%.*]] = alloca bfloat, align 2
 // CHECK-NBF16-NEXT:    [[B_ADDR:%.*]] = alloca bfloat, align 2
 // CHECK-NBF16-NEXT:    [[C:%.*]] = alloca bfloat, align 2
 // CHECK-NBF16-NEXT:    store bfloat [[A]], ptr [[A_ADDR]], align 2
 // CHECK-NBF16-NEXT:    store bfloat [[B]], ptr [[B_ADDR]], align 2
+// CHECK-NBF16-NEXT:    [[FREEZE_POISON:%.*]] = freeze bfloat poison
+// CHECK-NBF16-NEXT:    store bfloat [[FREEZE_POISON]], ptr [[C]], align 2
 // CHECK-NBF16-NEXT:    [[TMP0:%.*]] = load bfloat, ptr [[A_ADDR]], align 2
 // CHECK-NBF16-NEXT:    [[EXT:%.*]] = fpext bfloat [[TMP0]] to float
 // CHECK-NBF16-NEXT:    [[TMP1:%.*]] = load bfloat, ptr [[B_ADDR]], align 2
@@ -75,12 +81,15 @@ void test_scalar(__bf16 a, __bf16 b) {
 typedef __bf16 v8bfloat16 __attribute__((__vector_size__(16)));
 
 // CHECK-LABEL: define dso_local void @_Z11test_vectorDv8_DF16bS_
-// CHECK-SAME: (<8 x bfloat> noundef [[A:%.*]], <8 x bfloat> noundef [[B:%.*]]) #[[ATTR0:[0-9]+]] {
-// CHECK:         [[A_ADDR:%.*]] = alloca <8 x bfloat>, align 16
+// CHECK-SAME: (<8 x bfloat> noundef [[A:%.*]], <8 x bfloat> noundef [[B:%.*]]) #[[ATTR1:[0-9]+]] {
+// CHECK-NEXT:  entry:
+// CHECK-NEXT:    [[A_ADDR:%.*]] = alloca <8 x bfloat>, align 16
 // CHECK-NEXT:    [[B_ADDR:%.*]] = alloca <8 x bfloat>, align 16
 // CHECK-NEXT:    [[C:%.*]] = alloca <8 x bfloat>, align 16
 // CHECK-NEXT:    store <8 x bfloat> [[A]], ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    store <8 x bfloat> [[B]], ptr [[B_ADDR]], align 16
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze <8 x bfloat> poison
+// CHECK-NEXT:    store <8 x bfloat> [[FREEZE_POISON]], ptr [[C]], align 16
 // CHECK-NEXT:    [[TMP0:%.*]] = load <8 x bfloat>, ptr [[A_ADDR]], align 16
 // CHECK-NEXT:    [[TMP1:%.*]] = load <8 x bfloat>, ptr [[B_ADDR]], align 16
 // CHECK-NEXT:    [[ADD:%.*]] = fadd <8 x bfloat> [[TMP0]], [[TMP1]]
@@ -100,12 +109,15 @@ typedef __bf16 v8bfloat16 __attribute__((__vector_size__(16)));
 // CHECK-NEXT:    ret void
 //
 // CHECK-NBF16-LABEL: define dso_local void @_Z11test_vectorDv8_DF16bS_
-// CHECK-NBF16-SAME: (<8 x bfloat> noundef [[A:%.*]], <8 x bfloat> noundef [[B:%.*]]) #[[ATTR0:[0-9]+]] {
-// CHECK-NBF16:         [[A_ADDR:%.*]] = alloca <8 x bfloat>, align 16
+// CHECK-NBF16-SAME: (<8 x bfloat> noundef [[A:%.*]], <8 x bfloat> noundef [[B:%.*]]) #[[ATTR1:[0-9]+]] {
+// CHECK-NBF16-NEXT:  entry:
+// CHECK-NBF16-NEXT:    [[A_ADDR:%.*]] = alloca <8 x bfloat>, align 16
 // CHECK-NBF16-NEXT:    [[B_ADDR:%.*]] = alloca <8 x bfloat>, align 16
 // CHECK-NBF16-NEXT:    [[C:%.*]] = alloca <8 x bfloat>, align 16
 // CHECK-NBF16-NEXT:    store <8 x bfloat> [[A]], ptr [[A_ADDR]], align 16
 // CHECK-NBF16-NEXT:    store <8 x bfloat> [[B]], ptr [[B_ADDR]], align 16
+// CHECK-NBF16-NEXT:    [[FREEZE_POISON:%.*]] = freeze <8 x bfloat> poison
+// CHECK-NBF16-NEXT:    store <8 x bfloat> [[FREEZE_POISON]], ptr [[C]], align 16
 // CHECK-NBF16-NEXT:    [[TMP0:%.*]] = load <8 x bfloat>, ptr [[A_ADDR]], align 16
 // CHECK-NBF16-NEXT:    [[EXT:%.*]] = fpext <8 x bfloat> [[TMP0]] to <8 x float>
 // CHECK-NBF16-NEXT:    [[TMP1:%.*]] = load <8 x bfloat>, ptr [[B_ADDR]], align 16

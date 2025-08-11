@@ -19,9 +19,12 @@
 // FULL-NEXT:    [[A_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[A_COERCE]], i32 1
 // FULL-NEXT:    [[MUL_RL:%.*]] = fmul float [[A_SROA_0_0_VEC_EXTRACT]], [[B]]
 // FULL-NEXT:    [[MUL_IL:%.*]] = fmul float [[A_SROA_0_4_VEC_EXTRACT]], [[B]]
-// FULL-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[MUL_RL]], i32 0
-// FULL-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[MUL_IL]], i32 1
-// FULL-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// FULL-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// FULL-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[MUL_RL]], i32 0
+// FULL-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// FULL-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[MUL_IL]], i32 1
+// FULL-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// FULL-NEXT:    ret <2 x float> [[FREEZE_LOAD2]]
 //
 // IMPRVD-LABEL: define dso_local <2 x float> @mulaf(
 // IMPRVD-SAME: <2 x float> noundef [[A_COERCE:%.*]], float noundef [[B:%.*]]) #[[ATTR0:[0-9]+]] {
@@ -30,9 +33,12 @@
 // IMPRVD-NEXT:    [[A_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[A_COERCE]], i32 1
 // IMPRVD-NEXT:    [[MUL_RL:%.*]] = fmul float [[A_SROA_0_0_VEC_EXTRACT]], [[B]]
 // IMPRVD-NEXT:    [[MUL_IL:%.*]] = fmul float [[A_SROA_0_4_VEC_EXTRACT]], [[B]]
-// IMPRVD-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[MUL_RL]], i32 0
-// IMPRVD-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[MUL_IL]], i32 1
-// IMPRVD-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// IMPRVD-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// IMPRVD-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[MUL_RL]], i32 0
+// IMPRVD-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// IMPRVD-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[MUL_IL]], i32 1
+// IMPRVD-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// IMPRVD-NEXT:    ret <2 x float> [[FREEZE_LOAD2]]
 //
 // PRMTD-LABEL: define dso_local <2 x float> @mulaf(
 // PRMTD-SAME: <2 x float> noundef [[A_COERCE:%.*]], float noundef [[B:%.*]]) #[[ATTR0:[0-9]+]] {
@@ -41,9 +47,12 @@
 // PRMTD-NEXT:    [[A_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[A_COERCE]], i32 1
 // PRMTD-NEXT:    [[MUL_RL:%.*]] = fmul float [[A_SROA_0_0_VEC_EXTRACT]], [[B]]
 // PRMTD-NEXT:    [[MUL_IL:%.*]] = fmul float [[A_SROA_0_4_VEC_EXTRACT]], [[B]]
-// PRMTD-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[MUL_RL]], i32 0
-// PRMTD-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[MUL_IL]], i32 1
-// PRMTD-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// PRMTD-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// PRMTD-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[MUL_RL]], i32 0
+// PRMTD-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// PRMTD-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[MUL_IL]], i32 1
+// PRMTD-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// PRMTD-NEXT:    ret <2 x float> [[FREEZE_LOAD2]]
 //
 // PRMTD_STRICT-LABEL: define dso_local <2 x float> @mulaf(
 // PRMTD_STRICT-SAME: <2 x float> noundef [[A_COERCE:%.*]], float noundef [[B:%.*]]) #[[ATTR0:[0-9]+]] {
@@ -52,9 +61,12 @@
 // PRMTD_STRICT-NEXT:    [[A_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[A_COERCE]], i32 1
 // PRMTD_STRICT-NEXT:    [[MUL_RL:%.*]] = call float @llvm.experimental.constrained.fmul.f32(float [[A_SROA_0_0_VEC_EXTRACT]], float [[B]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR3:[0-9]+]]
 // PRMTD_STRICT-NEXT:    [[MUL_IL:%.*]] = call float @llvm.experimental.constrained.fmul.f32(float [[A_SROA_0_4_VEC_EXTRACT]], float [[B]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR3]]
-// PRMTD_STRICT-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[MUL_RL]], i32 0
-// PRMTD_STRICT-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[MUL_IL]], i32 1
-// PRMTD_STRICT-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// PRMTD_STRICT-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// PRMTD_STRICT-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[MUL_RL]], i32 0
+// PRMTD_STRICT-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// PRMTD_STRICT-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[MUL_IL]], i32 1
+// PRMTD_STRICT-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// PRMTD_STRICT-NEXT:    ret <2 x float> [[FREEZE_LOAD2]]
 //
 _Complex float mulaf(_Complex float a, float b) {
   return a * b;
@@ -64,9 +76,9 @@ _Complex float mulaf(_Complex float a, float b) {
 // FULL-SAME: ptr noundef [[A:%.*]], float noundef [[B:%.*]]) #[[ATTR1:[0-9]+]] {
 // FULL-NEXT:  [[ENTRY:.*:]]
 // FULL-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
-// FULL-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4
+// FULL-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4, !freeze_bits [[META2:![0-9]+]]
 // FULL-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 1
-// FULL-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4
+// FULL-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4, !freeze_bits [[META2]]
 // FULL-NEXT:    [[MUL_RL:%.*]] = fmul float [[DOTREAL]], [[B]]
 // FULL-NEXT:    [[MUL_IL:%.*]] = fmul float [[DOTIMAG]], [[B]]
 // FULL-NEXT:    [[DOTREALP1:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
@@ -79,9 +91,9 @@ _Complex float mulaf(_Complex float a, float b) {
 // IMPRVD-SAME: ptr noundef [[A:%.*]], float noundef [[B:%.*]]) #[[ATTR1:[0-9]+]] {
 // IMPRVD-NEXT:  [[ENTRY:.*:]]
 // IMPRVD-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
-// IMPRVD-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4
+// IMPRVD-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4, !freeze_bits [[META2:![0-9]+]]
 // IMPRVD-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 1
-// IMPRVD-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4
+// IMPRVD-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4, !freeze_bits [[META2]]
 // IMPRVD-NEXT:    [[MUL_RL:%.*]] = fmul float [[DOTREAL]], [[B]]
 // IMPRVD-NEXT:    [[MUL_IL:%.*]] = fmul float [[DOTIMAG]], [[B]]
 // IMPRVD-NEXT:    [[DOTREALP1:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
@@ -94,9 +106,9 @@ _Complex float mulaf(_Complex float a, float b) {
 // PRMTD-SAME: ptr noundef [[A:%.*]], float noundef [[B:%.*]]) #[[ATTR1:[0-9]+]] {
 // PRMTD-NEXT:  [[ENTRY:.*:]]
 // PRMTD-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
-// PRMTD-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4
+// PRMTD-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4, !freeze_bits [[META2:![0-9]+]]
 // PRMTD-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 1
-// PRMTD-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4
+// PRMTD-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4, !freeze_bits [[META2]]
 // PRMTD-NEXT:    [[MUL_RL:%.*]] = fmul float [[DOTREAL]], [[B]]
 // PRMTD-NEXT:    [[MUL_IL:%.*]] = fmul float [[DOTIMAG]], [[B]]
 // PRMTD-NEXT:    [[DOTREALP1:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
@@ -109,9 +121,9 @@ _Complex float mulaf(_Complex float a, float b) {
 // PRMTD_STRICT-SAME: ptr noundef [[A:%.*]], float noundef [[B:%.*]]) #[[ATTR2:[0-9]+]] {
 // PRMTD_STRICT-NEXT:  [[ENTRY:.*:]]
 // PRMTD_STRICT-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
-// PRMTD_STRICT-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4
+// PRMTD_STRICT-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4, !freeze_bits [[META2:![0-9]+]]
 // PRMTD_STRICT-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 1
-// PRMTD_STRICT-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4
+// PRMTD_STRICT-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4, !freeze_bits [[META2]]
 // PRMTD_STRICT-NEXT:    [[MUL_RL:%.*]] = call float @llvm.experimental.constrained.fmul.f32(float [[DOTREAL]], float [[B]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR3]]
 // PRMTD_STRICT-NEXT:    [[MUL_IL:%.*]] = call float @llvm.experimental.constrained.fmul.f32(float [[DOTIMAG]], float [[B]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR3]]
 // PRMTD_STRICT-NEXT:    [[DOTREALP1:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
@@ -131,9 +143,12 @@ void mulassignf(_Complex float *a, float b) {
 // FULL-NEXT:    [[B_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[B_COERCE]], i32 1
 // FULL-NEXT:    [[MUL_RL:%.*]] = fmul float [[A]], [[B_SROA_0_0_VEC_EXTRACT]]
 // FULL-NEXT:    [[MUL_IR:%.*]] = fmul float [[A]], [[B_SROA_0_4_VEC_EXTRACT]]
-// FULL-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[MUL_RL]], i32 0
-// FULL-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[MUL_IR]], i32 1
-// FULL-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// FULL-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// FULL-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[MUL_RL]], i32 0
+// FULL-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// FULL-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[MUL_IR]], i32 1
+// FULL-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// FULL-NEXT:    ret <2 x float> [[FREEZE_LOAD2]]
 //
 // IMPRVD-LABEL: define dso_local <2 x float> @mulbf(
 // IMPRVD-SAME: float noundef [[A:%.*]], <2 x float> noundef [[B_COERCE:%.*]]) #[[ATTR0]] {
@@ -142,9 +157,12 @@ void mulassignf(_Complex float *a, float b) {
 // IMPRVD-NEXT:    [[B_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[B_COERCE]], i32 1
 // IMPRVD-NEXT:    [[MUL_RL:%.*]] = fmul float [[A]], [[B_SROA_0_0_VEC_EXTRACT]]
 // IMPRVD-NEXT:    [[MUL_IR:%.*]] = fmul float [[A]], [[B_SROA_0_4_VEC_EXTRACT]]
-// IMPRVD-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[MUL_RL]], i32 0
-// IMPRVD-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[MUL_IR]], i32 1
-// IMPRVD-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// IMPRVD-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// IMPRVD-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[MUL_RL]], i32 0
+// IMPRVD-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// IMPRVD-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[MUL_IR]], i32 1
+// IMPRVD-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// IMPRVD-NEXT:    ret <2 x float> [[FREEZE_LOAD2]]
 //
 // PRMTD-LABEL: define dso_local <2 x float> @mulbf(
 // PRMTD-SAME: float noundef [[A:%.*]], <2 x float> noundef [[B_COERCE:%.*]]) #[[ATTR0]] {
@@ -153,9 +171,12 @@ void mulassignf(_Complex float *a, float b) {
 // PRMTD-NEXT:    [[B_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[B_COERCE]], i32 1
 // PRMTD-NEXT:    [[MUL_RL:%.*]] = fmul float [[A]], [[B_SROA_0_0_VEC_EXTRACT]]
 // PRMTD-NEXT:    [[MUL_IR:%.*]] = fmul float [[A]], [[B_SROA_0_4_VEC_EXTRACT]]
-// PRMTD-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[MUL_RL]], i32 0
-// PRMTD-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[MUL_IR]], i32 1
-// PRMTD-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// PRMTD-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// PRMTD-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[MUL_RL]], i32 0
+// PRMTD-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// PRMTD-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[MUL_IR]], i32 1
+// PRMTD-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// PRMTD-NEXT:    ret <2 x float> [[FREEZE_LOAD2]]
 //
 // PRMTD_STRICT-LABEL: define dso_local <2 x float> @mulbf(
 // PRMTD_STRICT-SAME: float noundef [[A:%.*]], <2 x float> noundef [[B_COERCE:%.*]]) #[[ATTR0]] {
@@ -164,9 +185,12 @@ void mulassignf(_Complex float *a, float b) {
 // PRMTD_STRICT-NEXT:    [[B_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[B_COERCE]], i32 1
 // PRMTD_STRICT-NEXT:    [[MUL_RL:%.*]] = call float @llvm.experimental.constrained.fmul.f32(float [[A]], float [[B_SROA_0_0_VEC_EXTRACT]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR3]]
 // PRMTD_STRICT-NEXT:    [[MUL_IR:%.*]] = call float @llvm.experimental.constrained.fmul.f32(float [[A]], float [[B_SROA_0_4_VEC_EXTRACT]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR3]]
-// PRMTD_STRICT-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[MUL_RL]], i32 0
-// PRMTD_STRICT-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[MUL_IR]], i32 1
-// PRMTD_STRICT-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// PRMTD_STRICT-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// PRMTD_STRICT-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[MUL_RL]], i32 0
+// PRMTD_STRICT-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// PRMTD_STRICT-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[MUL_IR]], i32 1
+// PRMTD_STRICT-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// PRMTD_STRICT-NEXT:    ret <2 x float> [[FREEZE_LOAD2]]
 //
 _Complex float mulbf(float a, _Complex float b) {
   return a * b;
@@ -179,9 +203,12 @@ _Complex float mulbf(float a, _Complex float b) {
 // FULL-NEXT:    [[A_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[A_COERCE]], i32 1
 // FULL-NEXT:    [[TMP0:%.*]] = fdiv float [[A_SROA_0_0_VEC_EXTRACT]], [[B]]
 // FULL-NEXT:    [[TMP1:%.*]] = fdiv float [[A_SROA_0_4_VEC_EXTRACT]], [[B]]
-// FULL-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[TMP0]], i32 0
-// FULL-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[TMP1]], i32 1
-// FULL-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// FULL-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// FULL-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[TMP0]], i32 0
+// FULL-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// FULL-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[TMP1]], i32 1
+// FULL-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// FULL-NEXT:    ret <2 x float> [[FREEZE_LOAD2]]
 //
 // IMPRVD-LABEL: define dso_local <2 x float> @divf(
 // IMPRVD-SAME: <2 x float> noundef [[A_COERCE:%.*]], float noundef [[B:%.*]]) #[[ATTR0]] {
@@ -190,9 +217,12 @@ _Complex float mulbf(float a, _Complex float b) {
 // IMPRVD-NEXT:    [[A_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[A_COERCE]], i32 1
 // IMPRVD-NEXT:    [[TMP0:%.*]] = fdiv float [[A_SROA_0_0_VEC_EXTRACT]], [[B]]
 // IMPRVD-NEXT:    [[TMP1:%.*]] = fdiv float [[A_SROA_0_4_VEC_EXTRACT]], [[B]]
-// IMPRVD-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[TMP0]], i32 0
-// IMPRVD-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[TMP1]], i32 1
-// IMPRVD-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// IMPRVD-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// IMPRVD-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[TMP0]], i32 0
+// IMPRVD-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// IMPRVD-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[TMP1]], i32 1
+// IMPRVD-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// IMPRVD-NEXT:    ret <2 x float> [[FREEZE_LOAD2]]
 //
 // PRMTD-LABEL: define dso_local <2 x float> @divf(
 // PRMTD-SAME: <2 x float> noundef [[A_COERCE:%.*]], float noundef [[B:%.*]]) #[[ATTR0]] {
@@ -201,9 +231,12 @@ _Complex float mulbf(float a, _Complex float b) {
 // PRMTD-NEXT:    [[A_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[A_COERCE]], i32 1
 // PRMTD-NEXT:    [[TMP0:%.*]] = fdiv float [[A_SROA_0_0_VEC_EXTRACT]], [[B]]
 // PRMTD-NEXT:    [[TMP1:%.*]] = fdiv float [[A_SROA_0_4_VEC_EXTRACT]], [[B]]
-// PRMTD-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[TMP0]], i32 0
-// PRMTD-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[TMP1]], i32 1
-// PRMTD-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// PRMTD-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// PRMTD-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[TMP0]], i32 0
+// PRMTD-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// PRMTD-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[TMP1]], i32 1
+// PRMTD-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// PRMTD-NEXT:    ret <2 x float> [[FREEZE_LOAD2]]
 //
 // PRMTD_STRICT-LABEL: define dso_local <2 x float> @divf(
 // PRMTD_STRICT-SAME: <2 x float> noundef [[A_COERCE:%.*]], float noundef [[B:%.*]]) #[[ATTR0]] {
@@ -212,9 +245,12 @@ _Complex float mulbf(float a, _Complex float b) {
 // PRMTD_STRICT-NEXT:    [[A_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[A_COERCE]], i32 1
 // PRMTD_STRICT-NEXT:    [[TMP0:%.*]] = call float @llvm.experimental.constrained.fdiv.f32(float [[A_SROA_0_0_VEC_EXTRACT]], float [[B]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR3]]
 // PRMTD_STRICT-NEXT:    [[TMP1:%.*]] = call float @llvm.experimental.constrained.fdiv.f32(float [[A_SROA_0_4_VEC_EXTRACT]], float [[B]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR3]]
-// PRMTD_STRICT-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[TMP0]], i32 0
-// PRMTD_STRICT-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[TMP1]], i32 1
-// PRMTD_STRICT-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// PRMTD_STRICT-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// PRMTD_STRICT-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[TMP0]], i32 0
+// PRMTD_STRICT-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// PRMTD_STRICT-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[TMP1]], i32 1
+// PRMTD_STRICT-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// PRMTD_STRICT-NEXT:    ret <2 x float> [[FREEZE_LOAD2]]
 //
 _Complex float divf(_Complex float a, float b) {
   return a / b;
@@ -224,9 +260,9 @@ _Complex float divf(_Complex float a, float b) {
 // FULL-SAME: ptr noundef [[A:%.*]], float noundef [[B:%.*]]) #[[ATTR1]] {
 // FULL-NEXT:  [[ENTRY:.*:]]
 // FULL-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
-// FULL-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4
+// FULL-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4, !freeze_bits [[META2]]
 // FULL-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 1
-// FULL-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4
+// FULL-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4, !freeze_bits [[META2]]
 // FULL-NEXT:    [[TMP0:%.*]] = fdiv float [[DOTREAL]], [[B]]
 // FULL-NEXT:    [[TMP1:%.*]] = fdiv float [[DOTIMAG]], [[B]]
 // FULL-NEXT:    [[DOTREALP1:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
@@ -239,9 +275,9 @@ _Complex float divf(_Complex float a, float b) {
 // IMPRVD-SAME: ptr noundef [[A:%.*]], float noundef [[B:%.*]]) #[[ATTR1]] {
 // IMPRVD-NEXT:  [[ENTRY:.*:]]
 // IMPRVD-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
-// IMPRVD-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4
+// IMPRVD-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4, !freeze_bits [[META2]]
 // IMPRVD-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 1
-// IMPRVD-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4
+// IMPRVD-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4, !freeze_bits [[META2]]
 // IMPRVD-NEXT:    [[TMP0:%.*]] = fdiv float [[DOTREAL]], [[B]]
 // IMPRVD-NEXT:    [[TMP1:%.*]] = fdiv float [[DOTIMAG]], [[B]]
 // IMPRVD-NEXT:    [[DOTREALP1:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
@@ -254,9 +290,9 @@ _Complex float divf(_Complex float a, float b) {
 // PRMTD-SAME: ptr noundef [[A:%.*]], float noundef [[B:%.*]]) #[[ATTR1]] {
 // PRMTD-NEXT:  [[ENTRY:.*:]]
 // PRMTD-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
-// PRMTD-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4
+// PRMTD-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4, !freeze_bits [[META2]]
 // PRMTD-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 1
-// PRMTD-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4
+// PRMTD-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4, !freeze_bits [[META2]]
 // PRMTD-NEXT:    [[TMP0:%.*]] = fdiv float [[DOTREAL]], [[B]]
 // PRMTD-NEXT:    [[TMP1:%.*]] = fdiv float [[DOTIMAG]], [[B]]
 // PRMTD-NEXT:    [[DOTREALP1:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
@@ -269,9 +305,9 @@ _Complex float divf(_Complex float a, float b) {
 // PRMTD_STRICT-SAME: ptr noundef [[A:%.*]], float noundef [[B:%.*]]) #[[ATTR2]] {
 // PRMTD_STRICT-NEXT:  [[ENTRY:.*:]]
 // PRMTD_STRICT-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
-// PRMTD_STRICT-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4
+// PRMTD_STRICT-NEXT:    [[DOTREAL:%.*]] = load float, ptr [[DOTREALP]], align 4, !freeze_bits [[META2]]
 // PRMTD_STRICT-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 1
-// PRMTD_STRICT-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4
+// PRMTD_STRICT-NEXT:    [[DOTIMAG:%.*]] = load float, ptr [[DOTIMAGP]], align 4, !freeze_bits [[META2]]
 // PRMTD_STRICT-NEXT:    [[TMP0:%.*]] = call float @llvm.experimental.constrained.fdiv.f32(float [[DOTREAL]], float [[B]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR3]]
 // PRMTD_STRICT-NEXT:    [[TMP1:%.*]] = call float @llvm.experimental.constrained.fdiv.f32(float [[DOTIMAG]], float [[B]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR3]]
 // PRMTD_STRICT-NEXT:    [[DOTREALP1:%.*]] = getelementptr inbounds nuw { float, float }, ptr [[A]], i32 0, i32 0
@@ -332,9 +368,12 @@ _Complex double divd(_Complex double a, double b) {
 // FULL-NEXT:    [[TMP1:%.*]] = extractvalue { double, double } [[CALL]], 1
 // FULL-NEXT:    [[CONV:%.*]] = fptrunc double [[TMP0]] to float
 // FULL-NEXT:    [[CONV1:%.*]] = fptrunc double [[TMP1]] to float
-// FULL-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[CONV]], i32 0
-// FULL-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[CONV1]], i32 1
-// FULL-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// FULL-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// FULL-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[CONV]], i32 0
+// FULL-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// FULL-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[CONV1]], i32 1
+// FULL-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// FULL-NEXT:    ret <2 x float> [[FREEZE_LOAD2]]
 //
 // IMPRVD-LABEL: define dso_local <2 x float> @divbd(
 // IMPRVD-SAME: double noundef [[A:%.*]], double noundef [[B_COERCE0:%.*]], double noundef [[B_COERCE1:%.*]]) #[[ATTR0]] {
@@ -370,9 +409,12 @@ _Complex double divd(_Complex double a, double b) {
 // IMPRVD-NEXT:    [[TMP21:%.*]] = phi double [ [[TMP10]], %[[ABS_RHSR_GREATER_OR_EQUAL_ABS_RHSI]] ], [ [[TMP19]], %[[ABS_RHSR_LESS_THAN_ABS_RHSI]] ]
 // IMPRVD-NEXT:    [[CONV:%.*]] = fptrunc double [[TMP20]] to float
 // IMPRVD-NEXT:    [[CONV1:%.*]] = fptrunc double [[TMP21]] to float
-// IMPRVD-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[CONV]], i32 0
-// IMPRVD-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[CONV1]], i32 1
-// IMPRVD-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// IMPRVD-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// IMPRVD-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[CONV]], i32 0
+// IMPRVD-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// IMPRVD-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[CONV1]], i32 1
+// IMPRVD-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// IMPRVD-NEXT:    ret <2 x float> [[FREEZE_LOAD2]]
 //
 // PRMTD-LABEL: define dso_local <2 x float> @divbd(
 // PRMTD-SAME: double noundef [[A:%.*]], double noundef [[B_COERCE0:%.*]], double noundef [[B_COERCE1:%.*]]) #[[ATTR0]] {
@@ -395,9 +437,12 @@ _Complex double divd(_Complex double a, double b) {
 // PRMTD-NEXT:    [[UNPROMOTION3:%.*]] = fptrunc x86_fp80 [[TMP10]] to double
 // PRMTD-NEXT:    [[CONV:%.*]] = fptrunc double [[UNPROMOTION]] to float
 // PRMTD-NEXT:    [[CONV4:%.*]] = fptrunc double [[UNPROMOTION3]] to float
-// PRMTD-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[CONV]], i32 0
-// PRMTD-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[CONV4]], i32 1
-// PRMTD-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// PRMTD-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// PRMTD-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[CONV]], i32 0
+// PRMTD-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// PRMTD-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[CONV4]], i32 1
+// PRMTD-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// PRMTD-NEXT:    ret <2 x float> [[FREEZE_LOAD2]]
 //
 // PRMTD_STRICT-LABEL: define dso_local <2 x float> @divbd(
 // PRMTD_STRICT-SAME: double noundef [[A:%.*]], double noundef [[B_COERCE0:%.*]], double noundef [[B_COERCE1:%.*]]) #[[ATTR0]] {
@@ -420,9 +465,12 @@ _Complex double divd(_Complex double a, double b) {
 // PRMTD_STRICT-NEXT:    [[UNPROMOTION3:%.*]] = call double @llvm.experimental.constrained.fptrunc.f64.f80(x86_fp80 [[TMP10]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR3]]
 // PRMTD_STRICT-NEXT:    [[CONV:%.*]] = call float @llvm.experimental.constrained.fptrunc.f32.f64(double [[UNPROMOTION]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR3]]
 // PRMTD_STRICT-NEXT:    [[CONV4:%.*]] = call float @llvm.experimental.constrained.fptrunc.f32.f64(double [[UNPROMOTION3]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR3]]
-// PRMTD_STRICT-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[CONV]], i32 0
-// PRMTD_STRICT-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[CONV4]], i32 1
-// PRMTD_STRICT-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// PRMTD_STRICT-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// PRMTD_STRICT-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[CONV]], i32 0
+// PRMTD_STRICT-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// PRMTD_STRICT-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[CONV4]], i32 1
+// PRMTD_STRICT-NEXT:    [[FREEZE_LOAD2:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
+// PRMTD_STRICT-NEXT:    ret <2 x float> [[FREEZE_LOAD2]]
 //
 _Complex float divbd(double a, _Complex double b) {
   return a / b;
@@ -432,9 +480,9 @@ _Complex float divbd(double a, _Complex double b) {
 // FULL-SAME: ptr noundef [[A:%.*]], double noundef [[B:%.*]]) #[[ATTR1]] {
 // FULL-NEXT:  [[ENTRY:.*:]]
 // FULL-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
-// FULL-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8
+// FULL-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8, !freeze_bits [[META2]]
 // FULL-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 1
-// FULL-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8
+// FULL-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8, !freeze_bits [[META2]]
 // FULL-NEXT:    [[TMP0:%.*]] = fdiv double [[DOTREAL]], [[B]]
 // FULL-NEXT:    [[TMP1:%.*]] = fdiv double [[DOTIMAG]], [[B]]
 // FULL-NEXT:    [[DOTREALP1:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
@@ -447,9 +495,9 @@ _Complex float divbd(double a, _Complex double b) {
 // IMPRVD-SAME: ptr noundef [[A:%.*]], double noundef [[B:%.*]]) #[[ATTR1]] {
 // IMPRVD-NEXT:  [[ENTRY:.*:]]
 // IMPRVD-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
-// IMPRVD-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8
+// IMPRVD-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8, !freeze_bits [[META2]]
 // IMPRVD-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 1
-// IMPRVD-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8
+// IMPRVD-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8, !freeze_bits [[META2]]
 // IMPRVD-NEXT:    [[TMP0:%.*]] = fdiv double [[DOTREAL]], [[B]]
 // IMPRVD-NEXT:    [[TMP1:%.*]] = fdiv double [[DOTIMAG]], [[B]]
 // IMPRVD-NEXT:    [[DOTREALP1:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
@@ -462,9 +510,9 @@ _Complex float divbd(double a, _Complex double b) {
 // PRMTD-SAME: ptr noundef [[A:%.*]], double noundef [[B:%.*]]) #[[ATTR1]] {
 // PRMTD-NEXT:  [[ENTRY:.*:]]
 // PRMTD-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
-// PRMTD-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8
+// PRMTD-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8, !freeze_bits [[META2]]
 // PRMTD-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 1
-// PRMTD-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8
+// PRMTD-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8, !freeze_bits [[META2]]
 // PRMTD-NEXT:    [[TMP0:%.*]] = fdiv double [[DOTREAL]], [[B]]
 // PRMTD-NEXT:    [[TMP1:%.*]] = fdiv double [[DOTIMAG]], [[B]]
 // PRMTD-NEXT:    [[DOTREALP1:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
@@ -477,9 +525,9 @@ _Complex float divbd(double a, _Complex double b) {
 // PRMTD_STRICT-SAME: ptr noundef [[A:%.*]], double noundef [[B:%.*]]) #[[ATTR2]] {
 // PRMTD_STRICT-NEXT:  [[ENTRY:.*:]]
 // PRMTD_STRICT-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
-// PRMTD_STRICT-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8
+// PRMTD_STRICT-NEXT:    [[DOTREAL:%.*]] = load double, ptr [[DOTREALP]], align 8, !freeze_bits [[META2]]
 // PRMTD_STRICT-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 1
-// PRMTD_STRICT-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8
+// PRMTD_STRICT-NEXT:    [[DOTIMAG:%.*]] = load double, ptr [[DOTIMAGP]], align 8, !freeze_bits [[META2]]
 // PRMTD_STRICT-NEXT:    [[TMP0:%.*]] = call double @llvm.experimental.constrained.fdiv.f64(double [[DOTREAL]], double [[B]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR3]]
 // PRMTD_STRICT-NEXT:    [[TMP1:%.*]] = call double @llvm.experimental.constrained.fdiv.f64(double [[DOTIMAG]], double [[B]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR3]]
 // PRMTD_STRICT-NEXT:    [[DOTREALP1:%.*]] = getelementptr inbounds nuw { double, double }, ptr [[A]], i32 0, i32 0
@@ -496,9 +544,9 @@ void divassignd(_Complex double *a, double b) {
 // FULL-SAME: ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[A:%.*]], x86_fp80 noundef [[B:%.*]]) #[[ATTR1]] {
 // FULL-NEXT:  [[ENTRY:.*:]]
 // FULL-NEXT:    [[A_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// FULL-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16
+// FULL-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16, !freeze_bits [[META2]]
 // FULL-NEXT:    [[A_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// FULL-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16
+// FULL-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16, !freeze_bits [[META2]]
 // FULL-NEXT:    [[TMP0:%.*]] = fdiv x86_fp80 [[A_REAL]], [[B]]
 // FULL-NEXT:    [[TMP1:%.*]] = fdiv x86_fp80 [[A_IMAG]], [[B]]
 // FULL-NEXT:    [[DOTFCA_0_INSERT:%.*]] = insertvalue { x86_fp80, x86_fp80 } poison, x86_fp80 [[TMP0]], 0
@@ -509,9 +557,9 @@ void divassignd(_Complex double *a, double b) {
 // IMPRVD-SAME: ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[A:%.*]], x86_fp80 noundef [[B:%.*]]) #[[ATTR1]] {
 // IMPRVD-NEXT:  [[ENTRY:.*:]]
 // IMPRVD-NEXT:    [[A_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// IMPRVD-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16
+// IMPRVD-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16, !freeze_bits [[META2]]
 // IMPRVD-NEXT:    [[A_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// IMPRVD-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16
+// IMPRVD-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16, !freeze_bits [[META2]]
 // IMPRVD-NEXT:    [[TMP0:%.*]] = fdiv x86_fp80 [[A_REAL]], [[B]]
 // IMPRVD-NEXT:    [[TMP1:%.*]] = fdiv x86_fp80 [[A_IMAG]], [[B]]
 // IMPRVD-NEXT:    [[DOTFCA_0_INSERT:%.*]] = insertvalue { x86_fp80, x86_fp80 } poison, x86_fp80 [[TMP0]], 0
@@ -522,9 +570,9 @@ void divassignd(_Complex double *a, double b) {
 // PRMTD-SAME: ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[A:%.*]], x86_fp80 noundef [[B:%.*]]) #[[ATTR1]] {
 // PRMTD-NEXT:  [[ENTRY:.*:]]
 // PRMTD-NEXT:    [[A_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// PRMTD-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16
+// PRMTD-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16, !freeze_bits [[META2]]
 // PRMTD-NEXT:    [[A_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// PRMTD-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16
+// PRMTD-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16, !freeze_bits [[META2]]
 // PRMTD-NEXT:    [[TMP0:%.*]] = fdiv x86_fp80 [[A_REAL]], [[B]]
 // PRMTD-NEXT:    [[TMP1:%.*]] = fdiv x86_fp80 [[A_IMAG]], [[B]]
 // PRMTD-NEXT:    [[DOTFCA_0_INSERT:%.*]] = insertvalue { x86_fp80, x86_fp80 } poison, x86_fp80 [[TMP0]], 0
@@ -535,9 +583,9 @@ void divassignd(_Complex double *a, double b) {
 // PRMTD_STRICT-SAME: ptr noundef byval({ x86_fp80, x86_fp80 }) align 16 [[A:%.*]], x86_fp80 noundef [[B:%.*]]) #[[ATTR2]] {
 // PRMTD_STRICT-NEXT:  [[ENTRY:.*:]]
 // PRMTD_STRICT-NEXT:    [[A_REALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// PRMTD_STRICT-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16
+// PRMTD_STRICT-NEXT:    [[A_REAL:%.*]] = load x86_fp80, ptr [[A_REALP]], align 16, !freeze_bits [[META2]]
 // PRMTD_STRICT-NEXT:    [[A_IMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// PRMTD_STRICT-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16
+// PRMTD_STRICT-NEXT:    [[A_IMAG:%.*]] = load x86_fp80, ptr [[A_IMAGP]], align 16, !freeze_bits [[META2]]
 // PRMTD_STRICT-NEXT:    [[TMP0:%.*]] = call x86_fp80 @llvm.experimental.constrained.fdiv.f80(x86_fp80 [[A_REAL]], x86_fp80 [[B]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR3]]
 // PRMTD_STRICT-NEXT:    [[TMP1:%.*]] = call x86_fp80 @llvm.experimental.constrained.fdiv.f80(x86_fp80 [[A_IMAG]], x86_fp80 [[B]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR3]]
 // PRMTD_STRICT-NEXT:    [[DOTFCA_0_INSERT:%.*]] = insertvalue { x86_fp80, x86_fp80 } poison, x86_fp80 [[TMP0]], 0
@@ -552,9 +600,9 @@ _Complex long double divld(_Complex long double a, long double b) {
 // FULL-SAME: ptr noundef [[A:%.*]], x86_fp80 noundef [[B:%.*]]) #[[ATTR1]] {
 // FULL-NEXT:  [[ENTRY:.*:]]
 // FULL-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// FULL-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16
+// FULL-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16, !freeze_bits [[META2]]
 // FULL-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// FULL-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16
+// FULL-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16, !freeze_bits [[META2]]
 // FULL-NEXT:    [[TMP0:%.*]] = fdiv x86_fp80 [[DOTREAL]], [[B]]
 // FULL-NEXT:    [[TMP1:%.*]] = fdiv x86_fp80 [[DOTIMAG]], [[B]]
 // FULL-NEXT:    [[DOTREALP1:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
@@ -567,9 +615,9 @@ _Complex long double divld(_Complex long double a, long double b) {
 // IMPRVD-SAME: ptr noundef [[A:%.*]], x86_fp80 noundef [[B:%.*]]) #[[ATTR1]] {
 // IMPRVD-NEXT:  [[ENTRY:.*:]]
 // IMPRVD-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// IMPRVD-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16
+// IMPRVD-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16, !freeze_bits [[META2]]
 // IMPRVD-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// IMPRVD-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16
+// IMPRVD-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16, !freeze_bits [[META2]]
 // IMPRVD-NEXT:    [[TMP0:%.*]] = fdiv x86_fp80 [[DOTREAL]], [[B]]
 // IMPRVD-NEXT:    [[TMP1:%.*]] = fdiv x86_fp80 [[DOTIMAG]], [[B]]
 // IMPRVD-NEXT:    [[DOTREALP1:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
@@ -582,9 +630,9 @@ _Complex long double divld(_Complex long double a, long double b) {
 // PRMTD-SAME: ptr noundef [[A:%.*]], x86_fp80 noundef [[B:%.*]]) #[[ATTR1]] {
 // PRMTD-NEXT:  [[ENTRY:.*:]]
 // PRMTD-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// PRMTD-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16
+// PRMTD-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16, !freeze_bits [[META2]]
 // PRMTD-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// PRMTD-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16
+// PRMTD-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16, !freeze_bits [[META2]]
 // PRMTD-NEXT:    [[TMP0:%.*]] = fdiv x86_fp80 [[DOTREAL]], [[B]]
 // PRMTD-NEXT:    [[TMP1:%.*]] = fdiv x86_fp80 [[DOTIMAG]], [[B]]
 // PRMTD-NEXT:    [[DOTREALP1:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
@@ -597,9 +645,9 @@ _Complex long double divld(_Complex long double a, long double b) {
 // PRMTD_STRICT-SAME: ptr noundef [[A:%.*]], x86_fp80 noundef [[B:%.*]]) #[[ATTR2]] {
 // PRMTD_STRICT-NEXT:  [[ENTRY:.*:]]
 // PRMTD_STRICT-NEXT:    [[DOTREALP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
-// PRMTD_STRICT-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16
+// PRMTD_STRICT-NEXT:    [[DOTREAL:%.*]] = load x86_fp80, ptr [[DOTREALP]], align 16, !freeze_bits [[META2]]
 // PRMTD_STRICT-NEXT:    [[DOTIMAGP:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 1
-// PRMTD_STRICT-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16
+// PRMTD_STRICT-NEXT:    [[DOTIMAG:%.*]] = load x86_fp80, ptr [[DOTIMAGP]], align 16, !freeze_bits [[META2]]
 // PRMTD_STRICT-NEXT:    [[TMP0:%.*]] = call x86_fp80 @llvm.experimental.constrained.fdiv.f80(x86_fp80 [[DOTREAL]], x86_fp80 [[B]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR3]]
 // PRMTD_STRICT-NEXT:    [[TMP1:%.*]] = call x86_fp80 @llvm.experimental.constrained.fdiv.f80(x86_fp80 [[DOTIMAG]], x86_fp80 [[B]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR3]]
 // PRMTD_STRICT-NEXT:    [[DOTREALP1:%.*]] = getelementptr inbounds nuw { x86_fp80, x86_fp80 }, ptr [[A]], i32 0, i32 0
@@ -611,3 +659,12 @@ _Complex long double divld(_Complex long double a, long double b) {
 void divassignld(_Complex long double *a, long double b) {
   *a /= b;
 }
+//.
+// FULL: [[META2]] = !{}
+//.
+// IMPRVD: [[META2]] = !{}
+//.
+// PRMTD: [[META2]] = !{}
+//.
+// PRMTD_STRICT: [[META2]] = !{}
+//.

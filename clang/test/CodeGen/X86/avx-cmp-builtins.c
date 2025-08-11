@@ -78,6 +78,7 @@ __m128 test_cmpnge_ss(__m128 a, __m128 b) {
 // CHECK-LABEL: define dso_local <2 x double> @test_cmpgt_sd(
 // CHECK-SAME: <2 x double> noundef [[A:%.*]], <2 x double> noundef [[B:%.*]]) #[[ATTR0]] {
 // CHECK-NEXT:  [[ENTRY:.*:]]
+// CHECK-NEXT:    [[FREEZE_POISON_I:%.*]] = freeze <2 x double> poison
 // CHECK-NEXT:    [[TMP0:%.*]] = call <2 x double> @llvm.x86.sse2.cmp.sd(<2 x double> [[B]], <2 x double> [[A]], i8 1)
 // CHECK-NEXT:    [[VECEXT_I:%.*]] = extractelement <2 x double> [[TMP0]], i32 0
 // CHECK-NEXT:    [[VECINIT_I:%.*]] = insertelement <2 x double> poison, double [[VECEXT_I]], i32 0
@@ -92,6 +93,7 @@ __m128d test_cmpgt_sd(__m128d a, __m128d b) {
 // CHECK-LABEL: define dso_local <2 x double> @test_cmpge_sd(
 // CHECK-SAME: <2 x double> noundef [[A:%.*]], <2 x double> noundef [[B:%.*]]) #[[ATTR0]] {
 // CHECK-NEXT:  [[ENTRY:.*:]]
+// CHECK-NEXT:    [[FREEZE_POISON_I:%.*]] = freeze <2 x double> poison
 // CHECK-NEXT:    [[TMP0:%.*]] = call <2 x double> @llvm.x86.sse2.cmp.sd(<2 x double> [[B]], <2 x double> [[A]], i8 2)
 // CHECK-NEXT:    [[VECEXT_I:%.*]] = extractelement <2 x double> [[TMP0]], i32 0
 // CHECK-NEXT:    [[VECINIT_I:%.*]] = insertelement <2 x double> poison, double [[VECEXT_I]], i32 0
@@ -106,6 +108,7 @@ __m128d test_cmpge_sd(__m128d a, __m128d b) {
 // CHECK-LABEL: define dso_local <2 x double> @test_cmpngt_sd(
 // CHECK-SAME: <2 x double> noundef [[A:%.*]], <2 x double> noundef [[B:%.*]]) #[[ATTR0]] {
 // CHECK-NEXT:  [[ENTRY:.*:]]
+// CHECK-NEXT:    [[FREEZE_POISON_I:%.*]] = freeze <2 x double> poison
 // CHECK-NEXT:    [[TMP0:%.*]] = call <2 x double> @llvm.x86.sse2.cmp.sd(<2 x double> [[B]], <2 x double> [[A]], i8 5)
 // CHECK-NEXT:    [[VECEXT_I:%.*]] = extractelement <2 x double> [[TMP0]], i32 0
 // CHECK-NEXT:    [[VECINIT_I:%.*]] = insertelement <2 x double> poison, double [[VECEXT_I]], i32 0
@@ -120,6 +123,7 @@ __m128d test_cmpngt_sd(__m128d a, __m128d b) {
 // CHECK-LABEL: define dso_local <2 x double> @test_cmpnge_sd(
 // CHECK-SAME: <2 x double> noundef [[A:%.*]], <2 x double> noundef [[B:%.*]]) #[[ATTR0]] {
 // CHECK-NEXT:  [[ENTRY:.*:]]
+// CHECK-NEXT:    [[FREEZE_POISON_I:%.*]] = freeze <2 x double> poison
 // CHECK-NEXT:    [[TMP0:%.*]] = call <2 x double> @llvm.x86.sse2.cmp.sd(<2 x double> [[B]], <2 x double> [[A]], i8 6)
 // CHECK-NEXT:    [[VECEXT_I:%.*]] = extractelement <2 x double> [[TMP0]], i32 0
 // CHECK-NEXT:    [[VECINIT_I:%.*]] = insertelement <2 x double> poison, double [[VECEXT_I]], i32 0

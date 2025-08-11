@@ -11,7 +11,7 @@
 // CHECK-NEXT:    store ptr [[PTR2:%.*]], ptr [[PTR2_ADDR]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[PTR1_ADDR]], align 8
 // CHECK-NEXT:    [[ADD_PTR:%.*]] = getelementptr inbounds <1024 x i1>, ptr [[TMP0]], i64 2
-// CHECK-NEXT:    [[TMP1:%.*]] = load <1024 x i1>, ptr [[ADD_PTR]], align 128
+// CHECK-NEXT:    [[TMP1:%.*]] = load <1024 x i1>, ptr [[ADD_PTR]], align 128, !freeze_bits [[META2:![0-9]+]]
 // CHECK-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[PTR2_ADDR]], align 8
 // CHECK-NEXT:    [[ADD_PTR1:%.*]] = getelementptr inbounds <1024 x i1>, ptr [[TMP2]], i64 1
 // CHECK-NEXT:    store <1024 x i1> [[TMP1]], ptr [[ADD_PTR1]], align 128
@@ -29,12 +29,16 @@ void test_dmr_copy(__dmr1024 *ptr1, __dmr1024 *ptr2) {
 // CHECK-NEXT:    [[VDMROUT:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    store ptr [[INP:%.*]], ptr [[INP_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[OUTP:%.*]], ptr [[OUTP_ADDR]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[VDMRIN]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[INP_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[TMP0]], ptr [[VDMRIN]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON1]], ptr [[VDMROUT]], align 8
 // CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[OUTP_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[TMP1]], ptr [[VDMROUT]], align 8
 // CHECK-NEXT:    [[TMP2:%.*]] = load ptr, ptr [[VDMRIN]], align 8
-// CHECK-NEXT:    [[TMP3:%.*]] = load <1024 x i1>, ptr [[TMP2]], align 128
+// CHECK-NEXT:    [[TMP3:%.*]] = load <1024 x i1>, ptr [[TMP2]], align 128, !freeze_bits [[META2]]
 // CHECK-NEXT:    [[TMP4:%.*]] = load ptr, ptr [[VDMROUT]], align 8
 // CHECK-NEXT:    store <1024 x i1> [[TMP3]], ptr [[TMP4]], align 128
 // CHECK-NEXT:    ret void
@@ -52,10 +56,12 @@ void test_dmr_typedef(int *inp, int *outp) {
 // CHECK-NEXT:    [[VDMRP:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    store ptr [[VDMR:%.*]], ptr [[VDMR_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[PTR:%.*]], ptr [[PTR_ADDR]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[VDMRP]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[PTR_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[TMP0]], ptr [[VDMRP]], align 8
 // CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[VDMR_ADDR]], align 8
-// CHECK-NEXT:    [[TMP2:%.*]] = load <1024 x i1>, ptr [[TMP1]], align 128
+// CHECK-NEXT:    [[TMP2:%.*]] = load <1024 x i1>, ptr [[TMP1]], align 128, !freeze_bits [[META2]]
 // CHECK-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[VDMRP]], align 8
 // CHECK-NEXT:    store <1024 x i1> [[TMP2]], ptr [[TMP3]], align 128
 // CHECK-NEXT:    ret void
@@ -72,10 +78,12 @@ void test_dmr_arg(__dmr1024 *vdmr, int *ptr) {
 // CHECK-NEXT:    [[VDMRP:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    store ptr [[VDMR:%.*]], ptr [[VDMR_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[PTR:%.*]], ptr [[PTR_ADDR]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[VDMRP]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[PTR_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[TMP0]], ptr [[VDMRP]], align 8
 // CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[VDMR_ADDR]], align 8
-// CHECK-NEXT:    [[TMP2:%.*]] = load <1024 x i1>, ptr [[TMP1]], align 128
+// CHECK-NEXT:    [[TMP2:%.*]] = load <1024 x i1>, ptr [[TMP1]], align 128, !freeze_bits [[META2]]
 // CHECK-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[VDMRP]], align 8
 // CHECK-NEXT:    store <1024 x i1> [[TMP2]], ptr [[TMP3]], align 128
 // CHECK-NEXT:    ret void
@@ -92,11 +100,13 @@ void test_dmr_const_arg(const __dmr1024 *const vdmr, int *ptr) {
 // CHECK-NEXT:    [[VDMRP:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    store ptr [[VDMRA:%.*]], ptr [[VDMRA_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[PTR:%.*]], ptr [[PTR_ADDR]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[VDMRP]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[PTR_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[TMP0]], ptr [[VDMRP]], align 8
 // CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[VDMRA_ADDR]], align 8
 // CHECK-NEXT:    [[ARRAYIDX:%.*]] = getelementptr inbounds <1024 x i1>, ptr [[TMP1]], i64 0
-// CHECK-NEXT:    [[TMP2:%.*]] = load <1024 x i1>, ptr [[ARRAYIDX]], align 128
+// CHECK-NEXT:    [[TMP2:%.*]] = load <1024 x i1>, ptr [[ARRAYIDX]], align 128, !freeze_bits [[META2]]
 // CHECK-NEXT:    [[TMP3:%.*]] = load ptr, ptr [[VDMRP]], align 8
 // CHECK-NEXT:    store <1024 x i1> [[TMP2]], ptr [[TMP3]], align 128
 // CHECK-NEXT:    ret void
@@ -111,6 +121,8 @@ void test_dmr_array_arg(__dmr1024 vdmra[], int *ptr) {
 // CHECK-NEXT:    [[PTR_ADDR:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    [[VDMRP:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    store ptr [[PTR:%.*]], ptr [[PTR_ADDR]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[VDMRP]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[PTR_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[TMP0]], ptr [[VDMRP]], align 8
 // CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[VDMRP]], align 8
@@ -127,6 +139,8 @@ __dmr1024 *test_dmr_ret(int *ptr) {
 // CHECK-NEXT:    [[PTR_ADDR:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    [[VDMRP:%.*]] = alloca ptr, align 8
 // CHECK-NEXT:    store ptr [[PTR:%.*]], ptr [[PTR_ADDR]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[VDMRP]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[PTR_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[TMP0]], ptr [[VDMRP]], align 8
 // CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[VDMRP]], align 8
@@ -148,23 +162,35 @@ const __dmr1024 *test_dmr_ret_const(int *ptr) {
 // CHECK-NEXT:    [[SIZEV:%.*]] = alloca i32, align 4
 // CHECK-NEXT:    [[ALIGNV:%.*]] = alloca i32, align 4
 // CHECK-NEXT:    store ptr [[PTR:%.*]], ptr [[PTR_ADDR]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON:%.*]] = freeze ptr poison
+// CHECK-NEXT:    store ptr [[FREEZE_POISON]], ptr [[VDMRP]], align 8
 // CHECK-NEXT:    [[TMP0:%.*]] = load ptr, ptr [[PTR_ADDR]], align 8
 // CHECK-NEXT:    store ptr [[TMP0]], ptr [[VDMRP]], align 8
+// CHECK-NEXT:    [[FREEZE_POISON1:%.*]] = freeze <1024 x i1> poison
+// CHECK-NEXT:    store <1024 x i1> [[FREEZE_POISON1]], ptr [[VDMR]], align 128
 // CHECK-NEXT:    [[TMP1:%.*]] = load ptr, ptr [[VDMRP]], align 8
-// CHECK-NEXT:    [[TMP2:%.*]] = load <1024 x i1>, ptr [[TMP1]], align 128
+// CHECK-NEXT:    [[TMP2:%.*]] = load <1024 x i1>, ptr [[TMP1]], align 128, !freeze_bits [[META2]]
 // CHECK-NEXT:    store <1024 x i1> [[TMP2]], ptr [[VDMR]], align 128
+// CHECK-NEXT:    [[FREEZE_POISON2:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON2]], ptr [[SIZET]], align 4
 // CHECK-NEXT:    store i32 128, ptr [[SIZET]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON3:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON3]], ptr [[ALIGNT]], align 4
 // CHECK-NEXT:    store i32 128, ptr [[ALIGNT]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON4:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON4]], ptr [[SIZEV]], align 4
 // CHECK-NEXT:    store i32 128, ptr [[SIZEV]], align 4
+// CHECK-NEXT:    [[FREEZE_POISON5:%.*]] = freeze i32 poison
+// CHECK-NEXT:    store i32 [[FREEZE_POISON5]], ptr [[ALIGNV]], align 4
 // CHECK-NEXT:    store i32 128, ptr [[ALIGNV]], align 4
 // CHECK-NEXT:    [[TMP3:%.*]] = load i32, ptr [[SIZET]], align 4
 // CHECK-NEXT:    [[TMP4:%.*]] = load i32, ptr [[ALIGNT]], align 4
 // CHECK-NEXT:    [[ADD:%.*]] = add i32 [[TMP3]], [[TMP4]]
 // CHECK-NEXT:    [[TMP5:%.*]] = load i32, ptr [[SIZEV]], align 4
-// CHECK-NEXT:    [[ADD1:%.*]] = add i32 [[ADD]], [[TMP5]]
+// CHECK-NEXT:    [[ADD6:%.*]] = add i32 [[ADD]], [[TMP5]]
 // CHECK-NEXT:    [[TMP6:%.*]] = load i32, ptr [[ALIGNV]], align 4
-// CHECK-NEXT:    [[ADD2:%.*]] = add i32 [[ADD1]], [[TMP6]]
-// CHECK-NEXT:    ret i32 [[ADD2]]
+// CHECK-NEXT:    [[ADD7:%.*]] = add i32 [[ADD6]], [[TMP6]]
+// CHECK-NEXT:    ret i32 [[ADD7]]
 //
 int test_dmr_sizeof_alignof(int *ptr) {
   __dmr1024 *vdmrp = (__dmr1024 *)ptr;
