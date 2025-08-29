@@ -165,9 +165,11 @@ public:
 
   Address(llvm::Value *BasePtr, llvm::Type *ElementType, CharUnits Alignment,
           CGPointerAuthInfo PtrAuthInfo, llvm::Value *Offset,
-          KnownNonNull_t IsKnownNonNull = NotKnownNonNull)
+          KnownNonNull_t IsKnownNonNull = NotKnownNonNull,
+          bool IsNondeterministicInit = false)
       : Pointer(BasePtr, IsKnownNonNull), ElementType(ElementType),
-        Alignment(Alignment), PtrAuthInfo(PtrAuthInfo), Offset(Offset) {}
+        Alignment(Alignment), PtrAuthInfo(PtrAuthInfo), Offset(Offset),
+        IsNondeterministicInit(IsNondeterministicInit) {}
 
   Address(RawAddress RawAddr)
       : Pointer(RawAddr.isValid() ? RawAddr.getPointer() : nullptr,
@@ -269,7 +271,7 @@ public:
   /// type.
   Address withAlignment(CharUnits NewAlignment) const {
     return Address(Pointer.getPointer(), getElementType(), NewAlignment,
-                   isKnownNonNull());
+                   isKnownNonNull(), isNondeterministicInit());
   }
 
   /// Return address with different element type, but same pointer and
@@ -278,7 +280,7 @@ public:
     if (!hasOffset())
       return Address(getBasePointer(), ElemTy, getAlignment(),
                      getPointerAuthInfo(), /*Offset=*/nullptr,
-                     isKnownNonNull());
+                     isKnownNonNull(), isNondeterministicInit());
     Address A(*this);
     A.ElementType = ElemTy;
     return A;
