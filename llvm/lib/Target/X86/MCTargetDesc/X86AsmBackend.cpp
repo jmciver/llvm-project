@@ -128,6 +128,8 @@ class X86AsmBackend : public MCAsmBackend {
   MCBoundaryAlignFragment *PendingBA = nullptr;
   std::pair<MCFragment *, size_t> PrevInstPosition;
 
+  std::string FunctionNameToMatch =  "jinit_d_coef_controller";
+
   uint8_t determinePaddingPrefix(const MCInst &Inst) const;
   bool isMacroFused(const MCInst &Cmp, const MCInst &Jcc) const;
   bool needAlign(const MCInst &Inst) const;
@@ -441,9 +443,9 @@ bool X86AsmBackend::canPadBranches(MCObjectStreamer &OS) const {
 bool X86AsmBackend::needAlign(const MCInst &Inst) const {
   const MCInstrDesc &Desc = MCII->get(Inst.getOpcode());
   return (Desc.isConditionalBranch() &&
-          (AlignBranchType & X86::AlignBranchJcc)) ||
+          (AlignBranchType & X86::AlignBranchJcc) && FunctionName.compare(FunctionNameToMatch) == 0) ||
          (Desc.isUnconditionalBranch() &&
-          (AlignBranchType & X86::AlignBranchJmp)) ||
+          (AlignBranchType & X86::AlignBranchJmp) && FunctionName.compare(FunctionNameToMatch) == 0) ||
          (Desc.isCall() && (AlignBranchType & X86::AlignBranchCall)) ||
          (Desc.isReturn() && (AlignBranchType & X86::AlignBranchRet)) ||
          (Desc.isIndirectBranch() &&
@@ -509,7 +511,8 @@ void X86AsmBackend::emitInstructionBegin(MCObjectStreamer &OS,
   }
 
   if (needAlign(Inst) || ((AlignBranchType & X86::AlignBranchFused) &&
-                          isFirstMacroFusibleInst(Inst, *MCII))) {
+                          isFirstMacroFusibleInst(Inst, *MCII) &&
+                          FunctionName.compare(FunctionNameToMatch) == 0)) {
     // If we meet a unfused branch or the first instuction in a fusiable pair,
     // insert a BoundaryAlign fragment.
     PendingBA = OS.getContext().allocFragment<MCBoundaryAlignFragment>(

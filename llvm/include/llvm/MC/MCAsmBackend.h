@@ -61,6 +61,8 @@ protected: // Can only create subclasses.
   bool AllowAutoPadding = false;
   bool AllowEnhancedRelaxation = false;
 
+  std::string FunctionName;
+
 public:
   MCAsmBackend(const MCAsmBackend &) = delete;
   MCAsmBackend &operator=(const MCAsmBackend &) = delete;
@@ -216,6 +218,9 @@ public:
 
   // Return STI for fragments with hasInstructions() == true.
   static const MCSubtargetInfo *getSubtargetInfo(const MCFragment &F);
+
+  std::string getFunctionName() const { return FunctionName; }
+  void setFunctionName(const std::string &Name) { FunctionName = Name; }
 };
 
 } // end namespace llvm
