@@ -67,8 +67,10 @@
 // FULL-NEXT:    [[CALL:%.*]] = call <2 x float> @__divsc3(float noundef [[A_SROA_0_0_VEC_EXTRACT]], float noundef [[A_SROA_0_4_VEC_EXTRACT]], float noundef [[B_SROA_0_0_VEC_EXTRACT]], float noundef [[B_SROA_0_4_VEC_EXTRACT]]) #[[ATTR2:[0-9]+]]
 // FULL-NEXT:    [[COERCE_SROA_0_0_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[CALL]], i32 0
 // FULL-NEXT:    [[COERCE_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[CALL]], i32 1
-// FULL-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[COERCE_SROA_0_0_VEC_EXTRACT]], i32 0
-// FULL-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[COERCE_SROA_0_4_VEC_EXTRACT]], i32 1
+// FULL-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// FULL-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[COERCE_SROA_0_0_VEC_EXTRACT]], i32 0
+// FULL-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// FULL-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[COERCE_SROA_0_4_VEC_EXTRACT]], i32 1
 // FULL-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
 //
 // BASIC-LABEL: define dso_local <2 x float> @divf(
@@ -89,8 +91,10 @@
 // BASIC-NEXT:    [[TMP8:%.*]] = fsub float [[TMP6]], [[TMP7]]
 // BASIC-NEXT:    [[TMP9:%.*]] = fdiv float [[TMP2]], [[TMP5]]
 // BASIC-NEXT:    [[TMP10:%.*]] = fdiv float [[TMP8]], [[TMP5]]
-// BASIC-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[TMP9]], i32 0
-// BASIC-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[TMP10]], i32 1
+// BASIC-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// BASIC-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[TMP9]], i32 0
+// BASIC-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// BASIC-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[TMP10]], i32 1
 // BASIC-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
 //
 // IMPRVD-LABEL: define dso_local <2 x float> @divf(
@@ -129,8 +133,10 @@
 // IMPRVD:       complex_div:
 // IMPRVD-NEXT:    [[TMP20:%.*]] = phi float [ [[TMP7]], [[ABS_RHSR_GREATER_OR_EQUAL_ABS_RHSI]] ], [ [[TMP16]], [[ABS_RHSR_LESS_THAN_ABS_RHSI]] ]
 // IMPRVD-NEXT:    [[TMP21:%.*]] = phi float [ [[TMP10]], [[ABS_RHSR_GREATER_OR_EQUAL_ABS_RHSI]] ], [ [[TMP19]], [[ABS_RHSR_LESS_THAN_ABS_RHSI]] ]
-// IMPRVD-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[TMP20]], i32 0
-// IMPRVD-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[TMP21]], i32 1
+// IMPRVD-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// IMPRVD-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[TMP20]], i32 0
+// IMPRVD-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// IMPRVD-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[TMP21]], i32 1
 // IMPRVD-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
 //
 // PRMTD-LABEL: define dso_local <2 x float> @divf(
@@ -157,8 +163,10 @@
 // PRMTD-NEXT:    [[TMP10:%.*]] = fdiv double [[TMP8]], [[TMP5]]
 // PRMTD-NEXT:    [[UNPROMOTION:%.*]] = fptrunc double [[TMP9]] to float
 // PRMTD-NEXT:    [[UNPROMOTION4:%.*]] = fptrunc double [[TMP10]] to float
-// PRMTD-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[UNPROMOTION]], i32 0
-// PRMTD-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[UNPROMOTION4]], i32 1
+// PRMTD-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// PRMTD-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[UNPROMOTION]], i32 0
+// PRMTD-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// PRMTD-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[UNPROMOTION4]], i32 1
 // PRMTD-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
 //
 // X86WINPRMTD-LABEL: define dso_local i64 @divf(
@@ -280,8 +288,10 @@
 // BASIC_FAST-NEXT:    [[TMP8:%.*]] = fsub reassoc nnan ninf nsz arcp afn float [[TMP6]], [[TMP7]]
 // BASIC_FAST-NEXT:    [[TMP9:%.*]] = fdiv reassoc nnan ninf nsz arcp afn float [[TMP2]], [[TMP5]]
 // BASIC_FAST-NEXT:    [[TMP10:%.*]] = fdiv reassoc nnan ninf nsz arcp afn float [[TMP8]], [[TMP5]]
-// BASIC_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[TMP9]], i32 0
-// BASIC_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[TMP10]], i32 1
+// BASIC_FAST-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// BASIC_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[TMP9]], i32 0
+// BASIC_FAST-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// BASIC_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[TMP10]], i32 1
 // BASIC_FAST-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
 //
 // FULL_FAST-LABEL: define dso_local nofpclass(nan inf) <2 x float> @divf(
@@ -294,8 +304,10 @@
 // FULL_FAST-NEXT:    [[CALL:%.*]] = call reassoc nnan ninf nsz arcp afn nofpclass(nan inf) <2 x float> @__divsc3(float noundef nofpclass(nan inf) [[A_SROA_0_0_VEC_EXTRACT]], float noundef nofpclass(nan inf) [[A_SROA_0_4_VEC_EXTRACT]], float noundef nofpclass(nan inf) [[B_SROA_0_0_VEC_EXTRACT]], float noundef nofpclass(nan inf) [[B_SROA_0_4_VEC_EXTRACT]]) #[[ATTR2:[0-9]+]]
 // FULL_FAST-NEXT:    [[COERCE_SROA_0_0_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[CALL]], i32 0
 // FULL_FAST-NEXT:    [[COERCE_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[CALL]], i32 1
-// FULL_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[COERCE_SROA_0_0_VEC_EXTRACT]], i32 0
-// FULL_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[COERCE_SROA_0_4_VEC_EXTRACT]], i32 1
+// FULL_FAST-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// FULL_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[COERCE_SROA_0_0_VEC_EXTRACT]], i32 0
+// FULL_FAST-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// FULL_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[COERCE_SROA_0_4_VEC_EXTRACT]], i32 1
 // FULL_FAST-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
 //
 // IMPRVD_FAST-LABEL: define dso_local nofpclass(nan inf) <2 x float> @divf(
@@ -334,8 +346,10 @@
 // IMPRVD_FAST:       complex_div:
 // IMPRVD_FAST-NEXT:    [[TMP20:%.*]] = phi reassoc nnan ninf nsz arcp afn float [ [[TMP7]], [[ABS_RHSR_GREATER_OR_EQUAL_ABS_RHSI]] ], [ [[TMP16]], [[ABS_RHSR_LESS_THAN_ABS_RHSI]] ]
 // IMPRVD_FAST-NEXT:    [[TMP21:%.*]] = phi reassoc nnan ninf nsz arcp afn float [ [[TMP10]], [[ABS_RHSR_GREATER_OR_EQUAL_ABS_RHSI]] ], [ [[TMP19]], [[ABS_RHSR_LESS_THAN_ABS_RHSI]] ]
-// IMPRVD_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[TMP20]], i32 0
-// IMPRVD_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[TMP21]], i32 1
+// IMPRVD_FAST-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// IMPRVD_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[TMP20]], i32 0
+// IMPRVD_FAST-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// IMPRVD_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[TMP21]], i32 1
 // IMPRVD_FAST-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
 //
 // PRMTD_FAST-LABEL: define dso_local nofpclass(nan inf) <2 x float> @divf(
@@ -362,8 +376,10 @@
 // PRMTD_FAST-NEXT:    [[TMP10:%.*]] = fdiv reassoc nnan ninf nsz arcp afn double [[TMP8]], [[TMP5]]
 // PRMTD_FAST-NEXT:    [[UNPROMOTION:%.*]] = fptrunc reassoc nnan ninf nsz arcp afn double [[TMP9]] to float
 // PRMTD_FAST-NEXT:    [[UNPROMOTION4:%.*]] = fptrunc reassoc nnan ninf nsz arcp afn double [[TMP10]] to float
-// PRMTD_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[UNPROMOTION]], i32 0
-// PRMTD_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[UNPROMOTION4]], i32 1
+// PRMTD_FAST-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// PRMTD_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[UNPROMOTION]], i32 0
+// PRMTD_FAST-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// PRMTD_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[UNPROMOTION4]], i32 1
 // PRMTD_FAST-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
 //
 // X86WINPRMTD_STRICT-LABEL: define dso_local i64 @divf(
@@ -431,8 +447,10 @@
 // PRMTD_STRICT-NEXT:    [[TMP10:%.*]] = call double @llvm.experimental.constrained.fdiv.f64(double [[TMP8]], double [[TMP5]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR4]]
 // PRMTD_STRICT-NEXT:    [[UNPROMOTION:%.*]] = call float @llvm.experimental.constrained.fptrunc.f32.f64(double [[TMP9]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR4]]
 // PRMTD_STRICT-NEXT:    [[UNPROMOTION4:%.*]] = call float @llvm.experimental.constrained.fptrunc.f32.f64(double [[TMP10]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR4]]
-// PRMTD_STRICT-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[UNPROMOTION]], i32 0
-// PRMTD_STRICT-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[UNPROMOTION4]], i32 1
+// PRMTD_STRICT-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// PRMTD_STRICT-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[UNPROMOTION]], i32 0
+// PRMTD_STRICT-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// PRMTD_STRICT-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[UNPROMOTION4]], i32 1
 // PRMTD_STRICT-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
 //
 _Complex float divf(_Complex float a, _Complex float b) {
@@ -883,8 +901,10 @@ void divassignf(_Complex float *a, _Complex float b) {
 // FULL:       complex_mul_cont:
 // FULL-NEXT:    [[REAL_MUL_PHI:%.*]] = phi float [ [[MUL_R]], [[ENTRY:%.*]] ], [ [[MUL_R]], [[COMPLEX_MUL_IMAG_NAN]] ], [ [[COERCE_SROA_0_0_VEC_EXTRACT]], [[COMPLEX_MUL_LIBCALL]] ]
 // FULL-NEXT:    [[IMAG_MUL_PHI:%.*]] = phi float [ [[MUL_I]], [[ENTRY]] ], [ [[MUL_I]], [[COMPLEX_MUL_IMAG_NAN]] ], [ [[COERCE_SROA_0_4_VEC_EXTRACT]], [[COMPLEX_MUL_LIBCALL]] ]
-// FULL-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[REAL_MUL_PHI]], i32 0
-// FULL-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[IMAG_MUL_PHI]], i32 1
+// FULL-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// FULL-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[REAL_MUL_PHI]], i32 0
+// FULL-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// FULL-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[IMAG_MUL_PHI]], i32 1
 // FULL-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
 //
 // BASIC-LABEL: define dso_local <2 x float> @mulf(
@@ -900,8 +920,10 @@ void divassignf(_Complex float *a, _Complex float b) {
 // BASIC-NEXT:    [[MUL_BC:%.*]] = fmul float [[A_SROA_0_4_VEC_EXTRACT]], [[B_SROA_0_0_VEC_EXTRACT]]
 // BASIC-NEXT:    [[MUL_R:%.*]] = fsub float [[MUL_AC]], [[MUL_BD]]
 // BASIC-NEXT:    [[MUL_I:%.*]] = fadd float [[MUL_AD]], [[MUL_BC]]
-// BASIC-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[MUL_R]], i32 0
-// BASIC-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[MUL_I]], i32 1
+// BASIC-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// BASIC-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[MUL_R]], i32 0
+// BASIC-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// BASIC-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[MUL_I]], i32 1
 // BASIC-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
 //
 // IMPRVD-LABEL: define dso_local <2 x float> @mulf(
@@ -917,8 +939,10 @@ void divassignf(_Complex float *a, _Complex float b) {
 // IMPRVD-NEXT:    [[MUL_BC:%.*]] = fmul float [[A_SROA_0_4_VEC_EXTRACT]], [[B_SROA_0_0_VEC_EXTRACT]]
 // IMPRVD-NEXT:    [[MUL_R:%.*]] = fsub float [[MUL_AC]], [[MUL_BD]]
 // IMPRVD-NEXT:    [[MUL_I:%.*]] = fadd float [[MUL_AD]], [[MUL_BC]]
-// IMPRVD-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[MUL_R]], i32 0
-// IMPRVD-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[MUL_I]], i32 1
+// IMPRVD-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// IMPRVD-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[MUL_R]], i32 0
+// IMPRVD-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// IMPRVD-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[MUL_I]], i32 1
 // IMPRVD-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
 //
 // PRMTD-LABEL: define dso_local <2 x float> @mulf(
@@ -934,8 +958,10 @@ void divassignf(_Complex float *a, _Complex float b) {
 // PRMTD-NEXT:    [[MUL_BC:%.*]] = fmul float [[A_SROA_0_4_VEC_EXTRACT]], [[B_SROA_0_0_VEC_EXTRACT]]
 // PRMTD-NEXT:    [[MUL_R:%.*]] = fsub float [[MUL_AC]], [[MUL_BD]]
 // PRMTD-NEXT:    [[MUL_I:%.*]] = fadd float [[MUL_AD]], [[MUL_BC]]
-// PRMTD-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[MUL_R]], i32 0
-// PRMTD-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[MUL_I]], i32 1
+// PRMTD-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// PRMTD-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[MUL_R]], i32 0
+// PRMTD-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// PRMTD-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[MUL_I]], i32 1
 // PRMTD-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
 //
 // X86WINPRMTD-LABEL: define dso_local i64 @mulf(
@@ -1007,8 +1033,10 @@ void divassignf(_Complex float *a, _Complex float b) {
 // BASIC_FAST-NEXT:    [[MUL_BC:%.*]] = fmul reassoc nnan ninf nsz arcp afn float [[A_SROA_0_4_VEC_EXTRACT]], [[B_SROA_0_0_VEC_EXTRACT]]
 // BASIC_FAST-NEXT:    [[MUL_R:%.*]] = fsub reassoc nnan ninf nsz arcp afn float [[MUL_AC]], [[MUL_BD]]
 // BASIC_FAST-NEXT:    [[MUL_I:%.*]] = fadd reassoc nnan ninf nsz arcp afn float [[MUL_AD]], [[MUL_BC]]
-// BASIC_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[MUL_R]], i32 0
-// BASIC_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[MUL_I]], i32 1
+// BASIC_FAST-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// BASIC_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[MUL_R]], i32 0
+// BASIC_FAST-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// BASIC_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[MUL_I]], i32 1
 // BASIC_FAST-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
 //
 // FULL_FAST-LABEL: define dso_local nofpclass(nan inf) <2 x float> @mulf(
@@ -1037,8 +1065,10 @@ void divassignf(_Complex float *a, _Complex float b) {
 // FULL_FAST:       complex_mul_cont:
 // FULL_FAST-NEXT:    [[REAL_MUL_PHI:%.*]] = phi reassoc nnan ninf nsz arcp afn float [ [[MUL_R]], [[ENTRY:%.*]] ], [ [[MUL_R]], [[COMPLEX_MUL_IMAG_NAN]] ], [ [[COERCE_SROA_0_0_VEC_EXTRACT]], [[COMPLEX_MUL_LIBCALL]] ]
 // FULL_FAST-NEXT:    [[IMAG_MUL_PHI:%.*]] = phi reassoc nnan ninf nsz arcp afn float [ [[MUL_I]], [[ENTRY]] ], [ [[MUL_I]], [[COMPLEX_MUL_IMAG_NAN]] ], [ [[COERCE_SROA_0_4_VEC_EXTRACT]], [[COMPLEX_MUL_LIBCALL]] ]
-// FULL_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[REAL_MUL_PHI]], i32 0
-// FULL_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[IMAG_MUL_PHI]], i32 1
+// FULL_FAST-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// FULL_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[REAL_MUL_PHI]], i32 0
+// FULL_FAST-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// FULL_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[IMAG_MUL_PHI]], i32 1
 // FULL_FAST-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
 //
 // IMPRVD_FAST-LABEL: define dso_local nofpclass(nan inf) <2 x float> @mulf(
@@ -1054,8 +1084,10 @@ void divassignf(_Complex float *a, _Complex float b) {
 // IMPRVD_FAST-NEXT:    [[MUL_BC:%.*]] = fmul reassoc nnan ninf nsz arcp afn float [[A_SROA_0_4_VEC_EXTRACT]], [[B_SROA_0_0_VEC_EXTRACT]]
 // IMPRVD_FAST-NEXT:    [[MUL_R:%.*]] = fsub reassoc nnan ninf nsz arcp afn float [[MUL_AC]], [[MUL_BD]]
 // IMPRVD_FAST-NEXT:    [[MUL_I:%.*]] = fadd reassoc nnan ninf nsz arcp afn float [[MUL_AD]], [[MUL_BC]]
-// IMPRVD_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[MUL_R]], i32 0
-// IMPRVD_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[MUL_I]], i32 1
+// IMPRVD_FAST-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// IMPRVD_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[MUL_R]], i32 0
+// IMPRVD_FAST-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// IMPRVD_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[MUL_I]], i32 1
 // IMPRVD_FAST-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
 //
 // PRMTD_FAST-LABEL: define dso_local nofpclass(nan inf) <2 x float> @mulf(
@@ -1071,8 +1103,10 @@ void divassignf(_Complex float *a, _Complex float b) {
 // PRMTD_FAST-NEXT:    [[MUL_BC:%.*]] = fmul reassoc nnan ninf nsz arcp afn float [[A_SROA_0_4_VEC_EXTRACT]], [[B_SROA_0_0_VEC_EXTRACT]]
 // PRMTD_FAST-NEXT:    [[MUL_R:%.*]] = fsub reassoc nnan ninf nsz arcp afn float [[MUL_AC]], [[MUL_BD]]
 // PRMTD_FAST-NEXT:    [[MUL_I:%.*]] = fadd reassoc nnan ninf nsz arcp afn float [[MUL_AD]], [[MUL_BC]]
-// PRMTD_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[MUL_R]], i32 0
-// PRMTD_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[MUL_I]], i32 1
+// PRMTD_FAST-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// PRMTD_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[MUL_R]], i32 0
+// PRMTD_FAST-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// PRMTD_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[MUL_I]], i32 1
 // PRMTD_FAST-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
 //
 // X86WINPRMTD_STRICT-LABEL: define dso_local i64 @mulf(
@@ -1118,8 +1152,10 @@ void divassignf(_Complex float *a, _Complex float b) {
 // PRMTD_STRICT-NEXT:    [[MUL_BC:%.*]] = call float @llvm.experimental.constrained.fmul.f32(float [[A_SROA_0_4_VEC_EXTRACT]], float [[B_SROA_0_0_VEC_EXTRACT]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR4]]
 // PRMTD_STRICT-NEXT:    [[MUL_R:%.*]] = call float @llvm.experimental.constrained.fsub.f32(float [[MUL_AC]], float [[MUL_BD]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR4]]
 // PRMTD_STRICT-NEXT:    [[MUL_I:%.*]] = call float @llvm.experimental.constrained.fadd.f32(float [[MUL_AD]], float [[MUL_BC]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR4]]
-// PRMTD_STRICT-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[MUL_R]], i32 0
-// PRMTD_STRICT-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[MUL_I]], i32 1
+// PRMTD_STRICT-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// PRMTD_STRICT-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[MUL_R]], i32 0
+// PRMTD_STRICT-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// PRMTD_STRICT-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[MUL_I]], i32 1
 // PRMTD_STRICT-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
 //
 _Complex float mulf(_Complex float a, _Complex float b) {
@@ -4456,8 +4492,10 @@ void mulassignld(_Complex long double *a, _Complex long double b) {
 // FULL-NEXT:    [[CALL4:%.*]] = call <2 x float> @__divsc3(float noundef [[CONV2]], float noundef [[CONV3]], float noundef [[A_SROA_0_0_VEC_EXTRACT]], float noundef [[A_SROA_0_4_VEC_EXTRACT]]) #[[ATTR2]]
 // FULL-NEXT:    [[COERCE_SROA_0_0_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[CALL4]], i32 0
 // FULL-NEXT:    [[COERCE_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[CALL4]], i32 1
-// FULL-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[COERCE_SROA_0_0_VEC_EXTRACT]], i32 0
-// FULL-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[COERCE_SROA_0_4_VEC_EXTRACT]], i32 1
+// FULL-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// FULL-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[COERCE_SROA_0_0_VEC_EXTRACT]], i32 0
+// FULL-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// FULL-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[COERCE_SROA_0_4_VEC_EXTRACT]], i32 1
 // FULL-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
 //
 // BASIC-LABEL: define dso_local <2 x float> @f1(
@@ -4497,8 +4535,10 @@ void mulassignld(_Complex long double *a, _Complex long double b) {
 // BASIC-NEXT:    [[TMP19:%.*]] = fsub float [[TMP17]], [[TMP18]]
 // BASIC-NEXT:    [[TMP20:%.*]] = fdiv float [[TMP13]], [[TMP16]]
 // BASIC-NEXT:    [[TMP21:%.*]] = fdiv float [[TMP19]], [[TMP16]]
-// BASIC-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[TMP20]], i32 0
-// BASIC-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[TMP21]], i32 1
+// BASIC-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// BASIC-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[TMP20]], i32 0
+// BASIC-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// BASIC-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[TMP21]], i32 1
 // BASIC-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
 //
 // IMPRVD-LABEL: define dso_local <2 x float> @f1(
@@ -4574,8 +4614,10 @@ void mulassignld(_Complex long double *a, _Complex long double b) {
 // IMPRVD:       complex_div7:
 // IMPRVD-NEXT:    [[TMP42:%.*]] = phi float [ [[TMP29]], [[ABS_RHSR_GREATER_OR_EQUAL_ABS_RHSI5]] ], [ [[TMP38]], [[ABS_RHSR_LESS_THAN_ABS_RHSI6]] ]
 // IMPRVD-NEXT:    [[TMP43:%.*]] = phi float [ [[TMP32]], [[ABS_RHSR_GREATER_OR_EQUAL_ABS_RHSI5]] ], [ [[TMP41]], [[ABS_RHSR_LESS_THAN_ABS_RHSI6]] ]
-// IMPRVD-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[TMP42]], i32 0
-// IMPRVD-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[TMP43]], i32 1
+// IMPRVD-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// IMPRVD-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[TMP42]], i32 0
+// IMPRVD-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// IMPRVD-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[TMP43]], i32 1
 // IMPRVD-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
 //
 // PRMTD-LABEL: define dso_local <2 x float> @f1(
@@ -4639,8 +4681,10 @@ void mulassignld(_Complex long double *a, _Complex long double b) {
 // PRMTD-NEXT:    [[TMP32:%.*]] = fdiv double [[TMP30]], [[TMP27]]
 // PRMTD-NEXT:    [[UNPROMOTION:%.*]] = fptrunc double [[TMP31]] to float
 // PRMTD-NEXT:    [[UNPROMOTION7:%.*]] = fptrunc double [[TMP32]] to float
-// PRMTD-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[UNPROMOTION]], i32 0
-// PRMTD-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[UNPROMOTION7]], i32 1
+// PRMTD-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// PRMTD-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[UNPROMOTION]], i32 0
+// PRMTD-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// PRMTD-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[UNPROMOTION7]], i32 1
 // PRMTD-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
 //
 // X86WINPRMTD-LABEL: define dso_local i64 @f1(
@@ -4880,8 +4924,10 @@ void mulassignld(_Complex long double *a, _Complex long double b) {
 // BASIC_FAST-NEXT:    [[TMP19:%.*]] = fsub reassoc nnan ninf nsz arcp afn float [[TMP17]], [[TMP18]]
 // BASIC_FAST-NEXT:    [[TMP20:%.*]] = fdiv reassoc nnan ninf nsz arcp afn float [[TMP13]], [[TMP16]]
 // BASIC_FAST-NEXT:    [[TMP21:%.*]] = fdiv reassoc nnan ninf nsz arcp afn float [[TMP19]], [[TMP16]]
-// BASIC_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[TMP20]], i32 0
-// BASIC_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[TMP21]], i32 1
+// BASIC_FAST-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// BASIC_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[TMP20]], i32 0
+// BASIC_FAST-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// BASIC_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[TMP21]], i32 1
 // BASIC_FAST-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
 //
 // FULL_FAST-LABEL: define dso_local nofpclass(nan inf) <2 x float> @f1(
@@ -4905,8 +4951,10 @@ void mulassignld(_Complex long double *a, _Complex long double b) {
 // FULL_FAST-NEXT:    [[CALL4:%.*]] = call reassoc nnan ninf nsz arcp afn nofpclass(nan inf) <2 x float> @__divsc3(float noundef nofpclass(nan inf) [[CONV2]], float noundef nofpclass(nan inf) [[CONV3]], float noundef nofpclass(nan inf) [[A_SROA_0_0_VEC_EXTRACT]], float noundef nofpclass(nan inf) [[A_SROA_0_4_VEC_EXTRACT]]) #[[ATTR2]]
 // FULL_FAST-NEXT:    [[COERCE_SROA_0_0_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[CALL4]], i32 0
 // FULL_FAST-NEXT:    [[COERCE_SROA_0_4_VEC_EXTRACT:%.*]] = extractelement <2 x float> [[CALL4]], i32 1
-// FULL_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[COERCE_SROA_0_0_VEC_EXTRACT]], i32 0
-// FULL_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[COERCE_SROA_0_4_VEC_EXTRACT]], i32 1
+// FULL_FAST-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// FULL_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[COERCE_SROA_0_0_VEC_EXTRACT]], i32 0
+// FULL_FAST-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// FULL_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[COERCE_SROA_0_4_VEC_EXTRACT]], i32 1
 // FULL_FAST-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
 //
 // IMPRVD_FAST-LABEL: define dso_local nofpclass(nan inf) <2 x float> @f1(
@@ -4982,8 +5030,10 @@ void mulassignld(_Complex long double *a, _Complex long double b) {
 // IMPRVD_FAST:       complex_div7:
 // IMPRVD_FAST-NEXT:    [[TMP42:%.*]] = phi reassoc nnan ninf nsz arcp afn float [ [[TMP29]], [[ABS_RHSR_GREATER_OR_EQUAL_ABS_RHSI5]] ], [ [[TMP38]], [[ABS_RHSR_LESS_THAN_ABS_RHSI6]] ]
 // IMPRVD_FAST-NEXT:    [[TMP43:%.*]] = phi reassoc nnan ninf nsz arcp afn float [ [[TMP32]], [[ABS_RHSR_GREATER_OR_EQUAL_ABS_RHSI5]] ], [ [[TMP41]], [[ABS_RHSR_LESS_THAN_ABS_RHSI6]] ]
-// IMPRVD_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[TMP42]], i32 0
-// IMPRVD_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[TMP43]], i32 1
+// IMPRVD_FAST-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// IMPRVD_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[TMP42]], i32 0
+// IMPRVD_FAST-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// IMPRVD_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[TMP43]], i32 1
 // IMPRVD_FAST-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
 //
 // PRMTD_FAST-LABEL: define dso_local nofpclass(nan inf) <2 x float> @f1(
@@ -5047,8 +5097,10 @@ void mulassignld(_Complex long double *a, _Complex long double b) {
 // PRMTD_FAST-NEXT:    [[TMP32:%.*]] = fdiv reassoc nnan ninf nsz arcp afn double [[TMP30]], [[TMP27]]
 // PRMTD_FAST-NEXT:    [[UNPROMOTION:%.*]] = fptrunc reassoc nnan ninf nsz arcp afn double [[TMP31]] to float
 // PRMTD_FAST-NEXT:    [[UNPROMOTION7:%.*]] = fptrunc reassoc nnan ninf nsz arcp afn double [[TMP32]] to float
-// PRMTD_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[UNPROMOTION]], i32 0
-// PRMTD_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[UNPROMOTION7]], i32 1
+// PRMTD_FAST-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// PRMTD_FAST-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[UNPROMOTION]], i32 0
+// PRMTD_FAST-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// PRMTD_FAST-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[UNPROMOTION7]], i32 1
 // PRMTD_FAST-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
 //
 // X86WINPRMTD_STRICT-LABEL: define dso_local i64 @f1(
@@ -5190,8 +5242,10 @@ void mulassignld(_Complex long double *a, _Complex long double b) {
 // PRMTD_STRICT-NEXT:    [[TMP32:%.*]] = call double @llvm.experimental.constrained.fdiv.f64(double [[TMP30]], double [[TMP27]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR4]]
 // PRMTD_STRICT-NEXT:    [[UNPROMOTION:%.*]] = call float @llvm.experimental.constrained.fptrunc.f32.f64(double [[TMP31]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR4]]
 // PRMTD_STRICT-NEXT:    [[UNPROMOTION7:%.*]] = call float @llvm.experimental.constrained.fptrunc.f32.f64(double [[TMP32]], metadata !"round.dynamic", metadata !"fpexcept.strict") #[[ATTR4]]
-// PRMTD_STRICT-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> undef, float [[UNPROMOTION]], i32 0
-// PRMTD_STRICT-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]], float [[UNPROMOTION7]], i32 1
+// PRMTD_STRICT-NEXT:    [[FREEZE_LOAD:%.*]] = freeze <2 x float> poison
+// PRMTD_STRICT-NEXT:    [[RETVAL_SROA_0_0_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE_LOAD]], float [[UNPROMOTION]], i32 0
+// PRMTD_STRICT-NEXT:    [[FREEZE:%.*]] = freeze <2 x float> [[RETVAL_SROA_0_0_VEC_INSERT]]
+// PRMTD_STRICT-NEXT:    [[RETVAL_SROA_0_4_VEC_INSERT:%.*]] = insertelement <2 x float> [[FREEZE]], float [[UNPROMOTION7]], i32 1
 // PRMTD_STRICT-NEXT:    ret <2 x float> [[RETVAL_SROA_0_4_VEC_INSERT]]
 //
 _Complex float f1(_Complex float a, _Complex long double b, _Complex float c) {
