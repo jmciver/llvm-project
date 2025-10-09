@@ -23,7 +23,7 @@ void st4(float16x4_t a) { g4 = a; }
 // CHECK-SOFT: store <2 x i32> %a.coerce, ptr @g4
 //
 // CHECK-HARD: define{{.*}} arm_aapcs_vfpcc void @st4(<2 x i32> noundef %a.coerce)
-// CHECK-HARD: store <2 x i32> %a.coerce, ptr @g4
+// CHECK-HARD: store <2 x i32> %a.coerce, ptr @g4, align 8
 //
 // CHECK-FULL: define{{.*}} arm_aapcs_vfpcc void @st4(<4 x half> noundef %a)
 // CHECK-FULL: store <4 x half> %a, ptr @g4
@@ -33,8 +33,8 @@ float16x4_t ld4(void) { return g4; }
 // CHECK-SOFT: %0 = load <2 x i32>, ptr @g4
 // CHECK-SOFT: ret <2 x i32> %0
 //
-// CHECK-HARD: define{{.*}} arm_aapcs_vfpcc <2 x i32> @ld4()
-// CHECK-HARD: %0 = load <2 x i32>, ptr @g4
+// CHECK-HARD: define{{.*}} arm_aapcs_vfpcc noundef <2 x i32> @ld4()
+// CHECK-HARD: %0 = load <2 x i32>, ptr @g4, align 8
 // CHECK-HARD: ret <2 x i32> %0
 //
 // CHECK-FULL: define{{.*}} arm_aapcs_vfpcc <4 x half> @ld4()
@@ -56,7 +56,7 @@ float16x8_t ld8(void) { return g8; }
 // CHECK-SOFT: %0 = load <4 x i32>, ptr @g8
 // CHECK-SOFT: ret <4 x i32> %0
 //
-// CHECK-HARD: define{{.*}} arm_aapcs_vfpcc <4 x i32> @ld8()
+// CHECK-HARD: define{{.*}} arm_aapcs_vfpcc noundef <4 x i32> @ld8()
 // CHECK-HARD: %0 = load <4 x i32>, ptr @g8
 // CHECK-HARD: ret <4 x i32> %0
 //

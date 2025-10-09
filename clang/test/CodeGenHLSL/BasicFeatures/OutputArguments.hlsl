@@ -43,7 +43,7 @@ void undef(out int Z) { }
 // CHECK-NOT: store {{.*}}, ptr [[ArgTmp]]
 // CHECK: [[Res:%.*]] = load i32, ptr [[ArgTmp]]
 // CHECK: store i32 [[Res]], ptr [[V]], align 4
-// OPT: ret i32 undef
+// OPT: ret i32 poison
 export int case2() {
   int V;
   undef(V);
@@ -316,7 +316,7 @@ void oops(out int X) {}
 // CHECK: [[ArgVal:%.*]] = load i32, ptr [[Tmp]]
 // CHECK: store i32 [[ArgVal]], ptr [[V]]
 
-// OPT:  ret i32 undef
+// OPT:  ret i32 poison
 export int case12() {
   int V = 0;
   oops(V);
