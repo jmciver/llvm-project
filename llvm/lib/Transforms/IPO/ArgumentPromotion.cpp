@@ -252,7 +252,8 @@ doPromotion(Function *F, FunctionAnalysisManager &FAM,
                              {LLVMContext::MD_dereferenceable,
                               LLVMContext::MD_dereferenceable_or_null,
                               LLVMContext::MD_noundef,
-                              LLVMContext::MD_nontemporal});
+                              LLVMContext::MD_nontemporal,
+                              LLVMContext::MD_freeze_bits});
             // Only transfer poison-generating metadata if we also have
             // !noundef.
             // TODO: Without !noundef, we could merge this metadata across
