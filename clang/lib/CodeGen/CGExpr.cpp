@@ -2707,7 +2707,7 @@ void CodeGenFunction::EmitStoreThroughBitfieldLValue(RValue Src, LValue Dst,
   if (StorageSize != Info.Size) {
     assert(StorageSize > Info.Size && "Invalid bitfield size.");
     llvm::Value *Val =
-        Builder.CreateLoad(Ptr, Dst.isVolatileQualified(), "bf.load");
+        Builder.CreateLoad(Ptr, Dst.isVolatileQualified(), "bf.load", true);
 
     // Mask the source value as needed.
     if (!Dst.getType()->hasBooleanRepresentation())
