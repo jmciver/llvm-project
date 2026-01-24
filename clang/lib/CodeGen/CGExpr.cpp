@@ -2418,7 +2418,7 @@ RValue CodeGenFunction::EmitLoadOfBitfieldLValue(LValue LV,
 
   Address Ptr = LV.getBitFieldAddress();
   llvm::Value *Val =
-      Builder.CreateLoad(Ptr, LV.isVolatileQualified(), "bf.load");
+      Builder.CreateLoad(Ptr, LV.isVolatileQualified(), "bf.load", true);
 
   bool UseVolatile = LV.isVolatileQualified() &&
                      Info.VolatileStorageSize != 0 && isAAPCS(CGM.getTarget());
