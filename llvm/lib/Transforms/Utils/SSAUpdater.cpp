@@ -443,6 +443,10 @@ void LoadAndStorePromoter::run(const SmallVectorImpl<Instruction *> &Insts) {
         // use the stored value.
         if (StoredValue) {
           replaceLoadWithValue(L, StoredValue);
+          if (loadHasFreezeBits(L)) {
+            llvm::IRBuilder<> Builder(L);
+            StoredValue = Builder.CreateFreeze(StoredValue);
+          }
           L->replaceAllUsesWith(StoredValue);
           ReplacedLoads[L] = StoredValue;
         } else {
